@@ -109,6 +109,17 @@ personal maxing around 1500 games. **A dial, not a constant.**
 3. **Population-stats features** — hero/comp/trinket/minion tiers.
 4. **Learned policy** — offline RL/IL on accumulated trajectories. Last, hardest.
 
+### Data sources (decision pending)
+
+| Need | Source | Access |
+|---|---|---|
+| Card mechanics, tribes, tavern tiers | [HearthstoneJSON](https://hearthstonejson.com/), [BG JSON](https://bgknowhow.com/bgjson/) | **Free, open** — powers `effects.py` coverage + tribe-aware advice |
+| Full combat-effect coverage | [Firestone sim](https://github.com/Zero-to-Heroes/firestone) (open source) | Port/bridge — biggest accuracy win |
+| Hero / comp / minion win rates | HSReplay.net (the HDT data) · Firestone · community tier lists | HSReplay detailed data ~needs subscription/no clean public API; Firestone open-source; tier-list scraping has ToS caveats |
+
+`HeroContext` (in `economy.py`) is the hook these feed. Card data is the easy
+free win; hero/comp win rates need a source decision.
+
 ## 6. Combat simulator scope
 
 Models the core auto-battle loop + the four dominant keywords: **Divine Shield,
@@ -144,12 +155,14 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 1 | Log parser + state reconstruction | ✅ built, tested |
 | 2 | `(state, action, outcome)` recorder | ✅ built, tested |
 | 3a | Monte Carlo combat sim (core + 4 keywords) | ✅ built, tested |
-| 3b | Full sim (deathrattles/battlecries) or Bob's Buddy port | ⬜ |
+| 3b | Effect engine: Windfury, Cleave, deathrattle summons, start-of-combat | ✅ engine built + tested; **card list partial** (`effects.py`) |
+| 3b+ | Complete card coverage (data-driven) or bridge to Firestone's sim | ⬜ |
 | 3c | Per-action labeling from log blocks | ⬜ needs real log |
 | 3d | Sim-based positioning optimizer | ✅ built, tested (`position.py`) |
 | 4 | Heuristic economy advisor (buy/level/roll/freeze/sell) | ✅ built, tested (`economy.py`) |
 | 4b | Recommendation facade (economy + positioning + odds) | ✅ built, tested (`recommend.py`) |
-| 5 | Population-stats features (hero/comp/trinket/minion) | ⬜ |
+| 4c | Hero/comp-aware advice plumbing (`HeroContext`) | ✅ built, tested; **needs stats data to populate** |
+| 5 | Population-stats features (hero/comp/trinket/minion) | ⬜ pick a source (see §5) |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 

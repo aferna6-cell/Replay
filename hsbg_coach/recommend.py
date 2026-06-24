@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence
 
 from .bg import ActionType
-from .economy import advise
+from .economy import advise, HeroContext
 from .position import positioning_advice
 from .sim import simulate
 
@@ -66,11 +66,15 @@ def recommend(
     enemy_boards: Optional[Sequence[Sequence]] = None,
     runs: int = 150,
     seed: int = 0,
+    hero_ctx: Optional[HeroContext] = None,
 ) -> List[Recommendation]:
-    """Merged, ranked recommendations across economy + positioning."""
+    """Merged, ranked recommendations across economy + positioning.
+
+    hero_ctx (optional) makes the economy advice hero/comp-specific.
+    """
     recs: List[Recommendation] = []
 
-    for s in advise(snapshot):
+    for s in advise(snapshot, hero_ctx=hero_ctx):
         recs.append(Recommendation(s.action, s.rationale, s.priority,
                                    "economy", s.detail))
 

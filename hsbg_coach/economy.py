@@ -33,6 +33,22 @@ class EconomyConfig:
 
 
 @dataclass
+class HeroContext:
+    """Hero/comp-specific context that biases the heuristics.
+
+    This is the hook that makes advice hero- and comp-specific. It's pure
+    plumbing today — the *values* come later from a stats source (see specs §5:
+    HSReplay/HDT or Firestone for hero/comp win rates, HearthstoneJSON/BG JSON
+    for tribes). Until then a caller can populate it manually or it stays empty
+    and the advisor falls back to generic fundamentals.
+    """
+    hero: Optional[str] = None
+    target_tribe: Optional[str] = None        # the comp we're building toward
+    level_aggression: float = 0.0             # -0.4..+0.4 nudge to leveling priority
+    recommended_minions: List[str] = field(default_factory=list)  # names to prioritize
+
+
+@dataclass
 class Suggestion:
     action: str                 # ActionType value
     rationale: str
@@ -60,9 +76,23 @@ def _get(snapshot, key, default=None):
     return getattr(snapshot, key, default)
 
 
-def advise(snapshot, config: Optional[EconomyConfig] = None) -> List[Suggestion]:
-    """Return economy suggestions for a Snapshot, ranked by priority (desc)."""
+def _tribe(m) -> Optional[str]:
+    if isinstance(m, dict):
+        return m.get("tribe") or (m.get("tags", {}) or {}).get("CARDRACE")
+    tags = getattr(m, "tags", {}) or {}
+    return getattr(m, "tribe", None) or tags.get("CARDRACE")
+
+
+def advise(snapshot, config: Optional[EconomyConfig] = None,
+           hero_ctx: "Optional[HeroContext]" = None) -> List[Suggestion]:
+    """Return economy suggestions for a Snapshot, ranked by priority (desc).
+
+    hero_ctx (optional) biases the advice toward a hero/comp plan — preferring
+    on-comp buys and nudging leveling aggression. Without it, generic BG
+    fundamentals apply.
+    """
     cfg = config or EconomyConfig()
+    ctx = hero_ctx or HeroContext()
     turn = _get(snapshot, "turn") or 0
     tier = _get(snapshot, "tavern_tier") or 1
     gold = _get(snapshot, "gold")
@@ -82,7 +112,16 @@ def advise(snapshot, config: Optional[EconomyConfig] = None) -> List[Suggestion]
     low_hp = health is not None and health < cfg.low_health
     safe_hp = health is None or health >= cfg.safe_health
 
-    best_shop = max(shop, key=_val) if shop else None
+    # Prefer an on-comp buy if hero context names one (recommended minion or
+    # matching the target tribe); else the highest-stat minion.
+    def _on_comp(m) -> bool:
+        if ctx.recommended_minions and _name(m) in ctx.recommended_minions:
+            return True
+        return bool(ctx.target_tribe) and _tribe(m) == ctx.target_tribe
+
+    on_comp_shop = [m for m in shop if _on_comp(m)]
+    best_shop = (max(on_comp_shop, key=_val) if on_comp_shop
+                 else (max(shop, key=_val) if shop else None))
     weakest_board = min(board, key=_val) if board else None
 
     # --- BUY: fill the board, especially early -----------------------------
@@ -91,10 +130,16 @@ def advise(snapshot, config: Optional[EconomyConfig] = None) -> List[Suggestion]
         pri = 0.85 if early else 0.6
         if low_hp:
             pri += 0.1  # tempo matters more when low
-        out.append(Suggestion(
-            ActionType.BUY.value,
-            f"Buy {_name(best_shop)} to develop board ({board_count}/{cfg.full_board}).",
-            min(pri, 0.99), {"name": _name(best_shop)}))
+        on_comp = _on_comp(best_shop)
+        if on_comp:
+            pri += 0.08  # on-plan buys edge out raw stats
+        reason = (f"Buy {_name(best_shop)}"
+                  + (f" — on-comp for {ctx.target_tribe or ctx.hero}"
+                     if on_comp else "")
+                  + f" to develop board ({board_count}/{cfg.full_board}).")
+        out.append(Suggestion(ActionType.BUY.value, reason,
+                              min(pri, 0.99),
+                              {"name": _name(best_shop), "on_comp": on_comp}))
 
     # --- TIER UP: level when healthy with spare gold -----------------------
     if tier < cfg.max_tier and gold >= cfg.level_min_gold:
@@ -104,10 +149,13 @@ def advise(snapshot, config: Optional[EconomyConfig] = None) -> List[Suggestion]
             pri = 0.2
         if board_count == 0 and turn <= 1:
             pri = max(pri, 0.5)  # turn 1 you often can't do much else
+        # Hero context nudges leveling (e.g. a fast-scaling hero levels harder).
+        pri = max(0.0, min(0.99, pri + ctx.level_aggression))
         out.append(Suggestion(
             ActionType.TIER_UP.value,
             (f"Level to tier {tier + 1}"
-             + (" — healthy with spare gold." if safe_hp
+             + (f" — {ctx.hero} favors leveling." if ctx.level_aggression > 0 and ctx.hero
+                else " — healthy with spare gold." if safe_hp
                 else " only if you can afford the tempo hit.")),
             pri, {"to_tier": tier + 1}))
 
@@ -147,9 +195,10 @@ def advise(snapshot, config: Optional[EconomyConfig] = None) -> List[Suggestion]
     return out
 
 
-def top_advice(snapshot, config: Optional[EconomyConfig] = None) -> Optional[str]:
+def top_advice(snapshot, config: Optional[EconomyConfig] = None,
+               hero_ctx: "Optional[HeroContext]" = None) -> Optional[str]:
     """Single best economy suggestion as a one-liner, or None."""
-    sugg = advise(snapshot, config)
+    sugg = advise(snapshot, config, hero_ctx)
     if not sugg:
         return None
     s = sugg[0]
