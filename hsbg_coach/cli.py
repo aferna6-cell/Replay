@@ -182,7 +182,32 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("pace", help="show the top-10% leveling/scaling pace benchmark"
                    ).set_defaults(func=cmd_pace)
+
+    sim = sub.add_parser("similar",
+                         help="cards most synergistic with X (learned from winning boards)")
+    sim.add_argument("--card", required=True, help="card name, e.g. 'Brann Bronzebeard'")
+    sim.add_argument("-k", type=int, default=8)
+    sim.set_defaults(func=cmd_similar)
     return p
+
+
+def cmd_similar(args) -> int:
+    import math
+    from .synergy import load_embeddings, _cosine
+    emb = load_embeddings()
+    if not emb:
+        print("No card2vec embeddings. Train with `python -m ml.train_card2vec`.")
+        return 1
+    if args.card not in emb:
+        print(f"'{args.card}' not in the embedding vocab.")
+        return 1
+    q = emb[args.card]
+    sims = sorted(((n, _cosine(q, v)) for n, v in emb.items() if n != args.card),
+                  key=lambda x: x[1], reverse=True)
+    print(f"Cards that win alongside {args.card}:")
+    for name, s in sims[:args.k]:
+        print(f"  {s:.3f}  {name}")
+    return 0
 
 
 def cmd_pace(_args) -> int:

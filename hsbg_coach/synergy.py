@@ -16,11 +16,42 @@ Reads `CardKnowledge` from `cards.py`. Trinkets/hero powers are passed as text
 (their effects also mention tribes/keywords).
 """
 
-import re
+import json
+import math
+import os
 from dataclasses import dataclass, field
 from typing import Dict, Iterable, List, Optional, Sequence, Set
 
 from .cards import CardKnowledge
+
+# Learned card embeddings (card2vec). Trained with torch in ml/, but *using* them
+# here is pure stdlib (JSON + cosine) — the advisor needs no ML deps at runtime.
+_EMB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "cards",
+                         "card2vec.json")
+
+
+def load_embeddings(path: Optional[str] = None) -> Dict[str, List[float]]:
+    p = path or _EMB_PATH
+    if not os.path.isfile(p):
+        return {}
+    return json.load(open(p, encoding="utf-8")).get("cards", {})
+
+
+def _cosine(a: List[float], b: List[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    na = math.sqrt(sum(x * x for x in a))
+    nb = math.sqrt(sum(y * y for y in b))
+    return dot / (na * nb + 1e-9) if na and nb else 0.0
+
+
+def learned_fit(name: str, board_names: Iterable[str],
+                emb: Dict[str, List[float]]) -> float:
+    """Mean cosine similarity of a card to the board, in card2vec space —
+    'how much does this card win *with* my board' learned from real boards."""
+    if name not in emb:
+        return 0.0
+    sims = [_cosine(emb[name], emb[bn]) for bn in board_names if bn in emb]
+    return sum(sims) / len(sims) if sims else 0.0
 
 TRIBES = ["Murloc", "Beast", "Dragon", "Mech", "Elemental", "Undead",
           "Demon", "Pirate", "Quilboar", "Naga"]
@@ -87,8 +118,12 @@ def score_card(
     target_tribe: Optional[str] = None,
     hero_power_text: str = "",
     trinket_texts: Iterable[str] = (),
+    embeddings: Optional[Dict[str, List[float]]] = None,
 ) -> SynergyVerdict:
-    """Score how well `candidate` synergizes with the current context."""
+    """Score how well `candidate` synergizes with the current context.
+
+    If `embeddings` (card2vec) are given, a learned-synergy term is added on top
+    of the rule-based tags — capturing co-occurrence patterns the rules miss."""
     score = 0.0
     reasons: List[str] = []
     cand_tribes = set(candidate.tribes)
@@ -141,6 +176,13 @@ def score_card(
                 reasons.append(f"hero power/trinket cares about {tribe}s")
                 break
 
+    # 6. Learned synergy (card2vec) — co-occurrence patterns the rules miss.
+    if embeddings:
+        fit = learned_fit(candidate.name, [c.name for c in board], embeddings)
+        if fit > 0.15:
+            score += round(min(fit * 2.0, 1.2), 2)
+            reasons.append(f"learned synergy with board ({fit:.2f})")
+
     return SynergyVerdict(round(score, 2), reasons)
 
 
@@ -150,10 +192,12 @@ def rank_shop(
     target_tribe: Optional[str] = None,
     hero_power_text: str = "",
     trinket_texts: Iterable[str] = (),
+    embeddings: Optional[Dict[str, List[float]]] = None,
 ) -> List[tuple]:
     """Rank shop minions by synergy. Returns [(card, SynergyVerdict), …] best-first."""
     scored = [
-        (c, score_card(c, board, target_tribe, hero_power_text, trinket_texts))
+        (c, score_card(c, board, target_tribe, hero_power_text, trinket_texts,
+                       embeddings))
         for c in shop
     ]
     scored.sort(key=lambda x: x[1].score, reverse=True)

@@ -178,6 +178,15 @@ python -m ml.train --train 8000 --epochs 40 --save combat_net.pt
 # val win%-MAE ~0.05, outcome-acc ~0.94 vs the simulator
 ```
 
+**card2vec** learns a vector per card from the 20k winning boards (cards that win
+together land near each other — it rediscovers tribes unsupervised). It's wired
+into the synergy layer, and you can explore it (no torch needed to *use* it):
+
+```bash
+python -m ml.train_card2vec --epochs 5     # train (needs torch); commits card2vec.json
+python -m hsbg_coach similar --card "Brann Bronzebeard"   # query (stdlib only)
+```
+
 Design for the full self-play RL agent: `specs/self-play-rl-agent.md`.
 
 ## Roadmap

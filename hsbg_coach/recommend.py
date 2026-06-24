@@ -125,7 +125,7 @@ def _pace_recs(snapshot, pace) -> List[Recommendation]:
 
 def _synergy_buys(snapshot, kb, hero_ctx) -> List[Recommendation]:
     """Synergy-aware buy advice: rank the shop against your board + comp."""
-    from .synergy import rank_shop, resolve
+    from .synergy import rank_shop, resolve, load_embeddings
     from .cards import by_name
     shop_names = [_name(m) for m in (_get(snapshot, "shop", []) or [])]
     board_names = [_name(m) for m in (_get(snapshot, "board", []) or [])]
@@ -137,7 +137,8 @@ def _synergy_buys(snapshot, kb, hero_ctx) -> List[Recommendation]:
     if not shop:
         return []
     target = hero_ctx.target_tribe if hero_ctx else None
-    ranked = rank_shop(shop, board, target_tribe=target)
+    ranked = rank_shop(shop, board, target_tribe=target,
+                       embeddings=load_embeddings())   # learned synergy if present
     top, verdict = ranked[0]
     if verdict.score <= 0:
         return []

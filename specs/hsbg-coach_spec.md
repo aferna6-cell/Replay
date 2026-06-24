@@ -196,6 +196,7 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 5e | **Real winning boards** (`final_boards.py`) — core cards by board frequency + example boards | ✅ ~7.7k top-MMR winning boards; comp core cards now data-driven |
 | 6 | **Early-game pace** (`pace.py`, `firestone_pace.json`) — top-10% leveling + scaling by turn | ✅ data-derived; advisor nudges leveling vs the real curve |
 | 7 | **Deep learning: combat value net** (`ml/`) — neural net trained on sim-generated data | ✅ first DL model; win%-MAE ~0.05, outcome-acc ~0.94 |
+| 7b | **card2vec embeddings** (`ml/card2vec.py`) — learned card vectors from 20k winning boards | ✅ learned tribes unsupervised (5/5 same-tribe neighbors); wired into synergy + `similar` CLI |
 | 8 | Self-play RL agent | ⬜ scoped (`specs/self-play-rl-agent.md`); Phase 0 env is the gate |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
