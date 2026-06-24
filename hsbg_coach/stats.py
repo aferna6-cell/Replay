@@ -32,6 +32,17 @@ from .economy import HeroContext
 _STATS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "stats")
 SAMPLE_HEROES = os.path.join(_STATS_DIR, "sample_hero_stats.json")
 SAMPLE_COMPS = os.path.join(_STATS_DIR, "sample_comp_stats.json")
+# Real Firestone snapshot (written by `refresh-stats`); preferred when present.
+FIRESTONE_HEROES = os.path.join(_STATS_DIR, "firestone_hero_stats.json")
+FIRESTONE_COMPS = os.path.join(_STATS_DIR, "firestone_comp_stats.json")
+
+
+def default_hero_source() -> str:
+    return FIRESTONE_HEROES if os.path.isfile(FIRESTONE_HEROES) else SAMPLE_HEROES
+
+
+def default_comp_source() -> str:
+    return FIRESTONE_COMPS if os.path.isfile(FIRESTONE_COMPS) else SAMPLE_COMPS
 
 
 @dataclass
@@ -104,9 +115,14 @@ class StatsDB:
         self.comps = comps
 
     @classmethod
-    def load(cls, hero_source: str = SAMPLE_HEROES,
-             comp_source: str = SAMPLE_COMPS) -> "StatsDB":
-        return cls(load_hero_stats(hero_source), load_comp_stats(comp_source))
+    def load(cls, hero_source: Optional[str] = None,
+             comp_source: Optional[str] = None) -> "StatsDB":
+        """Load stats. Defaults to the real Firestone snapshot if present, else
+        the bundled sample data."""
+        return cls(
+            load_hero_stats(hero_source or default_hero_source()),
+            load_comp_stats(comp_source or default_comp_source()),
+        )
 
     def hero(self, name_or_id: str) -> Optional[HeroStats]:
         key = (name_or_id or "").lower()

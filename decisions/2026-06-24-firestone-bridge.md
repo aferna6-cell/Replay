@@ -38,8 +38,18 @@ subscription-gated with no clean public API. Firestone is open and free.
    if Node or the sidecar's `node_modules` is absent, `firestone_bridge.simulate`
    transparently falls back to `sim.simulate`. Nothing breaks without Node.
 3. **Stats: use Firestone**, not HSReplay. Load hero/comp stats from Firestone's
-   open data into `HeroContext`. (Loader is a follow-up; this ADR locks the
-   source choice.)
+   open data into `HeroContext`.
+
+   **Endpoints confirmed live + public (no account), 2026-06-24:**
+   - hero: `https://static.zerotoheroes.com/api/bgs/hero-stats/mmr-{100|50|25|10|1}/{last-patch|past-three|past-seven}/overview-from-hourly.gz.json`
+   - comp: `https://static.zerotoheroes.com/api/bgs/comp-stats/{period}/overview-from-hourly.gz.json`
+   - card names: `https://api.hearthstonejson.com/v1/latest/enUS/cards.json`
+
+   Found by inspecting the published `@firestone-hs/bgs-global-stats` package
+   (`STATS_BUCKET="static.zerotoheroes.com"`, `STATS_KEY_PREFIX="api/bgs"`, key
+   templates in its `config.js`). `firestone_stats.py` fetches + normalizes;
+   `refresh-stats` writes the snapshot. HSReplay's detailed BG data has no clean
+   free endpoint (subscription) — Firestone wins on access.
 
 ## Why a sidecar (not a port, not a hosted call)
 

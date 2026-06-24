@@ -164,16 +164,37 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("stats", help="show hero/comp advice from population stats")
     s.add_argument("--hero", required=True, help="hero name (e.g. 'Old Murk-Eye')")
     s.add_argument("--tribes", help="comma-separated tribes available this lobby")
-    s.add_argument("--hero-source", help="hero stats file/URL (default: sample)")
-    s.add_argument("--comp-source", help="comp stats file/URL (default: sample)")
+    s.add_argument("--hero-source", help="hero stats file/URL (default: Firestone snapshot)")
+    s.add_argument("--comp-source", help="comp stats file/URL (default: Firestone snapshot)")
     s.set_defaults(func=cmd_stats)
+
+    r = sub.add_parser("refresh-stats",
+                       help="download the latest real stats from Firestone")
+    r.add_argument("--mmr", type=int, default=100,
+                   help="MMR percentile cutoff: 100(all) 50 25 10 1 (top 1%%)")
+    r.add_argument("--period", default="last-patch",
+                   help="last-patch | past-three | past-seven")
+    r.set_defaults(func=cmd_refresh_stats)
     return p
 
 
+def cmd_refresh_stats(args) -> int:
+    from . import firestone_stats
+    from .stats import _STATS_DIR
+    print(f"Fetching Firestone stats (mmr-{args.mmr}, {args.period})…")
+    try:
+        result = firestone_stats.refresh(_STATS_DIR, mmr=args.mmr, period=args.period)
+    except Exception as exc:
+        print("Refresh failed:", exc)
+        return 1
+    print(f"Wrote {result['num_heroes']} heroes -> {result['heroes']}")
+    print(f"Wrote {result['num_comps']} comps  -> {result['comps']}")
+    return 0
+
+
 def cmd_stats(args) -> int:
-    from .stats import StatsDB, build_hero_context, SAMPLE_HEROES, SAMPLE_COMPS
-    db = StatsDB.load(args.hero_source or SAMPLE_HEROES,
-                      args.comp_source or SAMPLE_COMPS)
+    from .stats import StatsDB, build_hero_context
+    db = StatsDB.load(args.hero_source, args.comp_source)  # defaults to Firestone snapshot
     tribes = [t.strip() for t in args.tribes.split(",")] if args.tribes else None
     ctx = build_hero_context(args.hero, db, available_tribes=tribes)
     comp = db.best_comp_for_hero(args.hero, available_tribes=tribes)

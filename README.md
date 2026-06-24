@@ -120,9 +120,18 @@ python -m hsbg_coach stats --hero "Old Murk-Eye" --tribes "Beast,Mech,Dragon"
 ```
 
 `stats.py` loads hero/comp stats and builds a `HeroContext` (target tribe, core
-minions, leveling bias) that makes `recommend()` hero/comp-specific. It ships
-with sample data — point `--hero-source` / `--comp-source` at a real Firestone or
-HSReplay export to use live numbers.
+minions, leveling bias) that makes `recommend()` hero/comp-specific.
+
+**It runs on real data out of the box** — a Firestone snapshot (114 heroes / 29
+comps, ~983k games) is committed. Pull the latest anytime (free, no account):
+
+```bash
+python -m hsbg_coach refresh-stats                 # latest, all-MMR, last patch
+python -m hsbg_coach refresh-stats --mmr 1 --period past-seven   # top 1%, 7 days
+```
+
+Source: Firestone's public CDN (`static.zerotoheroes.com/api/bgs`), hero names
+via HearthstoneJSON. See `decisions/2026-06-24-firestone-bridge.md`.
 
 ### Full-accuracy combat sim (optional)
 

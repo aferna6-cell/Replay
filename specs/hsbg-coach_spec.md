@@ -115,7 +115,16 @@ personal maxing around 1500 games. **A dial, not a constant.**
 |---|---|---|
 | Card mechanics, tribes, tavern tiers | [HearthstoneJSON](https://hearthstonejson.com/), [BG JSON](https://bgknowhow.com/bgjson/) | **Free, open** — powers `effects.py` coverage + tribe-aware advice |
 | Full combat-effect coverage | [Firestone sim](https://github.com/Zero-to-Heroes/firestone) (open source) | Port/bridge — biggest accuracy win |
-| Hero / comp / minion win rates | HSReplay.net (the HDT data) · Firestone · community tier lists | HSReplay detailed data ~needs subscription/no clean public API; Firestone open-source; tier-list scraping has ToS caveats |
+| Hero / comp / minion win rates | **Firestone public CDN** (`static.zerotoheroes.com/api/bgs`) | **Confirmed live + free, no account** (2026-06-24). HSReplay's detailed data needs a subscription. |
+
+**Confirmed Firestone endpoints** (gzipped JSON, public):
+- hero: `…/api/bgs/hero-stats/mmr-{100|50|25|10|1}/{last-patch|past-three|past-seven}/overview-from-hourly.gz.json`
+- comp: `…/api/bgs/comp-stats/{period}/overview-from-hourly.gz.json`
+- card names: HearthstoneJSON `api.hearthstonejson.com/v1/latest/enUS/cards.json`
+
+`firestone_stats.py` fetches + normalizes these into the `stats.py` schema;
+`refresh-stats` (CLI) writes the snapshot. A real snapshot is committed so it
+works out of the box.
 
 `HeroContext` (in `economy.py`) is the hook these feed. Card data is the easy
 free win; hero/comp win rates need a source decision.
@@ -162,8 +171,9 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 4 | Heuristic economy advisor (buy/level/roll/freeze/sell) | ✅ built, tested (`economy.py`) |
 | 4b | Recommendation facade (economy + positioning + odds) | ✅ built, tested (`recommend.py`) |
 | 4c | Hero/comp-aware advice plumbing (`HeroContext`) | ✅ built, tested |
-| 5 | Hero/comp stats loader → `HeroContext` (`stats.py`) | ✅ built + tested; **runs on sample data — drop in a real Firestone/HSReplay export** |
-| 5b | Trinket / minion-tier stats | ⬜ |
+| 5 | Hero/comp stats loader → `HeroContext` (`stats.py`) | ✅ built + tested |
+| 5a | **Live Firestone fetch + real committed snapshot** (`firestone_stats.py`, `refresh-stats`) | ✅ real data, 114 heroes / 29 comps |
+| 5b | Trinket / minion-tier stats + comp core cards | ⬜ (Firestone has trinket/card endpoints) |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 
