@@ -236,7 +236,7 @@ def cmd_pick(args) -> int:
     from .draft import recommend_choice
     from .economy import HeroContext
     kwargs = {}
-    if args.kind == "discover":
+    if args.kind in ("discover", "trinket"):
         from . import cards
         kwargs["kb"] = cards.load_kb()
         board_names = [n.strip() for n in (args.board or "").split(",") if n.strip()]
@@ -277,6 +277,11 @@ def cmd_advise(args) -> int:
     plan = advise_actions(snap, kb=kb, hero_ctx=hero_ctx, pace=pace,
                           enemy_boards=enemies)
     print(plan.summary())
+    from .advisor import plan_turn
+    steps = plan_turn(snap, kb=kb, hero_ctx=hero_ctx)
+    print("\nFull-turn plan (follow in order):")
+    for i, s in enumerate(steps, 1):
+        print(f"  {i}. {s}")
     return 0
 
 

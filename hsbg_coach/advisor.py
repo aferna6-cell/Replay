@@ -20,9 +20,11 @@ One-ply: it ranks each immediate action, not full multi-buy turn sequences.
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+import copy
+
 from .actions import (
     legal_actions, Action, BUY, SELL, ROLL, LEVEL, REPOSITION, FREEZE, END,
-    MAX_BOARD, BUY_COST, ROLL_COST,
+    MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
 )
 from .board_value import get_scorer, _val, _name
 from .cards import by_name
@@ -221,6 +223,73 @@ def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
         return ScoredAction(act, 0.6,
                             f"freeze — {best_name} is worth keeping but you can't afford it yet")
     return ScoredAction(act, 0.15, "freeze only if the shop has gems you'll want next turn")
+
+
+def plan_turn(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
+              scorer=None, max_steps: int = 8, min_delta: float = 0.005) -> List[str]:
+    """Greedy whole-turn plan: repeatedly apply the best board-improving action,
+    simulating the result, until nothing improves — then the trailing moves.
+
+    This is "play the turn by the recommender": each step is the locally best
+    move on the state the previous step produced. Greedy (one-ply), not globally
+    optimal turn search, but it sequences a full turn of buys/sells."""
+    scorer = scorer or get_scorer()
+    state = _as_state(snapshot)
+    steps: List[str] = []
+    for _ in range(max_steps):
+        plan = advise_actions(state, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
+        move = next((a for a in plan.ranked
+                     if a.action.kind in (BUY, SELL) and (a.delta or 0) > min_delta), None)
+        if move is None:
+            break
+        steps.append(f"{move.action.describe()} ({move.delta:+.0%})")
+        _apply(state, move.action)
+    if state.get("gold", 0) >= 4 and state.get("shop"):
+        steps.append("Roll — surplus gold and no improving buys left")
+    if len(state.get("board", [])) >= 2:
+        steps.append("Reposition for combat (see positioning)")
+    steps.append("End turn")
+    return steps
+
+
+def _as_state(snapshot) -> dict:
+    """A mutable dict copy with just the fields the planner simulates."""
+    return {
+        "board": [dict(m) if isinstance(m, dict) else _min_to_dict(m)
+                  for m in (_get(snapshot, "board", []) or [])],
+        "shop": [dict(m) if isinstance(m, dict) else _min_to_dict(m)
+                 for m in (_get(snapshot, "shop", []) or [])],
+        "gold": _get(snapshot, "gold") or 0,
+        "tavern_tier": _get(snapshot, "tavern_tier") or 1,
+        "hero_health": _get(snapshot, "hero_health"),
+        "turn": _get(snapshot, "turn"),
+    }
+
+
+def _min_to_dict(m):
+    return {"name": getattr(m, "name", None), "card_id": getattr(m, "card_id", None),
+            "attack": getattr(m, "attack", None), "health": getattr(m, "health", None)}
+
+
+def _apply(state, action):
+    """Mutate the simulated state by an action (buy/sell)."""
+    board, shop = state["board"], state["shop"]
+    if action.kind == BUY:
+        if len(board) >= MAX_BOARD:                     # sell-weakest-for-room
+            board.remove(min(board, key=_val))
+        for i, m in enumerate(shop):                    # bought minion leaves shop
+            if _name(m) == action.target:
+                board.append(shop.pop(i))
+                break
+        else:
+            board.append(action.detail.get("minion") or {"name": action.target})
+        state["gold"] -= BUY_COST
+    elif action.kind == SELL:
+        for i, m in enumerate(board):
+            if _name(m) == action.target:
+                board.pop(i)
+                break
+        state["gold"] += SELL_VALUE
 
 
 def _score_reposition(act, board, enemy_boards):

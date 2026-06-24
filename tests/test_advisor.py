@@ -96,6 +96,18 @@ def test_buy_on_full_board_models_sell_for_room():
     assert "sell" in buy.reason.lower()           # had to free a slot
 
 
+def test_plan_turn_sequences_a_full_turn():
+    from hsbg_coach.advisor import plan_turn
+    snap = {"gold": 7, "tavern_tier": 1, "hero_health": 30, "turn": 4,
+            "board": _board(3),
+            "shop": [{"name": "good", "attack": 5, "health": 5},
+                     {"name": "bad", "attack": 2, "health": 1}]}
+    steps = plan_turn(snap, kb=None, scorer=HeuristicScorer(EMB))
+    assert steps[-1] == "End turn"
+    assert any("Buy good" in s for s in steps)        # it buys the strong minion
+    assert len(steps) <= 8                            # terminates (gold runs out)
+
+
 def test_summary_renders():
     snap = {"gold": 5, "tavern_tier": 1, "hero_health": 30, "turn": 3,
             "board": _board(2), "shop": [{"name": "good", "attack": 4, "health": 4}]}

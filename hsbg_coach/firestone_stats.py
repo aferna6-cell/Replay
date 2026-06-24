@@ -103,8 +103,9 @@ def _card_meta(cards_source: str = CARDS_URL) -> Dict[str, dict]:
             continue
         races = c.get("races") or ([c["race"]] if c.get("race") else [])
         tribes = [_RACE_TO_TRIBE[r] for r in races if r in _RACE_TO_TRIBE]
+        text = re.sub(r"<[^>]+>", "", c.get("text") or "").replace("\n", " ").strip()
         meta[cid] = {"name": c.get("name", cid), "tribes": tribes,
-                     "techLevel": c.get("techLevel")}
+                     "techLevel": c.get("techLevel"), "text": text}
     return meta
 
 
@@ -250,6 +251,7 @@ def normalize_trinkets(raw: dict, meta: Dict[str, dict],
             "averagePosition": round(avg, 3) if avg is not None else None,
             "pickRate": round(pick or 0, 4),
             "tier": _tier(avg) if avg is not None else "?",
+            "text": meta.get(cid, {}).get("text", ""),
         })
     out.sort(key=lambda x: x["averagePosition"] if x["averagePosition"] is not None else 9)
     return out

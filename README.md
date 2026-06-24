@@ -223,8 +223,19 @@ Best move: Buy Monstrous Macaw — learned synergy with board (0.32)
   ...
 ```
 
-It's one-ply (ranks each immediate action, not full multi-buy turn plans), and
-roll/level/freeze are heuristic — see the caveats it prints.
+`advise` also prints a **full-turn plan** — it greedily applies the best move,
+re-scores the resulting board, and repeats, so you get the whole turn in order:
+
+```
+Full-turn plan (follow in order):
+  1. Buy Monstrous Macaw (+5%)
+  2. Sell Deflect-o-Bot (+5%)
+  3. Roll — surplus gold and no improving buys left
+  4. End turn
+```
+
+This is how you'd "play the turn by the recommender." It's greedy (locally best
+each step), not globally optimal turn search, and roll/level are heuristic.
 
 ## Draft picks (hero / trinket / Discover)
 
@@ -234,9 +245,13 @@ synergy against your current board):
 
 ```bash
 python -m hsbg_coach pick hero "Rafaam" "Pyramad" "Galakrond"
-python -m hsbg_coach pick trinket "Lubricated Naga" "Eternal Knight"
+python -m hsbg_coach pick trinket "Ironforge Anvil" "Accord-o-Tron Portrait" --board "Holo Rover,Scrap Scraper" --tribe Mech
 python -m hsbg_coach pick discover "Monstrous Macaw" "Holo Rover" --board "Holo Rover,Scrap Scraper" --tribe Mech
 ```
+
+Trinkets blend meta placement *with board fit* — a trinket that buffs your tribe
+gets a bonus, one for a tribe you don't run gets a penalty (from the trinket's
+effect text vs your board).
 
 ```
 Pick (discover) — best first:

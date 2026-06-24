@@ -1,1465 +1,1673 @@
 {
- "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
- "_fetched": "from-local",
- "_mmr": 10,
- "_period": "past-seven",
- "_heroDataPoints": 52699,
- "trinkets": [
-  {
-   "cardId": "BG30_MagicItem_403",
-   "name": "Ironforge Anvil",
-   "averagePosition": 3.099,
-   "pickRate": 0.3163,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_714",
-   "name": "Powder Keg",
-   "averagePosition": 3.297,
-   "pickRate": 0.2203,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_427t",
-   "name": "Tiger Carving",
-   "averagePosition": 3.306,
-   "pickRate": 0.434,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_711",
-   "name": "Protective Ring",
-   "averagePosition": 3.338,
-   "pickRate": 0.2155,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_731",
-   "name": "Deathtouch Apple",
-   "averagePosition": 3.429,
-   "pickRate": 0.3186,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG32_MagicItem_860t",
-   "name": "Beetle Band",
-   "averagePosition": 3.511,
-   "pickRate": 0.3029,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_439",
-   "name": "Designer Eyepatch",
-   "averagePosition": 3.513,
-   "pickRate": 0.3208,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_309",
-   "name": "Errgl Sticker",
-   "averagePosition": 3.519,
-   "pickRate": 0.3349,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_861",
-   "name": "Baller Portrait",
-   "averagePosition": 3.53,
-   "pickRate": 0.7838,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_301",
-   "name": "Eternal Portrait",
-   "averagePosition": 3.532,
-   "pickRate": 0.2294,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG32_MagicItem_232",
-   "name": "Shark Cannon",
-   "averagePosition": 3.539,
-   "pickRate": 0.2904,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_732",
-   "name": "Soul Fermenter",
-   "averagePosition": 3.542,
-   "pickRate": 0.4912,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_740",
-   "name": "Sky Golem Portrait",
-   "averagePosition": 3.577,
-   "pickRate": 0.2081,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_741",
-   "name": "Beatboxer Portrait",
-   "averagePosition": 3.607,
-   "pickRate": 0.6476,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_951",
-   "name": "Lava Lamp",
-   "averagePosition": 3.63,
-   "pickRate": 0.4119,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_713",
-   "name": "Trusty Crowbar",
-   "averagePosition": 3.631,
-   "pickRate": 0.1977,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_919",
-   "name": "Nazjatar Postcard",
-   "averagePosition": 3.653,
-   "pickRate": 0.2237,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_555",
-   "name": "Surprise Portrait",
-   "averagePosition": 3.655,
-   "pickRate": 0.3718,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_742",
-   "name": "Accord-o-Tron Portrait",
-   "averagePosition": 3.668,
-   "pickRate": 0.4423,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_828",
-   "name": "Shaker Portrait",
-   "averagePosition": 3.677,
-   "pickRate": 0.536,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_306",
-   "name": "Jailer Sticker",
-   "averagePosition": 3.691,
-   "pickRate": 0.3779,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_442",
-   "name": "Blood Golem Sticker",
-   "averagePosition": 3.692,
-   "pickRate": 0.3635,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_886",
-   "name": "Reinforced Shield",
-   "averagePosition": 3.703,
-   "pickRate": 0.2082,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_754",
-   "name": "Dramaloc Sticker",
-   "averagePosition": 3.705,
-   "pickRate": 0.3604,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_545",
-   "name": "Fridge Magnet",
-   "averagePosition": 3.706,
-   "pickRate": 0.2355,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_547t",
-   "name": "Comfy Coffin",
-   "averagePosition": 3.71,
-   "pickRate": 0.2762,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_864",
-   "name": "Gilnean Thorned Rose",
-   "averagePosition": 3.727,
-   "pickRate": 0.3302,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_540",
-   "name": "Slamma Sticker",
-   "averagePosition": 3.731,
-   "pickRate": 0.2301,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_270t",
-   "name": "Wicked Tome",
-   "averagePosition": 3.732,
-   "pickRate": 0.3809,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_923",
-   "name": "Bewitched Ribbon",
-   "averagePosition": 3.735,
-   "pickRate": 0.3005,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_942",
-   "name": "Mecha-Jaraxxus Sticker",
-   "averagePosition": 3.746,
-   "pickRate": 0.1985,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_150",
-   "name": "Cursed Crystal",
-   "averagePosition": 3.75,
-   "pickRate": 0.2492,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_914t",
-   "name": "Nerglish Phrasebook",
-   "averagePosition": 3.757,
-   "pickRate": 0.3112,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_922",
-   "name": "Charming Panpipes",
-   "averagePosition": 3.773,
-   "pickRate": 0.2183,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_801",
-   "name": "Sous Chef Sticker",
-   "averagePosition": 3.776,
-   "pickRate": 0.6138,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_363",
-   "name": "Faerie Dragon Scale",
-   "averagePosition": 3.786,
-   "pickRate": 0.1238,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_300t",
-   "name": "Copper Coil",
-   "averagePosition": 3.788,
-   "pickRate": 0.3591,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_930",
-   "name": "Archaic Scroll",
-   "averagePosition": 3.788,
-   "pickRate": 0.3013,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_925",
-   "name": "Coral Spear",
-   "averagePosition": 3.795,
-   "pickRate": 0.2136,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_305",
-   "name": "Conch Portrait",
-   "averagePosition": 3.811,
-   "pickRate": 0.3496,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_743",
-   "name": "Electrode Attractor",
-   "averagePosition": 3.825,
-   "pickRate": 0.3147,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_838",
-   "name": "Double Stitch Needle",
-   "averagePosition": 3.829,
-   "pickRate": 0.1646,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_862",
-   "name": "Upstart Embers",
-   "averagePosition": 3.834,
-   "pickRate": 0.3362,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_924",
-   "name": "Groundbreaker Portrait",
-   "averagePosition": 3.835,
-   "pickRate": 0.3547,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_712",
-   "name": "Privateer Portrait",
-   "averagePosition": 3.837,
-   "pickRate": 0.374,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_437",
-   "name": "Staff of the Scourge",
-   "averagePosition": 3.837,
-   "pickRate": 0.2751,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_801t",
-   "name": "Heart of the Forest",
-   "averagePosition": 3.838,
-   "pickRate": 0.3131,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_733",
-   "name": "Jailer Sticker",
-   "averagePosition": 3.842,
-   "pickRate": 0.4243,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_930",
-   "name": "Warband Whistle",
-   "averagePosition": 3.852,
-   "pickRate": 0.2626,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_821t",
-   "name": "Kaleidoscope",
-   "averagePosition": 3.852,
-   "pickRate": 0.1061,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_367",
-   "name": "Ghastly Sticker",
-   "averagePosition": 3.854,
-   "pickRate": 0.2479,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_840t",
-   "name": "Chromatic Tear",
-   "averagePosition": 3.862,
-   "pickRate": 0.4072,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_888",
-   "name": "Recycling Sticker",
-   "averagePosition": 3.867,
-   "pickRate": 0.3074,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_814",
-   "name": "Stuffed Coin Purse",
-   "averagePosition": 3.88,
-   "pickRate": 0.3998,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_172",
-   "name": "Boom's Monster Portrait",
-   "averagePosition": 3.881,
-   "pickRate": 0.2916,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_156",
-   "name": "Flaming Portrait",
-   "averagePosition": 3.881,
-   "pickRate": 0.2454,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_755",
-   "name": "Chillmere Mosaic",
-   "averagePosition": 3.89,
-   "pickRate": 0.2799,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_998",
-   "name": "Behemoth Portrait",
-   "averagePosition": 3.902,
-   "pickRate": 0.3556,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_894",
-   "name": "Blessing Portrait",
-   "averagePosition": 3.902,
-   "pickRate": 0.2722,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_914",
-   "name": "Nerglish Phrasebook",
-   "averagePosition": 3.907,
-   "pickRate": 0.3009,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_710",
-   "name": "Miniature Ship",
-   "averagePosition": 3.91,
-   "pickRate": 0.2256,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_753",
-   "name": "Murky Sticker",
-   "averagePosition": 3.918,
-   "pickRate": 0.1451,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_301",
-   "name": "Bassgill Portrait",
-   "averagePosition": 3.921,
-   "pickRate": 0.2975,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_427",
-   "name": "Tiger Carving",
-   "averagePosition": 3.926,
-   "pickRate": 0.2332,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_812",
-   "name": "Corrupted Tome",
-   "averagePosition": 3.929,
-   "pickRate": 0.2826,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_306",
-   "name": "Herald Sticker",
-   "averagePosition": 3.936,
-   "pickRate": 0.32,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_876",
-   "name": "Manipulator Portrait",
-   "averagePosition": 3.937,
-   "pickRate": 0.2279,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_820",
-   "name": "Safety Patch",
-   "averagePosition": 3.938,
-   "pickRate": 0.6297,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_931t",
-   "name": "Transcribing Typewriter",
-   "averagePosition": 3.94,
-   "pickRate": 0.3198,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_890",
-   "name": "Sunken Anchor",
-   "averagePosition": 3.94,
-   "pickRate": 0.2863,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_901",
-   "name": "Gold-plated Compass",
-   "averagePosition": 3.948,
-   "pickRate": 0.2206,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_920",
-   "name": "Bubble Crown",
-   "averagePosition": 3.949,
-   "pickRate": 0.1466,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_944",
-   "name": "Redeemer Portrait",
-   "averagePosition": 3.951,
-   "pickRate": 0.0884,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_816t",
-   "name": "Orb of the Unknown",
-   "averagePosition": 3.953,
-   "pickRate": 0.2281,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_900",
-   "name": "Dragonwing Glider",
-   "averagePosition": 3.961,
-   "pickRate": 0.1551,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_418",
-   "name": "Bronzebeard Portrait",
-   "averagePosition": 3.962,
-   "pickRate": 0.5306,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_422t",
-   "name": "Lorewalker Scroll",
-   "averagePosition": 3.97,
-   "pickRate": 0.1888,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_844",
-   "name": "Sacrificial Altar",
-   "averagePosition": 3.971,
-   "pickRate": 0.323,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_713",
-   "name": "Bleeding Heart",
-   "averagePosition": 3.974,
-   "pickRate": 0.2598,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_416",
-   "name": "War Drum",
-   "averagePosition": 3.975,
-   "pickRate": 0.2078,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_987",
-   "name": "Balladist Portrait",
-   "averagePosition": 3.977,
-   "pickRate": 0.1461,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_283",
-   "name": "Czarina Portrait",
-   "averagePosition": 3.987,
-   "pickRate": 0.1808,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_426t",
-   "name": "Colorful Compass",
-   "averagePosition": 3.996,
-   "pickRate": 0.2922,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_998",
-   "name": "Bob-blehead",
-   "averagePosition": 3.996,
-   "pickRate": 0.3019,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_931",
-   "name": "Azsharan Statuette",
-   "averagePosition": 4.001,
-   "pickRate": 0.152,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_406",
-   "name": "Butcher's Sickle",
-   "averagePosition": 4.002,
-   "pickRate": 0.3522,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_750",
-   "name": "Magicfin Sticker",
-   "averagePosition": 4.006,
-   "pickRate": 0.2013,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_807",
-   "name": "Curator Sticker",
-   "averagePosition": 4.009,
-   "pickRate": 0.1633,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_891",
-   "name": "Trip Vouchers",
-   "averagePosition": 4.014,
-   "pickRate": 0.3429,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_821",
-   "name": "Fish Portrait",
-   "averagePosition": 4.016,
-   "pickRate": 0.1734,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_931",
-   "name": "Transcribing Typewriter",
-   "averagePosition": 4.018,
-   "pickRate": 0.3924,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_924",
-   "name": "Booty Bay Brew",
-   "averagePosition": 4.021,
-   "pickRate": 0.1752,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_996",
-   "name": "Bob's Tip Jar",
-   "averagePosition": 4.025,
-   "pickRate": 0.2943,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_170",
-   "name": "Spell-powered Wrench",
-   "averagePosition": 4.028,
-   "pickRate": 0.226,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_154",
-   "name": "Ur'zul Sticker",
-   "averagePosition": 4.034,
-   "pickRate": 0.3273,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_350",
-   "name": "Splinter of Aurum",
-   "averagePosition": 4.037,
-   "pickRate": 0.3191,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_988t",
-   "name": "Great Boar Sticker",
-   "averagePosition": 4.037,
-   "pickRate": 0.4474,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_200",
-   "name": "All-Purpose Kibble",
-   "averagePosition": 4.038,
-   "pickRate": 0.1752,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_310",
-   "name": "Rivendare Portrait",
-   "averagePosition": 4.039,
-   "pickRate": 0.2635,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_301",
-   "name": "Scraper Sticker",
-   "averagePosition": 4.041,
-   "pickRate": 0.3595,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_360",
-   "name": "Baleful Incense",
-   "averagePosition": 4.041,
-   "pickRate": 0.2021,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_271",
-   "name": "Ornate Clock",
-   "averagePosition": 4.047,
-   "pickRate": 0.2857,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_428",
-   "name": "Worn Treasure Map",
-   "averagePosition": 4.049,
-   "pickRate": 0.275,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_920",
-   "name": "Spitescale Sushi Roll",
-   "averagePosition": 4.049,
-   "pickRate": 0.3868,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_863",
-   "name": "Avalanche Sticker",
-   "averagePosition": 4.051,
-   "pickRate": 0.2917,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_815",
-   "name": "Magician's Top Hat",
-   "averagePosition": 4.052,
-   "pickRate": 0.2701,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_420",
-   "name": "Book of Medivh",
-   "averagePosition": 4.055,
-   "pickRate": 0.2026,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_300",
-   "name": "Putricide Sticker",
-   "averagePosition": 4.055,
-   "pickRate": 0.3626,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_879t",
-   "name": "Dalaran Cheese Wheel",
-   "averagePosition": 4.059,
-   "pickRate": 0.2293,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_830",
-   "name": "Felemental Portrait",
-   "averagePosition": 4.064,
-   "pickRate": 0.1272,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_703",
-   "name": "Mystery Cube",
-   "averagePosition": 4.067,
-   "pickRate": 0.494,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_701",
-   "name": "The Eye of Sargeras",
-   "averagePosition": 4.068,
-   "pickRate": 0.345,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_818",
-   "name": "Mysterious Orb",
-   "averagePosition": 4.071,
-   "pickRate": 0.1977,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_993",
-   "name": "Pagle's Fishing Rod",
-   "averagePosition": 4.078,
-   "pickRate": 0.2366,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_921",
-   "name": "Cowrie Necklace",
-   "averagePosition": 4.082,
-   "pickRate": 0.1074,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_434",
-   "name": "Replica Cathedral",
-   "averagePosition": 4.083,
-   "pickRate": 0.2178,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_841",
-   "name": "Glowing Gauntlet",
-   "averagePosition": 4.097,
-   "pickRate": 0.2715,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_420t",
-   "name": "Book of Medivh",
-   "averagePosition": 4.101,
-   "pickRate": 0.1461,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_989t",
-   "name": "Artisanal Urn",
-   "averagePosition": 4.109,
-   "pickRate": 0.2149,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_435",
-   "name": "Goldenizer Supply",
-   "averagePosition": 4.119,
-   "pickRate": 0.3046,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_701",
-   "name": "Fang Anklet",
-   "averagePosition": 4.119,
-   "pickRate": 0.184,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_823t",
-   "name": "Timeworn Candelabra",
-   "averagePosition": 4.12,
-   "pickRate": 0.2493,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_943",
-   "name": "Surveyor Portrait",
-   "averagePosition": 4.124,
-   "pickRate": 0.3578,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_995",
-   "name": "Bronze Timepiece",
-   "averagePosition": 4.125,
-   "pickRate": 0.1731,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_817",
-   "name": "Lens Case",
-   "averagePosition": 4.125,
-   "pickRate": 0.2931,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_917",
-   "name": "Rusty Trident",
-   "averagePosition": 4.129,
-   "pickRate": 0.1704,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_302",
-   "name": "Stormcoil Sticker",
-   "averagePosition": 4.135,
-   "pickRate": 0.2177,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_804",
-   "name": "Ancient Wishbone",
-   "averagePosition": 4.137,
-   "pickRate": 0.5881,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_858",
-   "name": "Explorer's Binoculars",
-   "averagePosition": 4.141,
-   "pickRate": 0.3137,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_700",
-   "name": "Deathly Phylactery",
-   "averagePosition": 4.142,
-   "pickRate": 0.2908,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_426",
-   "name": "Colorful Compass",
-   "averagePosition": 4.145,
-   "pickRate": 0.2481,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_300",
-   "name": "Copper Coil",
-   "averagePosition": 4.146,
-   "pickRate": 0.2766,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_752",
-   "name": "Young Murk-Eye Sticker",
-   "averagePosition": 4.15,
-   "pickRate": 0.3485,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_706",
-   "name": "Reflective Pendant",
-   "averagePosition": 4.158,
-   "pickRate": 0.2025,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_847",
-   "name": "Goblin Wallet",
-   "averagePosition": 4.16,
-   "pickRate": 0.4277,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_411",
-   "name": "Hoggy Bank",
-   "averagePosition": 4.161,
-   "pickRate": 0.2662,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_423",
-   "name": "Innkeeper's Stein",
-   "averagePosition": 4.162,
-   "pickRate": 0.2622,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_707",
-   "name": "Tickatus Sticker",
-   "averagePosition": 4.163,
-   "pickRate": 0.3296,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_547",
-   "name": "Comfy Coffin",
-   "averagePosition": 4.166,
-   "pickRate": 0.1641,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_831",
-   "name": "Sellemental Portrait",
-   "averagePosition": 4.167,
-   "pickRate": 0.2049,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_957",
-   "name": "Grifter Portrait",
-   "averagePosition": 4.168,
-   "pickRate": 0.3745,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_816",
-   "name": "Orb of the Unknown",
-   "averagePosition": 4.171,
-   "pickRate": 0.2558,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_924t",
-   "name": "Booty Bay Brew",
-   "averagePosition": 4.174,
-   "pickRate": 0.1789,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_544t",
-   "name": "Nomi Sticker",
-   "averagePosition": 4.175,
-   "pickRate": 0.2691,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG31_MagicItem_903",
-   "name": "Wisdomball Supply",
-   "averagePosition": 4.181,
-   "pickRate": 0.4241,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_700",
-   "name": "Wildfeather Duster",
-   "averagePosition": 4.186,
-   "pickRate": 0.1755,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_416",
-   "name": "Token of the Old Gods",
-   "averagePosition": 4.187,
-   "pickRate": 0.3358,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_808",
-   "name": "Bloodbound Earrings",
-   "averagePosition": 4.187,
-   "pickRate": 0.2818,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_434",
-   "name": "Jewelry Box",
-   "averagePosition": 4.191,
-   "pickRate": 0.3439,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_361",
-   "name": "Portable Factory",
-   "averagePosition": 4.193,
-   "pickRate": 0.1252,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_951",
-   "name": "Gold Pendant",
-   "averagePosition": 4.196,
-   "pickRate": 0.1724,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_823",
-   "name": "Timeworn Candelabra",
-   "averagePosition": 4.2,
-   "pickRate": 0.3836,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_801",
-   "name": "Sinstone Sticker",
-   "averagePosition": 4.202,
-   "pickRate": 0.2857,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_364",
-   "name": "Poet Portrait",
-   "averagePosition": 4.203,
-   "pickRate": 0.3446,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_962",
-   "name": "Training Certificate",
-   "averagePosition": 4.208,
-   "pickRate": 0.1404,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_834",
-   "name": "Rylak Portrait",
-   "averagePosition": 4.209,
-   "pickRate": 0.5743,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_888",
-   "name": "Souvenir Stand",
-   "averagePosition": 4.215,
-   "pickRate": 0.3594,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_541",
-   "name": "Nether Pendant",
-   "averagePosition": 4.217,
-   "pickRate": 0.2596,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_870",
-   "name": "Leapfrogger Portrait",
-   "averagePosition": 4.217,
-   "pickRate": 0.3571,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_926",
-   "name": "Morgl Portrait",
-   "averagePosition": 4.219,
-   "pickRate": 0.1354,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_803",
-   "name": "Macaw Portrait",
-   "averagePosition": 4.221,
-   "pickRate": 0.4329,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_422",
-   "name": "Lorewalker Scroll",
-   "averagePosition": 4.224,
-   "pickRate": 0.1947,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_430",
-   "name": "Rockin' Music Box",
-   "averagePosition": 4.228,
-   "pickRate": 0.197,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_817",
-   "name": "Rendle Sticker",
-   "averagePosition": 4.246,
-   "pickRate": 0.2102,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_435",
-   "name": "Bloodbound Ring",
-   "averagePosition": 4.254,
-   "pickRate": 0.3228,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_872",
-   "name": "Ophidian Staff",
-   "averagePosition": 4.258,
-   "pickRate": 0.2337,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_362t",
-   "name": "Innkeeper's Hearth",
-   "averagePosition": 4.263,
-   "pickRate": 0.2679,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_922",
-   "name": "Tide Raiser Portrait",
-   "averagePosition": 4.263,
-   "pickRate": 0.1753,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_999",
-   "name": "Fancy Spellbook",
-   "averagePosition": 4.266,
-   "pickRate": 0.209,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_400",
-   "name": "Shrine of Evolution",
-   "averagePosition": 4.268,
-   "pickRate": 0.6404,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_151t",
-   "name": "Defiler Portrait",
-   "averagePosition": 4.272,
-   "pickRate": 0.2211,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_821",
-   "name": "Kaleidoscope",
-   "averagePosition": 4.282,
-   "pickRate": 0.3279,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_303",
-   "name": "Automaton Portrait",
-   "averagePosition": 4.287,
-   "pickRate": 0.1699,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_425",
-   "name": "Azeroth Model Globe",
-   "averagePosition": 4.293,
-   "pickRate": 0.2924,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_893",
-   "name": "Bluegill Flippers",
-   "averagePosition": 4.301,
-   "pickRate": 0.2143,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_860",
-   "name": "Beetle Band",
-   "averagePosition": 4.302,
-   "pickRate": 0.2608,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_544",
-   "name": "Nomi Sticker",
-   "averagePosition": 4.305,
-   "pickRate": 0.2296,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_808t",
-   "name": "Bloodbound Earrings",
-   "averagePosition": 4.305,
-   "pickRate": 0.4133,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_973",
-   "name": "Minion Bait",
-   "averagePosition": 4.306,
-   "pickRate": 0.1639,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_284",
-   "name": "Aggem Sticker",
-   "averagePosition": 4.307,
-   "pickRate": 0.3021,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_276",
-   "name": "Enigmatic Headstone",
-   "averagePosition": 4.309,
-   "pickRate": 0.1831,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_851",
-   "name": "Water Wheel",
-   "averagePosition": 4.315,
-   "pickRate": 0.1822,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_366",
-   "name": "Guiding Candle",
-   "averagePosition": 4.316,
-   "pickRate": 0.2535,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_705",
-   "name": "Bartend-o-Tron's Oilcan",
-   "averagePosition": 4.334,
-   "pickRate": 0.3484,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_803t",
-   "name": "Maxwell Sticker",
-   "averagePosition": 4.339,
-   "pickRate": 0.1148,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_840",
-   "name": "Chromatic Tear",
-   "averagePosition": 4.341,
-   "pickRate": 0.3044,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_850",
-   "name": "Pocket Cyclone",
-   "averagePosition": 4.345,
-   "pickRate": 0.2401,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_821",
-   "name": "Pilgrimp Sticker",
-   "averagePosition": 4.355,
-   "pickRate": 0.2498,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_151",
-   "name": "Defiler Portrait",
-   "averagePosition": 4.357,
-   "pickRate": 0.2826,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_994",
-   "name": "Yogg-Tastic Pastry",
-   "averagePosition": 4.359,
-   "pickRate": 0.1024,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_822",
-   "name": "Bazaar Sticker",
-   "averagePosition": 4.361,
-   "pickRate": 0.2284,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_850t",
-   "name": "Pocket Cyclone",
-   "averagePosition": 4.372,
-   "pickRate": 0.3607,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_432",
-   "name": "Blood Amulet",
-   "averagePosition": 4.393,
-   "pickRate": 0.4552,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_871",
-   "name": "Mama Bear Sticker",
-   "averagePosition": 4.396,
-   "pickRate": 0.1904,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_431t",
-   "name": "Thornspike Pauldron",
-   "averagePosition": 4.432,
-   "pickRate": 0.3342,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_361t",
-   "name": "Portable Factory",
-   "averagePosition": 4.462,
-   "pickRate": 0.1502,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_868",
-   "name": "Rewinder Portrait",
-   "averagePosition": 4.466,
-   "pickRate": 0.247,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_433",
-   "name": "Alliance Keychain",
-   "averagePosition": 4.495,
-   "pickRate": 0.0593,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_988",
-   "name": "Great Boar Sticker",
-   "averagePosition": 4.5,
-   "pickRate": 0.2693,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_902",
-   "name": "Holy Mallet",
-   "averagePosition": 4.504,
-   "pickRate": 0.1208,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_430",
-   "name": "Scrapsmith Portrait",
-   "averagePosition": 4.548,
-   "pickRate": 0.2538,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_433",
-   "name": "Vinespeaker Portrait",
-   "averagePosition": 4.559,
-   "pickRate": 0.5388,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_803",
-   "name": "Maxwell Sticker",
-   "averagePosition": 4.573,
-   "pickRate": 0.2153,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_931",
-   "name": "Lucky Tabby",
-   "averagePosition": 4.58,
-   "pickRate": 0.2022,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_410",
-   "name": "Quilligraphy Set",
-   "averagePosition": 4.607,
-   "pickRate": 0.3571,
-   "tier": "D"
-  },
-  {
-   "cardId": "BG30_MagicItem_546",
-   "name": "Jar o' Gems",
-   "averagePosition": 4.634,
-   "pickRate": 0.3634,
-   "tier": "D"
-  },
-  {
-   "cardId": "BG30_MagicItem_410t2",
-   "name": "Quilligraphy Set",
-   "averagePosition": 4.642,
-   "pickRate": 0.4194,
-   "tier": "D"
-  },
-  {
-   "cardId": "BG35_MagicItem_152",
-   "name": "Demonic Tapestry",
-   "averagePosition": 4.671,
-   "pickRate": 0.3959,
-   "tier": "D"
-  }
- ]
+"_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+"_fetched": "from-local",
+"_mmr": 10,
+"_period": "past-seven",
+"_heroDataPoints": 52699,
+"trinkets": [
+{
+"cardId": "BG30_MagicItem_403",
+"name": "Ironforge Anvil",
+"averagePosition": 3.099,
+"pickRate": 0.3163,
+"tier": "S",
+"text": "Start of Combat: Triple the stats of your minions with no type."
+},
+{
+"cardId": "BG35_MagicItem_714",
+"name": "Powder Keg",
+"averagePosition": 3.297,
+"pickRate": 0.2203,
+"tier": "S",
+"text": "[x]Start of Combat: Give 3 friendly Pirates \"Deathrattle: Summon a 1/1 Sky Pirate and give it this minion's Attack. It attacks immediately.\""
+},
+{
+"cardId": "BG30_MagicItem_427t",
+"name": "Tiger Carving",
+"averagePosition": 3.306,
+"pickRate": 0.434,
+"tier": "S",
+"text": "[x]Whenever a friendly minion takes damage, give another friendly minion +6/+2 permanently."
+},
+{
+"cardId": "BG35_MagicItem_711",
+"name": "Protective Ring",
+"averagePosition": 3.338,
+"pickRate": 0.2155,
+"tier": "S",
+"text": "Start of Combat: Give 4 random friendly Pirates Divine Shield."
+},
+{
+"cardId": "BG35_MagicItem_731",
+"name": "Deathtouch Apple",
+"averagePosition": 3.429,
+"pickRate": 0.3186,
+"tier": "S",
+"text": "[x]After a friendly Undead is Reborn, give it Reborn. (3 times per combat.)"
+},
+{
+"cardId": "BG32_MagicItem_860t",
+"name": "Beetle Band",
+"averagePosition": 3.511,
+"pickRate": 0.3029,
+"tier": "S",
+"text": "[x]Avenge (6): Summon two 2/2 Beetles. Give them Taunt."
+},
+{
+"cardId": "BG30_MagicItem_439",
+"name": "Designer Eyepatch",
+"averagePosition": 3.513,
+"pickRate": 0.3208,
+"tier": "S",
+"text": "You only need 2 copies of a Pirate to make it Golden."
+},
+{
+"cardId": "BG35_MagicItem_309",
+"name": "Errgl Sticker",
+"averagePosition": 3.519,
+"pickRate": 0.3349,
+"tier": "S",
+"text": "[x]Get a Mama Mrrglton or a Papa Mrrglton. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG35_MagicItem_861",
+"name": "Baller Portrait",
+"averagePosition": 3.53,
+"pickRate": 0.7838,
+"tier": "S",
+"text": "[x]Get a Temperature Shift. After you play 9 Elementals, repeat this. (9 left!)"
+},
+{
+"cardId": "BG30_MagicItem_301",
+"name": "Eternal Portrait",
+"averagePosition": 3.532,
+"pickRate": 0.2294,
+"tier": "S",
+"text": "[x]Get an Eternal Knight. Start of Combat: Give your Eternal Knights Taunt and Reborn."
+},
+{
+"cardId": "BG32_MagicItem_232",
+"name": "Shark Cannon",
+"averagePosition": 3.539,
+"pickRate": 0.2904,
+"tier": "S",
+"text": "[x]After you spend 10 Gold, give your Pirates +1/+1 and improve this. (10 Gold left!)"
+},
+{
+"cardId": "BG35_MagicItem_732",
+"name": "Soul Fermenter",
+"averagePosition": 3.542,
+"pickRate": 0.4912,
+"tier": "S",
+"text": "[x]Start of Combat: Destroy your 3 left-most minions. After your last minion dies, resummon them."
+},
+{
+"cardId": "BG35_MagicItem_740",
+"name": "Sky Golem Portrait",
+"averagePosition": 3.577,
+"pickRate": 0.2081,
+"tier": "S",
+"text": "[x]Get a Falling Sky Golem. Start of Combat: Give your minions \"Deathrattle: Give your minions +2/+2 permanently.\""
+},
+{
+"cardId": "BG35_MagicItem_741",
+"name": "Beatboxer Portrait",
+"averagePosition": 3.607,
+"pickRate": 0.6476,
+"tier": "A",
+"text": "Get a Polarizing Beatboxer."
+},
+{
+"cardId": "BG30_MagicItem_951",
+"name": "Lava Lamp",
+"averagePosition": 3.63,
+"pickRate": 0.4119,
+"tier": "A",
+"text": "After you sell 5 minions, get a random Elemental. (5 left!)"
+},
+{
+"cardId": "BG35_MagicItem_713",
+"name": "Trusty Crowbar",
+"averagePosition": 3.631,
+"pickRate": 0.1977,
+"tier": "A",
+"text": "Whenever you get a Pirate, give your left-most minion +12/+12."
+},
+{
+"cardId": "BG30_MagicItem_919",
+"name": "Nazjatar Postcard",
+"averagePosition": 3.653,
+"pickRate": 0.2237,
+"tier": "A",
+"text": "After you play a Naga, get a random Spellcraft spell."
+},
+{
+"cardId": "BG30_MagicItem_555",
+"name": "Surprise Portrait",
+"averagePosition": 3.655,
+"pickRate": 0.3718,
+"tier": "A",
+"text": "[x]Get an Elemental of Surprise. (More appear when you least expect them...)"
+},
+{
+"cardId": "BG35_MagicItem_742",
+"name": "Accord-o-Tron Portrait",
+"averagePosition": 3.668,
+"pickRate": 0.4423,
+"tier": "A",
+"text": "[x]At the end of each turn, Magnetize an Accord-o-Tron to your left- and right-most Mechs."
+},
+{
+"cardId": "BG30_MagicItem_828",
+"name": "Shaker Portrait",
+"averagePosition": 3.677,
+"pickRate": 0.536,
+"tier": "A",
+"text": "[x]Get a Zesty Shaker. Your Zesty Shakers give an extra copy of the spell."
+},
+{
+"cardId": "BG35_MagicItem_306",
+"name": "Jailer Sticker",
+"averagePosition": 3.691,
+"pickRate": 0.3779,
+"tier": "A",
+"text": "Spellcraft: Destroy a friendly Undead to get a random Undead."
+},
+{
+"cardId": "BG30_MagicItem_442",
+"name": "Blood Golem Sticker",
+"averagePosition": 3.692,
+"pickRate": 0.3635,
+"tier": "A",
+"text": "[x]Whenever a friendly Quilboar dies, summon a Golem with stats equal to its Blood Gems."
+},
+{
+"cardId": "BG30_MagicItem_886",
+"name": "Reinforced Shield",
+"averagePosition": 3.703,
+"pickRate": 0.2082,
+"tier": "A",
+"text": "[x]Whenever you summon a minion, give it Divine Shield. (5 times per combat.)"
+},
+{
+"cardId": "BG35_MagicItem_754",
+"name": "Dramaloc Sticker",
+"averagePosition": 3.705,
+"pickRate": 0.3604,
+"tier": "A",
+"text": "[x]Start of Combat: Give your Murlocs the Attack of the highest-Attack minion in your hand."
+},
+{
+"cardId": "BG30_MagicItem_545",
+"name": "Fridge Magnet",
+"averagePosition": 3.706,
+"pickRate": 0.2355,
+"tier": "A",
+"text": "[x]Avenge (3): Get a random Magnetic minion."
+},
+{
+"cardId": "BG30_MagicItem_547t",
+"name": "Comfy Coffin",
+"averagePosition": 3.71,
+"pickRate": 0.2762,
+"tier": "A",
+"text": "[x]After you cast a Tavern spell, your Undead have +2 Attack this game (wherever they are)."
+},
+{
+"cardId": "BG30_MagicItem_864",
+"name": "Gilnean Thorned Rose",
+"averagePosition": 3.727,
+"pickRate": 0.3302,
+"tier": "A",
+"text": "[x]Avenge (3): Give your minions +4/+5 permanently and deal 1 damage to them."
+},
+{
+"cardId": "BG30_MagicItem_540",
+"name": "Slamma Sticker",
+"averagePosition": 3.731,
+"pickRate": 0.2301,
+"tier": "A",
+"text": "[x]After you summon a Beast in combat, double its Attack."
+},
+{
+"cardId": "BG32_MagicItem_270t",
+"name": "Wicked Tome",
+"averagePosition": 3.732,
+"pickRate": 0.3809,
+"tier": "A",
+"text": "[x]Avenge (4): Your Tavern spells give an extra +1/+1 this game."
+},
+{
+"cardId": "BG35_MagicItem_923",
+"name": "Bewitched Ribbon",
+"averagePosition": 3.735,
+"pickRate": 0.3005,
+"tier": "A",
+"text": "[x]Whenever you cast a spell, give your minions +1/+1 permanently. (+2/+2 while in combat!)"
+},
+{
+"cardId": "BG30_MagicItem_942",
+"name": "Mecha-Jaraxxus Sticker",
+"averagePosition": 3.746,
+"pickRate": 0.1985,
+"tier": "A",
+"text": "[x]Get 2 random Magnetic Mecha-Demons. At the start of each turn, get 2 more."
+},
+{
+"cardId": "BG35_MagicItem_150",
+"name": "Cursed Crystal",
+"averagePosition": 3.75,
+"pickRate": 0.2492,
+"tier": "A",
+"text": "[x]After the Tavern is Refreshed, give its minions +3/+3 this turn."
+},
+{
+"cardId": "BG30_MagicItem_914t",
+"name": "Nerglish Phrasebook",
+"averagePosition": 3.757,
+"pickRate": 0.3112,
+"tier": "A",
+"text": "[x]After you play a minion, give the left-most minion in your hand +6/+6."
+},
+{
+"cardId": "BG32_MagicItem_922",
+"name": "Charming Panpipes",
+"averagePosition": 3.773,
+"pickRate": 0.2183,
+"tier": "A",
+"text": "[x]At the end of each turn, give your left-most minion +3/+3. After you cast a spell, improve this."
+},
+{
+"cardId": "BG35_MagicItem_801",
+"name": "Sous Chef Sticker",
+"averagePosition": 3.776,
+"pickRate": 0.6138,
+"tier": "A",
+"text": "You can use your Hero Power an extra time each turn. After you use your Hero Power, gain (1) Gold."
+},
+{
+"cardId": "BG32_MagicItem_363",
+"name": "Faerie Dragon Scale",
+"averagePosition": 3.786,
+"pickRate": 0.1238,
+"tier": "A",
+"text": "[x]Whenever a friendly Dragon attacks, give it Divine Shield. (3 times per combat.)"
+},
+{
+"cardId": "BG35_MagicItem_300t",
+"name": "Copper Coil",
+"averagePosition": 3.788,
+"pickRate": 0.3591,
+"tier": "A",
+"text": "[x]Whenever you Magnetize a minion, give it +3/+2 and improve this."
+},
+{
+"cardId": "BG32_MagicItem_930",
+"name": "Archaic Scroll",
+"averagePosition": 3.788,
+"pickRate": 0.3013,
+"tier": "A",
+"text": "[x]After you cast 6 spells, get a random Naga. (6 left!)"
+},
+{
+"cardId": "BG35_MagicItem_925",
+"name": "Coral Spear",
+"averagePosition": 3.795,
+"pickRate": 0.2136,
+"tier": "A",
+"text": "[x]Whenever you cast a Spellcraft spell, cast Might of Stormwind."
+},
+{
+"cardId": "BG35_MagicItem_305",
+"name": "Conch Portrait",
+"averagePosition": 3.811,
+"pickRate": 0.3496,
+"tier": "A",
+"text": "[x]Get a Cloning Conch. At the start of every 2 turns, repeat this. (2 turns left!)"
+},
+{
+"cardId": "BG35_MagicItem_743",
+"name": "Electrode Attractor",
+"averagePosition": 3.825,
+"pickRate": 0.3147,
+"tier": "A",
+"text": "[x]Magnetic Mechs cost (2). The Tavern offers an extra one whenever it is Refreshed."
+},
+{
+"cardId": "BG35_MagicItem_838",
+"name": "Double Stitch Needle",
+"averagePosition": 3.829,
+"pickRate": 0.1646,
+"tier": "A",
+"text": "[x]Spellcraft: Choose a friendly minion. Double its stats and lock it in your hand for 1 turn."
+},
+{
+"cardId": "BG35_MagicItem_862",
+"name": "Upstart Embers",
+"averagePosition": 3.834,
+"pickRate": 0.3362,
+"tier": "A",
+"text": "[x]After you Refresh, double the stats of the highest- Health minion in the Tavern."
+},
+{
+"cardId": "BG35_MagicItem_924",
+"name": "Groundbreaker Portrait",
+"averagePosition": 3.835,
+"pickRate": 0.3547,
+"tier": "A",
+"text": "[x]Get a Groundbreaker. Your Groundbreakers also give stats to the minion to their left."
+},
+{
+"cardId": "BG35_MagicItem_712",
+"name": "Privateer Portrait",
+"averagePosition": 3.837,
+"pickRate": 0.374,
+"tier": "A",
+"text": "[x]Get a Proud Privateer and 2 random Bounties. At the start of each turn, get another 2 Bounties."
+},
+{
+"cardId": "BG30_MagicItem_437",
+"name": "Staff of the Scourge",
+"averagePosition": 3.837,
+"pickRate": 0.2751,
+"tier": "A",
+"text": "Avenge (5): Give a random friendly Undead Reborn."
+},
+{
+"cardId": "BG32_MagicItem_801t",
+"name": "Heart of the Forest",
+"averagePosition": 3.838,
+"pickRate": 0.3131,
+"tier": "A",
+"text": "[x]Your Tavern spells give an extra +1/+1. After you cast 6 Tavern spells from hand, improve this. (6 left!)"
+},
+{
+"cardId": "BG35_MagicItem_733",
+"name": "Jailer Sticker",
+"averagePosition": 3.842,
+"pickRate": 0.4243,
+"tier": "A",
+"text": "Spellcraft: Destroy a friendly Undead to get 2 random Undead."
+},
+{
+"cardId": "BG35_MagicItem_930",
+"name": "Warband Whistle",
+"averagePosition": 3.852,
+"pickRate": 0.2626,
+"tier": "A",
+"text": "[x]Gain a free Refresh that contains plain copies of minions in your warband."
+},
+{
+"cardId": "BG35_MagicItem_821t",
+"name": "Kaleidoscope",
+"averagePosition": 3.852,
+"pickRate": 0.1061,
+"tier": "A",
+"text": "[x]Discover a Golden Tier 7 minion. Lock it in your hand for 2 |4 (turn, turns)."
+},
+{
+"cardId": "BG32_MagicItem_367",
+"name": "Ghastly Sticker",
+"averagePosition": 3.854,
+"pickRate": 0.2479,
+"tier": "A",
+"text": "Your end of turn effects trigger an extra time."
+},
+{
+"cardId": "BG35_MagicItem_840t",
+"name": "Chromatic Tear",
+"averagePosition": 3.862,
+"pickRate": 0.4072,
+"tier": "A",
+"text": "[x]Get 2 random Chromadrakes. After you play 7 Battlecry minions, repeat this. (7 left!)"
+},
+{
+"cardId": "BG32_MagicItem_888",
+"name": "Recycling Sticker",
+"averagePosition": 3.867,
+"pickRate": 0.3074,
+"tier": "A",
+"text": "After you play an Elemental, gain a free Refresh."
+},
+{
+"cardId": "BG35_MagicItem_814",
+"name": "Stuffed Coin Purse",
+"averagePosition": 3.88,
+"pickRate": 0.3998,
+"tier": "A",
+"text": "When you reach Tier 6, gain 12 gold."
+},
+{
+"cardId": "BG32_MagicItem_172",
+"name": "Boom's Monster Portrait",
+"averagePosition": 3.881,
+"pickRate": 0.2916,
+"tier": "A",
+"text": "[x]Get a Dr. Boom's Monster. At the start of every turn, get another."
+},
+{
+"cardId": "BG35_MagicItem_156",
+"name": "Flaming Portrait",
+"averagePosition": 3.881,
+"pickRate": 0.2454,
+"tier": "A",
+"text": "[x]Get a Flaming Enforcer. Whenever your Flaming Enforcers trigger, also give the stats to their neighbors."
+},
+{
+"cardId": "BG35_MagicItem_755",
+"name": "Chillmere Mosaic",
+"averagePosition": 3.89,
+"pickRate": 0.2799,
+"tier": "A",
+"text": "[x]Spellcraft: Refresh the Tavern with Battlecry minions. They cost (1)."
+},
+{
+"cardId": "BG32_MagicItem_998",
+"name": "Behemoth Portrait",
+"averagePosition": 3.902,
+"pickRate": 0.3556,
+"tier": "A",
+"text": "[x]Get an Arcane Behemoth."
+},
+{
+"cardId": "BG32_MagicItem_894",
+"name": "Blessing Portrait",
+"averagePosition": 3.902,
+"pickRate": 0.2722,
+"tier": "A",
+"text": "[x]Get a Natural Blessing. At the start of each turn, get another. Your Natural Blessings also affect minions in hand."
+},
+{
+"cardId": "BG30_MagicItem_914",
+"name": "Nerglish Phrasebook",
+"averagePosition": 3.907,
+"pickRate": 0.3009,
+"tier": "A",
+"text": "[x]After you play a minion, give the left-most minion in your hand +3/+3."
+},
+{
+"cardId": "BG35_MagicItem_710",
+"name": "Miniature Ship",
+"averagePosition": 3.91,
+"pickRate": 0.2256,
+"tier": "A",
+"text": "After you cast a Tavern spell, give your Pirates +2/+2."
+},
+{
+"cardId": "BG35_MagicItem_753",
+"name": "Murky Sticker",
+"averagePosition": 3.918,
+"pickRate": 0.1451,
+"tier": "A",
+"text": "[x]At the end of each turn, give your two left-most minions +1/+1. (Improved by your Battlecries triggered this game!)"
+},
+{
+"cardId": "BG32_MagicItem_301",
+"name": "Bassgill Portrait",
+"averagePosition": 3.921,
+"pickRate": 0.2975,
+"tier": "A",
+"text": "[x]Get a Bassgill. After you summon a Murloc in combat, give it Divine Shield."
+},
+{
+"cardId": "BG30_MagicItem_427",
+"name": "Tiger Carving",
+"averagePosition": 3.926,
+"pickRate": 0.2332,
+"tier": "A",
+"text": "[x]Whenever a friendly minion takes damage, give another friendly minion +3/+1 permanently."
+},
+{
+"cardId": "BG35_MagicItem_812",
+"name": "Corrupted Tome",
+"averagePosition": 3.929,
+"pickRate": 0.2826,
+"tier": "A",
+"text": "Get a Triple Prize. Whenever you would get a Triple Reward, get a Triple Prize instead."
+},
+{
+"cardId": "BG32_MagicItem_306",
+"name": "Herald Sticker",
+"averagePosition": 3.936,
+"pickRate": 0.32,
+"tier": "A",
+"text": "[x]Start of Combat: Trigger all friendly Deathrattles."
+},
+{
+"cardId": "BG30_MagicItem_876",
+"name": "Manipulator Portrait",
+"averagePosition": 3.937,
+"pickRate": 0.2279,
+"tier": "A",
+"text": "Get a Faceless Manipulator."
+},
+{
+"cardId": "BG35_MagicItem_820",
+"name": "Safety Patch",
+"averagePosition": 3.938,
+"pickRate": 0.6297,
+"tier": "A",
+"text": "Cast Ice Block. Gain 5 Gold."
+},
+{
+"cardId": "BG35_MagicItem_931t",
+"name": "Transcribing Typewriter",
+"averagePosition": 3.94,
+"pickRate": 0.3198,
+"tier": "A",
+"text": "[x]Get an extra copy of the next 4 minions you buy. (4 left!)"
+},
+{
+"cardId": "BG35_MagicItem_890",
+"name": "Sunken Anchor",
+"averagePosition": 3.94,
+"pickRate": 0.2863,
+"tier": "A",
+"text": "Get 2 random Bounties. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG32_MagicItem_901",
+"name": "Gold-plated Compass",
+"averagePosition": 3.948,
+"pickRate": 0.2206,
+"tier": "A",
+"text": "[x]Make the next 92 you buy Golden. Gain 5 free Refreshes."
+},
+{
+"cardId": "BG35_MagicItem_920",
+"name": "Bubble Crown",
+"averagePosition": 3.949,
+"pickRate": 0.1466,
+"tier": "A",
+"text": "[x]Once you cast 10 spells, your Tavern spells give an extra +4/+4. (10 left!)"
+},
+{
+"cardId": "BG30_MagicItem_944",
+"name": "Redeemer Portrait",
+"averagePosition": 3.951,
+"pickRate": 0.0884,
+"tier": "A",
+"text": "Get a Nalaa the Redeemer. Your Nalaa the Redeemers give an extra +4/+4."
+},
+{
+"cardId": "BG35_MagicItem_816t",
+"name": "Orb of the Unknown",
+"averagePosition": 3.953,
+"pickRate": 0.2281,
+"tier": "A",
+"text": "Get a random Greater Trinket and 4 Gold."
+},
+{
+"cardId": "BG30_MagicItem_900",
+"name": "Dragonwing Glider",
+"averagePosition": 3.961,
+"pickRate": 0.1551,
+"tier": "A",
+"text": "Whenever you play a card, give a friendly Dragon +4/+4."
+},
+{
+"cardId": "BG30_MagicItem_418",
+"name": "Bronzebeard Portrait",
+"averagePosition": 3.962,
+"pickRate": 0.5306,
+"tier": "A",
+"text": "[x]Get a Brann Bronzebeard and a random Battlecry minion. Your Brann Bronzebeards are both Murlocs and Dragons."
+},
+{
+"cardId": "BG30_MagicItem_422t",
+"name": "Lorewalker Scroll",
+"averagePosition": 3.97,
+"pickRate": 0.1888,
+"tier": "A",
+"text": "[x]Whenever you cast a spell on a minion, give it +10/+10."
+},
+{
+"cardId": "BG32_MagicItem_844",
+"name": "Sacrificial Altar",
+"averagePosition": 3.971,
+"pickRate": 0.323,
+"tier": "A",
+"text": "Remove all your minions. Gain 3 Gold for each removed."
+},
+{
+"cardId": "BG30_MagicItem_713",
+"name": "Bleeding Heart",
+"averagePosition": 3.974,
+"pickRate": 0.2598,
+"tier": "A",
+"text": "After 8 friendly minions die, get a random Undead. (8 left!)"
+},
+{
+"cardId": "BG32_MagicItem_416",
+"name": "War Drum",
+"averagePosition": 3.975,
+"pickRate": 0.2078,
+"tier": "A",
+"text": "[x]One Battlecry each turn triggers two extra times. (1 left!)"
+},
+{
+"cardId": "BG30_MagicItem_987",
+"name": "Balladist Portrait",
+"averagePosition": 3.977,
+"pickRate": 0.1461,
+"tier": "A",
+"text": "[x]Get a Lovesick Balladist. At the start of each turn, get another. Your Lovesick \u00a0\u00a0Balladists also give Attack."
+},
+{
+"cardId": "BG32_MagicItem_283",
+"name": "Czarina Portrait",
+"averagePosition": 3.987,
+"pickRate": 0.1808,
+"tier": "A",
+"text": "Get a Charging Czarina. Your Charging Czarinas also give Health."
+},
+{
+"cardId": "BG30_MagicItem_426t",
+"name": "Colorful Compass",
+"averagePosition": 3.996,
+"pickRate": 0.2922,
+"tier": "A",
+"text": "[x]Get 2 random 92. At the start of each turn, get 2 more."
+},
+{
+"cardId": "BG30_MagicItem_998",
+"name": "Bob-blehead",
+"averagePosition": 3.996,
+"pickRate": 0.3019,
+"tier": "A",
+"text": "[x]Gain 2 Gold. The Tavern no longer offers cards from Tier 1 or Tier 2."
+},
+{
+"cardId": "BG32_MagicItem_931",
+"name": "Azsharan Statuette",
+"averagePosition": 4.001,
+"pickRate": 0.152,
+"tier": "B",
+"text": "[x]Get 3 random Spellcraft spells. At the start of each turn, get 3 more."
+},
+{
+"cardId": "BG30_MagicItem_406",
+"name": "Butcher's Sickle",
+"averagePosition": 4.002,
+"pickRate": 0.3522,
+"tier": "B",
+"text": "[x]Get a Butchering. At the start of each turn, get another."
+},
+{
+"cardId": "BG35_MagicItem_750",
+"name": "Magicfin Sticker",
+"averagePosition": 4.006,
+"pickRate": 0.2013,
+"tier": "B",
+"text": "[x]After you buy a Tavern spell, get a 1/1 Murloc and teach it that spell. (2 times per turn.)"
+},
+{
+"cardId": "BG32_MagicItem_807",
+"name": "Curator Sticker",
+"averagePosition": 4.009,
+"pickRate": 0.1633,
+"tier": "B",
+"text": "Get a Golden Mishmash and a 10/10 Amalgam with Venomous."
+},
+{
+"cardId": "BG30_MagicItem_891",
+"name": "Trip Vouchers",
+"averagePosition": 4.014,
+"pickRate": 0.3429,
+"tier": "B",
+"text": "[x]In 2 turns, choose a Greater Trinket to buy and replace this. (2 turns left!)"
+},
+{
+"cardId": "BG30_MagicItem_821",
+"name": "Fish Portrait",
+"averagePosition": 4.016,
+"pickRate": 0.1734,
+"tier": "B",
+"text": "Get a Fish of N'Zoth."
+},
+{
+"cardId": "BG35_MagicItem_931",
+"name": "Transcribing Typewriter",
+"averagePosition": 4.018,
+"pickRate": 0.3924,
+"tier": "B",
+"text": "[x]Get an extra copy of the next 2 minions you buy. (2 left!)"
+},
+{
+"cardId": "BG30_MagicItem_924",
+"name": "Booty Bay Brew",
+"averagePosition": 4.021,
+"pickRate": 0.1752,
+"tier": "B",
+"text": "Whenever you spend Gold, give a friendly Pirate +4/+3."
+},
+{
+"cardId": "BG30_MagicItem_996",
+"name": "Bob's Tip Jar",
+"averagePosition": 4.025,
+"pickRate": 0.2943,
+"tier": "B",
+"text": "[x]Gain 4 Gold. Increase your maximum Gold by 4."
+},
+{
+"cardId": "BG32_MagicItem_170",
+"name": "Spell-powered Wrench",
+"averagePosition": 4.028,
+"pickRate": 0.226,
+"tier": "B",
+"text": "After you play a Magnetic minion, get a random Tavern spell."
+},
+{
+"cardId": "BG35_MagicItem_154",
+"name": "Ur'zul Sticker",
+"averagePosition": 4.034,
+"pickRate": 0.3273,
+"tier": "B",
+"text": "[x]After you play a Demon, another friendly Demon consumes a minion in the Tavern to gain its stats."
+},
+{
+"cardId": "BG32_MagicItem_350",
+"name": "Splinter of Aurum",
+"averagePosition": 4.037,
+"pickRate": 0.3191,
+"tier": "B",
+"text": "[x]When you have 15 Gold, get a random Golden Tier 5 minion. (Once per game.)"
+},
+{
+"cardId": "BG30_MagicItem_988t",
+"name": "Great Boar Sticker",
+"averagePosition": 4.037,
+"pickRate": 0.4474,
+"tier": "B",
+"text": "[x]Get 5 Blood Gems. Your Blood Gems give an extra +3/+3."
+},
+{
+"cardId": "BG32_MagicItem_200",
+"name": "All-Purpose Kibble",
+"averagePosition": 4.038,
+"pickRate": 0.1752,
+"tier": "B",
+"text": "[x]Whenever a friendly Beast attacks, give it +2 Attack and permanently improve this."
+},
+{
+"cardId": "BG30_MagicItem_310",
+"name": "Rivendare Portrait",
+"averagePosition": 4.039,
+"pickRate": 0.2635,
+"tier": "B",
+"text": "[x]Get a Titus Rivendare. Start of Combat: Double the Health of your Titus Rivendares."
+},
+{
+"cardId": "BG35_MagicItem_301",
+"name": "Scraper Sticker",
+"averagePosition": 4.041,
+"pickRate": 0.3595,
+"tier": "B",
+"text": "Get a random Magnetic Mech. At the start of each turn, get another."
+},
+{
+"cardId": "BG32_MagicItem_360",
+"name": "Baleful Incense",
+"averagePosition": 4.041,
+"pickRate": 0.2021,
+"tier": "B",
+"text": "Start of Combat: Give your left- and right-most Undead Reborn."
+},
+{
+"cardId": "BG32_MagicItem_271",
+"name": "Ornate Clock",
+"averagePosition": 4.047,
+"pickRate": 0.2857,
+"tier": "B",
+"text": "[x]Gain 2 Gold. Buy your Greater Trinket next turn instead of Turn 9."
+},
+{
+"cardId": "BG32_MagicItem_428",
+"name": "Worn Treasure Map",
+"averagePosition": 4.049,
+"pickRate": 0.275,
+"tier": "B",
+"text": "[x]In two turns, gain 10 Gold. (Once per game.)"
+},
+{
+"cardId": "BG30_MagicItem_920",
+"name": "Spitescale Sushi Roll",
+"averagePosition": 4.049,
+"pickRate": 0.3868,
+"tier": "B",
+"text": "[x]Get a Spitescale Special. Your first two Spellcraft spells each turn cast an extra time. (2 left!)"
+},
+{
+"cardId": "BG35_MagicItem_863",
+"name": "Avalanche Sticker",
+"averagePosition": 4.051,
+"pickRate": 0.2917,
+"tier": "B",
+"text": "[x]Get a Mounting Avalanche. After you sell 4 minions, repeat this. (4 left!)"
+},
+{
+"cardId": "BG35_MagicItem_815",
+"name": "Magician's Top Hat",
+"averagePosition": 4.052,
+"pickRate": 0.2701,
+"tier": "B",
+"text": "Get two minions each from Tiers 1, 2, and 3."
+},
+{
+"cardId": "BG30_MagicItem_420",
+"name": "Book of Medivh",
+"averagePosition": 4.055,
+"pickRate": 0.2026,
+"tier": "B",
+"text": "Discover a Tavern spell. At the start of each turn, Discover another."
+},
+{
+"cardId": "BG32_MagicItem_300",
+"name": "Putricide Sticker",
+"averagePosition": 4.055,
+"pickRate": 0.3626,
+"tier": "B",
+"text": "[x]Craft a custom Undead. At the start of every 2 turns, repeat this. (2 turns left!)"
+},
+{
+"cardId": "BG30_MagicItem_879t",
+"name": "Dalaran Cheese Wheel",
+"averagePosition": 4.059,
+"pickRate": 0.2293,
+"tier": "B",
+"text": "Minions in the Tavern have +2/+2. Improves every 4 times you Refresh. (4 left!)"
+},
+{
+"cardId": "BG32_MagicItem_830",
+"name": "Felemental Portrait",
+"averagePosition": 4.064,
+"pickRate": 0.1272,
+"tier": "B",
+"text": "[x]Get a Felemental. Your Felementals give an extra +2/+2."
+},
+{
+"cardId": "BG30_MagicItem_703",
+"name": "Mystery Cube",
+"averagePosition": 4.067,
+"pickRate": 0.494,
+"tier": "B",
+"text": "[x]Choose from 2 new Lesser Trinkets to replace this for free. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG30_MagicItem_701",
+"name": "The Eye of Sargeras",
+"averagePosition": 4.068,
+"pickRate": 0.345,
+"tier": "B",
+"text": "[x]Every fourth card you buy costs Health instead of Gold. (3 left!)"
+},
+{
+"cardId": "BG35_MagicItem_818",
+"name": "Mysterious Orb",
+"averagePosition": 4.071,
+"pickRate": 0.1977,
+"tier": "B",
+"text": "[x]Gain 8 Gold. Your next Trinket is a Lesser Trinket."
+},
+{
+"cardId": "BG30_MagicItem_993",
+"name": "Pagle's Fishing Rod",
+"averagePosition": 4.078,
+"pickRate": 0.2366,
+"tier": "B",
+"text": "[x]Get a random Tier 7 minion. At the start of each turn, get another."
+},
+{
+"cardId": "BG35_MagicItem_921",
+"name": "Cowrie Necklace",
+"averagePosition": 4.082,
+"pickRate": 0.1074,
+"tier": "B",
+"text": "Tavern spells that give stats cost (2) less."
+},
+{
+"cardId": "BG30_MagicItem_434",
+"name": "Replica Cathedral",
+"averagePosition": 4.083,
+"pickRate": 0.2178,
+"tier": "B",
+"text": "Your first spell each turn casts an extra time."
+},
+{
+"cardId": "BG30_MagicItem_841",
+"name": "Glowing Gauntlet",
+"averagePosition": 4.097,
+"pickRate": 0.2715,
+"tier": "B",
+"text": "[x]Minions in the Tavern have +3/+3. The Tavern always has 7 cards."
+},
+{
+"cardId": "BG30_MagicItem_420t",
+"name": "Book of Medivh",
+"averagePosition": 4.101,
+"pickRate": 0.1461,
+"tier": "B",
+"text": "Discover 2 Tavern spells. At the start of each turn, Discover 2 more."
+},
+{
+"cardId": "BG30_MagicItem_989t",
+"name": "Artisanal Urn",
+"averagePosition": 4.109,
+"pickRate": 0.2149,
+"tier": "B",
+"text": "Your Undead have +15 Attack."
+},
+{
+"cardId": "BG30_MagicItem_435",
+"name": "Goldenizer Supply",
+"averagePosition": 4.119,
+"pickRate": 0.3046,
+"tier": "B",
+"text": "At the end of every 3 turns, get a Goldenizer. (3 turns left!)3At the end of every 3 turns, get a Goldenizer. (End of this turn!)"
+},
+{
+"cardId": "BG35_MagicItem_701",
+"name": "Fang Anklet",
+"averagePosition": 4.119,
+"pickRate": 0.184,
+"tier": "B",
+"text": "[x]Start of Combat: Your Beasts have +1/+1 this combat. After you summon a Beast, improve this permanently."
+},
+{
+"cardId": "BG35_MagicItem_823t",
+"name": "Timeworn Candelabra",
+"averagePosition": 4.12,
+"pickRate": 0.2493,
+"tier": "B",
+"text": "Discover a 2-Cost minion from the Major Timewarp."
+},
+{
+"cardId": "BG30_MagicItem_943",
+"name": "Surveyor Portrait",
+"averagePosition": 4.124,
+"pickRate": 0.3578,
+"tier": "B",
+"text": "Get a Hot-Air Surveyor. Blood Gems played from your hand give an extra +6/+6."
+},
+{
+"cardId": "BG30_MagicItem_995",
+"name": "Bronze Timepiece",
+"averagePosition": 4.125,
+"pickRate": 0.1731,
+"tier": "B",
+"text": "[x]Start of Combat: Give each of your minions Health equal to half its Attack."
+},
+{
+"cardId": "BG35_MagicItem_817",
+"name": "Lens Case",
+"averagePosition": 4.125,
+"pickRate": 0.2931,
+"tier": "B",
+"text": "[x]Get a Duplicating Lens. At the start of every 2 turns, repeat this. (2 turns left!)"
+},
+{
+"cardId": "BG30_MagicItem_917",
+"name": "Rusty Trident",
+"averagePosition": 4.129,
+"pickRate": 0.1704,
+"tier": "B",
+"text": "[x]Start of Combat: Give your Naga \"Deathrattle: Get a random Spellcraft spell.\""
+},
+{
+"cardId": "BG35_MagicItem_302",
+"name": "Stormcoil Sticker",
+"averagePosition": 4.135,
+"pickRate": 0.2177,
+"tier": "B",
+"text": "After 8 friendly minions die, get a random Mech. (8 left!)"
+},
+{
+"cardId": "BG30_MagicItem_804",
+"name": "Ancient Wishbone",
+"averagePosition": 4.137,
+"pickRate": 0.5881,
+"tier": "B",
+"text": "Your Hero Power triggers twice."
+},
+{
+"cardId": "BG32_MagicItem_858",
+"name": "Explorer's Binoculars",
+"averagePosition": 4.141,
+"pickRate": 0.3137,
+"tier": "B",
+"text": "Get three random Tier 4 minions."
+},
+{
+"cardId": "BG30_MagicItem_700",
+"name": "Deathly Phylactery",
+"averagePosition": 4.142,
+"pickRate": 0.2908,
+"tier": "B",
+"text": "[x]Discover a Deathrattle minion. Your first Deathrattle each combat triggers an extra time."
+},
+{
+"cardId": "BG30_MagicItem_426",
+"name": "Colorful Compass",
+"averagePosition": 4.145,
+"pickRate": 0.2481,
+"tier": "B",
+"text": "[x]Get a random 92. At the start of each turn, get another."
+},
+{
+"cardId": "BG35_MagicItem_300",
+"name": "Copper Coil",
+"averagePosition": 4.146,
+"pickRate": 0.2766,
+"tier": "B",
+"text": "[x]Whenever you Magnetize a minion, give it +1/+1 and improve this."
+},
+{
+"cardId": "BG35_MagicItem_752",
+"name": "Young Murk-Eye Sticker",
+"averagePosition": 4.15,
+"pickRate": 0.3485,
+"tier": "B",
+"text": "[x]At the end of your turn, trigger your left and right- most minions' Battlecries."
+},
+{
+"cardId": "BG30_MagicItem_706",
+"name": "Reflective Pendant",
+"averagePosition": 4.158,
+"pickRate": 0.2025,
+"tier": "B",
+"text": "[x]Get a plain copy of a random friendly minion. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG30_MagicItem_847",
+"name": "Goblin Wallet",
+"averagePosition": 4.16,
+"pickRate": 0.4277,
+"tier": "B",
+"text": "At the end of each turn, increase your maximum Gold by 1."
+},
+{
+"cardId": "BG30_MagicItem_411",
+"name": "Hoggy Bank",
+"averagePosition": 4.161,
+"pickRate": 0.2662,
+"tier": "B",
+"text": "[x]Start of Combat: Give your Quilboar \"Deathrattle: Get 2 Blood Gems.\""
+},
+{
+"cardId": "BG30_MagicItem_423",
+"name": "Innkeeper's Stein",
+"averagePosition": 4.162,
+"pickRate": 0.2622,
+"tier": "B",
+"text": "[x]The Tavern offers an extra minion of a higher Tier whenever it is Refreshed."
+},
+{
+"cardId": "BG30_MagicItem_707",
+"name": "Tickatus Sticker",
+"averagePosition": 4.163,
+"pickRate": 0.3296,
+"tier": "B",
+"text": "[x]Discover a Tier 3 Darkmoon Prize. At the start of every three turns, repeat this. (3 turns left!)"
+},
+{
+"cardId": "BG30_MagicItem_547",
+"name": "Comfy Coffin",
+"averagePosition": 4.166,
+"pickRate": 0.1641,
+"tier": "B",
+"text": "[x]After you cast a Tavern spell, your Undead have +1 Attack this game (wherever they are)."
+},
+{
+"cardId": "BG32_MagicItem_831",
+"name": "Sellemental Portrait",
+"averagePosition": 4.167,
+"pickRate": 0.2049,
+"tier": "B",
+"text": "[x]Get a Sellemental. At the start of each turn, get another."
+},
+{
+"cardId": "BG32_MagicItem_957",
+"name": "Grifter Portrait",
+"averagePosition": 4.168,
+"pickRate": 0.3745,
+"tier": "B",
+"text": "Get a Doubloon Grifter. The first Pirate you buy each turn is free."
+},
+{
+"cardId": "BG35_MagicItem_816",
+"name": "Orb of the Unknown",
+"averagePosition": 4.171,
+"pickRate": 0.2558,
+"tier": "B",
+"text": "Get a random Lesser Trinket."
+},
+{
+"cardId": "BG30_MagicItem_924t",
+"name": "Booty Bay Brew",
+"averagePosition": 4.174,
+"pickRate": 0.1789,
+"tier": "B",
+"text": "Whenever you spend Gold, give a friendly Pirate +5/+6."
+},
+{
+"cardId": "BG30_MagicItem_544t",
+"name": "Nomi Sticker",
+"averagePosition": 4.175,
+"pickRate": 0.2691,
+"tier": "B",
+"text": "[x]After you play an Elemental, give Elementals in the Tavern +5/+5 this game."
+},
+{
+"cardId": "BG31_MagicItem_903",
+"name": "Wisdomball Supply",
+"averagePosition": 4.181,
+"pickRate": 0.4241,
+"tier": "B",
+"text": "[x]Get a Knockoff Wisdomball. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG35_MagicItem_700",
+"name": "Wildfeather Duster",
+"averagePosition": 4.186,
+"pickRate": 0.1755,
+"tier": "B",
+"text": "[x]After you summon 6 Beasts, get a random Beast. (6 left!)"
+},
+{
+"cardId": "BG30_MagicItem_416",
+"name": "Token of the Old Gods",
+"averagePosition": 4.187,
+"pickRate": 0.3358,
+"tier": "B",
+"text": "[x]Spellcraft: Choose a minion. Then choose a minion from a Tier higher to transform it into."
+},
+{
+"cardId": "BG32_MagicItem_808",
+"name": "Bloodbound Earrings",
+"averagePosition": 4.187,
+"pickRate": 0.2818,
+"tier": "B",
+"text": "[x]After you cast 4 spells, this plays a Blood Gem on all your minions. (4 left!)"
+},
+{
+"cardId": "BG35_MagicItem_434",
+"name": "Jewelry Box",
+"averagePosition": 4.191,
+"pickRate": 0.3439,
+"tier": "B",
+"text": "Get a Blood Gem that gives a Quilboar Taunt, Divine Shield, or Reborn. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG32_MagicItem_361",
+"name": "Portable Factory",
+"averagePosition": 4.193,
+"pickRate": 0.1252,
+"tier": "B",
+"text": "[x]Discover a Tier 4 minion with a type. At the start of each turn, get another copy of it."
+},
+{
+"cardId": "BG32_MagicItem_951",
+"name": "Gold Pendant",
+"averagePosition": 4.196,
+"pickRate": 0.1724,
+"tier": "B",
+"text": "[x]Make a random friendly minion from Tier 4 or below Golden. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG35_MagicItem_823",
+"name": "Timeworn Candelabra",
+"averagePosition": 4.2,
+"pickRate": 0.3836,
+"tier": "B",
+"text": "Discover a 2-Cost minion from the Minor Timewarp."
+},
+{
+"cardId": "BG30_MagicItem_801",
+"name": "Sinstone Sticker",
+"averagePosition": 4.202,
+"pickRate": 0.2857,
+"tier": "B",
+"text": "[x]The first 2 times you Discover a card each turn, get an extra copy of it. (2 left!)"
+},
+{
+"cardId": "BG32_MagicItem_364",
+"name": "Poet Portrait",
+"averagePosition": 4.203,
+"pickRate": 0.3446,
+"tier": "B",
+"text": "Get a Timewarped Poet."
+},
+{
+"cardId": "BG30_MagicItem_962",
+"name": "Training Certificate",
+"averagePosition": 4.208,
+"pickRate": 0.1404,
+"tier": "B",
+"text": "[x]Start of Combat: Double the stats of your two lowest-Attack minions."
+},
+{
+"cardId": "BG35_MagicItem_834",
+"name": "Rylak Portrait",
+"averagePosition": 4.209,
+"pickRate": 0.5743,
+"tier": "B",
+"text": "[x]Get a Rylak Metalhead. Start of Combat: Trigger your Rylak Metalheads' Deathrattles."
+},
+{
+"cardId": "BG30_MagicItem_888",
+"name": "Souvenir Stand",
+"averagePosition": 4.215,
+"pickRate": 0.3594,
+"tier": "B",
+"text": "[x]When you buy a Greater Trinket, this transforms into a copy of it."
+},
+{
+"cardId": "BG30_MagicItem_541",
+"name": "Nether Pendant",
+"averagePosition": 4.217,
+"pickRate": 0.2596,
+"tier": "B",
+"text": "[x]Minions in the Tavern have +2/+2. Improves every 3 times your hero takes damage \u00a0\u00a0outside combat. (3 left!)"
+},
+{
+"cardId": "BG35_MagicItem_870",
+"name": "Leapfrogger Portrait",
+"averagePosition": 4.217,
+"pickRate": 0.3571,
+"tier": "B",
+"text": "Get a Timewarped Leapfrogger."
+},
+{
+"cardId": "BG32_MagicItem_926",
+"name": "Morgl Portrait",
+"averagePosition": 4.219,
+"pickRate": 0.1354,
+"tier": "B",
+"text": "Get a Tide Oracle Morgl."
+},
+{
+"cardId": "BG32_MagicItem_803",
+"name": "Macaw Portrait",
+"averagePosition": 4.221,
+"pickRate": 0.4329,
+"tier": "B",
+"text": "Get a Monstrous Macaw. Your Monstrous Macaws also trigger your left-most Battlecry."
+},
+{
+"cardId": "BG30_MagicItem_422",
+"name": "Lorewalker Scroll",
+"averagePosition": 4.224,
+"pickRate": 0.1947,
+"tier": "B",
+"text": "[x]Whenever you cast a spell on a minion, give it +4/+4."
+},
+{
+"cardId": "BG30_MagicItem_430",
+"name": "Rockin' Music Box",
+"averagePosition": 4.228,
+"pickRate": 0.197,
+"tier": "B",
+"text": "[x]Get a random Battlecry minion. At the start of each turn, get another."
+},
+{
+"cardId": "BG32_MagicItem_817",
+"name": "Rendle Sticker",
+"averagePosition": 4.246,
+"pickRate": 0.2102,
+"tier": "B",
+"text": "[x]Steal the highest-Tier card from the Tavern. At the end of each turn, repeat this."
+},
+{
+"cardId": "BG35_MagicItem_435",
+"name": "Bloodbound Ring",
+"averagePosition": 4.254,
+"pickRate": 0.3228,
+"tier": "B",
+"text": "[x]After you play a Blood Gem from hand, this plays a Blood Gem on your minions with Divine Shield."
+},
+{
+"cardId": "BG35_MagicItem_872",
+"name": "Ophidian Staff",
+"averagePosition": 4.258,
+"pickRate": 0.2337,
+"tier": "B",
+"text": "Spellcraft: Give a Beast +2/+2 and Reborn."
+},
+{
+"cardId": "BG32_MagicItem_362t",
+"name": "Innkeeper's Hearth",
+"averagePosition": 4.263,
+"pickRate": 0.2679,
+"tier": "B",
+"text": "Discover two Tier 6 minions. Set their stats to 20/20."
+},
+{
+"cardId": "BG35_MagicItem_922",
+"name": "Tide Raiser Portrait",
+"averagePosition": 4.263,
+"pickRate": 0.1753,
+"tier": "B",
+"text": "[x]Get a Tide Raiser. After you cast a spell in combat, get a copy of the spell. (3 times per combat.)"
+},
+{
+"cardId": "BG30_MagicItem_999",
+"name": "Fancy Spellbook",
+"averagePosition": 4.266,
+"pickRate": 0.209,
+"tier": "B",
+"text": "After you spend 7 Gold, cast Shiny Ring. (7 Gold left!)"
+},
+{
+"cardId": "BG32_MagicItem_400",
+"name": "Shrine of Evolution",
+"averagePosition": 4.268,
+"pickRate": 0.6404,
+"tier": "B",
+"text": "Transform all your minions into random Tier 4 minions."
+},
+{
+"cardId": "BG35_MagicItem_151t",
+"name": "Defiler Portrait",
+"averagePosition": 4.272,
+"pickRate": 0.2211,
+"tier": "B",
+"text": "[x]Get a Woodland Defiler. Fodders in the Tavern have +10/+10."
+},
+{
+"cardId": "BG35_MagicItem_821",
+"name": "Kaleidoscope",
+"averagePosition": 4.282,
+"pickRate": 0.3279,
+"tier": "B",
+"text": "[x]Discover a Tier 7 minion. Lock it in your hand for 2 |4 (turn, turns)."
+},
+{
+"cardId": "BG30_MagicItem_303",
+"name": "Automaton Portrait",
+"averagePosition": 4.287,
+"pickRate": 0.1699,
+"tier": "B",
+"text": "Start of Combat: When you have space, summon an Ancestral Automaton."
+},
+{
+"cardId": "BG30_MagicItem_425",
+"name": "Azeroth Model Globe",
+"averagePosition": 4.293,
+"pickRate": 0.2924,
+"tier": "B",
+"text": "[x]At the start of every two turns, gain 2 Gold and Discover a Tier 6 minion. (2 turns left!)"
+},
+{
+"cardId": "BG32_MagicItem_893",
+"name": "Bluegill Flippers",
+"averagePosition": 4.301,
+"pickRate": 0.2143,
+"tier": "C",
+"text": "[x]After you cast a Tavern spell, give the left-most minion in your hand and warband +3/+3."
+},
+{
+"cardId": "BG32_MagicItem_860",
+"name": "Beetle Band",
+"averagePosition": 4.302,
+"pickRate": 0.2608,
+"tier": "C",
+"text": "[x]Avenge (5): Summon a 2/2 Beetle. Give it Taunt."
+},
+{
+"cardId": "BG30_MagicItem_544",
+"name": "Nomi Sticker",
+"averagePosition": 4.305,
+"pickRate": 0.2296,
+"tier": "C",
+"text": "[x]After you play an Elemental, give Elementals in the Tavern +2/+2 this game."
+},
+{
+"cardId": "BG32_MagicItem_808t",
+"name": "Bloodbound Earrings",
+"averagePosition": 4.305,
+"pickRate": 0.4133,
+"tier": "C",
+"text": "[x]After you cast 5 spells, this plays two Blood Gems on all your minions. (5 left!)"
+},
+{
+"cardId": "BG30_MagicItem_973",
+"name": "Minion Bait",
+"averagePosition": 4.306,
+"pickRate": 0.1639,
+"tier": "C",
+"text": "The Tavern offers 2 extra 92 whenever it is Refreshed."
+},
+{
+"cardId": "BG32_MagicItem_284",
+"name": "Aggem Sticker",
+"averagePosition": 4.307,
+"pickRate": 0.3021,
+"tier": "C",
+"text": "[x]At the end of your turn, this plays 7 Blood Gems on a friendly minion of each type."
+},
+{
+"cardId": "BG32_MagicItem_276",
+"name": "Enigmatic Headstone",
+"averagePosition": 4.309,
+"pickRate": 0.1831,
+"tier": "C",
+"text": "At the end of each turn, your Undead have +2 Attack this game (wherever they are)."
+},
+{
+"cardId": "BG35_MagicItem_851",
+"name": "Water Wheel",
+"averagePosition": 4.315,
+"pickRate": 0.1822,
+"tier": "C",
+"text": "After you play an Elemental, get a random Tavern spell. (Twice per turn.)"
+},
+{
+"cardId": "BG32_MagicItem_366",
+"name": "Guiding Candle",
+"averagePosition": 4.316,
+"pickRate": 0.2535,
+"tier": "C",
+"text": "[x]Your first two Refreshes each turn contain only Tier 6 cards. (2 left!)"
+},
+{
+"cardId": "BG30_MagicItem_705",
+"name": "Bartend-o-Tron's Oilcan",
+"averagePosition": 4.334,
+"pickRate": 0.3484,
+"tier": "C",
+"text": "[x]Reduce the Cost of upgrading the Tavern by (3). At the start of each turn, repeat this."
+},
+{
+"cardId": "BG35_MagicItem_803t",
+"name": "Maxwell Sticker",
+"averagePosition": 4.339,
+"pickRate": 0.1148,
+"tier": "C",
+"text": "Get the Golden Buddy of your Hero Power."
+},
+{
+"cardId": "BG35_MagicItem_840",
+"name": "Chromatic Tear",
+"averagePosition": 4.341,
+"pickRate": 0.3044,
+"tier": "C",
+"text": "[x]Get a random Chromadrake. At the start of each turn, repeat this."
+},
+{
+"cardId": "BG35_MagicItem_850",
+"name": "Pocket Cyclone",
+"averagePosition": 4.345,
+"pickRate": 0.2401,
+"tier": "C",
+"text": "Cast Easterly Winds. At the start of each turn, cast it again."
+},
+{
+"cardId": "BG32_MagicItem_821",
+"name": "Pilgrimp Sticker",
+"averagePosition": 4.355,
+"pickRate": 0.2498,
+"tier": "C",
+"text": "[x]One Demon each turn costs Health instead of Gold to buy. (1 left!)"
+},
+{
+"cardId": "BG35_MagicItem_151",
+"name": "Defiler Portrait",
+"averagePosition": 4.357,
+"pickRate": 0.2826,
+"tier": "C",
+"text": "[x]Get a Woodland Defiler. Fodders in the Tavern have +2/+2."
+},
+{
+"cardId": "BG30_MagicItem_994",
+"name": "Yogg-Tastic Pastry",
+"averagePosition": 4.359,
+"pickRate": 0.1024,
+"tier": "C",
+"text": "Spin the Wheel of Yogg-Saron. At the start of each turn, spin it again."
+},
+{
+"cardId": "BG32_MagicItem_822",
+"name": "Bazaar Sticker",
+"averagePosition": 4.361,
+"pickRate": 0.2284,
+"tier": "C",
+"text": "[x]One Tavern spell each turn costs Health instead of Gold to buy. (1 left!)"
+},
+{
+"cardId": "BG35_MagicItem_850t",
+"name": "Pocket Cyclone",
+"averagePosition": 4.372,
+"pickRate": 0.3607,
+"tier": "C",
+"text": "[x]Cast Easterly Winds four times. At the start of each turn, cast it twice more."
+},
+{
+"cardId": "BG35_MagicItem_432",
+"name": "Blood Amulet",
+"averagePosition": 4.393,
+"pickRate": 0.4552,
+"tier": "C",
+"text": "[x]After you trigger a Deathrattle, this plays a permanent Blood Gem on 3 random friendly minions."
+},
+{
+"cardId": "BG35_MagicItem_871",
+"name": "Mama Bear Sticker",
+"averagePosition": 4.396,
+"pickRate": 0.1904,
+"tier": "C",
+"text": "Whenever you summon a Beast, give it +5/+5."
+},
+{
+"cardId": "BG35_MagicItem_431t",
+"name": "Thornspike Pauldron",
+"averagePosition": 4.432,
+"pickRate": 0.3342,
+"tier": "C",
+"text": "[x]After you trigger a Deathrattle, your Blood Gems give an extra +2/+1 until next combat."
+},
+{
+"cardId": "BG32_MagicItem_361t",
+"name": "Portable Factory",
+"averagePosition": 4.462,
+"pickRate": 0.1502,
+"tier": "C",
+"text": "[x]Discover a Tier 5 minion with a type. At the start of each turn, get another copy of it."
+},
+{
+"cardId": "BG30_MagicItem_868",
+"name": "Rewinder Portrait",
+"averagePosition": 4.466,
+"pickRate": 0.247,
+"tier": "C",
+"text": "[x]Get a Soul Rewinder and a Wrath Weaver. Your Soul Rewinders also gain Attack."
+},
+{
+"cardId": "BG30_MagicItem_433",
+"name": "Alliance Keychain",
+"averagePosition": 4.495,
+"pickRate": 0.0593,
+"tier": "C",
+"text": "[x]The first time a friendly minion dies each combat, give its maximum stats to a random friendly minion."
+},
+{
+"cardId": "BG30_MagicItem_988",
+"name": "Great Boar Sticker",
+"averagePosition": 4.5,
+"pickRate": 0.2693,
+"tier": "C",
+"text": "[x]Get 3 Blood Gems. Your Blood Gems give an extra +2/+1."
+},
+{
+"cardId": "BG30_MagicItem_902",
+"name": "Holy Mallet",
+"averagePosition": 4.504,
+"pickRate": 0.1208,
+"tier": "C",
+"text": "[x]Start of Combat: Give your left and right-most minions Divine Shield."
+},
+{
+"cardId": "BG35_MagicItem_430",
+"name": "Scrapsmith Portrait",
+"averagePosition": 4.548,
+"pickRate": 0.2538,
+"tier": "C",
+"text": "[x]Get a Bristlemane Scrapsmith. After a friendly minion with Taunt dies, play a permanent Blood Gem on your Scrapsmiths."
+},
+{
+"cardId": "BG35_MagicItem_433",
+"name": "Vinespeaker Portrait",
+"averagePosition": 4.559,
+"pickRate": 0.5388,
+"tier": "C",
+"text": "[x]Get a Vinespeaker. Your Vinespeakers also improve the Health given by your Blood Gems."
+},
+{
+"cardId": "BG35_MagicItem_803",
+"name": "Maxwell Sticker",
+"averagePosition": 4.573,
+"pickRate": 0.2153,
+"tier": "C",
+"text": "Get the Buddy of your Hero Power."
+},
+{
+"cardId": "BG30_MagicItem_931",
+"name": "Lucky Tabby",
+"averagePosition": 4.58,
+"pickRate": 0.2022,
+"tier": "C",
+"text": "After 7 friendly minions die, get a random Beast. (7 left!)"
+},
+{
+"cardId": "BG30_MagicItem_410",
+"name": "Quilligraphy Set",
+"averagePosition": 4.607,
+"pickRate": 0.3571,
+"tier": "D",
+"text": "[x]Avenge (4): Your Blood Gems give an extra +1 Health this game."
+},
+{
+"cardId": "BG30_MagicItem_546",
+"name": "Jar o' Gems",
+"averagePosition": 4.634,
+"pickRate": 0.3634,
+"tier": "D",
+"text": "[x]After 2 friendly minions attack each combat, this plays a Blood Gem on all \u00a0\u00a0\u00a0\u00a0your Quilboar. (2 left!)"
+},
+{
+"cardId": "BG30_MagicItem_410t2",
+"name": "Quilligraphy Set",
+"averagePosition": 4.642,
+"pickRate": 0.4194,
+"tier": "D",
+"text": "Avenge (4): Your Blood Gems give an extra +1/+1 this game."
+},
+{
+"cardId": "BG35_MagicItem_152",
+"name": "Demonic Tapestry",
+"averagePosition": 4.671,
+"pickRate": 0.3959,
+"tier": "D",
+"text": "[x]After you Refresh 4 times, the highest-Tier minion in the Tavern costs Health instead of Gold to buy. (4 left!)"
+}
+]
 }

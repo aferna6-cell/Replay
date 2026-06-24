@@ -64,6 +64,42 @@ def test_rank_discover_prefers_board_fit():
     assert "equity" in out[0].reason
 
 
+def _mech_kb():
+    cks = [CardKnowledge(card_id=f"mm{i}", name=f"mm{i}", tier=2, attack=3,
+                         health=3, tribes=["Mech"], keywords=[], text="")
+           for i in range(2)]
+    return {c.card_id: c for c in cks}
+
+
+def test_rank_trinkets_uses_board_fit():
+    from hsbg_coach.economy import HeroContext
+    db = StatsDB([], [], [
+        TrinketStats(name="MechT", card_id="mt", average_position=3.6, tier="A",
+                     text="Give your Mechs +2/+2."),
+        TrinketStats(name="GenericT", card_id="gt", average_position=3.0, tier="S",
+                     text="Gain 2 gold."),
+        TrinketStats(name="MurlocT", card_id="lt", average_position=3.5, tier="A",
+                     text="Your Murlocs gain Poisonous."),
+    ])
+    board = [{"name": "mm0"}, {"name": "mm1"}]
+    out = rank_trinkets(["MechT", "GenericT", "MurlocT"], db, board=board,
+                        kb=_mech_kb(), hero_ctx=HeroContext(target_tribe="Mech"))
+    names = [c.name for c in out]
+    # Mech trinket gets a fit boost (passes the off-tribe Murloc one); generic
+    # S-tier still leads on raw strength.
+    assert names.index("MechT") < names.index("MurlocT")
+    assert any("matches your Mechs" in c.reason for c in out if c.name == "MechT")
+
+
+def test_trinket_placement_only_without_board():
+    db = StatsDB([], [], [
+        TrinketStats(name="A", card_id="a", average_position=4.0, tier="B",
+                     text="Give your Mechs +2/+2."),
+    ])
+    out = rank_trinkets(["A"], db)            # no board context -> no fit applied
+    assert out[0].rank_value == 4.0
+
+
 def test_recommend_choice_dispatch_and_unknown():
     assert recommend_choice("hero", ["Strong Hero"], db=_db())[0].name == "Strong Hero"
     with pytest.raises(ValueError):

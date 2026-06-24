@@ -62,16 +62,73 @@ def rank_heroes(offered: List[str], db: StatsDB) -> List[Choice]:
     return out
 
 
-def rank_trinkets(offered: List[str], db: StatsDB) -> List[Choice]:
+_TRIBES = ["beast", "mech", "murloc", "dragon", "demon", "elemental",
+           "pirate", "naga", "undead", "quilboar"]
+_KEYWORDS = ["divine shield", "deathrattle", "reborn", "taunt", "windfury",
+             "venomous", "magnetic"]
+
+
+def _board_profile(board, kb):
+    """Tribe counts + keyword set on the board, from card knowledge."""
+    idx = by_name(kb) if kb is not None else {}
+    tribes, keywords = {}, set()
+    for m in board or []:
+        ck = idx.get(_minion_name(m))
+        if not ck:
+            continue
+        for tr in ck.tribes:
+            tribes[tr.lower()] = tribes.get(tr.lower(), 0) + 1
+        for kw in getattr(ck, "keywords", []) or []:
+            keywords.add(kw.lower())
+    return tribes, keywords
+
+
+def _trinket_fit(text: str, board_tribes: dict, target_tribe: Optional[str],
+                 board_keywords: set):
+    """Placement adjustment (negative = better) from how the trinket's effect
+    matches your board's tribes/keywords. Returns (delta, reason_bits)."""
+    t = (text or "").lower()
+    if not t:
+        return 0.0, []
+    bonus, bits = 0.0, []
+    target = (target_tribe or "").lower()
+    mentioned = [tr for tr in _TRIBES if tr in t]
+    for tr in mentioned:
+        if board_tribes.get(tr) or tr == target:
+            bonus -= 0.4                                    # buffs a tribe you run
+            bits.append(f"matches your {tr.capitalize()}s")
+            break
+    else:
+        # Mentions a tribe, but not one you're on, and you have a clear identity.
+        dom = max(board_tribes, key=board_tribes.get) if board_tribes else None
+        if mentioned and dom and dom not in mentioned and target and target not in mentioned:
+            bonus += 0.3
+            bits.append(f"off-tribe ({mentioned[0]}) for your {dom.capitalize()} board")
+    kw_hits = [kw for kw in _KEYWORDS if kw in t and kw in board_keywords]
+    if kw_hits:
+        bonus -= min(0.2, 0.1 * len(kw_hits))
+        bits.append(f"synergizes with {kw_hits[0]}")
+    return bonus, bits
+
+
+def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
+                  hero_ctx: Optional[HeroContext] = None) -> List[Choice]:
+    """Rank trinkets by meta placement, adjusted for how well each fits your
+    board (tribe/keyword match from the trinket's effect text)."""
+    board_tribes, board_kw = _board_profile(board, kb)
+    target = hero_ctx.target_tribe if hero_ctx else None
     out = []
     for nm in offered:
         t: Optional[TrinketStats] = _match(nm, db.trinkets)
-        if t:
-            out.append(Choice(t.name, t.average_position,
-                              f"avg {t.average_position:.2f} · tier {t.tier}",
-                              "avg placement"))
-        else:
+        if not t:
             out.append(Choice(nm, 4.5, "no stats for this trinket", "avg placement"))
+            continue
+        fit, bits = _trinket_fit(t.text, board_tribes, target, board_kw)
+        eff = t.average_position + fit                     # lower = better
+        reason = f"avg {t.average_position:.2f} · tier {t.tier}"
+        if bits:
+            reason += " · " + "; ".join(bits) + f" ({fit:+.2f})"
+        out.append(Choice(t.name, eff, reason, "board-adjusted placement"))
     out.sort(key=lambda c: c.rank_value)
     return out
 
@@ -117,7 +174,8 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
     if kind == "hero":
         return rank_heroes(offered, db or StatsDB.load())
     if kind == "trinket":
-        return rank_trinkets(offered, db or StatsDB.load())
+        return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
+                             hero_ctx=hero_ctx)
     if kind == "discover":
         return rank_discover(offered, board or [], kb, scorer=scorer, hero_ctx=hero_ctx)
     raise ValueError(f"unknown choice kind: {kind}")

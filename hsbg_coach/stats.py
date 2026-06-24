@@ -79,6 +79,7 @@ class TrinketStats:
     average_position: float = 4.5
     pick_rate: float = 0.0
     tier: str = "?"
+    text: str = ""              # effect text — drives board-fit in draft.rank_trinkets
 
 
 def _read_json(source: str) -> dict:
@@ -133,6 +134,7 @@ def load_trinket_stats(source: Optional[str]) -> List[TrinketStats]:
             average_position=float(t.get("averagePosition", 4.5)),
             pick_rate=float(t.get("pickRate", 0.0)),
             tier=t.get("tier", "?"),
+            text=t.get("text", ""),
         )
         for t in data.get("trinkets", [])
     ]
