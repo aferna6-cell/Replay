@@ -269,6 +269,40 @@ def inject_core_cards(comps: List[dict], cards: List[dict], per_comp: int = 4) -
             comp["coreCards"] = [c["name"] for c in by_tribe[tribe][:per_comp]]
 
 
+def leveling_pace(card_raw: dict, card_meta: Dict[str, dict],
+                  max_turn: int = 14) -> Dict[int, float]:
+    """Avg tavern tier of minions *played* each turn (proxy for tier reached).
+    Weighted by how often each card is played that turn (card turnStats)."""
+    num: Dict[int, float] = {}
+    den: Dict[int, float] = {}
+    for c in card_raw.get("cardStats", []):
+        lvl = card_meta.get(c.get("cardId"), {}).get("techLevel")
+        if lvl is None:
+            continue
+        for ts in c.get("turnStats", []):
+            t, p = ts.get("turn"), ts.get("totalPlayed") or 0
+            if t is None or t < 1 or t > max_turn:
+                continue
+            num[t] = num.get(t, 0) + lvl * p
+            den[t] = den.get(t, 0) + p
+    return {t: round(num[t] / den[t], 2) for t in sorted(num) if den[t]}
+
+
+def scaling_pace(hero_raw: dict, max_turn: int = 14) -> Dict[int, float]:
+    """Avg total board stats each turn, across heroes weighted by data points."""
+    num: Dict[int, float] = {}
+    den: Dict[int, float] = {}
+    for h in hero_raw.get("heroStats", []):
+        w = h.get("dataPoints") or 0
+        for ws in h.get("warbandStats") or []:
+            t, s = ws.get("turn"), ws.get("averageStats")
+            if t is None or s is None or t < 1 or t > max_turn:
+                continue
+            num[t] = num.get(t, 0) + s * w
+            den[t] = den.get(t, 0) + w
+    return {t: round(num[t] / den[t], 1) for t in sorted(num) if den[t]}
+
+
 def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
             hero_source: Optional[str] = None, comp_source: Optional[str] = None,
             card_source: Optional[str] = None, trinket_source: Optional[str] = None,
@@ -328,6 +362,15 @@ def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
         with open(path, "w", encoding="utf-8") as fh:
             json.dump({**meta, key: rows}, fh, indent=1)
         paths[key] = path
+
+    # Pace benchmarks: how fast top players level + scale, by turn.
+    pace_path = os.path.join(out_dir, "firestone_pace.json")
+    with open(pace_path, "w", encoding="utf-8") as fh:
+        json.dump({**meta,
+                   "leveling": leveling_pace(card_raw, card_meta),
+                   "scaling": scaling_pace(hero_raw)}, fh, indent=1)
+    paths["pace"] = pace_path
+
     return {**paths, "num_heroes": len(heroes), "num_comps": len(comps),
             "num_cards": len(cards), "num_trinkets": len(trinkets),
             "num_board_sets": len(boards),

@@ -154,6 +154,11 @@ The model also *understands* each minion, not just its win rate:
   extract per-comp **core cards by board frequency** (so comp core cards are
   data-driven, not tribe-approximated) plus example boards (`stats.example_boards`)
   with positions/keywords — a target board and ML reference data.
+- `pace.py` (+ `firestone_pace.json`, `python -m hsbg_coach pace`) — the
+  **early-game process**, derived from real top-10% data: average tavern **tier
+  by turn** and board **stats by turn**. `recommend(snap, pace=load_pace())`
+  nudges leveling when you're behind the real curve. (Data shows top players
+  level ~0.2-0.25 tiers ahead on turns 5-7 — more aggressive than guides say.)
 
 ### Full-accuracy combat sim (optional)
 

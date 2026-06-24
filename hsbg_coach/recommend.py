@@ -72,12 +72,13 @@ def recommend(
     seed: int = 0,
     hero_ctx: Optional[HeroContext] = None,
     kb=None,
+    pace=None,
 ) -> List[Recommendation]:
-    """Merged, ranked recommendations across economy + positioning + synergy.
+    """Merged, ranked recommendations across economy + positioning + synergy + pace.
 
     hero_ctx (optional) makes the economy advice hero/comp-specific.
-    kb (optional CardKnowledge dict from cards.load_kb) enables synergy-aware
-    buy advice — ranking the shop against your board, comp, and keywords.
+    kb (optional CardKnowledge dict from cards.load_kb) enables synergy-aware buys.
+    pace (optional, from pace.load_pace()) nudges leveling vs the top-10% curve.
     """
     recs: List[Recommendation] = []
 
@@ -97,8 +98,29 @@ def recommend(
     if kb is not None:
         recs.extend(_synergy_buys(snapshot, kb, hero_ctx))
 
+    if pace:
+        recs.extend(_pace_recs(snapshot, pace))
+
     recs.sort(key=lambda r: r.priority, reverse=True)
     return recs
+
+
+def _pace_recs(snapshot, pace) -> List[Recommendation]:
+    """Turn pace-vs-benchmark deltas into recommendations."""
+    from .pace import pace_advice
+    v = pace_advice(snapshot, pace)
+    out = []
+    if v.behind_leveling:
+        # Bigger tier gap = stronger nudge.
+        gap = (v.bench_tier or 0) - (v.your_tier or 0)
+        pri = min(0.85, 0.6 + gap * 0.15)
+        out.append(Recommendation(ActionType.TIER_UP.value, v.notes[0],
+                                  round(pri, 2), "pace", {"tier_gap": round(gap, 2)}))
+    elif v.behind_scaling:
+        out.append(Recommendation(ActionType.BUY.value,
+                                  next(n for n in v.notes if "stat curve" in n),
+                                  0.55, "pace", {}))
+    return out
 
 
 def _synergy_buys(snapshot, kb, hero_ctx) -> List[Recommendation]:

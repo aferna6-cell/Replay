@@ -90,6 +90,15 @@ with minions, positions, stats, tribes, keywords. So board-level population data
 the order you bought/levelled/rolled to *get* there. Population data gives the
 target; personal trajectories teach the path.
 
+**Turn-by-turn process data (2026-06-24):** also available — `hero.warbandStats`
+(board stats by turn) and `card-stats.turnStats` (which tier of cards are played
+each turn). Computing avg-tier-played-per-turn across MMR brackets confirmed
+top-1% players sit ~0.2-0.25 tiers ahead on turns 5-7 (they level more
+aggressively than strategy guides depict). This is extracted into pace
+benchmarks (`pace.py`, milestone 6) — the early-game *process* learned from real
+play. The one thing still not public: the explicit per-turn *action log*
+(levelled / rolled / froze) — that's personal-trajectory territory.
+
 ### Adaptive weighting (`config.WEIGHTING`)
 
 Population priors dominate early (larger, less noisy sample). Personal weight
@@ -185,6 +194,7 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 5c | Card knowledge: tier / tribe / keywords / text (`cards.py`, `refresh-cards`) | ✅ 1242 BG minions committed |
 | 5d | Synergy layer: tribe buffs, keyword payoffs, doublers, hero-power/trinket care (`synergy.py`) | ✅ text/keyword-derived; wired into `recommend(kb=…)` |
 | 5e | **Real winning boards** (`final_boards.py`) — core cards by board frequency + example boards | ✅ ~7.7k top-MMR winning boards; comp core cards now data-driven |
+| 6 | **Early-game pace** (`pace.py`, `firestone_pace.json`) — top-10% leveling + scaling by turn | ✅ data-derived; advisor nudges leveling vs the real curve |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 

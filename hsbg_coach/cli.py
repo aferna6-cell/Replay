@@ -179,7 +179,25 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("refresh-cards",
                    help="rebuild the BG card knowledge base from HearthstoneJSON"
                    ).set_defaults(func=cmd_refresh_cards)
+
+    sub.add_parser("pace", help="show the top-10% leveling/scaling pace benchmark"
+                   ).set_defaults(func=cmd_pace)
     return p
+
+
+def cmd_pace(_args) -> int:
+    from .pace import load_pace
+    pace = load_pace()
+    if not pace:
+        print("No pace benchmark. Run `refresh-stats` first.")
+        return 1
+    print("Top-10% pace (real data). 'tier' = avg tier played; 'stats' = board total.")
+    print(f"{'turn':>4} | {'tier':>4} | {'board-stats':>11}")
+    lv, sc = pace["leveling"], pace["scaling"]
+    for t in range(1, 13):
+        if t in lv or t in sc:
+            print(f"{t:>4} | {lv.get(t, '-'):>4} | {sc.get(t, '-'):>11}")
+    return 0
 
 
 def cmd_refresh_cards(_args) -> int:

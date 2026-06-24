@@ -3470,14 +3470,14 @@
      "commonPosition": 5
     },
     {
-     "name": "Cataclysmic Harbinger",
-     "frequency": 0.135,
-     "commonPosition": 4
-    },
-    {
      "name": "Balinda Stonehearth",
      "frequency": 0.135,
      "commonPosition": 5
+    },
+    {
+     "name": "Cataclysmic Harbinger",
+     "frequency": 0.135,
+     "commonPosition": 4
     },
     {
      "name": "Spacefarer",
@@ -8999,14 +8999,14 @@
      "commonPosition": 1
     },
     {
-     "name": "Snow Baller",
-     "frequency": 0.25,
-     "commonPosition": 5
-    },
-    {
      "name": "Scarlet Survivor",
      "frequency": 0.25,
      "commonPosition": 3
+    },
+    {
+     "name": "Snow Baller",
+     "frequency": 0.25,
+     "commonPosition": 5
     },
     {
      "name": "Fire Baller",
@@ -9311,9 +9311,9 @@
      "commonPosition": 3
     },
     {
-     "name": "En-Djinn Blazer",
+     "name": "Leyline Surfacer",
      "frequency": 0.1,
-     "commonPosition": 2
+     "commonPosition": 4
     },
     {
      "name": "Balinda Stonehearth",
@@ -9321,9 +9321,9 @@
      "commonPosition": 1
     },
     {
-     "name": "Leyline Surfacer",
+     "name": "En-Djinn Blazer",
      "frequency": 0.1,
-     "commonPosition": 4
+     "commonPosition": 2
     },
     {
      "name": "Three Lil' Quilboar",
@@ -9331,9 +9331,9 @@
      "commonPosition": 2
     },
     {
-     "name": "Ruthless Queensguard",
+     "name": "Maelstrom Emergent",
      "frequency": 0.1,
-     "commonPosition": 3
+     "commonPosition": 5
     }
    ],
    "examples": [
@@ -9603,6 +9603,11 @@
      "commonPosition": 1
     },
     {
+     "name": "Mummifier",
+     "frequency": 0.667,
+     "commonPosition": 1
+    },
+    {
      "name": "Risen Rider",
      "frequency": 0.667,
      "commonPosition": 5
@@ -9611,11 +9616,6 @@
      "name": "Drustfallen Butcher",
      "frequency": 0.667,
      "commonPosition": 5
-    },
-    {
-     "name": "Mummifier",
-     "frequency": 0.667,
-     "commonPosition": 1
     },
     {
      "name": "Sky Admiral Rogers",
@@ -9936,9 +9936,9 @@
      "commonPosition": 5
     },
     {
-     "name": "Charmwing",
+     "name": "Brann Bronzebeard",
      "frequency": 0.111,
-     "commonPosition": 1
+     "commonPosition": 7
     },
     {
      "name": "Persistent Poet",
@@ -9946,9 +9946,9 @@
      "commonPosition": 2
     },
     {
-     "name": "Brann Bronzebeard",
+     "name": "Charmwing",
      "frequency": 0.111,
-     "commonPosition": 7
+     "commonPosition": 1
     },
     {
      "name": "Timewarped Deadstomper",
@@ -10211,16 +10211,6 @@
    "boardCount": 2,
    "coreCards": [
     {
-     "name": "Wildfire Elemental",
-     "frequency": 1.0,
-     "commonPosition": 1
-    },
-    {
-     "name": "Rylak Metalhead",
-     "frequency": 1.0,
-     "commonPosition": 2
-    },
-    {
      "name": "Brann Bronzebeard",
      "frequency": 1.0,
      "commonPosition": 7
@@ -10231,14 +10221,24 @@
      "commonPosition": 5
     },
     {
-     "name": "Timewarped Swirler",
-     "frequency": 0.5,
-     "commonPosition": 6
+     "name": "Rylak Metalhead",
+     "frequency": 1.0,
+     "commonPosition": 2
+    },
+    {
+     "name": "Wildfire Elemental",
+     "frequency": 1.0,
+     "commonPosition": 1
     },
     {
      "name": "Timewarped Trumpeter",
      "frequency": 0.5,
      "commonPosition": 4
+    },
+    {
+     "name": "Timewarped Swirler",
+     "frequency": 0.5,
+     "commonPosition": 6
     },
     {
      "name": "Tavern Tempest",
