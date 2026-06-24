@@ -21,7 +21,7 @@ from typing import Dict, List, Optional, Sequence
 from .bg import ActionType
 from .economy import advise, HeroContext
 from .position import positioning_advice
-from .sim import simulate
+from . import firestone_bridge
 
 
 @dataclass
@@ -49,9 +49,13 @@ def combat_odds(
     board = list(_get(snapshot, "board", []) or [])
     if not enemy_boards:
         return None
+    tier = _get(snapshot, "tavern_tier") or 1
+    hp = _get(snapshot, "hero_health") or 30
     wins = ties = losses = 0
     for j, enemy in enumerate(enemy_boards):
-        r = simulate(board, list(enemy), runs=runs, seed=seed + j)
+        # Uses the Firestone backend when installed, else the pure sim.
+        r = firestone_bridge.simulate(board, list(enemy), runs=runs, seed=seed + j,
+                                      my_tier=tier, my_hp=hp)
         wins += r.wins
         ties += r.ties
         losses += r.losses

@@ -1,0 +1,17 @@
+{
+  "name": "hsbg-coach-firestone-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Node sidecar wrapping @firestone-hs/simulate-bgs-battle for hsbg-coach",
+  "bin": {
+    "firestone-sim": "./firestone_sim.js"
+  },
+  "scripts": {
+    "sim": "node firestone_sim.js",
+    "check": "node -e \"const s=require('@firestone-hs/simulate-bgs-battle');console.log(Object.keys(s))\""
+  },
+  "dependencies": {
+    "@firestone-hs/simulate-bgs-battle": "^1.1.675",
+    "@firestone-hs/reference-data": "*"
+  }
+}

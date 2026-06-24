@@ -53,12 +53,13 @@ class Combatant:
     name: str = ""
     deathrattle: Optional[Summon] = None
     start_of_combat: Optional[StartOfCombat] = None
+    card_id: str = ""                 # needed by the Firestone bridge for effects
 
     def copy(self) -> "Combatant":
         return Combatant(
             self.attack, self.health, self.divine_shield, self.taunt,
             self.poisonous, self.reborn, self.windfury, self.cleave,
-            self.name, self.deathrattle, self.start_of_combat)
+            self.name, self.deathrattle, self.start_of_combat, self.card_id)
 
     @classmethod
     def from_minion(cls, m) -> "Combatant":
@@ -81,6 +82,7 @@ class Combatant:
             name=name,
             deathrattle=eff.deathrattle if eff else None,
             start_of_combat=eff.start_of_combat if eff else None,
+            card_id=getattr(m, "card_id", "") or "",
         )
 
 

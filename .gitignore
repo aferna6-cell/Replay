@@ -12,5 +12,9 @@ dist/
 .venv/
 venv/
 
+# Node (Firestone sim bridge)
+bridge/node_modules/
+bridge/package-lock.json
+
 # OS
 .DS_Store

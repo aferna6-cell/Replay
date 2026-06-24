@@ -156,7 +156,7 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 2 | `(state, action, outcome)` recorder | ✅ built, tested |
 | 3a | Monte Carlo combat sim (core + 4 keywords) | ✅ built, tested |
 | 3b | Effect engine: Windfury, Cleave, deathrattle summons, start-of-combat | ✅ engine built + tested; **card list partial** (`effects.py`) |
-| 3b+ | Complete card coverage (data-driven) or bridge to Firestone's sim | ⬜ |
+| 3b+ | Bridge to Firestone's open-source sim (full card coverage) | ✅ bridge built + tested; **needs local `npm install` to activate** (`bridge/`, `firestone_bridge.py`) |
 | 3c | Per-action labeling from log blocks | ⬜ needs real log |
 | 3d | Sim-based positioning optimizer | ✅ built, tested (`position.py`) |
 | 4 | Heuristic economy advisor (buy/level/roll/freeze/sell) | ✅ built, tested (`economy.py`) |
