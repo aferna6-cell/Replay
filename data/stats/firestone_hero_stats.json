@@ -1,366 +1,225 @@
 {
  "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
- "_fetched": "from-local",
- "_mmr": 100,
- "_period": "last-patch",
- "_heroDataPoints": 983252,
+ "_fetched": "2026-06-24",
+ "_mmr": 10,
+ "_period": "past-seven",
+ "_heroDataPoints": 52699,
  "heroes": [
   {
-   "cardId": "TB_BaconShop_HERO_18",
-   "name": "Patches the Pirate",
-   "averagePosition": 3.69,
-   "pickRate": 0.008,
+   "cardId": "TB_BaconShop_HERO_17",
+   "name": "Millificent Manastorm",
+   "averagePosition": 3.73,
+   "pickRate": 0.0109,
    "bestTribes": [
-    "Demon",
-    "Dragon",
-    "Beast"
+    "Elemental",
+    "Quilboar",
+    "Murloc"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_17",
-   "name": "Millificent Manastorm",
-   "averagePosition": 3.7,
-   "pickRate": 0.0091,
+   "cardId": "TB_BaconShop_HERO_55",
+   "name": "Fungalmancer Flurgl",
+   "averagePosition": 3.77,
+   "pickRate": 0.0049,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG22_HERO_200",
+   "name": "Ini Stormcoil",
+   "averagePosition": 3.83,
+   "pickRate": 0.0072,
+   "bestTribes": [
+    "Dragon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG34_HERO_004",
+   "name": "Morchie",
+   "averagePosition": 3.87,
+   "pickRate": 0.0271,
    "bestTribes": [
     "Elemental",
-    "Murloc",
-    "Quilboar"
+    "Naga",
+    "Mech"
    ],
    "playstyle": "economy"
   },
   {
    "cardId": "BG21_HERO_030",
    "name": "Sneed",
-   "averagePosition": 3.78,
-   "pickRate": 0.0059,
+   "averagePosition": 3.92,
+   "pickRate": 0.0073,
    "bestTribes": [
-    "Murloc",
-    "Elemental",
-    "Beast"
+    "Mech",
+    "Murloc"
    ],
    "playstyle": "tempo"
   },
   {
-   "cardId": "TB_BaconShop_HERO_55",
-   "name": "Fungalmancer Flurgl",
-   "averagePosition": 3.78,
-   "pickRate": 0.0054,
+   "cardId": "TB_BaconShop_HERO_702",
+   "name": "The Jailer",
+   "averagePosition": 3.95,
+   "pickRate": 0.0079,
    "bestTribes": [
-    "Dragon",
-    "Naga",
-    "Pirate"
+    "Beast"
    ],
    "playstyle": "economy"
   },
   {
    "cardId": "TB_BaconShop_HERO_34",
    "name": "Patchwerk",
-   "averagePosition": 3.81,
-   "pickRate": 0.0144,
-   "bestTribes": [
-    "Pirate",
-    "Demon",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG26_HERO_101",
-   "name": "Cap'n Hoggarr",
-   "averagePosition": 3.83,
-   "pickRate": 0.0077,
-   "bestTribes": [
-    "Beast",
-    "Dragon",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG22_HERO_200",
-   "name": "Ini Stormcoil",
-   "averagePosition": 3.87,
-   "pickRate": 0.0068,
-   "bestTribes": [
-    "Undead",
-    "Murloc",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_102",
-   "name": "Overlord Saurfang",
-   "averagePosition": 3.87,
-   "pickRate": 0.0064,
-   "bestTribes": [
-    "Demon",
-    "Dragon",
-    "Murloc"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG25_HERO_103",
-   "name": "Teron Gorefiend",
-   "averagePosition": 3.87,
-   "pickRate": 0.0126,
-   "bestTribes": [
-    "Mech",
-    "Undead",
-    "Dragon"
-   ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_22",
-   "name": "The Lich King",
-   "averagePosition": 3.88,
-   "pickRate": 0.0165,
-   "bestTribes": [
-    "Mech",
-    "Undead",
-    "Pirate"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG34_HERO_004",
-   "name": "Morchie",
-   "averagePosition": 3.88,
-   "pickRate": 0.0206,
-   "bestTribes": [
-    "Demon",
-    "Elemental",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_93",
-   "name": "N'Zoth",
-   "averagePosition": 3.89,
-   "pickRate": 0.0075,
-   "bestTribes": [
-    "Mech",
-    "Beast",
-    "Pirate"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG23_HERO_304",
-   "name": "Lady Vashj",
-   "averagePosition": 3.89,
-   "pickRate": 0.0049,
-   "bestTribes": [
-    "Demon",
-    "Beast",
-    "Dragon"
-   ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_35",
-   "name": "Yogg-Saron, Hope's End",
-   "averagePosition": 3.91,
-   "pickRate": 0.0114,
-   "bestTribes": [
-    "Elemental",
-    "Demon",
-    "Pirate"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG32_HERO_002",
-   "name": "Buttons",
-   "averagePosition": 3.92,
-   "pickRate": 0.016,
-   "bestTribes": [
-    "Elemental",
-    "Undead",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_14",
-   "name": "Queen Wagtoggle",
-   "averagePosition": 3.92,
-   "pickRate": 0.0061,
-   "bestTribes": [
-    "Dragon",
-    "Quilboar",
-    "Naga"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG22_HERO_003",
-   "name": "Vanndar Stormpike",
-   "averagePosition": 3.93,
-   "pickRate": 0.0114,
-   "bestTribes": [
-    "Quilboar",
-    "Naga",
-    "Mech"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_37",
-   "name": "Lord Jaraxxus",
-   "averagePosition": 3.93,
-   "pickRate": 0.0074,
-   "bestTribes": [
-    "Dragon",
-    "Quilboar",
-    "Undead"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_21",
-   "name": "The Great Akazamzarak",
-   "averagePosition": 3.93,
-   "pickRate": 0.01,
-   "bestTribes": [
-    "Mech",
-    "Beast",
-    "Elemental"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG26_HERO_102",
-   "name": "Inge, the Iron Hymn",
-   "averagePosition": 3.93,
-   "pickRate": 0.0055,
-   "bestTribes": [
-    "Mech",
-    "Dragon",
-    "Pirate"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_76",
-   "name": "Al'Akir",
-   "averagePosition": 3.94,
-   "pickRate": 0.0101,
-   "bestTribes": [
-    "Naga",
-    "Pirate",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_702",
-   "name": "The Jailer",
-   "averagePosition": 3.94,
-   "pickRate": 0.0057,
-   "bestTribes": [
-    "Demon",
-    "Murloc",
-    "Elemental"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_36",
-   "name": "Dancin' Deryl",
-   "averagePosition": 3.96,
-   "pickRate": 0.0087,
-   "bestTribes": [
-    "Naga",
-    "Pirate",
-    "Mech"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG27_HERO_801",
-   "name": "Thorim, Stormlord",
    "averagePosition": 3.97,
-   "pickRate": 0.0192,
+   "pickRate": 0.0155,
    "bestTribes": [
-    "Murloc",
-    "Mech",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_08",
-   "name": "Illidan Stormrage",
-   "averagePosition": 3.98,
-   "pickRate": 0.0052,
-   "bestTribes": [
-    "Undead",
-    "Pirate",
-    "Mech"
-   ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "BG34_HERO_000",
-   "name": "Murozond, Unbounded",
-   "averagePosition": 3.99,
-   "pickRate": 0.0194,
-   "bestTribes": [
-    "Mech",
+    "Quilboar",
     "Elemental",
-    "Quilboar"
+    "Beast"
    ],
    "playstyle": "economy"
   },
   {
    "cardId": "TB_BaconShop_HERO_43",
    "name": "Dinotamer Brann",
-   "averagePosition": 4,
-   "pickRate": 0.0188,
+   "averagePosition": 3.97,
+   "pickRate": 0.0237,
    "bestTribes": [
-    "Demon",
+    "Beast",
     "Elemental",
-    "Dragon"
+    "Naga"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_38",
-   "name": "King Mukla",
-   "averagePosition": 4.01,
-   "pickRate": 0.0043,
+   "cardId": "TB_BaconShop_HERO_33",
+   "name": "The Curator",
+   "averagePosition": 3.97,
+   "pickRate": 0.0094,
    "bestTribes": [
-    "Dragon",
-    "Murloc",
-    "Beast"
+    "Demon",
+    "Beast",
+    "Quilboar"
    ],
    "playstyle": "tempo"
   },
   {
-   "cardId": "BG24_HERO_204",
-   "name": "Enhance-o Mechano",
-   "averagePosition": 4.02,
-   "pickRate": 0.0082,
+   "cardId": "TB_BaconShop_HERO_22",
+   "name": "The Lich King",
+   "averagePosition": 3.97,
+   "pickRate": 0.0155,
    "bestTribes": [
     "Mech",
+    "Elemental",
+    "Murloc"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG22_HERO_007",
+   "name": "Queen Azshara",
+   "averagePosition": 3.98,
+   "pickRate": 0.0041,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG23_HERO_303",
+   "name": "Murloc Holmes",
+   "averagePosition": 3.98,
+   "pickRate": 0.013,
+   "bestTribes": [
+    "Quilboar",
+    "Pirate",
+    "Undead"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_10",
+   "name": "Trade Prince Gallywix",
+   "averagePosition": 4,
+   "pickRate": 0.0089,
+   "bestTribes": [
+    "Murloc",
     "Undead",
+    "Naga"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG32_HERO_002",
+   "name": "Buttons",
+   "averagePosition": 4,
+   "pickRate": 0.0142,
+   "bestTribes": [
+    "Demon",
+    "Naga",
     "Pirate"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG25_HERO_105",
+   "name": "E.T.C., Band Manager",
+   "averagePosition": 4.01,
+   "pickRate": 0.0175,
+   "bestTribes": [
+    "Dragon",
+    "Quilboar",
+    "Demon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_56",
+   "name": "Alexstrasza",
+   "averagePosition": 4.01,
+   "pickRate": 0.006,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_21",
+   "name": "The Great Akazamzarak",
+   "averagePosition": 4.02,
+   "pickRate": 0.0106,
+   "bestTribes": [
+    "Murloc",
+    "Demon",
+    "Mech"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_18",
+   "name": "Patches the Pirate",
+   "averagePosition": 4.02,
+   "pickRate": 0.0066,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG25_HERO_103",
+   "name": "Teron Gorefiend",
+   "averagePosition": 4.04,
+   "pickRate": 0.0141,
+   "bestTribes": [
+    "Undead",
+    "Mech",
+    "Elemental"
    ],
    "playstyle": "flexible"
   },
   {
-   "cardId": "BG22_HERO_000",
-   "name": "Tavish Stormpike",
-   "averagePosition": 4.02,
-   "pickRate": 0.0072,
+   "cardId": "TB_BaconShop_HERO_93",
+   "name": "N'Zoth",
+   "averagePosition": 4.04,
+   "pickRate": 0.0074,
    "bestTribes": [
-    "Dragon",
-    "Quilboar",
+    "Mech",
+    "Beast",
     "Undead"
    ],
    "playstyle": "tempo"
@@ -368,323 +227,450 @@
   {
    "cardId": "TB_BaconShop_HERO_75",
    "name": "Rakanishu",
-   "averagePosition": 4.02,
-   "pickRate": 0.0078,
-   "bestTribes": [
-    "Naga",
-    "Murloc",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG31_HERO_006",
-   "name": "Exarch Othaar",
-   "averagePosition": 4.02,
-   "pickRate": 0.0059,
-   "bestTribes": [
-    "Naga",
-    "Dragon",
-    "Mech"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_94",
-   "name": "Tickatus",
-   "averagePosition": 4.03,
-   "pickRate": 0.0109,
-   "bestTribes": [
-    "Demon",
-    "Quilboar",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_78",
-   "name": "Chenvaala",
-   "averagePosition": 4.03,
-   "pickRate": 0.0055,
-   "bestTribes": [
-    "Quilboar",
-    "Beast",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_52",
-   "name": "Deathwing",
-   "averagePosition": 4.03,
+   "averagePosition": 4.04,
    "pickRate": 0.0042,
-   "bestTribes": [
-    "Dragon",
-    "Quilboar",
-    "Demon"
-   ],
+   "bestTribes": [],
    "playstyle": "economy"
   },
   {
-   "cardId": "BG22_HERO_305",
-   "name": "Onyxia",
-   "averagePosition": 4.04,
-   "pickRate": 0.0055,
-   "bestTribes": [
-    "Undead",
-    "Mech",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG23_HERO_303",
-   "name": "Murloc Holmes",
-   "averagePosition": 4.04,
-   "pickRate": 0.0084,
-   "bestTribes": [
-    "Pirate",
-    "Undead",
-    "Beast"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG33_HERO_001",
-   "name": "Loh, the Living Legend",
-   "averagePosition": 4.04,
-   "pickRate": 0.0114,
-   "bestTribes": [
-    "Elemental",
-    "Undead",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_49",
-   "name": "Millhouse Manastorm",
+   "cardId": "BG31_HERO_005",
+   "name": "Zerek, Master Cloner",
    "averagePosition": 4.05,
-   "pickRate": 0.0043,
-   "bestTribes": [
-    "Elemental",
-    "Pirate",
-    "Demon"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG22_HERO_201",
-   "name": "Ambassador Faelin",
-   "averagePosition": 4.05,
-   "pickRate": 0.0147,
-   "bestTribes": [
-    "Naga",
-    "Mech",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG22_HERO_007",
-   "name": "Queen Azshara",
-   "averagePosition": 4.05,
-   "pickRate": 0.0048,
-   "bestTribes": [
-    "Murloc",
-    "Dragon",
-    "Mech"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_33",
-   "name": "The Curator",
-   "averagePosition": 4.05,
-   "pickRate": 0.0093,
-   "bestTribes": [
-    "Mech",
-    "Murloc",
-    "Demon"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_90",
-   "name": "Silas Darkmoon",
-   "averagePosition": 4.05,
-   "pickRate": 0.0105,
-   "bestTribes": [
-    "Pirate",
-    "Dragon",
-    "Elemental"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_16",
-   "name": "A. F. Kay",
-   "averagePosition": 4.06,
-   "pickRate": 0.0139,
-   "bestTribes": [
-    "Pirate",
-    "Naga",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_23",
-   "name": "Shudderwock",
-   "averagePosition": 4.07,
-   "pickRate": 0.0148,
-   "bestTribes": [
-    "Demon",
-    "Elemental",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG30_HERO_304",
-   "name": "Marin the Manager",
-   "averagePosition": 4.07,
-   "pickRate": 0.0636,
+   "pickRate": 0.015,
    "bestTribes": [
     "Beast",
-    "Elemental",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_301",
-   "name": "Mutanus the Devourer",
-   "averagePosition": 4.07,
-   "pickRate": 0.0055,
-   "bestTribes": [
-    "Elemental",
-    "Quilboar",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG22_HERO_002",
-   "name": "Drek'Thar",
-   "averagePosition": 4.07,
-   "pickRate": 0.01,
-   "bestTribes": [
-    "Mech",
-    "Quilboar",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG22_HERO_004",
-   "name": "Varden Dawngrasp",
-   "averagePosition": 4.07,
-   "pickRate": 0.0094,
-   "bestTribes": [
-    "Pirate",
-    "Dragon",
+    "Naga",
     "Elemental"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "BG20_HERO_201",
-   "name": "Vol'jin",
-   "averagePosition": 4.07,
-   "pickRate": 0.0044,
+   "cardId": "BG23_HERO_306",
+   "name": "Sylvanas Windrunner",
+   "averagePosition": 4.05,
+   "pickRate": 0.0208,
    "bestTribes": [
-    "Pirate",
+    "Elemental",
     "Murloc",
-    "Naga"
-   ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_60",
-   "name": "Kael'thas Sunstrider",
-   "averagePosition": 4.08,
-   "pickRate": 0.0066,
-   "bestTribes": [
-    "Pirate",
-    "Murloc",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG22_HERO_001",
-   "name": "Bru'kan",
-   "averagePosition": 4.08,
-   "pickRate": 0.0047,
-   "bestTribes": [
-    "Undead",
-    "Mech",
-    "Pirate"
+    "Dragon"
    ],
    "playstyle": "economy"
   },
   {
    "cardId": "TB_BaconShop_HERO_02",
    "name": "Galakrond",
-   "averagePosition": 4.09,
-   "pickRate": 0.0113,
+   "averagePosition": 4.05,
+   "pickRate": 0.012,
    "bestTribes": [
     "Mech",
-    "Naga",
-    "Quilboar"
+    "Quilboar",
+    "Naga"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_41",
-   "name": "Reno Jackson",
+   "cardId": "BG24_HERO_204",
+   "name": "Enhance-o Mechano",
+   "averagePosition": 4.06,
+   "pickRate": 0.0071,
+   "bestTribes": [
+    "Mech",
+    "Beast"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG20_HERO_280",
+   "name": "Kurtrus Ashfallen",
+   "averagePosition": 4.07,
+   "pickRate": 0.0052,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_27",
+   "name": "Sindragosa",
    "averagePosition": 4.09,
    "pickRate": 0.0143,
    "bestTribes": [
-    "Murloc",
-    "Demon",
+    "Undead",
+    "Quilboar",
     "Elemental"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG31_HERO_006",
+   "name": "Exarch Othaar",
+   "averagePosition": 4.1,
+   "pickRate": 0.0049,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_38",
+   "name": "King Mukla",
+   "averagePosition": 4.11,
+   "pickRate": 0.0045,
+   "bestTribes": [],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_60",
+   "name": "Kael'thas Sunstrider",
+   "averagePosition": 4.11,
+   "pickRate": 0.0059,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG34_HERO_002",
+   "name": "Mister Clocksworth",
+   "averagePosition": 4.11,
+   "pickRate": 0.0133,
+   "bestTribes": [
+    "Dragon",
+    "Beast",
+    "Mech"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG22_HERO_201",
+   "name": "Ambassador Faelin",
+   "averagePosition": 4.12,
+   "pickRate": 0.0156,
+   "bestTribes": [
+    "Beast",
+    "Pirate",
+    "Dragon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG26_HERO_101",
+   "name": "Cap'n Hoggarr",
+   "averagePosition": 4.12,
+   "pickRate": 0.0074,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG22_HERO_003",
+   "name": "Vanndar Stormpike",
+   "averagePosition": 4.13,
+   "pickRate": 0.0082,
+   "bestTribes": [
+    "Elemental",
+    "Undead",
+    "Naga"
    ],
    "playstyle": "economy"
   },
   {
    "cardId": "TB_BaconShop_HERO_40",
    "name": "Sir Finley Mrrgglton",
-   "averagePosition": 4.09,
-   "pickRate": 0.0152,
+   "averagePosition": 4.14,
+   "pickRate": 0.0179,
+   "bestTribes": [
+    "Demon",
+    "Elemental",
+    "Beast"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_16",
+   "name": "A. F. Kay",
+   "averagePosition": 4.15,
+   "pickRate": 0.0168,
+   "bestTribes": [
+    "Quilboar",
+    "Demon",
+    "Pirate"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG20_HERO_242",
+   "name": "Guff Runetotem",
+   "averagePosition": 4.15,
+   "pickRate": 0.0099,
+   "bestTribes": [
+    "Pirate",
+    "Murloc",
+    "Quilboar"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG20_HERO_102",
+   "name": "Overlord Saurfang",
+   "averagePosition": 4.15,
+   "pickRate": 0.0043,
+   "bestTribes": [],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG22_HERO_002",
+   "name": "Drek'Thar",
+   "averagePosition": 4.16,
+   "pickRate": 0.0044,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_14",
+   "name": "Queen Wagtoggle",
+   "averagePosition": 4.16,
+   "pickRate": 0.0068,
+   "bestTribes": [],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_45",
+   "name": "Arch-Villain Rafaam",
+   "averagePosition": 4.16,
+   "pickRate": 0.0096,
+   "bestTribes": [
+    "Dragon",
+    "Mech",
+    "Undead"
+   ],
+   "playstyle": "flexible"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_35",
+   "name": "Yogg-Saron, Hope's End",
+   "averagePosition": 4.16,
+   "pickRate": 0.012,
+   "bestTribes": [
+    "Dragon",
+    "Naga",
+    "Pirate"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_70",
+   "name": "Mr. Bigglesworth",
+   "averagePosition": 4.16,
+   "pickRate": 0.0053,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG22_HERO_000",
+   "name": "Tavish Stormpike",
+   "averagePosition": 4.16,
+   "pickRate": 0.0068,
+   "bestTribes": [
+    "Naga"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG20_HERO_202",
+   "name": "Master Nguyen",
+   "averagePosition": 4.17,
+   "pickRate": 0.025,
    "bestTribes": [
     "Murloc",
-    "Mech",
+    "Naga",
+    "Beast"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG35_HERO_001",
+   "name": "Genn, Worgen King",
+   "averagePosition": 4.17,
+   "pickRate": 0.0121,
+   "bestTribes": [
+    "Murloc",
+    "Beast",
+    "Naga"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_41",
+   "name": "Reno Jackson",
+   "averagePosition": 4.18,
+   "pickRate": 0.0161,
+   "bestTribes": [
+    "Demon",
+    "Quilboar",
     "Elemental"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_95",
-   "name": "Greybough",
-   "averagePosition": 4.09,
-   "pickRate": 0.0046,
+   "cardId": "BG20_HERO_301",
+   "name": "Mutanus the Devourer",
+   "averagePosition": 4.18,
+   "pickRate": 0.0039,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_72",
+   "name": "Lord Barov",
+   "averagePosition": 4.19,
+   "pickRate": 0.0114,
    "bestTribes": [
-    "Undead",
+    "Naga",
+    "Dragon",
+    "Undead"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_67",
+   "name": "Captain Hooktusk",
+   "averagePosition": 4.2,
+   "pickRate": 0.0088,
+   "bestTribes": [
+    "Demon",
+    "Murloc",
+    "Pirate"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_68",
+   "name": "Skycap'n Kragg",
+   "averagePosition": 4.21,
+   "pickRate": 0.0094,
+   "bestTribes": [
+    "Murloc",
     "Pirate",
-    "Demon"
+    "Undead"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_74",
+   "name": "Forest Warden Omu",
+   "averagePosition": 4.21,
+   "pickRate": 0.0113,
+   "bestTribes": [
+    "Pirate",
+    "Naga",
+    "Quilboar"
    ],
    "playstyle": "tempo"
   },
   {
-   "cardId": "BG20_HERO_103",
-   "name": "Death Speaker Blackthorn",
-   "averagePosition": 4.1,
-   "pickRate": 0.0028,
+   "cardId": "TB_BaconShop_HERO_37",
+   "name": "Lord Jaraxxus",
+   "averagePosition": 4.21,
+   "pickRate": 0.0065,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_94",
+   "name": "Tickatus",
+   "averagePosition": 4.21,
+   "pickRate": 0.0105,
    "bestTribes": [
+    "Dragon",
+    "Quilboar",
+    "Demon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG30_HERO_304",
+   "name": "Marin the Manager",
+   "averagePosition": 4.22,
+   "pickRate": 0.0667,
+   "bestTribes": [
+    "Dragon",
+    "Undead",
+    "Demon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG24_HERO_100",
+   "name": "Sire Denathrius",
+   "averagePosition": 4.22,
+   "pickRate": 0.0276,
+   "bestTribes": [
+    "Naga",
+    "Elemental",
+    "Dragon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG27_HERO_801",
+   "name": "Thorim, Stormlord",
+   "averagePosition": 4.22,
+   "pickRate": 0.0173,
+   "bestTribes": [
+    "Murloc",
     "Mech",
-    "Beast",
+    "Dragon"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG31_HERO_003",
+   "name": "Farseer Nobundo",
+   "averagePosition": 4.22,
+   "pickRate": 0.0062,
+   "bestTribes": [
+    "Elemental"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_08",
+   "name": "Illidan Stormrage",
+   "averagePosition": 4.22,
+   "pickRate": 0.0038,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG23_HERO_305",
+   "name": "Heistbaron Togwaggle",
+   "averagePosition": 4.24,
+   "pickRate": 0.0062,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_42",
+   "name": "Elise Starseeker",
+   "averagePosition": 4.24,
+   "pickRate": 0.005,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_28",
+   "name": "Infinite Toki",
+   "averagePosition": 4.25,
+   "pickRate": 0.0094,
+   "bestTribes": [
+    "Murloc",
+    "Naga",
+    "Elemental"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG26_HERO_104",
+   "name": "Rock Master Voone",
+   "averagePosition": 4.25,
+   "pickRate": 0.0112,
+   "bestTribes": [
+    "Elemental",
+    "Undead",
     "Murloc"
    ],
    "playstyle": "economy"
@@ -692,515 +678,117 @@
   {
    "cardId": "TB_BaconShop_HERO_92",
    "name": "Y'Shaarj",
-   "averagePosition": 4.1,
-   "pickRate": 0.006,
-   "bestTribes": [
-    "Murloc",
-    "Pirate",
-    "Beast"
-   ],
-   "playstyle": "economy"
+   "averagePosition": 4.26,
+   "pickRate": 0.0051,
+   "bestTribes": [],
+   "playstyle": "tempo"
   },
   {
-   "cardId": "BG34_HERO_002",
-   "name": "Mister Clocksworth",
-   "averagePosition": 4.1,
-   "pickRate": 0.014,
+   "cardId": "TB_BaconShop_HERO_23",
+   "name": "Shudderwock",
+   "averagePosition": 4.27,
+   "pickRate": 0.0137,
    "bestTribes": [
-    "Murloc",
-    "Beast",
+    "Demon",
+    "Quilboar",
     "Dragon"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "BG23_HERO_306",
-   "name": "Sylvanas Windrunner",
-   "averagePosition": 4.1,
-   "pickRate": 0.0149,
-   "bestTribes": [
-    "Elemental",
-    "Naga",
-    "Demon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_242",
-   "name": "Guff Runetotem",
-   "averagePosition": 4.1,
-   "pickRate": 0.0106,
-   "bestTribes": [
-    "Mech",
-    "Pirate",
-    "Demon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_68",
-   "name": "Skycap'n Kragg",
-   "averagePosition": 4.1,
-   "pickRate": 0.0075,
-   "bestTribes": [
-    "Demon",
-    "Pirate",
-    "Elemental"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_56",
-   "name": "Alexstrasza",
-   "averagePosition": 4.11,
-   "pickRate": 0.0058,
-   "bestTribes": [
-    "Quilboar",
-    "Naga",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_202",
-   "name": "Master Nguyen",
-   "averagePosition": 4.11,
-   "pickRate": 0.0168,
-   "bestTribes": [
-    "Pirate",
-    "Naga",
-    "Quilboar"
-   ],
+   "cardId": "BG25_HERO_100",
+   "name": "Professor Putricide",
+   "averagePosition": 4.27,
+   "pickRate": 0.004,
+   "bestTribes": [],
    "playstyle": "flexible"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_15",
-   "name": "George the Fallen",
-   "averagePosition": 4.11,
-   "pickRate": 0.0073,
-   "bestTribes": [
-    "Pirate",
-    "Elemental",
-    "Undead"
-   ],
-   "playstyle": "economy"
   },
   {
    "cardId": "BG28_HERO_801",
    "name": "Doctor Holli'dae",
-   "averagePosition": 4.11,
-   "pickRate": 0.0065,
-   "bestTribes": [
-    "Elemental",
-    "Naga",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG31_HERO_005",
-   "name": "Zerek, Master Cloner",
-   "averagePosition": 4.12,
-   "pickRate": 0.012,
-   "bestTribes": [
-    "Dragon",
-    "Mech",
-    "Demon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_70",
-   "name": "Mr. Bigglesworth",
-   "averagePosition": 4.12,
-   "pickRate": 0.0068,
-   "bestTribes": [
-    "Demon",
-    "Undead",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG31_HERO_802",
-   "name": "Artanis",
-   "averagePosition": 4.13,
-   "pickRate": 0.0041,
-   "bestTribes": [
-    "Murloc",
-    "Undead",
-    "Pirate"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_62",
-   "name": "Maiev Shadowsong",
-   "averagePosition": 4.13,
-   "pickRate": 0.0048,
-   "bestTribes": [
-    "Dragon",
-    "Undead",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_45",
-   "name": "Arch-Villain Rafaam",
-   "averagePosition": 4.13,
-   "pickRate": 0.0085,
-   "bestTribes": [
-    "Dragon",
-    "Pirate",
-    "Undead"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG31_HERO_003",
-   "name": "Farseer Nobundo",
-   "averagePosition": 4.13,
-   "pickRate": 0.0075,
-   "bestTribes": [
-    "Naga",
-    "Elemental",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG31_HERO_801",
-   "name": "Jim Raynor",
-   "averagePosition": 4.14,
+   "averagePosition": 4.28,
    "pickRate": 0.0045,
-   "bestTribes": [
-    "Beast",
-    "Undead",
-    "Dragon"
-   ],
-   "playstyle": "tempo"
+   "bestTribes": [],
+   "playstyle": "economy"
   },
   {
-   "cardId": "BG23_HERO_201",
-   "name": "Ozumat",
-   "averagePosition": 4.15,
-   "pickRate": 0.0038,
+   "cardId": "TB_BaconShop_HERO_90",
+   "name": "Silas Darkmoon",
+   "averagePosition": 4.28,
+   "pickRate": 0.0103,
    "bestTribes": [
-    "Undead",
-    "Pirate",
-    "Naga"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_58",
-   "name": "Malygos",
-   "averagePosition": 4.15,
-   "pickRate": 0.0071,
-   "bestTribes": [
+    "Murloc",
     "Naga",
-    "Murloc",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_27",
-   "name": "Sindragosa",
-   "averagePosition": 4.15,
-   "pickRate": 0.01,
-   "bestTribes": [
-    "Elemental",
-    "Murloc",
     "Dragon"
    ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_67",
-   "name": "Captain Hooktusk",
-   "averagePosition": 4.15,
-   "pickRate": 0.0066,
-   "bestTribes": [
-    "Murloc",
-    "Pirate",
-    "Naga"
-   ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "BG31_HERO_811",
-   "name": "Kerrigan, Queen of Blades",
-   "averagePosition": 4.15,
-   "pickRate": 0.004,
-   "bestTribes": [
-    "Dragon",
-    "Mech",
-    "Undead"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG28_HERO_800",
-   "name": "Tae'thelan Bloodwatcher",
-   "averagePosition": 4.16,
-   "pickRate": 0.0035,
-   "bestTribes": [
-    "Quilboar",
-    "Undead",
-    "Murloc"
-   ],
    "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_78",
+   "name": "Chenvaala",
+   "averagePosition": 4.28,
+   "pickRate": 0.0044,
+   "bestTribes": [],
+   "playstyle": "flexible"
   },
   {
    "cardId": "TB_BaconShop_HERO_57",
    "name": "Nozdormu",
-   "averagePosition": 4.16,
-   "pickRate": 0.0073,
-   "bestTribes": [
-    "Dragon",
-    "Naga",
-    "Undead"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG24_HERO_100",
-   "name": "Sire Denathrius",
-   "averagePosition": 4.16,
-   "pickRate": 0.0212,
-   "bestTribes": [
-    "Naga",
-    "Elemental",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_29",
-   "name": "C'Thun",
-   "averagePosition": 4.16,
-   "pickRate": 0.0036,
-   "bestTribes": [
-    "Naga",
-    "Pirate",
-    "Murloc"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_71",
-   "name": "Jandice Barov",
-   "averagePosition": 4.17,
-   "pickRate": 0.0035,
-   "bestTribes": [
-    "Murloc",
-    "Naga",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG21_HERO_020",
-   "name": "Cookie the Cook",
-   "averagePosition": 4.18,
-   "pickRate": 0.0071,
-   "bestTribes": [
-    "Pirate",
-    "Murloc",
-    "Undead"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_12",
-   "name": "The Rat King",
-   "averagePosition": 4.18,
-   "pickRate": 0.0054,
-   "bestTribes": [
-    "Mech",
-    "Dragon",
-    "Pirate"
-   ],
+   "averagePosition": 4.29,
+   "pickRate": 0.0065,
+   "bestTribes": [],
    "playstyle": "economy"
   },
   {
    "cardId": "BG32_HERO_001",
    "name": "Forest Lord Cenarius",
-   "averagePosition": 4.19,
-   "pickRate": 0.0151,
-   "bestTribes": [
-    "Elemental",
-    "Murloc",
-    "Demon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_64",
-   "name": "Captain Eudora",
-   "averagePosition": 4.2,
-   "pickRate": 0.0087,
-   "bestTribes": [
-    "Naga",
-    "Pirate",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_74",
-   "name": "Forest Warden Omu",
-   "averagePosition": 4.2,
-   "pickRate": 0.0095,
-   "bestTribes": [
-    "Pirate",
-    "Naga",
-    "Elemental"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_59",
-   "name": "Aranna Starseeker",
-   "averagePosition": 4.2,
-   "pickRate": 0.006,
+   "averagePosition": 4.31,
+   "pickRate": 0.0185,
    "bestTribes": [
     "Demon",
-    "Naga",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_100",
-   "name": "Rokara",
-   "averagePosition": 4.2,
-   "pickRate": 0.0042,
-   "bestTribes": [
-    "Undead",
-    "Dragon",
-    "Mech"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG26_HERO_104",
-   "name": "Rock Master Voone",
-   "averagePosition": 4.2,
-   "pickRate": 0.0092,
-   "bestTribes": [
-    "Naga",
     "Elemental",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG25_HERO_105",
-   "name": "E.T.C., Band Manager",
-   "averagePosition": 4.21,
-   "pickRate": 0.0108,
-   "bestTribes": [
-    "Pirate",
-    "Mech",
-    "Elemental"
+    "Mech"
    ],
    "playstyle": "economy"
   },
   {
    "cardId": "BG20_HERO_283",
    "name": "Galewing",
-   "averagePosition": 4.21,
-   "pickRate": 0.0063,
+   "averagePosition": 4.31,
+   "pickRate": 0.0079,
    "bestTribes": [
+    "Demon",
+    "Dragon",
+    "Mech"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_64",
+   "name": "Captain Eudora",
+   "averagePosition": 4.31,
+   "pickRate": 0.0127,
+   "bestTribes": [
+    "Dragon",
     "Naga",
-    "Pirate",
     "Elemental"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_91",
-   "name": "Zephrys, the Great",
-   "averagePosition": 4.22,
-   "pickRate": 0.0042,
-   "bestTribes": [
-    "Naga",
-    "Murloc",
-    "Dragon"
-   ],
+   "cardId": "BG34_HERO_001",
+   "name": "Time Twister Chromie",
+   "averagePosition": 4.31,
+   "pickRate": 0.0061,
+   "bestTribes": [],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_10",
-   "name": "Trade Prince Gallywix",
-   "averagePosition": 4.22,
-   "pickRate": 0.006,
+   "cardId": "TB_BaconShop_HERO_12",
+   "name": "The Rat King",
+   "averagePosition": 4.31,
+   "pickRate": 0.0062,
    "bestTribes": [
-    "Murloc",
-    "Pirate",
-    "Quilboar"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_72",
-   "name": "Lord Barov",
-   "averagePosition": 4.22,
-   "pickRate": 0.0079,
-   "bestTribes": [
-    "Naga",
-    "Pirate",
-    "Dragon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_42",
-   "name": "Elise Starseeker",
-   "averagePosition": 4.22,
-   "pickRate": 0.0051,
-   "bestTribes": [
-    "Demon",
-    "Dragon",
-    "Pirate"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG35_HERO_001",
-   "name": "Genn, Worgen King",
-   "averagePosition": 4.23,
-   "pickRate": 0.0113,
-   "bestTribes": [
-    "Demon",
-    "Murloc",
-    "Pirate"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG23_HERO_305",
-   "name": "Heistbaron Togwaggle",
-   "averagePosition": 4.23,
-   "pickRate": 0.0055,
-   "bestTribes": [
-    "Murloc",
-    "Demon",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_01",
-   "name": "Edwin VanCleef",
-   "averagePosition": 4.23,
-   "pickRate": 0.0036,
-   "bestTribes": [
-    "Dragon",
-    "Murloc",
     "Pirate"
    ],
    "playstyle": "tempo"
@@ -1208,132 +796,56 @@
   {
    "cardId": "BG20_HERO_101",
    "name": "Xyrella",
-   "averagePosition": 4.23,
-   "pickRate": 0.0067,
-   "bestTribes": [
-    "Naga",
-    "Undead",
-    "Beast"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_280",
-   "name": "Kurtrus Ashfallen",
-   "averagePosition": 4.24,
-   "pickRate": 0.0057,
-   "bestTribes": [
-    "Naga",
-    "Pirate",
-    "Elemental"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG21_HERO_000",
-   "name": "Cariel Roame",
-   "averagePosition": 4.25,
-   "pickRate": 0.0026,
-   "bestTribes": [
-    "Pirate",
-    "Demon",
-    "Murloc"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_53",
-   "name": "Ysera",
-   "averagePosition": 4.27,
-   "pickRate": 0.0039,
-   "bestTribes": [
-    "Quilboar",
-    "Undead",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_11",
-   "name": "Ragnaros the Firelord",
-   "averagePosition": 4.27,
-   "pickRate": 0.0037,
-   "bestTribes": [
-    "Pirate",
-    "Dragon",
-    "Demon"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_39",
-   "name": "Pyramad",
-   "averagePosition": 4.28,
-   "pickRate": 0.0032,
-   "bestTribes": [
-    "Pirate",
-    "Quilboar",
-    "Naga"
-   ],
-   "playstyle": "tempo"
-  },
-  {
-   "cardId": "BG28_HERO_400",
-   "name": "Snake Eyes",
-   "averagePosition": 4.28,
-   "pickRate": 0.0108,
-   "bestTribes": [
-    "Elemental",
-    "Naga",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG20_HERO_282",
-   "name": "Tamsin Roame",
-   "averagePosition": 4.28,
-   "pickRate": 0.0021,
-   "bestTribes": [
-    "Naga",
-    "Beast",
-    "Elemental"
-   ],
-   "playstyle": "flexible"
-  },
-  {
-   "cardId": "BG25_HERO_100",
-   "name": "Professor Putricide",
-   "averagePosition": 4.29,
-   "pickRate": 0.0026,
-   "bestTribes": [
-    "Demon",
-    "Quilboar",
-    "Murloc"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG21_HERO_010",
-   "name": "Scabbs Cutterbutter",
-   "averagePosition": 4.29,
-   "pickRate": 0.0075,
-   "bestTribes": [
-    "Dragon",
-    "Elemental",
-    "Undead"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "TB_BaconShop_HERO_28",
-   "name": "Infinite Toki",
    "averagePosition": 4.32,
-   "pickRate": 0.0093,
+   "pickRate": 0.0076,
    "bestTribes": [
-    "Naga",
+    "Undead",
     "Pirate",
     "Dragon"
+   ],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_36",
+   "name": "Dancin' Deryl",
+   "averagePosition": 4.33,
+   "pickRate": 0.0063,
+   "bestTribes": [],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG22_HERO_004",
+   "name": "Varden Dawngrasp",
+   "averagePosition": 4.34,
+   "pickRate": 0.0079,
+   "bestTribes": [
+    "Dragon",
+    "Beast",
+    "Quilboar"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG33_HERO_001",
+   "name": "Loh, the Living Legend",
+   "averagePosition": 4.34,
+   "pickRate": 0.0091,
+   "bestTribes": [
+    "Beast",
+    "Undead",
+    "Murloc"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "BG34_HERO_000",
+   "name": "Murozond, Unbounded",
+   "averagePosition": 4.34,
+   "pickRate": 0.0191,
+   "bestTribes": [
+    "Quilboar",
+    "Dragon",
+    "Undead"
    ],
    "playstyle": "economy"
   },
@@ -1341,37 +853,77 @@
    "cardId": "TB_BaconShop_HERO_50",
    "name": "Tess Greymane",
    "averagePosition": 4.34,
-   "pickRate": 0.0104,
+   "pickRate": 0.012,
    "bestTribes": [
-    "Quilboar",
-    "Beast",
-    "Naga"
-   ],
-   "playstyle": "economy"
-  },
-  {
-   "cardId": "BG34_HERO_001",
-   "name": "Time Twister Chromie",
-   "averagePosition": 4.36,
-   "pickRate": 0.0062,
-   "bestTribes": [
-    "Pirate",
     "Naga",
-    "Dragon"
+    "Demon",
+    "Murloc"
    ],
    "playstyle": "economy"
   },
   {
-   "cardId": "TB_BaconShop_HERO_25",
-   "name": "Lich Baz'hial",
+   "cardId": "BG21_HERO_020",
+   "name": "Cookie the Cook",
    "averagePosition": 4.36,
-   "pickRate": 0.0023,
+   "pickRate": 0.0056,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_58",
+   "name": "Malygos",
+   "averagePosition": 4.36,
+   "pickRate": 0.0045,
+   "bestTribes": [],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_76",
+   "name": "Al'Akir",
+   "averagePosition": 4.37,
+   "pickRate": 0.0064,
+   "bestTribes": [],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_62",
+   "name": "Maiev Shadowsong",
+   "averagePosition": 4.38,
+   "pickRate": 0.0057,
+   "bestTribes": [],
+   "playstyle": "tempo"
+  },
+  {
+   "cardId": "BG28_HERO_400",
+   "name": "Snake Eyes",
+   "averagePosition": 4.39,
+   "pickRate": 0.0108,
    "bestTribes": [
     "Dragon",
-    "Quilboar",
-    "Mech"
+    "Naga",
+    "Demon"
    ],
    "playstyle": "flexible"
+  },
+  {
+   "cardId": "BG21_HERO_010",
+   "name": "Scabbs Cutterbutter",
+   "averagePosition": 4.44,
+   "pickRate": 0.0085,
+   "bestTribes": [
+    "Quilboar",
+    "Naga",
+    "Undead"
+   ],
+   "playstyle": "economy"
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_59",
+   "name": "Aranna Starseeker",
+   "averagePosition": 4.62,
+   "pickRate": 0.0039,
+   "bestTribes": [],
+   "playstyle": "economy"
   }
  ]
 }

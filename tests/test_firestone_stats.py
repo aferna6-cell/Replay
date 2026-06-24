@@ -100,7 +100,7 @@ CARD_META = {
 RAW_TRINKETS = {
     "trinketStats": [
         {"trinketCardId": "BG_T1", "dataPoints": 5000, "pickRate": 0.3, "averagePlacement": 3.1},
-        {"trinketCardId": "BG_T2", "dataPoints": 50, "pickRate": 0.9, "averagePlacement": 2.0},  # filtered
+        {"trinketCardId": "BG_T2", "dataPoints": 10, "pickRate": 0.9, "averagePlacement": 2.0},  # filtered
     ],
 }
 

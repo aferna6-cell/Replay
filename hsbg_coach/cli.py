@@ -170,12 +170,29 @@ def build_parser() -> argparse.ArgumentParser:
 
     r = sub.add_parser("refresh-stats",
                        help="download the latest real stats from Firestone")
-    r.add_argument("--mmr", type=int, default=100,
-                   help="MMR percentile cutoff: 100(all) 50 25 10 1 (top 1%%)")
-    r.add_argument("--period", default="last-patch",
-                   help="last-patch | past-three | past-seven")
+    r.add_argument("--mmr", type=int, default=10,
+                   help="MMR percentile cutoff: 100(all) 50 25 10(default,top 10%%) 1")
+    r.add_argument("--period", default="past-seven",
+                   help="past-seven(default) | past-three | last-patch")
     r.set_defaults(func=cmd_refresh_stats)
+
+    sub.add_parser("refresh-cards",
+                   help="rebuild the BG card knowledge base from HearthstoneJSON"
+                   ).set_defaults(func=cmd_refresh_cards)
     return p
+
+
+def cmd_refresh_cards(_args) -> int:
+    from . import cards
+    print("Building BG card knowledge from HearthstoneJSON…")
+    try:
+        kb = cards.build_card_kb()
+        path = cards.save_kb(kb)
+    except Exception as exc:
+        print("Refresh failed:", exc)
+        return 1
+    print(f"Wrote {len(kb)} BG minions -> {path}")
+    return 0
 
 
 def cmd_refresh_stats(args) -> int:

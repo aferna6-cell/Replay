@@ -172,8 +172,10 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 4b | Recommendation facade (economy + positioning + odds) | ✅ built, tested (`recommend.py`) |
 | 4c | Hero/comp-aware advice plumbing (`HeroContext`) | ✅ built, tested |
 | 5 | Hero/comp stats loader → `HeroContext` (`stats.py`) | ✅ built + tested |
-| 5a | **Live Firestone fetch + real committed snapshot** (`firestone_stats.py`, `refresh-stats`) | ✅ real data, 114 heroes / 29 comps |
-| 5b | Card-stats + trinket-stats: comp core cards (tribe join) + trinket advice | ✅ real data, 613 cards / 208 trinkets |
+| 5a | **Live Firestone fetch + real committed snapshot** (`firestone_stats.py`, `refresh-stats`) | ✅ real data; default **top-10% MMR + past-week** |
+| 5b | Card-stats + trinket-stats: comp core cards (tribe join) + trinket advice | ✅ real data, MMR-aware |
+| 5c | Card knowledge: tier / tribe / keywords / text (`cards.py`, `refresh-cards`) | ✅ 1242 BG minions committed |
+| 5d | Synergy layer: tribe buffs, keyword payoffs, doublers, hero-power/trinket care (`synergy.py`) | ✅ text/keyword-derived; wired into `recommend(kb=…)` |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 

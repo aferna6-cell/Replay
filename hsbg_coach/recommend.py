@@ -71,10 +71,13 @@ def recommend(
     runs: int = 150,
     seed: int = 0,
     hero_ctx: Optional[HeroContext] = None,
+    kb=None,
 ) -> List[Recommendation]:
-    """Merged, ranked recommendations across economy + positioning.
+    """Merged, ranked recommendations across economy + positioning + synergy.
 
     hero_ctx (optional) makes the economy advice hero/comp-specific.
+    kb (optional CardKnowledge dict from cards.load_kb) enables synergy-aware
+    buy advice — ranking the shop against your board, comp, and keywords.
     """
     recs: List[Recommendation] = []
 
@@ -91,8 +94,42 @@ def recommend(
             recs.append(Recommendation(ActionType.POSITION.value, advice, pri,
                                        "positioning", {}))
 
+    if kb is not None:
+        recs.extend(_synergy_buys(snapshot, kb, hero_ctx))
+
     recs.sort(key=lambda r: r.priority, reverse=True)
     return recs
+
+
+def _synergy_buys(snapshot, kb, hero_ctx) -> List[Recommendation]:
+    """Synergy-aware buy advice: rank the shop against your board + comp."""
+    from .synergy import rank_shop, resolve
+    from .cards import by_name
+    shop_names = [_name(m) for m in (_get(snapshot, "shop", []) or [])]
+    board_names = [_name(m) for m in (_get(snapshot, "board", []) or [])]
+    if not shop_names:
+        return []
+    idx = by_name(kb)
+    shop = resolve(shop_names, kb, idx)
+    board = resolve(board_names, kb, idx)
+    if not shop:
+        return []
+    target = hero_ctx.target_tribe if hero_ctx else None
+    ranked = rank_shop(shop, board, target_tribe=target)
+    top, verdict = ranked[0]
+    if verdict.score <= 0:
+        return []
+    # Map synergy score (~0-5) into a buy priority band.
+    pri = min(0.9, 0.55 + verdict.score * 0.07)
+    reason = f"Buy {top.name} (synergy {verdict.score}): " + "; ".join(verdict.reasons[:2])
+    return [Recommendation(ActionType.BUY.value, reason, round(pri, 2),
+                           "synergy", {"name": top.name, "score": verdict.score})]
+
+
+def _name(m):
+    if isinstance(m, dict):
+        return m.get("name") or m.get("card_id") or ""
+    return getattr(m, "name", None) or getattr(m, "card_id", None) or ""
 
 
 def overlay_payload(

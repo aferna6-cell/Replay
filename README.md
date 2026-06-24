@@ -130,13 +130,26 @@ python -m hsbg_coach refresh-stats                 # latest, all-MMR, last patch
 python -m hsbg_coach refresh-stats --mmr 1 --period past-seven   # top 1%, 7 days
 ```
 
-It pulls **hero, comp, card, and trinket** stats: comp **core cards** come from
-joining card-stats to tribes, and **trinket** rankings come from the trinket
-endpoint. `stats --hero X` shows the target comp, its core minions, leveling
-bias, and the top trinkets.
+It pulls **hero, comp, card, and trinket** stats, defaulting to **top-10% MMR
+over the past week** (`refresh-stats --mmr 10 --period past-seven`). Comp **core
+cards** come from joining card-stats to tribes; **trinket** rankings come from
+the trinket endpoint.
 
 Source: Firestone's public CDN (`static.zerotoheroes.com/api/bgs`), hero/card
 names via HearthstoneJSON. See `decisions/2026-06-24-firestone-bridge.md`.
+
+### Card knowledge + synergy
+
+The model also *understands* each minion, not just its win rate:
+
+- `cards.py` (+ committed `data/cards/bg_cards.json`, refresh with
+  `python -m hsbg_coach refresh-cards`) — every BG minion's **tier**, **tribes**,
+  **keywords/effects**, and rules **text**.
+- `synergy.py` — derives synergy tags (tribe buffs, keyword payoffs, Battlecry/
+  Deathrattle doublers, hero-power/trinket tribe care) and ranks a shop against
+  *your* board. Pass `recommend(snap, kb=load_kb())` to get synergy-aware buys
+  on top of the population stats. (Heuristic from card text; learned synergy is
+  a later ML step.)
 
 ### Full-accuracy combat sim (optional)
 

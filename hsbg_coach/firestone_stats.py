@@ -55,20 +55,42 @@ _TRIBE_KEYWORDS = {
 }
 
 
+_UA = "Mozilla/5.0 (hsbg-coach stats fetcher)"
+
+
+def _decode(raw: bytes) -> dict:
+    if raw[:2] == b"\x1f\x8b":                   # gzip magic
+        raw = gzip.decompress(raw)
+    return json.loads(raw.decode("utf-8"))
+
+
+def _fetch_url(url: str) -> bytes:
+    """Fetch a URL, falling back to curl for large responses that trip urllib's
+    IncompleteRead through some proxies (the comp file is ~80MB)."""
+    try:
+        req = urllib.request.Request(
+            url, headers={"Accept-Encoding": "gzip", "User-Agent": _UA})
+        with urllib.request.urlopen(req, timeout=180) as resp:  # noqa: S310
+            return resp.read()
+    except Exception:
+        import shutil
+        import subprocess
+        if not shutil.which("curl"):
+            raise
+        proc = subprocess.run(
+            ["curl", "-fsSL", "--max-time", "300", "-A", _UA, url],
+            capture_output=True, timeout=320)
+        if proc.returncode != 0:
+            raise RuntimeError(f"curl failed for {url}: {proc.stderr[:200]!r}")
+        return proc.stdout
+
+
 def _fetch_json(source: str) -> dict:
     """Fetch JSON from a URL (handles gzip) or read a local file."""
     if source.startswith("http"):
-        req = urllib.request.Request(source, headers={"Accept-Encoding": "gzip"})
-        with urllib.request.urlopen(req, timeout=120) as resp:  # noqa: S310
-            raw = resp.read()
-        if raw[:2] == b"\x1f\x8b":               # gzip magic
-            raw = gzip.decompress(raw)
-        return json.loads(raw.decode("utf-8"))
+        return _decode(_fetch_url(source))
     with open(source, "rb") as fh:
-        raw = fh.read()
-    if raw[:2] == b"\x1f\x8b":
-        raw = gzip.decompress(raw)
-    return json.loads(raw.decode("utf-8"))
+        return _decode(fh.read())
 
 
 def _card_meta(cards_source: str = CARDS_URL) -> Dict[str, dict]:
@@ -106,7 +128,7 @@ def _playstyle(combat_winrate: List[dict]) -> str:
 
 
 def normalize_heroes(raw: dict, names: Dict[str, str],
-                     min_data: int = 500) -> List[dict]:
+                     min_data: int = 200) -> List[dict]:
     total = raw.get("dataPoints") or 1
     out = []
     for h in raw.get("heroStats", []):
@@ -131,6 +153,14 @@ def normalize_heroes(raw: dict, names: Dict[str, str],
     return out
 
 
+def _at_mmr(rows: list, mmr: int, field: str, default=None):
+    """Pull a per-MMR value (placement/pickRate) from an *AtMmr array."""
+    for r in rows or []:
+        if r.get("mmr") == mmr:
+            return r.get(field, default)
+    return default
+
+
 def _archetype_tribe(name: str) -> Optional[str]:
     low = name.lower()
     for kw, tribe in _TRIBE_KEYWORDS.items():
@@ -144,21 +174,29 @@ def _tier(avg: float) -> str:
             else "C" if avg < 4.6 else "D")
 
 
-def normalize_comps(raw: dict, min_data: int = 1000) -> List[dict]:
-    total = sum(c.get("dataPoints", 0) for c in raw.get("compStats", [])) or 1
+def normalize_comps(raw: dict, min_data: int = 300, mmr: int = 100) -> List[dict]:
     out = []
-    for c in raw.get("compStats", []):
-        if (c.get("dataPoints") or 0) < min_data:
+    rows = raw.get("compStats", [])
+    total = sum(_at_mmr(c.get("placementDistributionAtMmr"), mmr, "dataPoints", 0)
+                or (c.get("dataPoints", 0) if mmr == 100 else 0) for c in rows) or 1
+    for c in rows:
+        # Filter + score on the requested MMR bracket, not the all-MMR overall.
+        dp = (c.get("dataPoints", 0) if mmr == 100
+              else _at_mmr(c.get("averagePlacementAtMmr"), mmr, "dataPoints", 0))
+        if (dp or 0) < min_data:
+            continue
+        avg_raw = (c.get("averagePlacement") if mmr == 100
+                   else _at_mmr(c.get("averagePlacementAtMmr"), mmr, "placement"))
+        if avg_raw is None:
             continue
         arch = c.get("archetype", "")
-        pretty = arch.replace("_", " ").title()
-        avg = round(c.get("averagePlacement", 4.5), 3)
+        avg = round(avg_raw, 3)
         out.append({
-            "name": pretty,
+            "name": arch.replace("_", " ").title(),
             "tribe": _archetype_tribe(arch),
             "averagePosition": avg,
-            "popularity": round((c.get("dataPoints") or 0) / total, 4),
-            "coreCards": [],            # not in this endpoint; tribe drives advice
+            "popularity": round((dp or 0) / total, 4),
+            "coreCards": [],            # filled by inject_core_cards
             "powerTurns": [],
             "tier": _tier(avg),
         })
@@ -167,7 +205,7 @@ def normalize_comps(raw: dict, min_data: int = 1000) -> List[dict]:
 
 
 def normalize_cards(raw: dict, meta: Dict[str, dict],
-                    min_play: int = 2000) -> List[dict]:
+                    min_play: int = 500) -> List[dict]:
     """Per-minion stats. `impact` = placement-without minus placement-with
     (positive = you place better when you have it)."""
     out = []
@@ -193,18 +231,23 @@ def normalize_cards(raw: dict, meta: Dict[str, dict],
 
 
 def normalize_trinkets(raw: dict, meta: Dict[str, dict],
-                       min_data: int = 200) -> List[dict]:
+                       min_data: int = 50, mmr: int = 100) -> List[dict]:
     out = []
     for t in raw.get("trinketStats", []):
-        if (t.get("dataPoints") or 0) < min_data:
+        dp = (t.get("dataPoints", 0) if mmr == 100
+              else _at_mmr(t.get("averagePlacementAtMmr"), mmr, "dataPoints", 0))
+        if (dp or 0) < min_data:
             continue
+        avg = (t.get("averagePlacement") if mmr == 100
+               else _at_mmr(t.get("averagePlacementAtMmr"), mmr, "placement"))
+        pick = (t.get("pickRate") if mmr == 100
+                else _at_mmr(t.get("pickRateAtMmr"), mmr, "pickRate"))
         cid = t.get("trinketCardId", "")
-        avg = t.get("averagePlacement")
         out.append({
             "cardId": cid,
             "name": meta.get(cid, {}).get("name", cid),
             "averagePosition": round(avg, 3) if avg is not None else None,
-            "pickRate": round(t.get("pickRate") or 0, 4),
+            "pickRate": round(pick or 0, 4),
             "tier": _tier(avg) if avg is not None else "?",
         })
     out.sort(key=lambda x: x["averagePosition"] if x["averagePosition"] is not None else 9)
@@ -223,7 +266,7 @@ def inject_core_cards(comps: List[dict], cards: List[dict], per_comp: int = 4) -
             comp["coreCards"] = [c["name"] for c in by_tribe[tribe][:per_comp]]
 
 
-def refresh(out_dir: str, mmr: int = 100, period: str = "last-patch",
+def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
             hero_source: Optional[str] = None, comp_source: Optional[str] = None,
             card_source: Optional[str] = None, trinket_source: Optional[str] = None,
             cards_source: str = CARDS_URL) -> Dict[str, str]:
@@ -247,9 +290,9 @@ def refresh(out_dir: str, mmr: int = 100, period: str = "last-patch",
     names = _names_from_meta(card_meta)
 
     heroes = normalize_heroes(hero_raw, names)
-    comps = normalize_comps(comp_raw)
+    comps = normalize_comps(comp_raw, mmr=mmr)
     cards = normalize_cards(card_raw, card_meta)
-    trinkets = normalize_trinkets(trinket_raw, card_meta)
+    trinkets = normalize_trinkets(trinket_raw, card_meta, mmr=mmr)
     inject_core_cards(comps, cards)             # fill comp coreCards from card stats
 
     meta = {
