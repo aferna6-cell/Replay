@@ -187,6 +187,22 @@ python -m ml.train_card2vec --epochs 5     # train (needs torch); commits card2v
 python -m hsbg_coach similar --card "Brann Bronzebeard"   # query (stdlib only)
 ```
 
+**The board-evaluation net** is the brain that scores a whole board → expected
+finish (1st–8th). It learns card+board+hero relationships from the meta, and
+keeps learning from *your* games:
+
+```bash
+# train on the meta (20k labeled final boards)
+python -m ml.train_eval_net --epochs 40        # val MAE ~0.26 placements, r ~0.66 on unseen comps
+# fold in your own recorded games as you play (continual learning)
+python -m ml.train_eval_net --trajectories data/
+```
+
+Every game you `watch` is recorded with its final placement, so retraining with
+`--trajectories data/` sharpens the model on the live meta *and your playstyle*.
+The move-recommender will query this net: to compare buy/sell/roll/reposition, it
+scores the resulting boards and prefers the lower expected finish.
+
 Design for the full self-play RL agent: `specs/self-play-rl-agent.md`.
 
 ## Roadmap
