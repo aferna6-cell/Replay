@@ -226,6 +226,28 @@ Best move: Buy Monstrous Macaw — learned synergy with board (0.32)
 It's one-ply (ranks each immediate action, not full multi-buy turn plans), and
 roll/level/freeze are heuristic — see the caveats it prints.
 
+## Draft picks (hero / trinket / Discover)
+
+Beyond board actions, it ranks "choose 1 of N" decisions. Hero and trinket use
+the meta's average placement; Discover uses board-fit (the eval net + card2vec
+synergy against your current board):
+
+```bash
+python -m hsbg_coach pick hero "Rafaam" "Pyramad" "Galakrond"
+python -m hsbg_coach pick trinket "Lubricated Naga" "Eternal Knight"
+python -m hsbg_coach pick discover "Monstrous Macaw" "Holo Rover" --board "Holo Rover,Scrap Scraper" --tribe Mech
+```
+
+```
+Pick (discover) — best first:
+  1. Monstrous Macaw — +5% equity — learned synergy with board (0.31)  ◀ PICK
+  2. Holo Rover      — -0% equity — on-tribe with board (Mech)
+```
+
+Auto-detecting these offers from the live log (so they pop in the overlay) is the
+next live step — pending real-game log calibration. For now, type the offered
+names into `pick`.
+
 ## Take it into a game (live overlay)
 
 On your gaming PC (Windows/Mac), with Hearthstone installed:

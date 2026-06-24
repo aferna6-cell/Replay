@@ -222,7 +222,36 @@ def build_parser() -> argparse.ArgumentParser:
     adv.add_argument("--snapshot", help="path to a snapshot JSON (else a demo board)")
     adv.add_argument("--tribe", help="comp you're building toward, e.g. Murloc")
     adv.set_defaults(func=cmd_advise)
+
+    pk = sub.add_parser("pick", help="rank an offered choice: hero / trinket / discover")
+    pk.add_argument("kind", choices=["hero", "trinket", "discover"])
+    pk.add_argument("options", nargs="+", help="the offered names")
+    pk.add_argument("--board", help="discover only: comma-separated current board names")
+    pk.add_argument("--tribe", help="comp you're building toward (discover synergy)")
+    pk.set_defaults(func=cmd_pick)
     return p
+
+
+def cmd_pick(args) -> int:
+    from .draft import recommend_choice
+    from .economy import HeroContext
+    kwargs = {}
+    if args.kind == "discover":
+        from . import cards
+        kwargs["kb"] = cards.load_kb()
+        board_names = [n.strip() for n in (args.board or "").split(",") if n.strip()]
+        kwargs["board"] = [{"name": n} for n in board_names]
+        if args.tribe:
+            kwargs["hero_ctx"] = HeroContext(target_tribe=args.tribe)
+    choices = recommend_choice(args.kind, args.options, **kwargs)
+    if not choices:
+        print("No options given.")
+        return 1
+    print(f"Pick ({args.kind}) — best first:")
+    for i, c in enumerate(choices, 1):
+        mark = "  ◀ PICK" if i == 1 else ""
+        print(f"  {i}. {c.name} — {c.reason}{mark}")
+    return 0
 
 
 def cmd_advise(args) -> int:
