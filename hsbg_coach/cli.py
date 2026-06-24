@@ -188,7 +188,67 @@ def build_parser() -> argparse.ArgumentParser:
     sim.add_argument("--card", required=True, help="card name, e.g. 'Brann Bronzebeard'")
     sim.add_argument("-k", type=int, default=8)
     sim.set_defaults(func=cmd_similar)
+
+    adv = sub.add_parser("advise",
+                         help="rank every possible action for a snapshot (deep brain if trained)")
+    adv.add_argument("--snapshot", help="path to a snapshot JSON (else a demo board)")
+    adv.add_argument("--tribe", help="comp you're building toward, e.g. Murloc")
+    adv.set_defaults(func=cmd_advise)
     return p
+
+
+def cmd_advise(args) -> int:
+    import json
+    from . import cards
+    from .advisor import advise_actions
+    from .economy import HeroContext
+    kb = cards.load_kb()
+    if args.snapshot:
+        with open(args.snapshot, encoding="utf-8") as fh:
+            snap = json.load(fh)
+    else:
+        snap = _demo_snapshot(kb)
+        print("(no --snapshot given — using a demo board built from real card data)\n")
+    hero_ctx = HeroContext(target_tribe=args.tribe) if args.tribe else None
+    pace = None
+    try:
+        from .pace import load_pace
+        pace = load_pace()
+    except Exception:
+        pass
+    enemies = snap.get("enemy_boards") or None
+    plan = advise_actions(snap, kb=kb, hero_ctx=hero_ctx, pace=pace,
+                          enemy_boards=enemies)
+    print(plan.summary())
+    return 0
+
+
+def _demo_snapshot(kb):
+    """A plausible recruit-phase board built from real card2vec vocab so the
+    synergy + eval scorers light up."""
+    from collections import defaultdict
+    from .synergy import load_embeddings
+    from .cards import by_name
+    emb = load_embeddings()
+    idx = by_name(kb)
+    by_tribe = defaultdict(list)
+    for n in emb:
+        ck = idx.get(n)
+        if ck and ck.tribes:
+            by_tribe[ck.tribes[0]].append(n)
+    if not by_tribe:
+        return {"turn": 6, "tavern_tier": 3, "gold": 7, "hero_health": 25,
+                "board": [], "shop": [], "hand": []}
+    tribe = max(by_tribe, key=lambda t: len(by_tribe[t]))
+    pool = by_tribe[tribe]
+    board = [{"name": pool[i], "attack": 3 + i, "health": 3 + i, "position": i + 1}
+             for i in range(min(4, len(pool)))]
+    buy = pool[4] if len(pool) > 4 else pool[0]
+    off = next((ns[0] for t, ns in by_tribe.items() if t != tribe and ns), buy)
+    shop = [{"name": buy, "attack": 4, "health": 4},
+            {"name": off, "attack": 3, "health": 2}]
+    return {"turn": 6, "tavern_tier": 3, "gold": 7, "hero_health": 25,
+            "board": board, "shop": shop, "hand": [], "_tribe": tribe}
 
 
 def cmd_similar(args) -> int:

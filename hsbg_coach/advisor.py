@@ -1,0 +1,241 @@
+"""The move recommender: rank every legal action by how much it helps.
+
+For each action from `actions.legal_actions`, estimate the value of the resulting
+state and rank them:
+
+  * **buy / sell** — the resulting board is scored by `board_value` (the deep
+    eval net if trained, else the heuristic). This is real one-ply lookahead:
+    "does adding this minion raise my expected finish?" A buy onto a full board
+    is modelled as sell-the-weakest-then-buy. Reasons come from the synergy tags.
+  * **tier up / roll / freeze** — economy actions don't change the board now, so
+    they're scored by heuristics (pace-vs-curve, surplus gold, unaffordable shop
+    gems). Honest: these are heuristic, not lookahead — we don't simulate future
+    shops.
+  * **reposition** — scored by the combat sim against a known opponent.
+
+Output is one ranked list (every action, best first) plus a single `best` move.
+One-ply: it ranks each immediate action, not full multi-buy turn sequences.
+"""
+
+from dataclasses import dataclass, field
+from typing import List, Optional
+
+from .actions import (
+    legal_actions, Action, BUY, SELL, ROLL, LEVEL, REPOSITION, FREEZE, END,
+    MAX_BOARD, BUY_COST, ROLL_COST,
+)
+from .board_value import get_scorer, _val, _name
+from .cards import by_name
+from .economy import HeroContext, EconomyConfig
+from .synergy import score_card, load_embeddings
+
+_PRIO_SCALE = 7.0          # equity delta -> priority slope
+_BUY_MEANINGFUL = 0.01     # equity gain that counts as a real improvement
+
+
+def _get(snap, key, default=None):
+    return snap.get(key, default) if isinstance(snap, dict) else getattr(snap, key, default)
+
+
+def _clamp(x, lo=0.0, hi=0.97):
+    return max(lo, min(hi, x))
+
+
+@dataclass
+class ScoredAction:
+    action: Action
+    priority: float
+    reason: str
+    equity: Optional[float] = None
+    delta: Optional[float] = None
+
+    def line(self) -> str:
+        d = f"  ({self.delta:+.0%} equity)" if self.delta is not None else ""
+        return f"  {self.priority:4.2f}  {self.action.describe()}{d} — {self.reason}"
+
+
+@dataclass
+class ActionPlan:
+    scorer: str
+    current_equity: float
+    ranked: List[ScoredAction]
+    best: ScoredAction
+    caveats: List[str] = field(default_factory=list)
+
+    def of_kind(self, kind: str) -> List[ScoredAction]:
+        return [a for a in self.ranked if a.action.kind == kind]
+
+    def summary(self) -> str:
+        lines = [f"Best move: {self.best.action.describe()} — {self.best.reason}",
+                 f"(board equity {self.current_equity:.0%}, scorer: {self.scorer})",
+                 "", "All actions, ranked:"]
+        lines += [a.line() for a in self.ranked]
+        if self.caveats:
+            lines += ["", "Caveats:"] + [f"  - {c}" for c in self.caveats]
+        return "\n".join(lines)
+
+
+def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
+                   scorer=None, enemy_boards=None, pace=None,
+                   config: Optional[EconomyConfig] = None) -> ActionPlan:
+    cfg = config or EconomyConfig()
+    scorer = scorer or get_scorer()
+    board = list(_get(snapshot, "board", []) or [])
+    gold = _get(snapshot, "gold") or 0
+    tier = _get(snapshot, "tavern_tier") or 1
+    health = _get(snapshot, "hero_health")
+    hero_id = (hero_ctx.hero if hero_ctx and hero_ctx.hero else "UNKNOWN")
+    target_tribe = hero_ctx.target_tribe if hero_ctx else None
+
+    emb = load_embeddings()
+    idx = by_name(kb) if kb is not None else {}
+    board_cks = [idx.get(_name(m)) for m in board if idx.get(_name(m))]
+    base = scorer.equity(board, hero_id)
+
+    scored: List[ScoredAction] = []
+    buys: List[ScoredAction] = []
+    for act in legal_actions(snapshot, kb):
+        if act.kind == BUY:
+            sa = _score_buy(act, board, base, scorer, hero_id, idx, board_cks,
+                            target_tribe, emb)
+            buys.append(sa)
+            scored.append(sa)
+        elif act.kind == SELL:
+            scored.append(_score_sell(act, board, base, scorer, hero_id))
+
+    best_buy_delta = max((b.delta for b in buys), default=0.0)
+
+    # Economy + positioning depend on the buy landscape, so score them after.
+    for act in legal_actions(snapshot, kb):
+        if act.kind == LEVEL:
+            scored.append(_score_level(act, snapshot, pace, health, cfg,
+                                       hero_ctx, best_buy_delta))
+        elif act.kind == ROLL:
+            scored.append(_score_roll(act, gold, best_buy_delta, target_tribe))
+        elif act.kind == FREEZE:
+            scored.append(_score_freeze(act, snapshot, gold, idx, board_cks,
+                                        target_tribe, emb))
+        elif act.kind == REPOSITION:
+            scored.append(_score_reposition(act, board, enemy_boards))
+        elif act.kind == END:
+            scored.append(ScoredAction(act, 0.15, "pass the turn"))
+
+    scored.sort(key=lambda a: a.priority, reverse=True)
+    caveats = [
+        "Buy/sell use board lookahead; roll/level/freeze are heuristic "
+        "(future shops aren't simulated).",
+    ]
+    if enemy_boards is None:
+        caveats.append("No opponent board given — reposition advice is generic.")
+    if scorer.name == "heuristic":
+        caveats.append("Deep eval net not loaded — using the stdlib heuristic "
+                       "scorer (train ml/eval_net.pt for sharper buys).")
+    return ActionPlan(scorer.name, base, scored, scored[0], caveats)
+
+
+# --- per-action scorers ------------------------------------------------------
+def _score_buy(act, board, base, scorer, hero_id, idx, board_cks, target_tribe, emb):
+    minion = act.detail.get("minion")
+    sold = None
+    if len(board) >= MAX_BOARD:
+        weakest = min(board, key=_val)
+        cand = [m for m in board if m is not weakest] + [minion]
+        sold = _name(weakest)
+    else:
+        cand = board + [minion]
+    eq = scorer.equity(cand, hero_id)
+    delta = eq - base
+
+    bits = []
+    ck = idx.get(act.target)
+    if ck is not None:
+        verdict = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb)
+        bits = verdict.reasons[:2]
+    reason = "; ".join(bits) if bits else "adds board strength"
+    if sold:
+        reason = f"sell {sold} for room; " + reason
+    prio = _clamp(0.5 + delta * _PRIO_SCALE)
+    return ScoredAction(act, prio, reason, equity=eq, delta=delta)
+
+
+def _score_sell(act, board, base, scorer, hero_id):
+    minion = act.detail.get("minion")
+    cand = [m for m in board if m is not minion]
+    eq = scorer.equity(cand, hero_id)
+    delta = eq - base
+    if delta > 0:
+        reason = "removing it actually improves the board (dead weight)"
+    else:
+        reason = "frees a slot / 1 gold, but weakens the board"
+    prio = _clamp(0.3 + delta * _PRIO_SCALE)
+    return ScoredAction(act, prio, reason, equity=eq, delta=delta)
+
+
+def _score_level(act, snapshot, pace, health, cfg, hero_ctx, best_buy_delta):
+    prio = 0.45
+    reason = f"tier up to {act.detail.get('to_tier')} for a stronger pool"
+    if pace:
+        from .pace import pace_advice
+        v = pace_advice(snapshot, pace)
+        if v.behind_leveling:
+            gap = (v.bench_tier or 0) - (v.your_tier or 0)
+            prio = 0.6 + gap * 0.15
+            reason = v.notes[0] if v.notes else reason
+        elif v.your_tier and v.bench_tier and v.your_tier >= v.bench_tier:
+            prio = 0.4
+            reason = "on/ahead of the tier curve — leveling is optional"
+    if health is not None and health < cfg.low_health:
+        prio -= 0.2
+        reason += " (low HP — staying alive may matter more)"
+    elif health is None or health >= cfg.safe_health:
+        prio += 0.08
+    if hero_ctx:
+        prio += hero_ctx.level_aggression
+    prio -= min(0.2, max(best_buy_delta, 0) * 3)      # a strong buy outranks leveling
+    return ScoredAction(act, _clamp(prio), reason)
+
+
+def _score_roll(act, gold, best_buy_delta, target_tribe):
+    prio = 0.5 - best_buy_delta * _PRIO_SCALE          # good buys make rolling worse
+    if gold < BUY_COST + ROLL_COST:
+        prio -= 0.25                                   # rolling would starve the buy
+    tribe = f" for {target_tribe} pieces" if target_tribe else ""
+    if best_buy_delta < _BUY_MEANINGFUL:
+        reason = f"shop has no strong buy — roll{tribe}"
+    else:
+        reason = "a buy beats rolling this turn"
+    return ScoredAction(act, _clamp(prio, hi=0.8), reason)
+
+
+def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
+    shop = list(_get(snapshot, "shop", []) or [])
+    best_name, best_score = None, 0.0
+    for m in shop:
+        ck = idx.get(_name(m))
+        if ck is None:
+            continue
+        v = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb)
+        if v.score > best_score:
+            best_name, best_score = ck.name, v.score
+    if best_name and gold < BUY_COST and best_score > 0:
+        return ScoredAction(act, 0.6,
+                            f"freeze — {best_name} is worth keeping but you can't afford it yet")
+    return ScoredAction(act, 0.15, "freeze only if the shop has gems you'll want next turn")
+
+
+def _score_reposition(act, board, enemy_boards):
+    if not enemy_boards or len(board) < 2:
+        return ScoredAction(act, 0.2,
+                            "order matters for attack sequence / taunts (no opponent to simulate)")
+    from .position import optimize_vs_field
+    ranked = optimize_vs_field(board, enemy_boards, top=len(board))
+    if not ranked:
+        return ScoredAction(act, 0.2, "couldn't simulate positioning")
+    best = ranked[0]
+    current = next((r for r in ranked if r.is_current), None)
+    gain = best.win_pct - (current.win_pct if current else best.win_pct)
+    if best.is_current or gain < 0.03:
+        return ScoredAction(act, 0.2, f"current order is ~best ({best.win_pct:.0%} win)")
+    order = " ".join(str(i + 1) for i in best.ordering)
+    return ScoredAction(act, _clamp(0.4 + gain * 2),
+                        f"reorder to [{order}] for +{gain:.0%} win ({best.win_pct:.0%})")

@@ -203,6 +203,29 @@ Every game you `watch` is recorded with its final placement, so retraining with
 The move-recommender will query this net: to compare buy/sell/roll/reposition, it
 scores the resulting boards and prefers the lower expected finish.
 
+**The move recommender** (`hsbg advise`) is the payoff: it enumerates *every*
+legal action — buy each shop minion, sell each board minion, roll, tier up,
+reposition, freeze, end — and ranks them by how much each improves your expected
+finish. Buy/sell are scored by one-ply lookahead through the eval net (heuristic
+fallback if it isn't trained); roll/level/freeze by pace/gold heuristics;
+reposition by the combat sim.
+
+```bash
+python -m hsbg_coach advise                 # demo board built from real card data
+python -m hsbg_coach advise --snapshot game.json --tribe Murloc
+```
+
+```
+Best move: Buy Monstrous Macaw — learned synergy with board (0.32)
+  0.85  Buy Monstrous Macaw   (+5% equity) — learned synergy with board
+  0.72  Sell Deflect-o-Bot    (+6% equity) — removing it improves the board
+  0.55  Buy Holo Rover        (+1% equity) — on-tribe with board (Mech)
+  ...
+```
+
+It's one-ply (ranks each immediate action, not full multi-buy turn plans), and
+roll/level/freeze are heuristic — see the caveats it prints.
+
 Design for the full self-play RL agent: `specs/self-play-rl-agent.md`.
 
 ## Roadmap
