@@ -193,6 +193,7 @@ def normalize_comps(raw: dict, min_data: int = 300, mmr: int = 100) -> List[dict
         avg = round(avg_raw, 3)
         out.append({
             "name": arch.replace("_", " ").title(),
+            "archetype": arch,
             "tribe": _archetype_tribe(arch),
             "averagePosition": avg,
             "popularity": round((dp or 0) / total, 4),
@@ -261,6 +262,8 @@ def inject_core_cards(comps: List[dict], cards: List[dict], per_comp: int = 4) -
         for tr in c.get("tribes", []):
             by_tribe.setdefault(tr, []).append(c)
     for comp in comps:
+        if comp.get("coreCards"):                # keep real winning-board cards
+            continue
         tribe = comp.get("tribe")
         if tribe and by_tribe.get(tribe):
             comp["coreCards"] = [c["name"] for c in by_tribe[tribe][:per_comp]]
@@ -293,7 +296,18 @@ def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
     comps = normalize_comps(comp_raw, mmr=mmr)
     cards = normalize_cards(card_raw, card_meta)
     trinkets = normalize_trinkets(trinket_raw, card_meta, mmr=mmr)
-    inject_core_cards(comps, cards)             # fill comp coreCards from card stats
+
+    # Real winning boards: per-comp core cards by frequency + example boards.
+    from . import final_boards
+    min_mmr = next((p["mmr"] for p in hero_raw.get("mmrPercentiles", [])
+                    if p.get("percentile") == mmr), 0)
+    boards = final_boards.extract(comp_raw, names, min_mmr=min_mmr)
+    real_core = final_boards.core_cards_by_archetype(boards)
+    for comp in comps:                          # prefer real board frequency...
+        rc = real_core.get(comp.get("archetype"))
+        if rc:
+            comp["coreCards"] = rc
+    inject_core_cards(comps, cards)             # ...fallback to tribe-strength
 
     meta = {
         "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
@@ -308,10 +322,13 @@ def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
         ("firestone_comp_stats.json", "comps", comps),
         ("firestone_card_stats.json", "cards", cards),
         ("firestone_trinket_stats.json", "trinkets", trinkets),
+        ("firestone_final_boards.json", "boards", boards),
     ):
         path = os.path.join(out_dir, name)
         with open(path, "w", encoding="utf-8") as fh:
             json.dump({**meta, key: rows}, fh, indent=1)
         paths[key] = path
     return {**paths, "num_heroes": len(heroes), "num_comps": len(comps),
-            "num_cards": len(cards), "num_trinkets": len(trinkets)}
+            "num_cards": len(cards), "num_trinkets": len(trinkets),
+            "num_board_sets": len(boards),
+            "total_boards": sum(b["boardCount"] for b in boards)}

@@ -36,6 +36,7 @@ SAMPLE_COMPS = os.path.join(_STATS_DIR, "sample_comp_stats.json")
 FIRESTONE_HEROES = os.path.join(_STATS_DIR, "firestone_hero_stats.json")
 FIRESTONE_COMPS = os.path.join(_STATS_DIR, "firestone_comp_stats.json")
 FIRESTONE_TRINKETS = os.path.join(_STATS_DIR, "firestone_trinket_stats.json")
+FIRESTONE_BOARDS = os.path.join(_STATS_DIR, "firestone_final_boards.json")
 
 
 def default_hero_source() -> str:
@@ -213,3 +214,20 @@ def build_hero_context(hero: str, db: StatsDB,
         recommended_minions=list(comp.core_cards) if comp else [],
         level_aggression=aggression,
     )
+
+
+def load_final_boards(source: Optional[str] = None) -> List[dict]:
+    """Real winning-board sets per comp (core-card frequencies + example boards).
+    The richest population signal — 'what the winning board looks like.'"""
+    src = source or (FIRESTONE_BOARDS if os.path.isfile(FIRESTONE_BOARDS) else None)
+    if not src:
+        return []
+    return _read_json(src).get("boards", [])
+
+
+def example_boards(archetype: str, source: Optional[str] = None) -> List[dict]:
+    """Example winning boards (minions + positions + keywords) for a comp."""
+    for b in load_final_boards(source):
+        if b.get("archetype") == archetype:
+            return b.get("examples", [])
+    return []

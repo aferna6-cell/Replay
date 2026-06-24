@@ -1,1422 +1,1464 @@
 {
  "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
- "_fetched": "2026-06-24",
+ "_fetched": "from-local",
  "_mmr": 10,
  "_period": "past-seven",
  "_heroDataPoints": 52699,
  "trinkets": [
   {
+   "cardId": "BG30_MagicItem_403",
+   "name": "Ironforge Anvil",
+   "averagePosition": 3.099,
+   "pickRate": 0.3163,
+   "tier": "S"
+  },
+  {
    "cardId": "BG35_MagicItem_714",
    "name": "Powder Keg",
-   "averagePosition": 3.257,
-   "pickRate": 0.2226,
+   "averagePosition": 3.297,
+   "pickRate": 0.2203,
    "tier": "S"
   },
   {
    "cardId": "BG30_MagicItem_427t",
    "name": "Tiger Carving",
-   "averagePosition": 3.263,
-   "pickRate": 0.4542,
+   "averagePosition": 3.306,
+   "pickRate": 0.434,
    "tier": "S"
   },
   {
    "cardId": "BG35_MagicItem_711",
    "name": "Protective Ring",
-   "averagePosition": 3.294,
-   "pickRate": 0.2053,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_301",
-   "name": "Eternal Portrait",
-   "averagePosition": 3.397,
-   "pickRate": 0.2294,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_403",
-   "name": "Ironforge Anvil",
-   "averagePosition": 3.397,
-   "pickRate": 0.3376,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_828",
-   "name": "Shaker Portrait",
-   "averagePosition": 3.397,
-   "pickRate": 0.5538,
+   "averagePosition": 3.338,
+   "pickRate": 0.2155,
    "tier": "S"
   },
   {
    "cardId": "BG35_MagicItem_731",
    "name": "Deathtouch Apple",
-   "averagePosition": 3.436,
-   "pickRate": 0.324,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_732",
-   "name": "Soul Fermenter",
-   "averagePosition": 3.44,
-   "pickRate": 0.4938,
+   "averagePosition": 3.429,
+   "pickRate": 0.3186,
    "tier": "S"
   },
   {
    "cardId": "BG32_MagicItem_860t",
    "name": "Beetle Band",
-   "averagePosition": 3.452,
-   "pickRate": 0.2905,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG30_MagicItem_555",
-   "name": "Surprise Portrait",
-   "averagePosition": 3.479,
-   "pickRate": 0.385,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_740",
-   "name": "Sky Golem Portrait",
-   "averagePosition": 3.514,
-   "pickRate": 0.2093,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_741",
-   "name": "Beatboxer Portrait",
-   "averagePosition": 3.525,
-   "pickRate": 0.6513,
-   "tier": "S"
-  },
-  {
-   "cardId": "BG35_MagicItem_754",
-   "name": "Dramaloc Sticker",
-   "averagePosition": 3.525,
-   "pickRate": 0.3386,
+   "averagePosition": 3.511,
+   "pickRate": 0.3029,
    "tier": "S"
   },
   {
    "cardId": "BG30_MagicItem_439",
    "name": "Designer Eyepatch",
-   "averagePosition": 3.542,
-   "pickRate": 0.3067,
+   "averagePosition": 3.513,
+   "pickRate": 0.3208,
+   "tier": "S"
+  },
+  {
+   "cardId": "BG35_MagicItem_309",
+   "name": "Errgl Sticker",
+   "averagePosition": 3.519,
+   "pickRate": 0.3349,
+   "tier": "S"
+  },
+  {
+   "cardId": "BG35_MagicItem_861",
+   "name": "Baller Portrait",
+   "averagePosition": 3.53,
+   "pickRate": 0.7838,
+   "tier": "S"
+  },
+  {
+   "cardId": "BG30_MagicItem_301",
+   "name": "Eternal Portrait",
+   "averagePosition": 3.532,
+   "pickRate": 0.2294,
    "tier": "S"
   },
   {
    "cardId": "BG32_MagicItem_232",
    "name": "Shark Cannon",
-   "averagePosition": 3.585,
-   "pickRate": 0.276,
+   "averagePosition": 3.539,
+   "pickRate": 0.2904,
    "tier": "S"
   },
   {
-   "cardId": "BG32_MagicItem_363",
-   "name": "Faerie Dragon Scale",
-   "averagePosition": 3.599,
-   "pickRate": 0.1274,
+   "cardId": "BG35_MagicItem_732",
+   "name": "Soul Fermenter",
+   "averagePosition": 3.542,
+   "pickRate": 0.4912,
    "tier": "S"
+  },
+  {
+   "cardId": "BG35_MagicItem_740",
+   "name": "Sky Golem Portrait",
+   "averagePosition": 3.577,
+   "pickRate": 0.2081,
+   "tier": "S"
+  },
+  {
+   "cardId": "BG35_MagicItem_741",
+   "name": "Beatboxer Portrait",
+   "averagePosition": 3.607,
+   "pickRate": 0.6476,
+   "tier": "A"
   },
   {
    "cardId": "BG30_MagicItem_951",
    "name": "Lava Lamp",
-   "averagePosition": 3.6,
-   "pickRate": 0.3827,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_914t",
-   "name": "Nerglish Phrasebook",
-   "averagePosition": 3.613,
-   "pickRate": 0.297,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_922",
-   "name": "Charming Panpipes",
-   "averagePosition": 3.619,
-   "pickRate": 0.2147,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_437",
-   "name": "Staff of the Scourge",
-   "averagePosition": 3.633,
-   "pickRate": 0.2797,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_545",
-   "name": "Fridge Magnet",
-   "averagePosition": 3.647,
-   "pickRate": 0.223,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_442",
-   "name": "Blood Golem Sticker",
-   "averagePosition": 3.658,
-   "pickRate": 0.3826,
+   "averagePosition": 3.63,
+   "pickRate": 0.4119,
    "tier": "A"
   },
   {
    "cardId": "BG35_MagicItem_713",
    "name": "Trusty Crowbar",
-   "averagePosition": 3.669,
-   "pickRate": 0.2007,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_306",
-   "name": "Jailer Sticker",
-   "averagePosition": 3.68,
-   "pickRate": 0.3572,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_801",
-   "name": "Sous Chef Sticker",
-   "averagePosition": 3.686,
-   "pickRate": 0.5801,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_172",
-   "name": "Boom's Monster Portrait",
-   "averagePosition": 3.689,
-   "pickRate": 0.2883,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_742",
-   "name": "Accord-o-Tron Portrait",
-   "averagePosition": 3.696,
-   "pickRate": 0.4337,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_305",
-   "name": "Conch Portrait",
-   "averagePosition": 3.718,
-   "pickRate": 0.3593,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_923",
-   "name": "Bewitched Ribbon",
-   "averagePosition": 3.721,
-   "pickRate": 0.2833,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_309",
-   "name": "Errgl Sticker",
-   "averagePosition": 3.735,
-   "pickRate": 0.3276,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_547t",
-   "name": "Comfy Coffin",
-   "averagePosition": 3.765,
-   "pickRate": 0.2592,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_930",
-   "name": "Archaic Scroll",
-   "averagePosition": 3.765,
-   "pickRate": 0.3126,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_862",
-   "name": "Upstart Embers",
-   "averagePosition": 3.768,
-   "pickRate": 0.3438,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_270t",
-   "name": "Wicked Tome",
-   "averagePosition": 3.778,
-   "pickRate": 0.4052,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_920",
-   "name": "Spitescale Sushi Roll",
-   "averagePosition": 3.779,
-   "pickRate": 0.3836,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_924",
-   "name": "Groundbreaker Portrait",
-   "averagePosition": 3.795,
-   "pickRate": 0.3637,
+   "averagePosition": 3.631,
+   "pickRate": 0.1977,
    "tier": "A"
   },
   {
    "cardId": "BG30_MagicItem_919",
    "name": "Nazjatar Postcard",
-   "averagePosition": 3.796,
-   "pickRate": 0.2171,
+   "averagePosition": 3.653,
+   "pickRate": 0.2237,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_914",
-   "name": "Nerglish Phrasebook",
-   "averagePosition": 3.798,
-   "pickRate": 0.3046,
+   "cardId": "BG30_MagicItem_555",
+   "name": "Surprise Portrait",
+   "averagePosition": 3.655,
+   "pickRate": 0.3718,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_150",
-   "name": "Cursed Crystal",
-   "averagePosition": 3.804,
-   "pickRate": 0.2615,
+   "cardId": "BG35_MagicItem_742",
+   "name": "Accord-o-Tron Portrait",
+   "averagePosition": 3.668,
+   "pickRate": 0.4423,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_942",
-   "name": "Mecha-Jaraxxus Sticker",
-   "averagePosition": 3.811,
-   "pickRate": 0.2055,
+   "cardId": "BG30_MagicItem_828",
+   "name": "Shaker Portrait",
+   "averagePosition": 3.677,
+   "pickRate": 0.536,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_840t",
-   "name": "Chromatic Tear",
-   "averagePosition": 3.817,
-   "pickRate": 0.3885,
+   "cardId": "BG35_MagicItem_306",
+   "name": "Jailer Sticker",
+   "averagePosition": 3.691,
+   "pickRate": 0.3779,
    "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_301",
-   "name": "Bassgill Portrait",
-   "averagePosition": 3.822,
-   "pickRate": 0.2865,
+   "cardId": "BG30_MagicItem_442",
+   "name": "Blood Golem Sticker",
+   "averagePosition": 3.692,
+   "pickRate": 0.3635,
    "tier": "A"
   },
   {
    "cardId": "BG30_MagicItem_886",
    "name": "Reinforced Shield",
-   "averagePosition": 3.828,
-   "pickRate": 0.2125,
+   "averagePosition": 3.703,
+   "pickRate": 0.2082,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_821t",
-   "name": "Kaleidoscope",
-   "averagePosition": 3.831,
-   "pickRate": 0.1072,
+   "cardId": "BG35_MagicItem_754",
+   "name": "Dramaloc Sticker",
+   "averagePosition": 3.705,
+   "pickRate": 0.3604,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_743",
-   "name": "Electrode Attractor",
-   "averagePosition": 3.847,
-   "pickRate": 0.3159,
+   "cardId": "BG30_MagicItem_545",
+   "name": "Fridge Magnet",
+   "averagePosition": 3.706,
+   "pickRate": 0.2355,
    "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_283",
-   "name": "Czarina Portrait",
-   "averagePosition": 3.848,
-   "pickRate": 0.1707,
+   "cardId": "BG30_MagicItem_547t",
+   "name": "Comfy Coffin",
+   "averagePosition": 3.71,
+   "pickRate": 0.2762,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG30_MagicItem_864",
+   "name": "Gilnean Thorned Rose",
+   "averagePosition": 3.727,
+   "pickRate": 0.3302,
    "tier": "A"
   },
   {
    "cardId": "BG30_MagicItem_540",
    "name": "Slamma Sticker",
-   "averagePosition": 3.853,
-   "pickRate": 0.237,
+   "averagePosition": 3.731,
+   "pickRate": 0.2301,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_814",
-   "name": "Stuffed Coin Purse",
-   "averagePosition": 3.856,
-   "pickRate": 0.4057,
+   "cardId": "BG32_MagicItem_270t",
+   "name": "Wicked Tome",
+   "averagePosition": 3.732,
+   "pickRate": 0.3809,
    "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_888",
-   "name": "Recycling Sticker",
-   "averagePosition": 3.86,
-   "pickRate": 0.3146,
+   "cardId": "BG35_MagicItem_923",
+   "name": "Bewitched Ribbon",
+   "averagePosition": 3.735,
+   "pickRate": 0.3005,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_930",
-   "name": "Warband Whistle",
-   "averagePosition": 3.864,
-   "pickRate": 0.2564,
+   "cardId": "BG30_MagicItem_942",
+   "name": "Mecha-Jaraxxus Sticker",
+   "averagePosition": 3.746,
+   "pickRate": 0.1985,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_422t",
-   "name": "Lorewalker Scroll",
-   "averagePosition": 3.873,
-   "pickRate": 0.2041,
+   "cardId": "BG35_MagicItem_150",
+   "name": "Cursed Crystal",
+   "averagePosition": 3.75,
+   "pickRate": 0.2492,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_987",
-   "name": "Balladist Portrait",
-   "averagePosition": 3.873,
-   "pickRate": 0.141,
+   "cardId": "BG30_MagicItem_914t",
+   "name": "Nerglish Phrasebook",
+   "averagePosition": 3.757,
+   "pickRate": 0.3112,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_418",
-   "name": "Bronzebeard Portrait",
-   "averagePosition": 3.879,
-   "pickRate": 0.5377,
+   "cardId": "BG32_MagicItem_922",
+   "name": "Charming Panpipes",
+   "averagePosition": 3.773,
+   "pickRate": 0.2183,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_712",
-   "name": "Privateer Portrait",
-   "averagePosition": 3.885,
-   "pickRate": 0.3771,
+   "cardId": "BG35_MagicItem_801",
+   "name": "Sous Chef Sticker",
+   "averagePosition": 3.776,
+   "pickRate": 0.6138,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_890",
-   "name": "Sunken Anchor",
-   "averagePosition": 3.9,
-   "pickRate": 0.2919,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_755",
-   "name": "Chillmere Mosaic",
-   "averagePosition": 3.902,
-   "pickRate": 0.2854,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_838",
-   "name": "Double Stitch Needle",
-   "averagePosition": 3.905,
-   "pickRate": 0.1532,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_156",
-   "name": "Flaming Portrait",
-   "averagePosition": 3.91,
-   "pickRate": 0.2378,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_406",
-   "name": "Butcher's Sickle",
-   "averagePosition": 3.915,
-   "pickRate": 0.3414,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_306",
-   "name": "Herald Sticker",
-   "averagePosition": 3.916,
-   "pickRate": 0.312,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_416",
-   "name": "War Drum",
-   "averagePosition": 3.924,
-   "pickRate": 0.2019,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_900",
-   "name": "Dragonwing Glider",
-   "averagePosition": 3.926,
-   "pickRate": 0.1593,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_925",
-   "name": "Coral Spear",
-   "averagePosition": 3.928,
-   "pickRate": 0.2186,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG35_MagicItem_931t",
-   "name": "Transcribing Typewriter",
-   "averagePosition": 3.929,
-   "pickRate": 0.315,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_876",
-   "name": "Manipulator Portrait",
-   "averagePosition": 3.93,
-   "pickRate": 0.2269,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_367",
-   "name": "Ghastly Sticker",
-   "averagePosition": 3.93,
-   "pickRate": 0.2532,
+   "cardId": "BG32_MagicItem_363",
+   "name": "Faerie Dragon Scale",
+   "averagePosition": 3.786,
+   "pickRate": 0.1238,
    "tier": "A"
   },
   {
    "cardId": "BG35_MagicItem_300t",
    "name": "Copper Coil",
-   "averagePosition": 3.93,
-   "pickRate": 0.3601,
+   "averagePosition": 3.788,
+   "pickRate": 0.3591,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_710",
-   "name": "Miniature Ship",
-   "averagePosition": 3.931,
-   "pickRate": 0.2277,
+   "cardId": "BG32_MagicItem_930",
+   "name": "Archaic Scroll",
+   "averagePosition": 3.788,
+   "pickRate": 0.3013,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_925",
+   "name": "Coral Spear",
+   "averagePosition": 3.795,
+   "pickRate": 0.2136,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_305",
+   "name": "Conch Portrait",
+   "averagePosition": 3.811,
+   "pickRate": 0.3496,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_743",
+   "name": "Electrode Attractor",
+   "averagePosition": 3.825,
+   "pickRate": 0.3147,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_838",
+   "name": "Double Stitch Needle",
+   "averagePosition": 3.829,
+   "pickRate": 0.1646,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_862",
+   "name": "Upstart Embers",
+   "averagePosition": 3.834,
+   "pickRate": 0.3362,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_924",
+   "name": "Groundbreaker Portrait",
+   "averagePosition": 3.835,
+   "pickRate": 0.3547,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_712",
+   "name": "Privateer Portrait",
+   "averagePosition": 3.837,
+   "pickRate": 0.374,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG30_MagicItem_437",
+   "name": "Staff of the Scourge",
+   "averagePosition": 3.837,
+   "pickRate": 0.2751,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_801t",
+   "name": "Heart of the Forest",
+   "averagePosition": 3.838,
+   "pickRate": 0.3131,
    "tier": "A"
   },
   {
    "cardId": "BG35_MagicItem_733",
    "name": "Jailer Sticker",
-   "averagePosition": 3.934,
-   "pickRate": 0.4372,
+   "averagePosition": 3.842,
+   "pickRate": 0.4243,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_427",
-   "name": "Tiger Carving",
-   "averagePosition": 3.934,
-   "pickRate": 0.2409,
+   "cardId": "BG35_MagicItem_930",
+   "name": "Warband Whistle",
+   "averagePosition": 3.852,
+   "pickRate": 0.2626,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_816t",
-   "name": "Orb of the Unknown",
-   "averagePosition": 3.936,
-   "pickRate": 0.2287,
+   "cardId": "BG35_MagicItem_821t",
+   "name": "Kaleidoscope",
+   "averagePosition": 3.852,
+   "pickRate": 0.1061,
    "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_901",
-   "name": "Gold-plated Compass",
-   "averagePosition": 3.936,
-   "pickRate": 0.2131,
+   "cardId": "BG32_MagicItem_367",
+   "name": "Ghastly Sticker",
+   "averagePosition": 3.854,
+   "pickRate": 0.2479,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_812",
-   "name": "Corrupted Tome",
-   "averagePosition": 3.943,
-   "pickRate": 0.2898,
+   "cardId": "BG35_MagicItem_840t",
+   "name": "Chromatic Tear",
+   "averagePosition": 3.862,
+   "pickRate": 0.4072,
    "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_844",
-   "name": "Sacrificial Altar",
-   "averagePosition": 3.944,
-   "pickRate": 0.3219,
+   "cardId": "BG32_MagicItem_888",
+   "name": "Recycling Sticker",
+   "averagePosition": 3.867,
+   "pickRate": 0.3074,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_996",
-   "name": "Bob's Tip Jar",
-   "averagePosition": 3.945,
-   "pickRate": 0.295,
+   "cardId": "BG35_MagicItem_814",
+   "name": "Stuffed Coin Purse",
+   "averagePosition": 3.88,
+   "pickRate": 0.3998,
    "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_302",
-   "name": "Stormcoil Sticker",
-   "averagePosition": 3.946,
-   "pickRate": 0.2195,
+   "cardId": "BG32_MagicItem_172",
+   "name": "Boom's Monster Portrait",
+   "averagePosition": 3.881,
+   "pickRate": 0.2916,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_156",
+   "name": "Flaming Portrait",
+   "averagePosition": 3.881,
+   "pickRate": 0.2454,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_755",
+   "name": "Chillmere Mosaic",
+   "averagePosition": 3.89,
+   "pickRate": 0.2799,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_998",
+   "name": "Behemoth Portrait",
+   "averagePosition": 3.902,
+   "pickRate": 0.3556,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_894",
+   "name": "Blessing Portrait",
+   "averagePosition": 3.902,
+   "pickRate": 0.2722,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG30_MagicItem_914",
+   "name": "Nerglish Phrasebook",
+   "averagePosition": 3.907,
+   "pickRate": 0.3009,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_710",
+   "name": "Miniature Ship",
+   "averagePosition": 3.91,
+   "pickRate": 0.2256,
    "tier": "A"
   },
   {
    "cardId": "BG35_MagicItem_753",
    "name": "Murky Sticker",
+   "averagePosition": 3.918,
+   "pickRate": 0.1451,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_301",
+   "name": "Bassgill Portrait",
+   "averagePosition": 3.921,
+   "pickRate": 0.2975,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG30_MagicItem_427",
+   "name": "Tiger Carving",
+   "averagePosition": 3.926,
+   "pickRate": 0.2332,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_812",
+   "name": "Corrupted Tome",
+   "averagePosition": 3.929,
+   "pickRate": 0.2826,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_306",
+   "name": "Herald Sticker",
+   "averagePosition": 3.936,
+   "pickRate": 0.32,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG30_MagicItem_876",
+   "name": "Manipulator Portrait",
+   "averagePosition": 3.937,
+   "pickRate": 0.2279,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_820",
+   "name": "Safety Patch",
+   "averagePosition": 3.938,
+   "pickRate": 0.6297,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_931t",
+   "name": "Transcribing Typewriter",
+   "averagePosition": 3.94,
+   "pickRate": 0.3198,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_890",
+   "name": "Sunken Anchor",
+   "averagePosition": 3.94,
+   "pickRate": 0.2863,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_901",
+   "name": "Gold-plated Compass",
+   "averagePosition": 3.948,
+   "pickRate": 0.2206,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG35_MagicItem_920",
+   "name": "Bubble Crown",
    "averagePosition": 3.949,
-   "pickRate": 0.1455,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_998",
-   "name": "Bob-blehead",
-   "averagePosition": 3.951,
-   "pickRate": 0.2912,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_428",
-   "name": "Worn Treasure Map",
-   "averagePosition": 3.976,
-   "pickRate": 0.2795,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG32_MagicItem_807",
-   "name": "Curator Sticker",
-   "averagePosition": 3.983,
-   "pickRate": 0.156,
-   "tier": "A"
-  },
-  {
-   "cardId": "BG30_MagicItem_995",
-   "name": "Bronze Timepiece",
-   "averagePosition": 3.987,
-   "pickRate": 0.1805,
+   "pickRate": 0.1466,
    "tier": "A"
   },
   {
    "cardId": "BG30_MagicItem_944",
    "name": "Redeemer Portrait",
-   "averagePosition": 3.996,
-   "pickRate": 0.0834,
+   "averagePosition": 3.951,
+   "pickRate": 0.0884,
    "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_891",
-   "name": "Trip Vouchers",
-   "averagePosition": 4.001,
-   "pickRate": 0.3497,
-   "tier": "B"
+   "cardId": "BG35_MagicItem_816t",
+   "name": "Orb of the Unknown",
+   "averagePosition": 3.953,
+   "pickRate": 0.2281,
+   "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_420",
-   "name": "Book of Medivh",
-   "averagePosition": 4.006,
-   "pickRate": 0.2047,
-   "tier": "B"
+   "cardId": "BG30_MagicItem_900",
+   "name": "Dragonwing Glider",
+   "averagePosition": 3.961,
+   "pickRate": 0.1551,
+   "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_820",
-   "name": "Safety Patch",
-   "averagePosition": 4.007,
-   "pickRate": 0.6419,
-   "tier": "B"
+   "cardId": "BG30_MagicItem_418",
+   "name": "Bronzebeard Portrait",
+   "averagePosition": 3.962,
+   "pickRate": 0.5306,
+   "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_801t",
-   "name": "Heart of the Forest",
-   "averagePosition": 4.01,
-   "pickRate": 0.3058,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_821",
-   "name": "Fish Portrait",
-   "averagePosition": 4.021,
-   "pickRate": 0.1775,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_931",
-   "name": "Transcribing Typewriter",
-   "averagePosition": 4.028,
-   "pickRate": 0.3899,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_547",
-   "name": "Comfy Coffin",
-   "averagePosition": 4.03,
-   "pickRate": 0.1509,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_920",
-   "name": "Bubble Crown",
-   "averagePosition": 4.031,
-   "pickRate": 0.146,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_808",
-   "name": "Bloodbound Earrings",
-   "averagePosition": 4.032,
-   "pickRate": 0.2947,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_998",
-   "name": "Behemoth Portrait",
-   "averagePosition": 4.037,
-   "pickRate": 0.37,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_822",
-   "name": "Bazaar Sticker",
-   "averagePosition": 4.041,
-   "pickRate": 0.2254,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_426t",
-   "name": "Colorful Compass",
-   "averagePosition": 4.042,
-   "pickRate": 0.2905,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_422",
+   "cardId": "BG30_MagicItem_422t",
    "name": "Lorewalker Scroll",
-   "averagePosition": 4.043,
-   "pickRate": 0.2048,
-   "tier": "B"
+   "averagePosition": 3.97,
+   "pickRate": 0.1888,
+   "tier": "A"
   },
   {
-   "cardId": "BG30_MagicItem_879t",
-   "name": "Dalaran Cheese Wheel",
-   "averagePosition": 4.044,
-   "pickRate": 0.2311,
-   "tier": "B"
+   "cardId": "BG32_MagicItem_844",
+   "name": "Sacrificial Altar",
+   "averagePosition": 3.971,
+   "pickRate": 0.323,
+   "tier": "A"
   },
   {
    "cardId": "BG30_MagicItem_713",
    "name": "Bleeding Heart",
-   "averagePosition": 4.048,
-   "pickRate": 0.2701,
-   "tier": "B"
+   "averagePosition": 3.974,
+   "pickRate": 0.2598,
+   "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_300",
-   "name": "Putricide Sticker",
-   "averagePosition": 4.05,
-   "pickRate": 0.3458,
-   "tier": "B"
+   "cardId": "BG32_MagicItem_416",
+   "name": "War Drum",
+   "averagePosition": 3.975,
+   "pickRate": 0.2078,
+   "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_815",
-   "name": "Magician's Top Hat",
-   "averagePosition": 4.058,
-   "pickRate": 0.2617,
-   "tier": "B"
+   "cardId": "BG30_MagicItem_987",
+   "name": "Balladist Portrait",
+   "averagePosition": 3.977,
+   "pickRate": 0.1461,
+   "tier": "A"
   },
   {
-   "cardId": "BG35_MagicItem_700",
-   "name": "Wildfeather Duster",
-   "averagePosition": 4.062,
-   "pickRate": 0.167,
-   "tier": "B"
+   "cardId": "BG32_MagicItem_283",
+   "name": "Czarina Portrait",
+   "averagePosition": 3.987,
+   "pickRate": 0.1808,
+   "tier": "A"
   },
   {
-   "cardId": "BG32_MagicItem_271",
-   "name": "Ornate Clock",
-   "averagePosition": 4.065,
-   "pickRate": 0.2869,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_434",
-   "name": "Jewelry Box",
-   "averagePosition": 4.065,
-   "pickRate": 0.3149,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_816",
-   "name": "Orb of the Unknown",
-   "averagePosition": 4.065,
-   "pickRate": 0.2566,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_818",
-   "name": "Mysterious Orb",
-   "averagePosition": 4.068,
-   "pickRate": 0.1972,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_360",
-   "name": "Baleful Incense",
-   "averagePosition": 4.069,
-   "pickRate": 0.199,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_170",
-   "name": "Spell-powered Wrench",
-   "averagePosition": 4.07,
-   "pickRate": 0.2268,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_701",
-   "name": "The Eye of Sargeras",
-   "averagePosition": 4.077,
-   "pickRate": 0.3368,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_924",
-   "name": "Booty Bay Brew",
-   "averagePosition": 4.078,
-   "pickRate": 0.1702,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_823t",
-   "name": "Timeworn Candelabra",
-   "averagePosition": 4.084,
-   "pickRate": 0.2476,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_993",
-   "name": "Pagle's Fishing Rod",
-   "averagePosition": 4.093,
-   "pickRate": 0.2396,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_434",
-   "name": "Replica Cathedral",
-   "averagePosition": 4.096,
-   "pickRate": 0.2153,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_804",
-   "name": "Ancient Wishbone",
-   "averagePosition": 4.098,
-   "pickRate": 0.5764,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_426",
+   "cardId": "BG30_MagicItem_426t",
    "name": "Colorful Compass",
-   "averagePosition": 4.104,
-   "pickRate": 0.2443,
+   "averagePosition": 3.996,
+   "pickRate": 0.2922,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG30_MagicItem_998",
+   "name": "Bob-blehead",
+   "averagePosition": 3.996,
+   "pickRate": 0.3019,
+   "tier": "A"
+  },
+  {
+   "cardId": "BG32_MagicItem_931",
+   "name": "Azsharan Statuette",
+   "averagePosition": 4.001,
+   "pickRate": 0.152,
    "tier": "B"
   },
   {
-   "cardId": "BG35_MagicItem_817",
-   "name": "Lens Case",
-   "averagePosition": 4.104,
-   "pickRate": 0.2813,
+   "cardId": "BG30_MagicItem_406",
+   "name": "Butcher's Sickle",
+   "averagePosition": 4.002,
+   "pickRate": 0.3522,
    "tier": "B"
   },
   {
    "cardId": "BG35_MagicItem_750",
    "name": "Magicfin Sticker",
-   "averagePosition": 4.104,
-   "pickRate": 0.2114,
+   "averagePosition": 4.006,
+   "pickRate": 0.2013,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_310",
-   "name": "Rivendare Portrait",
-   "averagePosition": 4.105,
-   "pickRate": 0.2624,
+   "cardId": "BG32_MagicItem_807",
+   "name": "Curator Sticker",
+   "averagePosition": 4.009,
+   "pickRate": 0.1633,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_891",
+   "name": "Trip Vouchers",
+   "averagePosition": 4.014,
+   "pickRate": 0.3429,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_821",
+   "name": "Fish Portrait",
+   "averagePosition": 4.016,
+   "pickRate": 0.1734,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_931",
+   "name": "Transcribing Typewriter",
+   "averagePosition": 4.018,
+   "pickRate": 0.3924,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_924",
+   "name": "Booty Bay Brew",
+   "averagePosition": 4.021,
+   "pickRate": 0.1752,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_996",
+   "name": "Bob's Tip Jar",
+   "averagePosition": 4.025,
+   "pickRate": 0.2943,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_170",
+   "name": "Spell-powered Wrench",
+   "averagePosition": 4.028,
+   "pickRate": 0.226,
    "tier": "B"
   },
   {
    "cardId": "BG35_MagicItem_154",
    "name": "Ur'zul Sticker",
-   "averagePosition": 4.105,
-   "pickRate": 0.3345,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_841",
-   "name": "Glowing Gauntlet",
-   "averagePosition": 4.106,
-   "pickRate": 0.2723,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_894",
-   "name": "Blessing Portrait",
-   "averagePosition": 4.111,
-   "pickRate": 0.2519,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_703",
-   "name": "Mystery Cube",
-   "averagePosition": 4.115,
-   "pickRate": 0.4949,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_834",
-   "name": "Rylak Portrait",
-   "averagePosition": 4.115,
-   "pickRate": 0.5608,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_411",
-   "name": "Hoggy Bank",
-   "averagePosition": 4.118,
-   "pickRate": 0.263,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_863",
-   "name": "Avalanche Sticker",
-   "averagePosition": 4.12,
-   "pickRate": 0.2627,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_830",
-   "name": "Felemental Portrait",
-   "averagePosition": 4.121,
-   "pickRate": 0.1325,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_541",
-   "name": "Nether Pendant",
-   "averagePosition": 4.129,
-   "pickRate": 0.2658,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_801",
-   "name": "Sinstone Sticker",
-   "averagePosition": 4.131,
-   "pickRate": 0.2893,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_931",
-   "name": "Azsharan Statuette",
-   "averagePosition": 4.135,
-   "pickRate": 0.1592,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_301",
-   "name": "Scraper Sticker",
-   "averagePosition": 4.137,
-   "pickRate": 0.3756,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_423",
-   "name": "Innkeeper's Stein",
-   "averagePosition": 4.14,
-   "pickRate": 0.2577,
+   "averagePosition": 4.034,
+   "pickRate": 0.3273,
    "tier": "B"
   },
   {
    "cardId": "BG32_MagicItem_350",
    "name": "Splinter of Aurum",
-   "averagePosition": 4.14,
-   "pickRate": 0.3128,
+   "averagePosition": 4.037,
+   "pickRate": 0.3191,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_420t",
+   "cardId": "BG30_MagicItem_988t",
+   "name": "Great Boar Sticker",
+   "averagePosition": 4.037,
+   "pickRate": 0.4474,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_200",
+   "name": "All-Purpose Kibble",
+   "averagePosition": 4.038,
+   "pickRate": 0.1752,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_310",
+   "name": "Rivendare Portrait",
+   "averagePosition": 4.039,
+   "pickRate": 0.2635,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_301",
+   "name": "Scraper Sticker",
+   "averagePosition": 4.041,
+   "pickRate": 0.3595,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_360",
+   "name": "Baleful Incense",
+   "averagePosition": 4.041,
+   "pickRate": 0.2021,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_271",
+   "name": "Ornate Clock",
+   "averagePosition": 4.047,
+   "pickRate": 0.2857,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_428",
+   "name": "Worn Treasure Map",
+   "averagePosition": 4.049,
+   "pickRate": 0.275,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_920",
+   "name": "Spitescale Sushi Roll",
+   "averagePosition": 4.049,
+   "pickRate": 0.3868,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_863",
+   "name": "Avalanche Sticker",
+   "averagePosition": 4.051,
+   "pickRate": 0.2917,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_815",
+   "name": "Magician's Top Hat",
+   "averagePosition": 4.052,
+   "pickRate": 0.2701,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_420",
    "name": "Book of Medivh",
-   "averagePosition": 4.147,
-   "pickRate": 0.1486,
+   "averagePosition": 4.055,
+   "pickRate": 0.2026,
    "tier": "B"
   },
   {
-   "cardId": "BG32_MagicItem_803",
-   "name": "Macaw Portrait",
-   "averagePosition": 4.149,
-   "pickRate": 0.4227,
+   "cardId": "BG32_MagicItem_300",
+   "name": "Putricide Sticker",
+   "averagePosition": 4.055,
+   "pickRate": 0.3626,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_700",
-   "name": "Deathly Phylactery",
-   "averagePosition": 4.152,
-   "pickRate": 0.2877,
+   "cardId": "BG30_MagicItem_879t",
+   "name": "Dalaran Cheese Wheel",
+   "averagePosition": 4.059,
+   "pickRate": 0.2293,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_989t",
-   "name": "Artisanal Urn",
-   "averagePosition": 4.157,
-   "pickRate": 0.2057,
+   "cardId": "BG32_MagicItem_830",
+   "name": "Felemental Portrait",
+   "averagePosition": 4.064,
+   "pickRate": 0.1272,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_706",
-   "name": "Reflective Pendant",
-   "averagePosition": 4.163,
-   "pickRate": 0.2009,
+   "cardId": "BG30_MagicItem_703",
+   "name": "Mystery Cube",
+   "averagePosition": 4.067,
+   "pickRate": 0.494,
    "tier": "B"
   },
   {
-   "cardId": "BG32_MagicItem_858",
-   "name": "Explorer's Binoculars",
-   "averagePosition": 4.163,
-   "pickRate": 0.3139,
+   "cardId": "BG30_MagicItem_701",
+   "name": "The Eye of Sargeras",
+   "averagePosition": 4.068,
+   "pickRate": 0.345,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_818",
+   "name": "Mysterious Orb",
+   "averagePosition": 4.071,
+   "pickRate": 0.1977,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_993",
+   "name": "Pagle's Fishing Rod",
+   "averagePosition": 4.078,
+   "pickRate": 0.2366,
    "tier": "B"
   },
   {
    "cardId": "BG35_MagicItem_921",
    "name": "Cowrie Necklace",
-   "averagePosition": 4.164,
-   "pickRate": 0.1109,
+   "averagePosition": 4.082,
+   "pickRate": 0.1074,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_434",
+   "name": "Replica Cathedral",
+   "averagePosition": 4.083,
+   "pickRate": 0.2178,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_841",
+   "name": "Glowing Gauntlet",
+   "averagePosition": 4.097,
+   "pickRate": 0.2715,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_420t",
+   "name": "Book of Medivh",
+   "averagePosition": 4.101,
+   "pickRate": 0.1461,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_989t",
+   "name": "Artisanal Urn",
+   "averagePosition": 4.109,
+   "pickRate": 0.2149,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_435",
+   "name": "Goldenizer Supply",
+   "averagePosition": 4.119,
+   "pickRate": 0.3046,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_701",
+   "name": "Fang Anklet",
+   "averagePosition": 4.119,
+   "pickRate": 0.184,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_823t",
+   "name": "Timeworn Candelabra",
+   "averagePosition": 4.12,
+   "pickRate": 0.2493,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_943",
+   "name": "Surveyor Portrait",
+   "averagePosition": 4.124,
+   "pickRate": 0.3578,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_995",
+   "name": "Bronze Timepiece",
+   "averagePosition": 4.125,
+   "pickRate": 0.1731,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_817",
+   "name": "Lens Case",
+   "averagePosition": 4.125,
+   "pickRate": 0.2931,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_917",
+   "name": "Rusty Trident",
+   "averagePosition": 4.129,
+   "pickRate": 0.1704,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_302",
+   "name": "Stormcoil Sticker",
+   "averagePosition": 4.135,
+   "pickRate": 0.2177,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_804",
+   "name": "Ancient Wishbone",
+   "averagePosition": 4.137,
+   "pickRate": 0.5881,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_858",
+   "name": "Explorer's Binoculars",
+   "averagePosition": 4.141,
+   "pickRate": 0.3137,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_700",
+   "name": "Deathly Phylactery",
+   "averagePosition": 4.142,
+   "pickRate": 0.2908,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_426",
+   "name": "Colorful Compass",
+   "averagePosition": 4.145,
+   "pickRate": 0.2481,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_300",
+   "name": "Copper Coil",
+   "averagePosition": 4.146,
+   "pickRate": 0.2766,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_752",
+   "name": "Young Murk-Eye Sticker",
+   "averagePosition": 4.15,
+   "pickRate": 0.3485,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_706",
+   "name": "Reflective Pendant",
+   "averagePosition": 4.158,
+   "pickRate": 0.2025,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_847",
+   "name": "Goblin Wallet",
+   "averagePosition": 4.16,
+   "pickRate": 0.4277,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_411",
+   "name": "Hoggy Bank",
+   "averagePosition": 4.161,
+   "pickRate": 0.2662,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_423",
+   "name": "Innkeeper's Stein",
+   "averagePosition": 4.162,
+   "pickRate": 0.2622,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_707",
+   "name": "Tickatus Sticker",
+   "averagePosition": 4.163,
+   "pickRate": 0.3296,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_547",
+   "name": "Comfy Coffin",
+   "averagePosition": 4.166,
+   "pickRate": 0.1641,
    "tier": "B"
   },
   {
    "cardId": "BG32_MagicItem_831",
    "name": "Sellemental Portrait",
    "averagePosition": 4.167,
-   "pickRate": 0.2052,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_544t",
-   "name": "Nomi Sticker",
-   "averagePosition": 4.167,
-   "pickRate": 0.2622,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_701",
-   "name": "Fang Anklet",
-   "averagePosition": 4.175,
-   "pickRate": 0.185,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_817",
-   "name": "Rendle Sticker",
-   "averagePosition": 4.178,
-   "pickRate": 0.2018,
+   "pickRate": 0.2049,
    "tier": "B"
   },
   {
    "cardId": "BG32_MagicItem_957",
    "name": "Grifter Portrait",
-   "averagePosition": 4.182,
-   "pickRate": 0.377,
+   "averagePosition": 4.168,
+   "pickRate": 0.3745,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_988t",
-   "name": "Great Boar Sticker",
-   "averagePosition": 4.188,
-   "pickRate": 0.4491,
+   "cardId": "BG35_MagicItem_816",
+   "name": "Orb of the Unknown",
+   "averagePosition": 4.171,
+   "pickRate": 0.2558,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_924t",
+   "name": "Booty Bay Brew",
+   "averagePosition": 4.174,
+   "pickRate": 0.1789,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_544t",
+   "name": "Nomi Sticker",
+   "averagePosition": 4.175,
+   "pickRate": 0.2691,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG31_MagicItem_903",
+   "name": "Wisdomball Supply",
+   "averagePosition": 4.181,
+   "pickRate": 0.4241,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_700",
+   "name": "Wildfeather Duster",
+   "averagePosition": 4.186,
+   "pickRate": 0.1755,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_416",
+   "name": "Token of the Old Gods",
+   "averagePosition": 4.187,
+   "pickRate": 0.3358,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_808",
+   "name": "Bloodbound Earrings",
+   "averagePosition": 4.187,
+   "pickRate": 0.2818,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_434",
+   "name": "Jewelry Box",
+   "averagePosition": 4.191,
+   "pickRate": 0.3439,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_361",
+   "name": "Portable Factory",
+   "averagePosition": 4.193,
+   "pickRate": 0.1252,
    "tier": "B"
   },
   {
    "cardId": "BG32_MagicItem_951",
    "name": "Gold Pendant",
-   "averagePosition": 4.194,
-   "pickRate": 0.1725,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_999",
-   "name": "Fancy Spellbook",
-   "averagePosition": 4.198,
-   "pickRate": 0.2067,
+   "averagePosition": 4.196,
+   "pickRate": 0.1724,
    "tier": "B"
   },
   {
    "cardId": "BG35_MagicItem_823",
    "name": "Timeworn Candelabra",
-   "averagePosition": 4.201,
-   "pickRate": 0.3873,
+   "averagePosition": 4.2,
+   "pickRate": 0.3836,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_801",
+   "name": "Sinstone Sticker",
+   "averagePosition": 4.202,
+   "pickRate": 0.2857,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_364",
+   "name": "Poet Portrait",
+   "averagePosition": 4.203,
+   "pickRate": 0.3446,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_962",
+   "name": "Training Certificate",
+   "averagePosition": 4.208,
+   "pickRate": 0.1404,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_834",
+   "name": "Rylak Portrait",
+   "averagePosition": 4.209,
+   "pickRate": 0.5743,
    "tier": "B"
   },
   {
    "cardId": "BG30_MagicItem_888",
    "name": "Souvenir Stand",
-   "averagePosition": 4.211,
-   "pickRate": 0.3582,
+   "averagePosition": 4.215,
+   "pickRate": 0.3594,
    "tier": "B"
   },
   {
-   "cardId": "BG32_MagicItem_200",
-   "name": "All-Purpose Kibble",
-   "averagePosition": 4.213,
-   "pickRate": 0.1867,
+   "cardId": "BG30_MagicItem_541",
+   "name": "Nether Pendant",
+   "averagePosition": 4.217,
+   "pickRate": 0.2596,
    "tier": "B"
   },
   {
    "cardId": "BG35_MagicItem_870",
    "name": "Leapfrogger Portrait",
    "averagePosition": 4.217,
-   "pickRate": 0.3499,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_922",
-   "name": "Tide Raiser Portrait",
-   "averagePosition": 4.224,
-   "pickRate": 0.1743,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_425",
-   "name": "Azeroth Model Globe",
-   "averagePosition": 4.227,
-   "pickRate": 0.2864,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_851",
-   "name": "Water Wheel",
-   "averagePosition": 4.232,
-   "pickRate": 0.186,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_300",
-   "name": "Copper Coil",
-   "averagePosition": 4.233,
-   "pickRate": 0.2724,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_433",
-   "name": "Alliance Keychain",
-   "averagePosition": 4.235,
-   "pickRate": 0.0589,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_943",
-   "name": "Surveyor Portrait",
-   "averagePosition": 4.238,
-   "pickRate": 0.3356,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_847",
-   "name": "Goblin Wallet",
-   "averagePosition": 4.245,
-   "pickRate": 0.4331,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_902",
-   "name": "Holy Mallet",
-   "averagePosition": 4.248,
-   "pickRate": 0.1227,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_850",
-   "name": "Pocket Cyclone",
-   "averagePosition": 4.254,
-   "pickRate": 0.2428,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG31_MagicItem_903",
-   "name": "Wisdomball Supply",
-   "averagePosition": 4.255,
-   "pickRate": 0.437,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_962",
-   "name": "Training Certificate",
-   "averagePosition": 4.255,
-   "pickRate": 0.1384,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_821",
-   "name": "Kaleidoscope",
-   "averagePosition": 4.266,
-   "pickRate": 0.3283,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_994",
-   "name": "Yogg-Tastic Pastry",
-   "averagePosition": 4.266,
-   "pickRate": 0.1023,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_435",
-   "name": "Goldenizer Supply",
-   "averagePosition": 4.27,
-   "pickRate": 0.2984,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_707",
-   "name": "Tickatus Sticker",
-   "averagePosition": 4.27,
-   "pickRate": 0.3372,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG30_MagicItem_924t",
-   "name": "Booty Bay Brew",
-   "averagePosition": 4.27,
-   "pickRate": 0.176,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG35_MagicItem_151",
-   "name": "Defiler Portrait",
-   "averagePosition": 4.271,
-   "pickRate": 0.2892,
-   "tier": "B"
-  },
-  {
-   "cardId": "BG32_MagicItem_362t",
-   "name": "Innkeeper's Hearth",
-   "averagePosition": 4.271,
-   "pickRate": 0.2594,
+   "pickRate": 0.3571,
    "tier": "B"
   },
   {
    "cardId": "BG32_MagicItem_926",
    "name": "Morgl Portrait",
-   "averagePosition": 4.272,
-   "pickRate": 0.1371,
+   "averagePosition": 4.219,
+   "pickRate": 0.1354,
    "tier": "B"
   },
   {
-   "cardId": "BG32_MagicItem_364",
-   "name": "Poet Portrait",
-   "averagePosition": 4.278,
-   "pickRate": 0.3493,
+   "cardId": "BG32_MagicItem_803",
+   "name": "Macaw Portrait",
+   "averagePosition": 4.221,
+   "pickRate": 0.4329,
    "tier": "B"
   },
   {
-   "cardId": "BG35_MagicItem_840",
-   "name": "Chromatic Tear",
-   "averagePosition": 4.285,
-   "pickRate": 0.291,
+   "cardId": "BG30_MagicItem_422",
+   "name": "Lorewalker Scroll",
+   "averagePosition": 4.224,
+   "pickRate": 0.1947,
    "tier": "B"
   },
   {
-   "cardId": "BG32_MagicItem_276",
-   "name": "Enigmatic Headstone",
-   "averagePosition": 4.292,
-   "pickRate": 0.1748,
+   "cardId": "BG30_MagicItem_430",
+   "name": "Rockin' Music Box",
+   "averagePosition": 4.228,
+   "pickRate": 0.197,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_817",
+   "name": "Rendle Sticker",
+   "averagePosition": 4.246,
+   "pickRate": 0.2102,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_435",
+   "name": "Bloodbound Ring",
+   "averagePosition": 4.254,
+   "pickRate": 0.3228,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_872",
+   "name": "Ophidian Staff",
+   "averagePosition": 4.258,
+   "pickRate": 0.2337,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_362t",
+   "name": "Innkeeper's Hearth",
+   "averagePosition": 4.263,
+   "pickRate": 0.2679,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG35_MagicItem_922",
+   "name": "Tide Raiser Portrait",
+   "averagePosition": 4.263,
+   "pickRate": 0.1753,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_999",
+   "name": "Fancy Spellbook",
+   "averagePosition": 4.266,
+   "pickRate": 0.209,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_400",
+   "name": "Shrine of Evolution",
+   "averagePosition": 4.268,
+   "pickRate": 0.6404,
    "tier": "B"
   },
   {
    "cardId": "BG35_MagicItem_151t",
    "name": "Defiler Portrait",
-   "averagePosition": 4.296,
-   "pickRate": 0.2331,
+   "averagePosition": 4.272,
+   "pickRate": 0.2211,
    "tier": "B"
   },
   {
-   "cardId": "BG30_MagicItem_416",
-   "name": "Token of the Old Gods",
-   "averagePosition": 4.298,
-   "pickRate": 0.3395,
+   "cardId": "BG35_MagicItem_821",
+   "name": "Kaleidoscope",
+   "averagePosition": 4.282,
+   "pickRate": 0.3279,
    "tier": "B"
   },
   {
-   "cardId": "BG32_MagicItem_366",
-   "name": "Guiding Candle",
-   "averagePosition": 4.306,
-   "pickRate": 0.253,
+   "cardId": "BG30_MagicItem_303",
+   "name": "Automaton Portrait",
+   "averagePosition": 4.287,
+   "pickRate": 0.1699,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG30_MagicItem_425",
+   "name": "Azeroth Model Globe",
+   "averagePosition": 4.293,
+   "pickRate": 0.2924,
+   "tier": "B"
+  },
+  {
+   "cardId": "BG32_MagicItem_893",
+   "name": "Bluegill Flippers",
+   "averagePosition": 4.301,
+   "pickRate": 0.2143,
    "tier": "C"
   },
   {
    "cardId": "BG32_MagicItem_860",
    "name": "Beetle Band",
-   "averagePosition": 4.314,
-   "pickRate": 0.2489,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_430",
-   "name": "Rockin' Music Box",
-   "averagePosition": 4.314,
-   "pickRate": 0.1913,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_850t",
-   "name": "Pocket Cyclone",
-   "averagePosition": 4.315,
-   "pickRate": 0.3681,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_361",
-   "name": "Portable Factory",
-   "averagePosition": 4.341,
-   "pickRate": 0.1109,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_868",
-   "name": "Rewinder Portrait",
-   "averagePosition": 4.369,
-   "pickRate": 0.2455,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_821",
-   "name": "Pilgrimp Sticker",
-   "averagePosition": 4.388,
-   "pickRate": 0.255,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_752",
-   "name": "Young Murk-Eye Sticker",
-   "averagePosition": 4.388,
-   "pickRate": 0.3431,
+   "averagePosition": 4.302,
+   "pickRate": 0.2608,
    "tier": "C"
   },
   {
    "cardId": "BG30_MagicItem_544",
    "name": "Nomi Sticker",
-   "averagePosition": 4.396,
-   "pickRate": 0.2302,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_917",
-   "name": "Rusty Trident",
-   "averagePosition": 4.413,
-   "pickRate": 0.1884,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_803t",
-   "name": "Maxwell Sticker",
-   "averagePosition": 4.42,
-   "pickRate": 0.1235,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_705",
-   "name": "Bartend-o-Tron's Oilcan",
-   "averagePosition": 4.432,
-   "pickRate": 0.3444,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_872",
-   "name": "Ophidian Staff",
-   "averagePosition": 4.438,
-   "pickRate": 0.2266,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_361t",
-   "name": "Portable Factory",
-   "averagePosition": 4.444,
-   "pickRate": 0.1473,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_303",
-   "name": "Automaton Portrait",
-   "averagePosition": 4.446,
-   "pickRate": 0.1694,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_432",
-   "name": "Blood Amulet",
-   "averagePosition": 4.455,
-   "pickRate": 0.4521,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG32_MagicItem_284",
-   "name": "Aggem Sticker",
-   "averagePosition": 4.457,
-   "pickRate": 0.3149,
+   "averagePosition": 4.305,
+   "pickRate": 0.2296,
    "tier": "C"
   },
   {
    "cardId": "BG32_MagicItem_808t",
    "name": "Bloodbound Earrings",
-   "averagePosition": 4.533,
-   "pickRate": 0.403,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG35_MagicItem_430",
-   "name": "Scrapsmith Portrait",
-   "averagePosition": 4.535,
-   "pickRate": 0.2593,
-   "tier": "C"
-  },
-  {
-   "cardId": "BG30_MagicItem_410",
-   "name": "Quilligraphy Set",
-   "averagePosition": 4.543,
-   "pickRate": 0.345,
+   "averagePosition": 4.305,
+   "pickRate": 0.4133,
    "tier": "C"
   },
   {
    "cardId": "BG30_MagicItem_973",
    "name": "Minion Bait",
-   "averagePosition": 4.559,
-   "pickRate": 0.1488,
+   "averagePosition": 4.306,
+   "pickRate": 0.1639,
    "tier": "C"
   },
   {
-   "cardId": "BG35_MagicItem_152",
-   "name": "Demonic Tapestry",
-   "averagePosition": 4.59,
-   "pickRate": 0.4014,
+   "cardId": "BG32_MagicItem_284",
+   "name": "Aggem Sticker",
+   "averagePosition": 4.307,
+   "pickRate": 0.3021,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG32_MagicItem_276",
+   "name": "Enigmatic Headstone",
+   "averagePosition": 4.309,
+   "pickRate": 0.1831,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_851",
+   "name": "Water Wheel",
+   "averagePosition": 4.315,
+   "pickRate": 0.1822,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG32_MagicItem_366",
+   "name": "Guiding Candle",
+   "averagePosition": 4.316,
+   "pickRate": 0.2535,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_705",
+   "name": "Bartend-o-Tron's Oilcan",
+   "averagePosition": 4.334,
+   "pickRate": 0.3484,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_803t",
+   "name": "Maxwell Sticker",
+   "averagePosition": 4.339,
+   "pickRate": 0.1148,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_840",
+   "name": "Chromatic Tear",
+   "averagePosition": 4.341,
+   "pickRate": 0.3044,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_850",
+   "name": "Pocket Cyclone",
+   "averagePosition": 4.345,
+   "pickRate": 0.2401,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG32_MagicItem_821",
+   "name": "Pilgrimp Sticker",
+   "averagePosition": 4.355,
+   "pickRate": 0.2498,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_151",
+   "name": "Defiler Portrait",
+   "averagePosition": 4.357,
+   "pickRate": 0.2826,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_994",
+   "name": "Yogg-Tastic Pastry",
+   "averagePosition": 4.359,
+   "pickRate": 0.1024,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG32_MagicItem_822",
+   "name": "Bazaar Sticker",
+   "averagePosition": 4.361,
+   "pickRate": 0.2284,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_850t",
+   "name": "Pocket Cyclone",
+   "averagePosition": 4.372,
+   "pickRate": 0.3607,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_432",
+   "name": "Blood Amulet",
+   "averagePosition": 4.393,
+   "pickRate": 0.4552,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_871",
+   "name": "Mama Bear Sticker",
+   "averagePosition": 4.396,
+   "pickRate": 0.1904,
    "tier": "C"
   },
   {
    "cardId": "BG35_MagicItem_431t",
    "name": "Thornspike Pauldron",
-   "averagePosition": 4.617,
-   "pickRate": 0.3317,
-   "tier": "D"
+   "averagePosition": 4.432,
+   "pickRate": 0.3342,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG32_MagicItem_361t",
+   "name": "Portable Factory",
+   "averagePosition": 4.462,
+   "pickRate": 0.1502,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_868",
+   "name": "Rewinder Portrait",
+   "averagePosition": 4.466,
+   "pickRate": 0.247,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_433",
+   "name": "Alliance Keychain",
+   "averagePosition": 4.495,
+   "pickRate": 0.0593,
+   "tier": "C"
   },
   {
    "cardId": "BG30_MagicItem_988",
    "name": "Great Boar Sticker",
-   "averagePosition": 4.629,
-   "pickRate": 0.2602,
+   "averagePosition": 4.5,
+   "pickRate": 0.2693,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_902",
+   "name": "Holy Mallet",
+   "averagePosition": 4.504,
+   "pickRate": 0.1208,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_430",
+   "name": "Scrapsmith Portrait",
+   "averagePosition": 4.548,
+   "pickRate": 0.2538,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_433",
+   "name": "Vinespeaker Portrait",
+   "averagePosition": 4.559,
+   "pickRate": 0.5388,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG35_MagicItem_803",
+   "name": "Maxwell Sticker",
+   "averagePosition": 4.573,
+   "pickRate": 0.2153,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_931",
+   "name": "Lucky Tabby",
+   "averagePosition": 4.58,
+   "pickRate": 0.2022,
+   "tier": "C"
+  },
+  {
+   "cardId": "BG30_MagicItem_410",
+   "name": "Quilligraphy Set",
+   "averagePosition": 4.607,
+   "pickRate": 0.3571,
    "tier": "D"
   },
   {
    "cardId": "BG30_MagicItem_546",
    "name": "Jar o' Gems",
-   "averagePosition": 4.635,
-   "pickRate": 0.3778,
+   "averagePosition": 4.634,
+   "pickRate": 0.3634,
    "tier": "D"
   },
   {
    "cardId": "BG30_MagicItem_410t2",
    "name": "Quilligraphy Set",
-   "averagePosition": 4.658,
-   "pickRate": 0.4099,
+   "averagePosition": 4.642,
+   "pickRate": 0.4194,
    "tier": "D"
   },
   {
-   "cardId": "BG35_MagicItem_433",
-   "name": "Vinespeaker Portrait",
-   "averagePosition": 4.66,
-   "pickRate": 0.5277,
-   "tier": "D"
-  },
-  {
-   "cardId": "BG30_MagicItem_931",
-   "name": "Lucky Tabby",
-   "averagePosition": 4.854,
-   "pickRate": 0.2012,
-   "tier": "D"
-  },
-  {
-   "cardId": "BG35_MagicItem_803",
-   "name": "Maxwell Sticker",
-   "averagePosition": 4.956,
-   "pickRate": 0.221,
+   "cardId": "BG35_MagicItem_152",
+   "name": "Demonic Tapestry",
+   "averagePosition": 4.671,
+   "pickRate": 0.3959,
    "tier": "D"
   }
  ]

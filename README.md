@@ -150,6 +150,10 @@ The model also *understands* each minion, not just its win rate:
   *your* board. Pass `recommend(snap, kb=load_kb())` to get synergy-aware buys
   on top of the population stats. (Heuristic from card text; learned synergy is
   a later ML step.)
+- `final_boards.py` — Firestone embeds **real example winning boards**; we
+  extract per-comp **core cards by board frequency** (so comp core cards are
+  data-driven, not tribe-approximated) plus example boards (`stats.example_boards`)
+  with positions/keywords — a target board and ML reference data.
 
 ### Full-accuracy combat sim (optional)
 

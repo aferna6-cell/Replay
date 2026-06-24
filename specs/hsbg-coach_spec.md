@@ -80,7 +80,15 @@ across the whole game.
 | Source | Role | Mechanics |
 |---|---|---|
 | Population stats (HDT/Firestone-style) | priors / features: "what's objectively strong" | Aggregates only — **no public raw-trajectory dump exists**. Enter the model as input *features*, not training examples. |
-| Player's own games (the recorder) | personalization: "what works for *you*" | The only raw `(state, action, outcome)` trajectories obtainable. |
+| Player's own games (the recorder) | personalization: "what works for *you*" + full decision sequences | The only raw `(state, action, outcome)` *trajectories* (the buy/level/roll *sequence*) obtainable. |
+
+**Update (2026-06-24):** Firestone's comp endpoint *does* embed **real example
+winning boards** (`compStats[].heroStats[].finalBoards[]`) — full final boards
+with minions, positions, stats, tribes, keywords. So board-level population data
+("what the winning board looks like") IS available and is now extracted
+(`final_boards.py`). What's still personal-only is the **decision sequence** —
+the order you bought/levelled/rolled to *get* there. Population data gives the
+target; personal trajectories teach the path.
 
 ### Adaptive weighting (`config.WEIGHTING`)
 
@@ -176,6 +184,7 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 5b | Card-stats + trinket-stats: comp core cards (tribe join) + trinket advice | ✅ real data, MMR-aware |
 | 5c | Card knowledge: tier / tribe / keywords / text (`cards.py`, `refresh-cards`) | ✅ 1242 BG minions committed |
 | 5d | Synergy layer: tribe buffs, keyword payoffs, doublers, hero-power/trinket care (`synergy.py`) | ✅ text/keyword-derived; wired into `recommend(kb=…)` |
+| 5e | **Real winning boards** (`final_boards.py`) — core cards by board frequency + example boards | ✅ ~7.7k top-MMR winning boards; comp core cards now data-driven |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 
