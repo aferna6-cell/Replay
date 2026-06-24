@@ -96,6 +96,48 @@ Two viable routes; recommend a hybrid:
 - **Self-play league** (AlphaStar lesson): train against a *pool* of past agents,
   not just the latest, to avoid strategy collapse / rock-paper-scissors cycling.
 
+## 6b. Deep-learning architecture
+
+This whole agent **is** deep learning — neural nets for the policy and value
+functions (classical ML = the shallow value/synergy models we considered for
+aggregate data). BG's structure favors specific deep designs:
+
+**Card embeddings (representation learning).** Learn a dense vector per minion
+instead of hand-coded tier/tribe/keyword features. Two sources:
+- *Now, no env:* **card2vec** — learn embeddings from **co-occurrence in the 20k
+  winning boards** (cards that win together end up near each other), the same
+  idea as word2vec on sentences. Doable today on data we have; also upgrades the
+  current synergy layer.
+- *In the RL net:* an embedding table trained end-to-end with the policy.
+These let the model **generalize across the card pool** by learned properties —
+directly attacking the "shallow card understanding" gap.
+
+**Set/attention encoder (the natural fit).** Board and shop are *sets* of
+minions. A **self-attention / Transformer encoder over the minions** is the
+standout architecture here: attention literally models minion↔minion interactions
+— i.e. **synergy emerges from the network** rather than being hand-written.
+Permutation-invariant (DeepSets is the simpler fallback). A small Transformer over
+[board ∪ shop ∪ context tokens] is the recommended encoder.
+
+**Policy + value heads.** Shared encoder → (a) **autoregressive policy** (pick
+action type, then target, with legal-action masking — mirrors `bg.ActionType`),
+(b) **scalar value** head predicting expected placement.
+
+**Search + net (AlphaZero-flavored), with a twist.** Our fast combat sim makes
+lookahead cheap, so MCTS guided by the net is attractive. BUT BG is **imperfect
+information + RNG** (hidden enemy boards, random shops), so plain AlphaZero MCTS
+doesn't apply — use **Information-Set MCTS (ISMCTS)** or determinized rollouts.
+
+**Sequence-model / offline routes (future, data-gated).** **Decision Transformer**
+and offline-RL (CQL) frame control as sequence modeling over trajectories — elegant,
+but they **need trajectory datasets we don't have at scale**. Candidate later, if
+we accumulate enough `Power.log` games or self-play data.
+
+**Honest caveat:** deep learning is the *function approximator*, **not a data
+source**. It does not remove the Phase 0 requirement — deep RL still needs the
+self-play environment; deep offline methods still need trajectories. Picking
+"deep learning" changes the *model class*, not the data constraint.
+
 ## 7. How existing assets plug in
 
 | Asset | Role in the agent |
@@ -149,6 +191,13 @@ Phase 0 → Phase 1 gate with a working environment + baseline agents in hand.
 If Phase 0's environment can't reproduce the real pace/board curves we measured
 from Firestone, that's the signal to stop and stay with the simulation+search
 heuristic engine instead.
+
+**One deep-learning artifact is buildable now, independent of Phase 0:**
+**card2vec embeddings** from the 20k winning boards (§6b). It needs no
+environment and no trajectories — just the data we have — and it pays off twice:
+it upgrades today's synergy layer (learned card relationships > regex) and
+becomes the input embedding for the future RL net. Low-risk, high-reuse; a good
+parallel track to Phase 0.
 
 ## Cross-refs
 - `specs/hsbg-coach_spec.md` — data layer + why full games aren't available
