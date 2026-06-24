@@ -160,7 +160,33 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("overlay", help="show the overlay with sample data (needs a display)"
                    ).set_defaults(func=cmd_overlay)
+
+    s = sub.add_parser("stats", help="show hero/comp advice from population stats")
+    s.add_argument("--hero", required=True, help="hero name (e.g. 'Old Murk-Eye')")
+    s.add_argument("--tribes", help="comma-separated tribes available this lobby")
+    s.add_argument("--hero-source", help="hero stats file/URL (default: sample)")
+    s.add_argument("--comp-source", help="comp stats file/URL (default: sample)")
+    s.set_defaults(func=cmd_stats)
     return p
+
+
+def cmd_stats(args) -> int:
+    from .stats import StatsDB, build_hero_context, SAMPLE_HEROES, SAMPLE_COMPS
+    db = StatsDB.load(args.hero_source or SAMPLE_HEROES,
+                      args.comp_source or SAMPLE_COMPS)
+    tribes = [t.strip() for t in args.tribes.split(",")] if args.tribes else None
+    ctx = build_hero_context(args.hero, db, available_tribes=tribes)
+    comp = db.best_comp_for_hero(args.hero, available_tribes=tribes)
+    print(f"Hero: {ctx.hero}")
+    print(f"Target comp: {comp.name if comp else '?'} "
+          f"(tribe {ctx.target_tribe}, avg place "
+          f"{comp.average_position if comp else '?'}, tier {comp.tier if comp else '?'})")
+    print(f"Core minions: {', '.join(ctx.recommended_minions) or '—'}")
+    if comp and comp.power_turns:
+        print(f"Spikes on turns: {comp.power_turns}")
+    print(f"Leveling bias: {ctx.level_aggression:+.2f} "
+          f"({'greedier' if ctx.level_aggression > 0 else 'more tempo' if ctx.level_aggression < 0 else 'neutral'})")
+    return 0
 
 
 def cmd_overlay(_args) -> int:

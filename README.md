@@ -110,6 +110,25 @@ for r in recommend(snap, enemy_boards=enemy):       # ranked across layers
   likely enemies during recruit; exact vs a known board at combat).
 - `recommend.py` — merges both into one ranked move list + combat odds.
 
+### Hero/comp-specific advice (population stats)
+
+```bash
+python -m hsbg_coach stats --hero "Old Murk-Eye"
+# Target comp: Murlocs (tribe Murloc, avg place 3.7, tier S) ...
+python -m hsbg_coach stats --hero "Old Murk-Eye" --tribes "Beast,Mech,Dragon"
+# pivots to the best comp actually available this lobby
+```
+
+`stats.py` loads hero/comp stats and builds a `HeroContext` (target tribe, core
+minions, leveling bias) that makes `recommend()` hero/comp-specific. It ships
+with sample data — point `--hero-source` / `--comp-source` at a real Firestone or
+HSReplay export to use live numbers.
+
+### Full-accuracy combat sim (optional)
+
+`bridge/` wraps Firestone's open-source simulator. `cd bridge && npm install`
+activates it; `recommend()` then uses it automatically, else the built-in sim.
+
 ## Roadmap
 
 See `specs/hsbg-coach_spec.md` for the full spec, data model, and ML design.

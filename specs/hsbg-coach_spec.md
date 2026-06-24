@@ -161,8 +161,9 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 3d | Sim-based positioning optimizer | ✅ built, tested (`position.py`) |
 | 4 | Heuristic economy advisor (buy/level/roll/freeze/sell) | ✅ built, tested (`economy.py`) |
 | 4b | Recommendation facade (economy + positioning + odds) | ✅ built, tested (`recommend.py`) |
-| 4c | Hero/comp-aware advice plumbing (`HeroContext`) | ✅ built, tested; **needs stats data to populate** |
-| 5 | Population-stats features (hero/comp/trinket/minion) | ⬜ pick a source (see §5) |
+| 4c | Hero/comp-aware advice plumbing (`HeroContext`) | ✅ built, tested |
+| 5 | Hero/comp stats loader → `HeroContext` (`stats.py`) | ✅ built + tested; **runs on sample data — drop in a real Firestone/HSReplay export** |
+| 5b | Trinket / minion-tier stats | ⬜ |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 
