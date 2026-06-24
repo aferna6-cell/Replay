@@ -237,6 +237,33 @@ Full-turn plan (follow in order):
 This is how you'd "play the turn by the recommender." It's greedy (locally best
 each step), not globally optimal turn search, and roll/level are heuristic.
 
+## Multi-turn plan (tempo vs greed)
+
+`hsbg plan` looks several turns ahead — the strategic layer above single-turn
+moves. It projects the next K turns (tier, board strength vs the top-10% pace
+curve, HP) under candidate strategies and ranks them:
+
+```bash
+python -m hsbg_coach plan --horizon 4
+```
+
+```
+Strategy lookahead (4 turns) — best first:
+  1. Level next turn: value 10.0
+  2. Tempo:           value  9.0
+  4. Double level:    value  4.2  ⚠ DIES
+Best strategy: Level next turn — THIS TURN: TEMPO
+  T6: tempo  tier 3 · 91% of pace · hp 24
+  T7: level  tier 4 · 63% of pace · hp 21
+  ...
+```
+
+This is the "skip the buy now, tier up for a spike" reasoning: low HP ⇒ tempo to
+survive, under-tiered ⇒ level to catch up, and the further ahead you plan the
+more leveling pays. It's an economy model grounded in the real pace curves (not
+the eval net) — an honest approximation; eval-net/RL terminal valuation is the
+next refinement.
+
 ## Draft picks (hero / trinket / Discover)
 
 Beyond board actions, it ranks "choose 1 of N" decisions. Hero and trinket use

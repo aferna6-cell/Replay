@@ -229,7 +229,46 @@ def build_parser() -> argparse.ArgumentParser:
     pk.add_argument("--board", help="discover only: comma-separated current board names")
     pk.add_argument("--tribe", help="comp you're building toward (discover synergy)")
     pk.set_defaults(func=cmd_pick)
+
+    pl = sub.add_parser("plan",
+                        help="multi-turn strategy lookahead (tempo vs level/greed)")
+    pl.add_argument("--snapshot", help="path to a snapshot JSON (else a demo board)")
+    pl.add_argument("--horizon", type=int, default=3, help="turns to look ahead")
+    pl.add_argument("--tribe", help="comp you're building toward")
+    pl.set_defaults(func=cmd_plan)
     return p
+
+
+def cmd_plan(args) -> int:
+    import json
+    from . import cards
+    from .multiturn import plan_multiturn
+    from .advisor import plan_turn
+    from .pace import load_pace
+    from .economy import HeroContext
+    kb = cards.load_kb()
+    if args.snapshot:
+        with open(args.snapshot, encoding="utf-8") as fh:
+            snap = json.load(fh)
+    else:
+        snap = _demo_snapshot(kb)
+        print("(no --snapshot — using a demo board)\n")
+    plans = plan_multiturn(snap, load_pace(), horizon=args.horizon)
+    if not plans:
+        print("No plan (missing pace data).")
+        return 1
+    print(f"Strategy lookahead ({args.horizon} turns) — best first:")
+    for i, p in enumerate(plans, 1):
+        print(f"  {i}. {p.name}: value {p.value:.1f}{'  ⚠ DIES' if p.died else ''}")
+    best = plans[0]
+    print(f"\nBest strategy: {best.name} — THIS TURN: {best.this_turn.upper()}")
+    for tp in best.projection:
+        print(tp.line())
+    hero_ctx = HeroContext(target_tribe=args.tribe) if args.tribe else None
+    print("\nThis turn, concretely:")
+    for i, s in enumerate(plan_turn(snap, kb=kb, hero_ctx=hero_ctx), 1):
+        print(f"  {i}. {s}")
+    return 0
 
 
 def cmd_pick(args) -> int:
