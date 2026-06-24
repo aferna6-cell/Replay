@@ -1,0 +1,16 @@
+# Recorded gameplay trajectories (your data — keep local unless you choose to commit)
+/data/*.jsonl
+/data/*.jsonl.partial
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# OS
+.DS_Store

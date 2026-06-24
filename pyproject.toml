@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hsbg-coach"
+version = "0.1.0"
+description = "Hearthstone Battlegrounds log parser, state reconstructor, and (state, action, outcome) trajectory recorder"
+requires-python = ">=3.9"
+dependencies = []  # core is stdlib-only by design (runs anywhere Python does)
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+hsbg-coach = "hsbg_coach.cli:main"
+
+[tool.setuptools]
+packages = ["hsbg_coach"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
