@@ -41,14 +41,18 @@ recommendations measurably improve placement. See `WEIGHTING` in
 | Log tailer (handles truncation/rotation) | implemented |
 | Raw line parser (CREATE_GAME / FULL_ENTITY / SHOW_ENTITY / TAG_CHANGE / scene loads) | implemented + unit-tested |
 | Entity/game state model | implemented |
-| **BG semantic layer** (phase detection, board/shop snapshots) | scaffolded — **needs calibration against a real Power.log** |
+| **BG semantic layer** (phase detection, board/shop snapshots) | calibrated vs reference parsers; **shop zone + placement still need a real log** |
 | `(state, action, outcome)` recorder (JSONL) | implemented |
+| Monte Carlo combat sim (core + Divine Shield/Taunt/Poisonous/Reborn) | implemented + unit-tested (`hsbg_coach/sim.py`) |
+| Overlay UI shell (transparent always-on-top panel) | implemented; pure formatter unit-tested (`hsbg_coach/overlay.py`) |
 
 The raw parser is tested against synthetic log lines. The **BG semantic layer**
-(`hsbg_coach/bg.py`) is the part that must be calibrated against a captured
-real-game log — the exact tag names for tavern tier, health, and combat
-transitions need confirmation from your machine before recommendations are
-trustworthy.
+(`hsbg_coach/bg.py`) is calibrated against public reference parsers
+(`twanvl/hearthstone-battlegrounds-simulator` + HearthSim tag conventions):
+phase detection (turn parity), tavern tier, and hero health are pinned down.
+The remaining `# CALIBRATE` items — shop-minion zone, gold tag, final placement,
+and exact log paths — need confirmation from a real captured `Power.log` before
+recommendations are fully trustworthy. See `specs/hsbg-coach_spec.md` §7.
 
 ## Quick start
 
@@ -64,11 +68,27 @@ python -m hsbg_coach watch
 
 # Offline: parse a previously captured log (no Hearthstone needed — good for dev)
 python -m hsbg_coach parse-file path/to/Power.log
+
+# Show the overlay with sample data (needs a graphical display)
+python -m hsbg_coach overlay
 ```
 
-## Next milestones (not in this repo yet)
+## Combat odds (no ML)
 
-3. Combat simulator integration → combat odds + positioning/buy advice (no ML)
-4. Encoded heuristic economy advisor (tempo/greed, level breakpoints, freeze)
-5. Population-stats features (hero/comp/trinket/minion tiers)
-6. Learned move policy (the real ML — only after 1–2 have produced enough data)
+```python
+from hsbg_coach.sim import Combatant, simulate
+
+mine  = [Combatant(3, 3), Combatant(2, 4, taunt=True)]
+enemy = [Combatant(4, 4, divine_shield=True)]
+print(simulate(mine, enemy, runs=1000, seed=0).summary())
+# -> win 71% / tie 6% / loss 23% (avg dmg dealt 2.1, taken 1.4)
+```
+
+`simulate()` also accepts the `MinionView`s produced by `bg.py` directly.
+
+## Roadmap
+
+See `specs/hsbg-coach_spec.md` for the full spec, data model, and ML design.
+Built: log parser, state reconstruction, recorder, combat sim, overlay shell.
+Next: per-action labeling (needs a real log), full sim (deathrattles), heuristic
+economy advisor, population-stats panels, then the learned move policy.

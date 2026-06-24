@@ -75,9 +75,9 @@ def _on_phase_change(tracker, recorder, old: Phase, new: Phase) -> None:
         if recorder is not None:
             recorder.record(snap, ActionType.END_TURN)
     elif new == Phase.GAME_OVER and recorder is not None:
-        # Placement parsing is a CALIBRATE item; flush as partial for now so the
-        # trajectory is never lost.
-        recorder.finish_game(placement=None)
+        # Backfill the final placement onto every decision in the game so the
+        # trajectory carries its outcome label (None if not yet reported).
+        recorder.finish_game(placement=tracker.placement())
 
 
 def _print_board(snap) -> None:
@@ -157,7 +157,24 @@ def build_parser() -> argparse.ArgumentParser:
     f.add_argument("path")
     f.add_argument("--no-record", action="store_true", help="don't write dataset")
     f.set_defaults(func=cmd_parse_file)
+
+    sub.add_parser("overlay", help="show the overlay with sample data (needs a display)"
+                   ).set_defaults(func=cmd_overlay)
     return p
+
+
+def cmd_overlay(_args) -> int:
+    try:
+        from .overlay import demo
+    except Exception as exc:  # pragma: no cover - display-dependent
+        print("Could not load overlay:", exc)
+        return 1
+    try:
+        demo()
+    except Exception as exc:  # pragma: no cover - needs a display
+        print("Overlay needs a graphical display:", exc)
+        return 1
+    return 0
 
 
 def main(argv=None) -> int:

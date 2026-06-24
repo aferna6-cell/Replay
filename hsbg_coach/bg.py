@@ -51,12 +51,22 @@ class ActionType(str, Enum):
 # Internal-mode name Hearthstone uses for Battlegrounds in LoadingScreen logs.
 BACON_MODE = "BACON"
 
-# --- CALIBRATE: confirm these tag names/values against a real log -----------
-TAG_TAVERN_TIER = "PLAYER_TECH_LEVEL"   # CALIBRATE: tavern tier on player/hero
-TAG_HEALTH = "HEALTH"                    # CALIBRATE: hero health
-TAG_DAMAGE = "DAMAGE"                    # CALIBRATE: damage taken (health - damage = effective)
-TAG_RESOURCES = "RESOURCES"              # CALIBRATE: gold available
-TAG_STEP = "STEP"                        # GameEntity step; recruit vs combat
+# --- Calibrated against twanvl/hearthstone-battlegrounds-simulator log_parser
+# and the HearthSim tag conventions (2026-06-24). Items still needing a real
+# captured log to confirm are marked # CALIBRATE.
+TAG_TAVERN_TIER = ("PLAYER_TECH_LEVEL", "TECH_LEVEL")  # reference uses both
+TAG_HEALTH = "HEALTH"                    # hero entity; effective = HEALTH - DAMAGE
+TAG_DAMAGE = "DAMAGE"
+TAG_RESOURCES = "RESOURCES"              # gold pool  # CALIBRATE: confirm tag name
+TAG_STEP = "STEP"                        # GameEntity step; MAIN_READY ~ battle start
+TAG_PLACEMENT = "PLAYER_LEADERBOARD_PLACE"  # 1..8 final placement  # CALIBRATE
+TAG_DUMMY_PLAYER = "BACON_DUMMY_PLAYER"  # excluded from board/shop scans
+
+# In Battlegrounds the turn counter alternates phases: odd turns are the tavern
+# (recruit), even turns are combat. This parity is a more reliable phase signal
+# than guessing STEP values, per the reference parser. STEP=MAIN_READY is used
+# as a secondary combat-start marker.
+STEP_COMBAT_START = "MAIN_READY"
 
 
 @dataclass
@@ -126,18 +136,25 @@ class BGTracker:
         self._update_phase(event)
         self._maybe_detect_local_player()
 
-    # --- phase machine (CALIBRATE step values) ----------------------------
+    # --- phase machine ----------------------------------------------------
+    # Primary signal: BG turn parity (odd=recruit, even=combat). Secondary:
+    # STEP=MAIN_READY marks a battle starting. Both per the reference parser.
     def _update_phase(self, event: Event) -> None:
         if not self.in_bg:
             return
+
+        if event.kind in ("TAG", "TAG_CHANGE") and event.tag == "TURN":
+            turn = _safe_int(event.value)
+            if turn is not None and turn >= 1:
+                # Turn 1 is the first tavern; alternates from there.
+                self.phase = Phase.RECRUIT if turn % 2 == 1 else Phase.COMBAT
+            return
+
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag == TAG_STEP:
             step = (event.value or "").upper()
-            # CALIBRATE: confirm the BACON_* step names on a real log.
-            if "COMBAT" in step:
+            if step == STEP_COMBAT_START or "COMBAT" in step:
                 self.phase = Phase.COMBAT
-            elif "RECRUIT" in step or "SHOP" in step or "MAIN" in step:
-                self.phase = Phase.RECRUIT
-            elif "DONE" in step or "FINAL" in step:
+            elif "FINAL" in step or "DONE" in step:
                 self.phase = Phase.GAME_OVER
 
     def _maybe_detect_local_player(self) -> None:
@@ -180,6 +197,8 @@ class BGTracker:
         # play minions as a first approximation.
         out = []
         for ent in self.state.entities.values():
+            if ent.tags.get(TAG_DUMMY_PLAYER):
+                continue
             if ent.zone == "PLAY" and ent.controller not in (
                 None, str(self.local_player)
             ):
@@ -197,13 +216,26 @@ class BGTracker:
             tags=dict(ent.tags),
         )
 
-    def _player_tag_int(self, tag: str) -> Optional[int]:
+    def _player_tag_int(self, tag) -> Optional[int]:
+        # tag may be a single name or a tuple of candidate names (the reference
+        # parser reads tavern tier from either TECH_LEVEL or PLAYER_TECH_LEVEL).
+        candidates = (tag,) if isinstance(tag, str) else tuple(tag)
         for ent in self.state.entities.values():
-            if ent.controller == str(self.local_player) and tag in ent.tags:
-                try:
-                    return int(ent.tags[tag])
-                except ValueError:
-                    pass
+            if ent.controller != str(self.local_player):
+                continue
+            for name in candidates:
+                if name in ent.tags:
+                    try:
+                        return int(ent.tags[name])
+                    except ValueError:
+                        pass
+        return None
+
+    def placement(self) -> Optional[int]:
+        """Final leaderboard place (1..8) of the local player, if reported."""
+        for ent in self.state.entities.values():
+            if ent.controller == str(self.local_player) and TAG_PLACEMENT in ent.tags:
+                return _safe_int(ent.tags[TAG_PLACEMENT])
         return None
 
     def _hero_health(self) -> Optional[int]:
@@ -217,4 +249,11 @@ class BGTracker:
                 d = ent.tag_int(TAG_DAMAGE) or 0
                 if h is not None:
                     return h - d
+        return None
+
+
+def _safe_int(value) -> Optional[int]:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
         return None

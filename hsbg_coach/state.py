@@ -67,6 +67,8 @@ class GameState:
             ent = self.entities.get(self._last_block_entity)
             if ent and event.tag:
                 ent.tags[event.tag] = event.value or ""
+                if event.tag == "TURN":
+                    self.current_turn = _safe_int(event.value)
 
     def _upsert(self, ref: EntityRef) -> Entity:
         ent = self._ensure(ref)
