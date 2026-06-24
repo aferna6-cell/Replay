@@ -102,6 +102,8 @@ def cmd_watch(args) -> int:
         print("No Power.log found. Run `setup`, launch Hearthstone, then retry.")
         print("Or pass --path to a captured log.")
         return 1
+    if args.overlay:
+        return _watch_overlay(power, args)
     print(f"Watching {power} (Ctrl-C to stop)")
     tracker = BGTracker()
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
@@ -114,6 +116,30 @@ def cmd_watch(args) -> int:
             path = recorder.close()
             if path:
                 print("Flushed in-progress trajectory to", path)
+    return 0
+
+
+def _watch_overlay(power, args) -> int:
+    """Live overlay: background log thread feeds the coach; the overlay polls it."""
+    from .live import LiveCoach
+    recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
+    coach = LiveCoach(power, recorder=recorder, from_start=args.from_start)
+    coach.start()
+    try:
+        from .overlay import Overlay
+        ov = Overlay()
+    except Exception as exc:  # pragma: no cover - needs a display
+        print("Overlay needs a graphical display:", exc)
+        coach.stop()
+        return 1
+    print(f"Overlay watching {power} — drag to move, close the window to stop.")
+    ov.poll(coach.frame, interval_ms=600)
+    try:
+        ov.run()
+    finally:
+        coach.stop()
+        if recorder is not None:
+            recorder.close()
     return 0
 
 
@@ -151,6 +177,8 @@ def build_parser() -> argparse.ArgumentParser:
     w.add_argument("--from-start", action="store_true",
                    help="read existing log content before tailing")
     w.add_argument("--no-record", action="store_true", help="don't write dataset")
+    w.add_argument("--overlay", action="store_true",
+                   help="show the on-screen overlay with live recommendations")
     w.set_defaults(func=cmd_watch)
 
     f = sub.add_parser("parse-file", help="parse a captured log offline")

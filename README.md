@@ -226,6 +226,49 @@ Best move: Buy Monstrous Macaw — learned synergy with board (0.32)
 It's one-ply (ranks each immediate action, not full multi-buy turn plans), and
 roll/level/freeze are heuristic — see the caveats it prints.
 
+## Take it into a game (live overlay)
+
+On your gaming PC (Windows/Mac), with Hearthstone installed:
+
+```bash
+python -m hsbg_coach setup            # one-time: make Hearthstone emit the logs
+# launch Hearthstone, start a Battlegrounds game
+python -m hsbg_coach watch --overlay  # on-screen, always-on-top recommendations
+```
+
+A small draggable panel pins to a screen corner and updates as you play — each
+recruit turn it shows the ranked moves (best first), recomputed whenever your
+board, shop, or gold changes. It runs the full stack: the eval net scores buys,
+card2vec drives synergy, the combat sim handles positioning.
+
+> First real-game use is a shakedown: the live path is calibrated on captured
+> logs, not yet against a running client. Expect to file rough edges.
+
+## It learns from your games
+
+Every game you `watch` is recorded to `data/<game>.jsonl` — each decision with the
+final placement it led to. Fold those into the brain after a session:
+
+```bash
+./scripts/retrain.sh                  # retrain the eval net on the meta + your games
+```
+
+The more you play, the sharper it gets on the live meta *and your playstyle* —
+your per-game placements are a sharper signal than the population averages.
+
+## Keeping it fresh (weekly meta pull)
+
+```bash
+./scripts/weekly_update.sh            # refresh cards + stats from Firestone, retrain everything
+```
+
+Schedule it weekly so the models track the current patch:
+
+```
+cron (mac/linux):   0 9 * * 1  cd /path/to/Replay && ./scripts/weekly_update.sh
+Windows Task Scheduler: weekly action -> bash scripts/weekly_update.sh
+```
+
 Design for the full self-play RL agent: `specs/self-play-rl-agent.md`.
 
 ## Roadmap

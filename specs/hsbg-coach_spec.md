@@ -199,6 +199,7 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 7b | **card2vec embeddings** (`ml/card2vec.py`) — learned card vectors from 20k winning boards | ✅ learned tribes unsupervised (5/5 same-tribe neighbors); wired into synergy + `similar` CLI |
 | 7c | **Board-evaluation net** (`ml/eval_net.py`) — deep net: board+hero → expected finish, trained on 20k labeled boards + continual on your games | ✅ val MAE 0.26 placements, Pearson r 0.66 on **unseen** comps; predictions track the real meta ordering. The brain the move-recommender queries. |
 | 8 | **Move recommender** (`hsbg_coach/advisor.py`) — ranks *every* legal action (buy/sell/roll/level/reposition/freeze/end) by expected-finish delta | ✅ one-ply lookahead: buy/sell scored by the eval net (heuristic fallback), economy by pace/gold heuristics, reposition by the combat sim. `hsbg advise` CLI. |
+| 9 | **Live overlay** (`hsbg_coach/live.py`) — `watch --overlay` reads the live log, advises in real time, and records every game for retraining | ✅ background log thread + foreground overlay; advice recomputed only on board/shop/gold change. Continual loop: games → `data/*.jsonl` → `retrain.sh`. Weekly meta refresh: `weekly_update.sh`. **Untested vs a live client** (calibrated on captured logs). |
 | 8 | Self-play RL agent | ⬜ scoped (`specs/self-play-rl-agent.md`); Phase 0 env is the gate |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |

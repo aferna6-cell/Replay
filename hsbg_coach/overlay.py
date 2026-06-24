@@ -21,8 +21,13 @@ def _fmt_minion(m: Dict) -> str:
     return f"  {prefix}{name}{stats}"
 
 
-def format_overlay_text(snapshot: Dict, odds: Optional[str] = None) -> str:
-    """Pure renderer: snapshot dict (Snapshot.to_dict()) -> display text."""
+def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
+                        recommendations: Optional[List[str]] = None) -> str:
+    """Pure renderer: snapshot dict (Snapshot.to_dict()) -> display text.
+
+    `recommendations` is the advisor's ranked move list (best first); it's shown
+    prominently near the top — that's the whole point of the overlay.
+    """
     lines: List[str] = []
     turn = snapshot.get("turn")
     tier = snapshot.get("tavern_tier")
@@ -31,6 +36,12 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None) -> str:
     phase = snapshot.get("phase", "?")
     lines.append(f"HSBG Coach — turn {turn}  ·  {phase}")
     lines.append(f"tier {tier}   gold {gold}   hp {hp}")
+
+    if recommendations:
+        lines.append("")
+        lines.append("▸ Recommended:")
+        for i, r in enumerate(recommendations, 1):
+            lines.append(f"  {i}. {r}")
 
     if odds:
         lines.append("")
@@ -102,17 +113,17 @@ class Overlay:
         y = self.root.winfo_y() + (e.y - self._drag[1])
         self.root.geometry(f"+{x}+{y}")
 
-    def update(self, snapshot: Dict, odds: Optional[str] = None) -> None:
-        self._label.config(text=format_overlay_text(snapshot, odds))
+    def update(self, snapshot: Dict, odds: Optional[str] = None,
+               recommendations: Optional[List[str]] = None) -> None:
+        self._label.config(text=format_overlay_text(snapshot, odds, recommendations))
 
     def poll(self, provider: Callable[[], Optional[tuple]], interval_ms: int = 500) -> None:
-        """Call provider() every interval; it returns (snapshot_dict, odds) or None."""
+        """Call provider() every interval; it returns (snapshot, odds[, recos]) or None."""
         def tick():
             try:
                 result = provider()
                 if result:
-                    snapshot, odds = result
-                    self.update(snapshot, odds)
+                    self.update(*result)         # (snapshot, odds) or (snapshot, odds, recos)
             except Exception as exc:  # never let a bad frame kill the overlay
                 self._label.config(text=f"overlay error: {exc}")
             self.root.after(interval_ms, tick)
