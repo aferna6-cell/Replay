@@ -207,6 +207,10 @@ def cmd_stats(args) -> int:
         print(f"Spikes on turns: {comp.power_turns}")
     print(f"Leveling bias: {ctx.level_aggression:+.2f} "
           f"({'greedier' if ctx.level_aggression > 0 else 'more tempo' if ctx.level_aggression < 0 else 'neutral'})")
+    trinkets = db.best_trinkets(5)
+    if trinkets:
+        print("Top trinkets: "
+              + ", ".join(f"{t.name} ({t.tier}, {t.average_position:.2f})" for t in trinkets))
     return 0
 
 

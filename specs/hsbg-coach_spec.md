@@ -173,7 +173,7 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 4c | Hero/comp-aware advice plumbing (`HeroContext`) | ✅ built, tested |
 | 5 | Hero/comp stats loader → `HeroContext` (`stats.py`) | ✅ built + tested |
 | 5a | **Live Firestone fetch + real committed snapshot** (`firestone_stats.py`, `refresh-stats`) | ✅ real data, 114 heroes / 29 comps |
-| 5b | Trinket / minion-tier stats + comp core cards | ⬜ (Firestone has trinket/card endpoints) |
+| 5b | Card-stats + trinket-stats: comp core cards (tribe join) + trinket advice | ✅ real data, 613 cards / 208 trinkets |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
 

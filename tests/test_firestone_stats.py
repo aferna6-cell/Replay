@@ -4,7 +4,8 @@ The fixtures mirror the real Firestone schema confirmed live on 2026-06-24.
 """
 
 from hsbg_coach.firestone_stats import (
-    normalize_heroes, normalize_comps, _playstyle, _archetype_tribe, _tier,
+    normalize_heroes, normalize_comps, normalize_cards, normalize_trinkets,
+    inject_core_cards, _playstyle, _archetype_tribe, _tier,
 )
 
 # Mini raw payloads in Firestone's real shape.
@@ -79,3 +80,52 @@ def test_archetype_tribe_inference():
 def test_tier_buckets():
     assert _tier(3.5) == "S" and _tier(3.9) == "A" and _tier(4.2) == "B"
     assert _tier(4.5) == "C" and _tier(4.8) == "D"
+
+
+RAW_CARDS = {
+    "cardStats": [
+        {"cardId": "BG_MURLOC_1", "totalPlayed": 50000,
+         "averagePlacement": 3.2, "averagePlacementOther": 4.0},
+        {"cardId": "BG_MECH_1", "totalPlayed": 40000,
+         "averagePlacement": 3.5, "averagePlacementOther": 4.1},
+        {"cardId": "BG_RARE", "totalPlayed": 100,            # filtered by min_play
+         "averagePlacement": 1.0, "averagePlacementOther": 4.5},
+    ],
+}
+CARD_META = {
+    "BG_MURLOC_1": {"name": "Murloc Warleader", "tribes": ["Murloc"], "techLevel": 3},
+    "BG_MECH_1": {"name": "Junkbot", "tribes": ["Mech"], "techLevel": 4},
+}
+
+RAW_TRINKETS = {
+    "trinketStats": [
+        {"trinketCardId": "BG_T1", "dataPoints": 5000, "pickRate": 0.3, "averagePlacement": 3.1},
+        {"trinketCardId": "BG_T2", "dataPoints": 50, "pickRate": 0.9, "averagePlacement": 2.0},  # filtered
+    ],
+}
+
+
+def test_card_normalization_computes_impact():
+    out = normalize_cards(RAW_CARDS, CARD_META)
+    assert len(out) == 2                                  # rare card filtered
+    warleader = next(c for c in out if c["cardId"] == "BG_MURLOC_1")
+    assert warleader["name"] == "Murloc Warleader"
+    assert warleader["tribes"] == ["Murloc"]
+    assert warleader["impact"] == 0.8                     # 4.0 - 3.2 (placed better with it)
+
+
+def test_inject_core_cards_by_tribe():
+    cards = normalize_cards(RAW_CARDS, CARD_META)
+    comps = [{"name": "Murlocs", "tribe": "Murloc", "coreCards": []},
+             {"name": "Neutral", "tribe": None, "coreCards": []}]
+    inject_core_cards(comps, cards)
+    assert comps[0]["coreCards"] == ["Murloc Warleader"]
+    assert comps[1]["coreCards"] == []                    # no tribe -> unchanged
+
+
+def test_trinket_normalization_and_filter():
+    out = normalize_trinkets(RAW_TRINKETS, {"BG_T1": {"name": "Ironforge Anvil"}})
+    assert len(out) == 1                                  # low-data trinket filtered
+    assert out[0]["name"] == "Ironforge Anvil"
+    assert out[0]["averagePosition"] == 3.1
+    assert out[0]["tier"] == "S"

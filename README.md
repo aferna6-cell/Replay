@@ -130,8 +130,13 @@ python -m hsbg_coach refresh-stats                 # latest, all-MMR, last patch
 python -m hsbg_coach refresh-stats --mmr 1 --period past-seven   # top 1%, 7 days
 ```
 
-Source: Firestone's public CDN (`static.zerotoheroes.com/api/bgs`), hero names
-via HearthstoneJSON. See `decisions/2026-06-24-firestone-bridge.md`.
+It pulls **hero, comp, card, and trinket** stats: comp **core cards** come from
+joining card-stats to tribes, and **trinket** rankings come from the trinket
+endpoint. `stats --hero X` shows the target comp, its core minions, leveling
+bias, and the top trinkets.
+
+Source: Firestone's public CDN (`static.zerotoheroes.com/api/bgs`), hero/card
+names via HearthstoneJSON. See `decisions/2026-06-24-firestone-bridge.md`.
 
 ### Full-accuracy combat sim (optional)
 

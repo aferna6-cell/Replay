@@ -29,7 +29,16 @@ from typing import Dict, List, Optional
 BASE = "https://static.zerotoheroes.com/api/bgs"
 HERO_URL = BASE + "/hero-stats/mmr-{mmr}/{period}/overview-from-hourly.gz.json"
 COMP_URL = BASE + "/comp-stats/{period}/overview-from-hourly.gz.json"
+CARD_URL = BASE + "/card-stats/mmr-{mmr}/{period}/overview-from-hourly.gz.json"
+TRINKET_URL = BASE + "/trinket-stats/{period}/overview-from-hourly.gz.json"
 CARDS_URL = "https://api.hearthstonejson.com/v1/latest/enUS/cards.json"
+
+# HearthstoneJSON `races` strings -> our tribe names (note MECHANICAL, not MECH).
+_RACE_TO_TRIBE = {
+    "MURLOC": "Murloc", "BEAST": "Beast", "DRAGON": "Dragon", "MECHANICAL": "Mech",
+    "ELEMENTAL": "Elemental", "UNDEAD": "Undead", "DEMON": "Demon",
+    "PIRATE": "Pirate", "QUILBOAR": "Quilboar", "NAGA": "Naga",
+}
 
 VALID_PERIODS = ("last-patch", "past-three", "past-seven")
 VALID_MMR = (100, 50, 25, 10, 1)
@@ -62,9 +71,23 @@ def _fetch_json(source: str) -> dict:
     return json.loads(raw.decode("utf-8"))
 
 
-def _card_names(ids: set, cards_source: str = CARDS_URL) -> Dict[str, str]:
+def _card_meta(cards_source: str = CARDS_URL) -> Dict[str, dict]:
+    """id -> {name, tribes:[...], techLevel} from HearthstoneJSON."""
     cards = _fetch_json(cards_source)
-    return {c["id"]: c.get("name", c["id"]) for c in cards if c.get("id") in ids}
+    meta = {}
+    for c in cards:
+        cid = c.get("id")
+        if not cid:
+            continue
+        races = c.get("races") or ([c["race"]] if c.get("race") else [])
+        tribes = [_RACE_TO_TRIBE[r] for r in races if r in _RACE_TO_TRIBE]
+        meta[cid] = {"name": c.get("name", cid), "tribes": tribes,
+                     "techLevel": c.get("techLevel")}
+    return meta
+
+
+def _names_from_meta(meta: Dict[str, dict]) -> Dict[str, str]:
+    return {cid: m["name"] for cid, m in meta.items()}
 
 
 def _playstyle(combat_winrate: List[dict]) -> str:
@@ -143,8 +166,66 @@ def normalize_comps(raw: dict, min_data: int = 1000) -> List[dict]:
     return out
 
 
+def normalize_cards(raw: dict, meta: Dict[str, dict],
+                    min_play: int = 2000) -> List[dict]:
+    """Per-minion stats. `impact` = placement-without minus placement-with
+    (positive = you place better when you have it)."""
+    out = []
+    for c in raw.get("cardStats", []):
+        if (c.get("totalPlayed") or 0) < min_play:
+            continue
+        cid = c.get("cardId", "")
+        m = meta.get(cid, {})
+        avg = c.get("averagePlacement")
+        other = c.get("averagePlacementOther")
+        impact = round(other - avg, 3) if (avg is not None and other is not None) else None
+        out.append({
+            "cardId": cid,
+            "name": m.get("name", cid),
+            "tribes": m.get("tribes", []),
+            "techLevel": m.get("techLevel"),
+            "averagePlacement": round(avg, 3) if avg is not None else None,
+            "impact": impact,
+            "totalPlayed": c.get("totalPlayed"),
+        })
+    out.sort(key=lambda x: x["averagePlacement"] if x["averagePlacement"] is not None else 9)
+    return out
+
+
+def normalize_trinkets(raw: dict, meta: Dict[str, dict],
+                       min_data: int = 200) -> List[dict]:
+    out = []
+    for t in raw.get("trinketStats", []):
+        if (t.get("dataPoints") or 0) < min_data:
+            continue
+        cid = t.get("trinketCardId", "")
+        avg = t.get("averagePlacement")
+        out.append({
+            "cardId": cid,
+            "name": meta.get(cid, {}).get("name", cid),
+            "averagePosition": round(avg, 3) if avg is not None else None,
+            "pickRate": round(t.get("pickRate") or 0, 4),
+            "tier": _tier(avg) if avg is not None else "?",
+        })
+    out.sort(key=lambda x: x["averagePosition"] if x["averagePosition"] is not None else 9)
+    return out
+
+
+def inject_core_cards(comps: List[dict], cards: List[dict], per_comp: int = 4) -> None:
+    """Fill each comp's coreCards with the strongest minions of its tribe."""
+    by_tribe: Dict[str, List[dict]] = {}
+    for c in cards:                              # cards already sorted best-first
+        for tr in c.get("tribes", []):
+            by_tribe.setdefault(tr, []).append(c)
+    for comp in comps:
+        tribe = comp.get("tribe")
+        if tribe and by_tribe.get(tribe):
+            comp["coreCards"] = [c["name"] for c in by_tribe[tribe][:per_comp]]
+
+
 def refresh(out_dir: str, mmr: int = 100, period: str = "last-patch",
             hero_source: Optional[str] = None, comp_source: Optional[str] = None,
+            card_source: Optional[str] = None, trinket_source: Optional[str] = None,
             cards_source: str = CARDS_URL) -> Dict[str, str]:
     """Fetch + normalize + write firestone_{hero,comp}_stats.json. Returns paths.
 
@@ -159,12 +240,18 @@ def refresh(out_dir: str, mmr: int = 100, period: str = "last-patch",
 
     hero_raw = _fetch_json(hero_source or HERO_URL.format(mmr=mmr, period=period))
     comp_raw = _fetch_json(comp_source or COMP_URL.format(period=period))
+    card_raw = _fetch_json(card_source or CARD_URL.format(mmr=mmr, period=period))
+    trinket_raw = _fetch_json(trinket_source or TRINKET_URL.format(period=period))
 
-    ids = {h.get("heroCardId") for h in hero_raw.get("heroStats", [])}
-    names = _card_names(ids, cards_source)
+    card_meta = _card_meta(cards_source)
+    names = _names_from_meta(card_meta)
 
     heroes = normalize_heroes(hero_raw, names)
     comps = normalize_comps(comp_raw)
+    cards = normalize_cards(card_raw, card_meta)
+    trinkets = normalize_trinkets(trinket_raw, card_meta)
+    inject_core_cards(comps, cards)             # fill comp coreCards from card stats
+
     meta = {
         "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
         "_fetched": datetime.date.today().isoformat() if not hero_source else "from-local",
@@ -172,11 +259,16 @@ def refresh(out_dir: str, mmr: int = 100, period: str = "last-patch",
         "_heroDataPoints": hero_raw.get("dataPoints"),
     }
 
-    hero_path = os.path.join(out_dir, "firestone_hero_stats.json")
-    comp_path = os.path.join(out_dir, "firestone_comp_stats.json")
-    with open(hero_path, "w", encoding="utf-8") as fh:
-        json.dump({**meta, "heroes": heroes}, fh, indent=1)
-    with open(comp_path, "w", encoding="utf-8") as fh:
-        json.dump({**meta, "comps": comps}, fh, indent=1)
-    return {"heroes": hero_path, "comps": comp_path,
-            "num_heroes": len(heroes), "num_comps": len(comps)}
+    paths = {}
+    for name, key, rows in (
+        ("firestone_hero_stats.json", "heroes", heroes),
+        ("firestone_comp_stats.json", "comps", comps),
+        ("firestone_card_stats.json", "cards", cards),
+        ("firestone_trinket_stats.json", "trinkets", trinkets),
+    ):
+        path = os.path.join(out_dir, name)
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump({**meta, key: rows}, fh, indent=1)
+        paths[key] = path
+    return {**paths, "num_heroes": len(heroes), "num_comps": len(comps),
+            "num_cards": len(cards), "num_trinkets": len(trinkets)}

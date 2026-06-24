@@ -35,6 +35,7 @@ SAMPLE_COMPS = os.path.join(_STATS_DIR, "sample_comp_stats.json")
 # Real Firestone snapshot (written by `refresh-stats`); preferred when present.
 FIRESTONE_HEROES = os.path.join(_STATS_DIR, "firestone_hero_stats.json")
 FIRESTONE_COMPS = os.path.join(_STATS_DIR, "firestone_comp_stats.json")
+FIRESTONE_TRINKETS = os.path.join(_STATS_DIR, "firestone_trinket_stats.json")
 
 
 def default_hero_source() -> str:
@@ -43,6 +44,10 @@ def default_hero_source() -> str:
 
 def default_comp_source() -> str:
     return FIRESTONE_COMPS if os.path.isfile(FIRESTONE_COMPS) else SAMPLE_COMPS
+
+
+def default_trinket_source() -> Optional[str]:
+    return FIRESTONE_TRINKETS if os.path.isfile(FIRESTONE_TRINKETS) else None
 
 
 @dataclass
@@ -63,6 +68,15 @@ class CompStats:
     popularity: float = 0.0
     core_cards: List[str] = field(default_factory=list)
     power_turns: List[int] = field(default_factory=list)
+    tier: str = "?"
+
+
+@dataclass
+class TrinketStats:
+    name: str
+    card_id: str
+    average_position: float = 4.5
+    pick_rate: float = 0.0
     tier: str = "?"
 
 
@@ -107,22 +121,45 @@ def load_comp_stats(source: str = SAMPLE_COMPS) -> List[CompStats]:
     ]
 
 
+def load_trinket_stats(source: Optional[str]) -> List[TrinketStats]:
+    if not source:
+        return []
+    data = _read_json(source)
+    return [
+        TrinketStats(
+            name=t.get("name", ""),
+            card_id=t.get("cardId", ""),
+            average_position=float(t.get("averagePosition", 4.5)),
+            pick_rate=float(t.get("pickRate", 0.0)),
+            tier=t.get("tier", "?"),
+        )
+        for t in data.get("trinkets", [])
+    ]
+
+
 class StatsDB:
     """Loaded hero + comp stats with lookups for advice."""
 
-    def __init__(self, heroes: List[HeroStats], comps: List[CompStats]) -> None:
+    def __init__(self, heroes: List[HeroStats], comps: List[CompStats],
+                 trinkets: Optional[List[TrinketStats]] = None) -> None:
         self.heroes = heroes
         self.comps = comps
+        self.trinkets = trinkets or []
 
     @classmethod
     def load(cls, hero_source: Optional[str] = None,
-             comp_source: Optional[str] = None) -> "StatsDB":
+             comp_source: Optional[str] = None,
+             trinket_source: Optional[str] = None) -> "StatsDB":
         """Load stats. Defaults to the real Firestone snapshot if present, else
         the bundled sample data."""
         return cls(
             load_hero_stats(hero_source or default_hero_source()),
             load_comp_stats(comp_source or default_comp_source()),
+            load_trinket_stats(trinket_source or default_trinket_source()),
         )
+
+    def best_trinkets(self, limit: int = 5) -> List[TrinketStats]:
+        return sorted(self.trinkets, key=lambda t: t.average_position)[:limit]
 
     def hero(self, name_or_id: str) -> Optional[HeroStats]:
         key = (name_or_id or "").lower()
