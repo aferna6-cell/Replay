@@ -143,6 +143,7 @@ self-play environment; deep offline methods still need trajectories. Picking
 | Asset | Role in the agent |
 |---|---|
 | `sim.py` / Firestone bridge | Combat dynamics in the env + lookahead value |
+| `ml/` combat value net | **Built.** Learned fast approximation of combat (win/tie/loss) for the RL value/lookahead; trained on unlimited sim-generated data (win%-MAE ~0.05). First DL component; proves the deep approach works. |
 | `cards.py` | State features (tier/tribe/keywords) |
 | `final_boards.py` | Reward shaping (similarity to known winning boards); curriculum targets; sanity check |
 | `pace.py` | Reward shaping (on-curve leveling); env validation |

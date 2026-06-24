@@ -165,6 +165,21 @@ The model also *understands* each minion, not just its win rate:
 `bridge/` wraps Firestone's open-source simulator. `cd bridge && npm install`
 activates it; `recommend()` then uses it automatically, else the built-in sim.
 
+## Deep learning (optional `ml/` track)
+
+The core package is stdlib-only. The `ml/` track adds the first real neural
+model — a **combat-evaluation net** that learns to approximate the combat sim
+from *unlimited sim-generated data* (no human logs needed). It's a fast,
+differentiable win/tie/loss estimator for the future RL agent's lookahead.
+
+```bash
+pip install -r requirements-ml.txt
+python -m ml.train --train 8000 --epochs 40 --save combat_net.pt
+# val win%-MAE ~0.05, outcome-acc ~0.94 vs the simulator
+```
+
+Design for the full self-play RL agent: `specs/self-play-rl-agent.md`.
+
 ## Roadmap
 
 See `specs/hsbg-coach_spec.md` for the full spec, data model, and ML design.

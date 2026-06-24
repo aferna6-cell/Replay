@@ -16,5 +16,9 @@ venv/
 bridge/node_modules/
 bridge/package-lock.json
 
+# ML model weights / artifacts
+*.pt
+*.pth
+
 # OS
 .DS_Store
