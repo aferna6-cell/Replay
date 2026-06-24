@@ -86,9 +86,34 @@ print(simulate(mine, enemy, runs=1000, seed=0).summary())
 
 `simulate()` also accepts the `MinionView`s produced by `bg.py` directly.
 
+## Recommendations (no ML, no log needed)
+
+The advice engine runs off the Snapshot/board contracts — fully testable without
+a real game:
+
+```python
+from hsbg_coach.recommend import recommend, combat_odds
+from hsbg_coach.sim import Combatant as C
+
+snap = {"turn": 7, "tavern_tier": 2, "gold": 8, "hero_health": 29,
+        "board": [{"name": "Felfin", "attack": 4, "health": 4}],
+        "shop": [{"name": "Primalfin", "attack": 2, "health": 3}], "notes": []}
+enemy = [[C(3, 3), C(4, 4), C(2, 5, taunt=True)]]   # a likely opponent (field)
+
+print(combat_odds(snap, enemy))                     # win/tie/loss
+for r in recommend(snap, enemy_boards=enemy):       # ranked across layers
+    print(f"[{r.priority:.2f}] {r.source}: {r.rationale}")
+```
+
+- `economy.py` — buy / level / roll / freeze / sell heuristics over a Snapshot.
+- `position.py` — sim-based best board ordering (averaged over a field of
+  likely enemies during recruit; exact vs a known board at combat).
+- `recommend.py` — merges both into one ranked move list + combat odds.
+
 ## Roadmap
 
 See `specs/hsbg-coach_spec.md` for the full spec, data model, and ML design.
-Built: log parser, state reconstruction, recorder, combat sim, overlay shell.
-Next: per-action labeling (needs a real log), full sim (deathrattles), heuristic
-economy advisor, population-stats panels, then the learned move policy.
+Built: log parser, state reconstruction, recorder, combat sim, positioning
+optimizer, economy advisor, recommendation facade, overlay shell. Next:
+per-action labeling (needs a real log), fuller sim (deathrattles),
+population-stats panels, then the learned move policy.

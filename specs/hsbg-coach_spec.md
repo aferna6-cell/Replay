@@ -146,10 +146,18 @@ resulting `Power.log`. That confirms the ⚠️ items against ground truth.
 | 3a | Monte Carlo combat sim (core + 4 keywords) | ✅ built, tested |
 | 3b | Full sim (deathrattles/battlecries) or Bob's Buddy port | ⬜ |
 | 3c | Per-action labeling from log blocks | ⬜ needs real log |
-| 4 | Heuristic economy advisor | ⬜ |
+| 3d | Sim-based positioning optimizer | ✅ built, tested (`position.py`) |
+| 4 | Heuristic economy advisor (buy/level/roll/freeze/sell) | ✅ built, tested (`economy.py`) |
+| 4b | Recommendation facade (economy + positioning + odds) | ✅ built, tested (`recommend.py`) |
 | 5 | Population-stats features (hero/comp/trinket/minion) | ⬜ |
 | 6 | Learned move policy (offline RL/IL) | ⬜ after dataset accrues |
 | 7 | Live overlay wired to watch loop (threaded) | ⬜ shell built |
+
+The advice engine (3d, 4, 4b) is **fully log-independent** — it runs off the
+Snapshot/board contracts and needs no real `Power.log`. Only *reading your live
+game* is gated on calibration; the recommendations themselves are buildable and
+testable now. Once calibration lands, the live `watch` loop feeds real Snapshots
+into `recommend()` and the overlay.
 
 ## Cross-refs
 - `README.md` — quick start
