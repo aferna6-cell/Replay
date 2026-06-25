@@ -35,7 +35,15 @@ def advice_lines(snapshot: dict, kb, scorer=None,
         return []
     from .game_value import rank_actions
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
-    return [f"{r.action.describe()} (finish {r.placement:.1f})" for r in recs[:top]]
+    # Show the *why* (synergy / tribe / positioning order / sell-for-room / tech
+    # caveat) next to each move — that reasoning is the point, not just the verb.
+    out = []
+    for r in recs[:top]:
+        line = f"{r.action.describe()} (finish {r.placement:.1f})"
+        if r.reason:
+            line += f" — {r.reason}"
+        out.append(line)
+    return out
 
 
 def _key(d: dict):

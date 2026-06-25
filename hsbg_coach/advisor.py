@@ -154,9 +154,20 @@ def _score_buy(act, board, base, scorer, hero_id, idx, board_cks, target_tribe, 
         verdict = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb)
         bits = verdict.reasons[:2]
     reason = "; ".join(bits) if bits else "adds board strength"
+
+    # Situational tech (Tunnel Blaster, Deadly Spore, …) reads as a strong buy on
+    # raw stats/keywords, but its value is read-dependent. Discount it so it stops
+    # being the default pick, and say why.
+    from .card_roles import tech_note, TECH_BUY_DISCOUNT
+    note = tech_note(getattr(minion, "card_id", None) if not isinstance(minion, dict)
+                     else minion.get("card_id"), act.target)
+    prio = _clamp(0.5 + delta * _PRIO_SCALE)
+    if note:
+        prio = _clamp(prio - TECH_BUY_DISCOUNT)
+        delta -= TECH_BUY_DISCOUNT / _PRIO_SCALE
+        reason = note
     if sold:
         reason = f"sell {sold} for room; " + reason
-    prio = _clamp(0.5 + delta * _PRIO_SCALE)
     return ScoredAction(act, prio, reason, equity=eq, delta=delta)
 
 
@@ -304,7 +315,13 @@ def _score_reposition(act, board, enemy_boards):
     current = next((r for r in ranked if r.is_current), None)
     gain = best.win_pct - (current.win_pct if current else best.win_pct)
     if best.is_current or gain < 0.03:
-        return ScoredAction(act, 0.2, f"current order is ~best ({best.win_pct:.0%} win)")
-    order = " ".join(str(i + 1) for i in best.ordering)
+        return ScoredAction(act, 0.2, f"current order is ~best ({best.win_pct:.0%} win)",
+                            delta=0.0)
+    # Name the minions in their recommended slots so the advice is actionable
+    # ("put Deflect-o-Bot first"), not just index numbers.
+    names = [_name(board[i]) for i in best.ordering]
+    order_desc = " → ".join(n for n in names if n) or \
+        " ".join(str(i + 1) for i in best.ordering)
     return ScoredAction(act, _clamp(0.4 + gain * 2),
-                        f"reorder to [{order}] for +{gain:.0%} win ({best.win_pct:.0%})")
+                        f"reorder to: {order_desc} (+{gain:.0%} win, {best.win_pct:.0%})",
+                        delta=gain)

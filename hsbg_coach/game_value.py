@@ -25,7 +25,8 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, SELL, LEVEL, ROLL, BUY_COST, SELL_VALUE, MAX_BOARD, tavern_up_cost,
+    BUY, SELL, LEVEL, ROLL, REPOSITION, BUY_COST, SELL_VALUE, MAX_BOARD,
+    tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -35,6 +36,7 @@ _LOW_HP = 15.0
 _K_TRAJ = 1.5          # being ahead/behind the pace curve, in placement units
 _K_HP = 1.5           # HP risk, in placement units
 _DEATH_PEN = 2.0      # a projected death is a big placement hit
+_K_POS = 3.0          # combat win% gain from repositioning -> placement units
 
 _ECON = "unloaded"     # cached economy value model (or None if unavailable)
 
@@ -55,8 +57,22 @@ def _econ_model():
     return _ECON
 
 
+_TECH_PLACEMENT_PEN = 0.5     # placement hit for buying read-dependent tech blind
+
+
 def _get(s, k, d=None):
     return s.get(k, d) if isinstance(s, dict) else getattr(s, k, d)
+
+
+def _tech_penalty(action) -> float:
+    """Placement penalty when a BUY target is situational tech (Tunnel Blaster,
+    Deadly Spore, …). The eval net over-credits their stats; without opponent
+    context we demote them from 'the pick' to 'an option'."""
+    from .card_roles import tech_note
+    minion = action.detail.get("minion")
+    cid = (minion.get("card_id") if isinstance(minion, dict)
+           else getattr(minion, "card_id", None))
+    return _TECH_PLACEMENT_PEN if tech_note(cid, action.target) else 0.0
 
 
 def expected_placement(snapshot, scorer=None, pace=None, horizon: int = 4) -> float:
@@ -150,7 +166,9 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
     each by whole-game value so leveling/rolling/buying are directly comparable."""
     scorer = scorer or get_scorer()
     pace = pace if pace is not None else load_pace()
-    plan = advise_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
+    enemy_boards = _get(snapshot, "opponents_seen", None) or None
+    plan = advise_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer,
+                          enemy_boards=enemy_boards)
     base = expected_placement(snapshot, scorer, pace, horizon)
     state = _as_state(snapshot)
 
@@ -159,8 +177,16 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         a = sa.action
         if a.kind in (BUY, SELL, LEVEL, ROLL):
             v = expected_placement(_apply(state, a), scorer, pace, horizon)
+            if a.kind == BUY:
+                v = min(8.0, v + _tech_penalty(a))       # demote read-dependent tech
+        elif a.kind == REPOSITION and sa.delta:
+            # Reposition doesn't change board composition, so placement is flat —
+            # but a better attack order raises combat win%. Convert that win-rate
+            # gain (carried in sa.delta) into a small placement improvement so good
+            # positioning can surface among the ranked moves.
+            v = max(1.0, base - sa.delta * _K_POS)
         else:
-            v = base                                     # reposition/freeze/end: neutral here
+            v = base                                     # freeze/end: neutral here
         recs.append(WholeGameRec(a, round(v, 2), sa.reason, round(base - v, 2)))
     recs.sort(key=lambda r: r.placement)
     return recs, base

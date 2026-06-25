@@ -120,6 +120,7 @@ class BGTracker:
         self.phase = Phase.UNKNOWN
         self.local_player: Optional[int] = None  # controller id of the human
         self.player_names: Dict[int, str] = {}   # PlayerID -> battletag
+        self.last_opponent_board: List[MinionView] = []  # most recent enemy we fought
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -227,6 +228,16 @@ class BGTracker:
         ]
         shop = [self._minion(e) for e in self._shop_entities()]
         hand = [self._minion(e) for e in self.state.in_zone("HAND", pid)]
+
+        # During combat the enemy board is fully revealed; remember the latest one
+        # so recruit-phase positioning advice has a real opponent to optimize
+        # against (matters most for attack-order heroes like Al'Akir).
+        enemy = self._opponent_board()
+        if enemy:
+            self.last_opponent_board = enemy
+        opponents = ([[m.__dict__ for m in self.last_opponent_board]]
+                     if self.last_opponent_board else [])
+
         notes = []
         if self.local_player is None:
             notes.append("local_player not yet identified")
@@ -240,8 +251,22 @@ class BGTracker:
             board=board,
             shop=shop,
             hand=hand,
+            opponents_seen=opponents,
             notes=notes,
         )
+
+    def _opponent_board(self) -> List[MinionView]:
+        """Foreign revealed minions in PLAY — i.e. the board we're fighting. Only
+        meaningful during COMBAT (in recruit, foreign minions are the shop)."""
+        if self.phase != Phase.COMBAT:
+            return []
+        out = []
+        for ent in self.state.entities.values():
+            if (ent.zone == "PLAY" and ent.controller not in (None, str(self.local_player))
+                    and ent.tags.get("CARDTYPE") == "MINION" and _is_real_minion(ent)):
+                out.append(ent)
+        out.sort(key=lambda e: e.tag_int("ZONE_POSITION") or 0)
+        return [self._minion(e) for e in out]
 
     def _shop_entities(self) -> List[Entity]:
         # Shop minions and the opponent's combat board BOTH live in zone=PLAY under
