@@ -38,6 +38,14 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # Show the *why* (synergy / tribe / positioning order / sell-for-room / tech
     # caveat) next to each move — that reasoning is the point, not just the verb.
     out = []
+    # Lead with where the board is heading, so buys read as steps toward a comp.
+    try:
+        from .build_path import build_note
+        note = build_note(snapshot.get("board", []), snapshot.get("tavern_tier"))
+        if note:
+            out.append(note)
+    except Exception:
+        pass
     for r in recs[:top]:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:

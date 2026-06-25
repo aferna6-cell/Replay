@@ -77,6 +77,21 @@ def _tech_adjust(action, opponent_board):
     return res if res is not None else (0.0, None)
 
 
+def _build_path_adjust(action, snapshot):
+    """(placement_adjustment, reason) for how a BUY advances a reachable winning
+    archetype. Negative = advances the build; positive = scatters it mid-game."""
+    from .build_path import path_value
+    minion = action.detail.get("minion")
+    tribe = None
+    if isinstance(minion, dict):
+        tribe = minion.get("tribe") or (minion.get("tags") or {}).get("tribe")
+    try:
+        return path_value(_get(snapshot, "board", []) or [], action.target,
+                          _get(snapshot, "tavern_tier"), candidate_tribe=tribe)
+    except Exception:
+        return 0.0, None
+
+
 def _sell_penalty(state) -> float:
     """A standalone sell shrinks your board; you almost always want a full 7.
     Penalize it (scaled up when you have few minions) so the recommender won't
@@ -196,6 +211,14 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 v = max(1.0, min(8.0, v + adj))
                 if tech_reason:
                     reason = tech_reason
+                # Build-path: does this buy advance a reachable winning comp? This
+                # is the mid-game navigation signal — value the move by where the
+                # board is *heading*, not just how it looks now.
+                padj, preason = _build_path_adjust(a, snapshot)
+                if padj:
+                    v = max(1.0, min(8.0, v + padj))
+                    if preason and not tech_reason:
+                        reason = preason
             elif a.kind == SELL:                         # you want a full board of 7
                 v = min(8.0, v + _sell_penalty(state))
         elif a.kind == BUY_SPELL:

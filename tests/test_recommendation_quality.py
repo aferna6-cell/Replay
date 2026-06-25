@@ -89,6 +89,40 @@ def test_tavern_spells_are_offered_as_buy_recommendations():
                for r in spell_recs)
 
 
+def test_build_path_steers_toward_a_reachable_winning_comp():
+    from hsbg_coach.build_path import infer_target, path_value, load_archetypes
+    if not load_archetypes():
+        import pytest as _pt
+        _pt.skip("archetype data not present")
+    board = [{"name": "Ingenious Inventor"}, {"name": "Deflect-o-Bot"}]
+    fit = infer_target(board)
+    assert fit is not None and fit.arch.tribe == "Mech"
+    # A missing core Mech piece should be valued as advancing the build (negative
+    # = better finish); an off-tribe minion should not.
+    core_adj, core_reason = path_value(board, "Titus Rivendare", 4, candidate_tribe="Mech")
+    off_adj, _ = path_value(board, "Murloc Tidehunter", 4, candidate_tribe="Murloc")
+    assert core_adj < 0 and "core" in (core_reason or "").lower()
+    assert off_adj >= core_adj          # scatter is never valued above a core piece
+
+
+def test_build_path_changes_buy_ranking_toward_the_comp():
+    from hsbg_coach.build_path import load_archetypes
+    if not load_archetypes():
+        import pytest as _pt
+        _pt.skip("archetype data not present")
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": "Ingenious Inventor", "card_id": "i", "attack": 4, "health": 4},
+             {"name": "Deflect-o-Bot", "card_id": "d", "attack": 3, "health": 3}]
+    shop = [{"name": "Titus Rivendare", "card_id": "t", "attack": 5, "health": 5},
+            {"name": "Murloc Tidehunter", "card_id": "m", "attack": 5, "health": 5}]
+    snap = _snap(shop=shop, board=board, tavern_tier=4, gold=6)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    titus = next(r for r in recs if "Titus" in r.action.describe())
+    murloc = next(r for r in recs if "Tidehunter" in r.action.describe())
+    # Same stats, but the on-comp Mech piece should finish ahead of the off-comp one.
+    assert titus.placement < murloc.placement
+
+
 def test_reposition_uses_the_opponent_board_when_present():
     kb, scorer = cards.load_kb(), get_scorer()
     my = [{"name": "A", "card_id": "a", "attack": 5, "health": 5},
