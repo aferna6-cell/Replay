@@ -157,7 +157,8 @@ class LiveCoach:
         if offer is not None:                       # a choice is on screen
             from .choices import rank_offer
             picks = rank_offer(offer, board=snap.get("board", []), kb=self.kb,
-                               scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db)
+                               scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
+                               tier=snap.get("tavern_tier"))
             lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])

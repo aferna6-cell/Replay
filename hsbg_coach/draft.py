@@ -111,12 +111,27 @@ def _trinket_fit(text: str, board_tribes: dict, target_tribe: Optional[str],
     return bonus, bits
 
 
+def _build_target_tribe(board) -> Optional[str]:
+    """The tribe of the winning comp this board is heading toward (build-path),
+    so choices favor your *direction*, not just the minions you happen to hold."""
+    try:
+        from .build_path import infer_target
+        fit = infer_target(board or [])
+        if fit and fit.have >= 1 and fit.arch.tribe:
+            return fit.arch.tribe.lower()
+    except Exception:
+        pass
+    return None
+
+
 def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
                   hero_ctx: Optional[HeroContext] = None) -> List[Choice]:
     """Rank trinkets by meta placement, adjusted for how well each fits your
-    board (tribe/keyword match from the trinket's effect text)."""
+    board (tribe/keyword match) AND the comp you're building toward (build-path),
+    so the pick is conditioned on board state."""
     board_tribes, board_kw = _board_profile(board, kb)
-    target = hero_ctx.target_tribe if hero_ctx else None
+    # Direction = hero target tribe, else the build-path comp's tribe.
+    target = (hero_ctx.target_tribe if hero_ctx else None) or _build_target_tribe(board)
     out = []
     for nm in offered:
         t: Optional[TrinketStats] = _match(nm, db.trinkets)
@@ -140,8 +155,15 @@ def _minion_from_name(ck, name):
 
 
 def rank_discover(offered: List[str], board, kb, scorer=None,
-                  hero_ctx: Optional[HeroContext] = None) -> List[Choice]:
-    """Rank Discover options by how much each improves your live board."""
+                  hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
+    """Rank Discover options (incl. triple-discovers) by how much each improves
+    your live board AND advances the winning comp you're building toward. Both
+    signals are conditioned on the current board state.
+
+    Sort key blends two board-aware terms:
+      * eval-net equity delta — does adding it strengthen the board now?
+      * build-path value — does it advance a reachable winning archetype?
+    """
     scorer = scorer or get_scorer()
     emb = load_embeddings()
     idx = by_name(kb) if kb is not None else {}
@@ -151,25 +173,35 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
     base = scorer.equity(board, hero_id)
     board_cks = [idx.get(_minion_name(m)) for m in board if idx.get(_minion_name(m))]
 
+    from .build_path import path_value
     out = []
     for nm in offered:
         ck = idx.get(nm)
         cand = _minion_from_name(ck, nm)
         delta = scorer.equity(board + [cand], hero_id) - base
+        ctribe = (ck.tribes[0].lower() if ck and getattr(ck, "tribes", None) else None)
+        padj, preason = path_value(board, nm, tier, candidate_tribe=ctribe,
+                                   emb=emb)
+        # Combine in one sort key (smaller = better): equity delta (higher better)
+        # minus build-path placement gain (negative adj = better), scaled to equity
+        # units (~1 placement ≈ 0.14 equity).
+        rank_value = -delta + (padj / 7.0)
         bits = []
         if ck is not None:
             bits = score_card(ck, board_cks, target_tribe=target, embeddings=emb).reasons[:2]
         reason = f"{delta:+.0%} equity"
-        if bits:
+        if preason:
+            reason += f" — {preason}"
+        elif bits:
             reason += " — " + "; ".join(bits)
-        out.append(Choice(nm, -delta, reason, "board equity"))   # higher equity first
+        out.append(Choice(nm, rank_value, reason, "board fit + build-path"))
     out.sort(key=lambda c: c.rank_value)
     return out
 
 
 def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = None,
                      board=None, kb=None, scorer=None,
-                     hero_ctx: Optional[HeroContext] = None) -> List[Choice]:
+                     hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
     """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'."""
     if kind == "hero":
         return rank_heroes(offered, db or StatsDB.load())
@@ -177,5 +209,6 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx)
     if kind == "discover":
-        return rank_discover(offered, board or [], kb, scorer=scorer, hero_ctx=hero_ctx)
+        return rank_discover(offered, board or [], kb, scorer=scorer,
+                             hero_ctx=hero_ctx, tier=tier)
     raise ValueError(f"unknown choice kind: {kind}")

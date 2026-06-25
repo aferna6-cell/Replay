@@ -116,8 +116,8 @@ class ChoiceParser:
 
 
 def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
-               hero_ctx=None, db=None):
+               hero_ctx=None, db=None, tier=None):
     """Rank an offer's options via the draft recommender (best first)."""
     from .draft import recommend_choice
     return recommend_choice(offer.kind, offer.names, db=db, board=board, kb=kb,
-                            scorer=scorer, hero_ctx=hero_ctx)
+                            scorer=scorer, hero_ctx=hero_ctx, tier=tier)

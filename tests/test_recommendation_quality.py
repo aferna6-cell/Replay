@@ -123,6 +123,20 @@ def test_build_path_changes_buy_ranking_toward_the_comp():
     assert titus.placement < murloc.placement
 
 
+def test_discover_is_board_aware_via_build_path():
+    from hsbg_coach.build_path import load_archetypes
+    from hsbg_coach.draft import rank_discover
+    if not load_archetypes():
+        import pytest as _pt
+        _pt.skip("archetype data not present")
+    kb = cards.load_kb()
+    board = [{"name": "Ingenious Inventor"}, {"name": "Deflect-o-Bot"}]
+    ranked = rank_discover(["Titus Rivendare", "Murloc Tidehunter"], board, kb, tier=4)
+    # On a Mech board, the core Mech discover should be picked over the off-tribe one.
+    assert ranked[0].name == "Titus Rivendare"
+    assert "mech" in ranked[0].reason.lower()
+
+
 def test_reposition_uses_the_opponent_board_when_present():
     kb, scorer = cards.load_kb(), get_scorer()
     my = [{"name": "A", "card_id": "a", "attack": 5, "health": 5},
