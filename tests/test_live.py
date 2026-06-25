@@ -17,9 +17,16 @@ def _recruit():
                      {"name": "bad", "attack": 2, "health": 1}]}
 
 
-def test_advice_lines_during_recruit_lists_moves_best_first():
+def test_advice_lines_during_recruit_recommends_the_strong_buy():
+    # The strong minion is recommended and preferred over the weak one. (We don't
+    # assert it's #1: with the learned whole-game value, leveling can legitimately
+    # outrank a single buy when you're behind on tier.)
     lines = advice_lines(_recruit(), kb=None, scorer=HeuristicScorer(EMB))
-    assert lines and lines[0].startswith("Buy good")
+    assert lines and any("Buy good" in l for l in lines)
+    if any("Buy bad" in l for l in lines):
+        good_i = next(i for i, l in enumerate(lines) if "Buy good" in l)
+        bad_i = next(i for i, l in enumerate(lines) if "Buy bad" in l)
+        assert good_i < bad_i
 
 
 def test_no_advice_without_a_shop():

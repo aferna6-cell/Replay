@@ -29,12 +29,30 @@ from .actions import (
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
-from .pace import load_pace
+from .pace import load_pace, _at as _curve_at
 
 _LOW_HP = 15.0
 _K_TRAJ = 1.5          # being ahead/behind the pace curve, in placement units
 _K_HP = 1.5           # HP risk, in placement units
 _DEATH_PEN = 2.0      # a projected death is a big placement hit
+
+_ECON = "unloaded"     # cached economy value model (or None if unavailable)
+
+
+def _econ_model():
+    """The learned economy trajectory value (ml/econ_value.pt), if trained."""
+    global _ECON
+    if _ECON == "unloaded":
+        _ECON = None
+        try:
+            import os
+            from ml.econ_value import EconValue
+            p = os.path.join(os.path.dirname(__file__), "..", "ml", "econ_value.pt")
+            if os.path.isfile(p):
+                _ECON = EconValue.load(p)
+        except Exception:
+            _ECON = None
+    return _ECON
 
 
 def _get(s, k, d=None):
@@ -49,19 +67,33 @@ def expected_placement(snapshot, scorer=None, pace=None, horizon: int = 4) -> fl
     hero_id = _get(snapshot, "hero", None) or "UNKNOWN"
 
     equity = scorer.equity(board, hero_id)              # 0..1, higher = better
-    placement = 8.0 - equity * 7.0                       # 1..8, lower = better
+    board_placement = 8.0 - equity * 7.0                 # composition value (learned)
 
+    turn = _get(snapshot, "turn", None) or 8
+    tier = _get(snapshot, "tavern_tier", None) or 1
+    hp = _get(snapshot, "hero_health", None)
+
+    econ = _econ_model()
+    if econ is not None:
+        # Learned trajectory value (trained on self-play lobbies): blend the
+        # board-composition read with the economy/tempo/HP outlook.
+        strength = sum(_val(m) for m in board)
+        curve = _curve_at(pace.get("scaling", {}), turn) or max(1.0, strength)
+        ratio = strength / curve if curve else 1.0
+        econ_pl = econ.predict(turn, tier, strength, ratio,
+                               hp if hp is not None else 30.0, players_left=5)
+        return max(1.0, min(8.0, 0.5 * board_placement + 0.5 * econ_pl))
+
+    # Heuristic fallback (no econ model trained yet).
+    placement = board_placement
     plan = multiturn.best_plan(snapshot, pace, horizon)
     if plan and plan.projection:
         term = plan.projection[-1]
         placement += -(term.ratio - 1.0) * _K_TRAJ       # ahead of curve -> better
         if plan.died:
             placement += _DEATH_PEN
-
-    hp = _get(snapshot, "hero_health", None)
     if hp is not None and hp < _LOW_HP:
         placement += (_LOW_HP - hp) / _LOW_HP * _K_HP
-
     return max(1.0, min(8.0, placement))
 
 

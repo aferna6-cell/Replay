@@ -17,7 +17,10 @@ python -m hsbg_coach refresh-stats
 echo "==> 3/4  Retrain card2vec on the latest winning boards"
 python -m ml.train_card2vec --epochs 5
 
-echo "==> 4/4  Retrain the board-evaluation net on the meta + your recorded games"
+echo "==> 4/5  Retrain the board-evaluation net on the meta + your recorded games"
 python -m ml.train_eval_net --epochs 40 --trajectories data/
+
+echo "==> 5/5  Retrain the economy value net on self-play lobbies"
+python -m ml.train_econ --lobbies 4000 --epochs 30
 
 echo "Done. Models refreshed from this week's meta + your games."
