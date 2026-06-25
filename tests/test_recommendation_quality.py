@@ -56,9 +56,48 @@ def test_tech_card_is_promoted_when_the_matchup_wants_it():
     recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
     tunnel = next(r for r in recs if "Tunnel" in r.action.describe())
     recruiter = next(r for r in recs if "Recruiter" in r.action.describe())
-    # Against a wall of Divine Shields, the board-clear should now win.
+    # Against a wall of Divine Shields, the board-clear should now win, and the
+    # reason is grounded in the simulated combat-win swing.
     assert tunnel.placement < recruiter.placement
-    assert "divine shield" in tunnel.reason.lower()
+    assert "win" in tunnel.reason.lower() and "sim" in tunnel.reason.lower()
+
+
+def test_sim_models_tunnel_blaster_aoe_deathrattle():
+    from hsbg_coach.sim import simulate, Combatant
+
+    def mk(n, a, h, tags=None):
+        return {"name": n, "attack": a, "health": h, "tags": tags or {}}
+
+    mine = [mk("A", 5, 5), mk("B", 5, 5), mk("C", 5, 5), mk("D", 5, 5)]
+    shields = [mk(f"DS{i}", 2, 2, {"DIVINE_SHIELD": "1"}) for i in range(6)]
+
+    def win(my):
+        return simulate([Combatant.from_minion(x) for x in my],
+                        [Combatant.from_minion(x) for x in shields], runs=400).win_pct
+
+    # Without the AOE deathrattle the swarm of shields wins; with it, it's cleared.
+    assert win(mine) < 0.1
+    assert win(mine + [mk("Tunnel Blaster", 3, 7)]) > 0.8
+
+
+def test_sim_reads_dict_minions():
+    # Regression: from_minion must read dicts (live snapshots), not just objects —
+    # a dict used to silently become a 0/0 with no keywords.
+    from hsbg_coach.sim import Combatant
+    c = Combatant.from_minion({"name": "Deadly Spore", "attack": 1, "health": 1})
+    assert c.attack == 1 and c.poisonous is True
+
+
+def test_tech_not_promoted_when_the_matchup_does_not_want_it():
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 5, "health": 5} for i in range(4)]
+    shop = [{"name": "Tunnel Blaster", "card_id": "BG_DAL_775", "attack": 3, "health": 7}]
+    giant = [{"name": "Giant", "attack": 12, "health": 12}]      # one tall threat
+    snap = _snap(shop=shop, board=board, opponents_seen=[giant])
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    tunnel = next(r for r in recs if "Tunnel" in r.action.describe())
+    # 3-to-all does nothing to a lone 12/12 — the read should call it situational.
+    assert "situational" in tunnel.reason.lower() or "no combat" in tunnel.reason.lower()
 
 
 def test_naked_sell_is_not_a_top_recommendation():

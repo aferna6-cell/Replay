@@ -43,9 +43,20 @@ class StartOfCombat:
 
 
 @dataclass
+class DeathBurst:
+    """A deathrattle that deals damage to enemies (board-clear tech). hits_all
+    True = every enemy (Tunnel Blaster: 3 to all); else `targets` random enemies."""
+    damage: int
+    hits_all: bool = True
+    targets: int = 1
+
+
+@dataclass
 class CardEffects:
     deathrattle: Optional[Summon] = None
     start_of_combat: Optional[StartOfCombat] = None
+    death_burst: Optional[DeathBurst] = None
+    grants: tuple = ()                 # extra keywords the card itself has, e.g. ("poisonous",)
 
 
 # Representative registry (keyed by minion name; extend from card data).
@@ -60,6 +71,9 @@ REGISTRY: Dict[str, CardEffects] = {
     "Spawn of N'Zoth": CardEffects(deathrattle=Summon(0, 0, 0)),  # buffs others (later)
     "Red Whelp":     CardEffects(start_of_combat=StartOfCombat(damage=1, targets=1)),
     "Prophet of the Boar": CardEffects(start_of_combat=StartOfCombat(damage=2, targets=1)),
+    # Situational tech (modelled so the sim values them by the actual matchup):
+    "Tunnel Blaster": CardEffects(death_burst=DeathBurst(damage=3, hits_all=True)),
+    "Deadly Spore":   CardEffects(grants=("poisonous",)),   # Venomous ~= poisonous in-sim
 }
 
 

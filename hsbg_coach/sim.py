@@ -54,25 +54,38 @@ class Combatant:
     deathrattle: Optional[Summon] = None
     start_of_combat: Optional[StartOfCombat] = None
     card_id: str = ""                 # needed by the Firestone bridge for effects
+    death_burst: Optional["object"] = None   # AOE-damage deathrattle (Tunnel Blaster)
 
     def copy(self) -> "Combatant":
         return Combatant(
             self.attack, self.health, self.divine_shield, self.taunt,
             self.poisonous, self.reborn, self.windfury, self.cleave,
-            self.name, self.deathrattle, self.start_of_combat, self.card_id)
+            self.name, self.deathrattle, self.start_of_combat, self.card_id,
+            self.death_burst)
 
     @classmethod
     def from_minion(cls, m) -> "Combatant":
-        tags = getattr(m, "tags", {}) or {}
+        # Minions arrive as either attribute objects (MinionView) or plain dicts
+        # (live snapshots, discover candidates); read both the same way, else a
+        # dict silently becomes a 0/0 with no keywords.
+        def get(key, default=None):
+            if isinstance(m, dict):
+                return m.get(key, default)
+            return getattr(m, key, default)
+
+        tags = get("tags", {}) or {}
+        name = get("name", "") or get("card_id", "") or ""
+        eff = effects_for(get("name", None), get("card_id", None))
+        grants = set(getattr(eff, "grants", ()) or ()) if eff else set()
 
         def flag(key: str) -> bool:
+            if key in grants:                       # keyword granted by the card itself
+                return True
             return str(tags.get(_KW_TAGS[key], "")).strip() not in ("", "0", "False")
 
-        name = getattr(m, "name", "") or getattr(m, "card_id", "") or ""
-        eff = effects_for(getattr(m, "name", None), getattr(m, "card_id", None))
         return cls(
-            attack=int(getattr(m, "attack", 0) or 0),
-            health=int(getattr(m, "health", 0) or 0),
+            attack=int(get("attack", 0) or 0),
+            health=int(get("health", 0) or 0),
             divine_shield=flag("divine_shield"),
             taunt=flag("taunt"),
             poisonous=flag("poisonous"),
@@ -82,7 +95,8 @@ class Combatant:
             name=name,
             deathrattle=eff.deathrattle if eff else None,
             start_of_combat=eff.start_of_combat if eff else None,
-            card_id=getattr(m, "card_id", "") or "",
+            card_id=get("card_id", "") or "",
+            death_burst=eff.death_burst if eff else None,
         )
 
 
@@ -178,10 +192,13 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
         return
     new: List[Combatant] = []
     immediates: List[Combatant] = []
+    bursts: List = []                                  # AOE-damage deathrattles
     for m in board:
         if m.health > 0:
             new.append(m)
             continue
+        if m.death_burst:
+            bursts.append(m.death_burst)
         dr = m.deathrattle
         if dr and dr.count > 0:
             for _ in range(dr.count):
@@ -198,6 +215,18 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
             rb.divine_shield = False
             new.append(rb)
     board[:] = new
+
+    # Fire AOE-damage deathrattles (Tunnel Blaster: 3 to all enemies) — pops Divine
+    # Shields and clears swarms, then resolve the deaths that causes.
+    for burst in bursts:
+        targets = _living(enemy)
+        if not getattr(burst, "hits_all", True):
+            rng.shuffle(targets)
+            targets = targets[:max(1, getattr(burst, "targets", 1))]
+        for t in targets:
+            _apply_damage(t, burst.damage)
+        if targets:
+            _resolve_deaths(enemy, board, rng, process_immediates=False)
 
     if not process_immediates:
         return

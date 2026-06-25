@@ -65,16 +65,51 @@ def _get(s, k, d=None):
     return s.get(k, d) if isinstance(s, dict) else getattr(s, k, d)
 
 
-def _tech_adjust(action, opponent_board):
+_K_SIM_TECH = 2.2          # combat win% delta -> placement units for sim-grounded tech
+
+
+def _tech_adjust(action, opponent_board, player_board=None):
     """(placement_adjustment, reason|None) for a tech-card BUY, matchup-aware.
-    Negative adjustment promotes the card; positive demotes it. (0, None) for
-    non-tech cards."""
-    from .card_roles import tech_assessment
+    Negative promotes the card; positive demotes it. (0, None) for non-tech.
+
+    Preferred path: simulate the player's board with vs without the tech against
+    the last opponent and value it by the real combat-win delta — this 'recognizes
+    the situation' for ANY opponent board (the sim now models Tunnel Blaster's AOE
+    deathrattle and Venomous). Falls back to the keyword heuristic with no opponent."""
+    from .card_roles import is_tech, tech_assessment
     minion = action.detail.get("minion")
     cid = (minion.get("card_id") if isinstance(minion, dict)
            else getattr(minion, "card_id", None))
-    res = tech_assessment(cid, action.target, opponent_board)
-    return res if res is not None else (0.0, None)
+    if not is_tech(cid, action.target):
+        return 0.0, None
+    if opponent_board and player_board and minion is not None:
+        simmed = _sim_tech(player_board, minion, opponent_board)
+        if simmed is not None:
+            return simmed
+    return tech_assessment(cid, action.target, opponent_board) or (0.0, None)
+
+
+def _sim_tech(board, candidate, opponent):
+    """Placement adjustment from the simulated combat-win delta of adding `candidate`
+    to `board` against `opponent`. None if the sim can't run."""
+    try:
+        from .sim import simulate, Combatant
+        opp = [Combatant.from_minion(m) for m in opponent]
+        if not opp:
+            return None
+        base = simulate([Combatant.from_minion(m) for m in board], opp, runs=200).win_pct
+        with_tech = simulate([Combatant.from_minion(m) for m in board]
+                             + [Combatant.from_minion(candidate)], opp, runs=200).win_pct
+        delta = with_tech - base
+        adj = -max(-_MAX_TECH, min(_MAX_TECH, delta * _K_SIM_TECH))
+        if delta > 0.03:
+            return adj, f"+{delta:.0%} combat win vs their board (sim)"
+        return adj, "no combat swing vs their board (sim) — situational"
+    except Exception:
+        return None
+
+
+_MAX_TECH = 0.8
 
 
 def _build_path_adjust(action, snapshot):
@@ -207,7 +242,8 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         if a.kind in (BUY, SELL, LEVEL, ROLL):
             v = expected_placement(_apply(state, a), scorer, pace, horizon)
             if a.kind == BUY:                            # matchup-aware tech read
-                adj, tech_reason = _tech_adjust(a, enemy0)
+                adj, tech_reason = _tech_adjust(a, enemy0,
+                                                _get(snapshot, "board", []) or [])
                 v = max(1.0, min(8.0, v + adj))
                 if tech_reason:
                     reason = tech_reason
