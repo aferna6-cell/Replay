@@ -65,44 +65,73 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
 
 
 class Overlay:
-    """Frameless, always-on-top, semi-transparent text panel.
+    """Always-on-top text panel that floats over a windowed game.
+
+    Frameless (no title bar) mode is sleek but macOS's Tk hides
+    ``overrideredirect`` windows, so it's opt-in and OFF by default on macOS —
+    there we use a normal top-most window that reliably renders.
 
     Usage::
 
         ov = Overlay()
-        ov.update(snapshot_dict, odds="win 62% / tie 8% / loss 30%")
-        ov.poll(provider, interval_ms=500)   # provider() -> (snapshot, odds)
+        ov.update(snapshot_dict, recommendations=[...])
+        ov.poll(provider, interval_ms=500)   # provider() -> (snapshot, odds, recos)
         ov.run()
     """
 
-    def __init__(self, corner: str = "ne", alpha: float = 0.85,
-                 width: int = 300, height: int = 420) -> None:
+    def __init__(self, corner: str = "ne", alpha: float = 0.92,
+                 width: int = 320, height: int = 460,
+                 frameless: Optional[bool] = None) -> None:
+        import sys
         import tkinter as tk  # lazy: keeps module headless-importable
 
+        # Frameless hides the window on macOS — default it off there.
+        if frameless is None:
+            frameless = sys.platform != "darwin"
+
         self.root = tk.Tk()
-        self.root.overrideredirect(True)          # no title bar / border
-        self.root.attributes("-topmost", True)    # always on top
-        try:
-            self.root.attributes("-alpha", alpha)  # window transparency
-        except tk.TclError:
-            pass  # some platforms/WMs don't support per-window alpha
+        self.root.title("HSBG Coach")
+        if frameless:
+            try:
+                self.root.overrideredirect(True)      # no title bar / border
+            except Exception:
+                pass
         self._place(width, height, corner)
 
         self._label = tk.Label(
             self.root, justify="left", anchor="nw",
             font=("Menlo", 12), fg="#e8e8e8", bg="#111418",
-            padx=10, pady=10, text="HSBG Coach — waiting for a game…",
+            padx=10, pady=10, text="HSBG Coach — waiting for Hearthstone…",
         )
         self._label.pack(fill="both", expand=True)
-        # Drag-to-move (frameless windows can't be moved otherwise).
         self._label.bind("<Button-1>", self._start_drag)
         self._label.bind("<B1-Motion>", self._on_drag)
         self._drag = (0, 0)
 
+        # Force the window visible and on top (macOS especially needs the kick).
+        try:
+            self.root.attributes("-alpha", alpha)
+        except tk.TclError:
+            pass
+        self.root.update_idletasks()
+        self.root.deiconify()
+        self.root.lift()
+        self.root.attributes("-topmost", True)
+        self._keep_on_top()
+
+    def _keep_on_top(self) -> None:
+        # Re-assert topmost so it keeps floating over the game (without stealing
+        # focus — we set the attribute, we don't raise/focus the window).
+        try:
+            self.root.attributes("-topmost", True)
+        except Exception:
+            pass
+        self.root.after(2000, self._keep_on_top)
+
     def _place(self, w: int, h: int, corner: str) -> None:
         sw = self.root.winfo_screenwidth()
         x = sw - w - 20 if "e" in corner else 20
-        y = 20 if "n" in corner else 20
+        y = 40 if "n" in corner else 20
         self.root.geometry(f"{w}x{h}+{x}+{y}")
 
     def _start_drag(self, e) -> None:

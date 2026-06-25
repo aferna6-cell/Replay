@@ -45,9 +45,14 @@ def _key(d: dict):
 
 
 class LiveCoach:
-    """Background log consumer + cached advice provider for the overlay."""
+    """Background log consumer + cached advice provider for the overlay.
 
-    def __init__(self, power_log: str, hero_ctx: Optional[HeroContext] = None,
+    `power_log` may be None — then it auto-detects the newest Hearthstone session
+    log and *waits* for one to appear, so you can launch the overlay before the
+    game (HDT-style) and it activates once you're in a match."""
+
+    def __init__(self, power_log: Optional[str] = None,
+                 hero_ctx: Optional[HeroContext] = None,
                  recorder=None, from_start: bool = False, top: int = 6):
         self.power_log = power_log
         self.hero_ctx = hero_ctx
@@ -61,6 +66,7 @@ class LiveCoach:
         self._stop = threading.Event()
         self._cache_key = None
         self._cache_lines: List[str] = []
+        self._active = False
 
     def start(self) -> threading.Thread:
         t = threading.Thread(target=self._consume, daemon=True)
@@ -70,10 +76,25 @@ class LiveCoach:
     def stop(self):
         self._stop.set()
 
+    def _resolve_log(self) -> Optional[str]:
+        from . import config
+        return self.power_log or config.newest_power_log(config.log_dir_candidates())
+
     def _consume(self):
+        # Wait for a log to exist (launch overlay first, then Hearthstone).
+        path = None
+        while not self._stop.is_set():
+            path = self._resolve_log()
+            if path:
+                break
+            self._stop.wait(2.0)
+        if self._stop.is_set() or not path:
+            return
+        self._active = True
+
         prev_phase = self.tracker.phase
         prev_game = self.tracker.state.game_counter
-        for line in tail_lines(self.power_log, from_start=self.from_start):
+        for line in tail_lines(path, from_start=self.from_start):
             if self._stop.is_set():
                 break
             ev = parse_line(line)
@@ -100,6 +121,10 @@ class LiveCoach:
 
     def frame(self) -> Tuple[dict, Optional[str], List[str]]:
         """(snapshot_dict, odds, recommendations) for the overlay to render."""
+        if not self._active:
+            return ({"phase": "waiting", "turn": None, "tavern_tier": None,
+                     "gold": None, "hero_health": None, "board": [], "shop": [],
+                     "notes": ["Launch a Battlegrounds game to begin…"]}, None, [])
         with self._lock:
             snap = self.tracker.snapshot().to_dict()
         key = _key(snap)

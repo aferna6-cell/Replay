@@ -96,14 +96,15 @@ def _print_board(snap) -> None:
 
 
 def cmd_watch(args) -> int:
+    # Overlay mode can start with no log yet — it waits for Hearthstone.
+    if args.overlay:
+        return _watch_overlay(args.path, args)
     paths = config.Paths.detect()
     power = args.path or paths.power_log
     if not power:
         print("No Power.log found. Run `setup`, launch Hearthstone, then retry.")
         print("Or pass --path to a captured log.")
         return 1
-    if args.overlay:
-        return _watch_overlay(power, args)
     print(f"Watching {power} (Ctrl-C to stop)")
     tracker = BGTracker()
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
@@ -132,7 +133,8 @@ def _watch_overlay(power, args) -> int:
         print("Overlay needs a graphical display:", exc)
         coach.stop()
         return 1
-    print(f"Overlay watching {power} — drag to move, close the window to stop.")
+    print("Overlay open — waiting for Hearthstone. Launch a Battlegrounds game; "
+          "the panel updates each turn. Close the window to stop.")
     ov.poll(coach.frame, interval_ms=600)
     try:
         ov.run()

@@ -37,6 +37,14 @@ def test_cache_key_changes_with_shop_and_gold():
     assert _key(a) == _key(dict(a))
 
 
+def test_livecoach_waits_for_hearthstone_before_active():
+    from hsbg_coach.live import LiveCoach
+    coach = LiveCoach(power_log=None)          # no log yet, thread not started
+    snap, odds, recos = coach.frame()
+    assert snap["phase"] == "waiting" and recos == []
+    assert any("Battlegrounds" in n for n in snap["notes"])
+
+
 def test_overlay_renders_recommendations_prominently():
     text = format_overlay_text(_recruit(), recommendations=["Buy good (+5%)", "Roll the shop"])
     assert "▸ Recommended:" in text
