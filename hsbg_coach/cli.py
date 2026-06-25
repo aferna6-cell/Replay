@@ -96,7 +96,9 @@ def _print_board(snap) -> None:
 
 
 def cmd_watch(args) -> int:
-    # Overlay mode can start with no log yet — it waits for Hearthstone.
+    # Overlay/terminal modes can start with no log yet — they wait for Hearthstone.
+    if getattr(args, "terminal", False):
+        return _watch_terminal(args.path, args)
     if args.overlay:
         return _watch_overlay(args.path, args)
     paths = config.Paths.detect()
@@ -120,6 +122,38 @@ def cmd_watch(args) -> int:
     return 0
 
 
+def _watch_terminal(power, args) -> int:
+    """In-place terminal panel — the most reliable 'overlay' on any machine.
+
+    No GUI toolkit involved: it repaints a tidy panel in place each time your
+    state changes (like htop). Float/pin your terminal window in a corner and it
+    behaves exactly like an HDT overlay, with none of the macOS Tk breakage."""
+    import time
+    from .live import LiveCoach
+    from .overlay import format_overlay_text
+
+    recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
+    coach = LiveCoach(power, recorder=recorder, from_start=True)
+    coach.start()
+    print("HSBG Coach (terminal panel) — launch a Battlegrounds game. Ctrl-C to stop.")
+    last = None
+    try:
+        while True:
+            text = format_overlay_text(*coach.frame())
+            if text != last:
+                # Home cursor + clear screen, then repaint the panel in place.
+                print("\033[H\033[J" + text, flush=True)
+                last = text
+            time.sleep(0.6)
+    except KeyboardInterrupt:
+        print("\nStopped.")
+    finally:
+        coach.stop()
+        if recorder is not None:
+            recorder.close()
+    return 0
+
+
 def _watch_overlay(power, args) -> int:
     """Live overlay: background log thread feeds the coach; the overlay polls it."""
     from .live import LiveCoach
@@ -129,9 +163,9 @@ def _watch_overlay(power, args) -> int:
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
 
-    # Echo every changed frame to the terminal too. The on-screen panel can be
-    # finicky on some macOS Tk builds, so this guarantees you always have a live
-    # readout — and it confirms the parser is reading your game in real time.
+    # Repaint a tidy panel in the terminal too (in place, like htop). The Tk
+    # window is unreliable on Apple's deprecated system Tk, so this is always a
+    # working readout — and confirms the parser is reading your game live.
     from .overlay import format_overlay_text
     last_text = [None]
 
@@ -140,7 +174,7 @@ def _watch_overlay(power, args) -> int:
         try:
             text = format_overlay_text(*result)
             if text != last_text[0]:
-                print("\n" + text, flush=True)
+                print("\033[H\033[J" + text, flush=True)
                 last_text[0] = text
         except Exception:
             pass
@@ -201,6 +235,9 @@ def build_parser() -> argparse.ArgumentParser:
     w.add_argument("--no-record", action="store_true", help="don't write dataset")
     w.add_argument("--overlay", action="store_true",
                    help="show the on-screen overlay with live recommendations")
+    w.add_argument("--terminal", action="store_true",
+                   help="live recommendations as an in-place terminal panel "
+                        "(no GUI; reliable on any macOS — float your terminal window)")
     w.set_defaults(func=cmd_watch)
 
     f = sub.add_parser("parse-file", help="parse a captured log offline")
