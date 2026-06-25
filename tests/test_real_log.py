@@ -2,9 +2,18 @@
 (captured from a player's client). These pin the calibration so it doesn't break.
 """
 
+from pathlib import Path
+
+import pytest
+
 from hsbg_coach.bg import BGTracker
 from hsbg_coach.parser import parse_line
 from hsbg_coach.choices import ChoiceParser
+
+# Full captured client log, committed at the repo root. The end-to-end test below
+# replays it and pins the live snapshot fields (local player, board, shop, tier,
+# gold, hp). Skipped gracefully if the fixture isn't present.
+REAL_LOG = Path(__file__).resolve().parent.parent / "Power.log"
 
 # Verbatim lines from a real client (Battlegrounds game start + hero mulligan).
 REAL_LINES = """\
@@ -41,3 +50,73 @@ def test_hero_select_offer_uses_log_entity_names():
             offer = o
     assert offer is not None and offer.kind == "hero"
     assert offer.names == ["A. F. Kay", "Murloc Holmes", "Lich Baz'hial", "Ysera"]
+
+
+def _replay(tracker: BGTracker, sample_every=0):
+    """Replay the full real log, optionally collecting recruit snapshots."""
+    samples = []
+    with REAL_LOG.open(errors="ignore") as f:
+        for i, line in enumerate(f):
+            ev = parse_line(line)
+            if ev:
+                tracker.feed(ev)
+            if sample_every and i % sample_every == 0:
+                samples.append(tracker.snapshot())
+    return samples
+
+
+@pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
+def test_full_log_identifies_local_player_and_names():
+    t = BGTracker()
+    _replay(t)
+    # The human is the only seat with a real GameAccountId (hi != 0). In the
+    # captured log that's QuirkyTurtle, PlayerID 3 in the final game.
+    assert t.in_bg is True
+    assert t.local_player == 3
+    assert t.player_names.get(3) == "QuirkyTurtle#1118798"
+
+
+@pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
+def test_full_log_snapshot_reads_board_shop_tier_gold_hp():
+    t = BGTracker()
+    samples = _replay(t, sample_every=300)
+    recruit = [s for s in samples if s.phase == "recruit" and s.shop]
+    assert recruit, "expected at least one recruit snapshot with a shop"
+
+    # Every shop entry is a real minion (no Bartender Bob / trinkets / spells) and
+    # resolves to a real card id.
+    for s in recruit:
+        for m in s.shop:
+            assert m.card_id and m.tags.get("CARDTYPE") == "MINION"
+
+    # A mid-game recruit with a populated board: pins board filtering (real
+    # minions only, no trinkets/placeholders) and the economy reads.
+    with_board = [s for s in recruit if s.board]
+    assert with_board, "expected a recruit snapshot with our own minions"
+    s = with_board[-1]
+    assert all(m.card_id and "Trinket" not in (m.card_id or "") for m in s.board)
+    assert all("UNKNOWN ENTITY" not in (m.name or "") for m in s.board)
+    assert s.tavern_tier and 1 <= s.tavern_tier <= 6
+    assert s.gold is not None and 0 <= s.gold <= 12
+    assert s.hero_health is not None and s.hero_health > 0
+
+
+@pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
+def test_full_log_tavern_tier_never_regresses_within_a_game():
+    """Tavern tier only goes up inside a game. Catches the bug where trinkets
+    (which also carry PLAYER_TECH_LEVEL) leak in and make the tier jump around."""
+    t = BGTracker()
+    last_game = None
+    peak = 0
+    with REAL_LOG.open(errors="ignore") as f:
+        for line in f:
+            ev = parse_line(line)
+            if not ev:
+                continue
+            t.feed(ev)
+            if t.state.game_counter != last_game:
+                last_game, peak = t.state.game_counter, 0
+            tier = t._tavern_tier()
+            if tier is not None:
+                assert tier >= peak, f"tier regressed {peak}->{tier}"
+                peak = tier

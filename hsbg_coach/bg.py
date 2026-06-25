@@ -119,8 +119,16 @@ class BGTracker:
         self.in_bg = False
         self.phase = Phase.UNKNOWN
         self.local_player: Optional[int] = None  # controller id of the human
+        self.player_names: Dict[int, str] = {}   # PlayerID -> battletag
 
     def feed(self, event: Event) -> None:
+        # Hearthstone logs the whole game twice: GameState.* is the authoritative
+        # stream, PowerTaskList.* is a task-list echo that repeats CREATE_GAME /
+        # FULL_ENTITY / TAG_CHANGE. Feeding both double-applies state and the echo's
+        # CREATE_GAME wipes the game mid-stream, so we consume GameState only.
+        if event.logger == "PowerTaskList":
+            return
+
         # Battlegrounds detection via scene transition (some clients log it)…
         if event.kind == "SCENE":
             mode = event.fields.get("currMode") or event.fields.get("mode")
@@ -130,6 +138,29 @@ class BGTracker:
             elif mode and mode != BACON_MODE:
                 self.in_bg = False
                 self.phase = Phase.UNKNOWN
+            return
+
+        # New game: forget the previous game's local player so a fresh lobby
+        # (where our PlayerID changes) re-identifies us cleanly.
+        if event.kind == "CREATE_GAME":
+            self.local_player = None
+            self.player_names = {}
+
+        # Player roster line — the reliable way to find the human: the only
+        # seat whose GameAccountId hi != 0. PlayerID is the controller id board
+        # minions carry, so it's exactly what the snapshot keys on.
+        if event.kind == "PLAYER":
+            if _safe_int(event.fields.get("hi")):   # non-zero hi == real account
+                self.local_player = _safe_int(event.fields.get("player_id"))
+            return
+
+        # PlayerID -> battletag. Gold and the hero pointer are logged against the
+        # battletag-named player entity, so we need this map to find them.
+        if event.kind == "PLAYER_NAME":
+            pid = _safe_int(event.fields.get("player_id"))
+            name = event.fields.get("name")
+            if pid is not None and name:
+                self.player_names[pid] = name
             return
 
         self.state.apply(event)
@@ -152,8 +183,11 @@ class BGTracker:
                 return
 
     # --- phase machine ----------------------------------------------------
-    # Primary signal: BG turn parity (odd=recruit, even=combat). Secondary:
-    # STEP=MAIN_READY marks a battle starting. Both per the reference parser.
+    # The GameEntity TURN counter bumps once per phase: TURN 1 = first tavern,
+    # 2 = first combat, 3 = second tavern, … so odd = RECRUIT, even = COMBAT.
+    # Verified against a real client log. We deliberately do NOT use STEP here:
+    # in Hearthstone MAIN_READY is the player's *main* (recruit) phase, so reading
+    # it as combat-start flips the shop off exactly when the player is shopping.
     def _update_phase(self, event: Event) -> None:
         if not self.in_bg:
             return
@@ -161,15 +195,12 @@ class BGTracker:
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag == "TURN":
             turn = _safe_int(event.value)
             if turn is not None and turn >= 1:
-                # Turn 1 is the first tavern; alternates from there.
                 self.phase = Phase.RECRUIT if turn % 2 == 1 else Phase.COMBAT
             return
 
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag == TAG_STEP:
             step = (event.value or "").upper()
-            if step == STEP_COMBAT_START or "COMBAT" in step:
-                self.phase = Phase.COMBAT
-            elif "FINAL" in step or "DONE" in step:
+            if "FINAL" in step or "DONE" in step:
                 self.phase = Phase.GAME_OVER
 
     def _maybe_detect_local_player(self) -> None:
@@ -186,7 +217,14 @@ class BGTracker:
     # --- snapshot ---------------------------------------------------------
     def snapshot(self) -> Snapshot:
         pid = self.local_player
-        board = [self._minion(e) for e in self.state.in_zone("PLAY", pid)]
+        # Board = our minions in PLAY at a real board slot. zonePos 0 is the
+        # hero (and tavern fixtures like Bartender Bob / Drag-To-Buy), so the
+        # actual minions are zonePos >= 1.
+        board = [
+            self._minion(e)
+            for e in self.state.in_zone("PLAY", pid)
+            if (e.tag_int("ZONE_POSITION") or 0) >= 1 and _is_real_minion(e)
+        ]
         shop = [self._minion(e) for e in self._shop_entities()]
         hand = [self._minion(e) for e in self.state.in_zone("HAND", pid)]
         notes = []
@@ -196,8 +234,8 @@ class BGTracker:
             game_counter=self.state.game_counter,
             turn=self.state.current_turn,
             phase=self.phase.value,
-            tavern_tier=self._player_tag_int(TAG_TAVERN_TIER),
-            gold=self._player_tag_int(TAG_RESOURCES),
+            tavern_tier=self._tavern_tier(),
+            gold=self._gold(),
             hero_health=self._hero_health(),
             board=board,
             shop=shop,
@@ -206,65 +244,140 @@ class BGTracker:
         )
 
     def _shop_entities(self) -> List[Entity]:
-        # CALIBRATE: shop minions live in a BG-specific zone (often "PLAY" under
-        # the neutral/tavern controller, or a dedicated SETASIDE bucket). Confirm
-        # the zone/controller on a real log; this returns the neutral-controlled
-        # play minions as a first approximation.
+        # Shop minions and the opponent's combat board BOTH live in zone=PLAY under
+        # a non-local controller, so they're indistinguishable by zone/controller
+        # alone. We disambiguate by phase: during RECRUIT the only foreign PLAY
+        # minions are the tavern offerings; during COMBAT they're the enemy board
+        # (you can't buy then), so the shop is empty. This keeps us from ever
+        # recommending a "buy" against an opponent's combat minion.
+        if self.phase != Phase.RECRUIT:
+            return []
         out = []
         for ent in self.state.entities.values():
             if ent.tags.get(TAG_DUMMY_PLAYER):
+                continue
+            if ent.tags.get("CARDTYPE") != "MINION":   # skip Bob, spells, trinkets
+                continue
+            # Crucial discriminator: our tavern's offerings are revealed to the
+            # client (they carry a cardId); opponents shop simultaneously and
+            # their minions log as hidden (cardId absent). Requiring a cardId
+            # keeps the shop to what we can actually see and buy.
+            if not ent.card_id:
                 continue
             if ent.zone == "PLAY" and ent.controller not in (
                 None, str(self.local_player)
             ):
                 out.append(ent)
-        return out
+        return sorted(out, key=lambda e: e.tag_int("ZONE_POSITION") or 0)
 
     def _minion(self, ent: Entity) -> MinionView:
+        # Shop minions log without an entityName; resolve a readable name from the
+        # cardId so the overlay shows "Southsea Busker", not "BG26_135".
+        name = ent.name
+        if not name and ent.card_id:
+            name = _card_name(ent.card_id)
         return MinionView(
             entity_id=ent.id,
             card_id=ent.card_id,
-            name=ent.name,
+            name=name,
             attack=ent.tag_int("ATK"),
             health=ent.tag_int("HEALTH"),
             position=ent.tag_int("ZONE_POSITION"),
             tags=dict(ent.tags),
         )
 
-    def _player_tag_int(self, tag) -> Optional[int]:
-        # tag may be a single name or a tuple of candidate names (the reference
-        # parser reads tavern tier from either TECH_LEVEL or PLAYER_TECH_LEVEL).
-        candidates = (tag,) if isinstance(tag, str) else tuple(tag)
+    # --- player / hero entity resolution ----------------------------------
+    # Gold, tavern tier and hero health all hang off the player entity, which
+    # the log references by battletag (not EntityID). The player carries a
+    # HERO_ENTITY tag pointing at its hero — the single source of truth for tier
+    # and health, which sidesteps trinkets/candidates that also log a tech level.
+    def _player_entity(self) -> Optional[Entity]:
+        name = self.player_names.get(self.local_player)
+        if not name:
+            return None
         for ent in self.state.entities.values():
-            if ent.controller != str(self.local_player):
-                continue
-            for name in candidates:
-                if name in ent.tags:
-                    try:
-                        return int(ent.tags[name])
-                    except ValueError:
-                        pass
+            if ent.name == name:
+                return ent
         return None
+
+    def _hero_entity(self) -> Optional[Entity]:
+        pe = self._player_entity()
+        if pe is not None:
+            hid = pe.tag_int("HERO_ENTITY")
+            if hid is not None and hid in self.state.entities:
+                return self.state.entities[hid]
+        # Fallback: the in-play hero card controlled by us.
+        for ent in self.state.entities.values():
+            if (ent.controller == str(self.local_player) and ent.zone == "PLAY"
+                    and "HERO" in (ent.card_id or "")):
+                return ent
+        return None
+
+    def _tavern_tier(self) -> Optional[int]:
+        hero = self._hero_entity()
+        if hero is None:
+            return None
+        for name in TAG_TAVERN_TIER:
+            if name in hero.tags:
+                return _safe_int(hero.tags[name])
+        return None
+
+    def _gold(self) -> Optional[int]:
+        """Spendable gold = RESOURCES - RESOURCES_USED on the player entity."""
+        pe = self._player_entity()
+        if pe is None:
+            return None
+        total = pe.tag_int(TAG_RESOURCES)
+        if total is None:
+            return None
+        return total - (pe.tag_int("RESOURCES_USED") or 0)
 
     def placement(self) -> Optional[int]:
         """Final leaderboard place (1..8) of the local player, if reported."""
+        pe = self._player_entity()
+        if pe is not None and TAG_PLACEMENT in pe.tags:
+            return _safe_int(pe.tags[TAG_PLACEMENT])
         for ent in self.state.entities.values():
             if ent.controller == str(self.local_player) and TAG_PLACEMENT in ent.tags:
                 return _safe_int(ent.tags[TAG_PLACEMENT])
         return None
 
     def _hero_health(self) -> Optional[int]:
-        for ent in self.state.entities.values():
-            # CALIBRATE: hero entities carry CARDTYPE=HERO; effective health =
-            # HEALTH - DAMAGE.
-            if ent.tags.get("CARDTYPE") == "HERO" and ent.controller == str(
-                self.local_player
-            ):
-                h = ent.tag_int(TAG_HEALTH)
-                d = ent.tag_int(TAG_DAMAGE) or 0
-                if h is not None:
-                    return h - d
-        return None
+        # BG hero survivability = HEALTH + ARMOR - DAMAGE. Heroes start with bonus
+        # armor (e.g. Marin 30 health + 12 armor); combat damage eats armor first.
+        hero = self._hero_entity()
+        if hero is None:
+            return None
+        h = hero.tag_int(TAG_HEALTH)
+        if h is None:
+            return None
+        armor = hero.tag_int("ARMOR") or 0
+        return h + armor - (hero.tag_int(TAG_DAMAGE) or 0)
+
+
+def _card_name(card_id: str) -> Optional[str]:
+    """cardId -> display name via the committed card KB (cached). Falls back to
+    the raw id so the overlay still shows something if the card is unknown."""
+    try:
+        from . import cards
+        c = cards.load_kb().get(card_id)
+        return c.name if c else card_id
+    except Exception:
+        return card_id
+
+
+def _is_real_minion(ent: Entity) -> bool:
+    """Keep only actual board minions. Excludes:
+    - trinkets / tavern buttons (CARDTYPE=GAME_MODE_BUTTON) that also sit in PLAY,
+    - unrevealed placeholders ('UNKNOWN ENTITY [cardType=INVALID]', no cardId)."""
+    cardtype = ent.tags.get("CARDTYPE")
+    if cardtype and cardtype != "MINION":
+        return False
+    if not ent.card_id:
+        return False
+    if ent.name and "UNKNOWN ENTITY" in ent.name:
+        return False
+    return True
 
 
 def _safe_int(value) -> Optional[int]:

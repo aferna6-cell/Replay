@@ -30,6 +30,19 @@ _BRACKET_RE = re.compile(r"\[(?P<body>[^\]]*)\]")
 # so entity names with spaces survive.
 _KV_RE = re.compile(r"(\w+)=(.*?)(?=\s+\w+=|$)")
 
+# CREATE_GAME player roster line, e.g.:
+#   Player EntityID=8 PlayerID=3 GameAccountId=[hi=144115193835963207 lo=168036578]
+# The local human is the one whose GameAccountId hi != 0 (opponents/AI log hi=0).
+# PlayerID is the controller id board minions carry, so it's what bg.py keys on.
+_PLAYER_RE = re.compile(
+    r"Player EntityID=(\d+) PlayerID=(\d+) GameAccountId=\[hi=(\d+) lo=(\d+)\]"
+)
+
+# DebugPrintGame roster: "PlayerID=3, PlayerName=QuirkyTurtle#1118798".
+# Maps a PlayerID to the battletag the player entity is later referenced by
+# (gold / hero-entity tags are logged against that name, not the EntityID).
+_PLAYER_NAME_RE = re.compile(r"PlayerID=(\d+),\s*PlayerName=(.+?)\s*$")
+
 
 @dataclass
 class EntityRef:
@@ -121,15 +134,43 @@ def parse_line(line: str) -> Optional[Event]:
     if body == "CREATE_GAME":
         return Event(kind="CREATE_GAME", **common)
 
+    # PlayerID -> battletag map (DebugPrintGame). Used to find the player entity
+    # that gold / hero-entity tags are logged against.
+    if method == "DebugPrintGame" and body.startswith("PlayerID="):
+        nm = _PLAYER_NAME_RE.search(body)
+        if nm:
+            return Event(
+                kind="PLAYER_NAME",
+                fields={"player_id": nm.group(1), "name": nm.group(2)},
+                **common,
+            )
+
+    # Player roster (inside the CREATE_GAME block). Identifies the local human.
+    if body.startswith("Player EntityID="):
+        pm = _PLAYER_RE.search(body)
+        if pm:
+            return Event(
+                kind="PLAYER",
+                fields={
+                    "entity_id": pm.group(1),
+                    "player_id": pm.group(2),
+                    "hi": pm.group(3),
+                    "lo": pm.group(4),
+                },
+                **common,
+            )
+
     if body.startswith("FULL_ENTITY"):
-        ent = _bracket_entity(body)
+        # Two shapes: bracketed "Updating [entityName=.. id=..]" and the
+        # non-bracket creation form "Creating ID=90 CardID=BG30_HERO_304".
+        ent = _bracket_entity(body) or _idform_entity(body)
         cid = _trailing_cardid(body)
         if ent and cid and not ent.card_id:
             ent.card_id = cid
         return Event(kind="FULL_ENTITY", entity=ent, **common)
 
     if body.startswith("SHOW_ENTITY"):
-        ent = _bracket_entity(body)
+        ent = _bracket_entity(body) or _idform_entity(body)
         cid = _trailing_cardid(body)
         if ent and cid:
             ent.card_id = cid
@@ -158,6 +199,16 @@ def parse_line(line: str) -> Optional[Event]:
 def _bracket_entity(body: str) -> Optional[EntityRef]:
     m = _BRACKET_RE.search(body)
     return _parse_bracket(m.group("body")) if m else None
+
+
+def _idform_entity(body: str) -> Optional[EntityRef]:
+    """Parse the non-bracket creation form: 'Creating ID=90 CardID=BG30_HERO_304'.
+    The indented tag= lines that follow attach to this entity in GameState, so it
+    must become the block's current entity (id is required, cardId optional)."""
+    m = re.search(r"\bID=(\d+)", body)
+    if not m:
+        return None
+    return EntityRef(id=_as_int(m.group(1)), card_id=_trailing_cardid(body))
 
 
 def _trailing_cardid(body: str) -> Optional[str]:

@@ -55,6 +55,15 @@ class GameState:
 
         if event.kind == "TAG_CHANGE" and event.entity:
             ent = self._ensure(event.entity)
+            # Fill stable identity (name/cardId) from the descriptor if we don't
+            # have it yet — the bracket carries it even when this entity was first
+            # seen via a tag change. Zone/controller/position are NOT taken here;
+            # the descriptor shows pre-change state and explicit tags drive those.
+            ref = event.entity
+            if ref.name and not ent.name:
+                ent.name = ref.name
+            if ref.card_id and not ent.card_id:
+                ent.card_id = ref.card_id
             if event.tag:
                 ent.tags[event.tag] = event.value or ""
                 if event.tag == "TURN":
