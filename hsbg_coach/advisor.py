@@ -23,8 +23,8 @@ from typing import List, Optional
 import copy
 
 from .actions import (
-    legal_actions, Action, BUY, SELL, ROLL, LEVEL, REPOSITION, FREEZE, END,
-    MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
+    legal_actions, Action, BUY, BUY_SPELL, SELL, ROLL, LEVEL, REPOSITION, FREEZE,
+    END, MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
 )
 from .board_value import get_scorer, _val, _name
 from .cards import by_name
@@ -102,6 +102,8 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
                             target_tribe, emb)
             buys.append(sa)
             scored.append(sa)
+        elif act.kind == BUY_SPELL:
+            scored.append(_score_spell(act, gold))
         elif act.kind == SELL:
             scored.append(_score_sell(act, board, base, scorer, hero_id))
 
@@ -167,6 +169,18 @@ def _score_buy(act, board, base, scorer, hero_id, idx, board_cks, target_tribe, 
     if sold:
         reason = f"sell {sold} for room; " + reason
     return ScoredAction(act, prio, reason, equity=eq, delta=delta)
+
+
+def _score_spell(act, gold):
+    """Score a tavern-spell buy. Value/notes come from spell_roles (whole-game
+    ranking applies the placement bonus); here we set a reasonable priority and
+    the reason so it shows up as a genuine option."""
+    from .spell_roles import spell_value
+    spell = act.detail.get("spell") or {}
+    cid = spell.get("card_id") if isinstance(spell, dict) else getattr(spell, "card_id", None)
+    bonus, reason = spell_value(cid, act.target, act.cost, gold)
+    prio = _clamp(0.45 - bonus)        # better (more negative) bonus -> higher prio
+    return ScoredAction(act, prio, reason)
 
 
 def _score_sell(act, board, base, scorer, hero_id):

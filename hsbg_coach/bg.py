@@ -91,6 +91,7 @@ class Snapshot:
     hero_health: Optional[int]
     board: List[MinionView] = field(default_factory=list)     # your minions in play
     shop: List[MinionView] = field(default_factory=list)      # minions available to buy
+    shop_spells: List[Dict] = field(default_factory=list)     # tavern spells to buy
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     notes: List[str] = field(default_factory=list)
@@ -105,6 +106,7 @@ class Snapshot:
             "hero_health": self.hero_health,
             "board": [m.__dict__ for m in self.board],
             "shop": [m.__dict__ for m in self.shop],
+            "shop_spells": list(self.shop_spells),
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -227,6 +229,7 @@ class BGTracker:
             if (e.tag_int("ZONE_POSITION") or 0) >= 1 and _is_real_minion(e)
         ]
         shop = [self._minion(e) for e in self._shop_entities()]
+        shop_spells = self._shop_spells()
         hand = [self._minion(e) for e in self.state.in_zone("HAND", pid)]
 
         # During combat the enemy board is fully revealed; remember the latest one
@@ -250,10 +253,36 @@ class BGTracker:
             hero_health=self._hero_health(),
             board=board,
             shop=shop,
+            shop_spells=shop_spells,
             hand=hand,
             opponents_seen=opponents,
             notes=notes,
         )
+
+    def _shop_spells(self) -> List[Dict]:
+        """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL). Mirrors
+        the minion-shop discriminator: RECRUIT phase, a non-local controller, and
+        a revealed cardId/name. Each carries its own COST (spells aren't flat 3).
+
+        NOTE: validated structurally against the minion path; the exact shop-spell
+        controller/zone is pending a live log that actually offers a tavern spell
+        (the capture is conservative until then)."""
+        if self.phase != Phase.RECRUIT:
+            return []
+        out = []
+        for ent in self.state.entities.values():
+            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
+                continue
+            if not ent.card_id:
+                continue
+            if ent.controller in (None, str(self.local_player)):
+                continue
+            out.append({
+                "name": ent.name or _card_name(ent.card_id),
+                "card_id": ent.card_id,
+                "cost": ent.tag_int("COST"),
+            })
+        return out
 
     def _opponent_board(self) -> List[MinionView]:
         """Foreign revealed minions in PLAY — i.e. the board we're fighting. Only

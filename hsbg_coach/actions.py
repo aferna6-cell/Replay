@@ -22,6 +22,7 @@ MAX_TIER = 6
 UPGRADE_COST = {1: 5, 2: 7, 3: 8, 4: 9, 5: 10}
 
 BUY = "buy"
+BUY_SPELL = "buy_spell"
 SELL = "sell"
 ROLL = "roll"
 LEVEL = "level"
@@ -44,6 +45,8 @@ class Action:
     def describe(self) -> str:
         if self.kind == BUY:
             return f"Buy {self.target}"
+        if self.kind == BUY_SPELL:
+            return f"Buy spell: {self.target} ({self.cost}g)"
         if self.kind == SELL:
             return f"Sell {self.target}"
         if self.kind == LEVEL:
@@ -82,6 +85,13 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     if gold >= BUY_COST:
         for m in shop:
             actions.append(Action(BUY, _name(m), BUY_COST, {"minion": m}))
+
+    # Buy a tavern spell — variable cost (its own COST), affordability checked.
+    for sp in (_get(snapshot, "shop_spells", []) or []):
+        cost = sp.get("cost") if isinstance(sp, dict) else getattr(sp, "cost", None)
+        cost = BUY_COST if cost is None else int(cost)
+        if gold >= cost:
+            actions.append(Action(BUY_SPELL, _name(sp), cost, {"spell": sp}))
 
     # Sell — always legal, refunds 1 gold.
     for m in board:

@@ -72,6 +72,23 @@ def test_naked_sell_is_not_a_top_recommendation():
     assert not recs[0].action.describe().startswith("Sell")
 
 
+def test_tavern_spells_are_offered_as_buy_recommendations():
+    kb, scorer = cards.load_kb(), get_scorer()
+    snap = _snap(
+        shop=[{"name": "Vanilla", "card_id": "v", "attack": 2, "health": 2}],
+        board=[{"name": "A", "card_id": "a", "attack": 3, "health": 3}],
+        tavern_tier=2, gold=5,
+        shop_spells=[{"name": "Pointy Arrow", "card_id": "EBG_Spell_014", "cost": 1},
+                     {"name": "Mystery Spell", "card_id": "EBG_Spell_999", "cost": 2}],
+    )
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    spell_recs = [r for r in recs if r.action.kind == "buy_spell"]
+    assert len(spell_recs) == 2
+    # The spell line names the spell and its gold cost.
+    assert any("Pointy Arrow" in r.action.describe() and "1g" in r.action.describe()
+               for r in spell_recs)
+
+
 def test_reposition_uses_the_opponent_board_when_present():
     kb, scorer = cards.load_kb(), get_scorer()
     my = [{"name": "A", "card_id": "a", "attack": 5, "health": 5},

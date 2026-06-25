@@ -25,7 +25,7 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, SELL, LEVEL, ROLL, REPOSITION, BUY_COST, SELL_VALUE, MAX_BOARD,
+    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, BUY_COST, SELL_VALUE, MAX_BOARD,
     tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
@@ -198,6 +198,17 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     reason = tech_reason
             elif a.kind == SELL:                         # you want a full board of 7
                 v = min(8.0, v + _sell_penalty(state))
+        elif a.kind == BUY_SPELL:
+            # Spells don't change the board composition the eval net reads, so we
+            # value them off base via spell_roles' placement bonus + the reason.
+            from .spell_roles import spell_value
+            spell = a.detail.get("spell") or {}
+            cid = (spell.get("card_id") if isinstance(spell, dict)
+                   else getattr(spell, "card_id", None))
+            bonus, sreason = spell_value(cid, a.target, a.cost,
+                                         _get(snapshot, "gold") or 0)
+            v = max(1.0, base + bonus)
+            reason = sreason
         elif a.kind == REPOSITION and sa.delta:
             # Reposition doesn't change board composition, so placement is flat —
             # but a better attack order raises combat win%. Convert that win-rate

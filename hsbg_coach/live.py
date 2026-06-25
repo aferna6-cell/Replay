@@ -31,7 +31,7 @@ def advice_lines(snapshot: dict, kb, scorer=None,
 
     Empty unless we're shopping (a shop is present). Pure + synchronous, so it's
     unit-testable without a display."""
-    if not snapshot.get("shop"):
+    if not snapshot.get("shop") and not snapshot.get("shop_spells"):
         return []
     from .game_value import rank_actions
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
