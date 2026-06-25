@@ -94,10 +94,17 @@ def _grow(strength, tier, intent, exp_tier, c_growth, rng):
         g = c_growth * (0.95 + tier_bonus)       # on/above tier: scale with your tier
     else:
         g = c_growth * (0.80 + 0.5 * tier_bonus)  # under-tiered: capped, falls behind
-    g *= rng.uniform(0.85, 1.18)                 # execution / roll variance (wider)
+    g *= rng.uniform(0.88, 1.14)                 # execution variance
     s = max(strength, 1.0) * g
-    if rng.random() < 0.10:                      # occasional high/low-roll shock
-        s *= rng.uniform(0.8, 1.3)
+    # Fat upside: occasionally high-roll a strong board (a bomb / triple). It's
+    # bigger and likelier at higher tiers — which is exactly *why* tiering up is
+    # worth the HP, and why a behind/low-HP player should gamble on leveling: the
+    # comeback only exists up the tavern. A rarer bust balances it.
+    roll = rng.random()
+    if roll < 0.03 + 0.02 * tier:                # tier2 ~7% … tier6 ~13%
+        s *= rng.uniform(1.4, 2.4)
+    elif roll > 0.94:
+        s *= rng.uniform(0.7, 0.9)
     return s, tier
 
 
