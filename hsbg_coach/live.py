@@ -62,6 +62,11 @@ class LiveCoach:
         self.tracker = BGTracker()
         self.kb = cards.load_kb()
         self.scorer = get_scorer()
+        from .choices import ChoiceParser
+        from .stats import StatsDB
+        self.choices = ChoiceParser()
+        self.db = StatsDB.load()
+        self._offer = None              # active hero/trinket/discover choice
         self._lock = threading.Lock()
         self._stop = threading.Event()
         self._cache_key = None
@@ -97,6 +102,11 @@ class LiveCoach:
         for line in tail_lines(path, from_start=self.from_start):
             if self._stop.is_set():
                 break
+            offer = self.choices.feed(line)        # hero/trinket/discover offers
+            if offer is not None:
+                self._offer = offer
+            elif "SendChoices" in line:
+                self._offer = None                 # choice resolved
             ev = parse_line(line)
             if ev is None:
                 continue
@@ -127,6 +137,15 @@ class LiveCoach:
                      "notes": ["Launch a Battlegrounds game to begin…"]}, None, [])
         with self._lock:
             snap = self.tracker.snapshot().to_dict()
+        offer = self._offer
+        if offer is not None:                       # a choice is on screen
+            from .choices import rank_offer
+            picks = rank_offer(offer, board=snap.get("board", []), kb=self.kb,
+                               scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db)
+            lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
+            snap = dict(snap, phase=f"choose {offer.kind}",
+                        notes=[f"{offer.kind.upper()} — pick one"])
+            return snap, None, lines
         key = _key(snap)
         if key != self._cache_key:                    # recompute advice only on change
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
