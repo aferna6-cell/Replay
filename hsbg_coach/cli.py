@@ -128,6 +128,24 @@ def _watch_overlay(power, args) -> int:
     # are written before/just-as the overlay attaches.
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
+
+    # Echo every changed frame to the terminal too. The on-screen panel can be
+    # finicky on some macOS Tk builds, so this guarantees you always have a live
+    # readout — and it confirms the parser is reading your game in real time.
+    from .overlay import format_overlay_text
+    last_text = [None]
+
+    def frame_and_echo():
+        result = coach.frame()
+        try:
+            text = format_overlay_text(*result)
+            if text != last_text[0]:
+                print("\n" + text, flush=True)
+                last_text[0] = text
+        except Exception:
+            pass
+        return result
+
     try:
         from .overlay import Overlay
         ov = Overlay()
@@ -136,8 +154,8 @@ def _watch_overlay(power, args) -> int:
         coach.stop()
         return 1
     print("Overlay open — waiting for Hearthstone. Launch a Battlegrounds game; "
-          "the panel updates each turn. Close the window to stop.")
-    ov.poll(coach.frame, interval_ms=600)
+          "the panel updates each turn (and prints here too). Close the window to stop.")
+    ov.poll(frame_and_echo, interval_ms=600)
     try:
         ov.run()
     finally:

@@ -79,15 +79,22 @@ class Overlay:
         ov.run()
     """
 
-    def __init__(self, corner: str = "ne", alpha: float = 0.92,
+    def __init__(self, corner: str = "ne", alpha: Optional[float] = None,
                  width: int = 320, height: int = 460,
                  frameless: Optional[bool] = None) -> None:
         import sys
         import tkinter as tk  # lazy: keeps module headless-importable
 
+        is_mac = sys.platform == "darwin"
         # Frameless hides the window on macOS — default it off there.
         if frameless is None:
-            frameless = sys.platform != "darwin"
+            frameless = not is_mac
+        # Window transparency stops the text layer from compositing on some macOS
+        # Tk builds (the panel paints its background but not its glyphs), so the
+        # panel looks blank. Default to fully opaque on macOS; keep a little
+        # translucency elsewhere where it renders fine.
+        if alpha is None:
+            alpha = 1.0 if is_mac else 0.92
 
         self.root = tk.Tk()
         self.root.title("HSBG Coach")
@@ -101,7 +108,8 @@ class Overlay:
         self._label = tk.Label(
             self.root, justify="left", anchor="nw",
             font=("Menlo", 12), fg="#e8e8e8", bg="#111418",
-            padx=10, pady=10, text="HSBG Coach — waiting for Hearthstone…",
+            padx=10, pady=10, wraplength=width - 24,
+            text="HSBG Coach — waiting for Hearthstone…",
         )
         self._label.pack(fill="both", expand=True)
         self._label.bind("<Button-1>", self._start_drag)
@@ -145,6 +153,12 @@ class Overlay:
     def update(self, snapshot: Dict, odds: Optional[str] = None,
                recommendations: Optional[List[str]] = None) -> None:
         self._label.config(text=format_overlay_text(snapshot, odds, recommendations))
+        # macOS Tk doesn't always repaint a Label whose text changed from an
+        # after() callback; force the pending redraw so updates actually show.
+        try:
+            self._label.update_idletasks()
+        except Exception:
+            pass
 
     def poll(self, provider: Callable[[], Optional[tuple]], interval_ms: int = 500) -> None:
         """Call provider() every interval; it returns (snapshot, odds[, recos]) or None."""
