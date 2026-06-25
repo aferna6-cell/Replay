@@ -266,6 +266,7 @@ def cmd_plan(args) -> int:
     print(f"\nBest strategy: {best.name} — THIS TURN: {best.this_turn.upper()}")
     for tp in best.projection:
         print(tp.line())
+    _print_policy_intent(snap)
     hero_ctx = HeroContext(target_tribe=args.tribe) if args.tribe else None
     print("\nThis turn, concretely:")
     for i, s in enumerate(plan_turn(snap, kb=kb, hero_ctx=hero_ctx), 1):
@@ -325,6 +326,29 @@ def cmd_advise(args) -> int:
     for i, s in enumerate(steps, 1):
         print(f"  {i}. {s}")
     return 0
+
+
+def _print_policy_intent(snap):
+    """If the self-play RL policy is trained, show its this-turn intent."""
+    import os
+    pt = os.path.join(os.path.dirname(__file__), "..", "ml", "econ_policy.pt")
+    if not os.path.isfile(pt):
+        return
+    try:
+        from ml.econ_policy import load, recommend_intent
+        from ml.econ_env import alive_at
+        from .pace import load_pace, _at as _curve_at
+        turn = (snap.get("turn") or 8)
+        tier = (snap.get("tavern_tier") or 1)
+        hp = snap.get("hero_health") or 30
+        strength = sum((m.get("attack") or 0) + (m.get("health") or 0)
+                       for m in snap.get("board", []))
+        curve = _curve_at(load_pace().get("scaling", {}), turn) or max(1.0, strength)
+        intent, prob = recommend_intent(turn, tier, strength, strength / curve,
+                                        hp, alive_at(turn), load(pt))
+        print(f"\nSelf-play RL agent says: {intent.upper()} ({prob:.0%} confidence)")
+    except Exception:
+        pass
 
 
 def _demo_snapshot(kb):

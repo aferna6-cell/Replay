@@ -20,7 +20,10 @@ python -m ml.train_card2vec --epochs 5
 echo "==> 4/5  Retrain the board-evaluation net on the meta + your recorded games"
 python -m ml.train_eval_net --epochs 40 --trajectories data/
 
-echo "==> 5/5  Retrain the economy value net on self-play lobbies"
+echo "==> 5/6  Retrain the economy value net on self-play lobbies"
 python -m ml.train_econ --lobbies 4000 --epochs 30
+
+echo "==> 6/6  Retrain the self-play economy policy (REINFORCE)"
+python -m ml.train_policy --iters 60 --lobbies 64
 
 echo "Done. Models refreshed from this week's meta + your games."

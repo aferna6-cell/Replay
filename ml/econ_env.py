@@ -62,12 +62,15 @@ def _exp_tier(lev, turn) -> float:
 class Player:
     strength: float
     policy: str
+    idx: int = 0
     tier: int = 1
     hp: float = 30.0
     alive: bool = True
     placement: Optional[int] = None
     # per-turn (turn, tier, strength, ratio, hp, players_left)
     traj: List[Tuple] = field(default_factory=list)
+    # per-turn (feature_vector, action_idx) when driven by a policy decider
+    actions: List[Tuple] = field(default_factory=list)
 
 
 def _intent(policy, tier, exp_tier, rng) -> str:
@@ -81,14 +84,16 @@ def _intent(policy, tier, exp_tier, rng) -> str:
 
 
 def _grow(strength, tier, intent, exp_tier, c_growth, rng):
+    # Higher tiers scale HARDER (a tier-6 minion crushes a tier-3 one) — this is
+    # the payoff that makes tiering up worth the tempo it costs.
+    tier_bonus = 0.06 * tier
     if intent == "level" and tier < MAX_TIER:
         tier += 1
-        g = c_growth * 0.7                       # board lags the turn you tier up
+        g = c_growth * (0.55 + tier_bonus)       # costly this turn, unlocks scaling
+    elif tier + 0.5 >= exp_tier:
+        g = c_growth * (0.95 + tier_bonus)       # on/above tier: scale with your tier
     else:
-        if tier + 0.5 >= exp_tier:
-            g = c_growth * (1.05 + 0.05 * max(0.0, tier - exp_tier))
-        else:
-            g = c_growth * 0.85                  # under-tiered can't keep pace
+        g = c_growth * (0.80 + 0.5 * tier_bonus)  # under-tiered: capped, falls behind
     g *= rng.uniform(0.85, 1.18)                 # execution / roll variance (wider)
     s = max(strength, 1.0) * g
     if rng.random() < 0.10:                      # occasional high/low-roll shock
@@ -97,15 +102,20 @@ def _grow(strength, tier, intent, exp_tier, c_growth, rng):
 
 
 def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14,
-                   explore: float = 0.15) -> List[Player]:
+                   explore: float = 0.15, deciders=None) -> List[Player]:
+    """Play out an 8-player economy lobby.
+
+    `deciders` (optional) is a length-n list; deciders[i](features) -> (intent,
+    action_idx) drives player i with a policy (recording its actions for RL); a
+    None entry uses the built-in heuristic policy. Default: all heuristic."""
     rng = random.Random(seed)
     sca = pace.get("scaling", {})
     lev = pace.get("leveling", {})
     start = _curve(sca, 1)
     # Wider spread of starts + policies broadens the state coverage the value net
     # sees, so it's reliable on the off-policy states the recommender evaluates.
-    players = [Player(strength=start * rng.uniform(0.55, 1.5), policy=_POLICIES[i % 4])
-               for i in range(n)]
+    players = [Player(strength=start * rng.uniform(0.55, 1.5), policy=_POLICIES[i % 4],
+                      idx=i) for i in range(n)]
 
     for turn in range(2, max_turns + 1):
         alive = [p for p in players if p.alive]
@@ -115,7 +125,12 @@ def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14,
         prev, cur = _curve(sca, turn - 1), _curve(sca, turn)
         c = cur / prev if prev else 1.0
         for p in alive:
-            if rng.random() < explore:           # exploration -> off-policy states
+            dec = deciders[p.idx] if deciders else None
+            if dec is not None:
+                feat = features(turn, p.tier, p.strength, p.strength / cur, p.hp, len(alive))
+                intent, aidx = dec(feat)
+                p.actions.append((feat, aidx))
+            elif rng.random() < explore:          # exploration -> off-policy states
                 intent = rng.choice(["level", "tempo"])
             else:
                 intent = _intent(p.policy, p.tier, exp_tier, rng)
