@@ -28,6 +28,8 @@ from . import cards, stats
 _CHOICE_LINE = re.compile(r"DebugPrintEntityChoices\(\)\s*-\s*(.*)$")
 _SEND_CHOICES = re.compile(r"SendChoices\(\)")
 _CARDID = re.compile(r"cardId=([A-Za-z0-9_]+)")
+# entityName runs up to " id=" — names contain spaces/punctuation (e.g. "A. F. Kay").
+_ENTNAME = re.compile(r"entityName=(.+?)\s+id=")
 _FIELD = lambda s, k: (re.search(rf"{k}=(\w+)", s) or [None, None])[1]
 
 
@@ -75,6 +77,7 @@ class ChoiceParser:
 
     def __init__(self):
         self._ids: List[str] = []
+        self._names: List[str] = []
         self._open = False
 
     def feed(self, line: str) -> Optional[ChoiceOffer]:
@@ -92,19 +95,23 @@ class ChoiceParser:
             cid = _CARDID.search(payload)
             if cid:
                 self._ids.append(cid.group(1))
+                nm = _ENTNAME.search(payload)   # prefer the name straight from the log
+                self._names.append(nm.group(1).strip() if nm else "")
         elif "ChoiceType=" in payload:     # header → start a fresh block
-            self._ids = []
+            self._ids, self._names = [], []
             self._open = True
         return None
 
     def _finalize(self) -> ChoiceOffer:
-        ids = list(self._ids)
+        ids, names = list(self._ids), list(self._names)
         self._reset()
-        offer = ChoiceOffer(classify(ids), ids, [name_for(c) for c in ids])
-        return offer
+        # Use the log's entityName; fall back to our committed name lookup.
+        disp = [names[i] or name_for(ids[i]) for i in range(len(ids))]
+        return ChoiceOffer(classify(ids), ids, disp)
 
     def _reset(self):
         self._ids = []
+        self._names = []
         self._open = False
 
 

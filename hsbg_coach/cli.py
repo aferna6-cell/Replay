@@ -124,7 +124,9 @@ def _watch_overlay(power, args) -> int:
     """Live overlay: background log thread feeds the coach; the overlay polls it."""
     from .live import LiveCoach
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
-    coach = LiveCoach(power, recorder=recorder, from_start=args.from_start)
+    # Read the session from the start so we catch hero-select + early turns that
+    # are written before/just-as the overlay attaches.
+    coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
     try:
         from .overlay import Overlay

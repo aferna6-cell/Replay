@@ -121,7 +121,7 @@ class BGTracker:
         self.local_player: Optional[int] = None  # controller id of the human
 
     def feed(self, event: Event) -> None:
-        # Battlegrounds detection via scene transition.
+        # Battlegrounds detection via scene transition (some clients log it)…
         if event.kind == "SCENE":
             mode = event.fields.get("currMode") or event.fields.get("mode")
             if mode == BACON_MODE:
@@ -133,8 +133,23 @@ class BGTracker:
             return
 
         self.state.apply(event)
+        if not self.in_bg:
+            self._detect_bg()              # …but most clients only reveal BG via cardIds
         self._update_phase(event)
         self._maybe_detect_local_player()
+
+    def _detect_bg(self) -> None:
+        """Detect Battlegrounds from entity cardIds — the tavern infrastructure
+        (Bartender Bob, the shop, hero placeholders) all carry 'Bacon', and BG
+        minions/heroes use BGS_/BG##_ prefixes. Reliable when the scene line isn't
+        logged (verified against a real macOS client log)."""
+        for ent in self.state.entities.values():
+            cid = ent.card_id or ""
+            if "Bacon" in cid or cid.startswith(("BGS_", "BG2", "BG3", "BG_")):
+                self.in_bg = True
+                if self.phase == Phase.UNKNOWN:
+                    self.phase = Phase.HERO_SELECT
+                return
 
     # --- phase machine ----------------------------------------------------
     # Primary signal: BG turn parity (odd=recruit, even=combat). Secondary:
