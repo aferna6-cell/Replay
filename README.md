@@ -223,6 +223,18 @@ Best move: Buy Monstrous Macaw — learned synergy with board (0.32)
   ...
 ```
 
+Every move is scored by **expected final placement** (whole-game value), not just
+immediate board strength — so buy / sell / level / roll are compared on one axis,
+with the rest of the game baked in (`game_value.py`: eval-net board value +
+multi-turn trajectory + HP risk):
+
+```
+Whole-game ranking — expected final placement (now: 3.8):
+  finish 3.3 (+0.50)  Buy Monstrous Macaw — learned synergy with board
+  finish 3.5 (+0.34)  Buy Holo Rover — on-tribe with board (Mech)
+  finish 4.8 (-1.00)  Sell Ingenious Inventor — weakens the board
+```
+
 `advise` also prints a **full-turn plan** — it greedily applies the best move,
 re-scores the resulting board, and repeats, so you get the whole turn in order:
 

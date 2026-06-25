@@ -26,18 +26,16 @@ from .tail import tail_lines
 
 def advice_lines(snapshot: dict, kb, scorer=None,
                  hero_ctx: Optional[HeroContext] = None, top: int = 6) -> List[str]:
-    """Ranked one-line recommendations for a snapshot, best first.
+    """Ranked one-line recommendations for a snapshot, best first — scored by
+    expected FINAL placement (whole-game value), so the future is accounted for.
 
-    Empty unless we're shopping (a shop is present) — there's nothing to advise
-    mid-combat. Pure + synchronous, so it's unit-testable without a display."""
+    Empty unless we're shopping (a shop is present). Pure + synchronous, so it's
+    unit-testable without a display."""
     if not snapshot.get("shop"):
         return []
-    plan = advise_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
-    out = []
-    for a in plan.ranked[:top]:
-        delta = f" ({a.delta:+.0%})" if a.delta is not None else ""
-        out.append(f"{a.action.describe()}{delta}")
-    return out
+    from .game_value import rank_actions
+    recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
+    return [f"{r.action.describe()} (finish {r.placement:.1f})" for r in recs[:top]]
 
 
 def _key(d: dict):

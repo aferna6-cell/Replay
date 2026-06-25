@@ -312,10 +312,11 @@ def cmd_advise(args) -> int:
         pace = load_pace()
     except Exception:
         pass
-    enemies = snap.get("enemy_boards") or None
-    plan = advise_actions(snap, kb=kb, hero_ctx=hero_ctx, pace=pace,
-                          enemy_boards=enemies)
-    print(plan.summary())
+    from .game_value import rank_actions
+    recs, base = rank_actions(snap, kb=kb, hero_ctx=hero_ctx, pace=pace)
+    print(f"Whole-game ranking — expected final placement (now: {base:.1f}):")
+    for r in recs:
+        print(r.line())
     from .advisor import plan_turn
     steps = plan_turn(snap, kb=kb, hero_ctx=hero_ctx)
     print("\nFull-turn plan (follow in order):")
