@@ -54,7 +54,8 @@ def test_livecoach_waits_for_hearthstone_before_active():
 
 def test_overlay_renders_recommendations_prominently():
     text = format_overlay_text(_recruit(), recommendations=["Buy good (+5%)", "Roll the shop"])
-    assert "▸ Recommended:" in text
-    assert "1. Buy good (+5%)" in text
-    # recommendations appear above the board section
-    assert text.index("Recommended") < text.index("Your board")
+    # The single best move leads as a prominent NEXT line; the rest is context.
+    assert "NEXT → Buy good (+5%)" in text
+    assert "Roll the shop" in text
+    # the next move appears above the board section
+    assert text.index("NEXT") < text.index("Your board")
