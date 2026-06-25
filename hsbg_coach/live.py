@@ -38,20 +38,21 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # Show the *why* (synergy / tribe / positioning order / sell-for-room / tech
     # caveat) next to each move — that reasoning is the point, not just the verb.
     out = []
-    # Lead with where the board is heading, so buys read as steps toward a comp.
-    try:
-        from .build_path import build_note
-        note = build_note(snapshot.get("board", []), snapshot.get("tavern_tier"))
-        if note:
-            out.append(note)
-    except Exception:
-        pass
     for r in recs[:top]:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:
             line += f" — {r.reason}"
         out.append(line)
     return out
+
+
+def build_note_for(snapshot, kb=None) -> Optional[str]:
+    """One-line 'what you're building toward' for the overlay header."""
+    try:
+        from .build_path import build_note
+        return build_note(snapshot.get("board", []), snapshot.get("tavern_tier"))
+    except Exception:
+        return None
 
 
 def _key(d: dict):
@@ -168,4 +169,7 @@ class LiveCoach:
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
             self._cache_key = key
+        note = build_note_for(snap, self.kb)
+        if note:
+            snap = dict(snap, build_note=note)
         return snap, None, self._cache_lines

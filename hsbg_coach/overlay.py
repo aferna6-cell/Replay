@@ -37,11 +37,20 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
     lines.append(f"HSBG Coach — turn {turn}  ·  {phase}")
     lines.append(f"tier {tier}   gold {gold}   hp {hp}")
 
+    note = snapshot.get("build_note")
+    if note:
+        lines.append(note)
+
     if recommendations:
+        # Lead with ONE clear next move; it re-computes the instant you act, so
+        # do this, then read the new top line. The rest is context below it.
         lines.append("")
-        lines.append("▸ Recommended:")
-        for i, r in enumerate(recommendations, 1):
-            lines.append(f"  {i}. {r}")
+        lines.append(f"NEXT → {recommendations[0]}")
+        if len(recommendations) > 1:
+            lines.append("")
+            lines.append("then:")
+            for r in recommendations[1:]:
+                lines.append(f"  · {r}")
 
     if odds:
         lines.append("")
