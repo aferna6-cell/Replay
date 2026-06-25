@@ -144,7 +144,7 @@ def _watch_terminal(power, args) -> int:
                 # Home cursor + clear screen, then repaint the panel in place.
                 print("\033[H\033[J" + text, flush=True)
                 last = text
-            time.sleep(0.6)
+            time.sleep(0.05)            # 20 Hz — repaint near-instantly when you act
     except KeyboardInterrupt:
         print("\nStopped.")
     finally:
@@ -189,7 +189,7 @@ def _watch_overlay(power, args) -> int:
         return 1
     print("Overlay open — waiting for Hearthstone. Launch a Battlegrounds game; "
           "the panel updates each turn (and prints here too). Close the window to stop.")
-    ov.poll(frame_and_echo, interval_ms=600)
+    ov.poll(frame_and_echo, interval_ms=120)
     try:
         ov.run()
     finally:

@@ -88,6 +88,10 @@ class LiveCoach:
         self._stop = threading.Event()
         self._cache_key = None
         self._cache_lines: List[str] = []
+        self._cache_note: Optional[str] = None
+        self._version = 0                 # bumps each time a log event is fed
+        self._snap_version = -1           # version the cached snapshot was built at
+        self._snap_cache: Optional[dict] = None
         self._active = False
 
     def start(self) -> threading.Thread:
@@ -129,6 +133,7 @@ class LiveCoach:
                 continue
             with self._lock:
                 self.tracker.feed(ev)
+                self._version += 1            # mark state advanced (poll rebuilds)
             if self.recorder is not None and self.tracker.state.game_counter != prev_game:
                 self.recorder.start_game()
                 prev_game = self.tracker.state.game_counter
@@ -152,8 +157,15 @@ class LiveCoach:
             return ({"phase": "waiting", "turn": None, "tavern_tier": None,
                      "gold": None, "hero_health": None, "board": [], "shop": [],
                      "notes": ["Launch a Battlegrounds game to begin…"]}, None, [])
+        # Rebuild the snapshot only when the log actually advanced; idle ticks
+        # (between your actions) reuse the cached one, so polling at 20 Hz stays
+        # near-free and the panel still refreshes the instant you act.
         with self._lock:
-            snap = self.tracker.snapshot().to_dict()
+            version = self._version
+            if version != self._snap_version or self._snap_cache is None:
+                self._snap_cache = self.tracker.snapshot().to_dict()
+                self._snap_version = version
+            snap = self._snap_cache
         offer = self._offer
         if offer is not None:                       # a choice is on screen
             from .choices import rank_offer
@@ -168,8 +180,8 @@ class LiveCoach:
         if key != self._cache_key:                    # recompute advice only on change
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
+            self._cache_note = build_note_for(snap, self.kb)
             self._cache_key = key
-        note = build_note_for(snap, self.kb)
-        if note:
-            snap = dict(snap, build_note=note)
+        if self._cache_note:
+            snap = dict(snap, build_note=self._cache_note)
         return snap, None, self._cache_lines

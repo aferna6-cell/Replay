@@ -21,7 +21,7 @@ def _inode(path: str) -> Optional[int]:
 def tail_lines(
     path: str,
     from_start: bool = False,
-    poll_interval: float = 0.25,
+    poll_interval: float = 0.05,        # 20 Hz — pick up new log lines near-instantly
     stop_after_eof: bool = False,
 ) -> Iterator[str]:
     """Yield complete lines appended to ``path``.
