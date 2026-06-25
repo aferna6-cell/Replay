@@ -44,6 +44,34 @@ def test_tech_card_does_not_outrank_a_comparable_on_tribe_minion():
     assert "tech" in tunnel.reason.lower()
 
 
+def test_tech_card_is_promoted_when_the_matchup_wants_it():
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": "Roaring Recruiter", "card_id": "X1", "attack": 6, "health": 6},
+             {"name": "Ancestral Automaton", "card_id": "X2", "attack": 7, "health": 7}]
+    shop = [{"name": "Tunnel Blaster", "card_id": "BG_DAL_775", "attack": 3, "health": 7},
+            {"name": "Roaring Recruiter", "card_id": "X1", "attack": 6, "health": 6}]
+    shielded = [{"name": f"DS{i}", "attack": 3, "health": 2,
+                 "tags": {"DIVINE_SHIELD": "1"}} for i in range(5)]
+    snap = _snap(shop=shop, board=board, opponents_seen=[shielded])
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    tunnel = next(r for r in recs if "Tunnel" in r.action.describe())
+    recruiter = next(r for r in recs if "Recruiter" in r.action.describe())
+    # Against a wall of Divine Shields, the board-clear should now win.
+    assert tunnel.placement < recruiter.placement
+    assert "divine shield" in tunnel.reason.lower()
+
+
+def test_naked_sell_is_not_a_top_recommendation():
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 5, "health": 5}
+             for i in range(7)]
+    snap = _snap(shop=[{"name": "weakling", "card_id": "w", "attack": 1, "health": 1}],
+                 board=board, gold=1)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    # You want a full board of 7; selling a minion for nothing shouldn't be #1.
+    assert not recs[0].action.describe().startswith("Sell")
+
+
 def test_reposition_uses_the_opponent_board_when_present():
     kb, scorer = cards.load_kb(), get_scorer()
     my = [{"name": "A", "card_id": "a", "attack": 5, "health": 5},

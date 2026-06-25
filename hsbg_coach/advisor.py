@@ -156,16 +156,14 @@ def _score_buy(act, board, base, scorer, hero_id, idx, board_cks, target_tribe, 
     reason = "; ".join(bits) if bits else "adds board strength"
 
     # Situational tech (Tunnel Blaster, Deadly Spore, …) reads as a strong buy on
-    # raw stats/keywords, but its value is read-dependent. Discount it so it stops
-    # being the default pick, and say why.
-    from .card_roles import tech_note, TECH_BUY_DISCOUNT
+    # raw stats/keywords. Note that here; whole-game ranking (game_value) does the
+    # matchup-aware promote/demote against the live opponent board.
+    from .card_roles import tech_note
     note = tech_note(getattr(minion, "card_id", None) if not isinstance(minion, dict)
                      else minion.get("card_id"), act.target)
-    prio = _clamp(0.5 + delta * _PRIO_SCALE)
     if note:
-        prio = _clamp(prio - TECH_BUY_DISCOUNT)
-        delta -= TECH_BUY_DISCOUNT / _PRIO_SCALE
         reason = note
+    prio = _clamp(0.5 + delta * _PRIO_SCALE)
     if sold:
         reason = f"sell {sold} for room; " + reason
     return ScoredAction(act, prio, reason, equity=eq, delta=delta)

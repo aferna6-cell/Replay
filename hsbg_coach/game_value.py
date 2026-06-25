@@ -57,22 +57,34 @@ def _econ_model():
     return _ECON
 
 
-_TECH_PLACEMENT_PEN = 0.5     # placement hit for buying read-dependent tech blind
+_SELL_TEMPO_PEN = 0.6         # a naked sell loses a body — you want 7 minions
+_SELL_FULL_BOARD = 7          # full Battlegrounds board
 
 
 def _get(s, k, d=None):
     return s.get(k, d) if isinstance(s, dict) else getattr(s, k, d)
 
 
-def _tech_penalty(action) -> float:
-    """Placement penalty when a BUY target is situational tech (Tunnel Blaster,
-    Deadly Spore, …). The eval net over-credits their stats; without opponent
-    context we demote them from 'the pick' to 'an option'."""
-    from .card_roles import tech_note
+def _tech_adjust(action, opponent_board):
+    """(placement_adjustment, reason|None) for a tech-card BUY, matchup-aware.
+    Negative adjustment promotes the card; positive demotes it. (0, None) for
+    non-tech cards."""
+    from .card_roles import tech_assessment
     minion = action.detail.get("minion")
     cid = (minion.get("card_id") if isinstance(minion, dict)
            else getattr(minion, "card_id", None))
-    return _TECH_PLACEMENT_PEN if tech_note(cid, action.target) else 0.0
+    res = tech_assessment(cid, action.target, opponent_board)
+    return res if res is not None else (0.0, None)
+
+
+def _sell_penalty(state) -> float:
+    """A standalone sell shrinks your board; you almost always want a full 7.
+    Penalize it (scaled up when you have few minions) so the recommender won't
+    suggest selling unless the board genuinely improves enough to overcome it, or
+    it's a buy making room (handled inside the buy action's 'sell X for room')."""
+    n = len(state.get("board", []) or [])
+    short = max(0, _SELL_FULL_BOARD - n)            # how far below a full board
+    return _SELL_TEMPO_PEN + short * 0.08
 
 
 def expected_placement(snapshot, scorer=None, pace=None, horizon: int = 4) -> float:
@@ -172,13 +184,20 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
     base = expected_placement(snapshot, scorer, pace, horizon)
     state = _as_state(snapshot)
 
+    enemy0 = enemy_boards[0] if enemy_boards else None
     recs: List[WholeGameRec] = []
     for sa in plan.ranked:
         a = sa.action
+        reason = sa.reason
         if a.kind in (BUY, SELL, LEVEL, ROLL):
             v = expected_placement(_apply(state, a), scorer, pace, horizon)
-            if a.kind == BUY:
-                v = min(8.0, v + _tech_penalty(a))       # demote read-dependent tech
+            if a.kind == BUY:                            # matchup-aware tech read
+                adj, tech_reason = _tech_adjust(a, enemy0)
+                v = max(1.0, min(8.0, v + adj))
+                if tech_reason:
+                    reason = tech_reason
+            elif a.kind == SELL:                         # you want a full board of 7
+                v = min(8.0, v + _sell_penalty(state))
         elif a.kind == REPOSITION and sa.delta:
             # Reposition doesn't change board composition, so placement is flat —
             # but a better attack order raises combat win%. Convert that win-rate
@@ -187,6 +206,6 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
             v = max(1.0, base - sa.delta * _K_POS)
         else:
             v = base                                     # freeze/end: neutral here
-        recs.append(WholeGameRec(a, round(v, 2), sa.reason, round(base - v, 2)))
+        recs.append(WholeGameRec(a, round(v, 2), reason, round(base - v, 2)))
     recs.sort(key=lambda r: r.placement)
     return recs, base
