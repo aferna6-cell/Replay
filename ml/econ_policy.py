@@ -83,8 +83,11 @@ def train(iters: int = 60, lobbies: int = 64, lr: float = 0.01, hidden: int = 32
         At = torch.tensor(acts, dtype=torch.long)
         Rt = torch.tensor(rets, dtype=torch.float32)
         adv = Rt - Rt.mean()                      # baseline-subtracted advantage
-        logp = F.log_softmax(net(Ft), dim=-1).gather(1, At.unsqueeze(1)).squeeze(1)
-        loss = -(logp * adv).mean()
+        logits = net(Ft)
+        logp_all = F.log_softmax(logits, dim=-1)
+        logp = logp_all.gather(1, At.unsqueeze(1)).squeeze(1)
+        entropy = -(F.softmax(logits, dim=-1) * logp_all).sum(1).mean()
+        loss = -(logp * adv).mean() - 0.02 * entropy   # entropy keeps it exploring
         opt.zero_grad()
         loss.backward()
         opt.step()

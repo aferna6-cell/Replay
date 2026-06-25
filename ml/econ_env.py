@@ -54,6 +54,8 @@ def _curve(sca, turn) -> float:
 
 
 def _exp_tier(lev, turn) -> float:
+    # `lev` is the tavern-tier curve (what tier strong players are ON each turn),
+    # so the sim's "on-tier" target now climbs to 5-6 late game.
     v = _curve_at(lev, turn) if lev else None
     return v if v else min(MAX_TIER, 1 + (turn - 1) // 2)
 
@@ -84,25 +86,29 @@ def _intent(policy, tier, exp_tier, rng) -> str:
 
 
 def _grow(strength, tier, intent, exp_tier, c_growth, rng):
-    # Higher tiers scale HARDER (a tier-6 minion crushes a tier-3 one) — this is
-    # the payoff that makes tiering up worth the tempo it costs.
-    tier_bonus = 0.06 * tier
+    # Higher tiers scale HARDER (a tier-6 minion crushes a tier-3 one) — the
+    # payoff that makes tiering up worth the tempo it costs. Kept modest so the
+    # optimal pace tracks the tavern curve rather than rushing past it.
+    tier_bonus = 0.035 * tier
+    deficit = max(0.0, exp_tier - tier)          # how many tiers below the curve
     if intent == "level" and tier < MAX_TIER:
         tier += 1
-        g = c_growth * (0.55 + tier_bonus)       # costly this turn, unlocks scaling
-    elif tier + 0.5 >= exp_tier:
-        g = c_growth * (0.95 + tier_bonus)       # on/above tier: scale with your tier
+        g = c_growth * 0.6                        # leveling sacrifices the turn…
     else:
-        g = c_growth * (0.80 + 0.5 * tier_bonus)  # under-tiered: capped, falls behind
+        # …but staying under-tiered snowballs: each tier you're behind cuts your
+        # growth hard (a tier-1 board late game is nearly dead), floored so it
+        # never goes negative. On/above curve you scale slightly past it. Tuned
+        # (level cost 0.6, deficit 0.32) so on-curve leveling beats both rushing
+        # and never-leveling — verified in the heuristic-policy ranking.
+        g = c_growth * max(0.3, 0.98 + tier_bonus - 0.32 * deficit)
     g *= rng.uniform(0.88, 1.14)                 # execution variance
     s = max(strength, 1.0) * g
-    # Fat upside: occasionally high-roll a strong board (a bomb / triple). It's
-    # bigger and likelier at higher tiers — which is exactly *why* tiering up is
-    # worth the HP, and why a behind/low-HP player should gamble on leveling: the
-    # comeback only exists up the tavern. A rarer bust balances it.
+    # Fat upside: occasionally high-roll a strong board (a bomb / triple) — the
+    # comeback fuel that makes a behind/low-HP level a real gamble. A rarer bust
+    # balances it. Only gently tier-scaled so it doesn't itself drive rushing.
     roll = rng.random()
-    if roll < 0.03 + 0.02 * tier:                # tier2 ~7% … tier6 ~13%
-        s *= rng.uniform(1.4, 2.4)
+    if roll < 0.04 + 0.008 * tier:
+        s *= rng.uniform(1.4, 2.2)
     elif roll > 0.94:
         s *= rng.uniform(0.7, 0.9)
     return s, tier
@@ -117,7 +123,7 @@ def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14,
     None entry uses the built-in heuristic policy. Default: all heuristic."""
     rng = random.Random(seed)
     sca = pace.get("scaling", {})
-    lev = pace.get("leveling", {})
+    lev = pace.get("tavern_tier") or pace.get("leveling", {})   # tavern-tier target
     start = _curve(sca, 1)
     # Wider spread of starts + policies broadens the state coverage the value net
     # sees, so it's reliable on the off-policy states the recommender evaluates.

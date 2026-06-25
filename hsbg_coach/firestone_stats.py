@@ -368,7 +368,12 @@ def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
     # Pace benchmarks: how fast top players level + scale, by turn.
     pace_path = os.path.join(out_dir, "firestone_pace.json")
     with open(pace_path, "w", encoding="utf-8") as fh:
+        from .pace import STANDARD_TAVERN_TIER
         json.dump({**meta,
+                   # Real "when to level" benchmark (tavern tier by turn). The
+                   # card data only gives avg tier *played*, which isn't tavern
+                   # tier, so we carry the high-level standard curve here.
+                   "tavern_tier": {str(k): v for k, v in STANDARD_TAVERN_TIER.items()},
                    "leveling": leveling_pace(card_raw, card_meta),
                    "scaling": scaling_pace(hero_raw)}, fh, indent=1)
     paths["pace"] = pace_path

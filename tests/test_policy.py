@@ -30,8 +30,8 @@ def test_policy_learns_to_beat_random_and_levels_when_behind():
     pytest.importorskip("numpy")
     pytest.importorskip("torch")
     from ml.econ_policy import train, evaluate, recommend_intent
-    net, info = train(iters=25, lobbies=48, verbose=False)
-    # Beats the heuristic field (4.5 = even).
+    net, info = train(iters=45, lobbies=48, verbose=False)
+    # Beats the heuristic field (4.5 = even); full training reaches ~3.9.
     assert info["final"] < 4.4
     # Sensible behavior: more inclined to level when under-tiered/behind than when
     # already high-tier and ahead.

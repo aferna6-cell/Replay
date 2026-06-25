@@ -404,12 +404,13 @@ def cmd_pace(_args) -> int:
     if not pace:
         print("No pace benchmark. Run `refresh-stats` first.")
         return 1
-    print("Top-10% pace (real data). 'tier' = avg tier played; 'stats' = board total.")
-    print(f"{'turn':>4} | {'tier':>4} | {'board-stats':>11}")
-    lv, sc = pace["leveling"], pace["scaling"]
-    for t in range(1, 13):
-        if t in lv or t in sc:
-            print(f"{t:>4} | {lv.get(t, '-'):>4} | {sc.get(t, '-'):>11}")
+    print("High-level pace. 'tavern' = tavern tier you should be on; "
+          "'stats' = board total.")
+    print(f"{'turn':>4} | {'tavern':>6} | {'board-stats':>11}")
+    tv, sc = pace["tavern_tier"], pace["scaling"]
+    for t in range(1, 14):
+        if t in tv or t in sc:
+            print(f"{t:>4} | {tv.get(t, '-'):>6} | {sc.get(t, '-'):>11}")
     return 0
 
 

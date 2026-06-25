@@ -1,17 +1,18 @@
 """Pace benchmarks — am I keeping up with how top players level and scale?
 
-The early-game *process*, learned from real top-10% data rather than strategy
-guides (which understate high-MMR leveling aggression — confirmed in the data:
-top players sit ~0.2-0.25 tiers ahead on turns 5-7). Two curves, from
-``firestone_pace.json``:
+Three curves, from ``firestone_pace.json``:
 
-- **leveling**: average tavern tier of minions played each turn (proxy for the
-  tier top players are on).
+- **tavern_tier**: the tavern tier strong players are ON at each turn — the real
+  "when to level" benchmark, reaching tier 5-6 in the late game.
+- **leveling**: average tier of minions *played* each turn. NOTE: this is a board-
+  *composition* number (winning boards keep low-tier staples all game, so it
+  plateaus ~3.6) — it is NOT tavern tier, and must not be used for leveling
+  advice. Kept for reference only.
 - **scaling**: average total board stats each turn.
 
-``pace_advice`` compares your current turn's tier and board against the
-benchmark, so the advisor can say "you're behind the top-10% leveling pace —
-consider leveling" with real numbers behind it.
+``pace_advice`` compares your current turn's tier (vs ``tavern_tier``) and board
+(vs ``scaling``), so the advisor can say "you're behind the leveling pace" with
+real numbers behind it.
 """
 
 import json
@@ -28,13 +29,21 @@ TIER_AHEAD = 0.5
 STATS_BEHIND = 0.7   # board below 70% of benchmark = behind
 STATS_AHEAD = 1.3
 
+# High-level tavern-tier-by-turn baseline. The old "leveling" curve measured avg
+# tier of cards *played* (plateaus ~3.6, NOT tavern tier). This is the real pace
+# strong players hold: ~tier 4 by t7, tier 5 by t9, tier 6 by ~t12. It "varies
+# game to game" (push faster when ahead/healthy) — refine per-hero from real
+# Power.logs, which log your actual tavern tier every turn.
+STANDARD_TAVERN_TIER = {1: 1.0, 2: 1.6, 3: 2.2, 4: 2.8, 5: 3.3, 6: 3.8, 7: 4.3,
+                        8: 4.8, 9: 5.2, 10: 5.5, 11: 5.8, 12: 6.0, 13: 6.0, 14: 6.0}
+
 
 def load_pace(source: Optional[str] = None) -> Dict[str, Dict[int, float]]:
     src = source or (FIRESTONE_PACE if os.path.isfile(FIRESTONE_PACE) else None)
-    if not src:
-        return {}
-    d = json.load(open(src, encoding="utf-8"))
+    d = json.load(open(src, encoding="utf-8")) if src else {}
+    tavern = {int(k): v for k, v in d.get("tavern_tier", {}).items()} or dict(STANDARD_TAVERN_TIER)
     return {
+        "tavern_tier": tavern,
         "leveling": {int(k): v for k, v in d.get("leveling", {}).items()},
         "scaling": {int(k): v for k, v in d.get("scaling", {}).items()},
     }
@@ -82,7 +91,9 @@ def pace_advice(snapshot, pace: Dict[str, Dict[int, float]]) -> PaceVerdict:
     turn = _get(snapshot, "turn")
     tier = _get(snapshot, "tavern_tier")
     stats = board_stats(snapshot)
-    bt = _at(pace.get("leveling", {}), turn) if turn else None
+    # Use the real tavern-tier curve for leveling (fall back to leveling only if
+    # tavern_tier is somehow absent).
+    bt = _at(pace.get("tavern_tier") or pace.get("leveling", {}), turn) if turn else None
     bs = _at(pace.get("scaling", {}), turn) if turn else None
     v = PaceVerdict(turn=turn, your_tier=tier, bench_tier=bt,
                     your_stats=stats, bench_stats=bs)
