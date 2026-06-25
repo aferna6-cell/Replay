@@ -33,6 +33,21 @@ def gold_at(turn: int) -> int:
     return min(10, turn + 2)
 
 
+def combat_damage(winner_tier: int, turn: int) -> int:
+    """BG damage ≈ winner's tavern tier + surviving minions; the board fills over
+    the game, so damage grows — which is what makes late games end fast."""
+    minions = min(7, max(1, turn - 2))
+    return winner_tier + minions
+
+
+# Avg players still alive at each turn (from the simulator, post damage-tuning) —
+# used to query the value net with a realistic lobby size, not a flat constant.
+def alive_at(turn: int) -> int:
+    if turn <= 8:
+        return 8
+    return {9: 7, 10: 5, 11: 4, 12: 3, 13: 2, 14: 2}.get(turn, 1)
+
+
 def _curve(sca, turn) -> float:
     v = _curve_at(sca, turn) if sca else None
     return v if v else max(4.0, 6.0 * (turn - 1))
@@ -74,16 +89,22 @@ def _grow(strength, tier, intent, exp_tier, c_growth, rng):
             g = c_growth * (1.05 + 0.05 * max(0.0, tier - exp_tier))
         else:
             g = c_growth * 0.85                  # under-tiered can't keep pace
-    g *= rng.uniform(0.9, 1.1)                    # execution variance
-    return max(strength, 1.0) * g, tier
+    g *= rng.uniform(0.85, 1.18)                 # execution / roll variance (wider)
+    s = max(strength, 1.0) * g
+    if rng.random() < 0.10:                      # occasional high/low-roll shock
+        s *= rng.uniform(0.8, 1.3)
+    return s, tier
 
 
-def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14) -> List[Player]:
+def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14,
+                   explore: float = 0.15) -> List[Player]:
     rng = random.Random(seed)
     sca = pace.get("scaling", {})
     lev = pace.get("leveling", {})
     start = _curve(sca, 1)
-    players = [Player(strength=start * rng.uniform(0.7, 1.3), policy=_POLICIES[i % 4])
+    # Wider spread of starts + policies broadens the state coverage the value net
+    # sees, so it's reliable on the off-policy states the recommender evaluates.
+    players = [Player(strength=start * rng.uniform(0.55, 1.5), policy=_POLICIES[i % 4])
                for i in range(n)]
 
     for turn in range(2, max_turns + 1):
@@ -94,11 +115,14 @@ def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14) -> List
         prev, cur = _curve(sca, turn - 1), _curve(sca, turn)
         c = cur / prev if prev else 1.0
         for p in alive:
-            intent = _intent(p.policy, p.tier, exp_tier, rng)
+            if rng.random() < explore:           # exploration -> off-policy states
+                intent = rng.choice(["level", "tempo"])
+            else:
+                intent = _intent(p.policy, p.tier, exp_tier, rng)
             p.strength, p.tier = _grow(p.strength, p.tier, intent, exp_tier, c, rng)
             p.traj.append((turn, p.tier, p.strength, p.strength / cur, p.hp, len(alive)))
 
-        # Combat: random pairings; loser takes damage scaled by winner's tier.
+        # Combat: random pairings; loser takes damage scaled by tier + board size.
         order = alive[:]
         rng.shuffle(order)
         for i in range(0, len(order) - 1, 2):
@@ -107,11 +131,11 @@ def simulate_lobby(pace, seed: int = 0, n: int = 8, max_turns: int = 14) -> List
                 continue                          # ~tie, no damage
             pa = 1.0 / (1.0 + math.exp(-(a.strength - b.strength) / (0.25 * cur + 1)))
             win, lose = (a, b) if rng.random() < pa else (b, a)
-            lose.hp -= win.tier + 2
+            lose.hp -= combat_damage(win.tier, turn)
         if len(order) % 2 == 1:                   # odd player fights the "field"
             p = order[-1]
             if p.strength < cur * rng.uniform(0.8, 1.2):
-                p.hp -= p.tier + 2
+                p.hp -= combat_damage(p.tier, turn)
 
         dead = [p for p in alive if p.hp <= 0]
         if dead:

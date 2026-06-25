@@ -10,7 +10,7 @@ import argparse
 import os
 
 from .econ_env import generate
-from .econ_value import train, EconValue
+from .econ_value import train, EconValue, reliability
 
 _OUT = os.path.join(os.path.dirname(__file__), "econ_value.pt")
 
@@ -30,14 +30,22 @@ def main(argv=None):
     EconValue(model).save(a.out)
     print(f"Saved -> {a.out}")
 
-    # Qualitative sanity: same turn/tier, vary HP and board-vs-curve.
+    # Calibration: does each prediction bin hit its actual placement?
+    Xc, yc = generate(max(200, a.lobbies // 10), seed=90210)
+    print("\ncalibration (pred-bin -> actual mean placement; want ≈ bin center):")
+    for lo, n, actual in reliability(model, Xc, yc):
+        print(f"   {lo}-{lo+1}  n={n:5d}  actual {actual:.2f}")
+
+    # Qualitative sanity at a realistic turn-8 lobby (8 alive).
     ev = EconValue(model)
-    base = dict(turn=8, tier=4, strength=300, ratio=1.0, hp=25, players_left=4)
-    print("\nsanity (lower placement = better):")
-    print(f"  on-curve, healthy : {ev.predict(**base):.2f}")
-    print(f"  ahead of curve    : {ev.predict(**{**base, 'ratio':1.8, 'strength':540}):.2f}")
-    print(f"  behind curve      : {ev.predict(**{**base, 'ratio':0.5, 'strength':150}):.2f}")
-    print(f"  low HP            : {ev.predict(**{**base, 'hp':5}):.2f}")
+    base = dict(turn=8, tier=4, strength=300, ratio=1.0, hp=25, players_left=8)
+    print("\nsanity (lower placement = better · top4 = P(finish≤4)):")
+    for label, kw in [("on-curve, healthy", {}),
+                      ("ahead of curve", {"ratio": 1.8, "strength": 540}),
+                      ("behind curve", {"ratio": 0.5, "strength": 150}),
+                      ("low HP", {"hp": 5})]:
+        q = {**base, **kw}
+        print(f"  {label:18s}: {ev.predict(**q):.2f}   top4 {ev.top4(**q):.0%}")
     return 0
 
 

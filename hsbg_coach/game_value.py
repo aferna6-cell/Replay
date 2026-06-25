@@ -77,11 +77,13 @@ def expected_placement(snapshot, scorer=None, pace=None, horizon: int = 4) -> fl
     if econ is not None:
         # Learned trajectory value (trained on self-play lobbies): blend the
         # board-composition read with the economy/tempo/HP outlook.
+        from ml.econ_env import alive_at
         strength = sum(_val(m) for m in board)
         curve = _curve_at(pace.get("scaling", {}), turn) or max(1.0, strength)
         ratio = strength / curve if curve else 1.0
         econ_pl = econ.predict(turn, tier, strength, ratio,
-                               hp if hp is not None else 30.0, players_left=5)
+                               hp if hp is not None else 30.0,
+                               players_left=alive_at(turn))
         return max(1.0, min(8.0, 0.5 * board_placement + 0.5 * econ_pl))
 
     # Heuristic fallback (no econ model trained yet).
