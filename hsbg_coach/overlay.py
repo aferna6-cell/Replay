@@ -105,15 +105,27 @@ class Overlay:
                 pass
         self._place(width, height, corner)
 
-        self._label = tk.Label(
-            self.root, justify="left", anchor="nw",
+        # Render into a Text widget, not a Label. Apple's deprecated *system* Tk
+        # (8.5) has a long-standing bug where a Label paints its background but
+        # not its glyphs, so the panel looks blank — a Text widget paints
+        # reliably on the same build. (Heads-up so the user can upgrade Tk.)
+        tkver = float(self.root.tk.call("info", "patchlevel").rsplit(".", 1)[0]) \
+            if "." in self.root.tk.call("info", "patchlevel") else 0.0
+        if is_mac and tkver and tkver < 8.6:
+            print("Note: macOS system Tk", self.root.tk.call("info", "patchlevel"),
+                  "is old; using a Text-based panel. For a crisper overlay install"
+                  " Tk 8.6 (brew install python-tk).")
+
+        self._text = tk.Text(
+            self.root, wrap="word", relief="flat", borderwidth=0,
             font=("Menlo", 12), fg="#e8e8e8", bg="#111418",
-            padx=10, pady=10, wraplength=width - 24,
-            text="HSBG Coach — waiting for Hearthstone…",
+            padx=10, pady=10, highlightthickness=0, cursor="arrow",
         )
-        self._label.pack(fill="both", expand=True)
-        self._label.bind("<Button-1>", self._start_drag)
-        self._label.bind("<B1-Motion>", self._on_drag)
+        self._text.insert("1.0", "HSBG Coach — waiting for Hearthstone…")
+        self._text.config(state="disabled")
+        self._text.pack(fill="both", expand=True)
+        self._text.bind("<Button-1>", self._start_drag)
+        self._text.bind("<B1-Motion>", self._on_drag)
         self._drag = (0, 0)
 
         # Force the window visible and on top (macOS especially needs the kick).
@@ -152,11 +164,14 @@ class Overlay:
 
     def update(self, snapshot: Dict, odds: Optional[str] = None,
                recommendations: Optional[List[str]] = None) -> None:
-        self._label.config(text=format_overlay_text(snapshot, odds, recommendations))
-        # macOS Tk doesn't always repaint a Label whose text changed from an
-        # after() callback; force the pending redraw so updates actually show.
+        text = format_overlay_text(snapshot, odds, recommendations)
+        self._text.config(state="normal")
+        self._text.delete("1.0", "end")
+        self._text.insert("1.0", text)
+        self._text.config(state="disabled")
+        # Force the pending redraw so updates from after() callbacks actually show.
         try:
-            self._label.update_idletasks()
+            self._text.update_idletasks()
         except Exception:
             pass
 
@@ -168,7 +183,13 @@ class Overlay:
                 if result:
                     self.update(*result)         # (snapshot, odds) or (snapshot, odds, recos)
             except Exception as exc:  # never let a bad frame kill the overlay
-                self._label.config(text=f"overlay error: {exc}")
+                try:
+                    self._text.config(state="normal")
+                    self._text.delete("1.0", "end")
+                    self._text.insert("1.0", f"overlay error: {exc}")
+                    self._text.config(state="disabled")
+                except Exception:
+                    pass
             self.root.after(interval_ms, tick)
         self.root.after(interval_ms, tick)
 
