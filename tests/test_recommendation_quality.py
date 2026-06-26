@@ -636,6 +636,25 @@ def test_freeze_fires_when_out_of_gold_with_a_good_card():
     assert frz2 is not None and frz2.priority < 0.2
 
 
+def test_recognizes_forming_synergy_and_standout_opponent():
+    from hsbg_coach.insights import self_synergy, opponent_standout
+    kb = cards.load_kb()
+    murlocs = [c.name for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    if len(murlocs) < 3:
+        import pytest as _pt
+        _pt.skip("need murloc cards")
+    board = [{"name": murlocs[i], "card_id": f"m{i}", "attack": 4, "health": 4}
+             for i in range(3)]
+    snap = {"board": board,
+            "opponent_profiles": [{"controller": "9", "hero": "Ozumat",
+                                   "tribe": "naga", "strength": 300, "keywords": {}}]}
+    notes = self_synergy(snap, kb)
+    assert any("comp is forming" in n.lower() for n in notes)   # recognizes our build
+    st = opponent_standout(snap)                                # 300 vs ~24 board → ahead
+    assert st and "pulling ahead" in st
+
+
 def test_opponent_profiles_and_lobby_threat_readout():
     # Profile opponents from the entity map, then summarize the lobby threats so the
     # coach builds to beat THEM (e.g. lots of Divine Shields -> tech for it).

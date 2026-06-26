@@ -63,6 +63,17 @@ def advice_lines(snapshot: dict, kb, scorer=None,
             out.append(f"⚔ {tn}")
     except Exception:
         pass
+    # Continuous recognition: synergies forming on your board (lean in) and any
+    # opponent pulling ahead — the coach recalibrates to what's actually happening.
+    try:
+        from .insights import self_synergy, opponent_standout
+        for s in self_synergy(snapshot, kb):
+            out.append(f"✦ {s}")
+        st = opponent_standout(snapshot)
+        if st:
+            out.append(f"⚠ {st}")
+    except Exception:
+        pass
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
