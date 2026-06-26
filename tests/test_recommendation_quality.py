@@ -227,6 +227,18 @@ def test_full_board_buy_names_the_minion_to_sell():
     assert "sell Weakling for room" in buy.reason
 
 
+def test_freeze_not_recommended_for_a_single_okay_minion():
+    # gold 0, strong board, one mediocre shop minion — freezing is a trap.
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 7, "health": 9}
+             for i in range(7)]
+    snap = _snap(shop=[{"name": "Scarlet Skull", "card_id": "BG26_178",
+                        "attack": 3, "health": 4}],
+                 board=board, gold=0, tavern_tier=3)
+    top = rank_actions(snap, kb=kb, scorer=scorer)[0][0]
+    assert not top.action.describe().startswith("Freeze")
+
+
 def test_weak_filler_is_not_bought_over_rolling():
     # A minion far weaker than your board is slot-filler, not an upgrade — on a
     # board of giants the coach should roll for a real one, not buy the small minion.

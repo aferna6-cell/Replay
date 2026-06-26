@@ -235,20 +235,35 @@ def _score_roll(act, gold, best_buy_delta, target_tribe):
     return ScoredAction(act, _clamp(prio, hi=0.8), reason)
 
 
+_FREEZE_STRONG = 2.0       # a card worth holding the shop for
+_FREEZE_GEM = 3.5          # a single card good enough to freeze on its own
+
+
 def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
+    """Freeze is rare and only right when you can't afford a shop you genuinely
+    want to keep — i.e. MULTIPLE strong cards, or one outright gem. Freezing for a
+    single okay minion (or with a board already stronger than the shop) is a trap,
+    so that case is buried."""
     shop = list(_get(snapshot, "shop", []) or [])
+    if gold >= BUY_COST:                          # you can buy — don't freeze
+        return ScoredAction(act, 0.1, "you can act this turn — no need to freeze")
+    strong = []
     best_name, best_score = None, 0.0
     for m in shop:
         ck = idx.get(_name(m))
         if ck is None:
             continue
-        v = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb)
-        if v.score > best_score:
-            best_name, best_score = ck.name, v.score
-    if best_name and gold < BUY_COST and best_score > 0:
+        v = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb).score
+        if v > best_score:
+            best_name, best_score = ck.name, v
+        if v >= _FREEZE_STRONG:
+            strong.append(ck.name)
+    if len(strong) >= 2:
         return ScoredAction(act, 0.6,
-                            f"freeze — {best_name} is worth keeping but you can't afford it yet")
-    return ScoredAction(act, 0.15, "freeze only if the shop has gems you'll want next turn")
+                            f"freeze — {len(strong)} cards worth keeping ({', '.join(strong[:2])})")
+    if best_score >= _FREEZE_GEM:
+        return ScoredAction(act, 0.55, f"freeze — {best_name} is a gem worth holding for")
+    return ScoredAction(act, 0.1, "freeze only for a shop full of gems you can't afford")
 
 
 def plan_turn(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
