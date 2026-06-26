@@ -307,6 +307,26 @@ class BGTracker:
             }
         return None
 
+    def draftable_hero_ids(self) -> Optional[set]:
+        """card_ids of the offered heroes the player can actually DRAFT.
+
+        Hearthstone tags every offered hero with BACON_HERO_CAN_BE_DRAFTED: 1 for
+        a hero you own / the free rotation, 0 for a locked Perks hero shown only as
+        a teaser. Filtering on this fixes recommending a padlocked hero (the free
+        pair isn't always the first two — they can be the middle two). Returns None
+        when no hero carries the tag, so callers fall back to the offer order."""
+        ids, saw_tag = set(), False
+        for ent in self.state.entities.values():
+            if ent.tags.get("CARDTYPE") != "HERO":
+                continue
+            flag = ent.tags.get("BACON_HERO_CAN_BE_DRAFTED")
+            if flag is None:
+                continue
+            saw_tag = True
+            if flag != "0" and ent.card_id:
+                ids.add(ent.card_id)
+        return ids if saw_tag else None
+
     def _anomaly(self) -> Optional[str]:
         # Require the cardId to actually be an anomaly (BG##_Anomaly_###) — guards
         # against a mis-tagged/transient entity showing a spell as the anomaly.
@@ -340,24 +360,29 @@ class BGTracker:
         return out
 
     def _shop_spells(self) -> List[Dict]:
-        """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL). Mirrors
-        the minion-shop discriminator: RECRUIT phase, a non-local controller, and
-        a revealed cardId/name. Each carries its own COST (spells aren't flat 3).
+        """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL).
 
-        NOTE: validated structurally against the minion path; the exact shop-spell
-        controller/zone is pending a live log that actually offers a tavern spell
-        (the capture is conservative until then)."""
+        Anchored to the *actual tavern row*: a real shop spell sits in zone=PLAY
+        under the SAME shop controller as the visible shop minions. Spells that are
+        merely set-aside / in the pool (zone=SETASIDE) or that you own — e.g. a
+        spellcraft spell like 'Recruit a Trainee' you generated (controller=you,
+        played on a minion) — are NOT tavern offerings and must not show as
+        'buy spell'. Without a shop minion to anchor the row we return nothing
+        rather than risk a phantom spell (the repeated 'wrong spell' reports)."""
         if self.phase != Phase.RECRUIT:
+            return []
+        shop_controllers = {e.controller for e in self._shop_entities()}
+        if not shop_controllers:                 # no anchor → don't guess a spell
             return []
         out = []
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
                 continue
-            if not ent.card_id:
+            if not ent.card_id or "DragBuy" in ent.card_id:
                 continue
-            if "DragBuy" in ent.card_id:        # the buy mechanic, not a real spell
+            if ent.zone != "PLAY":               # must be in the tavern row
                 continue
-            if ent.controller in (None, str(self.local_player)):
+            if ent.controller not in shop_controllers:   # same row as shop minions
                 continue
             out.append({
                 "name": self._display_name(ent.card_id, ent.name),

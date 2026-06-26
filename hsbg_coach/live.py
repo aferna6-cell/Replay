@@ -81,11 +81,27 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
                 hname = host.get("name") if isinstance(host, dict) else getattr(host, "name", None)
                 out.append(f"Magnetize {name} onto {hname or 'your best mech'} — {why}")
                 continue                                 # fusing uses no board slot
+        # Choose-One battlecry (e.g. Intrepid Botanist → Pristine Lilies / Giant
+        # Dewdrop): flag that a pick is coming so the user knows to choose the half
+        # that fits their board, not just drop the body.
+        choose = " · Choose One — take the half that fits your board" if _is_choose_one(m, kb) else ""
         if full:
-            out.append(f"Play {name} from hand — sell your weakest first (board is full)")
+            out.append(f"Play {name} from hand — sell your weakest first (board is full){choose}")
         else:
-            out.append(f"Play {name} from hand — free body, take the tempo")
+            out.append(f"Play {name} from hand — free body, take the tempo{choose}")
     return out
+
+
+def _is_choose_one(m, kb) -> bool:
+    """True if this minion has a Choose-One battlecry (per card knowledge)."""
+    if not kb:
+        return False
+    cid = m.get("card_id") if isinstance(m, dict) else getattr(m, "card_id", None)
+    name = m.get("name") if isinstance(m, dict) else getattr(m, "name", None)
+    ck = (kb.get(cid) if cid else None)
+    if ck is None:
+        ck = next((c for c in kb.values() if c.name == name), None)
+    return bool(ck and ck.has("CHOOSE_ONE"))
 
 
 def _is_hand_minion(m) -> bool:
@@ -253,9 +269,15 @@ class LiveCoach:
         offer = self._offer
         if offer is not None:                       # a choice is on screen
             from .choices import rank_offer
+            # For hero picks, only rank heroes the player can actually draft
+            # (locked Perks heroes carry BACON_HERO_CAN_BE_DRAFTED=0).
+            draftable = None
+            if offer.kind == "hero":
+                with self._lock:
+                    draftable = self.tracker.draftable_hero_ids()
             picks = rank_offer(offer, board=snap.get("board", []), kb=self.kb,
                                scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
-                               tier=snap.get("tavern_tier"))
+                               tier=snap.get("tavern_tier"), draftable_ids=draftable)
             lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])

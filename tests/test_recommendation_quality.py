@@ -184,6 +184,62 @@ def test_late_game_does_not_manufacture_a_roll():
     assert all(r.reason != manufactured for r in recs)
 
 
+def test_locked_perks_heroes_are_not_recommended():
+    # Only heroes flagged BACON_HERO_CAN_BE_DRAFTED=1 are pickable; the locked
+    # Perks heroes (=0) must never be recommended — and the free pair isn't always
+    # the first two offered (regression: a padlocked Nguyen was suggested).
+    from hsbg_coach.bg import BGTracker
+    from hsbg_coach.state import Entity
+    from hsbg_coach.choices import ChoiceOffer, rank_offer
+    t = BGTracker()
+    offered = [("BG_LOCKED_A", "Master Nguyen", "0"),
+               ("BG_FREE_B", "Kerrigan", "1"),
+               ("BG_FREE_C", "Silas Darkmoon", "1"),
+               ("BG_LOCKED_D", "Sindragosa", "0")]
+    ents = {}
+    for i, (cid, _nm, flag) in enumerate(offered):
+        e = Entity(id=90 + i, card_id=cid)
+        e.tags = {"CARDTYPE": "HERO", "ZONE": "HAND",
+                  "BACON_HERO_CAN_BE_DRAFTED": flag}
+        ents[90 + i] = e
+    t.state.entities = ents
+    draftable = t.draftable_hero_ids()
+    assert draftable == {"BG_FREE_B", "BG_FREE_C"}
+    offer = ChoiceOffer("hero", [c for c, _, _ in offered], [n for _, n, _ in offered])
+    picks = rank_offer(offer, draftable_ids=draftable)
+    names = " | ".join(p.name for p in picks).lower()
+    assert "nguyen" not in names and "sindragosa" not in names   # locked, excluded
+    assert len(picks) == 2 and "kerrigan" in names and "silas" in names
+
+
+def test_shop_spells_only_count_the_real_tavern_row():
+    # A 'buy spell' must be an actual tavern offering — in zone=PLAY under the same
+    # shop controller as the shop minions. Pool spells (SETASIDE) and your own
+    # spellcraft spell (controller=you) must NOT show as buyable (the recurring
+    # 'wrong spell on the board' report).
+    from hsbg_coach.bg import BGTracker, Phase
+    from hsbg_coach.state import Entity
+    t = BGTracker(); t.local_player = 12; t.phase = Phase.RECRUIT
+    shop_min = Entity(id=1, card_id="BG_M")
+    shop_min.tags = {"CARDTYPE": "MINION", "ZONE": "PLAY", "CONTROLLER": "5"}
+    real_spell = Entity(id=2, card_id="BG_REAL_SPELL")
+    real_spell.tags = {"CARDTYPE": "BATTLEGROUND_SPELL", "ZONE": "PLAY",
+                       "CONTROLLER": "5", "COST": "1"}
+    my_spellcraft = Entity(id=3, card_id="BG28_504")        # Recruit a Trainee (yours)
+    my_spellcraft.tags = {"CARDTYPE": "BATTLEGROUND_SPELL", "ZONE": "PLAY",
+                          "CONTROLLER": "12", "COST": "2"}
+    pool_spell = Entity(id=4, card_id="BG28_897")           # set-aside, not in tavern
+    pool_spell.tags = {"CARDTYPE": "BATTLEGROUND_SPELL", "ZONE": "SETASIDE",
+                       "CONTROLLER": "5", "COST": "1"}
+    t.state.entities = {1: shop_min, 2: real_spell, 3: my_spellcraft, 4: pool_spell}
+    spells = t._shop_spells()
+    ids = {s["card_id"] for s in spells}
+    assert ids == {"BG_REAL_SPELL"}        # only the true tavern offering
+    # With no shop minion to anchor the row, don't risk a phantom spell.
+    t.state.entities = {3: my_spellcraft, 4: pool_spell}
+    assert t._shop_spells() == []
+
+
 def test_passive_hero_power_is_not_offered():
     from hsbg_coach.bg import BGTracker
     from hsbg_coach.state import Entity

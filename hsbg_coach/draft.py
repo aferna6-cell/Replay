@@ -227,10 +227,15 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
 
 def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = None,
                      board=None, kb=None, scorer=None,
-                     hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
-    """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'."""
+                     hero_ctx: Optional[HeroContext] = None, tier=None,
+                     max_heroes: Optional[int] = None) -> List[Choice]:
+    """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'.
+
+    `max_heroes` overrides the positional free-hero cap: pass 0 when the caller
+    already filtered the offer to the draftable heroes (so don't cap again)."""
     if kind == "hero":
-        return rank_heroes(offered, db or StatsDB.load())
+        cap = F2P_HERO_CHOICES if max_heroes is None else max_heroes
+        return rank_heroes(offered, db or StatsDB.load(), max_choices=cap)
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx)
