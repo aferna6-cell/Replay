@@ -167,6 +167,19 @@ def test_effect_synergy_matches_producers_to_payoffs():
     assert score > 0 and any("beast" in r.lower() for r in reasons)
 
 
+def test_full_board_buy_names_the_minion_to_sell():
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = ([{"name": "Weakling", "card_id": "w", "attack": 1, "health": 1}]
+             + [{"name": f"M{i}", "card_id": f"c{i}", "attack": 6, "health": 6}
+                for i in range(6)])                      # full board of 7
+    shop = [{"name": "Titus Rivendare", "card_id": "t", "attack": 6, "health": 6}]
+    snap = _snap(shop=shop, board=board, gold=6)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    buy = next(r for r in recs if r.action.describe().startswith("Buy"))
+    # The buy must tell you which minion to sell to make room (the weakest).
+    assert "sell Weakling for room" in buy.reason
+
+
 def test_naked_sell_is_not_a_top_recommendation():
     kb, scorer = cards.load_kb(), get_scorer()
     board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 5, "health": 5}

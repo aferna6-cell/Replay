@@ -288,6 +288,12 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     v = max(1.0, min(8.0, v + sadj))
                     if sreason and not tech_reason and not preason:
                         reason = sreason
+                # Full board: a buy needs a sell first. Always name the minion to
+                # sell (the weakest), even when a synergy/tech reason took the line.
+                board_now = _get(snapshot, "board", []) or []
+                if len(board_now) >= MAX_BOARD:
+                    weakest = min(board_now, key=_val)
+                    reason = f"sell {_name(weakest)} for room — {reason}"
             elif a.kind == SELL:                         # you want a full board of 7
                 v = min(8.0, v + _sell_penalty(state))
         elif a.kind == BUY_SPELL:
