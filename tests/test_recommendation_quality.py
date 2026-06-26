@@ -100,6 +100,32 @@ def test_tech_not_promoted_when_the_matchup_does_not_want_it():
     assert "situational" in tunnel.reason.lower() or "no combat" in tunnel.reason.lower()
 
 
+def test_low_tier_minion_not_bought_late_game():
+    # A tier-1 minion at tier 6 is filler however it's buffed — roll instead.
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": f"G{i}", "card_id": f"g{i}", "attack": 34, "health": 38}
+             for i in range(6)]
+    shop = [{"name": "Ominous Seer", "card_id": "BG31_330", "attack": 10, "health": 10}]
+    snap = _snap(shop=shop, board=board, gold=7, tavern_tier=6)
+    top = rank_actions(snap, kb=kb, scorer=scorer)[0][0]
+    assert not top.action.describe().startswith("Buy Ominous Seer")
+
+
+def test_passive_hero_power_is_not_offered():
+    from hsbg_coach.bg import BGTracker
+    from hsbg_coach.state import Entity
+    t = BGTracker(); t.local_player = 3; t.player_names = {3: "Me"}
+    hero = Entity(id=90, card_id="BG_HERO_X")
+    hero.tags = {"CARDTYPE": "HERO", "CONTROLLER": "3", "ZONE": "PLAY",
+                 "HAS_ACTIVATE_POWER": "0", "HEALTH": "30"}
+    player = Entity(id=-1, name="Me"); player.tags = {"HERO_ENTITY": "90", "RESOURCES": "5"}
+    hp = Entity(id=122, name="Wingmen")
+    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3",
+               "HAS_ACTIVATE_POWER": "0", "COST": "0"}
+    t.state.entities = {90: hero, -1: player, 122: hp}
+    assert t._hero_power() is None          # passive — never offered as "use"
+
+
 def test_hero_power_is_a_recommendable_action_when_usable():
     from hsbg_coach.actions import legal_actions, HERO_POWER
     snap = _snap(shop=[], board=[], gold=2,

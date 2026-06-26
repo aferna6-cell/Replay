@@ -297,14 +297,16 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                             reason = sreason
                 else:
                     reason = "doesn't improve your board — skip"
-                # Filler guard: the eval net overrates simply filling a slot, so a
-                # minion far weaker than your board reads as an "upgrade". Penalize
-                # it so you roll for a real one instead of settling.
-                fpen = _filler_penalty(a, _get(snapshot, "board", []) or [])
+                # Filler / low-tier guard: the eval net overrates filling a slot, so
+                # a minion far weaker than your board OR well below your tavern tier
+                # (a tier-1 at tier 6) reads as an "upgrade". Penalize so you roll
+                # for a real one instead of settling.
+                fpen = max(_filler_penalty(a, _get(snapshot, "board", []) or []),
+                           _low_tier_penalty(a, _get(snapshot, "tavern_tier"), kb))
                 if fpen and not tech_reason:
                     v = min(8.0, v + fpen)
                     if fpen > 0.2:
-                        reason = "too weak for your board — roll for a real upgrade"
+                        reason = "too weak/low-tier for this stage — roll for a real upgrade"
                 # Full board: a buy needs a sell first. Always name the minion to
                 # sell (the weakest), even when a synergy/tech reason took the line.
                 board_now = _get(snapshot, "board", []) or []
@@ -367,6 +369,29 @@ def _filler_penalty(action, board) -> float:
     if ratio >= 0.6:                    # competitive with your board — fine
         return 0.0
     return min(1.0, (0.6 - ratio) * 1.6)
+
+
+def _low_tier_penalty(action, tavern_tier, kb) -> float:
+    """Placement penalty for buying a minion well below your tavern tier — a
+    tier-1 minion at tier 6 is almost never right. Catches buffed low-tier minions
+    the stat-based filler guard misses (high stats, still a weak base card)."""
+    if kb is None or not tavern_tier:
+        return 0.0
+    try:
+        from .cards import by_name
+        idx = by_name(kb)
+        minion = action.detail.get("minion") or {}
+        cid = minion.get("card_id") if isinstance(minion, dict) else None
+        ck = (kb.get(cid) if cid else None) or idx.get(action.target)
+        mt = getattr(ck, "tier", None) if ck else None
+        if not mt:
+            return 0.0
+        gap = tavern_tier - mt
+        if gap >= 3:                    # e.g. a tier-1/2 minion when you're tier 4+
+            return min(1.0, (gap - 2) * 0.45)
+    except Exception:
+        pass
+    return 0.0
 
 
 def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:

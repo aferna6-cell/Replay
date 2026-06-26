@@ -272,12 +272,21 @@ class BGTracker:
 
     def _hero_power(self) -> Optional[Dict]:
         """The local player's hero power: name, cost, and whether it's usable now
-        (not exhausted, affordable). Recommendable like any other action."""
+        (active, not exhausted, affordable). Recommendable like any other action.
+
+        Passive / start-of-combat hero powers (e.g. Illidan's Wingmen) can't be
+        activated — HAS_ACTIVATE_POWER on the hero/hero-power entity says which, so
+        we never tell you to 'use' a passive power."""
+        hero = self._hero_entity()
+        hero_active = hero is not None and hero.tags.get("HAS_ACTIVATE_POWER") == "1"
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "HERO_POWER":
                 continue
             if ent.controller != str(self.local_player):
                 continue
+            active = ent.tags.get("HAS_ACTIVATE_POWER") == "1" or hero_active
+            if not active:                       # passive power — don't offer "use"
+                return None
             cost = ent.tag_int("COST") or 0
             gold = self._gold()
             usable = (ent.tags.get("EXHAUSTED") not in ("1",)
