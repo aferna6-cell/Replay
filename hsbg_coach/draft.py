@@ -52,8 +52,9 @@ def rank_heroes(offered: List[str], db: StatsDB) -> List[Choice]:
         h: Optional[HeroStats] = _match(nm, db.heroes)
         if h:
             tribes = ("favors " + "/".join(h.best_tribes)) if h.best_tribes else "flexible tribes"
+            sample = " · all-MMR sample" if getattr(h, "broad", False) else ""
             out.append(Choice(h.name, h.average_position,
-                              f"avg {h.average_position:.2f} · {tribes} · {h.playstyle}",
+                              f"avg {h.average_position:.2f} · {tribes} · {h.playstyle}{sample}",
                               "avg placement"))
         else:
             out.append(Choice(nm, 4.5, "no stats for this hero (defaulting to average)",

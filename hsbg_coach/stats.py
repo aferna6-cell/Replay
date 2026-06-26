@@ -59,6 +59,7 @@ class HeroStats:
     pick_rate: float = 0.0
     best_tribes: List[str] = field(default_factory=list)
     playstyle: str = "flexible"          # economy | tempo | flexible
+    broad: bool = False                  # stat from the all-MMR fallback (thin at top-10%)
 
 
 @dataclass
@@ -102,6 +103,7 @@ def load_hero_stats(source: str = SAMPLE_HEROES) -> List[HeroStats]:
             pick_rate=float(h.get("pickRate", 0.0)),
             best_tribes=list(h.get("bestTribes", [])),
             playstyle=h.get("playstyle", "flexible"),
+            broad=bool(h.get("broad", False)),
         )
         for h in data.get("heroes", [])
     ]

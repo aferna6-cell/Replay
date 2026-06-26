@@ -100,6 +100,22 @@ def test_tech_not_promoted_when_the_matchup_does_not_want_it():
     assert "situational" in tunnel.reason.lower() or "no combat" in tunnel.reason.lower()
 
 
+def test_hero_fallback_covers_heroes_thin_at_top_mmr():
+    # Ysera / Lich Baz'hial are popular overall but thin at top-10%; the all-MMR
+    # fallback should give them a real placement instead of "no stats".
+    from hsbg_coach.stats import StatsDB
+    from hsbg_coach.draft import rank_heroes
+    db = StatsDB.load()
+    names = {h.name for h in db.heroes}
+    if "Ysera" not in names:
+        import pytest as _pt
+        _pt.skip("hero stats not refreshed in this environment")
+    ranked = rank_heroes(["Ysera", "Lich Baz'hial"], db)
+    for c in ranked:
+        assert "no stats" not in c.reason
+        assert "avg" in c.reason
+
+
 def test_effect_synergy_matches_producers_to_payoffs():
     from hsbg_coach.effect_synergy import card_profile, board_synergy
     from hsbg_coach import cards

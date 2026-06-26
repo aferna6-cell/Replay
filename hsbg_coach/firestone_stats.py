@@ -329,6 +329,20 @@ def refresh(out_dir: str, mmr: int = 10, period: str = "past-seven",
     names = _names_from_meta(card_meta)
 
     heroes = normalize_heroes(hero_raw, names)
+    # Top-10% is thin for less-popular heroes (e.g. Ysera, Lich Baz'hial get <200
+    # games/week up there and drop out). Fall back to the all-MMR sample for any
+    # hero missing from the top cut, so every offered hero has a placement to show.
+    if hero_source is None and mmr != 100:
+        try:
+            broad_raw = _fetch_json(HERO_URL.format(mmr=100, period=period))
+            have = {h["cardId"] for h in heroes}
+            for h in normalize_heroes(broad_raw, names):
+                if h["cardId"] not in have:
+                    h["broad"] = True
+                    heroes.append(h)
+            heroes.sort(key=lambda x: x["averagePosition"])
+        except Exception:
+            pass                              # top-10% only; better than failing
     comps = normalize_comps(comp_raw, mmr=mmr)
     cards = normalize_cards(card_raw, card_meta)
     trinkets = normalize_trinkets(trinket_raw, card_meta, mmr=mmr)
