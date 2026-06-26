@@ -23,12 +23,12 @@ class EvalNetScorer:
         self.model = model
         self.byname = byname
 
-    def equity(self, board, hero_id: str = "UNKNOWN") -> float:
+    def equity(self, board, hero_id: str = "UNKNOWN", state=None) -> float:
         minions = [m for m in (minion_from_snapshot(_as_dict(x), self.byname)
                                for x in board) if m]
         if not minions:
             return 0.0
-        return self.model.predict(minions, hero_id or "UNKNOWN")["equity"]
+        return self.model.predict(minions, hero_id or "UNKNOWN", state=state)["equity"]
 
 
 def _as_dict(m):

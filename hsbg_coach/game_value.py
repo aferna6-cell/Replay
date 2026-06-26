@@ -306,7 +306,10 @@ def expected_placement(snapshot, scorer=None, pace=None, horizon: int = 4) -> fl
     board = list(_get(snapshot, "board", []) or [])
     hero_id = _get(snapshot, "hero", None) or "UNKNOWN"
 
-    equity = scorer.equity(board, hero_id)              # 0..1, higher = better
+    # Pass the whole state so a context-trained eval net values the board given the
+    # economy / survival / lobby around it (ignored by the heuristic + board-only nets).
+    state = snapshot if isinstance(snapshot, dict) else None
+    equity = scorer.equity(board, hero_id, state=state)   # 0..1, higher = better
     board_placement = 8.0 - equity * 7.0                 # composition value (learned)
 
     turn = _get(snapshot, "turn", None) or 8

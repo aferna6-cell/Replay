@@ -51,7 +51,9 @@ class HeuristicScorer:
                 n += 1
         return sims / n if n else 0.0
 
-    def equity(self, board, hero_id: str = "UNKNOWN") -> float:
+    def equity(self, board, hero_id: str = "UNKNOWN", state=None) -> float:
+        # state is accepted for interface parity with the eval net (which uses
+        # whole-state context); the heuristic scores the board alone.
         stat = sum(_val(m) for m in board)
         raw = stat + max(self._cohesion(board), 0.0) * 25.0
         return raw / (raw + 50.0)            # monotonic squash into (0, 1)

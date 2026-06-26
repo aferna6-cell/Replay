@@ -636,6 +636,38 @@ def test_freeze_fires_when_out_of_gold_with_a_good_card():
     assert frz2 is not None and frz2.priority < 0.2
 
 
+def test_whole_state_folds_into_training_features():
+    # The retrain can fold the ENTIRE state (tier/gold/hp/turn/opponents/trinkets/
+    # anomaly), not just the board — context features, versioned so the old
+    # board-only model still works.
+    import numpy as np
+    from ml.board_features import context_vector, full_vector, board_vector, CONTEXT_DIM
+    from ml.board_dataset import to_arrays
+    from hsbg_coach.synergy import load_embeddings
+    emb = load_embeddings()
+    state = {"tavern_tier": 5, "gold": 3, "hero_health": 22, "turn": 11,
+             "opponent_profiles": [{"strength": 400}], "trinkets": [{"name": "T"}],
+             "anomaly": "Timewarped"}
+    cv = context_vector(state)
+    assert cv.shape[0] == CONTEXT_DIM and cv[0] == 5 and cv[4] == 400 and cv[7] == 1.0
+    mins = [{"name": "A", "tribes": ["murloc"], "atk": 3, "health": 3, "tier": 1,
+             "golden": 0, "divine": 0, "reborn": 0, "taunt": 0}]
+    assert full_vector(mins, emb, state).shape[0] == board_vector(mins, emb).shape[0] + CONTEXT_DIM
+    # to_arrays widens the matrix by the context block when with_context=True.
+    ex = [{"minions": mins, "hero": "UNKNOWN", "label": 3.0, "state": state, "group": "g"},
+          {"minions": mins, "hero": "UNKNOWN", "label": 4.0, "state": {}, "group": "g"}]
+    X0, _, _, _ = to_arrays(ex, emb, {"UNKNOWN": 0})
+    Xc, _, _, _ = to_arrays(ex, emb, {"UNKNOWN": 0}, with_context=True)
+    assert Xc.shape[1] == X0.shape[1] + CONTEXT_DIM
+
+    # The scorer interface accepts state and stays backward-compatible (heuristic
+    # ignores it; a board-only model ignores it too).
+    from hsbg_coach.board_value import HeuristicScorer
+    h = HeuristicScorer()
+    b = [{"name": "A", "attack": 5, "health": 5}, {"name": "B", "attack": 6, "health": 6}]
+    assert h.equity(b, "UNKNOWN") == h.equity(b, "UNKNOWN", state=state)
+
+
 def test_background_trainer_is_decoupled_and_gated(tmp_path):
     # Continual learning must run between games, single-flight, gated on new games,
     # and NEVER block — so we inject a fake spawn and check the orchestration only.

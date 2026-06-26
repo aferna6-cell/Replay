@@ -49,8 +49,16 @@ def build_examples(comp_source: Optional[str] = None, period: str = "past-seven"
                                        for x in board) if m]
                 if len(minions) >= 2:
                     out.append({"minions": minions, "hero": hid,
-                                "label": float(label), "group": hid})
+                                "label": float(label), "state": _ENDGAME_CONTEXT,
+                                "group": hid})
     return out
+
+
+# Population final boards are late-game winning boards, so give them a neutral
+# endgame context (so the context channel isn't all-zeros for the population bulk
+# while trajectories carry real state). Tuned to a typical strong endgame.
+_ENDGAME_CONTEXT = {"tavern_tier": 6, "gold": 0, "hero_health": 25, "turn": 13,
+                    "opponent_profiles": [], "trinkets": [], "anomaly": None}
 
 
 def trajectory_examples(data_dir: str) -> List[Dict]:
@@ -69,11 +77,13 @@ def trajectory_examples(data_dir: str) -> List[Dict]:
             pl = d.get("placement")
             if pl is None:
                 continue
-            board = (d.get("state") or {}).get("board") or []
+            state = d.get("state") or {}
+            board = state.get("board") or []
             minions = [m for m in (minion_from_snapshot(x, byname) for x in board) if m]
             if len(minions) >= 2:
                 out.append({"minions": minions, "hero": UNKNOWN_HERO,
                             "label": float(pl),
+                            "state": state,          # whole-state context for training
                             "group": d.get("game_id") or path})
     return out
 
@@ -85,10 +95,21 @@ def build_hero_vocab(examples: List[Dict]) -> Dict[str, int]:
 
 def to_arrays(examples: List[Dict], emb: Dict[str, List[float]],
               hero_stoi: Dict[str, int],
-              stats: Optional[Tuple[np.ndarray, np.ndarray]] = None
+              stats: Optional[Tuple[np.ndarray, np.ndarray]] = None,
+              with_context: bool = False
               ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, Tuple]:
-    """Return (X_dense, hero_idx, y, (mean, std)). Fits standardization if stats=None."""
-    X = np.stack([board_vector(e["minions"], emb) for e in examples])
+    """Return (X_dense, hero_idx, y, (mean, std)). Fits standardization if stats=None.
+
+    with_context=True appends the whole-state context block (tier/gold/hp/turn/
+    opponents/trinkets/anomaly) to each board vector, so the net learns the SAME
+    board is worth more or less given the state around it. Population examples carry
+    a neutral endgame context (set by build_examples), trajectories carry the real
+    recorded state — so the context channel is meaningful across both."""
+    if with_context:
+        from .board_features import full_vector
+        X = np.stack([full_vector(e["minions"], emb, e.get("state")) for e in examples])
+    else:
+        X = np.stack([board_vector(e["minions"], emb) for e in examples])
     hero = np.array([hero_stoi.get(e["hero"], hero_stoi[UNKNOWN_HERO])
                      for e in examples], dtype=np.int64)
     y = np.array([e["label"] for e in examples], dtype=np.float32)

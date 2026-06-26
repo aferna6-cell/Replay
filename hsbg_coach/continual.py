@@ -74,8 +74,11 @@ class BackgroundTrainer:
         return True
 
     def _command(self) -> List[str]:
+        # --with-context folds the ENTIRE recorded game state (board + economy +
+        # survival + lobby) into the retrain, not just the board.
         cmd = [sys.executable, "-m", "ml.train_eval_net",
-               "--trajectories", self.data_dir, "--out", self.model_path]
+               "--trajectories", self.data_dir, "--out", self.model_path,
+               "--with-context"]
         if self.comp_source:
             cmd += ["--comp-source", self.comp_source]
         return cmd

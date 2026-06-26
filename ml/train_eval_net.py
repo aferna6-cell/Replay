@@ -31,6 +31,9 @@ def main(argv=None):
     p.add_argument("--trajectories", help="dir of recorded *.jsonl games to fold in")
     p.add_argument("--epochs", type=int, default=40)
     p.add_argument("--out", default=_OUT)
+    p.add_argument("--with-context", action="store_true",
+                   help="fold the whole game state (tier/gold/hp/turn/opponents/"
+                        "trinkets/anomaly) into the features, not just the board")
     a = p.parse_args(argv)
 
     emb = load_embeddings()
@@ -52,8 +55,10 @@ def main(argv=None):
 
     hero_stoi = build_hero_vocab(examples)
     train_ex, val_ex = group_split(examples)
-    Xtr, htr, ytr, stats = to_arrays(train_ex, emb, hero_stoi)
-    Xva, hva, yva, _ = to_arrays(val_ex, emb, hero_stoi, stats=stats)
+    Xtr, htr, ytr, stats = to_arrays(train_ex, emb, hero_stoi,
+                                     with_context=a.with_context)
+    Xva, hva, yva, _ = to_arrays(val_ex, emb, hero_stoi, stats=stats,
+                                 with_context=a.with_context)
     print(f"  train {len(train_ex)}  val {len(val_ex)}  "
           f"features {Xtr.shape[1]}  heroes {len(hero_stoi)}")
 
@@ -62,8 +67,9 @@ def main(argv=None):
     print(f"\nval MAE {hist['val_mae']:.3f} placements | "
           f"val Pearson r {hist['val_r']:.3f}")
 
-    EvalModel(model, hero_stoi, stats, emb).save(a.out)
-    print(f"Saved -> {a.out}")
+    EvalModel(model, hero_stoi, stats, emb,
+              with_context=a.with_context).save(a.out)
+    print(f"Saved -> {a.out}  (with_context={a.with_context})")
     return 0
 
 

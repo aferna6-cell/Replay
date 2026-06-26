@@ -86,14 +86,22 @@ class EvalModel:
     """Inference wrapper: load a trained net and score boards."""
 
     def __init__(self, model: EvalNet, hero_stoi: Dict[str, int],
-                 stats: Tuple[np.ndarray, np.ndarray], emb: Dict[str, List[float]]):
+                 stats: Tuple[np.ndarray, np.ndarray], emb: Dict[str, List[float]],
+                 with_context: bool = False):
         self.model = model
         self.hero_stoi = hero_stoi
         self.mean, self.std = stats
         self.emb = emb
+        self.with_context = with_context
 
-    def predict(self, minions: List[Dict], hero_id: str = "UNKNOWN") -> Dict:
-        x = (board_vector(minions, self.emb) - self.mean) / self.std
+    def predict(self, minions: List[Dict], hero_id: str = "UNKNOWN",
+                state=None) -> Dict:
+        if self.with_context:
+            from .board_features import full_vector
+            raw = full_vector(minions, self.emb, state)
+        else:
+            raw = board_vector(minions, self.emb)
+        x = (raw - self.mean) / self.std
         hidx = self.hero_stoi.get(hero_id, self.hero_stoi.get("UNKNOWN", 0))
         self.model.eval()
         with torch.no_grad():
@@ -109,9 +117,11 @@ class EvalModel:
             "hero_stoi": self.hero_stoi,
             "mean": self.mean.tolist(), "std": self.std.tolist(),
             "n_dense": self.model.net[0].in_features - self.model.hero_emb.embedding_dim,
+            "with_context": self.with_context,
         }, path)
         with open(path + ".meta.json", "w", encoding="utf-8") as fh:
-            json.dump({"heroes": len(self.hero_stoi), "n_dense": self.mean.shape[0]}, fh)
+            json.dump({"heroes": len(self.hero_stoi), "n_dense": self.mean.shape[0],
+                       "with_context": self.with_context}, fh)
 
     @classmethod
     def load(cls, path: str, emb: Dict[str, List[float]]) -> "EvalModel":
@@ -119,4 +129,5 @@ class EvalModel:
         model = EvalNet(blob["n_dense"], len(blob["hero_stoi"]))
         model.load_state_dict(blob["state"])
         stats = (np.asarray(blob["mean"]), np.asarray(blob["std"]))
-        return cls(model, blob["hero_stoi"], stats, emb)
+        return cls(model, blob["hero_stoi"], stats, emb,
+                   with_context=bool(blob.get("with_context", False)))

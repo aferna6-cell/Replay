@@ -87,6 +87,42 @@ def feature_dim(emb: Dict[str, List[float]]) -> int:
     return emb_dim(emb) + len(TRIBES) + len(_SCALARS)
 
 
+# Whole-state context (beyond the board): tavern tier, gold, hero health, turn, and
+# the lobby — so the eval net can learn that the SAME board is worth more or less
+# given the state around it (your economy, your survival, the opponents' strength).
+CONTEXT_DIM = 8
+
+
+def _num(d, k, default=0.0):
+    try:
+        v = d.get(k)
+        return float(v) if v is not None else default
+    except (AttributeError, TypeError, ValueError):
+        return default
+
+
+def context_vector(state) -> np.ndarray:
+    """Fixed-length whole-state context from a recorded Snapshot dict (or {})."""
+    state = state or {}
+    opps = state.get("opponent_profiles") or []
+    opp_str = [(_num(p, "strength")) for p in opps if isinstance(p, dict)]
+    return np.array([
+        _num(state, "tavern_tier"),
+        _num(state, "gold"),
+        _num(state, "hero_health", 30.0),
+        _num(state, "turn"),
+        max(opp_str) if opp_str else 0.0,        # strongest opponent board
+        float(len(opps)),                         # opponents profiled
+        float(len(state.get("trinkets") or [])),  # our trinkets
+        1.0 if state.get("anomaly") else 0.0,     # an anomaly is active
+    ], dtype=float)
+
+
+def full_vector(minions, emb, state=None) -> np.ndarray:
+    """board_vector with the whole-state context block appended."""
+    return np.concatenate([board_vector(minions, emb), context_vector(state)])
+
+
 def board_vector(minions: List[Dict], emb: Dict[str, List[float]]) -> np.ndarray:
     """Dense board features. `minions` are normalized dicts; `emb` is card2vec."""
     dim = emb_dim(emb)
