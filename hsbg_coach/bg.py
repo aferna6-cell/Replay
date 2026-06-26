@@ -190,20 +190,25 @@ class BGTracker:
                 return
 
     # --- phase machine ----------------------------------------------------
-    # The GameEntity TURN counter bumps once per phase: TURN 1 = first tavern,
-    # 2 = first combat, 3 = second tavern, … so odd = RECRUIT, even = COMBAT.
-    # Verified against a real client log. We deliberately do NOT use STEP here:
-    # in Hearthstone MAIN_READY is the player's *main* (recruit) phase, so reading
-    # it as combat-start flips the shop off exactly when the player is shopping.
+    # Detect recruit vs combat from DEFINITIVE events, not TURN parity. Turn
+    # parity (odd=recruit) holds in some games but is offset in others (anomalies,
+    # byes), so it wrongly showed "combat" while the player was shopping. Instead:
+    #   * combat  = a minion attacks (BLOCK_START BlockType=ATTACK)
+    #   * recruit = the tavern's buy mechanic (TB_BaconShop_DragBuy) is dealt,
+    #               which happens at the start of every recruit phase.
     def _update_phase(self, event: Event) -> None:
         if not self.in_bg:
             return
 
-        if event.kind in ("TAG", "TAG_CHANGE") and event.tag == "TURN":
-            turn = _safe_int(event.value)
-            if turn is not None and turn >= 1:
-                self.phase = Phase.RECRUIT if turn % 2 == 1 else Phase.COMBAT
+        if event.kind == "RAW" and "BlockType=ATTACK" in (event.text or ""):
+            self.phase = Phase.COMBAT
             return
+
+        if event.kind in ("FULL_ENTITY", "SHOW_ENTITY") and event.entity:
+            cid = event.entity.card_id or ""
+            if "BaconShop_DragBuy" in cid:        # shop is open → recruit
+                self.phase = Phase.RECRUIT
+                return
 
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag == TAG_STEP:
             step = (event.value or "").upper()

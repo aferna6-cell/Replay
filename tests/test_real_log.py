@@ -101,6 +101,29 @@ def test_full_log_snapshot_reads_board_shop_tier_gold_hp():
     assert s.hero_health is not None and s.hero_health > 0
 
 
+def test_phase_from_events_not_turn_parity():
+    """Recruit/combat come from definitive events (attack = combat, the tavern's
+    DragBuy = recruit), not TURN parity — which is offset in some games (anomalies)
+    and wrongly showed 'combat' while the player was shopping."""
+    from hsbg_coach.bg import BGTracker, Phase
+
+    def feed(t, line):
+        ev = parse_line(line)
+        if ev:
+            t.feed(ev)
+
+    t = BGTracker()
+    t.in_bg = True
+    # An attack means combat, even on an "odd" turn that parity would call recruit.
+    feed(t, "D 1.0 GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=TURN value=3")
+    feed(t, "D 1.0 GameState.DebugPrintPower() - BLOCK_START BlockType=ATTACK Entity=[id=5] Target=[id=9]")
+    assert t.phase == Phase.COMBAT
+    # The tavern's buy mechanic being dealt means recruit, even on an "even" turn.
+    feed(t, "D 1.0 GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=TURN value=4")
+    feed(t, "D 1.0 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=274 CardID=TB_BaconShop_DragBuy")
+    assert t.phase == Phase.RECRUIT
+
+
 @pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
 def test_full_log_tavern_tier_never_regresses_within_a_game():
     """Tavern tier only goes up inside a game. Catches the bug where trinkets
