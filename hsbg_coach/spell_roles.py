@@ -26,9 +26,11 @@ _KNOWN: Dict[str, Tuple[float, str]] = {
 }
 
 # Generic value when we don't know the spell yet: a cheap, affordable tavern spell
-# is usually fine tempo, but we won't over-rank an unknown effect.
-_GENERIC_BONUS = -0.15
-_GENERIC_NOTE = "tavern spell — usually worth it if cheap; check the effect"
+# An unknown spell is NOT a recommendation — we don't know its effect, so we must
+# not push it over a real minion buy. Demote it (positive = worse finish) so it only
+# surfaces if there's genuinely nothing better; known-good spells still get promoted.
+_GENERIC_BONUS = 0.5
+_GENERIC_NOTE = "tavern spell (effect unknown — only if nothing better)"
 
 
 def spell_value(card_id: Optional[str], name: Optional[str], cost: int,

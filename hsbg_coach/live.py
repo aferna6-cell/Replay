@@ -42,38 +42,9 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer,
                            include_reposition=False)
     out = []
-    # Lead with strategic awareness for the mid/late game: what your trinkets /
-    # comp are telling you to leverage and look for, then the active anomaly.
-    from .anomaly import anomaly_note
-    try:
-        from .comp_signals import guidance
-        g = guidance(snapshot)
-        if g:
-            out.append(f"⚑ {g}")
-    except Exception:
-        pass
-    note = anomaly_note(snapshot.get("anomaly"))
-    if note:
-        out.append(f"⚑ {note}")
-    # Lobby threats: what the opponents are running, so you build to beat THEM.
-    try:
-        from .opponents import threat_note
-        tn = threat_note(snapshot.get("opponent_profiles"))
-        if tn:
-            out.append(f"⚔ {tn}")
-    except Exception:
-        pass
-    # Continuous recognition: synergies forming on your board (lean in) and any
-    # opponent pulling ahead — the coach recalibrates to what's actually happening.
-    try:
-        from .insights import self_synergy, opponent_standout
-        for s in self_synergy(snapshot, kb):
-            out.append(f"✦ {s}")
-        st = opponent_standout(snapshot)
-        if st:
-            out.append(f"⚠ {st}")
-    except Exception:
-        pass
+    # Strategic signals (threats / forming synergy / comp lean / anomaly) still
+    # shape the RANKING inside rank_actions, but we don't print them as lines — the
+    # overlay shows only the move(s), nothing else.
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
@@ -84,9 +55,10 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     for line in _hand_spell_lines(snapshot):
         out.append(line)
     # Show the *why* (synergy / tribe / sell-for-room / tech caveat) next to each
-    # move. Reposition advice is suppressed — the user doesn't want it.
-    from .actions import REPOSITION
-    shown = [r for r in recs if r.action.kind != REPOSITION]
+    # move. Suppress Reposition and End-turn — you don't need to be told to pass;
+    # your turn ends when you hit 0 gold. Only show real actions to take.
+    from .actions import REPOSITION, END
+    shown = [r for r in recs if r.action.kind not in (REPOSITION, END)]
     for r in shown[:top]:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:

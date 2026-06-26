@@ -618,9 +618,9 @@ def _off_comp_penalty(action, snapshot, kb) -> float:
         score, _ = board_synergy(cand, board_cks)
         if score > 0:                        # off-tribe but real mechanical combo — ok
             return 0.0
-        pen = 0.6                            # off-comp filler
+        pen = 0.3                            # off-comp filler (mild — still a body)
         if len(board) >= MAX_BOARD:
-            pen += 0.4                       # …and it'd sell a comp piece for room
+            pen += 0.3                       # …and it'd sell a comp piece for room
         return pen
     except Exception:
         return 0.0
