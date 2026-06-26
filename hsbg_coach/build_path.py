@@ -35,7 +35,7 @@ _BOARDS_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "stats",
 
 # How strongly the build-path term can move placement, and how commitment ramps
 # with tavern tier (flexible early, committed mid-game).
-_MAX_ADJUST = 0.8
+_MAX_ADJUST = 1.3        # build-path (the comp you're building toward) weighted up
 # Stay flexible early — don't force a comp at tier 1-2 (barely any influence);
 # commit through the mid-game as the board takes shape.
 _TIER_COMMIT = {1: 0.0, 2: 0.15, 3: 0.55, 4: 1.0, 5: 1.15, 6: 1.15}

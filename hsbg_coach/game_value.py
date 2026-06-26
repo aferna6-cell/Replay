@@ -131,8 +131,8 @@ def _build_path_adjust(action, snapshot):
         return 0.0, None
 
 
-_K_SYN = 0.18              # effect-synergy points -> placement units
-_MAX_SYN = 0.6
+_K_SYN = 0.30              # effect-synergy points -> placement units (weighted up:
+_MAX_SYN = 1.1            # effects/combo should outweigh a raw stat line)
 
 
 def _effect_synergy_adjust(action, snapshot, kb):
@@ -415,44 +415,42 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     v = max(1.0, min(8.0, v + qadj))
                     if qreason and not tech_reason:
                         reason = qreason
-                # CRITICAL: a buy is only worth comp/synergy credit if it actually
-                # strengthens the board. A weak comp-piece (e.g. a tier-1 minion on
-                # a board of giants, or a buy that forces selling a giant) doesn't —
-                # don't let the build-path bonus rescue a buy the eval net rejects.
-                improves = v <= base + 0.01 or tech_reason
-                if improves:
-                    # Build-path: does this buy advance a reachable winning comp?
-                    padj, preason = _build_path_adjust(a, snapshot)
-                    if padj:
-                        v = max(1.0, min(8.0, v + padj))
-                        if preason and not tech_reason:
-                            reason = preason
-                    # Effect-text synergy: mechanical combo with the board.
-                    sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
-                    if sadj:
-                        v = max(1.0, min(8.0, v + sadj))
-                        if sreason and not tech_reason and not preason:
-                            reason = sreason
-                    # Late-game scaling: top boards explode (board stats ~284 by
-                    # t8 → ~1170 by t10). Reward a buy that's a real power upgrade
-                    # (well above your board average) so the coach pushes scaling
-                    # toward a winning final board instead of treading water.
+                # Effects + synergy + the comp you're building toward are weighted
+                # to MATTER, not gated behind the stat-driven eval net — a card's
+                # combo with your board and your target comp is the point, not just
+                # its stat line. Build-path and effect-synergy apply always; a card
+                # with real synergy is then exempt from the stat-based filler guard.
+                padj, preason = _build_path_adjust(a, snapshot)
+                if padj:
+                    v = max(1.0, min(8.0, v + padj))
+                    if preason and not tech_reason:
+                        reason = preason
+                sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
+                if sadj:
+                    v = max(1.0, min(8.0, v + sadj))
+                    if sreason and not tech_reason and not preason:
+                        reason = sreason
+                # A genuine synergy/comp piece (strong effect combo or a build-path
+                # core/enabler) — don't let the low-stat filler guard bury it.
+                synergy_buy = (sadj <= -0.3) or (padj <= -0.3)
+                # Late-game scaling stays a stat-improvement signal: only when the
+                # buy actually raises board power.
+                if v <= base + 0.01 or tech_reason:
                     scadj, screason = _late_scaling_adjust(a, snapshot)
                     if scadj:
                         v = max(1.0, min(8.0, v + scadj))
                         if screason and not tech_reason and not preason:
                             reason = screason
-                else:
-                    reason = "doesn't improve your board — skip"
                 # Filler / low-tier guard: the eval net overrates filling a slot, so
                 # a minion far weaker than your board OR well below your tavern tier
                 # (a tier-1 at tier 6) reads as an "upgrade". Penalize so you roll
-                # for a real one instead of settling.
+                # for a real one instead of settling — unless it's a real synergy
+                # piece or a known-strong card.
                 fpen = max(_filler_penalty(a, _get(snapshot, "board", []) or []),
                            _low_tier_penalty(a, _get(snapshot, "tavern_tier"), kb))
                 ocpen = _off_comp_penalty(a, snapshot, kb)
                 pen = max(fpen, ocpen)
-                if pen and not tech_reason and not q_strong:
+                if pen and not tech_reason and not q_strong and not synergy_buy:
                     v = min(8.0, v + pen)
                     if ocpen >= fpen and ocpen > 0.2:
                         reason = "off-comp — doesn't fit your build; roll for a piece that fits"

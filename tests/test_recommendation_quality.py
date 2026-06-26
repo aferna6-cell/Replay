@@ -507,6 +507,34 @@ def test_tribe_payoff_needs_its_tribe_on_board():
     assert score2 > 0.0
 
 
+def test_synergy_piece_beats_a_bigger_off_synergy_body():
+    # Effects + comp synergy should outweigh a raw stat line: on a committed Murloc
+    # board, an on-tribe Murloc synergy piece should rank at or above a bigger
+    # off-tribe vanilla, not below it.
+    kb, scorer = cards.load_kb(), get_scorer()
+    murlocs = [c for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    off = [c for c in kb.values()
+           if not ({"murloc", "all"} & {t.lower() for t in (c.tribes or [])})
+           and c.tribes]
+    if len(murlocs) < 4 or not off:
+        import pytest as _pt
+        _pt.skip("need murloc + off-tribe cards")
+    board = [{"name": murlocs[i].name, "card_id": f"m{i}", "attack": 4, "health": 4}
+             for i in range(3)]
+    synergy = murlocs[3]
+    big_off = max(off, key=lambda c: (c.attack or 0) + (c.health or 0))
+    shop = [{"name": synergy.name, "card_id": "syn",
+             "attack": synergy.attack or 3, "health": synergy.health or 3},
+            {"name": big_off.name, "card_id": "off", "attack": 9, "health": 9}]
+    snap = _snap(shop=shop, board=board, gold=6, tavern_tier=3)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    syn = next((r for r in recs if r.action.target == synergy.name), None)
+    big = next((r for r in recs if r.action.target == big_off.name), None)
+    assert syn is not None and big is not None
+    assert syn.placement <= big.placement          # synergy ranks at least as high
+
+
 def test_strong_meta_minion_is_bought_not_rolled_past():
     # A top-MMR minion (low averagePlacement) in the shop should be a buy, not a
     # roll — the coach knows which cards are good and targets them.
