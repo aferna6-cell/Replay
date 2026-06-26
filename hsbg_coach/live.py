@@ -239,6 +239,20 @@ class LiveCoach:
         self.tracker = BGTracker()
         self.kb = cards.load_kb()
         self.scorer = get_scorer()
+        # Continual learning: retrain between games in the background, hot-swap the
+        # eval net when a new one lands. Never blocks the live recommendation.
+        import os
+        from . import config
+        self._model_path = os.path.join(os.path.dirname(__file__), "..", "ml",
+                                        "eval_net.pt")
+        self._model_mtime = self._scorer_mtime()
+        self.trainer = None
+        if recorder is not None:
+            try:
+                from .continual import BackgroundTrainer
+                self.trainer = BackgroundTrainer(config.DATA_DIR)
+            except Exception:
+                self.trainer = None
         from .choices import ChoiceParser
         from .stats import StatsDB
         self.choices = ChoiceParser()
@@ -262,6 +276,25 @@ class LiveCoach:
 
     def stop(self):
         self._stop.set()
+
+    def _scorer_mtime(self):
+        import os
+        try:
+            return os.path.getmtime(self._model_path)
+        except OSError:
+            return None
+
+    def _maybe_reload_scorer(self) -> None:
+        """If a background retrain wrote a new eval net, hot-swap it. Only the cheap
+        mtime check runs each recompute; the actual reload happens rarely (after a
+        retrain), never on a per-poll basis."""
+        m = self._scorer_mtime()
+        if m is not None and m != self._model_mtime:
+            try:
+                self.scorer = get_scorer()
+                self._model_mtime = m
+            except Exception:
+                pass
 
     def _resolve_log(self) -> Optional[str]:
         from . import config
@@ -311,6 +344,13 @@ class LiveCoach:
             self.recorder.record(snap, ActionType.END_TURN)
         elif new == Phase.GAME_OVER:
             self.recorder.finish_game(placement=self.tracker.placement())
+            # Game's over → fold it into the model in the background (low priority,
+            # separate process). Doesn't touch the live path.
+            if self.trainer is not None:
+                try:
+                    self.trainer.maybe_train()
+                except Exception:
+                    pass
 
     def frame(self) -> Tuple[dict, Optional[str], List[str]]:
         """(snapshot_dict, odds, recommendations) for the overlay to render."""
@@ -346,6 +386,7 @@ class LiveCoach:
             return snap, None, lines
         key = _key(snap)
         if key != self._cache_key:                    # recompute advice only on change
+            self._maybe_reload_scorer()   # hot-swap a freshly retrained model (cheap)
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
             self._cache_key = key

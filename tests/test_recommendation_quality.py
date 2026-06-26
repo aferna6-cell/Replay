@@ -636,6 +636,39 @@ def test_freeze_fires_when_out_of_gold_with_a_good_card():
     assert frz2 is not None and frz2.priority < 0.2
 
 
+def test_background_trainer_is_decoupled_and_gated(tmp_path):
+    # Continual learning must run between games, single-flight, gated on new games,
+    # and NEVER block — so we inject a fake spawn and check the orchestration only.
+    from hsbg_coach.continual import BackgroundTrainer
+
+    class FakeProc:
+        def __init__(self): self._alive = True
+        def poll(self): return None if self._alive else 0
+    spawned = []
+
+    def fake_spawn(cmd):
+        spawned.append(cmd)
+        return FakeProc()
+
+    data = tmp_path
+    tr = BackgroundTrainer(str(data), model_path=str(tmp_path / "m.pt"),
+                           enabled=True, spawn=fake_spawn)
+    assert tr.maybe_train() is False                 # no recorded games yet
+    (data / "game-1.jsonl").write_text("{}\n")
+    assert tr.maybe_train() is True                  # a new game → retrain kicks off
+    cmd = spawned[0]
+    assert "ml.train_eval_net" in " ".join(cmd) and "--trajectories" in cmd
+    # Single-flight: while the (fake) process is alive, no second retrain starts.
+    (data / "game-2.jsonl").write_text("{}\n")
+    assert tr.maybe_train() is False
+    tr._proc._alive = False                          # finished
+    assert tr.maybe_train() is True                  # now a new run is allowed
+    # Disabled trainer never spawns (torch absent / HSBG_NO_TRAIN=1).
+    off = BackgroundTrainer(str(data), enabled=False, spawn=fake_spawn)
+    (data / "game-3.jsonl").write_text("{}\n")
+    assert off.maybe_train() is False
+
+
 def test_recognizes_forming_synergy_and_standout_opponent():
     from hsbg_coach.insights import self_synergy, opponent_standout
     kb = cards.load_kb()
