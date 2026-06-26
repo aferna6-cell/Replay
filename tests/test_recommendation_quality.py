@@ -471,6 +471,26 @@ def test_discover_prefers_on_tribe_over_high_stat_off_tribe():
     assert "murloc" in ranked[0].reason.lower() or ranked[0].name == murlocs[2]
 
 
+def test_tribe_payoff_needs_its_tribe_on_board():
+    # A Beast payoff that wants Beast summons must NOT score synergy on a board
+    # with a generic summoner but no Beasts (the Banana Slamma false positive).
+    from hsbg_coach.effect_synergy import board_synergy
+    from hsbg_coach.cards import CardKnowledge
+    payoff = CardKnowledge(card_id="slamma", name="Banana Slamma", tier=4,
+                           attack=3, health=3, tribes=["Beast"],
+                           text="Whenever you summon a Beast, give it +2/+2.")
+    summoner_no_beast = CardKnowledge(card_id="s", name="Summoner", tier=2,
+                                      attack=2, health=2, tribes=["Undead"],
+                                      text="Deathrattle: Summon a 1/1 Undead.")
+    score, _ = board_synergy(payoff, [summoner_no_beast])
+    assert score == 0.0                       # no Beasts → no payoff
+    # With a Beast on board, the payoff is live again.
+    a_beast = CardKnowledge(card_id="b", name="Beastie", tier=1, attack=3,
+                            health=2, tribes=["Beast"], text="")
+    score2, _ = board_synergy(payoff, [summoner_no_beast, a_beast])
+    assert score2 > 0.0
+
+
 def test_off_comp_minion_is_not_recommended_over_rolling():
     # A committed Murloc board should not buy an off-tribe Undead with no synergy
     # just because the eval net likes its stats — roll for a piece that fits.

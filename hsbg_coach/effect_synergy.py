@@ -139,12 +139,24 @@ def board_synergy(candidate: CardKnowledge, board: Sequence[CardKnowledge]
     score = 0.0
     reasons: List[str] = []
 
+    # A tribe-specific payoff (e.g. Banana Slamma cares about Beast summons) is dead
+    # without that tribe on the board — don't credit a Beast payoff with no Beasts.
+    cand_tribes = {t.split(":", 1)[1] for t in cand.wants if t.startswith("tribe:")}
+    _GENERIC = {"summon", "bloodgem"}        # mechanic concepts a tribe gates
+
+    def _tribe_ok(tag: str) -> bool:
+        if tag in _GENERIC and cand_tribes:
+            return bool(cand_tribes & btribes)
+        return True
+
     # Candidate PRODUCES what the board WANTS.
     for tag in cand.produces & bw:
         score += 1.1
         reasons.append(f"feeds your board's {_pretty(tag)} payoff")
     # Candidate WANTS what the board PRODUCES.
     for tag in cand.wants & bp:
+        if not _tribe_ok(tag):               # tribe-specific payoff, tribe absent
+            continue
         score += 1.1
         reasons.append(f"pays off your board's {_pretty(tag)}")
 
