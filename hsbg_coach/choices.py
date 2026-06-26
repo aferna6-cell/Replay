@@ -34,11 +34,19 @@ _FIELD = lambda s, k: (re.search(rf"{k}=(\w+)", s) or [None, None])[1]
 
 
 def classify(card_ids: List[str]) -> str:
-    """hero / trinket / discover, from BG cardId conventions."""
-    joined = " ".join(card_ids)
-    if "MagicItem" in joined:          # BG trinkets, e.g. BG30_MagicItem_403
+    """hero / trinket / hero_power / quest / discover, from BG cardId conventions."""
+    joined = " ".join(card_ids).lower()
+    if "magicitem" in joined:          # BG trinkets, e.g. BG30_MagicItem_403
         return "trinket"
-    if "HERO" in joined:               # BG heroes, e.g. BG..._HERO_...
+    # Hero-power picks (e.g. Nguyen): TB_BaconShop_HP_### or a hero id with a
+    # trailing 'p' (BG28_HERO_800p). Check before "hero" so they don't read as a
+    # hero select.
+    if "_hp_" in joined or re.search(r"_hero_\d+p\b", joined):
+        return "hero_power"
+    # Quest / reward picks (e.g. Sire Denathrius).
+    if "quest" in joined or "reward" in joined:
+        return "quest"
+    if "hero" in joined:               # BG heroes, e.g. BG..._HERO_...
         return "hero"
     return "discover"
 

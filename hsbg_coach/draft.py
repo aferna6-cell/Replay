@@ -46,7 +46,19 @@ def _match(name: str, pool):
     return None
 
 
-def rank_heroes(offered: List[str], db: StatsDB) -> List[Choice]:
+# Free-to-play players choose from 2 heroes; the paid Perks add 2 more (shown to
+# the right of the offer). Recommend only the free pair so the pick is one you can
+# actually take. Set HSBG_HERO_CHOICES=4 to include the paid extras.
+import os as _os
+F2P_HERO_CHOICES = int(_os.environ.get("HSBG_HERO_CHOICES", "2"))
+
+
+def rank_heroes(offered: List[str], db: StatsDB,
+                max_choices: int = F2P_HERO_CHOICES) -> List[Choice]:
+    # The first `max_choices` offered are the free heroes (offer order = display
+    # order, free pair first); the rest are the paid Perks heroes.
+    if max_choices and len(offered) > max_choices:
+        offered = offered[:max_choices]
     out = []
     for nm in offered:
         h: Optional[HeroStats] = _match(nm, db.heroes)
@@ -212,4 +224,21 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
     if kind == "discover":
         return rank_discover(offered, board or [], kb, scorer=scorer,
                              hero_ctx=hero_ctx, tier=tier)
+    if kind in ("hero_power", "quest"):
+        return rank_pick(offered, kind)
     raise ValueError(f"unknown choice kind: {kind}")
+
+
+def rank_pick(offered: List[str], kind: str) -> List[Choice]:
+    """Surface a hero-power / quest choice (e.g. Nguyen, Sire Denathrius) so the
+    coach prompts the pick instead of mis-ranking it as a board discover.
+
+    HONEST SCOPE: we don't yet have per-option stats/effects for hero powers or
+    quests, so this lists the options (best-effort, offer order) with a clear note
+    rather than faking a confident ranking. A real game log of these heroes + an
+    effect table is what's needed to rank them well — same pattern as spells/tech."""
+    label = "hero power" if kind == "hero_power" else "quest"
+    return [Choice(nm, float(i),
+                   f"{label} option — pick what fits your plan (no per-option stats yet)",
+                   "pick")
+            for i, nm in enumerate(offered)]
