@@ -507,6 +507,34 @@ def test_tribe_payoff_needs_its_tribe_on_board():
     assert score2 > 0.0
 
 
+def test_strong_meta_minion_is_bought_not_rolled_past():
+    # A top-MMR minion (low averagePlacement) in the shop should be a buy, not a
+    # roll — the coach knows which cards are good and targets them.
+    from hsbg_coach.card_quality import _index
+    kb, scorer = cards.load_kb(), get_scorer()
+    by_id, _ = _index()
+    # Pick a strong minion that exists in our card KB (so it resolves), tier <= 4.
+    strong = None
+    for cid, ap in sorted(by_id.items(), key=lambda kv: kv[1]):
+        ck = kb.get(cid)
+        if ck and (ck.tier or 1) <= 4 and ck.tribes:
+            strong = ck; break
+    if strong is None:
+        import pytest as _pt
+        _pt.skip("no strong KB minion found")
+    board = [{"name": f"B{i}", "card_id": f"b{i}", "attack": 6, "health": 6}
+             for i in range(4)]
+    shop = [{"name": strong.name, "card_id": strong.card_id,
+             "attack": strong.attack or 4, "health": strong.health or 4}]
+    snap = _snap(shop=shop, board=board, gold=6, tavern_tier=4)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    buy = next((r for r in recs if r.action.target == strong.name), None)
+    roll = next((r for r in recs if str(r.action.kind) in ("roll", "ActionType.ROLL")), None)
+    assert buy is not None
+    if roll is not None:
+        assert buy.placement <= roll.placement       # buying the strong minion beats rolling
+
+
 def test_off_comp_minion_is_not_recommended_over_rolling():
     # A committed Murloc board should not buy an off-tribe Undead with no synergy
     # just because the eval net likes its stats — roll for a piece that fits.

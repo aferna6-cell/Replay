@@ -198,6 +198,19 @@ def _late_scaling_adjust(action, snapshot):
             "scales your board up — a real power upgrade for the late game")
 
 
+def _quality_buy_adjust(action):
+    """(placement_adjustment, reason, is_strong) from real top-MMR card stats.
+    Works for both minion buys and spell buys (different detail keys)."""
+    card = action.detail.get("minion") or action.detail.get("spell") or {}
+    cid = (card.get("card_id") if isinstance(card, dict)
+           else getattr(card, "card_id", None))
+    try:
+        from .card_quality import buy_adjust
+        return buy_adjust(cid, action.target)
+    except Exception:
+        return 0.0, None, False
+
+
 def _anomaly_buy_adjust(action, snapshot):
     """(placement_adjustment, reason) from the active anomaly for this buy. Keyed on
     minion tags (e.g. the Timewarped supercharge flag), which are self-identifying,
@@ -394,6 +407,14 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 if aadj:
                     v = max(1.0, v + aadj)
                     reason = areason
+                # Meta quality: real top-MMR placement for this card. Strong cards
+                # get bought instead of rolled past; a strong card is also exempt
+                # from the filler/off-comp penalties below (it's worth buying).
+                qadj, qreason, q_strong = _quality_buy_adjust(a)
+                if qadj:
+                    v = max(1.0, min(8.0, v + qadj))
+                    if qreason and not tech_reason:
+                        reason = qreason
                 # CRITICAL: a buy is only worth comp/synergy credit if it actually
                 # strengthens the board. A weak comp-piece (e.g. a tier-1 minion on
                 # a board of giants, or a buy that forces selling a giant) doesn't —
@@ -431,7 +452,7 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                            _low_tier_penalty(a, _get(snapshot, "tavern_tier"), kb))
                 ocpen = _off_comp_penalty(a, snapshot, kb)
                 pen = max(fpen, ocpen)
-                if pen and not tech_reason:
+                if pen and not tech_reason and not q_strong:
                     v = min(8.0, v + pen)
                     if ocpen >= fpen and ocpen > 0.2:
                         reason = "off-comp — doesn't fit your build; roll for a piece that fits"
@@ -466,6 +487,12 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                                          _get(snapshot, "gold") or 0)
             v = max(1.0, base + bonus)
             reason = sreason
+            # Meta quality for spells too — a strong tavern spell is a priority buy.
+            qadj, qreason, _ = _quality_buy_adjust(a)
+            if qadj:
+                v = max(1.0, v + qadj)
+                if qreason:
+                    reason = qreason
         elif a.kind == HERO_POWER:
             v = max(1.0, base - 0.15)        # using the hero power is generally +EV
         elif a.kind == FREEZE:
