@@ -57,7 +57,9 @@ def buy_adjust(card_id: Optional[str], name: Optional[str]
     ap = placement(card_id, name)
     if ap is None:
         return 0.0, None, False
-    adj = max(-0.8, min(0.4, (ap - _NEUTRAL) * 0.6))
+    # Weighted heavily: a card's real meta placement reflects how good its EFFECT
+    # is (not its stat line), and that's what should drive buys.
+    adj = max(-1.3, min(0.5, (ap - _NEUTRAL) * 1.0))
     if ap <= _STRONG:
         return adj, f"strong meta pick (avg {ap:.1f}) — buy it, don't roll past it", True
     if ap >= _WEAK:

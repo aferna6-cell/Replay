@@ -194,7 +194,8 @@ def _late_scaling_adjust(action, snapshot):
     ratio = _val(minion) / avg
     if ratio <= 1.15:                       # not a real power upgrade
         return 0.0, None
-    return (-min(0.7, (ratio - 1.0) * 0.5),
+    # Smaller than the effect/synergy terms — stats are a tiebreaker, not the driver.
+    return (-min(0.4, (ratio - 1.0) * 0.3),
             "scales your board up — a real power upgrade for the late game")
 
 
@@ -533,9 +534,11 @@ def _filler_penalty(action, board) -> float:
     if avg <= 0:
         return 0.0
     ratio = _val(minion) / avg
-    if ratio >= 0.6:                    # competitive with your board — fine
+    # Stats are only a minor tiebreaker now (effects/synergy/quality drive buys), so
+    # this fires only for a body MUCH smaller than the board, and gently.
+    if ratio >= 0.45:
         return 0.0
-    return min(1.0, (0.6 - ratio) * 1.6)
+    return min(0.5, (0.45 - ratio) * 1.1)
 
 
 def _off_comp_penalty(action, snapshot, kb) -> float:
