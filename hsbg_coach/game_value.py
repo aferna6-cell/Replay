@@ -25,8 +25,8 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, HERO_POWER, BUY_COST, SELL_VALUE,
-    MAX_BOARD, tavern_up_cost,
+    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER, BUY_COST,
+    SELL_VALUE, MAX_BOARD, tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -277,21 +277,34 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 v = max(1.0, min(8.0, v + adj))
                 if tech_reason:
                     reason = tech_reason
-                # Build-path: does this buy advance a reachable winning comp? This
-                # is the mid-game navigation signal — value the move by where the
-                # board is *heading*, not just how it looks now.
-                padj, preason = _build_path_adjust(a, snapshot)
-                if padj:
-                    v = max(1.0, min(8.0, v + padj))
-                    if preason and not tech_reason:
-                        reason = preason
-                # Effect-text synergy: does this card's mechanics combo with the
-                # board (produces what they pay off, or pays off what they make)?
-                sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
-                if sadj:
-                    v = max(1.0, min(8.0, v + sadj))
-                    if sreason and not tech_reason and not preason:
-                        reason = sreason
+                # CRITICAL: a buy is only worth comp/synergy credit if it actually
+                # strengthens the board. A weak comp-piece (e.g. a tier-1 minion on
+                # a board of giants, or a buy that forces selling a giant) doesn't —
+                # don't let the build-path bonus rescue a buy the eval net rejects.
+                improves = v <= base + 0.01 or tech_reason
+                if improves:
+                    # Build-path: does this buy advance a reachable winning comp?
+                    padj, preason = _build_path_adjust(a, snapshot)
+                    if padj:
+                        v = max(1.0, min(8.0, v + padj))
+                        if preason and not tech_reason:
+                            reason = preason
+                    # Effect-text synergy: mechanical combo with the board.
+                    sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
+                    if sadj:
+                        v = max(1.0, min(8.0, v + sadj))
+                        if sreason and not tech_reason and not preason:
+                            reason = sreason
+                else:
+                    reason = "doesn't improve your board — skip"
+                # Filler guard: the eval net overrates simply filling a slot, so a
+                # minion far weaker than your board reads as an "upgrade". Penalize
+                # it so you roll for a real one instead of settling.
+                fpen = _filler_penalty(a, _get(snapshot, "board", []) or [])
+                if fpen and not tech_reason:
+                    v = min(8.0, v + fpen)
+                    if fpen > 0.2:
+                        reason = "too weak for your board — roll for a real upgrade"
                 # Full board: a buy needs a sell first. Always name the minion to
                 # sell (the weakest), even when a synergy/tech reason took the line.
                 board_now = _get(snapshot, "board", []) or []
@@ -313,6 +326,11 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
             reason = sreason
         elif a.kind == HERO_POWER:
             v = max(1.0, base - 0.15)        # using the hero power is generally +EV
+        elif a.kind == FREEZE:
+            # Rare by design: only good when the shop has a gem you can't afford
+            # yet (the advisor flags that via priority). Otherwise bury it.
+            v = (max(1.0, base - 0.2) if (sa.priority or 0) >= 0.5
+                 else min(8.0, base + 0.4))
         elif a.kind == REPOSITION and sa.delta:
             # Reposition doesn't change board composition, so placement is flat —
             # but a better attack order raises combat win%. Convert that win-rate
@@ -329,6 +347,26 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
 
 
 _WEAK_BUY_GAIN = 0.30      # placement gain below this = an "okay" minion, not a gem
+
+
+def _filler_penalty(action, board) -> float:
+    """Placement penalty for buying a minion much weaker than your board — it's
+    slot-filler, not an upgrade. 0 for a competitive buy. Scales with how far below
+    the board's average the minion is, so on a board of giants a small minion is
+    heavily demoted (roll for a real one)."""
+    if not board:
+        return 0.0
+    minion = action.detail.get("minion")
+    if minion is None:
+        return 0.0
+    vals = [_val(m) for m in board]
+    avg = sum(vals) / len(vals) if vals else 0.0
+    if avg <= 0:
+        return 0.0
+    ratio = _val(minion) / avg
+    if ratio >= 0.6:                    # competitive with your board — fine
+        return 0.0
+    return min(1.0, (0.6 - ratio) * 1.6)
 
 
 def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:

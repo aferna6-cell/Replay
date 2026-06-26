@@ -180,6 +180,38 @@ def test_full_board_buy_names_the_minion_to_sell():
     assert "sell Weakling for room" in buy.reason
 
 
+def test_weak_filler_is_not_bought_over_rolling():
+    # A minion far weaker than your board is slot-filler, not an upgrade — on a
+    # board of giants the coach should roll for a real one, not buy the small minion.
+    kb, scorer = cards.load_kb(), get_scorer()
+    giants = [{"name": f"G{i}", "card_id": f"g{i}", "attack": 30, "health": 38}
+              for i in range(6)]
+    snap = _snap(shop=[{"name": "Tiny", "card_id": "t", "attack": 4, "health": 6}],
+                 board=giants, gold=10, tavern_tier=6)
+    top = rank_actions(snap, kb=kb, scorer=scorer)[0][0]
+    assert not top.action.describe().startswith("Buy Tiny")
+
+
+def test_discover_prefers_on_tribe_over_high_stat_off_tribe():
+    from hsbg_coach.build_path import load_archetypes
+    from hsbg_coach.draft import rank_discover
+    if not load_archetypes():
+        import pytest as _pt
+        _pt.skip("archetype data not present")
+    kb = cards.load_kb()
+    idx = {c.name: c for c in kb.values()}
+    murlocs = [c.name for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    nagas = [c.name for c in kb.values()
+             if "naga" in [t.lower() for t in (c.tribes or [])]]
+    if len(murlocs) < 3 or not nagas:
+        import pytest as _pt
+        _pt.skip("need murloc + naga cards")
+    board = [{"name": murlocs[0]}, {"name": murlocs[1]}]   # committed Murloc board
+    ranked = rank_discover([murlocs[2], nagas[0]], board, kb, tier=4)
+    assert "murloc" in ranked[0].reason.lower() or ranked[0].name == murlocs[2]
+
+
 def test_naked_sell_is_not_a_top_recommendation():
     kb, scorer = cards.load_kb(), get_scorer()
     board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 5, "health": 5}

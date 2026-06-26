@@ -185,28 +185,41 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
     board = list(board or [])
     base = scorer.equity(board, hero_id)
     board_cks = [idx.get(_minion_name(m)) for m in board if idx.get(_minion_name(m))]
+    board_tribes, _ = _board_profile(board, kb)
+    dominant = max(board_tribes, key=board_tribes.get) if board_tribes else None
+    committed = dominant and board_tribes.get(dominant, 0) >= 2
 
     from .build_path import path_value
+    from .effect_synergy import board_synergy
     out = []
     for nm in offered:
         ck = idx.get(nm)
         cand = _minion_from_name(ck, nm)
         delta = scorer.equity(board + [cand], hero_id) - base
-        ctribe = (ck.tribes[0].lower() if ck and getattr(ck, "tribes", None) else None)
-        padj, preason = path_value(board, nm, tier, candidate_tribe=ctribe,
-                                   emb=emb)
-        # Combine in one sort key (smaller = better): equity delta (higher better)
-        # minus build-path placement gain (negative adj = better), scaled to equity
-        # units (~1 placement ≈ 0.14 equity).
-        rank_value = -delta + (padj / 7.0)
-        bits = []
-        if ck is not None:
-            bits = score_card(ck, board_cks, target_tribe=target, embeddings=emb).reasons[:2]
+        ctribes = [t.lower() for t in (getattr(ck, "tribes", None) or [])]
+        ctribe = ctribes[0] if ctribes else None
+        padj, preason = path_value(board, nm, tier, candidate_tribe=ctribe, emb=emb)
+
+        # Tribe fit relative to your committed comp — a Naga discovered into a
+        # Murloc board should lose to an on-tribe Murloc even if its raw stats win.
+        tribe_adj, tribe_bit = 0.0, None
+        if committed and ctribes:
+            if dominant in ctribes or "all" in ctribes:     # 'all' = Amalgam-style
+                tribe_adj, tribe_bit = -0.07, f"on-tribe ({dominant.capitalize()})"
+            else:
+                tribe_adj, tribe_bit = 0.10, f"off-tribe for your {dominant.capitalize()}s"
+
+        # Mechanical combo from card text (produces/wants), board-aware.
+        syn, syn_bits = (board_synergy(ck, board_cks) if ck is not None else (0.0, []))
+
+        # One sort key (smaller = better). Build-path weighted harder than before
+        # (÷5, not ÷7) so the comp direction beats raw stats.
+        rank_value = -delta + (padj / 5.0) + tribe_adj - syn * 0.03
+
         reason = f"{delta:+.0%} equity"
-        if preason:
-            reason += f" — {preason}"
-        elif bits:
-            reason += " — " + "; ".join(bits)
+        extra = [b for b in (tribe_bit, preason) if b] + (syn_bits[:1] if syn else [])
+        if extra:
+            reason += " — " + "; ".join(extra)
         out.append(Choice(nm, rank_value, reason, "board fit + build-path"))
     out.sort(key=lambda c: c.rank_value)
     return out
