@@ -184,6 +184,19 @@ def test_late_game_does_not_manufacture_a_roll():
     assert all(r.reason != manufactured for r in recs)
 
 
+def test_no_manufactured_roll_when_gold_is_tight():
+    # Turn 8, tier 4, gold 4: not enough headroom to roll AND buy a result, so the
+    # coach must not push 'roll for a stronger minion' (the recurring stuck-on-roll).
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": f"M{i}", "card_id": f"m{i}", "attack": 7, "health": 7}
+             for i in range(6)]
+    snap = _snap(shop=[{"name": "Okay", "card_id": "ok", "attack": 6, "health": 6}],
+                 board=board, gold=4, tavern_tier=4, turn=8)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    manufactured = "shop is only okay — roll for a stronger minion"
+    assert all(r.reason != manufactured for r in recs)
+
+
 def test_locked_perks_heroes_are_not_recommended():
     # Only heroes flagged BACON_HERO_CAN_BE_DRAFTED=1 are pickable; the locked
     # Perks heroes (=0) must never be recommended — and the free pair isn't always
@@ -238,6 +251,41 @@ def test_shop_spells_only_count_the_real_tavern_row():
     # With no shop minion to anchor the row, don't risk a phantom spell.
     t.state.entities = {3: my_spellcraft, 4: pool_spell}
     assert t._shop_spells() == []
+
+
+def test_advice_key_changes_when_you_act():
+    # The overlay recomputes advice only when the state key changes; if the key is
+    # too coarse it stays stuck on an action already taken. Rolling (gold drops),
+    # playing a hand card (hand shrinks), and a stat buff must each change the key.
+    from hsbg_coach.live import _key
+    base = {"board": [{"entity_id": 1, "name": "A", "attack": 3, "health": 3}],
+            "shop": [{"entity_id": 9, "name": "S", "attack": 2, "health": 2}],
+            "hand": [{"entity_id": 5, "name": "Freebie", "attack": 4, "health": 4}],
+            "gold": 5, "tavern_tier": 3, "phase": "recruit", "hero_health": 30}
+    k0 = _key(base)
+    assert _key({**base, "gold": 4}) != k0                       # rolled
+    assert _key({**base, "hand": []}) != k0                      # played the hand card
+    buffed = {**base, "board": [{"entity_id": 1, "name": "A", "attack": 6, "health": 5}]}
+    assert _key(buffed) != k0                                    # a stat buff landed
+
+
+def test_played_spell_is_not_still_in_hand():
+    # A spell you already played leaves a SETASIDE/pool copy; only a spell in
+    # zone=HAND is castable. Accepting SETASIDE made the coach stay stuck telling
+    # you to play a spell you'd just used.
+    from hsbg_coach.bg import BGTracker
+    from hsbg_coach.state import Entity
+    t = BGTracker(); t.local_player = 7
+    in_hand = Entity(id=1, card_id="BG28_897")
+    in_hand.tags = {"CARDTYPE": "BATTLEGROUND_SPELL", "ZONE": "HAND",
+                    "CONTROLLER": "7", "COST": "1"}
+    spent = Entity(id=2, card_id="BG28_897")            # the played/pool copy
+    spent.tags = {"CARDTYPE": "BATTLEGROUND_SPELL", "ZONE": "SETASIDE",
+                  "CONTROLLER": "7", "COST": "1"}
+    t.state.entities = {2: spent}
+    assert t._hand_spells() == []                       # nothing castable in hand
+    t.state.entities = {1: in_hand, 2: spent}
+    assert len(t._hand_spells()) == 1                   # only the HAND copy counts
 
 
 def test_passive_hero_power_is_not_offered():

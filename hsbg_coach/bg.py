@@ -338,14 +338,17 @@ class BGTracker:
 
     def _hand_spells(self) -> List[Dict]:
         """Targetable tavern spells in your hand (e.g. Tavern Dish Banana = +stats
-        to a minion). These are BATTLEGROUND_SPELL entities you control, in HAND."""
+        to a minion). These are BATTLEGROUND_SPELL entities you control, in HAND.
+
+        Strictly zone==HAND: a spell you already PLAYED moves to PLAY/GRAVEYARD and
+        leaves a SETASIDE/pool copy behind, so accepting SETASIDE made the coach
+        keep recommending a spell you'd just used ('stuck — already did this'). A
+        spell that's truly castable is in your HAND."""
         out = []
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
                 continue
-            # Playable hand spells you control sit in HAND (and sometimes SETASIDE
-            # in BG); the buy mechanic and opponents' spells are excluded.
-            if ent.zone not in ("HAND", "SETASIDE") or ent.controller != str(self.local_player):
+            if ent.zone != "HAND" or ent.controller != str(self.local_player):
                 continue
             if not ent.card_id or "DragBuy" in ent.card_id:
                 continue

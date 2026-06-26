@@ -149,15 +149,26 @@ def build_note_for(snapshot, kb=None) -> Optional[str]:
         return None
 
 
+def _sig(m):
+    """A change-sensitive signature for a minion: identity + stats, so a buff,
+    a sell, or a swap all force the advice to recompute (never goes stale)."""
+    if not isinstance(m, dict):
+        return (getattr(m, "entity_id", None), getattr(m, "name", None))
+    return (m.get("entity_id"), m.get("name"), m.get("attack"), m.get("health"))
+
+
 def _key(d: dict):
-    board = tuple(m.get("name") for m in d.get("board", []))
-    shop = tuple(m.get("name") for m in d.get("shop", []))
+    # Key on CONTENT (ids + stats), not just names — so playing a card, rolling,
+    # selling, or a stat buff always changes the key and the panel refreshes. A
+    # too-coarse key was leaving the overlay stuck on an action already taken.
+    board = tuple(_sig(m) for m in d.get("board", []) or [])
+    shop = tuple(_sig(m) for m in d.get("shop", []) or [])
     spells = tuple(s.get("name") for s in d.get("shop_spells", []) or [])
-    hand = tuple(s.get("name") for s in d.get("hand_spells", []) or [])
-    hand_m = tuple(m.get("name") for m in d.get("hand", []) or [])
+    hand = tuple((s.get("entity_id"), s.get("name")) for s in d.get("hand_spells", []) or [])
+    hand_m = tuple(_sig(m) for m in d.get("hand", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
     return (board, shop, spells, hand, hand_m, d.get("gold"), d.get("tavern_tier"),
-            d.get("phase"), hp, d.get("anomaly"))
+            d.get("phase"), hp, d.get("hero_health"), d.get("anomaly"))
 
 
 class LiveCoach:

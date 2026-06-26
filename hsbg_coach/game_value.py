@@ -421,19 +421,26 @@ def _low_tier_penalty(action, tavern_tier, kb) -> float:
 
 def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:
     """Mid-game, don't settle: if the best available buy only marginally improves
-    the board (an 'okay' minion), prefer rolling for a real upgrade — as long as
-    you can afford to roll and still buy. Rewrites the roll rec's value in place."""
+    the board (an 'okay' minion), prefer rolling for a real upgrade — but only when
+    rolling is genuinely the best use of the turn. Rewrites the roll rec in place.
+
+    Deliberately rare (the user kept getting stuck on 'roll'):
+      * tiers 3-5 only — at tier 6 don't manufacture a preference (triples /
+        hand-plays / real upgrades surface instead);
+      * gold >= BUY_COST + 2 — real headroom to roll AND still buy a result with a
+        coin to spare (at 4 gold you can't fish, so don't suggest it);
+      * board already developed (>= 5 minions) — with an open board you want a body,
+        not a roll.
+    Outside that window roll keeps its honest EV and only shows if it earns it."""
     gold = _get(snapshot, "gold") or 0
     tier = _get(snapshot, "tavern_tier") or 1
+    board_n = len(_get(snapshot, "board", []) or [])
     best_buy_gain = max((r.gain for r in recs if r.action.kind == BUY), default=0.0)
     roll = next((r for r in recs if r.action.kind == ROLL), None)
     if roll is None:
         return
-    # Only when it's worth hunting: mid-game, gold to roll AND still buy after,
-    # and the current best buy is mediocre. Capped to tiers 3-5: at tier 6 a roll
-    # is fine but we don't *manufacture* a roll preference, so triples / hand-plays
-    # / genuine upgrades surface instead of the panel locking onto "roll".
-    if 3 <= tier <= 5 and gold >= BUY_COST + 1 and best_buy_gain < _WEAK_BUY_GAIN:
+    if (3 <= tier <= 5 and gold >= BUY_COST + 2 and board_n >= 5
+            and best_buy_gain < _WEAK_BUY_GAIN):
         roll.placement = round(max(1.0, base - (_WEAK_BUY_GAIN + 0.02)), 2)
         roll.gain = round(base - roll.placement, 2)
         roll.reason = "shop is only okay — roll for a stronger minion"
