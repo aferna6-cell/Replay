@@ -636,6 +636,22 @@ def test_freeze_fires_when_out_of_gold_with_a_good_card():
     assert frz2 is not None and frz2.priority < 0.2
 
 
+def test_spell_trinket_makes_the_coach_buy_more_spells():
+    # A trinket that rewards Tavern spells should bias spell buys up and surface a
+    # strategic readout, so the player knows to lean into spells mid/late game.
+    from hsbg_coach.comp_signals import buy_bias, guidance, _trinket_text
+    by_id, _ = _trinket_text()
+    # Find a real spell-reward trinket from the data.
+    spell_trinket = next((cid for cid, txt in by_id.items()
+                          if "tavern spell" in txt or "cast a spell" in txt), None)
+    assert spell_trinket is not None
+    snap = {"trinkets": [{"name": "SpellTrinket", "card_id": spell_trinket}]}
+    assert buy_bias(snap).get("spell", 0) < 0          # promotes spell buys
+    assert "spell" in (guidance(snap) or "").lower()   # awareness readout
+    # No trinket → no spell bias.
+    assert "spell" not in buy_bias({"trinkets": []})
+
+
 def test_timewarped_anomaly_prioritizes_supercharged_minions():
     # Under Timewarped, a shop minion flagged HAS_TIMEWARPED_TAVERN_ALT_TEXT has
     # its effect supercharged — the coach must surface buying it, not ignore the

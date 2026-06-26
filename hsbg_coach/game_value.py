@@ -492,6 +492,16 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 v = max(1.0, v + qadj)
                 if qreason:
                     reason = qreason
+            # Comp lean: a spell-reward trinket means buy MORE tavern spells than
+            # usual — fold that bias in so spell comps actually buy spells.
+            try:
+                from .comp_signals import buy_bias
+                sb = buy_bias(snapshot).get("spell")
+                if sb:
+                    v = max(1.0, v + sb)
+                    reason = (reason or "tavern spell") + " — your trinket rewards spells"
+            except Exception:
+                pass
         elif a.kind == HERO_POWER:
             v = max(1.0, base - 0.15)        # using the hero power is generally +EV
         elif a.kind == FREEZE:

@@ -98,6 +98,7 @@ class Snapshot:
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
+    trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -115,6 +116,7 @@ class Snapshot:
             "hero_power": self.hero_power,
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
+            "trinkets": list(self.trinkets),
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -287,6 +289,7 @@ class BGTracker:
             hero_power=self._hero_power(),
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
+            trinkets=self._trinkets(),
             hand=hand,
             opponents_seen=opponents,
             notes=notes,
@@ -360,6 +363,31 @@ class BGTracker:
                 "usable": bool(usable),
             }
         return None
+
+    def _trinkets(self) -> List[Dict]:
+        """Your equipped trinkets (CARDTYPE=BATTLEGROUND_TRINKET, in PLAY, yours).
+        They shape your whole game — e.g. a spell-reward trinket means you should
+        buy/play more tavern spells — so the recommender needs to see them."""
+        out, seen = [], set()
+        for ent in self.state.entities.values():
+            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_TRINKET":
+                continue
+            if ent.controller != str(self.local_player):
+                continue
+            # An equipped trinket lives in your trinket zone (SETASIDE in BG) and
+            # surfaces to PLAY when it triggers — accept either. Real trinkets are
+            # MagicItem cards; skip the empty slot placeholders (BG30_Trinket_1st /
+            # "Lesser Trinket" / "Greater Trinket") and the in-game graveyard/removed.
+            if ent.zone not in ("PLAY", "SETASIDE"):
+                continue
+            if "MagicItem" not in (ent.card_id or ""):
+                continue
+            if ent.card_id in seen:
+                continue
+            seen.add(ent.card_id)
+            out.append({"name": self._display_name(ent.card_id, ent.name),
+                        "card_id": ent.card_id})
+        return out
 
     def _anomaly(self) -> Optional[str]:
         # Require the cardId to actually be an anomaly (BG##_Anomaly_###) — guards

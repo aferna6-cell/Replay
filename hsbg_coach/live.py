@@ -42,9 +42,16 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer,
                            include_reposition=False)
     out = []
-    # If an anomaly is active and we have curated guidance, lead with how it
-    # changes the plan (e.g. Timewarped → buy the supercharged minions).
+    # Lead with strategic awareness for the mid/late game: what your trinkets /
+    # comp are telling you to leverage and look for, then the active anomaly.
     from .anomaly import anomaly_note
+    try:
+        from .comp_signals import guidance
+        g = guidance(snapshot)
+        if g:
+            out.append(f"⚑ {g}")
+    except Exception:
+        pass
     note = anomaly_note(snapshot.get("anomaly"))
     if note:
         out.append(f"⚑ {note}")
@@ -186,9 +193,11 @@ def _key(d: dict):
     spells = tuple(s.get("name") for s in d.get("shop_spells", []) or [])
     hand = tuple((s.get("entity_id"), s.get("name")) for s in d.get("hand_spells", []) or [])
     hand_m = tuple(_sig(m) for m in d.get("hand", []) or [])
+    trinkets = tuple(t.get("name") for t in d.get("trinkets", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
-    return (board, shop, spells, hand, hand_m, d.get("gold"), d.get("tavern_tier"),
-            d.get("phase"), hp, d.get("hero_health"), d.get("anomaly"))
+    return (board, shop, spells, hand, hand_m, trinkets, d.get("gold"),
+            d.get("tavern_tier"), d.get("phase"), hp, d.get("hero_health"),
+            d.get("anomaly"))
 
 
 class LiveCoach:
