@@ -212,6 +212,26 @@ def _quality_buy_adjust(action):
         return 0.0, None, False
 
 
+def _lobby_tech_adjust(action, snapshot):
+    """(placement_adjustment, reason) promoting a tech card when the whole lobby
+    runs what it answers — e.g. AOE/Divine-Shield-pop vs a lobby full of Divine
+    Shields. Generalizes the sim (which only sees the last board) to all opponents."""
+    from .opponents import threats
+    t = threats(_get(snapshot, "opponent_profiles", None) or [])
+    if not t:
+        return 0.0, None
+    from .card_roles import is_tech
+    minion = action.detail.get("minion") or {}
+    cid = (minion.get("card_id") if isinstance(minion, dict)
+           else getattr(minion, "card_id", None))
+    if not is_tech(cid, action.target):
+        return 0.0, None
+    ds = t["keywords"].get("DIVINE_SHIELD", 0)
+    if ds >= 3:
+        return -min(0.6, ds * 0.12), f"the lobby runs {ds} Divine Shields — this tech answers them"
+    return 0.0, None
+
+
 def _anomaly_buy_adjust(action, snapshot):
     """(placement_adjustment, reason) from the active anomaly for this buy. Keyed on
     minion tags (e.g. the Timewarped supercharge flag), which are self-identifying,
@@ -402,6 +422,13 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 v = max(1.0, min(8.0, v + adj))
                 if tech_reason:
                     reason = tech_reason
+                # Lobby-wide tech read: if the whole lobby runs Divine Shields /
+                # Poisonous, value the answer (AOE, Divine-Shield pop) even before
+                # we fight that board — not just vs the last opponent.
+                ladj, lreason = _lobby_tech_adjust(a, snapshot)
+                if ladj:
+                    v = max(1.0, v + ladj)
+                    reason = lreason
                 # Anomaly-aware: the active anomaly (e.g. Timewarped) can make a
                 # specific shop minion a priority buy — factor it in, don't ignore it.
                 aadj, areason = _anomaly_buy_adjust(a, snapshot)

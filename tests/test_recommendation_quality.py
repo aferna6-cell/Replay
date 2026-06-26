@@ -636,6 +636,32 @@ def test_freeze_fires_when_out_of_gold_with_a_good_card():
     assert frz2 is not None and frz2.priority < 0.2
 
 
+def test_opponent_profiles_and_lobby_threat_readout():
+    # Profile opponents from the entity map, then summarize the lobby threats so the
+    # coach builds to beat THEM (e.g. lots of Divine Shields -> tech for it).
+    from hsbg_coach.opponents import build_profiles, threats, threat_note
+    from hsbg_coach.state import Entity
+
+    def mk(eid, ctrl, ctype, cid, **tags):
+        e = Entity(id=eid, card_id=cid)
+        e.tags = {"CONTROLLER": str(ctrl), "ZONE": "PLAY", "CARDTYPE": ctype, **tags}
+        return e
+    ents = {
+        1: mk(1, 9, "HERO", "BG23_HERO_201", HEALTH="30"),
+        2: mk(2, 9, "MINION", "x1", ATK="6", HEALTH="6", DIVINE_SHIELD="1"),
+        3: mk(3, 9, "MINION", "x2", ATK="5", HEALTH="5", DIVINE_SHIELD="1"),
+        4: mk(4, 7, "MINION", "y1", ATK="4", HEALTH="4", DIVINE_SHIELD="1"),
+        5: mk(5, 3, "MINION", "z1", ATK="8", HEALTH="8"),       # local — excluded
+    }
+    profs = build_profiles(ents, local_player=3)
+    assert set(profs.keys()) == {"9", "7"}                  # both foreign seats
+    assert profs["9"]["strength"] == 22 and profs["9"]["keywords"]["DIVINE_SHIELD"] == 2
+    t = threats(list(profs.values()))
+    assert t["keywords"]["DIVINE_SHIELD"] == 3              # lobby-wide
+    note = threat_note(list(profs.values()))
+    assert note and "Divine Shield" in note
+
+
 def test_spell_trinket_makes_the_coach_buy_more_spells():
     # A trinket that rewards Tavern spells should bias spell buys up and surface a
     # strategic readout, so the player knows to lean into spells mid/late game.

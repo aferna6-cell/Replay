@@ -99,6 +99,7 @@ class Snapshot:
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
+    opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -117,6 +118,7 @@ class Snapshot:
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
             "trinkets": list(self.trinkets),
+            "opponent_profiles": list(self.opponent_profiles),
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -141,6 +143,7 @@ class BGTracker:
         self._recruit_phases = 0
         self._tier_anchor = 0          # recruit-phase count when current tier reached
         self._anchor_tier: Optional[int] = None
+        self.opponents: Dict[str, Dict] = {}   # controller -> latest profile we've seen
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -171,6 +174,7 @@ class BGTracker:
             self._recruit_phases = 0
             self._tier_anchor = 0
             self._anchor_tier = None
+            self.opponents = {}            # forget last game's lobby
 
         # Player roster line — the reliable way to find the human: the only
         # seat whose GameAccountId hi != 0. PlayerID is the controller id board
@@ -272,6 +276,12 @@ class BGTracker:
         opponents = ([[m.__dict__ for m in self.last_opponent_board]]
                      if self.last_opponent_board else [])
 
+        # Profile every opponent we can see this combat and keep the latest read,
+        # so the recommender knows the whole lobby's threats (heroes, tribes,
+        # Divine Shields, strength), not just the last board we fought.
+        if self.phase == Phase.COMBAT:
+            self._update_opponents()
+
         notes = []
         if self.local_player is None:
             notes.append("local_player not yet identified")
@@ -292,8 +302,30 @@ class BGTracker:
             trinkets=self._trinkets(),
             hand=hand,
             opponents_seen=opponents,
+            opponent_profiles=list(self.opponents.values()),
             notes=notes,
         )
+
+    _kb_cache = None
+
+    def _kb(self):
+        if BGTracker._kb_cache is None:
+            try:
+                from . import cards
+                BGTracker._kb_cache = cards.load_kb()
+            except Exception:
+                BGTracker._kb_cache = {}
+        return BGTracker._kb_cache
+
+    def _update_opponents(self) -> None:
+        """Merge this combat's opponent reads into the persistent lobby map."""
+        try:
+            from .opponents import build_profiles
+            fresh = build_profiles(self.state.entities, self.local_player, self._kb())
+            for ctrl, prof in fresh.items():
+                self.opponents[ctrl] = prof          # keep the latest read per seat
+        except Exception:
+            pass
 
     def _level_cost(self) -> Optional[int]:
         """The CURRENT (discounted) gold to tier up.

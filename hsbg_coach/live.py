@@ -55,6 +55,14 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     note = anomaly_note(snapshot.get("anomaly"))
     if note:
         out.append(f"⚑ {note}")
+    # Lobby threats: what the opponents are running, so you build to beat THEM.
+    try:
+        from .opponents import threat_note
+        tn = threat_note(snapshot.get("opponent_profiles"))
+        if tn:
+            out.append(f"⚔ {tn}")
+    except Exception:
+        pass
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
@@ -194,8 +202,10 @@ def _key(d: dict):
     hand = tuple((s.get("entity_id"), s.get("name")) for s in d.get("hand_spells", []) or [])
     hand_m = tuple(_sig(m) for m in d.get("hand", []) or [])
     trinkets = tuple(t.get("name") for t in d.get("trinkets", []) or [])
+    opps = tuple((p.get("controller"), p.get("hero"), p.get("strength"))
+                 for p in d.get("opponent_profiles", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
-    return (board, shop, spells, hand, hand_m, trinkets, d.get("gold"),
+    return (board, shop, spells, hand, hand_m, trinkets, opps, d.get("gold"),
             d.get("tavern_tier"), d.get("phase"), hp, d.get("hero_health"),
             d.get("anomaly"))
 
