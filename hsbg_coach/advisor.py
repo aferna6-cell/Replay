@@ -145,11 +145,41 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
 
 
 # --- per-action scorers ------------------------------------------------------
+def _keep_rank(m, board, idx, target_tribe, emb) -> float:
+    """Lower = sell first. Synergy-aware, not stats-only: on a committed comp we
+    keep on-tribe pieces and sell off-comp bodies first, so a fat off-tribe vanilla
+    goes before a small comp piece."""
+    ck = idx.get(_name(m)) if idx else None
+    if ck is None:
+        return _val(m)
+    rest = [idx.get(_name(x)) for x in board if x is not m and idx.get(_name(x))]
+    tribes = {}
+    for c in rest:
+        for t in (getattr(c, "tribes", None) or []):
+            tribes[t.lower()] = tribes.get(t.lower(), 0) + 1
+    dom = max(tribes, key=tribes.get) if tribes else None
+    committed = bool(dom) and tribes.get(dom, 0) >= 3
+    ctr = [t.lower() for t in (ck.tribes or [])]
+    syn = score_card(ck, rest, target_tribe=(target_tribe or dom), embeddings=emb).score
+    rank = _val(m) + max(0.0, syn) * 2.5
+    if committed:
+        if dom in ctr or "all" in ctr:
+            rank += 8.0                      # an on-tribe comp piece — keep it
+        else:
+            from .effect_synergy import board_synergy
+            es, _ = board_synergy(ck, rest)
+            if es <= 0:
+                rank -= 6.0                  # off-comp body, no combo — sell first
+    return rank
+
+
 def _score_buy(act, board, base, scorer, hero_id, idx, board_cks, target_tribe, emb):
     minion = act.detail.get("minion")
     sold = None
     if len(board) >= MAX_BOARD:
-        weakest = min(board, key=_val)
+        # Sell the least valuable to KEEP (stats + synergy), not the lowest stats,
+        # so the eval net values keeping your comp pieces.
+        weakest = min(board, key=lambda x: _keep_rank(x, board, idx, target_tribe, emb))
         cand = [m for m in board if m is not weakest] + [minion]
         sold = _name(weakest)
     else:

@@ -440,9 +440,10 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # Full board: a buy needs a sell first. Always name the minion to
                 # sell (the weakest), even when a synergy/tech reason took the line.
                 board_now = _get(snapshot, "board", []) or []
-                if len(board_now) >= MAX_BOARD:
-                    # Sell the least valuable to KEEP (stats + synergy), so an
-                    # on-tribe/combo piece isn't dumped for a vanilla with more stats.
+                if len(board_now) >= MAX_BOARD and "sell " not in reason.lower():
+                    # A reason that replaced the advisor's lost the 'sell for room'
+                    # note — re-add it, choosing the least valuable to KEEP (stats +
+                    # synergy) so a comp piece isn't dumped for a fatter vanilla.
                     weakest = min(board_now, key=lambda m: _keep_value(m, board_now, kb))
                     reason = f"sell {_name(weakest)} for room — {reason}"
             elif a.kind == LEVEL:                         # aggressive leveling pace

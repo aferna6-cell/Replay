@@ -605,6 +605,34 @@ def test_anomaly_note_surfaces_for_known_anomaly():
     assert anomaly_note("Some Unknown Anomaly") is None
 
 
+def test_full_board_buy_sells_off_comp_not_low_stats():
+    # Buying onto a full committed Murloc board must model selling the off-tribe
+    # vanilla (low keep-value), not the low-STAT murloc — the sell is synergy-aware.
+    from hsbg_coach.advisor import advise_actions
+    from hsbg_coach.actions import BUY
+    kb, scorer = cards.load_kb(), get_scorer()
+    murlocs = [c for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    if len(murlocs) < 6:
+        import pytest as _pt
+        _pt.skip("need murloc cards")
+    # A real, fat, off-tribe minion (no murloc/all tribe) to be the sell.
+    off = max((c for c in kb.values()
+               if not ({"murloc", "all"} & {t.lower() for t in (c.tribes or [])})
+               and c.tribes),
+              key=lambda c: (c.attack or 0) + (c.health or 0))
+    # 6 on-tribe murlocs + 1 off-tribe body of comparable (slightly bigger) size:
+    # synergy, not stats, should decide — sell the off-comp body.
+    board = [{"name": murlocs[i].name, "card_id": f"m{i}", "attack": 5, "health": 5}
+             for i in range(6)]
+    board += [{"name": off.name, "card_id": "off", "attack": 6, "health": 6}]
+    shop = [{"name": murlocs[0].name, "card_id": "buy", "attack": 5, "health": 5}]
+    snap = _snap(shop=shop, board=board, gold=5, tavern_tier=4)
+    plan = advise_actions(snap, kb=kb, scorer=scorer)
+    buy = next((s for s in plan.ranked if s.action.kind == BUY), None)
+    assert buy is not None and f"sell {off.name}" in buy.reason  # off-comp body, not the small murloc
+
+
 def test_keep_value_protects_a_synergistic_comp_piece():
     # On a committed Murloc board, a small on-tribe Murloc is worth more to KEEP
     # than a fat off-tribe vanilla — so 'sell for room' targets the vanilla, not
