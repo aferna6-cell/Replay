@@ -28,6 +28,7 @@ ROLL = "roll"
 LEVEL = "level"
 REPOSITION = "reposition"
 FREEZE = "freeze"
+HERO_POWER = "hero_power"
 END = "end"
 
 
@@ -47,6 +48,9 @@ class Action:
             return f"Buy {self.target}"
         if self.kind == BUY_SPELL:
             return f"Buy spell: {self.target} ({self.cost}g)"
+        if self.kind == HERO_POWER:
+            tail = f" ({self.cost}g)" if self.cost else ""
+            return f"Use hero power: {self.target}{tail}"
         if self.kind == SELL:
             return f"Sell {self.target}"
         if self.kind == LEVEL:
@@ -85,6 +89,14 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     if gold >= BUY_COST:
         for m in shop:
             actions.append(Action(BUY, _name(m), BUY_COST, {"minion": m}))
+
+    # Use the hero power — when it's off-cooldown and affordable this turn.
+    hp = _get(snapshot, "hero_power", None)
+    if hp and hp.get("usable"):
+        hp_cost = int(hp.get("cost") or 0)
+        if gold >= hp_cost:
+            actions.append(Action(HERO_POWER, hp.get("name") or "Hero Power",
+                                  hp_cost, {"hero_power": hp}))
 
     # Buy a tavern spell — variable cost (its own COST), affordability checked.
     for sp in (_get(snapshot, "shop_spells", []) or []):

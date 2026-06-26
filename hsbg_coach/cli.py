@@ -130,7 +130,7 @@ def _watch_terminal(power, args) -> int:
     behaves exactly like an HDT overlay, with none of the macOS Tk breakage."""
     import time
     from .live import LiveCoach
-    from .overlay import format_overlay_text
+    from .overlay import format_next
 
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     coach = LiveCoach(power, recorder=recorder, from_start=True)
@@ -139,7 +139,7 @@ def _watch_terminal(power, args) -> int:
     last = None
     try:
         while True:
-            text = format_overlay_text(*coach.frame())
+            text = format_next(*coach.frame())
             if text != last:
                 # Home cursor + clear screen, then repaint the panel in place.
                 print("\033[H\033[J" + text, flush=True)
@@ -166,13 +166,13 @@ def _watch_overlay(power, args) -> int:
     # Repaint a tidy panel in the terminal too (in place, like htop). The Tk
     # window is unreliable on Apple's deprecated system Tk, so this is always a
     # working readout — and confirms the parser is reading your game live.
-    from .overlay import format_overlay_text
+    from .overlay import format_next
     last_text = [None]
 
     def frame_and_echo():
         result = coach.frame()
         try:
-            text = format_overlay_text(*result)
+            text = format_next(*result)
             if text != last_text[0]:
                 print("\033[H\033[J" + text, flush=True)
                 last_text[0] = text

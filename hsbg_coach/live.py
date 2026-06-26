@@ -29,9 +29,11 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     """Ranked one-line recommendations for a snapshot, best first — scored by
     expected FINAL placement (whole-game value), so the future is accounted for.
 
-    Empty unless we're shopping (a shop is present). Pure + synchronous, so it's
-    unit-testable without a display."""
-    if not snapshot.get("shop") and not snapshot.get("shop_spells"):
+    Returns moves whenever you can act (the recruit phase) — even before the shop
+    is parsed, roll / tier up / hero power / end are always legal, so there's
+    always a next move to show (fixes the gap right after combat). Empty only in
+    combat/hero-select, where the choice path handles it. Pure + synchronous."""
+    if snapshot.get("phase") not in ("recruit", "unknown"):
         return []
     from .game_value import rank_actions
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
@@ -58,7 +60,10 @@ def build_note_for(snapshot, kb=None) -> Optional[str]:
 def _key(d: dict):
     board = tuple(m.get("name") for m in d.get("board", []))
     shop = tuple(m.get("name") for m in d.get("shop", []))
-    return board, shop, d.get("gold"), d.get("tavern_tier"), d.get("phase")
+    spells = tuple(s.get("name") for s in d.get("shop_spells", []) or [])
+    hp = (d.get("hero_power") or {}).get("usable")
+    return (board, shop, spells, d.get("gold"), d.get("tavern_tier"),
+            d.get("phase"), hp, d.get("anomaly"))
 
 
 class LiveCoach:
@@ -180,8 +185,5 @@ class LiveCoach:
         if key != self._cache_key:                    # recompute advice only on change
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
-            self._cache_note = build_note_for(snap, self.kb)
             self._cache_key = key
-        if self._cache_note:
-            snap = dict(snap, build_note=self._cache_note)
         return snap, None, self._cache_lines

@@ -25,8 +25,8 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, BUY_COST, SELL_VALUE, MAX_BOARD,
-    tavern_up_cost,
+    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, HERO_POWER, BUY_COST, SELL_VALUE,
+    MAX_BOARD, tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -301,6 +301,8 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                                          _get(snapshot, "gold") or 0)
             v = max(1.0, base + bonus)
             reason = sreason
+        elif a.kind == HERO_POWER:
+            v = max(1.0, base - 0.15)        # using the hero power is generally +EV
         elif a.kind == REPOSITION and sa.delta:
             # Reposition doesn't change board composition, so placement is flat —
             # but a better attack order raises combat win%. Convert that win-rate

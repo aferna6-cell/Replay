@@ -73,6 +73,29 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
     return "\n".join(lines)
 
 
+def format_next(snapshot: Dict, odds: Optional[str] = None,
+                recommendations: Optional[List[str]] = None) -> str:
+    """Minimal one-move view: the single best NEXT action + a compact status line.
+    No board/shop dump — just 'what to do now', which re-computes as you act."""
+    turn = snapshot.get("turn")
+    tier = snapshot.get("tavern_tier")
+    gold = snapshot.get("gold")
+    hp = snapshot.get("hero_health")
+    phase = snapshot.get("phase", "?")
+    status = f"turn {turn} · {phase} · tier {tier} · gold {gold} · hp {hp}"
+    hpw = snapshot.get("hero_power")
+    if hpw and hpw.get("usable"):
+        status += " · hero power ready"
+    if snapshot.get("anomaly"):
+        status += f" · anomaly: {snapshot['anomaly']}"
+
+    if recommendations:
+        return f"→ {recommendations[0]}\n  {status}"
+    if phase == "combat":
+        return f"→ (combat — watch the fight; next move shows when recruit starts)\n  {status}"
+    return f"→ …\n  {status}"
+
+
 class Overlay:
     """Always-on-top text panel that floats over a windowed game.
 

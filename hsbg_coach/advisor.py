@@ -24,7 +24,7 @@ import copy
 
 from .actions import (
     legal_actions, Action, BUY, BUY_SPELL, SELL, ROLL, LEVEL, REPOSITION, FREEZE,
-    END, MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
+    HERO_POWER, END, MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
 )
 from .board_value import get_scorer, _val, _name
 from .cards import by_name
@@ -104,6 +104,9 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
             scored.append(sa)
         elif act.kind == BUY_SPELL:
             scored.append(_score_spell(act, gold))
+        elif act.kind == HERO_POWER:
+            scored.append(ScoredAction(
+                act, 0.55, "hero power is available — using it is usually value"))
         elif act.kind == SELL:
             scored.append(_score_sell(act, board, base, scorer, hero_id))
 

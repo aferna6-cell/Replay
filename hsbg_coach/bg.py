@@ -94,6 +94,8 @@ class Snapshot:
     shop_spells: List[Dict] = field(default_factory=list)     # tavern spells to buy
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
+    hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
+    anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -107,6 +109,8 @@ class Snapshot:
             "board": [m.__dict__ for m in self.board],
             "shop": [m.__dict__ for m in self.shop],
             "shop_spells": list(self.shop_spells),
+            "hero_power": self.hero_power,
+            "anomaly": self.anomaly,
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -254,10 +258,43 @@ class BGTracker:
             board=board,
             shop=shop,
             shop_spells=shop_spells,
+            hero_power=self._hero_power(),
+            anomaly=self._anomaly(),
             hand=hand,
             opponents_seen=opponents,
             notes=notes,
         )
+
+    def _hero_power(self) -> Optional[Dict]:
+        """The local player's hero power: name, cost, and whether it's usable now
+        (not exhausted, affordable). Recommendable like any other action."""
+        for ent in self.state.entities.values():
+            if ent.tags.get("CARDTYPE") != "HERO_POWER":
+                continue
+            if ent.controller != str(self.local_player):
+                continue
+            cost = ent.tag_int("COST") or 0
+            gold = self._gold()
+            usable = (ent.tags.get("EXHAUSTED") not in ("1",)
+                      and (gold is None or gold >= cost))
+            # Prefer the logged display name; hero powers aren't in the minion KB,
+            # so fall back to a clean label rather than a raw cardId.
+            name = ent.name
+            if not name or name == ent.card_id:
+                name = "Hero Power"
+            return {
+                "name": name,
+                "card_id": ent.card_id,
+                "cost": cost,
+                "usable": bool(usable),
+            }
+        return None
+
+    def _anomaly(self) -> Optional[str]:
+        for ent in self.state.entities.values():
+            if ent.tags.get("CARDTYPE") == "BATTLEGROUND_ANOMALY":
+                return ent.name or _card_name(ent.card_id) if ent.card_id else ent.name
+        return None
 
     def _shop_spells(self) -> List[Dict]:
         """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL). Mirrors
@@ -274,6 +311,8 @@ class BGTracker:
             if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
                 continue
             if not ent.card_id:
+                continue
+            if "DragBuy" in ent.card_id:        # the buy mechanic, not a real spell
                 continue
             if ent.controller in (None, str(self.local_player)):
                 continue

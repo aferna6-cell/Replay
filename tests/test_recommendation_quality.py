@@ -100,6 +100,39 @@ def test_tech_not_promoted_when_the_matchup_does_not_want_it():
     assert "situational" in tunnel.reason.lower() or "no combat" in tunnel.reason.lower()
 
 
+def test_hero_power_is_a_recommendable_action_when_usable():
+    from hsbg_coach.actions import legal_actions, HERO_POWER
+    snap = _snap(shop=[], board=[], gold=2,
+                 hero_power={"name": "Trade Up", "card_id": "HP", "cost": 1, "usable": True})
+    kinds = [a.kind for a in legal_actions(snap)]
+    assert HERO_POWER in kinds
+    # Not offered when exhausted/unusable.
+    snap2 = dict(snap, hero_power={"name": "Trade Up", "cost": 1, "usable": False})
+    assert HERO_POWER not in [a.kind for a in legal_actions(snap2)]
+
+
+def test_recruit_always_has_a_next_move_even_with_no_shop():
+    # After combat the shop may not be parsed yet — roll/tier/end are still legal,
+    # so there must always be a move to show (fixes the post-combat blank).
+    kb, scorer = cards.load_kb(), get_scorer()
+    from hsbg_coach.live import advice_lines
+    snap = _snap(shop=[], board=[{"name": "x", "card_id": "z", "attack": 3, "health": 3}],
+                 gold=4, tavern_tier=2)
+    lines = advice_lines(snap, kb, scorer)
+    assert lines, "recruit with no shop should still recommend roll/tier/end"
+
+
+def test_minimal_view_shows_one_move_and_status():
+    from hsbg_coach.overlay import format_next
+    snap = {"turn": 5, "phase": "recruit", "tavern_tier": 3, "gold": 7,
+            "hero_health": 40, "anomaly": "Marin's Treasure Box",
+            "hero_power": {"usable": True}}
+    text = format_next(snap, None, ["Buy Titus Rivendare (finish 2.3) — core Mech"])
+    assert text.startswith("→ Buy Titus Rivendare")
+    assert "anomaly: Marin's Treasure Box" in text and "hero power ready" in text
+    assert "Your board" not in text          # no board dump in the minimal view
+
+
 def test_hero_fallback_covers_heroes_thin_at_top_mmr():
     # Ysera / Lich Baz'hial are popular overall but thin at top-10%; the all-MMR
     # fallback should give them a real placement instead of "no stats".
