@@ -235,18 +235,18 @@ def _score_roll(act, gold, best_buy_delta, target_tribe):
     return ScoredAction(act, _clamp(prio, hi=0.8), reason)
 
 
-_FREEZE_STRONG = 2.0       # a card worth holding the shop for
-_FREEZE_GEM = 3.5          # a single card good enough to freeze on its own
+_FREEZE_STRONG = 2.5       # a genuinely strong, synergistic card
+_FREEZE_GEM = 5.0          # a single card so good it's worth freezing alone (rare)
 
 
 def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
-    """Freeze is rare and only right when you can't afford a shop you genuinely
-    want to keep — i.e. MULTIPLE strong cards, or one outright gem. Freezing for a
-    single okay minion (or with a board already stronger than the shop) is a trap,
-    so that case is buried."""
+    """Freeze almost never. It's only right when the shop is *insane* and you
+    can't afford it: MULTIPLE strongly-synergistic cards, or one near-perfect card.
+    Freezing for a single okay minion (or any shop you can act on) is a trap and is
+    buried below End turn / Reposition."""
     shop = list(_get(snapshot, "shop", []) or [])
     if gold >= BUY_COST:                          # you can buy — don't freeze
-        return ScoredAction(act, 0.1, "you can act this turn — no need to freeze")
+        return ScoredAction(act, 0.05, "you can act this turn — no need to freeze")
     strong = []
     best_name, best_score = None, 0.0
     for m in shop:
@@ -258,12 +258,13 @@ def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
             best_name, best_score = ck.name, v
         if v >= _FREEZE_STRONG:
             strong.append(ck.name)
+    # An "insane" shop you can't afford: 2+ strongly-synergistic cards.
     if len(strong) >= 2:
         return ScoredAction(act, 0.6,
-                            f"freeze — {len(strong)} cards worth keeping ({', '.join(strong[:2])})")
+                            f"freeze — insane shop: {', '.join(strong[:3])} (can't afford yet)")
     if best_score >= _FREEZE_GEM:
-        return ScoredAction(act, 0.55, f"freeze — {best_name} is a gem worth holding for")
-    return ScoredAction(act, 0.1, "freeze only for a shop full of gems you can't afford")
+        return ScoredAction(act, 0.55, f"freeze — {best_name} is a perfect fit you can't afford yet")
+    return ScoredAction(act, 0.05, "freeze only for an insane shop you can't afford")
 
 
 def plan_turn(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
