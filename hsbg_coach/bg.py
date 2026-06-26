@@ -100,6 +100,8 @@ class Snapshot:
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
+    hero: Optional[str] = None            # our hero cardId (for the eval net + tribes)
+    hero_name: Optional[str] = None
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -119,6 +121,8 @@ class Snapshot:
             "level_cost": self.level_cost,
             "trinkets": list(self.trinkets),
             "opponent_profiles": list(self.opponent_profiles),
+            "hero": self.hero,
+            "hero_name": self.hero_name,
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -303,8 +307,18 @@ class BGTracker:
             hand=hand,
             opponents_seen=opponents,
             opponent_profiles=list(self.opponents.values()),
+            hero=self._our_hero()[0],
+            hero_name=self._our_hero()[1],
             notes=notes,
         )
+
+    def _our_hero(self):
+        """(cardId, name) of OUR hero — feeds the eval net (hero-specific board
+        value) and the hero→tribe steering. None until the hero is in play."""
+        h = self._hero_entity()
+        if h is None or not h.card_id or "HERO" not in h.card_id:
+            return None, None
+        return h.card_id, self._display_name(h.card_id, h.name)
 
     _kb_cache = None
 

@@ -190,7 +190,7 @@ def _key(d: dict):
     hp = (d.get("hero_power") or {}).get("usable")
     return (board, shop, spells, hand, hand_m, trinkets, opps, d.get("gold"),
             d.get("tavern_tier"), d.get("phase"), hp, d.get("hero_health"),
-            d.get("anomaly"))
+            d.get("anomaly"), d.get("hero"))
 
 
 class LiveCoach:
@@ -205,6 +205,8 @@ class LiveCoach:
                  recorder=None, from_start: bool = False, top: int = 6):
         self.power_log = power_log
         self.hero_ctx = hero_ctx
+        self._hero_ctx_auto = hero_ctx is None   # auto-build from the detected hero
+        self._hero_ctx_for = None
         self.recorder = recorder
         self.from_start = from_start
         self.top = top
@@ -248,6 +250,22 @@ class LiveCoach:
 
     def stop(self):
         self._stop.set()
+
+    def _ensure_hero_ctx(self, snap) -> None:
+        """Build the hero context from the detected hero so the coach steers toward
+        that hero's strongest tribes (a soft prior — it still plays what it's given).
+        Rebuilds if the hero changes (new game)."""
+        if not self._hero_ctx_auto:
+            return
+        hero = snap.get("hero") or snap.get("hero_name")
+        if not hero or hero == self._hero_ctx_for:
+            return
+        try:
+            from .stats import build_hero_context
+            self.hero_ctx = build_hero_context(hero, self.db)
+            self._hero_ctx_for = hero
+        except Exception:
+            pass
 
     def _scorer_mtime(self):
         import os
@@ -356,6 +374,7 @@ class LiveCoach:
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])
             return snap, None, lines
+        self._ensure_hero_ctx(snap)       # steer toward our hero's best tribes
         key = _key(snap)
         if key != self._cache_key:                    # recompute advice only on change
             self._maybe_reload_scorer()   # hot-swap a freshly retrained model (cheap)
