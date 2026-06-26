@@ -296,9 +296,12 @@ class BGTracker:
         return None
 
     def _anomaly(self) -> Optional[str]:
+        # Require the cardId to actually be an anomaly (BG##_Anomaly_###) — guards
+        # against a mis-tagged/transient entity showing a spell as the anomaly.
         for ent in self.state.entities.values():
-            if ent.tags.get("CARDTYPE") == "BATTLEGROUND_ANOMALY":
-                return ent.name or _card_name(ent.card_id) if ent.card_id else ent.name
+            if (ent.tags.get("CARDTYPE") == "BATTLEGROUND_ANOMALY"
+                    and "Anomaly" in (ent.card_id or "")):
+                return ent.name or _card_name(ent.card_id)
         return None
 
     def _shop_spells(self) -> List[Dict]:
