@@ -100,6 +100,24 @@ def test_tech_not_promoted_when_the_matchup_does_not_want_it():
     assert "situational" in tunnel.reason.lower() or "no combat" in tunnel.reason.lower()
 
 
+def test_effect_synergy_matches_producers_to_payoffs():
+    from hsbg_coach.effect_synergy import card_profile, board_synergy
+    from hsbg_coach import cards
+    kb = cards.load_kb()
+    idx = {c.name: c for c in kb.values()}
+    payoff = idx.get("Scavenging Hyena")        # "whenever a friendly Beast dies…"
+    if payoff is None:
+        import pytest as _pt
+        _pt.skip("expected card not in KB")
+    assert "tribe:beast" in card_profile(payoff).wants
+    # A Beast added next to the Hyena should register a generalized text combo.
+    beast = next((c for c in kb.values()
+                  if "beast" in [t.lower() for t in (c.tribes or [])] and c.name != payoff.name), None)
+    assert beast is not None
+    score, reasons = board_synergy(beast, [payoff])
+    assert score > 0 and any("beast" in r.lower() for r in reasons)
+
+
 def test_naked_sell_is_not_a_top_recommendation():
     kb, scorer = cards.load_kb(), get_scorer()
     board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 5, "health": 5}

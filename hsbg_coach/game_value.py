@@ -127,6 +127,32 @@ def _build_path_adjust(action, snapshot):
         return 0.0, None
 
 
+_K_SYN = 0.18              # effect-synergy points -> placement units
+_MAX_SYN = 0.6
+
+
+def _effect_synergy_adjust(action, snapshot, kb):
+    """(placement_adjustment, reason) from how a BUY's effects mesh with the board
+    — generalizes combos from card text (produces/wants), not co-occurrence data."""
+    if kb is None:
+        return 0.0, None
+    try:
+        from .effect_synergy import board_synergy
+        from .cards import by_name
+        idx = by_name(kb)
+        cand = idx.get(action.target)
+        if cand is None:
+            return 0.0, None
+        board = [idx.get(_name(m)) for m in (_get(snapshot, "board", []) or [])]
+        board = [c for c in board if c]
+        score, reasons = board_synergy(cand, board)
+        if score <= 0:
+            return 0.0, None
+        return -min(_MAX_SYN, score * _K_SYN), ("; ".join(reasons) if reasons else None)
+    except Exception:
+        return 0.0, None
+
+
 def _sell_penalty(state) -> float:
     """A standalone sell shrinks your board; you almost always want a full 7.
     Penalize it (scaled up when you have few minions) so the recommender won't
@@ -255,6 +281,13 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     v = max(1.0, min(8.0, v + padj))
                     if preason and not tech_reason:
                         reason = preason
+                # Effect-text synergy: does this card's mechanics combo with the
+                # board (produces what they pay off, or pays off what they make)?
+                sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
+                if sadj:
+                    v = max(1.0, min(8.0, v + sadj))
+                    if sreason and not tech_reason and not preason:
+                        reason = sreason
             elif a.kind == SELL:                         # you want a full board of 7
                 v = min(8.0, v + _sell_penalty(state))
         elif a.kind == BUY_SPELL:
