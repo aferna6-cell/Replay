@@ -323,9 +323,13 @@ class BGTracker:
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
                 continue
-            if ent.zone != "HAND" or ent.controller != str(self.local_player):
+            # Playable hand spells you control sit in HAND (and sometimes SETASIDE
+            # in BG); the buy mechanic and opponents' spells are excluded.
+            if ent.zone not in ("HAND", "SETASIDE") or ent.controller != str(self.local_player):
                 continue
             if not ent.card_id or "DragBuy" in ent.card_id:
+                continue
+            if ent.tag_int("COST") is None:      # not a real, playable spell
                 continue
             out.append({
                 "name": self._display_name(ent.card_id, ent.name),
