@@ -324,7 +324,8 @@ class WholeGameRec:
 
 
 def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
-                 horizon: int = 4) -> Tuple[List[WholeGameRec], float]:
+                 horizon: int = 4, include_reposition: bool = True
+                 ) -> Tuple[List[WholeGameRec], float]:
     """Rank every legal action by the expected final placement of its result.
 
     Reuses `advise_actions` for the action set + synergy reasons, then re-scores
@@ -333,7 +334,8 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
     pace = pace if pace is not None else load_pace()
     enemy_boards = _get(snapshot, "opponents_seen", None) or None
     plan = advise_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer,
-                          enemy_boards=enemy_boards)
+                          enemy_boards=enemy_boards,
+                          include_reposition=include_reposition)
     base = expected_placement(snapshot, scorer, pace, horizon)
     state = _as_state(snapshot)
 

@@ -79,7 +79,8 @@ class ActionPlan:
 
 def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
                    scorer=None, enemy_boards=None, pace=None,
-                   config: Optional[EconomyConfig] = None) -> ActionPlan:
+                   config: Optional[EconomyConfig] = None,
+                   include_reposition: bool = True) -> ActionPlan:
     cfg = config or EconomyConfig()
     scorer = scorer or get_scorer()
     board = list(_get(snapshot, "board", []) or [])
@@ -122,7 +123,10 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
         elif act.kind == FREEZE:
             scored.append(_score_freeze(act, snapshot, gold, idx, board_cks,
                                         target_tribe, emb))
-        elif act.kind == REPOSITION:
+        elif act.kind == REPOSITION and include_reposition:
+            # Skipped in the live overlay path: optimize_vs_field runs hundreds of
+            # thousands of combat sims (~1.5s) and we don't display reposition
+            # advice, so computing it just makes the panel laggy.
             scored.append(_score_reposition(act, board, enemy_boards))
         elif act.kind == END:
             scored.append(ScoredAction(act, 0.15, "pass the turn"))

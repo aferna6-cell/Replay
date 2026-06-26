@@ -36,7 +36,11 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     if snapshot.get("phase") not in ("recruit", "unknown"):
         return []
     from .game_value import rank_actions
-    recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
+    # Skip the reposition optimizer (hundreds of thousands of combat sims, ~1.5s)
+    # — we don't show reposition advice, and skipping it makes the panel update
+    # near-instantly after each action.
+    recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer,
+                           include_reposition=False)
     out = []
     # If an anomaly is active and we have curated guidance, lead with how it
     # changes the plan (e.g. Timewarped → buy the supercharged minions).
