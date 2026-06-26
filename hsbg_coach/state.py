@@ -41,6 +41,14 @@ class GameState:
         self.game_counter: int = 0      # increments each CREATE_GAME
         self.current_turn: Optional[int] = None
         self._last_block_entity: Optional[int] = None
+        # cardId -> display name, learned from any entity that carries both. Lets
+        # us name spells/anomalies (not in the minion KB) whose own entity was
+        # created with only a CardID (no entityName).
+        self.card_names: Dict[str, str] = {}
+
+    def _learn_name(self, card_id: Optional[str], name: Optional[str]) -> None:
+        if card_id and name and "UNKNOWN ENTITY" not in name:
+            self.card_names.setdefault(card_id, name)
 
     def apply(self, event: Event) -> None:
         if event.kind == "CREATE_GAME":
@@ -64,6 +72,7 @@ class GameState:
                 ent.name = ref.name
             if ref.card_id and not ent.card_id:
                 ent.card_id = ref.card_id
+            self._learn_name(ref.card_id, ref.name)
             if event.tag:
                 ent.tags[event.tag] = event.value or ""
                 if event.tag == "TURN":
@@ -85,6 +94,7 @@ class GameState:
             ent.name = ref.name
         if ref.card_id:
             ent.card_id = ref.card_id
+        self._learn_name(ref.card_id, ref.name)
         if ref.zone:
             ent.tags.setdefault("ZONE", ref.zone)
         if ref.player is not None:

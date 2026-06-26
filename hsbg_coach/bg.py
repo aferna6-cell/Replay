@@ -277,15 +277,15 @@ class BGTracker:
         Passive / start-of-combat hero powers (e.g. Illidan's Wingmen) can't be
         activated — HAS_ACTIVATE_POWER on the hero/hero-power entity says which, so
         we never tell you to 'use' a passive power."""
-        hero = self._hero_entity()
-        hero_active = hero is not None and hero.tags.get("HAS_ACTIVATE_POWER") == "1"
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "HERO_POWER":
                 continue
             if ent.controller != str(self.local_player):
                 continue
-            active = ent.tags.get("HAS_ACTIVATE_POWER") == "1" or hero_active
-            if not active:                       # passive power — don't offer "use"
+            # Passive / start-of-combat powers (Illidan's Wingmen) hide their cost
+            # (HIDE_COST=1) and have no real COST — you can't click them. Activatable
+            # powers (e.g. Marin's) carry a COST. Don't offer "use" on passives.
+            if ent.tags.get("HIDE_COST") == "1" or "COST" not in ent.tags:
                 return None
             cost = ent.tag_int("COST") or 0
             gold = self._gold()
@@ -310,7 +310,7 @@ class BGTracker:
         for ent in self.state.entities.values():
             if (ent.tags.get("CARDTYPE") == "BATTLEGROUND_ANOMALY"
                     and "Anomaly" in (ent.card_id or "")):
-                return ent.name or _card_name(ent.card_id)
+                return self._display_name(ent.card_id, ent.name)
         return None
 
     def _shop_spells(self) -> List[Dict]:
@@ -334,7 +334,7 @@ class BGTracker:
             if ent.controller in (None, str(self.local_player)):
                 continue
             out.append({
-                "name": ent.name or _card_name(ent.card_id),
+                "name": self._display_name(ent.card_id, ent.name),
                 "card_id": ent.card_id,
                 "cost": ent.tag_int("COST"),
             })
@@ -380,12 +380,19 @@ class BGTracker:
                 out.append(ent)
         return sorted(out, key=lambda e: e.tag_int("ZONE_POSITION") or 0)
 
+    def _display_name(self, card_id, name=None):
+        """Best display name: the entity's own name, else a name learned from any
+        other entity with this cardId (spells/anomalies), else the committed KB,
+        else the raw cardId."""
+        if name and "UNKNOWN ENTITY" not in name:
+            return name
+        return (self.state.card_names.get(card_id or "")
+                or (_card_name(card_id) if card_id else None) or name)
+
     def _minion(self, ent: Entity) -> MinionView:
         # Shop minions log without an entityName; resolve a readable name from the
         # cardId so the overlay shows "Southsea Busker", not "BG26_135".
-        name = ent.name
-        if not name and ent.card_id:
-            name = _card_name(ent.card_id)
+        name = self._display_name(ent.card_id, ent.name)
         return MinionView(
             entity_id=ent.id,
             card_id=ent.card_id,
