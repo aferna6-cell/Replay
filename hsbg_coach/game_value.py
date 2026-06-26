@@ -172,6 +172,19 @@ def _completes_triple(action, snapshot) -> bool:
     return sum(1 for m in owned if _name(m) == name) >= 2
 
 
+def _anomaly_buy_adjust(action, snapshot):
+    """(placement_adjustment, reason) from the active anomaly for this buy. Keyed on
+    minion tags (e.g. the Timewarped supercharge flag), which are self-identifying,
+    so it works even if the anomaly's name wasn't captured."""
+    minion = action.detail.get("minion") or {}
+    tags = minion.get("tags") if isinstance(minion, dict) else getattr(minion, "tags", None)
+    try:
+        from .anomaly import buy_adjust
+        return buy_adjust(tags or {})
+    except Exception:
+        return 0.0, None
+
+
 def _keep_value(minion, board, kb) -> float:
     """How much a minion is worth KEEPING = raw stats + synergy with the rest of
     the board (shared tribe + effect combos). Used so the coach never sells a
@@ -347,6 +360,12 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 v = max(1.0, min(8.0, v + adj))
                 if tech_reason:
                     reason = tech_reason
+                # Anomaly-aware: the active anomaly (e.g. Timewarped) can make a
+                # specific shop minion a priority buy — factor it in, don't ignore it.
+                aadj, areason = _anomaly_buy_adjust(a, snapshot)
+                if aadj:
+                    v = max(1.0, v + aadj)
+                    reason = areason
                 # CRITICAL: a buy is only worth comp/synergy credit if it actually
                 # strengthens the board. A weak comp-piece (e.g. a tier-1 minion on
                 # a board of giants, or a buy that forces selling a giant) doesn't —

@@ -471,6 +471,31 @@ def test_discover_prefers_on_tribe_over_high_stat_off_tribe():
     assert "murloc" in ranked[0].reason.lower() or ranked[0].name == murlocs[2]
 
 
+def test_timewarped_anomaly_prioritizes_supercharged_minions():
+    # Under Timewarped, a shop minion flagged HAS_TIMEWARPED_TAVERN_ALT_TEXT has
+    # its effect supercharged — the coach must surface buying it, not ignore the
+    # anomaly. Tag-grounded from the real Power.log.
+    kb, scorer = cards.load_kb(), get_scorer()
+    shop = [{"name": "Plain", "card_id": "p", "attack": 4, "health": 4},
+            {"name": "Warped", "card_id": "w", "attack": 3, "health": 3,
+             "tags": {"HAS_TIMEWARPED_TAVERN_ALT_TEXT": "1"}}]
+    snap = _snap(shop=shop, board=[], gold=3, tavern_tier=2,
+                 anomaly="Timewarped")
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    warped = next((r for r in recs if r.action.target == "Warped"), None)
+    plain = next((r for r in recs if r.action.target == "Plain"), None)
+    assert warped is not None and "Timewarped" in warped.reason
+    assert warped.placement <= plain.placement       # supercharged buy ranks ahead
+
+
+def test_anomaly_note_surfaces_for_known_anomaly():
+    from hsbg_coach.anomaly import anomaly_note
+    assert anomaly_note("Timewarped") and "Timewarped" in anomaly_note("Timewarped")
+    assert anomaly_note("Timewarped Minions")        # loose match
+    assert anomaly_note(None) is None
+    assert anomaly_note("Some Unknown Anomaly") is None
+
+
 def test_keep_value_protects_a_synergistic_comp_piece():
     # On a committed Murloc board, a small on-tribe Murloc is worth more to KEEP
     # than a fat off-tribe vanilla — so 'sell for room' targets the vanilla, not

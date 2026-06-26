@@ -38,6 +38,12 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     from .game_value import rank_actions
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
     out = []
+    # If an anomaly is active and we have curated guidance, lead with how it
+    # changes the plan (e.g. Timewarped → buy the supercharged minions).
+    from .anomaly import anomaly_note
+    note = anomaly_note(snapshot.get("anomaly"))
+    if note:
+        out.append(f"⚑ {note}")
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
