@@ -69,8 +69,10 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
     if not minions:
         return []
     from .magnetize import is_magnetic, best_magnetize_target
+    from .board_value import _val, _name as _mname
     board = snapshot.get("board", []) or []
     full = len(board) >= _MAX_BG_BOARD
+    weakest = _mname(min(board, key=_val)) if board else None
     out = []
     for m in minions:
         name = m.get("name") or m.get("card_id") or "minion"
@@ -86,7 +88,8 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
         # that fits their board, not just drop the body.
         choose = " · Choose One — take the half that fits your board" if _is_choose_one(m, kb) else ""
         if full:
-            out.append(f"Play {name} from hand — sell your weakest first (board is full){choose}")
+            sell = f"sell {weakest} first" if weakest else "make room first"
+            out.append(f"Play {name} from hand — {sell} (board is full){choose}")
         else:
             out.append(f"Play {name} from hand — free body, take the tempo{choose}")
     return out

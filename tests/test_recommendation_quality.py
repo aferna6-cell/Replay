@@ -129,6 +129,18 @@ def test_targeted_spell_recommends_best_minion():
     assert any(l == "Play Tavern Coin" for l in lines)   # no bogus target
 
 
+def test_full_board_hand_play_names_the_minion_to_sell():
+    # 'Play X from hand' on a full board must name the weakest minion to sell,
+    # not say a vague 'sell your weakest'.
+    from hsbg_coach.live import _hand_play_lines
+    board = [{"name": f"Big{i}", "card_id": f"b{i}", "attack": 10, "health": 10}
+             for i in range(6)] + [{"name": "Runt", "card_id": "r", "attack": 1, "health": 1}]
+    hand = [{"name": "Freebie", "card_id": "fb", "attack": 5, "health": 5,
+             "tags": {"CARDTYPE": "MINION"}}]
+    lines = _hand_play_lines({"board": board, "hand": hand}, cards.load_kb())
+    assert any("sell Runt first" in l for l in lines)
+
+
 def test_minion_added_to_hand_is_suggested_to_play():
     # A free minion in hand (e.g. one a combat effect generated) should surface as
     # a play, so the user doesn't leave it sitting there.
