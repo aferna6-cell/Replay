@@ -71,10 +71,11 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
     if not minions:
         return []
     from .magnetize import is_magnetic, best_magnetize_target
-    from .board_value import _val, _name as _mname
+    from .board_value import _name as _mname
+    from .game_value import _keep_value
     board = snapshot.get("board", []) or []
     full = len(board) >= _MAX_BG_BOARD
-    weakest = _mname(min(board, key=_val)) if board else None
+    weakest = _mname(min(board, key=lambda m: _keep_value(m, board, kb))) if board else None
     out = []
     for m in minions:
         name = m.get("name") or m.get("card_id") or "minion"

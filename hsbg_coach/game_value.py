@@ -172,6 +172,50 @@ def _completes_triple(action, snapshot) -> bool:
     return sum(1 for m in owned if _name(m) == name) >= 2
 
 
+def _keep_value(minion, board, kb) -> float:
+    """How much a minion is worth KEEPING = raw stats + synergy with the rest of
+    the board (shared tribe + effect combos). Used so the coach never sells a
+    synergistic comp piece just because its stats are low — selling/room decisions
+    rank on this, not on bare stats."""
+    v = _val(minion)
+    if kb is None or minion is None:
+        return v
+    try:
+        from .cards import by_name
+        from .effect_synergy import board_synergy
+        idx = by_name(kb)
+        ck = idx.get(_name(minion))
+        if ck is None:
+            return v
+        rest = [idx.get(_name(m)) for m in (board or []) if _name(m) != _name(minion)]
+        rest = [c for c in rest if c]
+        tribes = {}
+        for c in rest:
+            for t in (c.tribes or []):
+                tribes[t.lower()] = tribes.get(t.lower(), 0) + 1
+        bonus, ctr = 0.0, [t.lower() for t in (ck.tribes or [])]
+        if "all" in ctr and tribes:
+            bonus += 4.0                              # Amalgam-style: fits any tribe
+        elif any(tribes.get(t, 0) >= 2 for t in ctr):
+            bonus += 5.0                              # an on-tribe piece of your comp
+        score, _ = board_synergy(ck, rest)
+        bonus += min(6.0, max(0.0, score) * 0.8)      # mechanical combo (produces/wants)
+        return v + bonus
+    except Exception:
+        return v
+
+
+def _sell_synergy_penalty(action, snapshot, kb) -> float:
+    """Extra placement penalty for selling a minion that synergizes with your comp
+    — the larger its keep-value over its bare stats, the worse selling it is."""
+    minion = action.detail.get("minion")
+    if minion is None or kb is None:
+        return 0.0
+    board = _get(snapshot, "board", []) or []
+    synergy = _keep_value(minion, board, kb) - _val(minion)
+    return min(2.0, max(0.0, synergy) * 0.25)
+
+
 def _sell_penalty(state) -> float:
     """A standalone sell shrinks your board; you almost always want a full 7.
     Penalize it (scaled up when you have few minions) so the recommender won't
@@ -337,7 +381,9 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # sell (the weakest), even when a synergy/tech reason took the line.
                 board_now = _get(snapshot, "board", []) or []
                 if len(board_now) >= MAX_BOARD:
-                    weakest = min(board_now, key=_val)
+                    # Sell the least valuable to KEEP (stats + synergy), so an
+                    # on-tribe/combo piece isn't dumped for a vanilla with more stats.
+                    weakest = min(board_now, key=lambda m: _keep_value(m, board_now, kb))
                     reason = f"sell {_name(weakest)} for room — {reason}"
             elif a.kind == LEVEL:                         # aggressive leveling pace
                 adj, lreason = _aggressive_level_adj(snapshot)
@@ -345,7 +391,9 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     v = max(1.0, v + adj)
                     reason = lreason
             elif a.kind == SELL:                         # you want a full board of 7
-                v = min(8.0, v + _sell_penalty(state))
+                # …and never sell a synergistic comp piece for its low stats.
+                v = min(8.0, v + _sell_penalty(state)
+                        + _sell_synergy_penalty(a, snapshot, kb))
         elif a.kind == BUY_SPELL:
             # Spells don't change the board composition the eval net reads, so we
             # value them off base via spell_roles' placement bonus + the reason.
@@ -374,12 +422,14 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
             v = base                                     # freeze/end: neutral here
         recs.append(WholeGameRec(a, round(v, 2), reason, round(base - v, 2)))
 
-    _favor_roll_over_mediocre_buys(recs, snapshot, base)
+    # NOTE: we deliberately do NOT manufacture a roll preference. A single buy
+    # rarely moves expected *placement* (a 1-8 scale) by much even when it's a
+    # great minion, so any "boost roll when the best buy gain is small" rule fires
+    # almost always and buries real buys — the repeated 'stuck rolling into good
+    # minions' bug. Bad buys are already demoted by the filler/low-tier penalties,
+    # so roll naturally wins only when the shop is genuinely weak.
     recs.sort(key=lambda r: r.placement)
     return recs, base
-
-
-_WEAK_BUY_GAIN = 0.30      # placement gain below this = an "okay" minion, not a gem
 
 
 def _filler_penalty(action, board) -> float:
@@ -451,28 +501,3 @@ def _aggressive_level_adj(snapshot):
     return 0.0, None
 
 
-def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:
-    """Mid-game, don't settle: if the best available buy only marginally improves
-    the board (an 'okay' minion), prefer rolling for a real upgrade — but only when
-    rolling is genuinely the best use of the turn. Rewrites the roll rec in place.
-
-    Deliberately rare (the user kept getting stuck on 'roll'):
-      * tiers 3-5 only — at tier 6 don't manufacture a preference (triples /
-        hand-plays / real upgrades surface instead);
-      * gold >= BUY_COST + 2 — real headroom to roll AND still buy a result with a
-        coin to spare (at 4 gold you can't fish, so don't suggest it);
-      * board already developed (>= 5 minions) — with an open board you want a body,
-        not a roll.
-    Outside that window roll keeps its honest EV and only shows if it earns it."""
-    gold = _get(snapshot, "gold") or 0
-    tier = _get(snapshot, "tavern_tier") or 1
-    board_n = len(_get(snapshot, "board", []) or [])
-    best_buy_gain = max((r.gain for r in recs if r.action.kind == BUY), default=0.0)
-    roll = next((r for r in recs if r.action.kind == ROLL), None)
-    if roll is None:
-        return
-    if (3 <= tier <= 5 and gold >= BUY_COST + 2 and board_n >= 5
-            and best_buy_gain < _WEAK_BUY_GAIN):
-        roll.placement = round(max(1.0, base - (_WEAK_BUY_GAIN + 0.02)), 2)
-        roll.gain = round(base - roll.placement, 2)
-        roll.reason = "shop is only okay — roll for a stronger minion"

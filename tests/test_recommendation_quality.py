@@ -471,6 +471,31 @@ def test_discover_prefers_on_tribe_over_high_stat_off_tribe():
     assert "murloc" in ranked[0].reason.lower() or ranked[0].name == murlocs[2]
 
 
+def test_keep_value_protects_a_synergistic_comp_piece():
+    # On a committed Murloc board, a small on-tribe Murloc is worth more to KEEP
+    # than a fat off-tribe vanilla — so 'sell for room' targets the vanilla, not
+    # the synergy piece.
+    from hsbg_coach.game_value import _keep_value
+    from hsbg_coach.board_value import _val
+    kb = cards.load_kb()
+    murlocs = [c.name for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    if len(murlocs) < 3:
+        import pytest as _pt
+        _pt.skip("need murloc cards")
+    # Equal stats, so synergy is the tiebreaker: an on-tribe murloc vs an off-tribe
+    # vanilla of the same size. The committed comp piece must be worth more to keep.
+    board = [{"name": murlocs[0], "card_id": "m0", "attack": 3, "health": 3},
+             {"name": murlocs[1], "card_id": "m1", "attack": 3, "health": 3},
+             {"name": murlocs[2], "card_id": "m2", "attack": 3, "health": 3},
+             {"name": "Vanilla", "card_id": "v", "attack": 3, "health": 3}]
+    # Synergy raises the on-tribe murloc's keep-value above its bare stats…
+    assert _keep_value(board[0], board, kb) > _val(board[0])
+    # …and the off-tribe vanilla is the one to sell for room, not a murloc.
+    sell = min(board, key=lambda m: _keep_value(m, board, kb))
+    assert sell["name"] == "Vanilla"
+
+
 def test_naked_sell_is_not_a_top_recommendation():
     kb, scorer = cards.load_kb(), get_scorer()
     board = [{"name": f"M{i}", "card_id": f"c{i}", "attack": 5, "health": 5}
