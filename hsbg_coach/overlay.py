@@ -95,7 +95,14 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
         status += f" · synced ✓ #{seq}"
 
     if recommendations:
-        return f"→ {recommendations[0]}\n  {status}"
+        # Lead with the single best move, then list a couple of alternatives below
+        # it (smaller) so you can override the top pick when you disagree.
+        out = [f"→ {recommendations[0]}", f"  {status}"]
+        alts = recommendations[1:3]
+        if alts:
+            out.append("  or:")
+            out.extend(f"   - {a}" for a in alts)
+        return "\n".join(out)
     # No move to make right now (combat / hero-select / between turns): just show
     # the status line, no combat screen.
     return f"  {status}"

@@ -429,9 +429,13 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # for a real one instead of settling.
                 fpen = max(_filler_penalty(a, _get(snapshot, "board", []) or []),
                            _low_tier_penalty(a, _get(snapshot, "tavern_tier"), kb))
-                if fpen and not tech_reason:
-                    v = min(8.0, v + fpen)
-                    if fpen > 0.2:
+                ocpen = _off_comp_penalty(a, snapshot, kb)
+                pen = max(fpen, ocpen)
+                if pen and not tech_reason:
+                    v = min(8.0, v + pen)
+                    if ocpen >= fpen and ocpen > 0.2:
+                        reason = "off-comp — doesn't fit your build; roll for a piece that fits"
+                    elif fpen > 0.2:
                         reason = "too weak/low-tier for this stage — roll for a real upgrade"
                 # Full board: a buy needs a sell first. Always name the minion to
                 # sell (the weakest), even when a synergy/tech reason took the line.
@@ -506,6 +510,51 @@ def _filler_penalty(action, board) -> float:
     if ratio >= 0.6:                    # competitive with your board — fine
         return 0.0
     return min(1.0, (0.6 - ratio) * 1.6)
+
+
+def _off_comp_penalty(action, snapshot, kb) -> float:
+    """Penalty for buying a minion that doesn't fit a committed comp — off your
+    dominant tribe AND no mechanical synergy. The eval net rates it on raw stats
+    ('adds board strength'), but on a committed board it just dilutes the comp and,
+    on a full board, sells a real piece for a body. Bigger penalty when full."""
+    if kb is None:
+        return 0.0
+    minion = action.detail.get("minion")
+    if minion is None:
+        return 0.0
+    board = _get(snapshot, "board", []) or []
+    if len(board) < 4:                       # not committed yet — buy the best body
+        return 0.0
+    try:
+        from .cards import by_name
+        from .effect_synergy import board_synergy
+        idx = by_name(kb)
+        tribes = {}
+        for m in board:
+            ck = idx.get(_name(m))
+            for t in (getattr(ck, "tribes", None) or []):
+                tribes[t.lower()] = tribes.get(t.lower(), 0) + 1
+        if not tribes:
+            return 0.0
+        dom = max(tribes, key=tribes.get)
+        if tribes[dom] < 3:                  # no real commitment → no penalty
+            return 0.0
+        cand = idx.get(action.target)
+        if cand is None:
+            return 0.0
+        ctr = [t.lower() for t in (cand.tribes or [])]
+        if dom in ctr or "all" in ctr:       # on-tribe — fine
+            return 0.0
+        board_cks = [idx.get(_name(m)) for m in board if idx.get(_name(m))]
+        score, _ = board_synergy(cand, board_cks)
+        if score > 0:                        # off-tribe but real mechanical combo — ok
+            return 0.0
+        pen = 0.6                            # off-comp filler
+        if len(board) >= MAX_BOARD:
+            pen += 0.4                       # …and it'd sell a comp piece for room
+        return pen
+    except Exception:
+        return 0.0
 
 
 def _low_tier_penalty(action, tavern_tier, kb) -> float:

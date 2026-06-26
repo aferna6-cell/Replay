@@ -471,6 +471,37 @@ def test_discover_prefers_on_tribe_over_high_stat_off_tribe():
     assert "murloc" in ranked[0].reason.lower() or ranked[0].name == murlocs[2]
 
 
+def test_off_comp_minion_is_not_recommended_over_rolling():
+    # A committed Murloc board should not buy an off-tribe Undead with no synergy
+    # just because the eval net likes its stats — roll for a piece that fits.
+    kb, scorer = cards.load_kb(), get_scorer()
+    murlocs = [c for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    undead = [c for c in kb.values()
+              if "undead" in [t.lower() for t in (c.tribes or [])]
+              and "murloc" not in [t.lower() for t in (c.tribes or [])]]
+    if len(murlocs) < 4 or not undead:
+        import pytest as _pt
+        _pt.skip("need murloc + undead cards")
+    board = [{"name": murlocs[i].name, "card_id": f"m{i}", "attack": 4, "health": 4}
+             for i in range(4)]
+    off = undead[0]
+    snap = _snap(shop=[{"name": off.name, "card_id": "u", "attack": 6, "health": 6}],
+                 board=board, gold=5, tavern_tier=3)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    top = recs[0]
+    assert not top.action.describe().startswith(f"Buy {off.name}")
+
+
+def test_panel_shows_alternative_moves():
+    from hsbg_coach.overlay import format_next
+    snap = {"turn": 5, "phase": "recruit", "tavern_tier": 3, "gold": 7,
+            "hero_health": 46}
+    out = format_next(snap, None, ["Buy A", "Level up", "Roll the shop"])
+    assert "→ Buy A" in out and "or:" in out
+    assert "Level up" in out and "Roll the shop" in out
+
+
 def test_late_game_rewards_a_real_scaling_upgrade():
     # Late game (turn 11, tier 6): a shop minion well above your board average is a
     # scaling upgrade and should rank above rolling.
