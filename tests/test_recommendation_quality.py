@@ -347,6 +347,24 @@ def test_discover_is_board_aware_via_build_path():
     assert "mech" in ranked[0].reason.lower()
 
 
+def test_completing_a_triple_beats_rolling():
+    # Two copies on board + a third in the shop = a triple: buying it golds the
+    # minion and Discovers a higher-tier one. That's a premium tempo play and
+    # should take the line over "Roll the shop" — even late with a stocked board.
+    kb, scorer = cards.load_kb(), get_scorer()
+    pair = [{"name": "Deflect-o-Bot", "card_id": "d", "attack": 9, "health": 9}
+            for _ in range(2)]
+    filler = [{"name": f"M{i}", "card_id": f"m{i}", "attack": 8, "health": 8}
+              for i in range(4)]
+    snap = _snap(shop=[{"name": "Deflect-o-Bot", "card_id": "d", "attack": 9, "health": 9},
+                       {"name": "Vanilla", "card_id": "v", "attack": 3, "health": 3}],
+                 board=pair + filler, gold=10, tavern_tier=6)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    top = recs[0]
+    assert top.action.describe().startswith("Buy Deflect-o-Bot")
+    assert "triple" in top.reason.lower()
+
+
 def test_reposition_uses_the_opponent_board_when_present():
     kb, scorer = cards.load_kb(), get_scorer()
     my = [{"name": "A", "card_id": "a", "attack": 5, "health": 5},

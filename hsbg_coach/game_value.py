@@ -157,6 +157,21 @@ def _effect_synergy_adjust(action, snapshot, kb):
         return 0.0, None
 
 
+def _completes_triple(action, snapshot) -> bool:
+    """True if buying this shop minion would give you a 3rd copy (a triple). Uses
+    the game's own BACON_TRIPLE_CANDIDATE flag when present, else counts copies of
+    the same minion across your board + hand."""
+    minion = action.detail.get("minion") or {}
+    tags = minion.get("tags") if isinstance(minion, dict) else getattr(minion, "tags", None)
+    if tags and str(tags.get("BACON_TRIPLE_CANDIDATE", "")) == "1":
+        return True
+    name = action.target
+    if not name:
+        return False
+    owned = list(_get(snapshot, "board", []) or []) + list(_get(snapshot, "hand", []) or [])
+    return sum(1 for m in owned if _name(m) == name) >= 2
+
+
 def _sell_penalty(state) -> float:
     """A standalone sell shrinks your board; you almost always want a full 7.
     Penalize it (scaled up when you have few minions) so the recommender won't
@@ -272,6 +287,16 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         if a.kind in (BUY, SELL, LEVEL, ROLL):
             v = expected_placement(_apply(state, a), scorer, pace, horizon)
             if a.kind == BUY:                            # matchup-aware tech read
+                # Triple! Buying a 3rd copy golds it and Discovers a higher-tier
+                # minion — one of the strongest tempo plays, almost always beats
+                # rolling. Big bonus + it takes the line.
+                if _completes_triple(a, snapshot):
+                    v = max(1.0, v - 1.2)
+                    recs.append(WholeGameRec(
+                        a, round(v, 2),
+                        f"completes a TRIPLE — golds it + Discover a higher-tier minion",
+                        round(base - v, 2)))
+                    continue
                 adj, tech_reason = _tech_adjust(a, enemy0,
                                                 _get(snapshot, "board", []) or [])
                 v = max(1.0, min(8.0, v + adj))
