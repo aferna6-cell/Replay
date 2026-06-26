@@ -227,6 +227,22 @@ def test_tier_two_on_turn_two_is_legal_and_recommended():
     assert LEVEL in top3
 
 
+def test_level_cost_reads_the_live_tavern_button():
+    # Ground truth: read the discounted cost off the tavern-up button so we never
+    # suggest a tier-up you can't afford.
+    from hsbg_coach.bg import BGTracker
+    from hsbg_coach.state import Entity
+    t = BGTracker(); t.local_player = 6; t.player_names = {6: "Me"}
+    hero = Entity(id=1, card_id="H")
+    hero.tags = {"CARDTYPE": "HERO", "CONTROLLER": "6", "ZONE": "PLAY",
+                 "PLAYER_TECH_LEVEL": "1"}
+    player = Entity(id=-1, name="Me"); player.tags = {"HERO_ENTITY": "1"}
+    button = Entity(id=406, card_id="TB_BaconShopTechUp02_Button")
+    button.tags = {"CONTROLLER": "6", "ZONE": "PLAY", "COST": "4"}
+    t.state.entities = {1: hero, -1: player, 406: button}
+    assert t._level_cost() == 4               # the live (discounted) cost, not a guess
+
+
 def test_discounted_level_cost_drops_one_per_turn_on_tier():
     from hsbg_coach.bg import BGTracker
     t = BGTracker(); t.local_player = 3; t.player_names = {3: "Me"}

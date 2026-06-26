@@ -293,19 +293,33 @@ class BGTracker:
         )
 
     def _level_cost(self) -> Optional[int]:
-        """The CURRENT (discounted) gold to tier up. HS lowers the base cost by 1
-        per recruit phase on the tier, so e.g. tier 1→2 is 5 on turn 1 but 4 on
-        turn 2 — which is exactly what makes 'tier 2 on turn 2' affordable. The log
-        doesn't print this, so we derive it from recruit-phase counts."""
+        """The CURRENT (discounted) gold to tier up.
+
+        Ground truth first: the tavern-up button (TB_BaconShopTechUp0N_Button) carries
+        the live COST the game already discounted, so we read that and never suggest a
+        tier-up you can't afford. Only if the button isn't visible do we fall back to
+        deriving the discount from recruit-phase counts (base cost minus 1 per turn on
+        the tier)."""
         from .actions import UPGRADE_COST, MAX_TIER
         tier = self._tavern_tier()
         if tier is None or tier >= MAX_TIER:
             return None
+        target = tier + 1
+        button = None
+        for ent in self.state.entities.values():
+            if f"TechUp0{target}_Button" in (ent.card_id or "") \
+                    and ent.controller == str(self.local_player):
+                button = ent
+                if ent.zone == "PLAY":           # the active upgrade button
+                    break
+        if button is not None:
+            c = button.tag_int("COST")
+            if c is not None:
+                return c
         base = UPGRADE_COST.get(tier)
         if base is None:
             return None
-        # Keep the anchor current: when the tier goes up, reset the discount clock.
-        if self._anchor_tier is None:
+        if self._anchor_tier is None:            # keep the discount clock current
             self._anchor_tier = tier
         elif tier > self._anchor_tier:
             self._tier_anchor = self._recruit_phases
