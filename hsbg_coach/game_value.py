@@ -97,9 +97,13 @@ def _sim_tech(board, candidate, opponent):
         opp = [Combatant.from_minion(m) for m in opponent]
         if not opp:
             return None
-        base = simulate([Combatant.from_minion(m) for m in board], opp, runs=200).win_pct
+        # Fixed seed: a stable, reproducible read (and non-flaky) — the win% delta
+        # is an estimate, so we don't need fresh randomness each call.
+        base = simulate([Combatant.from_minion(m) for m in board], opp,
+                        runs=200, seed=1234).win_pct
         with_tech = simulate([Combatant.from_minion(m) for m in board]
-                             + [Combatant.from_minion(candidate)], opp, runs=200).win_pct
+                             + [Combatant.from_minion(candidate)], opp,
+                             runs=200, seed=1234).win_pct
         delta = with_tech - base
         adj = -max(-_MAX_TECH, min(_MAX_TECH, delta * _K_SIM_TECH))
         if delta > 0.03:
@@ -318,5 +322,28 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         else:
             v = base                                     # freeze/end: neutral here
         recs.append(WholeGameRec(a, round(v, 2), reason, round(base - v, 2)))
+
+    _favor_roll_over_mediocre_buys(recs, snapshot, base)
     recs.sort(key=lambda r: r.placement)
     return recs, base
+
+
+_WEAK_BUY_GAIN = 0.30      # placement gain below this = an "okay" minion, not a gem
+
+
+def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:
+    """Mid-game, don't settle: if the best available buy only marginally improves
+    the board (an 'okay' minion), prefer rolling for a real upgrade — as long as
+    you can afford to roll and still buy. Rewrites the roll rec's value in place."""
+    gold = _get(snapshot, "gold") or 0
+    tier = _get(snapshot, "tavern_tier") or 1
+    best_buy_gain = max((r.gain for r in recs if r.action.kind == BUY), default=0.0)
+    roll = next((r for r in recs if r.action.kind == ROLL), None)
+    if roll is None:
+        return
+    # Only when it's worth hunting: mid-game, gold to roll AND still buy after,
+    # and the current best buy is mediocre.
+    if tier >= 3 and gold >= BUY_COST + 1 and best_buy_gain < _WEAK_BUY_GAIN:
+        roll.placement = round(max(1.0, base - (_WEAK_BUY_GAIN + 0.02)), 2)
+        roll.gain = round(base - roll.placement, 2)
+        roll.reason = "shop is only okay — roll for a stronger minion"
