@@ -227,15 +227,15 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
 
 def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = None,
                      board=None, kb=None, scorer=None,
-                     hero_ctx: Optional[HeroContext] = None, tier=None,
-                     max_heroes: Optional[int] = None) -> List[Choice]:
+                     hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
     """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'.
 
-    `max_heroes` overrides the positional free-hero cap: pass 0 when the caller
-    already filtered the offer to the draftable heroes (so don't cap again)."""
+    Heroes: rank ALL offered (no positional cap). Paywalled heroes can't be told
+    apart from owned ones in the log yet, so the overlay shows the full ranking and
+    caveats the user to skip any padlocked one — better than silently capping to
+    the wrong two."""
     if kind == "hero":
-        cap = F2P_HERO_CHOICES if max_heroes is None else max_heroes
-        return rank_heroes(offered, db or StatsDB.load(), max_choices=cap)
+        return rank_heroes(offered, db or StatsDB.load(), max_choices=0)
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx)

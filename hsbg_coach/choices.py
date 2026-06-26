@@ -124,19 +124,8 @@ class ChoiceParser:
 
 
 def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
-               hero_ctx=None, db=None, tier=None, draftable_ids=None):
-    """Rank an offer's options via the draft recommender (best first).
-
-    `draftable_ids` (when given) is the set of hero card_ids the player can
-    actually pick — locked Perks heroes are filtered out before ranking, so we
-    never recommend a padlocked hero."""
+               hero_ctx=None, db=None, tier=None):
+    """Rank an offer's options via the draft recommender (best first)."""
     from .draft import recommend_choice
-    names, max_heroes = offer.names, None
-    if offer.kind == "hero" and draftable_ids:
-        keep = [offer.names[i] for i in range(len(offer.card_ids))
-                if offer.card_ids[i] in draftable_ids]
-        if keep:                       # only trust the filter if it matched something
-            names, max_heroes = keep, 0     # explicit draftable set → no positional cap
-    return recommend_choice(offer.kind, names, db=db, board=board, kb=kb,
-                            scorer=scorer, hero_ctx=hero_ctx, tier=tier,
-                            max_heroes=max_heroes)
+    return recommend_choice(offer.kind, offer.names, db=db, board=board, kb=kb,
+                            scorer=scorer, hero_ctx=hero_ctx, tier=tier)

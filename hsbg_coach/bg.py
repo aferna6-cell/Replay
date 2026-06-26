@@ -307,26 +307,6 @@ class BGTracker:
             }
         return None
 
-    def draftable_hero_ids(self) -> Optional[set]:
-        """card_ids of the offered heroes the player can actually DRAFT.
-
-        Hearthstone tags every offered hero with BACON_HERO_CAN_BE_DRAFTED: 1 for
-        a hero you own / the free rotation, 0 for a locked Perks hero shown only as
-        a teaser. Filtering on this fixes recommending a padlocked hero (the free
-        pair isn't always the first two — they can be the middle two). Returns None
-        when no hero carries the tag, so callers fall back to the offer order."""
-        ids, saw_tag = set(), False
-        for ent in self.state.entities.values():
-            if ent.tags.get("CARDTYPE") != "HERO":
-                continue
-            flag = ent.tags.get("BACON_HERO_CAN_BE_DRAFTED")
-            if flag is None:
-                continue
-            saw_tag = True
-            if flag != "0" and ent.card_id:
-                ids.add(ent.card_id)
-        return ids if saw_tag else None
-
     def _anomaly(self) -> Optional[str]:
         # Require the cardId to actually be an anomaly (BG##_Anomaly_###) — guards
         # against a mis-tagged/transient entity showing a spell as the anomaly.

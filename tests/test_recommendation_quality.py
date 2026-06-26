@@ -209,32 +209,29 @@ def test_no_manufactured_roll_when_gold_is_tight():
     assert all(r.reason != manufactured for r in recs)
 
 
-def test_locked_perks_heroes_are_not_recommended():
-    # Only heroes flagged BACON_HERO_CAN_BE_DRAFTED=1 are pickable; the locked
-    # Perks heroes (=0) must never be recommended — and the free pair isn't always
-    # the first two offered (regression: a padlocked Nguyen was suggested).
-    from hsbg_coach.bg import BGTracker
-    from hsbg_coach.state import Entity
+def test_all_offered_heroes_are_ranked_not_capped_to_two():
+    # Heroes are ranked in full (the old 'first two are free' cap mis-picked a
+    # padlocked hero). Paywalled-hero detection isn't possible from the log yet, so
+    # the overlay shows the whole ranking + a caveat to skip locked ones.
     from hsbg_coach.choices import ChoiceOffer, rank_offer
-    t = BGTracker()
-    offered = [("BG_LOCKED_A", "Master Nguyen", "0"),
-               ("BG_FREE_B", "Kerrigan", "1"),
-               ("BG_FREE_C", "Silas Darkmoon", "1"),
-               ("BG_LOCKED_D", "Sindragosa", "0")]
-    ents = {}
-    for i, (cid, _nm, flag) in enumerate(offered):
-        e = Entity(id=90 + i, card_id=cid)
-        e.tags = {"CARDTYPE": "HERO", "ZONE": "HAND",
-                  "BACON_HERO_CAN_BE_DRAFTED": flag}
-        ents[90 + i] = e
-    t.state.entities = ents
-    draftable = t.draftable_hero_ids()
-    assert draftable == {"BG_FREE_B", "BG_FREE_C"}
-    offer = ChoiceOffer("hero", [c for c, _, _ in offered], [n for _, n, _ in offered])
-    picks = rank_offer(offer, draftable_ids=draftable)
-    names = " | ".join(p.name for p in picks).lower()
-    assert "nguyen" not in names and "sindragosa" not in names   # locked, excluded
-    assert len(picks) == 2 and "kerrigan" in names and "silas" in names
+    offer = ChoiceOffer("hero",
+                        ["BG_A", "BG_B", "BG_C", "BG_D"],
+                        ["Lord Jaraxxus", "Vol'jin", "Scabbs Cutterbutter", "Thorim"])
+    picks = rank_offer(offer)
+    assert len(picks) == 4          # all offered ranked, none silently dropped
+
+
+def test_intrepid_botanist_recommends_attack_or_health_specifically():
+    from hsbg_coach.choose_one import choose_one_advice
+    botanist = {"name": "Intrepid Botanist", "card_id": "BG32_237"}
+    # Healthy: take the +Attack half.
+    adv = choose_one_advice(botanist, {"hero_health": 30})
+    assert "+Attack" in adv and "Pristine Lilies" in adv
+    # Low HP: survival half.
+    adv_low = choose_one_advice(botanist, {"hero_health": 8})
+    assert "+Health" in adv_low and "Giant Dewdrop" in adv_low
+    # Unknown choose-one → no curated pick (caller uses a generic hint).
+    assert choose_one_advice({"name": "Mystery", "card_id": "ZZ"}) is None
 
 
 def test_shop_spells_only_count_the_real_tavern_row():

@@ -47,9 +47,11 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # now — lead with where to put it.
     for line in _hand_spell_lines(snapshot):
         out.append(line)
-    # Show the *why* (synergy / tribe / positioning order / sell-for-room / tech
-    # caveat) next to each move — that reasoning is the point, not just the verb.
-    for r in recs[:top]:
+    # Show the *why* (synergy / tribe / sell-for-room / tech caveat) next to each
+    # move. Reposition advice is suppressed — the user doesn't want it.
+    from .actions import REPOSITION
+    shown = [r for r in recs if r.action.kind != REPOSITION]
+    for r in shown[:top]:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:
             line += f" — {r.reason}"
@@ -84,9 +86,13 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
                 out.append(f"Magnetize {name} onto {hname or 'your best mech'} — {why}")
                 continue                                 # fusing uses no board slot
         # Choose-One battlecry (e.g. Intrepid Botanist → Pristine Lilies / Giant
-        # Dewdrop): flag that a pick is coming so the user knows to choose the half
-        # that fits their board, not just drop the body.
-        choose = " · Choose One — take the half that fits your board" if _is_choose_one(m, kb) else ""
+        # Dewdrop): name the half to take (+Attack vs +Health) when we have a
+        # curated pick; otherwise a generic hint.
+        choose = ""
+        if _is_choose_one(m, kb):
+            from .choose_one import choose_one_advice
+            specific = choose_one_advice(m, snapshot)
+            choose = f" · {specific}" if specific else " · Choose One — take the half that fits your board"
         if full:
             sell = f"sell {weakest} first" if weakest else "make room first"
             out.append(f"Play {name} from hand — {sell} (board is full){choose}")
@@ -283,16 +289,14 @@ class LiveCoach:
         offer = self._offer
         if offer is not None:                       # a choice is on screen
             from .choices import rank_offer
-            # For hero picks, only rank heroes the player can actually draft
-            # (locked Perks heroes carry BACON_HERO_CAN_BE_DRAFTED=0).
-            draftable = None
-            if offer.kind == "hero":
-                with self._lock:
-                    draftable = self.tracker.draftable_hero_ids()
             picks = rank_offer(offer, board=snap.get("board", []), kb=self.kb,
                                scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
-                               tier=snap.get("tavern_tier"), draftable_ids=draftable)
+                               tier=snap.get("tavern_tier"))
             lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
+            # Paywalled (Perks-locked) heroes are shown with a padlock but can't be
+            # detected from the log yet, so caveat rather than silently top-rank one.
+            if offer.kind == "hero":
+                lines.insert(0, "↳ ignore any padlocked hero — pick the best UNLOCKED one:")
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])
             return snap, None, lines
