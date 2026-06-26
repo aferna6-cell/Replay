@@ -164,6 +164,11 @@ class BGTracker:
         if event.kind == "CREATE_GAME":
             self.local_player = None
             self.player_names = {}
+            # Reset the tavern-upgrade discount clock so a new game doesn't inherit
+            # the previous one's recruit-phase count (which would skew level_cost).
+            self._recruit_phases = 0
+            self._tier_anchor = 0
+            self._anchor_tier = None
 
         # Player roster line — the reliable way to find the human: the only
         # seat whose GameAccountId hi != 0. PlayerID is the controller id board
