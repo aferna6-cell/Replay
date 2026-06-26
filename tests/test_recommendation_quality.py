@@ -111,6 +111,24 @@ def test_low_tier_minion_not_bought_late_game():
     assert not top.action.describe().startswith("Buy Ominous Seer")
 
 
+def test_targeted_spell_recommends_best_minion():
+    from hsbg_coach.spell_target import best_buff_target, is_targeted
+    from hsbg_coach.live import _hand_spell_lines
+    board = [{"name": "Big Vanilla", "attack": 30, "health": 30},
+             {"name": "Shielded", "attack": 5, "health": 5, "tags": {"DIVINE_SHIELD": "1"}}]
+    # A +stats buff should go on the Divine-Shield minion, not the bigger vanilla.
+    target, why = best_buff_target(board)
+    assert target["name"] == "Shielded" and "divine shield" in why.lower()
+    # Targeting classification: buffs target, coins/gold don't.
+    assert is_targeted({"name": "Tavern Dish Banana"})
+    assert not is_targeted({"name": "Tavern Coin", "coin": True})
+    snap = {"hand_spells": [{"name": "Tavern Dish Banana"},
+                            {"name": "Tavern Coin", "coin": True}], "board": board}
+    lines = _hand_spell_lines(snap)
+    assert any("Play Tavern Dish Banana on Shielded" in l for l in lines)
+    assert any(l == "Play Tavern Coin" for l in lines)   # no bogus target
+
+
 def test_passive_hero_power_is_not_offered():
     from hsbg_coach.bg import BGTracker
     from hsbg_coach.state import Entity

@@ -91,9 +91,9 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
 
     if recommendations:
         return f"→ {recommendations[0]}\n  {status}"
-    if phase == "combat":
-        return f"→ (combat — watch the fight; next move shows when recruit starts)\n  {status}"
-    return f"→ …\n  {status}"
+    # No move to make right now (combat / hero-select / between turns): just show
+    # the status line, no combat screen.
+    return f"  {status}"
 
 
 class Overlay:

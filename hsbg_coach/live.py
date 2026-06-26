@@ -37,14 +37,39 @@ def advice_lines(snapshot: dict, kb, scorer=None,
         return []
     from .game_value import rank_actions
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
+    out = []
+    # A targetable spell in hand (e.g. Tavern Dish Banana) usually wants playing
+    # now — lead with where to put it.
+    for line in _hand_spell_lines(snapshot):
+        out.append(line)
     # Show the *why* (synergy / tribe / positioning order / sell-for-room / tech
     # caveat) next to each move — that reasoning is the point, not just the verb.
-    out = []
     for r in recs[:top]:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:
             line += f" — {r.reason}"
         out.append(line)
+    return out
+
+
+def _hand_spell_lines(snapshot) -> List[str]:
+    """'Play <spell> on <minion>' for each targetable spell in hand."""
+    spells = snapshot.get("hand_spells") or []
+    if not spells:
+        return []
+    from .spell_target import best_buff_target, is_targeted
+    pick = best_buff_target(snapshot.get("board", []))
+    out = []
+    for sp in spells:
+        name = sp.get("name") or "spell"
+        if not is_targeted(sp):
+            out.append(f"Play {name}")               # gold/utility — no minion target
+        elif pick is not None:
+            target, why = pick
+            tname = target.get("name") if isinstance(target, dict) else getattr(target, "name", None)
+            out.append(f"Play {name} on {tname or 'your best minion'} — {why}")
+        else:
+            out.append(f"Play {name} (no minion to target yet)")
     return out
 
 
@@ -61,8 +86,9 @@ def _key(d: dict):
     board = tuple(m.get("name") for m in d.get("board", []))
     shop = tuple(m.get("name") for m in d.get("shop", []))
     spells = tuple(s.get("name") for s in d.get("shop_spells", []) or [])
+    hand = tuple(s.get("name") for s in d.get("hand_spells", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
-    return (board, shop, spells, d.get("gold"), d.get("tavern_tier"),
+    return (board, shop, spells, hand, d.get("gold"), d.get("tavern_tier"),
             d.get("phase"), hp, d.get("anomaly"))
 
 

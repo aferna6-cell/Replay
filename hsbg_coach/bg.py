@@ -92,6 +92,7 @@ class Snapshot:
     board: List[MinionView] = field(default_factory=list)     # your minions in play
     shop: List[MinionView] = field(default_factory=list)      # minions available to buy
     shop_spells: List[Dict] = field(default_factory=list)     # tavern spells to buy
+    hand_spells: List[Dict] = field(default_factory=list)     # targetable spells in hand
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
@@ -109,6 +110,7 @@ class Snapshot:
             "board": [m.__dict__ for m in self.board],
             "shop": [m.__dict__ for m in self.shop],
             "shop_spells": list(self.shop_spells),
+            "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
             "anomaly": self.anomaly,
             "hand": [m.__dict__ for m in self.hand],
@@ -263,6 +265,7 @@ class BGTracker:
             board=board,
             shop=shop,
             shop_spells=shop_spells,
+            hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
             anomaly=self._anomaly(),
             hand=hand,
@@ -312,6 +315,25 @@ class BGTracker:
                     and "Anomaly" in (ent.card_id or "")):
                 return self._display_name(ent.card_id, ent.name)
         return None
+
+    def _hand_spells(self) -> List[Dict]:
+        """Targetable tavern spells in your hand (e.g. Tavern Dish Banana = +stats
+        to a minion). These are BATTLEGROUND_SPELL entities you control, in HAND."""
+        out = []
+        for ent in self.state.entities.values():
+            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
+                continue
+            if ent.zone != "HAND" or ent.controller != str(self.local_player):
+                continue
+            if not ent.card_id or "DragBuy" in ent.card_id:
+                continue
+            out.append({
+                "name": self._display_name(ent.card_id, ent.name),
+                "card_id": ent.card_id,
+                "cost": ent.tag_int("COST"),
+                "coin": ent.tags.get("COIN_CARD") == "1",   # gold spell, not targeted
+            })
+        return out
 
     def _shop_spells(self) -> List[Dict]:
         """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL). Mirrors
