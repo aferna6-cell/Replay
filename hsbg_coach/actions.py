@@ -113,9 +113,13 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     if gold >= ROLL_COST and shop:
         actions.append(Action(ROLL, cost=ROLL_COST))
 
-    # Tier up — only list when surely affordable (cost is an upper bound).
+    # Tier up — use the live discounted cost when we have it (the tavern lowers the
+    # cost by 1 per turn on a tier), falling back to the base. This is what makes
+    # early aggressive leveling (e.g. tier 2 on turn 2) legal.
     if tier < MAX_TIER:
-        cost = tavern_up_cost(tier)
+        cost = _get(snapshot, "level_cost", None)
+        if cost is None:
+            cost = tavern_up_cost(tier)
         if cost is not None and gold >= cost:
             actions.append(Action(LEVEL, cost=cost, detail={"to_tier": tier + 1}))
 

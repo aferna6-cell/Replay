@@ -209,6 +209,38 @@ def test_no_manufactured_roll_when_gold_is_tight():
     assert all(r.reason != manufactured for r in recs)
 
 
+def test_tier_two_on_turn_two_is_legal_and_recommended():
+    # The classic aggressive line. On turn 2 the discounted tier-up cost is 4, so
+    # with 4 gold it must be a LEGAL action AND surfaced as a strong move.
+    from hsbg_coach.actions import legal_actions, LEVEL
+    kb, scorer = cards.load_kb(), get_scorer()
+    snap = _snap(shop=[{"name": "x", "card_id": "z", "attack": 2, "health": 2}],
+                 board=[{"name": "A", "card_id": "a", "attack": 1, "health": 1}],
+                 gold=4, tavern_tier=1, turn=2, level_cost=4, hero_health=30)
+    levels = [a for a in legal_actions(snap) if a.kind == LEVEL]
+    assert levels and levels[0].cost == 4          # affordable at 4 gold
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    lvl = next((r for r in recs if r.action.kind == LEVEL), None)
+    assert lvl is not None and "aggressive leveling" in lvl.reason
+    # The aggressive bonus should put it among the top moves, not buried.
+    top3 = {r.action.kind for r in recs[:3]}
+    assert LEVEL in top3
+
+
+def test_discounted_level_cost_drops_one_per_turn_on_tier():
+    from hsbg_coach.bg import BGTracker
+    t = BGTracker(); t.local_player = 3; t.player_names = {3: "Me"}
+    from hsbg_coach.state import Entity
+    hero = Entity(id=9, card_id="H"); hero.tags = {"CARDTYPE": "HERO",
+        "CONTROLLER": "3", "ZONE": "PLAY", "PLAYER_TECH_LEVEL": "1"}
+    player = Entity(id=-1, name="Me"); player.tags = {"HERO_ENTITY": "9"}
+    t.state.entities = {9: hero, -1: player}
+    t._recruit_phases = 1                       # turn 1 on tier 1
+    assert t._level_cost() == 5                 # base, no discount
+    t._recruit_phases = 2                       # turn 2 still tier 1
+    assert t._level_cost() == 4                 # discounted → enables 2-on-2
+
+
 def test_all_offered_heroes_are_ranked_not_capped_to_two():
     # Heroes are ranked in full (the old 'first two are free' cap mis-picked a
     # padlocked hero). Paywalled-hero detection isn't possible from the log yet, so

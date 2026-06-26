@@ -97,6 +97,7 @@ class Snapshot:
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
+    level_cost: Optional[int] = None      # discounted gold to tier up right now
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -113,6 +114,7 @@ class Snapshot:
             "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
             "anomaly": self.anomaly,
+            "level_cost": self.level_cost,
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -129,6 +131,14 @@ class BGTracker:
         self.local_player: Optional[int] = None  # controller id of the human
         self.player_names: Dict[int, str] = {}   # PlayerID -> battletag
         self.last_opponent_board: List[MinionView] = []  # most recent enemy we fought
+        # Tavern-upgrade discount tracking: HS lowers the tier-up cost by 1 for
+        # each recruit phase you stay on a tier, so the real cost is below the base
+        # (this is what enables 'tier 2 on turn 2'). We count recruit phases and the
+        # phase at which the current tier was reached, since the log never prints
+        # the discounted cost.
+        self._recruit_phases = 0
+        self._tier_anchor = 0          # recruit-phase count when current tier reached
+        self._anchor_tier: Optional[int] = None
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -175,7 +185,10 @@ class BGTracker:
         self.state.apply(event)
         if not self.in_bg:
             self._detect_bg()              # …but most clients only reveal BG via cardIds
+        prev_phase = self.phase
         self._update_phase(event)
+        if prev_phase != Phase.RECRUIT and self.phase == Phase.RECRUIT:
+            self._recruit_phases += 1      # a new shopping turn began
         self._maybe_detect_local_player()
 
     def _detect_bg(self) -> None:
@@ -268,10 +281,32 @@ class BGTracker:
             hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
             anomaly=self._anomaly(),
+            level_cost=self._level_cost(),
             hand=hand,
             opponents_seen=opponents,
             notes=notes,
         )
+
+    def _level_cost(self) -> Optional[int]:
+        """The CURRENT (discounted) gold to tier up. HS lowers the base cost by 1
+        per recruit phase on the tier, so e.g. tier 1→2 is 5 on turn 1 but 4 on
+        turn 2 — which is exactly what makes 'tier 2 on turn 2' affordable. The log
+        doesn't print this, so we derive it from recruit-phase counts."""
+        from .actions import UPGRADE_COST, MAX_TIER
+        tier = self._tavern_tier()
+        if tier is None or tier >= MAX_TIER:
+            return None
+        base = UPGRADE_COST.get(tier)
+        if base is None:
+            return None
+        # Keep the anchor current: when the tier goes up, reset the discount clock.
+        if self._anchor_tier is None:
+            self._anchor_tier = tier
+        elif tier > self._anchor_tier:
+            self._tier_anchor = self._recruit_phases
+            self._anchor_tier = tier
+        on_tier = max(1, self._recruit_phases - self._tier_anchor)
+        return max(0, base - (on_tier - 1))
 
     def _hero_power(self) -> Optional[Dict]:
         """The local player's hero power: name, cost, and whether it's usable now

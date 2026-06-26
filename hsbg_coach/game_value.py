@@ -245,7 +245,8 @@ def _apply(state: dict, action: Action) -> dict:
                 break
         s["gold"] += SELL_VALUE
     elif action.kind == LEVEL:
-        cost = tavern_up_cost(s["tavern_tier"]) or 0
+        # Prefer the action's live (discounted) cost; fall back to the base.
+        cost = action.cost or tavern_up_cost(s["tavern_tier"]) or 0
         s["tavern_tier"] = min(6, s["tavern_tier"] + 1)
         s["gold"] -= cost
     elif action.kind == ROLL:
@@ -338,6 +339,11 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 if len(board_now) >= MAX_BOARD:
                     weakest = min(board_now, key=_val)
                     reason = f"sell {_name(weakest)} for room — {reason}"
+            elif a.kind == LEVEL:                         # aggressive leveling pace
+                adj, lreason = _aggressive_level_adj(snapshot)
+                if adj:
+                    v = max(1.0, v + adj)
+                    reason = lreason
             elif a.kind == SELL:                         # you want a full board of 7
                 v = min(8.0, v + _sell_penalty(state))
         elif a.kind == BUY_SPELL:
@@ -417,6 +423,32 @@ def _low_tier_penalty(action, tavern_tier, kb) -> float:
     except Exception:
         pass
     return 0.0
+
+
+# Aggressive tavern-tier target by turn — push the lobby's pace, not the
+# conservative "level when you have spare gold" line. Reaching breakpoints early
+# (tier 2 on turn 2, tier 3 on turn 4, tier 4 on turn 5-6) opens a stronger pool
+# before opponents. Eased off only when you're low and need to survive.
+_AGGRO_TIER = {1: 1, 2: 2, 3: 2, 4: 3, 5: 3, 6: 4, 7: 4, 8: 5, 9: 5, 10: 6,
+               11: 6, 12: 6}
+_AGGRO_LEVEL_HP = 12       # below this HP, don't push tempo-greedy leveling
+
+
+def _aggressive_level_adj(snapshot):
+    """(placement_adjustment, reason) promoting a tier-up that keeps you on the
+    aggressive curve. Negative = better. Fires when you're below the turn's target
+    tier and healthy enough to invest."""
+    turn = _get(snapshot, "turn") or 0
+    tier = _get(snapshot, "tavern_tier") or 1
+    hp = _get(snapshot, "hero_health")
+    if not turn or tier >= 6:
+        return 0.0, None
+    target = _AGGRO_TIER.get(turn, 6)
+    if tier < target and (hp is None or hp >= _AGGRO_LEVEL_HP):
+        to_tier = tier + 1
+        return (-min(1.0, (target - tier) * 0.6),
+                f"aggressive leveling — hit tier {to_tier} ahead of the lobby")
+    return 0.0, None
 
 
 def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:
