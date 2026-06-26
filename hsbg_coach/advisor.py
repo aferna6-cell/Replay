@@ -244,13 +244,22 @@ _FREEZE_GEM = 5.0          # a single card so good it's worth freezing alone (ra
 
 
 def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
-    """Freeze almost never. It's only right when the shop is *insane* and you
-    can't afford it: MULTIPLE strongly-synergistic cards, or one near-perfect card.
-    Freezing for a single okay minion (or any shop you can act on) is a trap and is
-    buried below End turn / Reposition."""
+    """Freeze when you've spent down and the shop is worth keeping. The right time
+    is: you're (near) out of gold AND there's a strong/synergistic card you can't
+    afford this turn — freeze it so you grab it next turn. Still buried whenever you
+    can still act (gold to buy) or the shop is just okay."""
     shop = list(_get(snapshot, "shop", []) or [])
     if gold >= BUY_COST:                          # you can buy — don't freeze
         return ScoredAction(act, 0.05, "you can act this turn — no need to freeze")
+    # Without an explicit comp target, infer it from the board's dominant tribe so
+    # on-tribe shop cards score as the upgrades they are (else freeze never fires).
+    if target_tribe is None and board_cks:
+        tribes = {}
+        for ck in board_cks:
+            for t in (getattr(ck, "tribes", None) or []):
+                tribes[t.lower()] = tribes.get(t.lower(), 0) + 1
+        if tribes:
+            target_tribe = max(tribes, key=tribes.get)
     strong = []
     best_name, best_score = None, 0.0
     for m in shop:
@@ -268,7 +277,12 @@ def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
                             f"freeze — insane shop: {', '.join(strong[:3])} (can't afford yet)")
     if best_score >= _FREEZE_GEM:
         return ScoredAction(act, 0.55, f"freeze — {best_name} is a perfect fit you can't afford yet")
-    return ScoredAction(act, 0.05, "freeze only for an insane shop you can't afford")
+    # Out of gold with a genuinely strong card you want: freeze to keep it for next
+    # turn. This is the common, correct freeze — gated on having ~no gold left.
+    if gold <= 0 and best_score >= _FREEZE_STRONG:
+        return ScoredAction(act, 0.5,
+                            f"freeze — out of gold; keep {best_name} for next turn")
+    return ScoredAction(act, 0.05, "freeze only when out of gold with a card worth keeping")
 
 
 def plan_turn(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,

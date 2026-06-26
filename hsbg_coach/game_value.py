@@ -172,6 +172,32 @@ def _completes_triple(action, snapshot) -> bool:
     return sum(1 for m in owned if _name(m) == name) >= 2
 
 
+def _late_scaling_adjust(action, snapshot):
+    """(placement_adjustment, reason) rewarding a late-game buy that meaningfully
+    scales the board — a minion well above your current board average. Top boards
+    snowball hard (the scaling pace curve ~4x per turn late), so treading water
+    loses; this pushes the coach toward the biggest power upgrades. Negative=better.
+
+    Only fires in the late game (turn >= 9 or tier >= 5) and only for a genuine
+    upgrade, so it complements (not overrides) synergy/comp direction."""
+    turn = _get(snapshot, "turn") or 0
+    tier = _get(snapshot, "tavern_tier") or 1
+    if turn < 9 and tier < 5:
+        return 0.0, None
+    minion = action.detail.get("minion")
+    board = _get(snapshot, "board", []) or []
+    if minion is None or not board:
+        return 0.0, None
+    avg = sum(_val(m) for m in board) / len(board)
+    if avg <= 0:
+        return 0.0, None
+    ratio = _val(minion) / avg
+    if ratio <= 1.15:                       # not a real power upgrade
+        return 0.0, None
+    return (-min(0.7, (ratio - 1.0) * 0.5),
+            "scales your board up — a real power upgrade for the late game")
+
+
 def _anomaly_buy_adjust(action, snapshot):
     """(placement_adjustment, reason) from the active anomaly for this buy. Keyed on
     minion tags (e.g. the Timewarped supercharge flag), which are self-identifying,
@@ -386,6 +412,15 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                         v = max(1.0, min(8.0, v + sadj))
                         if sreason and not tech_reason and not preason:
                             reason = sreason
+                    # Late-game scaling: top boards explode (board stats ~284 by
+                    # t8 → ~1170 by t10). Reward a buy that's a real power upgrade
+                    # (well above your board average) so the coach pushes scaling
+                    # toward a winning final board instead of treading water.
+                    scadj, screason = _late_scaling_adjust(a, snapshot)
+                    if scadj:
+                        v = max(1.0, min(8.0, v + scadj))
+                        if screason and not tech_reason and not preason:
+                            reason = screason
                 else:
                     reason = "doesn't improve your board — skip"
                 # Filler / low-tier guard: the eval net overrates filling a slot, so

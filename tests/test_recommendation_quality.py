@@ -471,6 +471,48 @@ def test_discover_prefers_on_tribe_over_high_stat_off_tribe():
     assert "murloc" in ranked[0].reason.lower() or ranked[0].name == murlocs[2]
 
 
+def test_late_game_rewards_a_real_scaling_upgrade():
+    # Late game (turn 11, tier 6): a shop minion well above your board average is a
+    # scaling upgrade and should rank above rolling.
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": f"B{i}", "card_id": f"b{i}", "attack": 8, "health": 8}
+             for i in range(6)]
+    shop = [{"name": "Huge", "card_id": "h", "attack": 30, "health": 30}]
+    snap = _snap(shop=shop, board=board, gold=6, tavern_tier=6, turn=11)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    buy = next((r for r in recs if r.action.target == "Huge"), None)
+    assert buy is not None and "scales" in buy.reason.lower()
+    assert recs[0].action.target == "Huge"           # the scaling buy leads
+
+
+def test_freeze_fires_when_out_of_gold_with_a_good_card():
+    from hsbg_coach.advisor import advise_actions
+    from hsbg_coach.actions import FREEZE
+    kb, scorer = cards.load_kb(), get_scorer()
+    murlocs = [c for c in kb.values()
+               if "murloc" in [t.lower() for t in (c.tribes or [])]]
+    if len(murlocs) < 4:
+        import pytest as _pt
+        _pt.skip("need murloc cards")
+    from hsbg_coach.synergy import score_card, load_embeddings
+    board_cks = murlocs[:3]
+    board = [{"name": m.name, "card_id": m.card_id} for m in board_cks]
+    # The strongest on-tribe card in the shop; we're out of gold → freeze to keep it.
+    emb = load_embeddings()
+    want = max(murlocs[3:], key=lambda c: score_card(c, board_cks,
+                                                     target_tribe="murloc", embeddings=emb).score)
+    snap = _snap(shop=[{"name": want.name, "card_id": want.card_id,
+                        "attack": want.attack or 4, "health": want.health or 4}],
+                 board=board, gold=0, tavern_tier=4)
+    plan = advise_actions(snap, kb=kb, scorer=scorer)
+    frz = next((s for s in plan.ranked if s.action.kind == FREEZE), None)
+    assert frz is not None and frz.priority >= 0.4 and "out of gold" in frz.reason
+    # With gold to act, freeze stays buried.
+    plan2 = advise_actions(dict(snap, gold=5), kb=kb, scorer=scorer)
+    frz2 = next((s for s in plan2.ranked if s.action.kind == FREEZE), None)
+    assert frz2 is not None and frz2.priority < 0.2
+
+
 def test_timewarped_anomaly_prioritizes_supercharged_minions():
     # Under Timewarped, a shop minion flagged HAS_TIMEWARPED_TAVERN_ALT_TEXT has
     # its effect supercharged — the coach must surface buying it, not ignore the
