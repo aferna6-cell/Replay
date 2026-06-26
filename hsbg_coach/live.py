@@ -303,11 +303,14 @@ class LiveCoach:
             picks = rank_offer(offer, board=snap.get("board", []), kb=self.kb,
                                scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
                                tier=snap.get("tavern_tier"))
-            lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
-            # Paywalled (Perks-locked) heroes are shown with a padlock but can't be
-            # detected from the log yet, so caveat rather than silently top-rank one.
             if offer.kind == "hero":
-                lines.insert(0, "↳ ignore any padlocked hero — pick the best UNLOCKED one:")
+                # Show a full ranking of every offered hero (best first) and let the
+                # user pick the highest one that isn't padlocked — we can't detect
+                # locks from the log, so we never pick FOR them.
+                lines = [f"{i}. {c.name} — {c.reason}" for i, c in enumerate(picks, 1)]
+                lines.insert(0, "Hero ranking — pick the best one that isn't locked:")
+            else:
+                lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])
             return snap, None, lines
