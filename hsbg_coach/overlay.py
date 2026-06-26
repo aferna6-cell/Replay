@@ -88,6 +88,11 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
         status += " · hero power ready"
     if snapshot.get("anomaly"):
         status += f" · anomaly: {snapshot['anomaly']}"
+    # Sync counter — ticks up every time a new board/shop is ingested, so after a
+    # roll you can see the panel re-read the tavern (it's processing, not stuck).
+    seq = snapshot.get("sync_seq")
+    if seq is not None:
+        status += f" · synced ✓ #{seq}"
 
     if recommendations:
         return f"→ {recommendations[0]}\n  {status}"

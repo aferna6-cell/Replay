@@ -430,8 +430,10 @@ def _favor_roll_over_mediocre_buys(recs, snapshot, base) -> None:
     if roll is None:
         return
     # Only when it's worth hunting: mid-game, gold to roll AND still buy after,
-    # and the current best buy is mediocre.
-    if tier >= 3 and gold >= BUY_COST + 1 and best_buy_gain < _WEAK_BUY_GAIN:
+    # and the current best buy is mediocre. Capped to tiers 3-5: at tier 6 a roll
+    # is fine but we don't *manufacture* a roll preference, so triples / hand-plays
+    # / genuine upgrades surface instead of the panel locking onto "roll".
+    if 3 <= tier <= 5 and gold >= BUY_COST + 1 and best_buy_gain < _WEAK_BUY_GAIN:
         roll.placement = round(max(1.0, base - (_WEAK_BUY_GAIN + 0.02)), 2)
         roll.gain = round(base - roll.placement, 2)
         roll.reason = "shop is only okay — roll for a stronger minion"

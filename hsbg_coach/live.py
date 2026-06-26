@@ -38,6 +38,11 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     from .game_value import rank_actions
     recs, _ = rank_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer)
     out = []
+    # Free cards that landed in your hand (often generated during combat) are
+    # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
+    # those, then the spell-on-minion advice.
+    for line in _hand_play_lines(snapshot, kb):
+        out.append(line)
     # A targetable spell in hand (e.g. Tavern Dish Banana) usually wants playing
     # now — lead with where to put it.
     for line in _hand_spell_lines(snapshot):
@@ -50,6 +55,52 @@ def advice_lines(snapshot: dict, kb, scorer=None,
             line += f" — {r.reason}"
         out.append(line)
     return out
+
+
+_MAX_BG_BOARD = 7
+
+
+def _hand_play_lines(snapshot, kb) -> List[str]:
+    """'Play <minion> from hand' / 'Magnetize <mech> onto <host>' for each free
+    minion sitting in your hand (e.g. one a combat effect generated). Magnetic
+    mechs prefer fusing onto a board mech (no slot used, buff protected)."""
+    hand = snapshot.get("hand") or []
+    minions = [m for m in hand if _is_hand_minion(m)]
+    if not minions:
+        return []
+    from .magnetize import is_magnetic, best_magnetize_target
+    board = snapshot.get("board", []) or []
+    full = len(board) >= _MAX_BG_BOARD
+    out = []
+    for m in minions:
+        name = m.get("name") or m.get("card_id") or "minion"
+        if is_magnetic(m, kb):
+            tgt = best_magnetize_target(board, kb)
+            if tgt is not None:
+                host, why = tgt
+                hname = host.get("name") if isinstance(host, dict) else getattr(host, "name", None)
+                out.append(f"Magnetize {name} onto {hname or 'your best mech'} — {why}")
+                continue                                 # fusing uses no board slot
+        if full:
+            out.append(f"Play {name} from hand — sell your weakest first (board is full)")
+        else:
+            out.append(f"Play {name} from hand — free body, take the tempo")
+    return out
+
+
+def _is_hand_minion(m) -> bool:
+    """A real, playable minion in hand (not a spell / the buy mechanic)."""
+    tags = (m.get("tags") if isinstance(m, dict) else getattr(m, "tags", None)) or {}
+    ctype = tags.get("CARDTYPE")
+    if ctype and ctype != "MINION":
+        return False
+    cid = m.get("card_id") if isinstance(m, dict) else getattr(m, "card_id", None)
+    if not cid or "DragBuy" in cid:
+        return False
+    name = m.get("name") if isinstance(m, dict) else getattr(m, "name", None)
+    if name and "UNKNOWN ENTITY" in name:
+        return False
+    return True
 
 
 def _hand_spell_lines(snapshot) -> List[str]:
@@ -87,8 +138,9 @@ def _key(d: dict):
     shop = tuple(m.get("name") for m in d.get("shop", []))
     spells = tuple(s.get("name") for s in d.get("shop_spells", []) or [])
     hand = tuple(s.get("name") for s in d.get("hand_spells", []) or [])
+    hand_m = tuple(m.get("name") for m in d.get("hand", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
-    return (board, shop, spells, hand, d.get("gold"), d.get("tavern_tier"),
+    return (board, shop, spells, hand, hand_m, d.get("gold"), d.get("tavern_tier"),
             d.get("phase"), hp, d.get("anomaly"))
 
 
@@ -120,6 +172,7 @@ class LiveCoach:
         self._cache_key = None
         self._cache_lines: List[str] = []
         self._cache_note: Optional[str] = None
+        self._sync_seq = 0                # bumps each time the board/shop changes
         self._version = 0                 # bumps each time a log event is fed
         self._snap_version = -1           # version the cached snapshot was built at
         self._snap_cache: Optional[dict] = None
@@ -212,4 +265,8 @@ class LiveCoach:
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
             self._cache_key = key
+            self._sync_seq += 1            # a real state change was ingested
+        # Tag the snapshot with the sync counter so the panel can show that the
+        # new board was processed after you roll/buy/sell (it ticks up each change).
+        snap = dict(snap, sync_seq=self._sync_seq)
         return snap, None, self._cache_lines

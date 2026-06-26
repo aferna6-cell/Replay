@@ -129,6 +129,61 @@ def test_targeted_spell_recommends_best_minion():
     assert any(l == "Play Tavern Coin" for l in lines)   # no bogus target
 
 
+def test_minion_added_to_hand_is_suggested_to_play():
+    # A free minion in hand (e.g. one a combat effect generated) should surface as
+    # a play, so the user doesn't leave it sitting there.
+    from hsbg_coach.live import advice_lines
+    kb, scorer = cards.load_kb(), get_scorer()
+    hand = [{"name": "Freebie", "card_id": "fb", "attack": 3, "health": 4,
+             "tags": {"CARDTYPE": "MINION"}}]
+    snap = _snap(shop=[], board=[{"name": "A", "card_id": "a", "attack": 2, "health": 2}],
+                 hand=hand, gold=4)
+    lines = advice_lines(snap, kb, scorer)
+    assert any("Play Freebie from hand" in l for l in lines)
+
+
+def test_magnetic_mech_in_hand_suggests_a_fuse_target():
+    # A Magnetic mech should be magnetized onto the best board mech (here the
+    # Divine-Shield one), not played as a standalone body.
+    from hsbg_coach.live import advice_lines
+    from hsbg_coach.magnetize import best_magnetize_target
+    kb, scorer = cards.load_kb(), get_scorer()
+    board = [{"name": "Shielded", "card_id": "h", "attack": 6, "health": 6,
+              "tags": {"CARDRACE": "MECH", "DIVINE_SHIELD": "1"}},
+             {"name": "Plain", "card_id": "o", "attack": 5, "health": 5,
+              "tags": {"CARDRACE": "MECH"}}]
+    host, why = best_magnetize_target(board, kb)
+    assert host["name"] == "Shielded" and "divine shield" in why.lower()
+    hand = [{"name": "Magno", "card_id": "mg", "attack": 2, "health": 2,
+             "tags": {"CARDTYPE": "MINION", "CARDRACE": "MECH", "MODULAR": "1"}}]
+    snap = _snap(shop=[], board=board, hand=hand, gold=4)
+    lines = advice_lines(snap, kb, scorer)
+    assert any(l.startswith("Magnetize Magno onto Shielded") for l in lines)
+
+
+def test_status_line_shows_a_sync_counter():
+    # The panel must signal it re-read the tavern after a roll (not stuck): a
+    # sync counter that ticks up on each ingested board/shop change.
+    from hsbg_coach.overlay import format_next
+    snap = {"turn": 7, "phase": "recruit", "tavern_tier": 4, "gold": 5,
+            "hero_health": 30, "sync_seq": 3}
+    out = format_next(snap, None, ["Buy X"])
+    assert "synced" in out and "#3" in out
+
+
+def test_late_game_does_not_manufacture_a_roll():
+    # At tier 6 with a mediocre shop the coach must not synthetically boost "roll"
+    # to the top — that's what locked the panel onto refresh late game.
+    kb, scorer = cards.load_kb(), get_scorer()
+    giants = [{"name": f"G{i}", "card_id": f"g{i}", "attack": 20, "health": 20}
+              for i in range(5)]
+    snap = _snap(shop=[{"name": "Tiny", "card_id": "t", "attack": 2, "health": 2}],
+                 board=giants, gold=10, tavern_tier=6)
+    recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
+    manufactured = "shop is only okay — roll for a stronger minion"
+    assert all(r.reason != manufactured for r in recs)
+
+
 def test_passive_hero_power_is_not_offered():
     from hsbg_coach.bg import BGTracker
     from hsbg_coach.state import Entity
