@@ -114,13 +114,14 @@ def test_phase_from_events_not_turn_parity():
 
     t = BGTracker()
     t.in_bg = True
+    ts = "D 16:42:49.1129590 GameState.DebugPrintPower() - "
     # An attack means combat, even on an "odd" turn that parity would call recruit.
-    feed(t, "D 1.0 GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=TURN value=3")
-    feed(t, "D 1.0 GameState.DebugPrintPower() - BLOCK_START BlockType=ATTACK Entity=[id=5] Target=[id=9]")
+    feed(t, ts + "TAG_CHANGE Entity=GameEntity tag=TURN value=3")
+    feed(t, ts + "BLOCK_START BlockType=ATTACK Entity=[id=5] Target=[id=9]")
     assert t.phase == Phase.COMBAT
     # The tavern's buy mechanic being dealt means recruit, even on an "even" turn.
-    feed(t, "D 1.0 GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=TURN value=4")
-    feed(t, "D 1.0 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=274 CardID=TB_BaconShop_DragBuy")
+    feed(t, ts + "TAG_CHANGE Entity=GameEntity tag=TURN value=4")
+    feed(t, ts + "FULL_ENTITY - Creating ID=274 CardID=TB_BaconShop_DragBuy")
     assert t.phase == Phase.RECRUIT
 
 
