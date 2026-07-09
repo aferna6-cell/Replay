@@ -20,6 +20,7 @@ HP are the heuristic economy model), not a perfect oracle.
 """
 
 import copy
+import math
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
@@ -33,6 +34,7 @@ from .board_value import get_scorer, _val, _name
 from .pace import load_pace, _at as _curve_at
 
 _LOW_HP = 15.0
+_SCORER_CAP = 0.25     # max placement swing the scorer alone puts on a buy/sell
 _K_TRAJ = 1.5          # being ahead/behind the pace curve, in placement units
 _K_HP = 1.5           # HP risk, in placement units
 _DEATH_PEN = 2.0      # a projected death is a big placement hit
@@ -409,6 +411,15 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         reason = sa.reason
         if a.kind in (BUY, SELL, LEVEL, ROLL):
             v = expected_placement(_apply(state, a), scorer, pace, horizon)
+            if a.kind in (BUY, SELL):
+                # Design rule: card effects/synergy/meta-quality DRIVE buys;
+                # raw board strength is a tiebreaker. The heuristic scorer's
+                # one-ply deltas are naturally small, but a learned scorer can
+                # swing several placements on a stat body (the env-trained set
+                # net especially — its world is stats+keywords). Squash the
+                # scorer's per-action delta to tiebreaker scale so the
+                # knowledge adjustments below stay decisive with ANY scorer.
+                v = base + _SCORER_CAP * math.tanh((v - base) / _SCORER_CAP)
             if a.kind == BUY:                            # matchup-aware tech read
                 # Triple! Buying a 3rd copy golds it and Discovers a higher-tier
                 # minion — one of the strongest tempo plays, almost always beats

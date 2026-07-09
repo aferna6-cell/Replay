@@ -1,0 +1,106 @@
+"""Behavior-clone the greedy baseline — the RL warm start (spec §8 Phase 1).
+
+Starting PPO from random weights wastes most of the early samples learning
+"play your hand, don't sell your board for nothing." Cloning the scripted
+greedy baseline first gives the policy a sane prior in a few CPU-minutes, and
+gives the league its first non-scripted member.
+
+  python -m ml.bc --lobbies 150 --epochs 6
+"""
+
+import argparse
+import os
+import random
+from typing import Dict, List, Tuple
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+from hsbg_coach.bg_env import BGEnv, greedy_policy
+from hsbg_coach.synergy import load_embeddings
+from .env_obs import encode_obs
+from .policy_net import PolicyNet, save_policy, as_env_policy
+from .rl_common import evaluate_policy, kb_byname
+from .tokens import token_dim
+
+_OUT = os.path.join(os.path.dirname(__file__), "policy_bc.pt")
+
+
+def collect(lobbies: int, emb: Dict, byname: Dict, seed: int = 0) -> List[Tuple]:
+    """(arrays, legal, action) demonstrations from the greedy baseline."""
+    out = []
+    for i in range(lobbies):
+        env = BGEnv(seed=seed + i)
+        obs = env.reset(seed=seed + i)
+        rng = random.Random(seed + i)
+        for _ in range(400):
+            legal = env.legal_mask(0)
+            a = greedy_policy(obs, legal, rng)
+            out.append((encode_obs(obs, emb, byname),
+                        np.asarray(legal, dtype=np.float32), a))
+            obs, _, done, _ = env.step(a)
+            if done:
+                break
+    return out
+
+
+def train_bc(demos: List[Tuple], emb: Dict, epochs: int = 6, lr: float = 1e-3,
+             batch: int = 256, seed: int = 0, verbose: bool = True) -> PolicyNet:
+    torch.manual_seed(seed)
+    toks = torch.from_numpy(np.stack([d[0][0] for d in demos]))
+    mask = torch.from_numpy(np.stack([d[0][1] for d in demos]))
+    zones = torch.from_numpy(np.stack([d[0][2] for d in demos]))
+    ctx = torch.from_numpy(np.stack([d[0][3] for d in demos]))
+    legal = torch.from_numpy(np.stack([d[1] for d in demos]))
+    acts = torch.tensor([d[2] for d in demos], dtype=torch.long)
+
+    net = PolicyNet(token_dim(emb))
+    opt = torch.optim.AdamW(net.parameters(), lr=lr, weight_decay=1e-4)
+    n = toks.shape[0]
+    for ep in range(epochs):
+        net.train()
+        perm = torch.randperm(n)
+        correct = 0
+        for i in range(0, n, batch):
+            ix = perm[i:i + batch]
+            opt.zero_grad()
+            logits, _ = net(toks[ix], mask[ix], zones[ix], ctx[ix])
+            logits = PolicyNet.masked_logits(logits, legal[ix])
+            loss = F.cross_entropy(logits, acts[ix])
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
+            opt.step()
+            correct += int((logits.argmax(-1) == acts[ix]).sum().item())
+        if verbose:
+            print(f"epoch {ep}  imitation acc {correct / n:.1%}")
+    net.eval()
+    return net
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(description="Behavior-clone the greedy baseline")
+    p.add_argument("--lobbies", type=int, default=150)
+    p.add_argument("--epochs", type=int, default=6)
+    p.add_argument("--eval-episodes", type=int, default=30)
+    p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--out", default=_OUT)
+    a = p.parse_args(argv)
+
+    emb = load_embeddings()
+    byname = kb_byname()
+    print(f"Collecting demonstrations from {a.lobbies} lobbies…")
+    demos = collect(a.lobbies, emb, byname, seed=a.seed)
+    print(f"  {len(demos)} decisions")
+    net = train_bc(demos, emb, epochs=a.epochs, seed=a.seed)
+    save_policy(net, a.out, {"kind": "bc", "demos": len(demos)})
+    print(f"Saved -> {a.out}")
+
+    print(f"\nEvaluating vs all-greedy field ({a.eval_episodes} episodes)…")
+    avg = evaluate_policy(as_env_policy(net, emb, byname), a.eval_episodes)
+    print(f"BC policy avg placement {avg:.2f}  (4.5 = even with the field)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

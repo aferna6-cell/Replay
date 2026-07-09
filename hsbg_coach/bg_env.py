@@ -188,6 +188,9 @@ class BGEnv:
         self._catalogue: Dict[str, EnvMinion] = {}
         self._done = True
         self._scaling = load_pace().get("scaling", {})
+        self._agent_actions = 0
+
+    MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
 
     # -- lifecycle -------------------------------------------------------------
     def reset(self, seed: Optional[int] = None) -> Dict:
@@ -200,6 +203,7 @@ class BGEnv:
         self.players = [PlayerState(idx=i) for i in range(self.n_players)]
         self.turn = 1
         self._done = False
+        self._agent_actions = 0
         for p in self.players:
             p.gold = gold_at(self.turn)
             self._deal_shop(p)
@@ -475,8 +479,12 @@ class BGEnv:
         """Apply seat-0's action. Ending the turn advances the whole lobby."""
         if self._done:
             raise RuntimeError("episode is done — call reset()")
+        self._agent_actions += 1
         turn_over = self._apply(0, action)
+        if self._agent_actions >= self.MAX_ACTIONS_PER_TURN:
+            turn_over = True                   # stalling policy: force end turn
         if turn_over:
+            self._agent_actions = 0
             self._advance()
         me = self.players[0]
         if self._done or me.placement is not None:

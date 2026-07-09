@@ -1,7 +1,16 @@
 # Self-Play RL Battlegrounds Agent — Design & Feasibility
 
-Status: **Design / feasibility (not started).** This scopes the "learn to play"
-model. Read the honest-assessment section before committing engineering time.
+Status: **Phase 0 built + validated; Phase 1 running.**
+- Phase 0 env: `hsbg_coach/bg_env.py` — validated against Firestone pace /
+  scaling / alive-by-turn aggregates (the §8 gate passed; see README).
+- State encoder: per-minion tokens + set-transformer (`ml/tokens.py`,
+  `ml/set_net.py`) — the §6b architecture, trained on env mid-game states
+  (`ml/midgame_dataset.py`, `ml/train_set_net.py`, calibration in
+  `ml/calibrate.py`).
+- Phase 1: policy/value net with masked 28-action head (`ml/policy_net.py`),
+  BC warm start from the greedy baseline (`ml/bc.py`), PPO + league
+  (`ml/train_ppo.py`). Gate: beat random + greedy fields.
+Remaining phases (wider cards, heroes/trinkets, scale) below are future work.
 
 ## 0. Why this approach
 
