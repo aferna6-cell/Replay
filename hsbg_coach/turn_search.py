@@ -16,6 +16,7 @@ Stdlib only; works with any scorer (heuristic or the learned set net).
 """
 
 import copy
+import math
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
@@ -65,6 +66,7 @@ def _as_state(snapshot) -> Dict:
 class _Node:
     state: Dict
     steps: List[str] = field(default_factory=list)
+    actions: List[Tuple[str, Optional[str]]] = field(default_factory=list)
     bonus: float = 0.0          # triple bonuses collected along the line
     leveled: bool = False
     score: float = 8.0          # expected placement (lower better), incl. bonus
@@ -76,6 +78,11 @@ class TurnPlan:
     expected: float             # expected final placement after the line
     base: float                 # expected placement doing nothing
     searched: int               # nodes evaluated (observability)
+    # The chosen line as structured (kind, target) pairs — "buy"/"sell" carry
+    # the card name, "level"/"roll" a None target. What programmatic consumers
+    # (the RL distillation teacher) execute; `steps` is the human view of the
+    # same line plus the advisory roll/reposition/end decorations.
+    actions: List[Tuple[str, Optional[str]]] = field(default_factory=list)
 
     @property
     def gain(self) -> float:
@@ -104,9 +111,21 @@ def _buy_adjust(state: Dict, minion: Dict, kb) -> float:
     return adj
 
 
-def _score(state: Dict, scorer, pace, bonus: float) -> float:
+def _score(state: Dict, scorer, pace, bonus: float,
+           stat_tiebreak: float = 0.0) -> float:
     v = expected_placement(state, scorer, pace)
-    return max(1.0, v - bonus)
+    if stat_tiebreak:
+        # Monotone board-strength term under the learned value. A calibrated
+        # value net saturates on clearly-winning boards (everything reads
+        # "1st"), which blinds the search exactly where discrimination is
+        # needed. Curve-normalized linear stats break those ties toward the
+        # bigger board and make selling compounded stats read as the real
+        # loss it is (log-scaled stats hid it). Env-mode teacher only.
+        from .pace import _at as _curve_at
+        curve = _curve_at(pace.get("scaling", {}), state.get("turn") or 8) or 10.0
+        stats = sum(_val(m) for m in state["board"])
+        v -= stat_tiebreak * min(4.0, stats / max(curve, 1.0))
+    return v - bonus
 
 
 def _key(state: Dict) -> Tuple:
@@ -115,8 +134,12 @@ def _key(state: Dict) -> Tuple:
             state["gold"], state["tavern_tier"])
 
 
-def _expand(node: _Node, kb) -> List[_Node]:
-    """Deterministic successor states: buys, room-making sells, one level."""
+def _expand(node: _Node, kb, knowledge: bool = True) -> List[_Node]:
+    """Deterministic successor states: buys, room-making sells, one level.
+
+    knowledge=False searches on pure state value (scorer + trajectory) with no
+    real-meta buy adjustments — the right mode inside the Phase 0 env, whose
+    dynamics don't contain the real game's comp/meta layer."""
     out: List[_Node] = []
     s = node.state
 
@@ -128,11 +151,13 @@ def _expand(node: _Node, kb) -> List[_Node]:
             ns["board"].append(bought)
             ns["gold"] -= BUY_COST
             bonus = _TRIPLE_BONUS if _completes_triple(s, _name(m)) else 0.0
-            bonus -= _buy_adjust(s, m, kb)        # negative adjust = better buy
+            if knowledge:
+                bonus -= _buy_adjust(s, m, kb)    # negative adjust = better buy
             label = f"Buy {_name(m)}" + (
                 " — completes a TRIPLE" if bonus > _TRIPLE_BONUS - _EPS else "")
-            out.append(_Node(ns, node.steps + [label], node.bonus + bonus,
-                             node.leveled))
+            out.append(_Node(ns, node.steps + [label],
+                             node.actions + [("buy", _name(m))],
+                             node.bonus + bonus, node.leveled))
 
     # Sells — only the weakest few by keep-value (stats + comp synergy), and
     # only when selling can enable something (room for a buy, or gold for one).
@@ -149,6 +174,7 @@ def _expand(node: _Node, kb) -> List[_Node]:
                     break
             ns["gold"] += SELL_VALUE
             out.append(_Node(ns, node.steps + [f"Sell {_name(m)}"],
+                             node.actions + [("sell", _name(m))],
                              node.bonus, node.leveled))
 
     # Level — once per turn; opens the stronger pool (valued via trajectory).
@@ -163,19 +189,22 @@ def _expand(node: _Node, kb) -> List[_Node]:
             ns["level_cost"] = None
             out.append(_Node(ns, node.steps + [
                 f"Tier up to {ns['tavern_tier']} ({cost}g)"],
+                node.actions + [("level", None)],
                 node.bonus, True))
     return out
 
 
 def plan_turn_search(snapshot, kb=None, scorer=None, pace=None,
-                     beam: int = 8, depth: int = 8) -> TurnPlan:
+                     beam: int = 8, depth: int = 8,
+                     knowledge: bool = True,
+                     stat_tiebreak: float = 0.0) -> TurnPlan:
     """Beam-search the turn. Returns the best action line plus trailing
     roll/reposition/end decorations (non-deterministic, so advisory)."""
     scorer = scorer or get_scorer()
     pace = pace if pace is not None else load_pace()
 
     root = _Node(_as_state(snapshot))
-    root.score = _score(root.state, scorer, pace, 0.0)
+    root.score = _score(root.state, scorer, pace, 0.0, stat_tiebreak)
     base = root.score
     frontier = [root]
     best = root
@@ -185,12 +214,13 @@ def plan_turn_search(snapshot, kb=None, scorer=None, pace=None,
     for _ in range(depth):
         nxt: List[_Node] = []
         for node in frontier:
-            for child in _expand(node, kb):
+            for child in _expand(node, kb, knowledge):
                 k = _key(child.state)
                 if k in seen:
                     continue
                 seen.add(k)
-                child.score = _score(child.state, scorer, pace, child.bonus)
+                child.score = _score(child.state, scorer, pace, child.bonus,
+                                     stat_tiebreak)
                 evaluated += 1
                 nxt.append(child)
         if not nxt:
@@ -201,13 +231,17 @@ def plan_turn_search(snapshot, kb=None, scorer=None, pace=None,
             best = frontier[0]
 
     steps = list(best.steps)
+    actions = list(best.actions)
     st = best.state
     if st["gold"] >= BUY_COST + ROLL_COST and st["shop"]:
         steps.append("Roll — gold left and no improving buys in this shop")
+        actions.append(("roll", None))
     elif st["gold"] >= ROLL_COST and st["shop"] and len(st["board"]) < MAX_BOARD:
         steps.append("Roll — spend the last gold looking for a piece")
+        actions.append(("roll", None))
     if len(st["board"]) >= 2:
         steps.append("Reposition for combat (see positioning)")
     steps.append("End turn")
-    return TurnPlan(steps=steps, expected=round(best.score, 2),
-                    base=round(base, 2), searched=evaluated)
+    return TurnPlan(steps=steps, expected=round(max(1.0, best.score), 2),
+                    base=round(max(1.0, base), 2), searched=evaluated,
+                    actions=actions)

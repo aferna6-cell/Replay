@@ -15,7 +15,7 @@ import numpy as np
 from hsbg_coach import cards
 from hsbg_coach.bg_env import N_ACTIONS  # re-exported for the trainers
 from .board_features import minion_from_snapshot
-from .tokens import minion_token, token_dim
+from .tokens import minion_token, token_dim, fill_relative_stats
 
 ZONE_BOARD, ZONE_SHOP, ZONE_HAND = 0, 1, 2
 N_ZONES = 3
@@ -59,6 +59,7 @@ def encode_obs(obs: Dict, emb: Dict, byname: Optional[Dict] = None
     layout = [("board", ZONE_BOARD, 0, MAX_BOARD_T),
               ("shop", ZONE_SHOP, MAX_BOARD_T, MAX_SHOP_T),
               ("hand", ZONE_HAND, MAX_BOARD_T + MAX_SHOP_T, MAX_HAND_T)]
+    raw_by_slot: list = [{} for _ in range(N_TOKENS)]
     for key, zone, offset, cap in layout:
         for i, raw in enumerate((obs.get(key) or [])[:cap]):
             norm = minion_from_snapshot(raw, byname)
@@ -67,4 +68,8 @@ def encode_obs(obs: Dict, emb: Dict, byname: Optional[Dict] = None
             toks[offset + i] = minion_token(norm, emb, byname)
             mask[offset + i] = 1.0
             zones[offset + i] = zone
+            raw_by_slot[offset + i] = norm
+    # Relative stats across the WHOLE view (board ∪ shop ∪ hand): the buy
+    # decision is exactly "which of these is biggest relative to what I own."
+    fill_relative_stats(toks, mask, raw_by_slot)
     return toks, mask, zones, obs_context(obs)

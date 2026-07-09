@@ -76,21 +76,43 @@ def evaluate_policy(env_policy: Callable, episodes: int = 30, seed: int = 9000,
                     field: Optional[Sequence[Callable]] = None) -> float:
     """Average placement of `env_policy(obs, mask, rng)` in seat 0 vs a field
     (default: all-greedy — the baseline the spec says Phase 1 must beat)."""
-    total = 0.0
+    return evaluate_detailed(env_policy, episodes, seed, field)["placement"]
+
+
+def evaluate_detailed(env_policy: Callable, episodes: int = 30,
+                      seed: int = 9000,
+                      field: Optional[Sequence[Callable]] = None) -> Dict:
+    """Placement plus the tangible board metrics: how big a board it builds
+    (final total stats), what tier it reaches, and how those compare to the
+    strongest opponent in its lobbies."""
+    placements, boards, tiers, opp_boards = [], [], [], []
     for i in range(episodes):
         env = BGEnv(seed=seed + i,
                     opponent_policies=list(field or [greedy_policy] * 7))
         obs = env.reset(seed=seed + i)
         rng = random.Random(seed + i)
+        last = obs
         for _ in range(MAX_DECISIONS):
             a = env_policy(obs, env.legal_mask(0), rng)
             obs, reward, done, info = env.step(a)
+            if obs["board"]:
+                last = obs
             if done:
-                total += info.get("placement", 8)
+                placements.append(info.get("placement", 8))
                 break
         else:
-            total += 8
-    return total / episodes
+            placements.append(8)
+        boards.append(sum((m.get("attack") or 0) + (m.get("health") or 0)
+                          for m in last["board"]))
+        tiers.append(last["tavern_tier"])
+        opp_boards.append(last.get("max_opp_strength") or 0)
+    n = max(1, len(placements))
+    return {"placement": sum(placements) / n,
+            "top4": sum(1 for p in placements if p <= 4) / n,
+            "final_board_stats": sum(boards) / n,
+            "final_tier": sum(tiers) / n,
+            "vs_best_opp_board": (sum(boards) / n) / max(1.0, sum(opp_boards) / n),
+            "episodes": n}
 
 
 def kb_byname():

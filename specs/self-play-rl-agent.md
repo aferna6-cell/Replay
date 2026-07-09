@@ -16,7 +16,27 @@ Status: **Phase 0 built + validated; Phase 1 running.**
   env, and the spec's compute caveat applies. Continue with
   `python -m ml.train_ppo --iters N` (league + shaping anneal resume from
   the BC checkpoint).
-Remaining phases (wider cards, heroes/trinkets, scale) below are future work.
+- Distillation track (`ml/search_expert.py`, `ml/train_distill.py`): the
+  model trains by simulating lobbies while a teacher labels every visited
+  state (DAgger); reports placement + board-size metrics each round.
+
+**Two measured findings that shape the next phase (2026-07-09):**
+1. *The Phase 0 env's skill ceiling is greedy.* The abstract scaling layer
+   was tuned so on-curve stat-max play wins (tier deficit multiplicatively
+   crushes growth), so the curve-following greedy baseline is near-optimal
+   BY CONSTRUCTION — no teacher or policy can beat it by much inside this
+   env. Measured: the beam-search advisor scores ~6.2-6.9 here.
+2. *Sim2real cuts both ways.* The knowledge-laden search teacher (meta
+   quality, comp build-paths, synergy keep-values) loses badly in the env —
+   comp churn resets compounded scaling — while being the best real-game
+   player in the repo. Teachers must match the world they teach in
+   (`SearchExpert(env_mode=True)` vs default).
+
+**Conclusion:** further in-env RL gains require env fidelity Phase 2 —
+replace the abstract scaling layer with real modeled buff/battlecry effects
+for a curated card set (extend `effects.py`), then re-run the distillation +
+PPO stack, where card-level skill finally has headroom. Remaining phases
+(wider cards, heroes/trinkets, scale) below are future work.
 
 ## 0. Why this approach
 

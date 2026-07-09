@@ -149,8 +149,10 @@ class SetEvalModel:
     def predict(self, minions: List[Dict], hero_id: str = "UNKNOWN",
                 state=None) -> Dict:
         from .board_features import context_vector
+        from .tokens import neutral_state
         toks, mask = board_tokens(minions, self.emb, self._byname)
-        ctx = (context_vector(state) - self.ctx_mean) / self.ctx_std
+        ctx = (context_vector(neutral_state(state))
+               - self.ctx_mean) / self.ctx_std
         hidx = self.hero_stoi.get(hero_id, self.hero_stoi.get("UNKNOWN", 0))
         self.model.eval()
         with torch.no_grad():

@@ -71,6 +71,30 @@ def collect_dagger(net: PolicyNet, lobbies: int, emb: Dict, byname: Dict,
     return out
 
 
+def _action_kind(a: int) -> int:
+    from hsbg_coach.bg_env import A_PLAY0, A_SELL0, A_ROLL
+    if a < A_PLAY0:
+        return 0                                  # buy
+    if a < A_SELL0:
+        return 1                                  # play
+    if a < A_ROLL:
+        return 2                                  # sell
+    return 3 + (a - A_ROLL)                       # roll / level / freeze / end
+
+
+def _kind_weights(acts: "torch.Tensor") -> "torch.Tensor":
+    """Per-sample weights balancing action KINDS. Rare kinds (level ≈5% of
+    decisions) decide games — one mistimed tier-up gets scaling-crushed for
+    the rest of the game — but unweighted CE optimizes the common buys/plays
+    and shrugs off level mistakes. Inverse-frequency by kind, capped."""
+    kinds = torch.tensor([_action_kind(int(a)) for a in acts])
+    w = torch.ones(len(acts))
+    for k in kinds.unique():
+        sel = kinds == k
+        w[sel] = float(len(acts)) / (float(sel.sum()) * float(len(kinds.unique())))
+    return w.clamp(0.5, 4.0)
+
+
 def train_bc(demos: List[Tuple], emb: Dict, epochs: int = 6, lr: float = 1e-3,
              batch: int = 256, seed: int = 0, verbose: bool = True) -> PolicyNet:
     torch.manual_seed(seed)
@@ -80,6 +104,7 @@ def train_bc(demos: List[Tuple], emb: Dict, epochs: int = 6, lr: float = 1e-3,
     ctx = torch.from_numpy(np.stack([d[0][3] for d in demos]))
     legal = torch.from_numpy(np.stack([d[1] for d in demos]))
     acts = torch.tensor([d[2] for d in demos], dtype=torch.long)
+    weights = _kind_weights(acts)
 
     net = PolicyNet(token_dim(emb))
     opt = torch.optim.AdamW(net.parameters(), lr=lr, weight_decay=1e-4)
@@ -93,7 +118,8 @@ def train_bc(demos: List[Tuple], emb: Dict, epochs: int = 6, lr: float = 1e-3,
             opt.zero_grad()
             logits, _ = net(toks[ix], mask[ix], zones[ix], ctx[ix])
             logits = PolicyNet.masked_logits(logits, legal[ix])
-            loss = F.cross_entropy(logits, acts[ix])
+            per = F.cross_entropy(logits, acts[ix], reduction="none")
+            loss = (per * weights[ix]).mean()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
             opt.step()

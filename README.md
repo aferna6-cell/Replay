@@ -377,11 +377,21 @@ python -m ml.bc --lobbies 150
 python -m ml.train_ppo --iters 40 --episodes 16
 ```
 
+```bash
+# 4. Train by simulating games with a teacher correcting every move
+#    (DAgger distillation) — reports placement AND how big its boards get
+python -m ml.train_distill --teacher greedy --rounds 6 --lobbies 80
+```
+
 Phase 1 status: the learned policy **beats the random field decisively**
-(avg placement 1.00) and is still short of the all-greedy field (6.5 after
-~35 CPU-minutes; the bar is <4.5) — stat-max greedy is near-optimal in the
-simplified env, and RL compute is the known cost (spec §9). The training
-loop, league, and eval gates are all in place; it's a `--iters` dial now.
+(avg placement 1.00), builds boards 1.5-5x the best opponent's, and sits
+~5.6-6.0 vs the all-greedy field. Two measured findings cap further in-env
+gains (details in `specs/self-play-rl-agent.md`): the env's abstract
+scaling layer makes curve-following greedy near-optimal *by construction*,
+and the real-game search advisor loses inside the env (comp churn resets
+compounded scaling — sim2real cuts both ways). Next unlock is env fidelity
+Phase 2: real modeled buff/battlecry effects instead of abstract scaling,
+giving card-level skill actual headroom.
 
 `get_scorer()` prefers `ml/set_net.pt` automatically, so the advisor, the
 whole-game ranking, and the overlay all read the new brain once trained.
