@@ -377,6 +377,12 @@ python -m ml.bc --lobbies 150
 python -m ml.train_ppo --iters 40 --episodes 16
 ```
 
+Phase 1 status: the learned policy **beats the random field decisively**
+(avg placement 1.00) and is still short of the all-greedy field (6.5 after
+~35 CPU-minutes; the bar is <4.5) — stat-max greedy is near-optimal in the
+simplified env, and RL compute is the known cost (spec §9). The training
+loop, league, and eval gates are all in place; it's a `--iters` dial now.
+
 `get_scorer()` prefers `ml/set_net.pt` automatically, so the advisor, the
 whole-game ranking, and the overlay all read the new brain once trained.
 

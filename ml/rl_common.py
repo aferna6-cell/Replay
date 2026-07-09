@@ -35,10 +35,13 @@ def rollout(policy_step: Callable, seed: int,
         a, logp, v = policy_step(arrays, legal)
         prev_turn = obs["turn"]
         prev_tier = obs["tavern_tier"]
+        prev_gold = obs["gold"]
         obs, reward, done, info = env.step(a)
         if shaping and (done or obs["turn"] != prev_turn):
             target = STANDARD_TAVERN_TIER.get(prev_turn, 6.0)
             reward += shaping * max(-2.0, min(1.0, prev_tier - target)) * 0.05
+            # Gold stranded at end of turn is (almost) pure waste in BG.
+            reward -= shaping * 0.01 * max(0, prev_gold - 1)
         traj["tokens"].append(arrays[0])
         traj["mask"].append(arrays[1])
         traj["zones"].append(arrays[2])

@@ -45,6 +45,32 @@ def collect(lobbies: int, emb: Dict, byname: Dict, seed: int = 0) -> List[Tuple]
     return out
 
 
+def collect_dagger(net: PolicyNet, lobbies: int, emb: Dict, byname: Dict,
+                   seed: int = 0, mix: float = 0.7) -> List[Tuple]:
+    """DAgger round: visit the states the LEARNED policy reaches (that's where
+    plain BC compounds its errors) and label every one with the expert's
+    action. The expert (greedy_policy) is a pure function of the observation,
+    so labels are exact on any state — the ideal DAgger setting."""
+    out = []
+    for i in range(lobbies):
+        env = BGEnv(seed=seed + i)
+        obs = env.reset(seed=seed + i)
+        rng = random.Random(seed + i)
+        for _ in range(400):
+            legal = env.legal_mask(0)
+            arrays = encode_obs(obs, emb, byname)
+            expert = greedy_policy(obs, legal, rng)
+            out.append((arrays, np.asarray(legal, dtype=np.float32), expert))
+            if rng.random() < mix:
+                a, _, _ = net.act(arrays, legal, greedy=True)
+            else:
+                a = expert
+            obs, _, done, _ = env.step(a)
+            if done:
+                break
+    return out
+
+
 def train_bc(demos: List[Tuple], emb: Dict, epochs: int = 6, lr: float = 1e-3,
              batch: int = 256, seed: int = 0, verbose: bool = True) -> PolicyNet:
     torch.manual_seed(seed)
@@ -82,6 +108,9 @@ def main(argv=None):
     p = argparse.ArgumentParser(description="Behavior-clone the greedy baseline")
     p.add_argument("--lobbies", type=int, default=150)
     p.add_argument("--epochs", type=int, default=6)
+    p.add_argument("--dagger-rounds", type=int, default=2,
+                   help="DAgger rounds after the initial clone (0 = pure BC)")
+    p.add_argument("--dagger-lobbies", type=int, default=80)
     p.add_argument("--eval-episodes", type=int, default=30)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--out", default=_OUT)
@@ -93,7 +122,17 @@ def main(argv=None):
     demos = collect(a.lobbies, emb, byname, seed=a.seed)
     print(f"  {len(demos)} decisions")
     net = train_bc(demos, emb, epochs=a.epochs, seed=a.seed)
-    save_policy(net, a.out, {"kind": "bc", "demos": len(demos)})
+
+    for rnd in range(a.dagger_rounds):
+        print(f"\nDAgger round {rnd + 1}: visiting the learned policy's states…")
+        extra = collect_dagger(net, a.dagger_lobbies, emb, byname,
+                               seed=a.seed + (rnd + 1) * 10_000)
+        demos += extra
+        print(f"  +{len(extra)} labeled states (total {len(demos)})")
+        net = train_bc(demos, emb, epochs=a.epochs, seed=a.seed)
+
+    save_policy(net, a.out, {"kind": "bc", "demos": len(demos),
+                             "dagger_rounds": a.dagger_rounds})
     print(f"Saved -> {a.out}")
 
     print(f"\nEvaluating vs all-greedy field ({a.eval_episodes} episodes)…")

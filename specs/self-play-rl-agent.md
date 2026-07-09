@@ -8,8 +8,14 @@ Status: **Phase 0 built + validated; Phase 1 running.**
   (`ml/midgame_dataset.py`, `ml/train_set_net.py`, calibration in
   `ml/calibrate.py`).
 - Phase 1: policy/value net with masked 28-action head (`ml/policy_net.py`),
-  BC warm start from the greedy baseline (`ml/bc.py`), PPO + league
-  (`ml/train_ppo.py`). Gate: beat random + greedy fields.
+  BC warm start from the greedy baseline (`ml/bc.py` — includes DAgger
+  rounds), PPO + league (`ml/train_ppo.py`). Gate: beat random + greedy.
+  **Current results** (120 iters ≈ 35 CPU-min): beats the random field
+  decisively (avg placement 1.00); does not yet beat the all-greedy field
+  (6.47, bar is <4.5) — greedy stat-max play is near-optimal in the Phase 0
+  env, and the spec's compute caveat applies. Continue with
+  `python -m ml.train_ppo --iters N` (league + shaping anneal resume from
+  the BC checkpoint).
 Remaining phases (wider cards, heroes/trinkets, scale) below are future work.
 
 ## 0. Why this approach

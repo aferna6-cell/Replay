@@ -40,7 +40,9 @@ def obs_context(obs: Dict) -> np.ndarray:
         (obs.get("gold") or 0) / 10.0,
         (obs.get("hero_health") or 0) / 40.0,
         (obs.get("players_alive") or 8) / 8.0,
-        (obs.get("level_cost") or 10) / 10.0,
+        # `or` would turn a FREE tier-up (cost 0) into 10 — use an explicit
+        # None check; 10 only stands in for "can't level" (tier 6).
+        (10 if obs.get("level_cost") is None else obs["level_cost"]) / 10.0,
         1.0 if obs.get("frozen") else 0.0,
         math.log1p(max(obs.get("max_opp_strength") or 0, 0)) / 10.0,
     ], dtype=np.float32)
