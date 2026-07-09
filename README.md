@@ -347,6 +347,54 @@ Windows Task Scheduler: weekly action -> bash scripts/weekly_update.sh
 
 Design for the full self-play RL agent: `specs/self-play-rl-agent.md`.
 
+## The Phase 0 environment + self-play RL track (built)
+
+The RL spec's make-or-break gate — a faithful-enough recruit-phase simulator —
+is built and validated (`hsbg_coach/bg_env.py`, stdlib only): an 8-player
+lobby with real cards from the committed KB, a finite shared pool (real copy
+counts), shop generation by tier, buy/sell/roll/freeze, real tavern-up
+discounts, triples → golden + discover, combat resolved by `sim.py`, and an
+abstract end-of-turn scaling layer standing in for the buff long tail so
+boards track the measured Firestone curve. Validation (`python -m
+hsbg_coach.bg_env --lobbies 100`): tavern tier within ~0.5 of the real curve,
+board stats on-curve, ~14-turn games, eliminations matching the real
+alive-by-turn table.
+
+That unlocks the whole learning stack:
+
+```bash
+# 1. The set-transformer board brain (replaces the mean-pooled MLP):
+#    one token per minion -> self-attention -> P(finish 1st..8th).
+#    Trained on env self-play MID-GAME states (the states the advisor
+#    actually queries — the old net only ever saw final boards).
+python -m ml.train_set_net --midgame-lobbies 300 --epochs 30
+python -m ml.calibrate                  # per-stage calibration check
+
+# 2. Behavior-clone the greedy baseline (RL warm start + first league member)
+python -m ml.bc --lobbies 150
+
+# 3. PPO against a league (scripted baselines + past selves)
+python -m ml.train_ppo --iters 40 --episodes 16
+```
+
+Phase 1 status: the learned policy **beats the random field decisively**
+(avg placement 1.00) and is still short of the all-greedy field (6.5 after
+~35 CPU-minutes; the bar is <4.5) — stat-max greedy is near-optimal in the
+simplified env, and RL compute is the known cost (spec §9). The training
+loop, league, and eval gates are all in place; it's a `--iters` dial now.
+
+`get_scorer()` prefers `ml/set_net.pt` automatically, so the advisor, the
+whole-game ranking, and the overlay all read the new brain once trained.
+
+## Turn planning is beam search now
+
+`hsbg advise` plans the full turn by beam search over action *sequences*
+(`hsbg_coach/turn_search.py`) instead of greedy best-move-repeat: it finds
+sell→buy room-making lines, triple completions, and level-then-buy plans the
+greedy planner structurally cannot, scores every line by whole-game expected
+placement, and reports the expected finish of the chosen line. Roll/freeze
+stay honest heuristics (future shops aren't simulated).
+
 ## Roadmap
 
 See `specs/hsbg-coach_spec.md` for the full spec, data model, and ML design.

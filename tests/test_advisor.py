@@ -58,7 +58,7 @@ def test_heuristic_scorer_monotonic():
 
 def test_get_scorer_returns_usable_scorer():
     sc = get_scorer()
-    assert hasattr(sc, "equity") and sc.name in {"heuristic", "eval_net"}
+    assert hasattr(sc, "equity") and sc.name in {"heuristic", "eval_net", "set_net"}
 
 
 # --- advisor ----------------------------------------------------------------

@@ -1,0 +1,171 @@
+"""PPO with a self-play league — Phase 1/2 of the RL spec.
+
+  python -m ml.train_ppo --iters 40 --episodes 16
+
+The backbone the spec recommends (§6): PPO on the Phase 0 env, warm-started
+from the behavior-cloned policy when `ml/policy_bc.pt` exists, playing against
+a *league* — scripted greedy/random plus snapshots of past selves — rather
+than only the latest self (the AlphaStar lesson: leagues prevent strategy
+collapse). Reward is zero-mean placement; a small on-pace shaping term anneals
+to zero over training (§5).
+
+Gate to report: average placement vs the all-greedy field. Below 4.5 beats the
+field; the scripted-greedy baseline itself sits at ~4.5 by construction.
+"""
+
+import argparse
+import copy
+import os
+import random
+from typing import List
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+from hsbg_coach.synergy import load_embeddings
+from .policy_net import PolicyNet, save_policy, load_policy, as_env_policy
+from .rl_common import rollout, mixed_field, evaluate_policy, kb_byname
+from .tokens import token_dim
+
+_OUT = os.path.join(os.path.dirname(__file__), "policy_ppo.pt")
+_BC = os.path.join(os.path.dirname(__file__), "policy_bc.pt")
+
+GAMMA = 0.999
+LAM = 0.95
+CLIP = 0.2
+ENTROPY = 0.01
+VALUE_COEF = 0.5
+PPO_EPOCHS = 4
+LEAGUE_EVERY = 8
+LEAGUE_MAX = 5
+
+
+def _gae(rewards: List[float], values: List[float]) -> np.ndarray:
+    adv = np.zeros(len(rewards), dtype=np.float32)
+    last = 0.0
+    for t in reversed(range(len(rewards))):
+        nv = values[t + 1] if t + 1 < len(values) else 0.0
+        delta = rewards[t] + GAMMA * nv - values[t]
+        last = delta + GAMMA * LAM * last
+        adv[t] = last
+    return adv
+
+
+def _update(net, opt, batch) -> dict:
+    toks, mask, zones, ctx, legal, acts, old_logp, adv, ret = batch
+    stats = {"pi": 0.0, "v": 0.0, "ent": 0.0}
+    n = toks.shape[0]
+    for _ in range(PPO_EPOCHS):
+        perm = torch.randperm(n)
+        for i in range(0, n, 256):
+            ix = perm[i:i + 256]
+            logits, value = net(toks[ix], mask[ix], zones[ix], ctx[ix])
+            logits = PolicyNet.masked_logits(logits, legal[ix])
+            dist = torch.distributions.Categorical(logits=logits)
+            logp = dist.log_prob(acts[ix])
+            ratio = torch.exp(logp - old_logp[ix])
+            a = adv[ix]
+            pi_loss = -torch.min(ratio * a,
+                                 torch.clamp(ratio, 1 - CLIP, 1 + CLIP) * a).mean()
+            v_loss = F.mse_loss(value, ret[ix])
+            ent = dist.entropy().mean()
+            loss = pi_loss + VALUE_COEF * v_loss - ENTROPY * ent
+            opt.zero_grad()
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
+            opt.step()
+            stats["pi"] += float(pi_loss.item())
+            stats["v"] += float(v_loss.item())
+            stats["ent"] += float(ent.item())
+    return stats
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(description="PPO + league self-play")
+    p.add_argument("--iters", type=int, default=40)
+    p.add_argument("--episodes", type=int, default=16, help="episodes per iter")
+    p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--shaping", type=float, default=1.0,
+                   help="initial on-pace shaping weight (anneals to 0)")
+    p.add_argument("--eval-episodes", type=int, default=40)
+    p.add_argument("--out", default=_OUT)
+    p.add_argument("--from-bc", default=_BC)
+    a = p.parse_args(argv)
+
+    torch.manual_seed(a.seed)
+    rng = random.Random(a.seed)
+    emb = load_embeddings()
+    byname = kb_byname()
+
+    if os.path.isfile(a.from_bc):
+        net = load_policy(a.from_bc)
+        print(f"Warm-started from {a.from_bc}")
+    else:
+        net = PolicyNet(token_dim(emb))
+        print("No BC checkpoint — starting from scratch "
+              "(run `python -m ml.bc` first for a better start)")
+    net.train()
+    opt = torch.optim.AdamW(net.parameters(), lr=3e-4, weight_decay=1e-4)
+    league: List = []
+
+    def policy_step(arrays, legal):
+        return net.act(arrays, legal, greedy=False)
+
+    ep_seed = a.seed * 1_000_003
+    for it in range(a.iters):
+        anneal = max(0.0, 1.0 - it / max(1, a.iters * 0.7))
+        shaping = a.shaping * anneal
+        trajs = []
+        for e in range(a.episodes):
+            ep_seed += 1
+            trajs.append(rollout(policy_step, ep_seed,
+                                 opponents=mixed_field(rng, league),
+                                 emb=emb, byname=byname, shaping=shaping))
+        placements = [t["placement"] for t in trajs]
+
+        toks = torch.from_numpy(np.concatenate([np.stack(t["tokens"]) for t in trajs]))
+        mask = torch.from_numpy(np.concatenate([np.stack(t["mask"]) for t in trajs]))
+        zones = torch.from_numpy(np.concatenate([np.stack(t["zones"]) for t in trajs]))
+        ctx = torch.from_numpy(np.concatenate([np.stack(t["ctx"]) for t in trajs]))
+        legal = torch.from_numpy(np.concatenate([np.stack(t["legal"]) for t in trajs]))
+        acts = torch.tensor([x for t in trajs for x in t["action"]], dtype=torch.long)
+        old_logp = torch.tensor([x for t in trajs for x in t["logp"]])
+        advs, rets = [], []
+        for t in trajs:
+            adv = _gae(t["reward"], t["value"])
+            advs.append(adv)
+            rets.append(adv + np.asarray(t["value"], dtype=np.float32))
+        adv = torch.from_numpy(np.concatenate(advs))
+        ret = torch.from_numpy(np.concatenate(rets))
+        adv = (adv - adv.mean()) / (adv.std() + 1e-6)
+
+        _update(net, opt, (toks, mask, zones, ctx, legal, acts, old_logp, adv, ret))
+        print(f"iter {it:3d}  avg placement {np.mean(placements):.2f}  "
+              f"steps {toks.shape[0]:4d}  shaping {shaping:.2f}  "
+              f"league {len(league)}")
+
+        if (it + 1) % LEAGUE_EVERY == 0:
+            frozen = copy.deepcopy(net)
+            frozen.eval()
+            league.append(as_env_policy(frozen, emb, byname))
+            if len(league) > LEAGUE_MAX:
+                league.pop(0)
+            save_policy(net, a.out, {"kind": "ppo", "iter": it + 1})
+
+    net.eval()
+    save_policy(net, a.out, {"kind": "ppo", "iters": a.iters})
+    print(f"\nSaved -> {a.out}")
+    print(f"Evaluating vs all-greedy field ({a.eval_episodes} episodes)…")
+    avg = evaluate_policy(as_env_policy(net, emb, byname), a.eval_episodes)
+    print(f"PPO policy avg placement vs greedy field: {avg:.2f}  "
+          f"(<4.5 beats the field)")
+    from hsbg_coach.bg_env import random_policy
+    avg_r = evaluate_policy(as_env_policy(net, emb, byname), a.eval_episodes,
+                            field=[random_policy] * 7)
+    print(f"PPO policy avg placement vs random field: {avg_r:.2f}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
