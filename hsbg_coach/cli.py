@@ -377,9 +377,11 @@ def cmd_advise(args) -> int:
     print(f"Whole-game ranking — expected final placement (now: {base:.1f}):")
     for r in recs:
         print(r.line())
-    from .advisor import plan_turn
-    steps = plan_turn(snap, kb=kb, hero_ctx=hero_ctx)
-    print("\nFull-turn plan (follow in order):")
+    from .turn_search import plan_turn_search
+    plan = plan_turn_search(snap, kb=kb, pace=pace)
+    steps = plan.steps
+    print(f"\nFull-turn plan (beam-searched, expected finish "
+          f"{plan.expected:.1f}, {plan.gain:+.2f} vs doing nothing):")
     for i, s in enumerate(steps, 1):
         print(f"  {i}. {s}")
     return 0

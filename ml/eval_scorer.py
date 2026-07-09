@@ -14,14 +14,16 @@ from hsbg_coach.cards import by_name, load_kb
 from .board_features import minion_from_snapshot
 
 _MODEL = os.path.join(os.path.dirname(__file__), "eval_net.pt")
+_SET_MODEL = os.path.join(os.path.dirname(__file__), "set_net.pt")
 
 
 class EvalNetScorer:
     name = "eval_net"
 
-    def __init__(self, model, byname):
+    def __init__(self, model, byname, name: str = "eval_net"):
         self.model = model
         self.byname = byname
+        self.name = name
 
     def equity(self, board, hero_id: str = "UNKNOWN", state=None) -> float:
         minions = [m for m in (minion_from_snapshot(_as_dict(x), self.byname)
@@ -39,10 +41,18 @@ def _as_dict(m):
             "tags": getattr(m, "tags", {}) or {}}
 
 
-def load_default_scorer(model_path: str = _MODEL) -> Optional[EvalNetScorer]:
+def load_default_scorer(model_path: str = _MODEL,
+                        set_model_path: str = _SET_MODEL
+                        ) -> Optional[EvalNetScorer]:
+    """Best available learned scorer: the set-transformer (attention over
+    minions, mid-game trained) when present, else the original MLP."""
+    emb = load_embeddings()
+    if os.path.isfile(set_model_path):
+        from .set_net import SetEvalModel    # imports torch — kept lazy
+        model = SetEvalModel.load(set_model_path, emb)
+        return EvalNetScorer(model, by_name(load_kb()), name="set_net")
     if not os.path.isfile(model_path):
         return None
     from .eval_net import EvalModel          # imports torch — kept lazy
-    emb = load_embeddings()
     model = EvalModel.load(model_path, emb)
     return EvalNetScorer(model, by_name(load_kb()))

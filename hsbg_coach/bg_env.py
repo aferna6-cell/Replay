@@ -543,12 +543,26 @@ def random_policy(obs: Dict, mask: List[bool], rng: random.Random) -> int:
     return A_END
 
 
+def make_greedy_policy(level_bias: float = 0.0) -> Callable:
+    """Greedy baseline with a pacing dial: positive bias levels ahead of the
+    curve (greedy-leveler), negative stays on tempo. Used to diversify the
+    scripted field so generated datasets cover different pacing styles."""
+    def policy(obs: Dict, mask: List[bool], rng: random.Random) -> int:
+        return _greedy(obs, mask, rng, level_bias)
+    return policy
+
+
 def greedy_policy(obs: Dict, mask: List[bool], rng: random.Random) -> int:
     """Play hand, level on the pace curve, buy the biggest affordable minion,
     roll surplus gold. The baseline every learned policy must beat."""
+    return _greedy(obs, mask, rng, 0.0)
+
+
+def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
+            level_bias: float) -> int:
     if any(mask[A_PLAY0:A_PLAY0 + N_PLAY]):
         return A_PLAY0 + next(i for i in range(N_PLAY) if mask[A_PLAY0 + i])
-    target = STANDARD_TAVERN_TIER.get(obs["turn"], 6.0)
+    target = STANDARD_TAVERN_TIER.get(obs["turn"], 6.0) + level_bias
     if mask[A_LEVEL] and obs["tavern_tier"] < target - 0.45:
         return A_LEVEL
     buys = [i for i in range(len(obs["shop"])) if mask[A_BUY0 + i]]
