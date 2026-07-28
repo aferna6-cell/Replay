@@ -1,0 +1,9521 @@
+{
+ "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+ "_fetched": "2026-06-26",
+ "_mmr": 10,
+ "_period": "past-seven",
+ "_heroDataPoints": 53756,
+ "boards": [
+  {
+   "archetype": "mech_magnet",
+   "name": "Mech Magnet",
+   "tribe": "Mech",
+   "boardCount": 516,
+   "coreCards": [
+    {
+     "name": "Ingenious Inventor",
+     "frequency": 0.998,
+     "commonPosition": 1
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.651,
+     "commonPosition": 7
+    },
+    {
+     "name": "Falling Sky Golem",
+     "frequency": 0.506,
+     "commonPosition": 4
+    },
+    {
+     "name": "Kangor's Apprentice",
+     "frequency": 0.475,
+     "commonPosition": 6
+    },
+    {
+     "name": "Polarizing Beatboxer",
+     "frequency": 0.419,
+     "commonPosition": 5
+    },
+    {
+     "name": "Deflect-o-Bot",
+     "frequency": 0.395,
+     "commonPosition": 2
+    },
+    {
+     "name": "Junk Jouster",
+     "frequency": 0.368,
+     "commonPosition": 4
+    },
+    {
+     "name": "Scrap Scraper",
+     "frequency": 0.366,
+     "commonPosition": 3
+    },
+    {
+     "name": "Holo Rover",
+     "frequency": 0.345,
+     "commonPosition": 2
+    },
+    {
+     "name": "Moonsteel Juggernaut",
+     "frequency": 0.163,
+     "commonPosition": 5
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.14,
+     "commonPosition": 1
+    },
+    {
+     "name": "Auto Assembler",
+     "frequency": 0.091,
+     "commonPosition": 6
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 12658,
+     "minions": [
+      {
+       "cardId": "BG35_890_G",
+       "name": "Ingenious Inventor",
+       "pos": 1,
+       "atk": 229,
+       "health": 215,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_890",
+       "name": "Ingenious Inventor",
+       "pos": 2,
+       "atk": 161,
+       "health": 148,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_148_G",
+       "name": "Scrap Scraper",
+       "pos": 3,
+       "atk": 213,
+       "health": 194,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_342_G",
+       "name": "Falling Sky Golem",
+       "pos": 4,
+       "atk": 1344,
+       "health": 914,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_175_G",
+       "name": "Junk Jouster",
+       "pos": 5,
+       "atk": 245,
+       "health": 239,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 215,
+       "health": 227,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_175",
+       "name": "Junk Jouster",
+       "pos": 7,
+       "atk": 91,
+       "health": 73,
+       "tribe": "Mech",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 11844,
+     "minions": [
+      {
+       "cardId": "BG35_890_G",
+       "name": "Ingenious Inventor",
+       "pos": 1,
+       "atk": 63,
+       "health": 51,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_890",
+       "name": "Ingenious Inventor",
+       "pos": 2,
+       "atk": 13,
+       "health": 6,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_599",
+       "name": "Timewarped Whirl-O-Tron",
+       "pos": 3,
+       "atk": 138,
+       "health": 142,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG35_342_G",
+       "name": "Falling Sky Golem",
+       "pos": 4,
+       "atk": 665,
+       "health": 405,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_149",
+       "name": "Polarizing Beatboxer",
+       "pos": 5,
+       "atk": 234,
+       "health": 276,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_302",
+       "name": "Timewarped Copter",
+       "pos": 6,
+       "atk": 120,
+       "health": 128,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 55,
+       "health": 61,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 9140,
+     "minions": [
+      {
+       "cardId": "BG35_890_G",
+       "name": "Ingenious Inventor",
+       "pos": 1,
+       "atk": 302,
+       "health": 296,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_890_G",
+       "name": "Ingenious Inventor",
+       "pos": 2,
+       "atk": 140,
+       "health": 141,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_175_G",
+       "name": "Holo Rover",
+       "pos": 3,
+       "atk": 338,
+       "health": 338,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_175",
+       "name": "Junk Jouster",
+       "pos": 4,
+       "atk": 322,
+       "health": 330,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_123",
+       "name": "Deflect-o-Bot",
+       "pos": 5,
+       "atk": 460,
+       "health": 487,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_012",
+       "name": "Kangor's Apprentice",
+       "pos": 6,
+       "atk": 237,
+       "health": 258,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 212,
+       "health": 245,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "elemental_shop_buff",
+   "name": "Elemental Shop Buff",
+   "tribe": "Elemental",
+   "boardCount": 313,
+   "coreCards": [
+    {
+     "name": "Leyline Surfacer",
+     "frequency": 0.792,
+     "commonPosition": 5
+    },
+    {
+     "name": "Wildfire Elemental",
+     "frequency": 0.773,
+     "commonPosition": 2
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.668,
+     "commonPosition": 6
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.594,
+     "commonPosition": 7
+    },
+    {
+     "name": "Flaming Enforcer",
+     "frequency": 0.463,
+     "commonPosition": 3
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 0.409,
+     "commonPosition": 4
+    },
+    {
+     "name": "En-Djinn Blazer",
+     "frequency": 0.233,
+     "commonPosition": 4
+    },
+    {
+     "name": "Air Revenant",
+     "frequency": 0.233,
+     "commonPosition": 3
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.188,
+     "commonPosition": 7
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.166,
+     "commonPosition": 5
+    },
+    {
+     "name": "Dancing Barnstormer",
+     "frequency": 0.134,
+     "commonPosition": 4
+    },
+    {
+     "name": "Crackling Cyclone",
+     "frequency": 0.105,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 11828,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 264,
+       "health": 288,
+       "tribe": "Beast",
+       "keywords": [
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BGS_126",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 40395,
+       "health": 40066,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_865",
+       "name": "En-Djinn Blazer",
+       "pos": 3,
+       "atk": 4,
+       "health": 4,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 4,
+       "atk": 59,
+       "health": 76,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_881_G",
+       "name": "Leyline Surfacer",
+       "pos": 5,
+       "atk": 36815,
+       "health": 36552,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 6,
+       "atk": 29,
+       "health": 58,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 32,
+       "health": 62,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 9676,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 17,
+       "health": 15,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BGS_126",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 2998,
+       "health": 2945,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_858_G",
+       "name": "Air Revenant",
+       "pos": 3,
+       "atk": 5444,
+       "health": 5370,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_175",
+       "name": "Elemental of Surprise",
+       "pos": 4,
+       "atk": 72,
+       "health": 70,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 5,
+       "atk": 6,
+       "health": 6,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_881_G",
+       "name": "Leyline Surfacer",
+       "pos": 6,
+       "atk": 51,
+       "health": 66,
+       "tribe": "Elemental",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 8312,
+     "minions": [
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 1,
+       "atk": 239,
+       "health": 341,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 1529,
+       "health": 2247,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 3,
+       "atk": 2808,
+       "health": 4017,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 4,
+       "atk": 3931,
+       "health": 5766,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_881_G",
+       "name": "Leyline Surfacer",
+       "pos": 5,
+       "atk": 597,
+       "health": 918,
+       "tribe": "Elemental",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 6,
+       "atk": 24,
+       "health": 54,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 7,
+       "atk": 144,
+       "health": 218,
+       "tribe": null,
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "neutral_back_to_back",
+   "name": "Neutral Back To Back",
+   "tribe": null,
+   "boardCount": 88,
+   "coreCards": [
+    {
+     "name": "Cataclysmic Harbinger",
+     "frequency": 1.0,
+     "commonPosition": 4
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.955,
+     "commonPosition": 6
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.886,
+     "commonPosition": 7
+    },
+    {
+     "name": "Felfire Conjurer",
+     "frequency": 0.602,
+     "commonPosition": 6
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.182,
+     "commonPosition": 1
+    },
+    {
+     "name": "Blade Collector",
+     "frequency": 0.17,
+     "commonPosition": 2
+    },
+    {
+     "name": "Tranquil Meditative",
+     "frequency": 0.114,
+     "commonPosition": 5
+    },
+    {
+     "name": "Sin'dorei Straight Shot",
+     "frequency": 0.102,
+     "commonPosition": 1
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.091,
+     "commonPosition": 3
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.08,
+     "commonPosition": 4
+    },
+    {
+     "name": "Heroic Underdog",
+     "frequency": 0.068,
+     "commonPosition": 5
+    },
+    {
+     "name": "Charmwing",
+     "frequency": 0.068,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 8123,
+     "minions": [
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 1,
+       "atk": 2374,
+       "health": 2384,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 2,
+       "atk": 2181,
+       "health": 2189,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_821",
+       "name": "Felfire Conjurer",
+       "pos": 3,
+       "atk": 1781,
+       "health": 1780,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_318",
+       "name": "Bile Spitter",
+       "pos": 4,
+       "atk": 1,
+       "health": 10,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_891",
+       "name": "Magicfin Mycologist",
+       "pos": 5,
+       "atk": 4,
+       "health": 8,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_821",
+       "name": "Felfire Conjurer",
+       "pos": 6,
+       "atk": 1417,
+       "health": 1416,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 995,
+       "health": 1006,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7323,
+     "minions": [
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 1,
+       "atk": 23,
+       "health": 17,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_821",
+       "name": "Felfire Conjurer",
+       "pos": 2,
+       "atk": 1298,
+       "health": 1166,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 3,
+       "atk": 2783,
+       "health": 2430,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 4,
+       "atk": 3494,
+       "health": 3145,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 5,
+       "atk": 4416,
+       "health": 3956,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_821_G",
+       "name": "Felfire Conjurer",
+       "pos": 6,
+       "atk": 1607,
+       "health": 1410,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 7,
+       "atk": 3757,
+       "health": 3357,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7253,
+     "minions": [
+      {
+       "cardId": "BG34_926_G",
+       "name": "Ruthless Queensguard",
+       "pos": 1,
+       "atk": 248,
+       "health": 274,
+       "tribe": "Naga",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 2,
+       "atk": 9825,
+       "health": 7436,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 3,
+       "atk": 4341,
+       "health": 3348,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 4,
+       "atk": 2397,
+       "health": 1823,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123",
+       "name": "Cataclysmic Harbinger",
+       "pos": 5,
+       "atk": 1235,
+       "health": 920,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_835_G",
+       "name": "Tranquil Meditative",
+       "pos": 6,
+       "atk": 245,
+       "health": 260,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 17,
+       "health": 52,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "naga_groundbreaker",
+   "name": "Naga Groundbreaker",
+   "tribe": "Naga",
+   "boardCount": 100,
+   "coreCards": [
+    {
+     "name": "Groundbreaker",
+     "frequency": 0.92,
+     "commonPosition": 3
+    },
+    {
+     "name": "Seafloor Recruiter",
+     "frequency": 0.56,
+     "commonPosition": 1
+    },
+    {
+     "name": "Maelstrom Emergent",
+     "frequency": 0.48,
+     "commonPosition": 6
+    },
+    {
+     "name": "Sundered Matriarch",
+     "frequency": 0.38,
+     "commonPosition": 6
+    },
+    {
+     "name": "Ring Bearer",
+     "frequency": 0.38,
+     "commonPosition": 7
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.29,
+     "commonPosition": 7
+    },
+    {
+     "name": "Ruthless Queensguard",
+     "frequency": 0.24,
+     "commonPosition": 1
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.24,
+     "commonPosition": 6
+    },
+    {
+     "name": "Wrathscale Rogue",
+     "frequency": 0.23,
+     "commonPosition": 5
+    },
+    {
+     "name": "Pufferquil",
+     "frequency": 0.19,
+     "commonPosition": 4
+    },
+    {
+     "name": "Abyssal Bruiser",
+     "frequency": 0.14,
+     "commonPosition": 7
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.14,
+     "commonPosition": 7
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7284,
+     "minions": [
+      {
+       "cardId": "BG31_035_G",
+       "name": "Groundbreaker",
+       "pos": 1,
+       "atk": 682,
+       "health": 721,
+       "tribe": "Naga",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_035_G",
+       "name": "Groundbreaker",
+       "pos": 2,
+       "atk": 5942,
+       "health": 2824,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG31_920_G",
+       "name": "Darkcrest Strategist",
+       "pos": 3,
+       "atk": 1035,
+       "health": 718,
+       "tribe": "Naga",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_920_G",
+       "name": "Darkcrest Strategist",
+       "pos": 4,
+       "atk": 1099,
+       "health": 709,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG31_920_G",
+       "name": "Darkcrest Strategist",
+       "pos": 5,
+       "atk": 1021,
+       "health": 711,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_923_G",
+       "name": "Sundered Matriarch",
+       "pos": 6,
+       "atk": 1021,
+       "health": 709,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 7,
+       "atk": 3,
+       "health": 1,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7265,
+     "minions": [
+      {
+       "cardId": "BG34_926",
+       "name": "Ruthless Queensguard",
+       "pos": 1,
+       "atk": 620,
+       "health": 371,
+       "tribe": "Naga",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 2,
+       "atk": 71,
+       "health": 36,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG26_817",
+       "name": "Blade Collector",
+       "pos": 3,
+       "atk": 655,
+       "health": 386,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_922_G",
+       "name": "Maelstrom Emergent",
+       "pos": 4,
+       "atk": 404,
+       "health": 234,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 5,
+       "atk": 153,
+       "health": 95,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_921",
+       "name": "Ring Bearer",
+       "pos": 6,
+       "atk": 109,
+       "health": 62,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_921",
+       "name": "Ring Bearer",
+       "pos": 7,
+       "atk": 243,
+       "health": 160,
+       "tribe": "Naga",
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 8611,
+     "minions": [
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 1,
+       "atk": 17,
+       "health": 15,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_925_G",
+       "name": "Seafloor Recruiter",
+       "pos": 2,
+       "atk": 4714,
+       "health": 4081,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG31_035",
+       "name": "Groundbreaker",
+       "pos": 3,
+       "atk": 5177,
+       "health": 4470,
+       "tribe": "Naga",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_039",
+       "name": "Pufferquil",
+       "pos": 4,
+       "atk": 64,
+       "health": 74,
+       "tribe": "Quilboar",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_922_G",
+       "name": "Maelstrom Emergent",
+       "pos": 5,
+       "atk": 11372,
+       "health": 10001,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG31_035_G",
+       "name": "Groundbreaker",
+       "pos": 6,
+       "atk": 21758,
+       "health": 19578,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG31_035",
+       "name": "Groundbreaker",
+       "pos": 7,
+       "atk": 18907,
+       "health": 17960,
+       "tribe": "Naga",
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "demon_damage",
+   "name": "Demon Damage",
+   "tribe": "Demon",
+   "boardCount": 272,
+   "coreCards": [
+    {
+     "name": "Lord of the Ruins",
+     "frequency": 0.974,
+     "commonPosition": 5
+    },
+    {
+     "name": "Silent Enforcer",
+     "frequency": 0.691,
+     "commonPosition": 2
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.684,
+     "commonPosition": 7
+    },
+    {
+     "name": "Devout Hellcaller",
+     "frequency": 0.496,
+     "commonPosition": 4
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.338,
+     "commonPosition": 1
+    },
+    {
+     "name": "Felhorn",
+     "frequency": 0.202,
+     "commonPosition": 3
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 0.188,
+     "commonPosition": 2
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.18,
+     "commonPosition": 7
+    },
+    {
+     "name": "Famished Felbat",
+     "frequency": 0.143,
+     "commonPosition": 3
+    },
+    {
+     "name": "Soul Rewinder",
+     "frequency": 0.096,
+     "commonPosition": 3
+    },
+    {
+     "name": "Consummate Conqueror",
+     "frequency": 0.096,
+     "commonPosition": 4
+    },
+    {
+     "name": "Silky Shimmermoth",
+     "frequency": 0.096,
+     "commonPosition": 6
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7437,
+     "minions": [
+      {
+       "cardId": "BG33_156_G",
+       "name": "Silent Enforcer",
+       "pos": 1,
+       "atk": 146,
+       "health": 110,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_801",
+       "name": "Rylak Metalhead",
+       "pos": 2,
+       "atk": 90,
+       "health": 52,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_781_G",
+       "name": "Felhorn",
+       "pos": 3,
+       "atk": 88,
+       "health": 56,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_154_G",
+       "name": "Lord of the Ruins",
+       "pos": 4,
+       "atk": 106,
+       "health": 66,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_155_G",
+       "name": "Devout Hellcaller",
+       "pos": 5,
+       "atk": 1792,
+       "health": 3410,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 100,
+       "health": 60,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 1,
+       "health": 7,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 6551,
+     "minions": [
+      {
+       "cardId": "BG33_156_G",
+       "name": "Silent Enforcer",
+       "pos": 1,
+       "atk": 110,
+       "health": 56,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG33_156_G",
+       "name": "Silent Enforcer",
+       "pos": 2,
+       "atk": 191,
+       "health": 100,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG33_155_G",
+       "name": "Devout Hellcaller",
+       "pos": 3,
+       "atk": 856,
+       "health": 1363,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_155_G",
+       "name": "Devout Hellcaller",
+       "pos": 4,
+       "atk": 607,
+       "health": 917,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_154_G",
+       "name": "Lord of the Ruins",
+       "pos": 5,
+       "atk": 250,
+       "health": 139,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_154_G",
+       "name": "Lord of the Ruins",
+       "pos": 6,
+       "atk": 234,
+       "health": 130,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 100,
+       "health": 63,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 6410,
+     "minions": [
+      {
+       "cardId": "BG33_156",
+       "name": "Silent Enforcer",
+       "pos": 1,
+       "atk": 112,
+       "health": 90,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG33_155_G",
+       "name": "Devout Hellcaller",
+       "pos": 2,
+       "atk": 763,
+       "health": 985,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_155",
+       "name": "Twisted Wrathguard",
+       "pos": 3,
+       "atk": 669,
+       "health": 561,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_873",
+       "name": "Ashen Corruptor",
+       "pos": 4,
+       "atk": 661,
+       "health": 597,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG21_005_G",
+       "name": "Famished Felbat",
+       "pos": 5,
+       "atk": 611,
+       "health": 534,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_154_G",
+       "name": "Lord of the Ruins",
+       "pos": 6,
+       "atk": 342,
+       "health": 297,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_156",
+       "name": "Silent Enforcer",
+       "pos": 7,
+       "atk": 527,
+       "health": 438,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "beast_beetles",
+   "name": "Beast Beetles",
+   "tribe": "Beast",
+   "boardCount": 172,
+   "coreCards": [
+    {
+     "name": "Silky Shimmermoth",
+     "frequency": 1.0,
+     "commonPosition": 5
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 0.715,
+     "commonPosition": 2
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.709,
+     "commonPosition": 7
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.657,
+     "commonPosition": 1
+    },
+    {
+     "name": "Felhorn",
+     "frequency": 0.651,
+     "commonPosition": 3
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.506,
+     "commonPosition": 4
+    },
+    {
+     "name": "Turquoise Skitterer",
+     "frequency": 0.18,
+     "commonPosition": 4
+    },
+    {
+     "name": "Forest Rover",
+     "frequency": 0.128,
+     "commonPosition": 4
+    },
+    {
+     "name": "Rabid Panther",
+     "frequency": 0.081,
+     "commonPosition": 2
+    },
+    {
+     "name": "Buzzing Vermin",
+     "frequency": 0.081,
+     "commonPosition": 2
+    },
+    {
+     "name": "Iridescent Skyblazer",
+     "frequency": 0.058,
+     "commonPosition": 4
+    },
+    {
+     "name": "Tunnel Blaster",
+     "frequency": 0.052,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7653,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 53,
+       "health": 37,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG26_801",
+       "name": "Rylak Metalhead",
+       "pos": 2,
+       "atk": 51,
+       "health": 34,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_801",
+       "name": "Forest Rover",
+       "pos": 3,
+       "atk": 1,
+       "health": 1,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_809_G",
+       "name": "Turquoise Skitterer",
+       "pos": 4,
+       "atk": 49,
+       "health": 39,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_809_G",
+       "name": "Turquoise Skitterer",
+       "pos": 5,
+       "atk": 25,
+       "health": 15,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_204_G",
+       "name": "Silky Shimmermoth",
+       "pos": 6,
+       "atk": 52,
+       "health": 55,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 57,
+       "health": 34,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7169,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 2290,
+       "health": 800,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG_DAL_775_G",
+       "name": "Tunnel Blaster",
+       "pos": 2,
+       "atk": 7,
+       "health": 16,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG_DAL_775",
+       "name": "Tunnel Blaster",
+       "pos": 3,
+       "atk": 3,
+       "health": 7,
+       "tribe": null,
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_204",
+       "name": "Silky Shimmermoth",
+       "pos": 4,
+       "atk": 2713,
+       "health": 936,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_204",
+       "name": "Silky Shimmermoth",
+       "pos": 5,
+       "atk": 2839,
+       "health": 978,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 3276,
+       "health": 1108,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 2021,
+       "health": 682,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7586,
+     "minions": [
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 1,
+       "atk": 55,
+       "health": 93,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_781_G",
+       "name": "Felhorn",
+       "pos": 2,
+       "atk": 6,
+       "health": 10,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 3,
+       "atk": 22,
+       "health": 22,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_204_G",
+       "name": "Silky Shimmermoth",
+       "pos": 4,
+       "atk": 45,
+       "health": 93,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_204_G",
+       "name": "Silky Shimmermoth",
+       "pos": 5,
+       "atk": 148,
+       "health": 230,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_204_G",
+       "name": "Silky Shimmermoth",
+       "pos": 6,
+       "atk": 75,
+       "health": 159,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 74,
+       "health": 86,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "beast_self_damage",
+   "name": "Beast Self Damage",
+   "tribe": "Beast",
+   "boardCount": 156,
+   "coreCards": [
+    {
+     "name": "Rabid Panther",
+     "frequency": 0.865,
+     "commonPosition": 2
+    },
+    {
+     "name": "Iridescent Skyblazer",
+     "frequency": 0.571,
+     "commonPosition": 6
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.474,
+     "commonPosition": 1
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 0.468,
+     "commonPosition": 2
+    },
+    {
+     "name": "Silky Shimmermoth",
+     "frequency": 0.468,
+     "commonPosition": 5
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.346,
+     "commonPosition": 7
+    },
+    {
+     "name": "Felhorn",
+     "frequency": 0.295,
+     "commonPosition": 3
+    },
+    {
+     "name": "Trigore the Lasher",
+     "frequency": 0.25,
+     "commonPosition": 7
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.224,
+     "commonPosition": 7
+    },
+    {
+     "name": "Hunting Tiger Shark",
+     "frequency": 0.218,
+     "commonPosition": 3
+    },
+    {
+     "name": "Spiked Savior",
+     "frequency": 0.109,
+     "commonPosition": 3
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.09,
+     "commonPosition": 6
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 6998,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 798,
+       "health": 782,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 2,
+       "atk": 3120,
+       "health": 3249,
+       "tribe": "Undead",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 3,
+       "atk": 358,
+       "health": 324,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG33_890t",
+       "name": "Magicfin Apprentice",
+       "pos": 4,
+       "atk": 507,
+       "health": 463,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 5,
+       "atk": 336,
+       "health": 323,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 152,
+       "health": 144,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 12,
+       "health": 18,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 6528,
+     "minions": [
+      {
+       "cardId": "BG34_321_G",
+       "name": "Rabid Panther",
+       "pos": 1,
+       "atk": 3990,
+       "health": 4019,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_321_G",
+       "name": "Rabid Panther",
+       "pos": 2,
+       "atk": 4032,
+       "health": 4065,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG31_809",
+       "name": "Turquoise Skitterer",
+       "pos": 3,
+       "atk": 29,
+       "health": 29,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_321_G",
+       "name": "Rabid Panther",
+       "pos": 4,
+       "atk": 4004,
+       "health": 4034,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_321_G",
+       "name": "Rabid Panther",
+       "pos": 5,
+       "atk": 4066,
+       "health": 4092,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG32_204",
+       "name": "Silky Shimmermoth",
+       "pos": 6,
+       "atk": 1139,
+       "health": 1143,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_204_G",
+       "name": "Silky Shimmermoth",
+       "pos": 7,
+       "atk": 3279,
+       "health": 3327,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 6497,
+     "minions": [
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 438,
+       "health": 325,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_781_G",
+       "name": "Felhorn",
+       "pos": 2,
+       "atk": 486,
+       "health": 369,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 3,
+       "atk": 296,
+       "health": 234,
+       "tribe": "Beast",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_781",
+       "name": "Felhorn",
+       "pos": 4,
+       "atk": 13,
+       "health": 13,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_321",
+       "name": "Rabid Panther",
+       "pos": 5,
+       "atk": 331,
+       "health": 258,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_806",
+       "name": "Iridescent Skyblazer",
+       "pos": 6,
+       "atk": 417,
+       "health": 316,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_807_G",
+       "name": "Trigore the Lasher",
+       "pos": 7,
+       "atk": 419,
+       "health": 2844,
+       "tribe": "Beast",
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "dragon_ring_bearer",
+   "name": "Dragon Ring Bearer",
+   "tribe": "Dragon",
+   "boardCount": 471,
+   "coreCards": [
+    {
+     "name": "Ring Bearer",
+     "frequency": 0.985,
+     "commonPosition": 6
+    },
+    {
+     "name": "Persistent Poet",
+     "frequency": 0.684,
+     "commonPosition": 3
+    },
+    {
+     "name": "Charmwing",
+     "frequency": 0.577,
+     "commonPosition": 1
+    },
+    {
+     "name": "Fire-forged Evoker",
+     "frequency": 0.518,
+     "commonPosition": 5
+    },
+    {
+     "name": "Maelstrom Emergent",
+     "frequency": 0.301,
+     "commonPosition": 4
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.253,
+     "commonPosition": 7
+    },
+    {
+     "name": "Twilight Broodmother",
+     "frequency": 0.225,
+     "commonPosition": 2
+    },
+    {
+     "name": "Felfire Conjurer",
+     "frequency": 0.174,
+     "commonPosition": 2
+    },
+    {
+     "name": "Ruthless Queensguard",
+     "frequency": 0.13,
+     "commonPosition": 1
+    },
+    {
+     "name": "Amber Guardian",
+     "frequency": 0.121,
+     "commonPosition": 7
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.1,
+     "commonPosition": 7
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.098,
+     "commonPosition": 7
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 11229,
+     "minions": [
+      {
+       "cardId": "BG34_765",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 300,
+       "health": 2332,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 2,
+       "atk": 481,
+       "health": 2820,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_635_Gt",
+       "name": "Black Chromadrake",
+       "pos": 3,
+       "atk": 1053,
+       "health": 5160,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_813",
+       "name": "Persistent Poet",
+       "pos": 4,
+       "atk": 359,
+       "health": 2542,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_921_G",
+       "name": "Ring Bearer",
+       "pos": 5,
+       "atk": 1183,
+       "health": 5278,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_240",
+       "name": "Charmwing",
+       "pos": 6,
+       "atk": 20,
+       "health": 95,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 422,
+       "health": 2776,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 8599,
+     "minions": [
+      {
+       "cardId": "BG33_240_G",
+       "name": "Charmwing",
+       "pos": 1,
+       "atk": 5064,
+       "health": 1788,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_921",
+       "name": "Ring Bearer",
+       "pos": 2,
+       "atk": 41055,
+       "health": 11423,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG29_813_G",
+       "name": "Persistent Poet",
+       "pos": 3,
+       "atk": 160,
+       "health": 134,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG29_813",
+       "name": "Persistent Poet",
+       "pos": 4,
+       "atk": 14,
+       "health": 15,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_921",
+       "name": "Ring Bearer",
+       "pos": 5,
+       "atk": 5687,
+       "health": 976,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_920_G",
+       "name": "Wrathscale Rogue",
+       "pos": 6,
+       "atk": 6,
+       "health": 12,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG32_822_G",
+       "name": "Fire-forged Evoker",
+       "pos": 7,
+       "atk": 1180,
+       "health": 813,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 8421,
+     "minions": [
+      {
+       "cardId": "BG33_240_G",
+       "name": "Charmwing",
+       "pos": 1,
+       "atk": 3021,
+       "health": 1730,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG29_813_G",
+       "name": "Persistent Poet",
+       "pos": 2,
+       "atk": 734,
+       "health": 1264,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG27_017",
+       "name": "Obsidian Ravager",
+       "pos": 3,
+       "atk": 2087,
+       "health": 1386,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_822_G",
+       "name": "Fire-forged Evoker",
+       "pos": 4,
+       "atk": 1669,
+       "health": 943,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG29_813",
+       "name": "Persistent Poet",
+       "pos": 5,
+       "atk": 1452,
+       "health": 1624,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_921_G",
+       "name": "Ring Bearer",
+       "pos": 6,
+       "atk": 1180,
+       "health": 680,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_822_G",
+       "name": "Fire-forged Evoker",
+       "pos": 7,
+       "atk": 648,
+       "health": 380,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "beast_goldrinn",
+   "name": "Beast Goldrinn",
+   "tribe": "Beast",
+   "boardCount": 37,
+   "coreCards": [
+    {
+     "name": "Goldrinn, the Great Wolf",
+     "frequency": 0.973,
+     "commonPosition": 2
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.919,
+     "commonPosition": 7
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.865,
+     "commonPosition": 1
+    },
+    {
+     "name": "Sewer Lord",
+     "frequency": 0.784,
+     "commonPosition": 5
+    },
+    {
+     "name": "Banana Slamma",
+     "frequency": 0.324,
+     "commonPosition": 6
+    },
+    {
+     "name": "Turquoise Skitterer",
+     "frequency": 0.243,
+     "commonPosition": 4
+    },
+    {
+     "name": "Fish of N'Zoth",
+     "frequency": 0.189,
+     "commonPosition": 5
+    },
+    {
+     "name": "Silky Shimmermoth",
+     "frequency": 0.189,
+     "commonPosition": 5
+    },
+    {
+     "name": "Forest Rover",
+     "frequency": 0.135,
+     "commonPosition": 3
+    },
+    {
+     "name": "Sly Raptor",
+     "frequency": 0.108,
+     "commonPosition": 4
+    },
+    {
+     "name": "Timewarped Leapfrogger",
+     "frequency": 0.081,
+     "commonPosition": 3
+    },
+    {
+     "name": "Stitched Salvager",
+     "frequency": 0.081,
+     "commonPosition": 2
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7199,
+     "minions": [
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 5,
+       "health": 4,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BGS_018",
+       "name": "Goldrinn, the Great Wolf",
+       "pos": 2,
+       "atk": 10,
+       "health": 10,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_018",
+       "name": "Goldrinn, the Great Wolf",
+       "pos": 3,
+       "atk": 9,
+       "health": 9,
+       "tribe": "Beast",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 4,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 5,
+       "atk": 4,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 20,
+       "health": 20,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 20,
+       "health": 20,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 9015,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_085",
+       "name": "Goldrinn, the Great Wolf",
+       "pos": 1,
+       "atk": 18,
+       "health": 19,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 2,
+       "atk": 4,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_031_G",
+       "name": "Timewarped Leapfrogger",
+       "pos": 3,
+       "atk": 6,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 4,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_307",
+       "name": "Fish of N'Zoth",
+       "pos": 5,
+       "atk": 4,
+       "health": 4,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_307",
+       "name": "Fish of N'Zoth",
+       "pos": 6,
+       "atk": 5,
+       "health": 5,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "TB_BaconShop_HP_105t",
+       "name": "Fish of N'Zoth",
+       "pos": 7,
+       "atk": 2,
+       "health": 2,
+       "tribe": "Beast",
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 8970,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_085",
+       "name": "Goldrinn, the Great Wolf",
+       "pos": 1,
+       "atk": 26,
+       "health": 27,
+       "tribe": "Beast",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_999",
+       "name": "Stitched Salvager",
+       "pos": 2,
+       "atk": 24,
+       "health": 23,
+       "tribe": "Undead",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604_G",
+       "name": "Sewer Lord",
+       "pos": 3,
+       "atk": 18,
+       "health": 20,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 4,
+       "atk": 8,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_307",
+       "name": "Fish of N'Zoth",
+       "pos": 5,
+       "atk": 32,
+       "health": 30,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_802_G",
+       "name": "Banana Slamma",
+       "pos": 6,
+       "atk": 12,
+       "health": 16,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 68,
+       "health": 78,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "pirate_end_of_turn",
+   "name": "Pirate End Of Turn",
+   "tribe": "Pirate",
+   "boardCount": 168,
+   "coreCards": [
+    {
+     "name": "Brazen Buccaneer",
+     "frequency": 0.94,
+     "commonPosition": 4
+    },
+    {
+     "name": "Blade Collector",
+     "frequency": 0.75,
+     "commonPosition": 2
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.679,
+     "commonPosition": 7
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.583,
+     "commonPosition": 1
+    },
+    {
+     "name": "Sky Admiral Rogers",
+     "frequency": 0.298,
+     "commonPosition": 3
+    },
+    {
+     "name": "Proud Privateer",
+     "frequency": 0.286,
+     "commonPosition": 4
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.25,
+     "commonPosition": 7
+    },
+    {
+     "name": "Cataclysmic Harbinger",
+     "frequency": 0.244,
+     "commonPosition": 4
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.232,
+     "commonPosition": 3
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.22,
+     "commonPosition": 6
+    },
+    {
+     "name": "Sin'dorei Straight Shot",
+     "frequency": 0.125,
+     "commonPosition": 1
+    },
+    {
+     "name": "Dastardly Drust",
+     "frequency": 0.107,
+     "commonPosition": 3
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 10327,
+     "minions": [
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 2164,
+       "health": 3218,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_817_G",
+       "name": "Blade Collector",
+       "pos": 2,
+       "atk": 14,
+       "health": 14,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_817",
+       "name": "Blade Collector",
+       "pos": 3,
+       "atk": 3,
+       "health": 2,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_817",
+       "name": "Blade Collector",
+       "pos": 4,
+       "atk": 3,
+       "health": 2,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_701_G",
+       "name": "Brazen Buccaneer",
+       "pos": 5,
+       "atk": 3092,
+       "health": 4333,
+       "tribe": "Pirate",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 6,
+       "atk": 557,
+       "health": 588,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 602,
+       "health": 696,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7651,
+     "minions": [
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 1624,
+       "health": 2267,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_817",
+       "name": "Blade Collector",
+       "pos": 2,
+       "atk": 180,
+       "health": 232,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 3,
+       "atk": 181,
+       "health": 174,
+       "tribe": "Pirate",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_701_G",
+       "name": "Brazen Buccaneer",
+       "pos": 4,
+       "atk": 115,
+       "health": 119,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_701_G",
+       "name": "Brazen Buccaneer",
+       "pos": 5,
+       "atk": 16,
+       "health": 22,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_926",
+       "name": "Ruthless Queensguard",
+       "pos": 6,
+       "atk": 11,
+       "health": 15,
+       "tribe": "Naga",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_ICC_901",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 27,
+       "health": 27,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 8925,
+     "minions": [
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 4092,
+       "health": 6059,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 2,
+       "atk": 507,
+       "health": 673,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 3,
+       "atk": 306,
+       "health": 449,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_701_G",
+       "name": "Brazen Buccaneer",
+       "pos": 4,
+       "atk": 329,
+       "health": 487,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_701_G",
+       "name": "Brazen Buccaneer",
+       "pos": 5,
+       "atk": 13,
+       "health": 15,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 6,
+       "atk": 185,
+       "health": 284,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 7,
+       "atk": 244,
+       "health": 297,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "demon_fodder",
+   "name": "Demon Fodder",
+   "tribe": "Demon",
+   "boardCount": 452,
+   "coreCards": [
+    {
+     "name": "Twisted Wrathguard",
+     "frequency": 1.0,
+     "commonPosition": 4
+    },
+    {
+     "name": "Consummate Conqueror",
+     "frequency": 0.788,
+     "commonPosition": 3
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.697,
+     "commonPosition": 7
+    },
+    {
+     "name": "Ashen Corruptor",
+     "frequency": 0.418,
+     "commonPosition": 5
+    },
+    {
+     "name": "Soul Rewinder",
+     "frequency": 0.246,
+     "commonPosition": 5
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.228,
+     "commonPosition": 6
+    },
+    {
+     "name": "Silent Enforcer",
+     "frequency": 0.111,
+     "commonPosition": 1
+    },
+    {
+     "name": "Heroic Underdog",
+     "frequency": 0.108,
+     "commonPosition": 5
+    },
+    {
+     "name": "Famished Felbat",
+     "frequency": 0.1,
+     "commonPosition": 6
+    },
+    {
+     "name": "Sin'dorei Straight Shot",
+     "frequency": 0.093,
+     "commonPosition": 1
+    },
+    {
+     "name": "Felboar",
+     "frequency": 0.08,
+     "commonPosition": 2
+    },
+    {
+     "name": "Tunnel Blaster",
+     "frequency": 0.069,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7275,
+     "minions": [
+      {
+       "cardId": "BG26_525_G",
+       "name": "Imposing Percussionist",
+       "pos": 1,
+       "atk": 3088,
+       "health": 2406,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_150_G",
+       "name": "Laboratory Assistant",
+       "pos": 2,
+       "atk": 6,
+       "health": 8,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_041_G",
+       "name": "Felemental",
+       "pos": 3,
+       "atk": 4092,
+       "health": 3186,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_155_G",
+       "name": "Twisted Wrathguard",
+       "pos": 4,
+       "atk": 6859,
+       "health": 5382,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_873_G",
+       "name": "Ashen Corruptor",
+       "pos": 5,
+       "atk": 4457,
+       "health": 3484,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_155",
+       "name": "Twisted Wrathguard",
+       "pos": 6,
+       "atk": 3674,
+       "health": 2854,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 142,
+       "health": 112,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7934,
+     "minions": [
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 1,
+       "atk": 65,
+       "health": 62,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG35_155_G",
+       "name": "Twisted Wrathguard",
+       "pos": 2,
+       "atk": 2501,
+       "health": 2418,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_155_G",
+       "name": "Twisted Wrathguard",
+       "pos": 3,
+       "atk": 1302,
+       "health": 1249,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_153_G",
+       "name": "Consummate Conqueror",
+       "pos": 4,
+       "atk": 6171,
+       "health": 5999,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_873",
+       "name": "Ashen Corruptor",
+       "pos": 5,
+       "atk": 1375,
+       "health": 1325,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_041",
+       "name": "Felemental",
+       "pos": 6,
+       "atk": 3,
+       "health": 3,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG_LOE_077",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 106,
+       "health": 104,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 10300,
+     "minions": [
+      {
+       "cardId": "BG35_155_G",
+       "name": "Twisted Wrathguard",
+       "pos": 1,
+       "atk": 1366,
+       "health": 1364,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_873",
+       "name": "Ashen Corruptor",
+       "pos": 2,
+       "atk": 1820,
+       "health": 1824,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_079",
+       "name": "Wrath Weaver",
+       "pos": 3,
+       "atk": 1175,
+       "health": 1105,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_155_G",
+       "name": "Twisted Wrathguard",
+       "pos": 4,
+       "atk": 1538,
+       "health": 1544,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_155",
+       "name": "Twisted Wrathguard",
+       "pos": 5,
+       "atk": 1489,
+       "health": 1487,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG21_005",
+       "name": "Famished Felbat",
+       "pos": 6,
+       "atk": 118,
+       "health": 115,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG_LOE_077",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 54,
+       "health": 54,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "quilboar_deathrattle",
+   "name": "Quilboar Deathrattle",
+   "tribe": "Quilboar",
+   "boardCount": 74,
+   "coreCards": [
+    {
+     "name": "Three Lil' Quilboar",
+     "frequency": 0.932,
+     "commonPosition": 2
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.541,
+     "commonPosition": 7
+    },
+    {
+     "name": "Bristlebach",
+     "frequency": 0.432,
+     "commonPosition": 7
+    },
+    {
+     "name": "Earthsong Shaman",
+     "frequency": 0.419,
+     "commonPosition": 3
+    },
+    {
+     "name": "Geomagus Roogug",
+     "frequency": 0.338,
+     "commonPosition": 5
+    },
+    {
+     "name": "Vinespeaker",
+     "frequency": 0.324,
+     "commonPosition": 6
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.284,
+     "commonPosition": 1
+    },
+    {
+     "name": "Prickly Piper",
+     "frequency": 0.27,
+     "commonPosition": 2
+    },
+    {
+     "name": "Glowgullet Warlord",
+     "frequency": 0.27,
+     "commonPosition": 4
+    },
+    {
+     "name": "Darkgaze Elder",
+     "frequency": 0.257,
+     "commonPosition": 5
+    },
+    {
+     "name": "Sanguine Champion",
+     "frequency": 0.23,
+     "commonPosition": 4
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.203,
+     "commonPosition": 6
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7739,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 1608,
+       "health": 1612,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 2,
+       "atk": 225,
+       "health": 156,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_867",
+       "name": "Three Lil' Quilboar",
+       "pos": 3,
+       "atk": 988,
+       "health": 791,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_430",
+       "name": "Glowgullet Warlord",
+       "pos": 4,
+       "atk": 522,
+       "health": 415,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_430",
+       "name": "Glowgullet Warlord",
+       "pos": 5,
+       "atk": 430,
+       "health": 353,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 6,
+       "atk": 6,
+       "health": 2,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_160_G",
+       "name": "Prickly Piper",
+       "pos": 7,
+       "atk": 12,
+       "health": 4,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7377,
+     "minions": [
+      {
+       "cardId": "BG26_867",
+       "name": "Three Lil' Quilboar",
+       "pos": 1,
+       "atk": 386,
+       "health": 387,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_867",
+       "name": "Three Lil' Quilboar",
+       "pos": 2,
+       "atk": 970,
+       "health": 920,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_431_G",
+       "name": "Earthsong Shaman",
+       "pos": 3,
+       "atk": 2117,
+       "health": 1620,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG26_ICC_901",
+       "name": "Drakkari Enchanter",
+       "pos": 4,
+       "atk": 764,
+       "health": 769,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 5,
+       "atk": 400,
+       "health": 406,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 761,
+       "health": 767,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_157",
+       "name": "Bristlebach",
+       "pos": 7,
+       "atk": 4509,
+       "health": 3461,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7506,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 2166,
+       "health": 1058,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG26_867",
+       "name": "Three Lil' Quilboar",
+       "pos": 2,
+       "atk": 291,
+       "health": 147,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_867",
+       "name": "Three Lil' Quilboar",
+       "pos": 3,
+       "atk": 835,
+       "health": 403,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG30_121_G",
+       "name": "Hot-Air Surveyor",
+       "pos": 4,
+       "atk": 3433,
+       "health": 1711,
+       "tribe": "Quilboar",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG28_583",
+       "name": "Geomagus Roogug",
+       "pos": 5,
+       "atk": 6763,
+       "health": 3335,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG32_433",
+       "name": "Dreaming Thornweaver",
+       "pos": 6,
+       "atk": 2270,
+       "health": 1129,
+       "tribe": "Quilboar",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_433",
+       "name": "Dreaming Thornweaver",
+       "pos": 7,
+       "atk": 2076,
+       "health": 1027,
+       "tribe": "Quilboar",
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "quilboar_felboar",
+   "name": "Quilboar Felboar",
+   "tribe": "Quilboar",
+   "boardCount": 130,
+   "coreCards": [
+    {
+     "name": "Felboar",
+     "frequency": 1.0,
+     "commonPosition": 3
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.615,
+     "commonPosition": 7
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.285,
+     "commonPosition": 6
+    },
+    {
+     "name": "Twisted Wrathguard",
+     "frequency": 0.185,
+     "commonPosition": 4
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 0.169,
+     "commonPosition": 2
+    },
+    {
+     "name": "Razorfen Flapper",
+     "frequency": 0.169,
+     "commonPosition": 1
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.154,
+     "commonPosition": 6
+    },
+    {
+     "name": "Heroic Underdog",
+     "frequency": 0.146,
+     "commonPosition": 6
+    },
+    {
+     "name": "Sky Admiral Rogers",
+     "frequency": 0.138,
+     "commonPosition": 7
+    },
+    {
+     "name": "Sin'dorei Straight Shot",
+     "frequency": 0.138,
+     "commonPosition": 1
+    },
+    {
+     "name": "Briarback Drummer",
+     "frequency": 0.123,
+     "commonPosition": 4
+    },
+    {
+     "name": "Blade Collector",
+     "frequency": 0.115,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 8937,
+     "minions": [
+      {
+       "cardId": "BG26_817_G",
+       "name": "Blade Collector",
+       "pos": 1,
+       "atk": 600,
+       "health": 908,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_633_G",
+       "name": "Felboar",
+       "pos": 2,
+       "atk": 10993,
+       "health": 17622,
+       "tribe": "Quilboar",
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_633_G",
+       "name": "Felboar",
+       "pos": 3,
+       "atk": 31852,
+       "health": 44867,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG28_633_G",
+       "name": "Felboar",
+       "pos": 4,
+       "atk": 29464,
+       "health": 41733,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 5,
+       "atk": 423,
+       "health": 404,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 6,
+       "atk": 224,
+       "health": 338,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 7,
+       "atk": 801,
+       "health": 950,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7719,
+     "minions": [
+      {
+       "cardId": "BG32_821_G",
+       "name": "Felfire Conjurer",
+       "pos": 1,
+       "atk": 644,
+       "health": 657,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_Giant_360",
+       "name": "Timewarped Shadowdancer",
+       "pos": 2,
+       "atk": 355,
+       "health": 382,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG21_005",
+       "name": "Famished Felbat",
+       "pos": 3,
+       "atk": 390,
+       "health": 387,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_633",
+       "name": "Felboar",
+       "pos": 4,
+       "atk": 1888,
+       "health": 1929,
+       "tribe": "Quilboar",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG28_633",
+       "name": "Felboar",
+       "pos": 5,
+       "atk": 3076,
+       "health": 3083,
+       "tribe": "Quilboar",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_042",
+       "name": "Timewarped Chameleon",
+       "pos": 6,
+       "atk": 139,
+       "health": 148,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 7,
+       "health": 31,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7352,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 1035,
+       "health": 1199,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_431",
+       "name": "Earthsong Shaman",
+       "pos": 2,
+       "atk": 1042,
+       "health": 1209,
+       "tribe": "Quilboar",
+       "keywords": [
+        "TAUNT",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG28_633",
+       "name": "Felboar",
+       "pos": 3,
+       "atk": 9690,
+       "health": 10984,
+       "tribe": "Quilboar",
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_633",
+       "name": "Felboar",
+       "pos": 4,
+       "atk": 10088,
+       "health": 11502,
+       "tribe": "Quilboar",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 5,
+       "atk": 152,
+       "health": 175,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_683_G",
+       "name": "Briarback Drummer",
+       "pos": 6,
+       "atk": 617,
+       "health": 693,
+       "tribe": "Quilboar",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 377,
+       "health": 430,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "undead_butcher",
+   "name": "Undead Butcher",
+   "tribe": "Undead",
+   "boardCount": 143,
+   "coreCards": [
+    {
+     "name": "Drustfallen Butcher",
+     "frequency": 0.958,
+     "commonPosition": 6
+    },
+    {
+     "name": "Handless Forsaken",
+     "frequency": 0.909,
+     "commonPosition": 4
+    },
+    {
+     "name": "Deathly Striker",
+     "frequency": 0.748,
+     "commonPosition": 7
+    },
+    {
+     "name": "Eternal Summoner",
+     "frequency": 0.49,
+     "commonPosition": 3
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.455,
+     "commonPosition": 2
+    },
+    {
+     "name": "Friendly Geist",
+     "frequency": 0.238,
+     "commonPosition": 1
+    },
+    {
+     "name": "Risen Rider",
+     "frequency": 0.231,
+     "commonPosition": 2
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.21,
+     "commonPosition": 1
+    },
+    {
+     "name": "Eternal Tycoon",
+     "frequency": 0.203,
+     "commonPosition": 6
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.147,
+     "commonPosition": 6
+    },
+    {
+     "name": "Cadaver Caretaker",
+     "frequency": 0.14,
+     "commonPosition": 3
+    },
+    {
+     "name": "Forsaken Weaver",
+     "frequency": 0.105,
+     "commonPosition": 3
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 13224,
+     "minions": [
+      {
+       "cardId": "BG34_765",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 3095,
+       "health": 2894,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 2,
+       "atk": 176,
+       "health": 175,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_034_G",
+       "name": "Timewarped Geist",
+       "pos": 3,
+       "atk": 3112,
+       "health": 2903,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 3220,
+       "health": 3016,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 5,
+       "atk": 3096,
+       "health": 2893,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 89,
+       "health": 94,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_324_G",
+       "name": "Drustfallen Butcher",
+       "pos": 7,
+       "atk": 3300,
+       "health": 3106,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 12406,
+     "minions": [
+      {
+       "cardId": "BG32_324",
+       "name": "Drustfallen Butcher",
+       "pos": 1,
+       "atk": 715,
+       "health": 62,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 2,
+       "atk": 711,
+       "health": 54,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_009",
+       "name": "Eternal Summoner",
+       "pos": 3,
+       "atk": 662,
+       "health": 7,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 658,
+       "health": 8,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_001",
+       "name": "Risen Rider",
+       "pos": 5,
+       "atk": 675,
+       "health": 9,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_009",
+       "name": "Eternal Summoner",
+       "pos": 6,
+       "atk": 662,
+       "health": 7,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 7,
+       "atk": 776,
+       "health": 15,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 10371,
+     "minions": [
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 911,
+       "health": 11,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 2,
+       "atk": 800,
+       "health": 17,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 3,
+       "atk": 769,
+       "health": 5,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 468,
+       "health": 3,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835_G",
+       "name": "Deathly Striker",
+       "pos": 5,
+       "atk": 489,
+       "health": 23,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_324_G",
+       "name": "Drustfallen Butcher",
+       "pos": 6,
+       "atk": 510,
+       "health": 15,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 7,
+       "atk": 8,
+       "health": 8,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "naga_spellbuff",
+   "name": "Naga Spellbuff",
+   "tribe": "Naga",
+   "boardCount": 284,
+   "coreCards": [
+    {
+     "name": "Ruthless Queensguard",
+     "frequency": 0.989,
+     "commonPosition": 3
+    },
+    {
+     "name": "Maelstrom Emergent",
+     "frequency": 0.849,
+     "commonPosition": 5
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.641,
+     "commonPosition": 7
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 0.592,
+     "commonPosition": 2
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.57,
+     "commonPosition": 7
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.528,
+     "commonPosition": 1
+    },
+    {
+     "name": "Ring Bearer",
+     "frequency": 0.377,
+     "commonPosition": 7
+    },
+    {
+     "name": "Tranquil Meditative",
+     "frequency": 0.208,
+     "commonPosition": 4
+    },
+    {
+     "name": "Groundbreaker",
+     "frequency": 0.155,
+     "commonPosition": 3
+    },
+    {
+     "name": "Seafloor Recruiter",
+     "frequency": 0.088,
+     "commonPosition": 2
+    },
+    {
+     "name": "Black Chromadrake",
+     "frequency": 0.085,
+     "commonPosition": 2
+    },
+    {
+     "name": "Sundered Matriarch",
+     "frequency": 0.081,
+     "commonPosition": 4
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 11311,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 351,
+       "health": 367,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 2,
+       "atk": 792,
+       "health": 801,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_926_G",
+       "name": "Ruthless Queensguard",
+       "pos": 3,
+       "atk": 361,
+       "health": 392,
+       "tribe": "Naga",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_922",
+       "name": "Maelstrom Emergent",
+       "pos": 4,
+       "atk": 1035,
+       "health": 1086,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_922",
+       "name": "Maelstrom Emergent",
+       "pos": 5,
+       "atk": 71,
+       "health": 74,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 6,
+       "atk": 513,
+       "health": 544,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 552,
+       "health": 581,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7926,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 190,
+       "health": 223,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 2,
+       "atk": 199,
+       "health": 200,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_926_G",
+       "name": "Ruthless Queensguard",
+       "pos": 3,
+       "atk": 384,
+       "health": 512,
+       "tribe": "Naga",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_922",
+       "name": "Maelstrom Emergent",
+       "pos": 4,
+       "atk": 114,
+       "health": 146,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 5,
+       "atk": 13,
+       "health": 10,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_922_G",
+       "name": "Maelstrom Emergent",
+       "pos": 6,
+       "atk": 370,
+       "health": 446,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 122,
+       "health": 172,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7755,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 56,
+       "health": 53,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 2,
+       "atk": 60,
+       "health": 53,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_926_G",
+       "name": "Ruthless Queensguard",
+       "pos": 3,
+       "atk": 375,
+       "health": 379,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 4,
+       "atk": 687,
+       "health": 714,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_821_G",
+       "name": "Felfire Conjurer",
+       "pos": 5,
+       "atk": 283,
+       "health": 266,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_922_G",
+       "name": "Maelstrom Emergent",
+       "pos": 6,
+       "atk": 380,
+       "health": 392,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG_LOE_077",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 117,
+       "health": 122,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "dragon_kalecgos",
+   "name": "Dragon Kalecgos",
+   "tribe": "Dragon",
+   "boardCount": 116,
+   "coreCards": [
+    {
+     "name": "Kalecgos, Arcane Aspect",
+     "frequency": 0.983,
+     "commonPosition": 5
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.897,
+     "commonPosition": 7
+    },
+    {
+     "name": "Charmwing",
+     "frequency": 0.784,
+     "commonPosition": 1
+    },
+    {
+     "name": "Persistent Poet",
+     "frequency": 0.741,
+     "commonPosition": 3
+    },
+    {
+     "name": "Ring Bearer",
+     "frequency": 0.431,
+     "commonPosition": 6
+    },
+    {
+     "name": "Fire-forged Evoker",
+     "frequency": 0.353,
+     "commonPosition": 4
+    },
+    {
+     "name": "Amber Guardian",
+     "frequency": 0.164,
+     "commonPosition": 7
+    },
+    {
+     "name": "Draconic Warden",
+     "frequency": 0.112,
+     "commonPosition": 2
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.103,
+     "commonPosition": 6
+    },
+    {
+     "name": "Tarecgosa",
+     "frequency": 0.078,
+     "commonPosition": 2
+    },
+    {
+     "name": "Obsidian Ravager",
+     "frequency": 0.069,
+     "commonPosition": 1
+    },
+    {
+     "name": "Nightmare Par-tea Guest",
+     "frequency": 0.069,
+     "commonPosition": 3
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7451,
+     "minions": [
+      {
+       "cardId": "BG33_240_G",
+       "name": "Charmwing",
+       "pos": 1,
+       "atk": 1004,
+       "health": 945,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_633_G",
+       "name": "Draconic Warden",
+       "pos": 2,
+       "atk": 1267,
+       "health": 1194,
+       "tribe": "Dragon",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_109",
+       "name": "Kalecgos, Arcane Aspect",
+       "pos": 3,
+       "atk": 1231,
+       "health": 1172,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_822_G",
+       "name": "Fire-forged Evoker",
+       "pos": 4,
+       "atk": 1017,
+       "health": 904,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_109",
+       "name": "Kalecgos, Arcane Aspect",
+       "pos": 5,
+       "atk": 731,
+       "health": 700,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_890t",
+       "name": "Magicfin Apprentice",
+       "pos": 6,
+       "atk": 1,
+       "health": 1,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 331,
+       "health": 254,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7782,
+     "minions": [
+      {
+       "cardId": "BG33_240_G",
+       "name": "Charmwing",
+       "pos": 1,
+       "atk": 529,
+       "health": 408,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG27_017_G",
+       "name": "Obsidian Ravager",
+       "pos": 2,
+       "atk": 588,
+       "health": 448,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG27_005_G",
+       "name": "Timecap'n Hooktail",
+       "pos": 3,
+       "atk": 583,
+       "health": 425,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_109",
+       "name": "Kalecgos, Arcane Aspect",
+       "pos": 4,
+       "atk": 526,
+       "health": 419,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_813",
+       "name": "Persistent Poet",
+       "pos": 5,
+       "atk": 18,
+       "health": 16,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_921",
+       "name": "Ring Bearer",
+       "pos": 6,
+       "atk": 333,
+       "health": 246,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 210,
+       "health": 78,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7598,
+     "minions": [
+      {
+       "cardId": "BG33_240_G",
+       "name": "Charmwing",
+       "pos": 1,
+       "atk": 1219,
+       "health": 636,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_813",
+       "name": "Persistent Poet",
+       "pos": 2,
+       "atk": 78,
+       "health": 79,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG29_813_G",
+       "name": "Persistent Poet",
+       "pos": 3,
+       "atk": 354,
+       "health": 358,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG_LOE_077",
+       "name": "Brann Bronzebeard",
+       "pos": 4,
+       "atk": 2766,
+       "health": 2059,
+       "tribe": "Dragon",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG32_822_G",
+       "name": "Fire-forged Evoker",
+       "pos": 5,
+       "atk": 1193,
+       "health": 2903,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_813_G",
+       "name": "Persistent Poet",
+       "pos": 6,
+       "atk": 514,
+       "health": 521,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_109",
+       "name": "Kalecgos, Arcane Aspect",
+       "pos": 7,
+       "atk": 1230,
+       "health": 1002,
+       "tribe": "Dragon",
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "mech_automaton",
+   "name": "Mech Automaton",
+   "tribe": "Mech",
+   "boardCount": 48,
+   "coreCards": [
+    {
+     "name": "Ancestral Automaton",
+     "frequency": 0.979,
+     "commonPosition": 5
+    },
+    {
+     "name": "Ingenious Inventor",
+     "frequency": 0.562,
+     "commonPosition": 1
+    },
+    {
+     "name": "Falling Sky Golem",
+     "frequency": 0.521,
+     "commonPosition": 3
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.458,
+     "commonPosition": 7
+    },
+    {
+     "name": "Kangor's Apprentice",
+     "frequency": 0.438,
+     "commonPosition": 6
+    },
+    {
+     "name": "Scrap Scraper",
+     "frequency": 0.333,
+     "commonPosition": 3
+    },
+    {
+     "name": "Holo Rover",
+     "frequency": 0.312,
+     "commonPosition": 2
+    },
+    {
+     "name": "Deflect-o-Bot",
+     "frequency": 0.312,
+     "commonPosition": 1
+    },
+    {
+     "name": "Junk Jouster",
+     "frequency": 0.25,
+     "commonPosition": 5
+    },
+    {
+     "name": "Auto Assembler",
+     "frequency": 0.208,
+     "commonPosition": 5
+    },
+    {
+     "name": "Moonsteel Juggernaut",
+     "frequency": 0.208,
+     "commonPosition": 3
+    },
+    {
+     "name": "Polarizing Beatboxer",
+     "frequency": 0.188,
+     "commonPosition": 2
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 9263,
+     "minions": [
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 1,
+       "atk": 681,
+       "health": 327,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_175_G",
+       "name": "Holo Rover",
+       "pos": 2,
+       "atk": 432,
+       "health": 428,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG_TTN_401_G",
+       "name": "Ancestral Automaton",
+       "pos": 3,
+       "atk": 476,
+       "health": 343,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG35_342_G",
+       "name": "Falling Sky Golem",
+       "pos": 4,
+       "atk": 580,
+       "health": 333,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG32_172",
+       "name": "Auto Assembler",
+       "pos": 5,
+       "atk": 2,
+       "health": 2,
+       "tribe": "Mech",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_012",
+       "name": "Kangor's Apprentice",
+       "pos": 6,
+       "atk": 83,
+       "health": 86,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_012",
+       "name": "Kangor's Apprentice",
+       "pos": 7,
+       "atk": 83,
+       "health": 86,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 8448,
+     "minions": [
+      {
+       "cardId": "BG35_342_G",
+       "name": "Falling Sky Golem",
+       "pos": 1,
+       "atk": 567,
+       "health": 311,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG35_342_G",
+       "name": "Falling Sky Golem",
+       "pos": 2,
+       "atk": 539,
+       "health": 283,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG_TTN_401_G",
+       "name": "Ancestral Automaton",
+       "pos": 3,
+       "atk": 496,
+       "health": 367,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG32_172_G",
+       "name": "Auto Assembler",
+       "pos": 4,
+       "atk": 109,
+       "health": 120,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_172_G",
+       "name": "Auto Assembler",
+       "pos": 5,
+       "atk": 126,
+       "health": 125,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_087",
+       "name": "Kangor's Apprentice",
+       "pos": 6,
+       "atk": 89,
+       "health": 95,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7736,
+     "minions": [
+      {
+       "cardId": "BG35_890_G",
+       "name": "Ingenious Inventor",
+       "pos": 1,
+       "atk": 118,
+       "health": 84,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_148",
+       "name": "Scrap Scraper",
+       "pos": 2,
+       "atk": 53,
+       "health": 48,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 3,
+       "atk": 902,
+       "health": 603,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_172_G",
+       "name": "Auto Assembler",
+       "pos": 4,
+       "atk": 123,
+       "health": 100,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG_TTN_401",
+       "name": "Ancestral Automaton",
+       "pos": 5,
+       "atk": 493,
+       "health": 349,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG35_342",
+       "name": "Falling Sky Golem",
+       "pos": 6,
+       "atk": 1146,
+       "health": 761,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 1,
+       "health": 7,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "pirate_bounty",
+   "name": "Pirate Bounty",
+   "tribe": "Pirate",
+   "boardCount": 396,
+   "coreCards": [
+    {
+     "name": "Sky Admiral Rogers",
+     "frequency": 0.96,
+     "commonPosition": 6
+    },
+    {
+     "name": "Proud Privateer",
+     "frequency": 0.907,
+     "commonPosition": 4
+    },
+    {
+     "name": "Blade Collector",
+     "frequency": 0.563,
+     "commonPosition": 2
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.497,
+     "commonPosition": 1
+    },
+    {
+     "name": "Brazen Buccaneer",
+     "frequency": 0.321,
+     "commonPosition": 5
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.303,
+     "commonPosition": 7
+    },
+    {
+     "name": "Dastardly Drust",
+     "frequency": 0.285,
+     "commonPosition": 4
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.217,
+     "commonPosition": 6
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.207,
+     "commonPosition": 7
+    },
+    {
+     "name": "Fire-forged Evoker",
+     "frequency": 0.202,
+     "commonPosition": 4
+    },
+    {
+     "name": "Persistent Poet",
+     "frequency": 0.194,
+     "commonPosition": 2
+    },
+    {
+     "name": "Charmwing",
+     "frequency": 0.179,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 8005,
+     "minions": [
+      {
+       "cardId": "BG33_240_G",
+       "name": "Charmwing",
+       "pos": 1,
+       "atk": 2551,
+       "health": 1843,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_813_G",
+       "name": "Persistent Poet",
+       "pos": 2,
+       "atk": 2098,
+       "health": 4428,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG29_813_G",
+       "name": "Persistent Poet",
+       "pos": 3,
+       "atk": 2025,
+       "health": 7691,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG32_822_G",
+       "name": "Fire-forged Evoker",
+       "pos": 4,
+       "atk": 3001,
+       "health": 12035,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 5,
+       "atk": 265,
+       "health": 444,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 6,
+       "atk": 252,
+       "health": 370,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG24_500_G",
+       "name": "Amber Guardian",
+       "pos": 7,
+       "atk": 14,
+       "health": 19,
+       "tribe": "Dragon",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7366,
+     "minions": [
+      {
+       "cardId": "BG26_817_G",
+       "name": "Blade Collector",
+       "pos": 1,
+       "atk": 336,
+       "health": 451,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_817_G",
+       "name": "Blade Collector",
+       "pos": 2,
+       "atk": 2206,
+       "health": 2328,
+       "tribe": "Pirate",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 3,
+       "atk": 2681,
+       "health": 3004,
+       "tribe": "Undead",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 4,
+       "atk": 1673,
+       "health": 1582,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_701_G",
+       "name": "Brazen Buccaneer",
+       "pos": 5,
+       "atk": 1530,
+       "health": 1565,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_234_G",
+       "name": "Dastardly Drust",
+       "pos": 6,
+       "atk": 1561,
+       "health": 1471,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 7,
+       "atk": 1674,
+       "health": 1552,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7284,
+     "minions": [
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 1,
+       "atk": 195,
+       "health": 178,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_765_G",
+       "name": "Dead Sea Ravager",
+       "pos": 2,
+       "atk": 1629,
+       "health": 1737,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_015_G",
+       "name": "Timewarped Hooktail",
+       "pos": 3,
+       "atk": 2823,
+       "health": 4541,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_Giant_015_G",
+       "name": "Timewarped Hooktail",
+       "pos": 4,
+       "atk": 1334,
+       "health": 1365,
+       "tribe": "Dragon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_825_G",
+       "name": "Proud Privateer",
+       "pos": 5,
+       "atk": 1653,
+       "health": 1670,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 6,
+       "atk": 2070,
+       "health": 5194,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 7,
+       "atk": 658,
+       "health": 676,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "murloc_scam",
+   "name": "Murloc Scam",
+   "tribe": "Murloc",
+   "boardCount": 196,
+   "coreCards": [
+    {
+     "name": "Bile Spitter",
+     "frequency": 0.857,
+     "commonPosition": 1
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.597,
+     "commonPosition": 6
+    },
+    {
+     "name": "Diremuck Forager",
+     "frequency": 0.372,
+     "commonPosition": 5
+    },
+    {
+     "name": "Expert Aviator",
+     "frequency": 0.291,
+     "commonPosition": 3
+    },
+    {
+     "name": "Heroic Underdog",
+     "frequency": 0.245,
+     "commonPosition": 5
+    },
+    {
+     "name": "Choral Mrrrglr",
+     "frequency": 0.245,
+     "commonPosition": 4
+    },
+    {
+     "name": "Costume Enthusiast",
+     "frequency": 0.204,
+     "commonPosition": 5
+    },
+    {
+     "name": "Deadly Spore",
+     "frequency": 0.184,
+     "commonPosition": 5
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.179,
+     "commonPosition": 7
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.158,
+     "commonPosition": 7
+    },
+    {
+     "name": "Futurefin",
+     "frequency": 0.138,
+     "commonPosition": 2
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.112,
+     "commonPosition": 6
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 10104,
+     "minions": [
+      {
+       "cardId": "BG33_318",
+       "name": "Bile Spitter",
+       "pos": 1,
+       "atk": 15748,
+       "health": 16312,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123",
+       "name": "Cataclysmic Harbinger",
+       "pos": 2,
+       "atk": 18654,
+       "health": 19366,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123",
+       "name": "Cataclysmic Harbinger",
+       "pos": 3,
+       "atk": 26999,
+       "health": 28254,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 4,
+       "atk": 27130,
+       "health": 28330,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG23_318_G",
+       "name": "Leeroy the Reckless",
+       "pos": 5,
+       "atk": 6735,
+       "health": 6971,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG23_318_G",
+       "name": "Leeroy the Reckless",
+       "pos": 6,
+       "atk": 6384,
+       "health": 6611,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 18650,
+       "health": 19399,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 9055,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 1,
+       "atk": 1923,
+       "health": 2426,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_110_G",
+       "name": "Timewarped Sea Glass",
+       "pos": 2,
+       "atk": 2854,
+       "health": 3606,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_881_G",
+       "name": "Leyline Surfacer",
+       "pos": 3,
+       "atk": 1946,
+       "health": 2478,
+       "tribe": "Elemental",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG33_318_G",
+       "name": "Bile Spitter",
+       "pos": 4,
+       "atk": 38,
+       "health": 62,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_140_G",
+       "name": "Expert Aviator",
+       "pos": 5,
+       "atk": 33,
+       "health": 38,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG27_556_G",
+       "name": "Diremuck Forager",
+       "pos": 6,
+       "atk": 38,
+       "health": 41,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 25,
+       "health": 33,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7500,
+     "minions": [
+      {
+       "cardId": "BG33_318_G",
+       "name": "Bile Spitter",
+       "pos": 1,
+       "atk": 884,
+       "health": 245,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 68896,
+       "health": 26329,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 3,
+       "atk": 51566,
+       "health": 21724,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 4,
+       "atk": 888,
+       "health": 227,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG_DAL_775",
+       "name": "Tunnel Blaster",
+       "pos": 5,
+       "atk": 974,
+       "health": 263,
+       "tribe": null,
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 6,
+       "atk": 3401,
+       "health": 1698,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG32_111",
+       "name": "Nightmare Par-tea Guest",
+       "pos": 7,
+       "atk": 14725,
+       "health": 6348,
+       "tribe": null,
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "murloc_handbuff",
+   "name": "Murloc Handbuff",
+   "tribe": "Murloc",
+   "boardCount": 240,
+   "coreCards": [
+    {
+     "name": "Choral Mrrrglr",
+     "frequency": 0.975,
+     "commonPosition": 4
+    },
+    {
+     "name": "Diremuck Forager",
+     "frequency": 0.621,
+     "commonPosition": 5
+    },
+    {
+     "name": "Futurefin",
+     "frequency": 0.517,
+     "commonPosition": 1
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.392,
+     "commonPosition": 7
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.383,
+     "commonPosition": 6
+    },
+    {
+     "name": "Costume Enthusiast",
+     "frequency": 0.35,
+     "commonPosition": 2
+    },
+    {
+     "name": "Bile Spitter",
+     "frequency": 0.3,
+     "commonPosition": 1
+    },
+    {
+     "name": "Expert Aviator",
+     "frequency": 0.221,
+     "commonPosition": 2
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.125,
+     "commonPosition": 7
+    },
+    {
+     "name": "Tide Oracle Morgl",
+     "frequency": 0.083,
+     "commonPosition": 2
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.079,
+     "commonPosition": 7
+    },
+    {
+     "name": "Tunnel Blaster",
+     "frequency": 0.067,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 15290,
+     "minions": [
+      {
+       "cardId": "BG33_318",
+       "name": "Bile Spitter",
+       "pos": 1,
+       "atk": 39,
+       "health": 60,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_140_G",
+       "name": "Expert Aviator",
+       "pos": 2,
+       "atk": 66,
+       "health": 86,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 3,
+       "atk": 12,
+       "health": 20,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_354_G",
+       "name": "Choral Mrrrglr",
+       "pos": 4,
+       "atk": 2803,
+       "health": 3436,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_354",
+       "name": "Choral Mrrrglr",
+       "pos": 5,
+       "atk": 52,
+       "health": 62,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG_BOT_911",
+       "name": "Annoy-o-Module",
+       "pos": 6,
+       "atk": 25,
+       "health": 39,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 10978,
+     "minions": [
+      {
+       "cardId": "BG33_318_G",
+       "name": "Bile Spitter",
+       "pos": 1,
+       "atk": 1261,
+       "health": 1982,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_354",
+       "name": "Choral Mrrrglr",
+       "pos": 2,
+       "atk": 852,
+       "health": 1277,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_354_G",
+       "name": "Choral Mrrrglr",
+       "pos": 3,
+       "atk": 936,
+       "health": 1599,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_140_G",
+       "name": "Expert Aviator",
+       "pos": 4,
+       "atk": 1096,
+       "health": 1769,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG27_556_G",
+       "name": "Diremuck Forager",
+       "pos": 5,
+       "atk": 1344,
+       "health": 2041,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 6,
+       "atk": 545,
+       "health": 449,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_142",
+       "name": "Costume Enthusiast",
+       "pos": 7,
+       "atk": 20,
+       "health": 16,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 9400,
+     "minions": [
+      {
+       "cardId": "BG34_145",
+       "name": "Futurefin",
+       "pos": 1,
+       "atk": 380,
+       "health": 408,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_354",
+       "name": "Choral Mrrrglr",
+       "pos": 2,
+       "atk": 37,
+       "health": 17,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_354",
+       "name": "Choral Mrrrglr",
+       "pos": 3,
+       "atk": 34,
+       "health": 14,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 4,
+       "atk": 6,
+       "health": 2,
+       "tribe": null,
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_142",
+       "name": "Costume Enthusiast",
+       "pos": 5,
+       "atk": 37,
+       "health": 18,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG27_556_G",
+       "name": "Diremuck Forager",
+       "pos": 6,
+       "atk": 42,
+       "health": 32,
+       "tribe": "Murloc",
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "elemental_cycle",
+   "name": "Elemental Cycle",
+   "tribe": "Elemental",
+   "boardCount": 55,
+   "coreCards": [
+    {
+     "name": "Unleashed Mana Surge",
+     "frequency": 1.0,
+     "commonPosition": 5
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.709,
+     "commonPosition": 7
+    },
+    {
+     "name": "Wildfire Elemental",
+     "frequency": 0.673,
+     "commonPosition": 1
+    },
+    {
+     "name": "Flaming Enforcer",
+     "frequency": 0.273,
+     "commonPosition": 4
+    },
+    {
+     "name": "Leyline Surfacer",
+     "frequency": 0.218,
+     "commonPosition": 6
+    },
+    {
+     "name": "Glowing Cinder",
+     "frequency": 0.218,
+     "commonPosition": 7
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.145,
+     "commonPosition": 6
+    },
+    {
+     "name": "Air Revenant",
+     "frequency": 0.145,
+     "commonPosition": 2
+    },
+    {
+     "name": "Tavern Tempest",
+     "frequency": 0.109,
+     "commonPosition": 6
+    },
+    {
+     "name": "Crackling Cyclone",
+     "frequency": 0.091,
+     "commonPosition": 1
+    },
+    {
+     "name": "Timewarped Sea Glass",
+     "frequency": 0.091,
+     "commonPosition": 1
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.091,
+     "commonPosition": 3
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 9154,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 1,
+       "atk": 14567,
+       "health": 6316,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 12066,
+       "health": 4936,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 3,
+       "atk": 10825,
+       "health": 4438,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 4,
+       "atk": 6947,
+       "health": 1948,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 5,
+       "atk": 9487,
+       "health": 3390,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 6,
+       "atk": 180,
+       "health": 62,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 644,
+       "health": 339,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7615,
+     "minions": [
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 1,
+       "atk": 342,
+       "health": 16,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 3278,
+       "health": 548,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 3,
+       "atk": 16670,
+       "health": 2077,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 4,
+       "atk": 20034,
+       "health": 2647,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 5,
+       "atk": 31715,
+       "health": 5756,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 6,
+       "atk": 21444,
+       "health": 2803,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 7,
+       "atk": 21282,
+       "health": 2724,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7290,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 1,
+       "atk": 932,
+       "health": 783,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_166",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 1026,
+       "health": 885,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG31_360",
+       "name": "Arcane Behemoth",
+       "pos": 3,
+       "atk": 2399,
+       "health": 2132,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 4,
+       "atk": 1061,
+       "health": 940,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_846_G",
+       "name": "Unleashed Mana Surge",
+       "pos": 5,
+       "atk": 858,
+       "health": 694,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_500",
+       "name": "Flaming Enforcer",
+       "pos": 6,
+       "atk": 181,
+       "health": 144,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG_LOE_077",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 63,
+       "health": 45,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "undead_forsaken",
+   "name": "Undead Forsaken",
+   "tribe": "Undead",
+   "boardCount": 252,
+   "coreCards": [
+    {
+     "name": "Handless Forsaken",
+     "frequency": 0.976,
+     "commonPosition": 3
+    },
+    {
+     "name": "Deathly Striker",
+     "frequency": 0.901,
+     "commonPosition": 7
+    },
+    {
+     "name": "Forsaken Weaver",
+     "frequency": 0.381,
+     "commonPosition": 1
+    },
+    {
+     "name": "Eternal Summoner",
+     "frequency": 0.373,
+     "commonPosition": 4
+    },
+    {
+     "name": "Risen Rider",
+     "frequency": 0.345,
+     "commonPosition": 7
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.274,
+     "commonPosition": 1
+    },
+    {
+     "name": "Eternal Tycoon",
+     "frequency": 0.187,
+     "commonPosition": 6
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.127,
+     "commonPosition": 2
+    },
+    {
+     "name": "Cadaver Caretaker",
+     "frequency": 0.119,
+     "commonPosition": 4
+    },
+    {
+     "name": "Mummifier",
+     "frequency": 0.107,
+     "commonPosition": 1
+    },
+    {
+     "name": "Drustfallen Butcher",
+     "frequency": 0.107,
+     "commonPosition": 6
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.075,
+     "commonPosition": 4
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7443,
+     "minions": [
+      {
+       "cardId": "BG25_009",
+       "name": "Eternal Summoner",
+       "pos": 1,
+       "atk": 290,
+       "health": 1,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 2,
+       "atk": 311,
+       "health": 22,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_692_G",
+       "name": "Forsaken Weaver",
+       "pos": 3,
+       "atk": 503,
+       "health": 22,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_692_G",
+       "name": "Forsaken Weaver",
+       "pos": 4,
+       "atk": 567,
+       "health": 36,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 5,
+       "atk": 518,
+       "health": 10,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 6,
+       "atk": 316,
+       "health": 14,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 7,
+       "atk": 476,
+       "health": 11,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 12442,
+     "minions": [
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 1,
+       "atk": 338,
+       "health": 3,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_126",
+       "name": "Wildfire Elemental",
+       "pos": 2,
+       "atk": 1296,
+       "health": 729,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_692_G",
+       "name": "Forsaken Weaver",
+       "pos": 3,
+       "atk": 1147,
+       "health": 735,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 665,
+       "health": 110,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 5,
+       "atk": 379,
+       "health": 48,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835_G",
+       "name": "Deathly Striker",
+       "pos": 6,
+       "atk": 1763,
+       "health": 1338,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_001",
+       "name": "Risen Rider",
+       "pos": 7,
+       "atk": 338,
+       "health": 3,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7334,
+     "minions": [
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 1,
+       "atk": 3,
+       "health": 4,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG28_309",
+       "name": "Mummifier",
+       "pos": 2,
+       "atk": 984,
+       "health": 47,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_880_G",
+       "name": "Friendly Geist",
+       "pos": 3,
+       "atk": 1056,
+       "health": 71,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 983,
+       "health": 47,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 5,
+       "atk": 1023,
+       "health": 58,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 6,
+       "atk": 987,
+       "health": 53,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 7,
+       "atk": 987,
+       "health": 53,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "naga_deep_blue",
+   "name": "Naga Deep Blue",
+   "tribe": "Naga",
+   "boardCount": 60,
+   "coreCards": [
+    {
+     "name": "Deep Blue Crooner",
+     "frequency": 1.0,
+     "commonPosition": 6
+    },
+    {
+     "name": "Zesty Shaker",
+     "frequency": 0.867,
+     "commonPosition": 2
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.767,
+     "commonPosition": 7
+    },
+    {
+     "name": "Lava Lurker",
+     "frequency": 0.267,
+     "commonPosition": 3
+    },
+    {
+     "name": "Wrathscale Rogue",
+     "frequency": 0.25,
+     "commonPosition": 5
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.233,
+     "commonPosition": 1
+    },
+    {
+     "name": "Sundered Matriarch",
+     "frequency": 0.167,
+     "commonPosition": 2
+    },
+    {
+     "name": "Blade Collector",
+     "frequency": 0.133,
+     "commonPosition": 1
+    },
+    {
+     "name": "Groundbreaker",
+     "frequency": 0.1,
+     "commonPosition": 5
+    },
+    {
+     "name": "Flaming Enforcer",
+     "frequency": 0.1,
+     "commonPosition": 1
+    },
+    {
+     "name": "Seafloor Recruiter",
+     "frequency": 0.083,
+     "commonPosition": 1
+    },
+    {
+     "name": "Futurefin",
+     "frequency": 0.083,
+     "commonPosition": 2
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7667,
+     "minions": [
+      {
+       "cardId": "BG26_505_G",
+       "name": "Zesty Shaker",
+       "pos": 1,
+       "atk": 5056,
+       "health": 1361,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_505",
+       "name": "Zesty Shaker",
+       "pos": 2,
+       "atk": 5868,
+       "health": 1386,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG23_009",
+       "name": "Lava Lurker",
+       "pos": 3,
+       "atk": 26062,
+       "health": 8536,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 4,
+       "atk": 3949,
+       "health": 3957,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 5,
+       "atk": 6,
+       "health": 2,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_505_G",
+       "name": "Zesty Shaker",
+       "pos": 6,
+       "atk": 5809,
+       "health": 1436,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_502_G",
+       "name": "Deep Blue Crooner",
+       "pos": 7,
+       "atk": 3609,
+       "health": 751,
+       "tribe": "Naga",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7541,
+     "minions": [
+      {
+       "cardId": "BG34_925_G",
+       "name": "Seafloor Recruiter",
+       "pos": 1,
+       "atk": 3790,
+       "health": 2107,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_505_G",
+       "name": "Zesty Shaker",
+       "pos": 2,
+       "atk": 2435,
+       "health": 1444,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_505",
+       "name": "Zesty Shaker",
+       "pos": 3,
+       "atk": 2006,
+       "health": 1267,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG33_923",
+       "name": "Sundered Matriarch",
+       "pos": 4,
+       "atk": 7,
+       "health": 85,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_502_G",
+       "name": "Deep Blue Crooner",
+       "pos": 5,
+       "atk": 455,
+       "health": 911,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG33_923_G",
+       "name": "Sundered Matriarch",
+       "pos": 6,
+       "atk": 1324,
+       "health": 1057,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 7,
+       "atk": 96,
+       "health": 801,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7233,
+     "minions": [
+      {
+       "cardId": "BG26_505",
+       "name": "Zesty Shaker",
+       "pos": 1,
+       "atk": 1484,
+       "health": 501,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_502_G",
+       "name": "Deep Blue Crooner",
+       "pos": 2,
+       "atk": 3685,
+       "health": 989,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG23_009_G",
+       "name": "Lava Lurker",
+       "pos": 3,
+       "atk": 11070,
+       "health": 3517,
+       "tribe": "Naga",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_505_G",
+       "name": "Zesty Shaker",
+       "pos": 4,
+       "atk": 3391,
+       "health": 669,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_505_G",
+       "name": "Zesty Shaker",
+       "pos": 5,
+       "atk": 5612,
+       "health": 1128,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 6,
+       "atk": 26,
+       "health": 182,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_920_G",
+       "name": "Wrathscale Rogue",
+       "pos": 7,
+       "atk": 1506,
+       "health": 1668,
+       "tribe": "Naga",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "murloc_mrrglton",
+   "name": "Murloc Mrrglton",
+   "tribe": "Murloc",
+   "boardCount": 77,
+   "coreCards": [
+    {
+     "name": "Cousin Errgl",
+     "frequency": 0.974,
+     "commonPosition": 5
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.61,
+     "commonPosition": 7
+    },
+    {
+     "name": "Diremuck Forager",
+     "frequency": 0.571,
+     "commonPosition": 5
+    },
+    {
+     "name": "Choral Mrrrglr",
+     "frequency": 0.468,
+     "commonPosition": 3
+    },
+    {
+     "name": "Bile Spitter",
+     "frequency": 0.429,
+     "commonPosition": 1
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.429,
+     "commonPosition": 6
+    },
+    {
+     "name": "Futurefin",
+     "frequency": 0.299,
+     "commonPosition": 1
+    },
+    {
+     "name": "Costume Enthusiast",
+     "frequency": 0.247,
+     "commonPosition": 3
+    },
+    {
+     "name": "Expert Aviator",
+     "frequency": 0.234,
+     "commonPosition": 2
+    },
+    {
+     "name": "Primitive Painter",
+     "frequency": 0.195,
+     "commonPosition": 4
+    },
+    {
+     "name": "Papa Mrrglton",
+     "frequency": 0.182,
+     "commonPosition": 2
+    },
+    {
+     "name": "Magicfin Mycologist",
+     "frequency": 0.143,
+     "commonPosition": 2
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7338,
+     "minions": [
+      {
+       "cardId": "BG33_318_G",
+       "name": "Bile Spitter",
+       "pos": 1,
+       "atk": 130,
+       "health": 287,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_318_G",
+       "name": "Bile Spitter",
+       "pos": 2,
+       "atk": 95,
+       "health": 299,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_142_G",
+       "name": "Costume Enthusiast",
+       "pos": 3,
+       "atk": 330,
+       "health": 641,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_354_G",
+       "name": "Choral Mrrrglr",
+       "pos": 4,
+       "atk": 60,
+       "health": 492,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_142",
+       "name": "Cousin Errgl",
+       "pos": 5,
+       "atk": 17,
+       "health": 17,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 6,
+       "atk": 24,
+       "health": 30,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG27_556_G",
+       "name": "Diremuck Forager",
+       "pos": 7,
+       "atk": 339,
+       "health": 668,
+       "tribe": "Murloc",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 9378,
+     "minions": [
+      {
+       "cardId": "BG34_142",
+       "name": "Costume Enthusiast",
+       "pos": 1,
+       "atk": 11,
+       "health": 13,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 2,
+       "atk": 1611,
+       "health": 1013,
+       "tribe": "Dragon",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_140_G",
+       "name": "Expert Aviator",
+       "pos": 3,
+       "atk": 1579,
+       "health": 991,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_354_G",
+       "name": "Choral Mrrrglr",
+       "pos": 4,
+       "atk": 1468,
+       "health": 1206,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_891",
+       "name": "Magicfin Mycologist",
+       "pos": 5,
+       "atk": 656,
+       "health": 120,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_142",
+       "name": "Cousin Errgl",
+       "pos": 6,
+       "atk": 1558,
+       "health": 944,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG33_893_G",
+       "name": "Primitive Painter",
+       "pos": 7,
+       "atk": 1564,
+       "health": 963,
+       "tribe": "Murloc",
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 8335,
+     "minions": [
+      {
+       "cardId": "BG27_513",
+       "name": "Tide Oracle Morgl",
+       "pos": 1,
+       "atk": 1898,
+       "health": 1567,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "POISONOUS"
+       ]
+      },
+      {
+       "cardId": "BG26_354_G",
+       "name": "Choral Mrrrglr",
+       "pos": 2,
+       "atk": 391,
+       "health": 422,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_142_G",
+       "name": "Costume Enthusiast",
+       "pos": 3,
+       "atk": 8,
+       "health": 10,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_142_G",
+       "name": "Cousin Errgl",
+       "pos": 4,
+       "atk": 676,
+       "health": 632,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG27_556",
+       "name": "Diremuck Forager",
+       "pos": 5,
+       "atk": 549,
+       "health": 564,
+       "tribe": "Murloc",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 6,
+       "atk": 4,
+       "health": 14,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_145",
+       "name": "Futurefin",
+       "pos": 7,
+       "atk": 623,
+       "health": 617,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "undead_overflow",
+   "name": "Undead Overflow",
+   "tribe": "Undead",
+   "boardCount": 59,
+   "coreCards": [
+    {
+     "name": "Catacomb Crasher",
+     "frequency": 1.0,
+     "commonPosition": 4
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.966,
+     "commonPosition": 7
+    },
+    {
+     "name": "Cadaver Caretaker",
+     "frequency": 0.525,
+     "commonPosition": 2
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.492,
+     "commonPosition": 1
+    },
+    {
+     "name": "Lava Lurker",
+     "frequency": 0.424,
+     "commonPosition": 2
+    },
+    {
+     "name": "Surf n' Surf",
+     "frequency": 0.203,
+     "commonPosition": 4
+    },
+    {
+     "name": "Timewarped Caretaker",
+     "frequency": 0.102,
+     "commonPosition": 3
+    },
+    {
+     "name": "Timewarped Warghoul",
+     "frequency": 0.102,
+     "commonPosition": 1
+    },
+    {
+     "name": "Stitched Salvager",
+     "frequency": 0.102,
+     "commonPosition": 2
+    },
+    {
+     "name": "Sin'dorei Straight Shot",
+     "frequency": 0.085,
+     "commonPosition": 1
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.068,
+     "commonPosition": 2
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.068,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7336,
+     "minions": [
+      {
+       "cardId": "BG23_009_G",
+       "name": "Lava Lurker",
+       "pos": 1,
+       "atk": 49,
+       "health": 52,
+       "tribe": "Naga",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_883_G",
+       "name": "Balinda Stonehearth",
+       "pos": 2,
+       "atk": 956,
+       "health": 953,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG30_129_G",
+       "name": "Catacomb Crasher",
+       "pos": 3,
+       "atk": 985,
+       "health": 986,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_354_G",
+       "name": "Choral Mrrrglr",
+       "pos": 4,
+       "atk": 1092,
+       "health": 1085,
+       "tribe": "Murloc",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_604",
+       "name": "Heroic Underdog",
+       "pos": 5,
+       "atk": 1,
+       "health": 10,
+       "tribe": null,
+       "keywords": [
+        "STEALTH"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 941,
+       "health": 943,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 7,
+       "atk": 12,
+       "health": 20,
+       "tribe": null,
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7226,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 1139,
+       "health": 1133,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG30_125_G",
+       "name": "Cadaver Caretaker",
+       "pos": 2,
+       "atk": 1133,
+       "health": 1131,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG30_125_G",
+       "name": "Cadaver Caretaker",
+       "pos": 3,
+       "atk": 1174,
+       "health": 1174,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 1052,
+       "health": 1054,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 5,
+       "atk": 1169,
+       "health": 1175,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG30_129",
+       "name": "Catacomb Crasher",
+       "pos": 6,
+       "atk": 724,
+       "health": 730,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG30_129_G",
+       "name": "Catacomb Crasher",
+       "pos": 7,
+       "atk": 1642,
+       "health": 1664,
+       "tribe": "Undead",
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7199,
+     "minions": [
+      {
+       "cardId": "BG23_009_G",
+       "name": "Lava Lurker",
+       "pos": 1,
+       "atk": 111,
+       "health": 118,
+       "tribe": "Naga",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_765",
+       "name": "Dead Sea Ravager",
+       "pos": 2,
+       "atk": 694,
+       "health": 689,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG27_004_G",
+       "name": "Surf n' Surf",
+       "pos": 3,
+       "atk": 1444,
+       "health": 1444,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG30_129_G",
+       "name": "Catacomb Crasher",
+       "pos": 4,
+       "atk": 2090,
+       "health": 2096,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_604",
+       "name": "Heroic Underdog",
+       "pos": 5,
+       "atk": 1,
+       "health": 10,
+       "tribe": null,
+       "keywords": [
+        "STEALTH"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 1161,
+       "health": 1167,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 1542,
+       "health": 1554,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "mech_shield",
+   "name": "Mech Shield",
+   "tribe": "Mech",
+   "boardCount": 159,
+   "coreCards": [
+    {
+     "name": "Deflect-o-Bot",
+     "frequency": 0.962,
+     "commonPosition": 3
+    },
+    {
+     "name": "Ingenious Inventor",
+     "frequency": 0.723,
+     "commonPosition": 1
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.616,
+     "commonPosition": 7
+    },
+    {
+     "name": "Falling Sky Golem",
+     "frequency": 0.497,
+     "commonPosition": 5
+    },
+    {
+     "name": "Kangor's Apprentice",
+     "frequency": 0.453,
+     "commonPosition": 6
+    },
+    {
+     "name": "Scrap Scraper",
+     "frequency": 0.264,
+     "commonPosition": 5
+    },
+    {
+     "name": "Polarizing Beatboxer",
+     "frequency": 0.22,
+     "commonPosition": 5
+    },
+    {
+     "name": "Holo Rover",
+     "frequency": 0.17,
+     "commonPosition": 4
+    },
+    {
+     "name": "Junk Jouster",
+     "frequency": 0.17,
+     "commonPosition": 6
+    },
+    {
+     "name": "Divine Sparkbot",
+     "frequency": 0.145,
+     "commonPosition": 4
+    },
+    {
+     "name": "Sin'dorei Straight Shot",
+     "frequency": 0.107,
+     "commonPosition": 1
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.094,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7767,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_123",
+       "name": "Deflect-o-Bot",
+       "pos": 1,
+       "atk": 155,
+       "health": 150,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 2,
+       "atk": 234,
+       "health": 263,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 3,
+       "atk": 90,
+       "health": 87,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_890_G",
+       "name": "Ingenious Inventor",
+       "pos": 4,
+       "atk": 178,
+       "health": 171,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_148_G",
+       "name": "Scrap Scraper",
+       "pos": 5,
+       "atk": 186,
+       "health": 185,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_342_G",
+       "name": "Falling Sky Golem",
+       "pos": 6,
+       "atk": 920,
+       "health": 460,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 154,
+       "health": 166,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7337,
+     "minions": [
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 1,
+       "atk": 431,
+       "health": 398,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_123",
+       "name": "Deflect-o-Bot",
+       "pos": 2,
+       "atk": 426,
+       "health": 400,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_172",
+       "name": "Auto Assembler",
+       "pos": 3,
+       "atk": 384,
+       "health": 360,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_178",
+       "name": "Marquee Ticker",
+       "pos": 4,
+       "atk": 397,
+       "health": 384,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG28_741",
+       "name": "Charging Czarina",
+       "pos": 5,
+       "atk": 259,
+       "health": 253,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG28_741_G",
+       "name": "Charging Czarina",
+       "pos": 6,
+       "atk": 457,
+       "health": 424,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG26_ICC_901_G",
+       "name": "Drakkari Enchanter",
+       "pos": 7,
+       "atk": 49,
+       "health": 57,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 9269,
+     "minions": [
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 1,
+       "atk": 1285,
+       "health": 968,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_071",
+       "name": "Deflect-o-Bot",
+       "pos": 2,
+       "atk": 976,
+       "health": 846,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_342",
+       "name": "Falling Sky Golem",
+       "pos": 3,
+       "atk": 765,
+       "health": 496,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_170",
+       "name": "Metallic Hunter",
+       "pos": 4,
+       "atk": 62,
+       "health": 39,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_149_G",
+       "name": "Polarizing Beatboxer",
+       "pos": 5,
+       "atk": 6045,
+       "health": 4708,
+       "tribe": "Mech",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG34_604",
+       "name": "Heroic Underdog",
+       "pos": 6,
+       "atk": 1,
+       "health": 10,
+       "tribe": null,
+       "keywords": [
+        "STEALTH"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "undead_end_of_turn",
+   "name": "Undead End Of Turn",
+   "tribe": "Undead",
+   "boardCount": 182,
+   "coreCards": [
+    {
+     "name": "Skeletal Strafer",
+     "frequency": 0.89,
+     "commonPosition": 7
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.582,
+     "commonPosition": 2
+    },
+    {
+     "name": "Handless Forsaken",
+     "frequency": 0.275,
+     "commonPosition": 4
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.247,
+     "commonPosition": 7
+    },
+    {
+     "name": "Cadaver Caretaker",
+     "frequency": 0.187,
+     "commonPosition": 3
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.187,
+     "commonPosition": 1
+    },
+    {
+     "name": "Eternal Summoner",
+     "frequency": 0.181,
+     "commonPosition": 3
+    },
+    {
+     "name": "Eternal Knight",
+     "frequency": 0.159,
+     "commonPosition": 2
+    },
+    {
+     "name": "Eternal Tycoon",
+     "frequency": 0.154,
+     "commonPosition": 6
+    },
+    {
+     "name": "Deathly Striker",
+     "frequency": 0.154,
+     "commonPosition": 5
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.121,
+     "commonPosition": 1
+    },
+    {
+     "name": "Cataclysmic Harbinger",
+     "frequency": 0.121,
+     "commonPosition": 3
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 6455,
+     "minions": [
+      {
+       "cardId": "BG34_765",
+       "name": "Dead Sea Ravager",
+       "pos": 1,
+       "atk": 677,
+       "health": 53,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG35_334_G",
+       "name": "Skeletal Strafer",
+       "pos": 2,
+       "atk": 532,
+       "health": 202,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG25_001",
+       "name": "Risen Rider",
+       "pos": 3,
+       "atk": 426,
+       "health": 95,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_010",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 379,
+       "health": 48,
+       "tribe": "Undead",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_009",
+       "name": "Eternal Summoner",
+       "pos": 5,
+       "atk": 490,
+       "health": 153,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG30_125_G",
+       "name": "Cadaver Caretaker",
+       "pos": 6,
+       "atk": 527,
+       "health": 197,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 223,
+       "health": 203,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 6300,
+     "minions": [
+      {
+       "cardId": "BG32_880",
+       "name": "Friendly Geist",
+       "pos": 1,
+       "atk": 721,
+       "health": 665,
+       "tribe": "Undead",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG28_308",
+       "name": "Archlich Kel'Thuzad",
+       "pos": 2,
+       "atk": 462,
+       "health": 418,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_008_G",
+       "name": "Eternal Knight",
+       "pos": 3,
+       "atk": 841,
+       "health": 722,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 993,
+       "health": 893,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 5,
+       "atk": 685,
+       "health": 665,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_334_G",
+       "name": "Skeletal Strafer",
+       "pos": 6,
+       "atk": 720,
+       "health": 672,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_403",
+       "name": "Eternal Tycoon",
+       "pos": 7,
+       "atk": 653,
+       "health": 577,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 6214,
+     "minions": [
+      {
+       "cardId": "BG34_692",
+       "name": "Forsaken Weaver",
+       "pos": 1,
+       "atk": 312,
+       "health": 240,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_008_G",
+       "name": "Eternal Knight",
+       "pos": 2,
+       "atk": 395,
+       "health": 240,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG25_001_G",
+       "name": "Risen Rider",
+       "pos": 3,
+       "atk": 417,
+       "health": 336,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 459,
+       "health": 346,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_324",
+       "name": "Drustfallen Butcher",
+       "pos": 5,
+       "atk": 405,
+       "health": 331,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG35_334",
+       "name": "Skeletal Strafer",
+       "pos": 6,
+       "atk": 419,
+       "health": 343,
+       "tribe": "Undead",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_334",
+       "name": "Skeletal Strafer",
+       "pos": 7,
+       "atk": 412,
+       "health": 333,
+       "tribe": "Undead",
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "beast_leviathan",
+   "name": "Beast Leviathan",
+   "tribe": "Beast",
+   "boardCount": 33,
+   "coreCards": [
+    {
+     "name": "Lurking Leviathan",
+     "frequency": 0.97,
+     "commonPosition": 7
+    },
+    {
+     "name": "Sewer Lord",
+     "frequency": 0.97,
+     "commonPosition": 4
+    },
+    {
+     "name": "Banana Slamma",
+     "frequency": 0.788,
+     "commonPosition": 6
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.424,
+     "commonPosition": 1
+    },
+    {
+     "name": "Titus Rivendare",
+     "frequency": 0.394,
+     "commonPosition": 7
+    },
+    {
+     "name": "Spiked Savior",
+     "frequency": 0.364,
+     "commonPosition": 1
+    },
+    {
+     "name": "Goldrinn, the Great Wolf",
+     "frequency": 0.364,
+     "commonPosition": 2
+    },
+    {
+     "name": "Forest Rover",
+     "frequency": 0.182,
+     "commonPosition": 3
+    },
+    {
+     "name": "Turquoise Skitterer",
+     "frequency": 0.152,
+     "commonPosition": 1
+    },
+    {
+     "name": "Leeroy the Reckless",
+     "frequency": 0.121,
+     "commonPosition": 2
+    },
+    {
+     "name": "Sly Raptor",
+     "frequency": 0.121,
+     "commonPosition": 1
+    },
+    {
+     "name": "Fish of N'Zoth",
+     "frequency": 0.091,
+     "commonPosition": 5
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 7250,
+     "minions": [
+      {
+       "cardId": "BG25_016",
+       "name": "Sin'dorei Straight Shot",
+       "pos": 1,
+       "atk": 3,
+       "health": 4,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG29_808",
+       "name": "Spiked Savior",
+       "pos": 2,
+       "atk": 286,
+       "health": 2,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 3,
+       "atk": 286,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 232,
+       "health": 6,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604_G",
+       "name": "Sewer Lord",
+       "pos": 5,
+       "atk": 120,
+       "health": 22,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_802_G",
+       "name": "Banana Slamma",
+       "pos": 6,
+       "atk": 398,
+       "health": 36,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG35_602_G",
+       "name": "Lurking Leviathan",
+       "pos": 7,
+       "atk": 465,
+       "health": 69,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7847,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_135",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 189,
+       "health": 17,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_031",
+       "name": "Timewarped Leapfrogger",
+       "pos": 2,
+       "atk": 13,
+       "health": 17,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG23_318",
+       "name": "Leeroy the Reckless",
+       "pos": 3,
+       "atk": 6,
+       "health": 2,
+       "tribe": null,
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 14,
+       "health": 16,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 5,
+       "atk": 15,
+       "health": 15,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 2,
+       "health": 14,
+       "tribe": null,
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG35_602",
+       "name": "Lurking Leviathan",
+       "pos": 7,
+       "atk": 8,
+       "health": 15,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7809,
+     "minions": [
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 1,
+       "atk": 311,
+       "health": 4,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BGS_018",
+       "name": "Goldrinn, the Great Wolf",
+       "pos": 2,
+       "atk": 213,
+       "health": 23,
+       "tribe": "Beast",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 3,
+       "atk": 149,
+       "health": 73,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 93,
+       "health": 70,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "TB_BaconShop_HP_105t",
+       "name": "Fish of N'Zoth",
+       "pos": 5,
+       "atk": 68,
+       "health": 67,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 5,
+       "health": 11,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_602_G",
+       "name": "Lurking Leviathan",
+       "pos": 7,
+       "atk": 87,
+       "health": 94,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "DIVINE_SHIELD"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "elemental_tier2_ballers",
+   "name": "Elemental Tier2 Ballers",
+   "tribe": "Elemental",
+   "boardCount": 5,
+   "coreCards": [
+    {
+     "name": "Crackling Cyclone",
+     "frequency": 1.0,
+     "commonPosition": 2
+    },
+    {
+     "name": "Wildfire Elemental",
+     "frequency": 0.6,
+     "commonPosition": 1
+    },
+    {
+     "name": "Snow Baller",
+     "frequency": 0.6,
+     "commonPosition": 1
+    },
+    {
+     "name": "Cord Puller",
+     "frequency": 0.6,
+     "commonPosition": 7
+    },
+    {
+     "name": "Annoy-o-Module",
+     "frequency": 0.4,
+     "commonPosition": 6
+    },
+    {
+     "name": "Scarlet Survivor",
+     "frequency": 0.2,
+     "commonPosition": 5
+    },
+    {
+     "name": "Timewarped Snow Elemental",
+     "frequency": 0.2,
+     "commonPosition": 4
+    },
+    {
+     "name": "Charging Czarina",
+     "frequency": 0.2,
+     "commonPosition": 3
+    },
+    {
+     "name": "Soul Rewinder",
+     "frequency": 0.2,
+     "commonPosition": 5
+    },
+    {
+     "name": "Aureate Laureate",
+     "frequency": 0.2,
+     "commonPosition": 4
+    },
+    {
+     "name": "Water Droplet",
+     "frequency": 0.2,
+     "commonPosition": 5
+    },
+    {
+     "name": "Surfing Sylvar",
+     "frequency": 0.2,
+     "commonPosition": 6
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 6045,
+     "minions": [
+      {
+       "cardId": "BG31_818",
+       "name": "Snow Baller",
+       "pos": 1,
+       "atk": 11,
+       "health": 12,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_159",
+       "name": "Crackling Cyclone",
+       "pos": 2,
+       "atk": 3346,
+       "health": 2795,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_159",
+       "name": "Crackling Cyclone",
+       "pos": 3,
+       "atk": 3332,
+       "health": 2781,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BGS_126",
+       "name": "Wildfire Elemental",
+       "pos": 4,
+       "atk": 3330,
+       "health": 2777,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_814_G",
+       "name": "Scarlet Survivor",
+       "pos": 5,
+       "atk": 3335,
+       "health": 2786,
+       "tribe": "Dragon",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BGS_119",
+       "name": "Crackling Cyclone",
+       "pos": 6,
+       "atk": 3238,
+       "health": 2680,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_099",
+       "name": "Annoy-o-Module",
+       "pos": 7,
+       "atk": 3332,
+       "health": 2794,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 7178,
+     "minions": [
+      {
+       "cardId": "TB_BaconUps_159",
+       "name": "Crackling Cyclone",
+       "pos": 1,
+       "atk": 1334,
+       "health": 1833,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BGS_119",
+       "name": "Crackling Cyclone",
+       "pos": 2,
+       "atk": 1254,
+       "health": 1698,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG28_741",
+       "name": "Charging Czarina",
+       "pos": 3,
+       "atk": 1216,
+       "health": 1664,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG34_Giant_586",
+       "name": "Timewarped Snow Elemental",
+       "pos": 4,
+       "atk": 1171,
+       "health": 1766,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_174_G",
+       "name": "Soul Rewinder",
+       "pos": 5,
+       "atk": 1181,
+       "health": 1778,
+       "tribe": "Demon",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_611",
+       "name": "Cord Puller",
+       "pos": 6,
+       "atk": 1289,
+       "health": 1773,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 6238,
+     "minions": [
+      {
+       "cardId": "BGS_126",
+       "name": "Wildfire Elemental",
+       "pos": 1,
+       "atk": 13885,
+       "health": 12899,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_159",
+       "name": "Crackling Cyclone",
+       "pos": 2,
+       "atk": 13897,
+       "health": 12893,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BGS_119",
+       "name": "Crackling Cyclone",
+       "pos": 3,
+       "atk": 13815,
+       "health": 12809,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "WINDFURY"
+       ]
+      },
+      {
+       "cardId": "BG32_236_G",
+       "name": "Aureate Laureate",
+       "pos": 4,
+       "atk": 13896,
+       "health": 12886,
+       "tribe": "Pirate",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BGS_115t",
+       "name": "Water Droplet",
+       "pos": 5,
+       "atk": 6,
+       "health": 3,
+       "tribe": "Elemental",
+       "keywords": []
+      },
+      {
+       "cardId": "BG32_235",
+       "name": "Surfing Sylvar",
+       "pos": 6,
+       "atk": 13868,
+       "health": 12886,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG29_611",
+       "name": "Cord Puller",
+       "pos": 7,
+       "atk": 13888,
+       "health": 12881,
+       "tribe": "Mech",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "neutral_nalaa",
+   "name": "Neutral Nalaa",
+   "tribe": null,
+   "boardCount": 68,
+   "coreCards": [
+    {
+     "name": "Nalaa the Redeemer",
+     "frequency": 1.0,
+     "commonPosition": 6
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.25,
+     "commonPosition": 2
+    },
+    {
+     "name": "Nightmare Par-tea Guest",
+     "frequency": 0.206,
+     "commonPosition": 1
+    },
+    {
+     "name": "Ring Bearer",
+     "frequency": 0.206,
+     "commonPosition": 6
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.191,
+     "commonPosition": 6
+    },
+    {
+     "name": "Blade Collector",
+     "frequency": 0.162,
+     "commonPosition": 2
+    },
+    {
+     "name": "Proud Privateer",
+     "frequency": 0.162,
+     "commonPosition": 3
+    },
+    {
+     "name": "Cataclysmic Harbinger",
+     "frequency": 0.147,
+     "commonPosition": 3
+    },
+    {
+     "name": "Felfire Conjurer",
+     "frequency": 0.147,
+     "commonPosition": 3
+    },
+    {
+     "name": "Drakkari Enchanter",
+     "frequency": 0.147,
+     "commonPosition": 5
+    },
+    {
+     "name": "Ignition Specialist",
+     "frequency": 0.132,
+     "commonPosition": 4
+    },
+    {
+     "name": "Dead Sea Ravager",
+     "frequency": 0.118,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 6342,
+     "minions": [
+      {
+       "cardId": "BG26_817",
+       "name": "Blade Collector",
+       "pos": 1,
+       "atk": 1603,
+       "health": 1381,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG31_178_G",
+       "name": "Marquee Ticker",
+       "pos": 2,
+       "atk": 988,
+       "health": 786,
+       "tribe": "Mech",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG32_835_G",
+       "name": "Tranquil Meditative",
+       "pos": 3,
+       "atk": 985,
+       "health": 817,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_551_G",
+       "name": "Nalaa the Redeemer",
+       "pos": 4,
+       "atk": 568,
+       "health": 480,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 5,
+       "atk": 160,
+       "health": 151,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG_LOE_077",
+       "name": "Brann Bronzebeard",
+       "pos": 6,
+       "atk": 414,
+       "health": 400,
+       "tribe": null,
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG35_143_G",
+       "name": "Deepwater Chieftain",
+       "pos": 7,
+       "atk": 579,
+       "health": 519,
+       "tribe": "Murloc",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    },
+    {
+     "mmr": 6390,
+     "minions": [
+      {
+       "cardId": "BG33_319_G",
+       "name": "Rimescale Priestess",
+       "pos": 1,
+       "atk": 598,
+       "health": 460,
+       "tribe": "Naga",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_143",
+       "name": "Deepwater Chieftain",
+       "pos": 2,
+       "atk": 675,
+       "health": 519,
+       "tribe": "Murloc",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG33_821",
+       "name": "Shipwrecked Rascal",
+       "pos": 3,
+       "atk": 252,
+       "health": 192,
+       "tribe": "Pirate",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG28_551_G",
+       "name": "Nalaa the Redeemer",
+       "pos": 4,
+       "atk": 67,
+       "health": 51,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG26_174",
+       "name": "Soul Rewinder",
+       "pos": 5,
+       "atk": 646,
+       "health": 492,
+       "tribe": "Demon",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG33_825",
+       "name": "Proud Privateer",
+       "pos": 6,
+       "atk": 368,
+       "health": 285,
+       "tribe": "Pirate",
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 49,
+       "health": 38,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7243,
+     "minions": [
+      {
+       "cardId": "BG30_125_G",
+       "name": "Cadaver Caretaker",
+       "pos": 1,
+       "atk": 853,
+       "health": 660,
+       "tribe": "Undead",
+       "keywords": [
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 2,
+       "atk": 1606,
+       "health": 1620,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_123_G",
+       "name": "Cataclysmic Harbinger",
+       "pos": 3,
+       "atk": 405,
+       "health": 431,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_551_G",
+       "name": "Nalaa the Redeemer",
+       "pos": 4,
+       "atk": 157,
+       "health": 166,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG28_550",
+       "name": "Rodeo Performer",
+       "pos": 5,
+       "atk": 16,
+       "health": 26,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 6,
+       "atk": 39,
+       "health": 48,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 7,
+       "atk": 109,
+       "health": 118,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "quilboar_smuggler",
+   "name": "Quilboar Smuggler",
+   "tribe": "Quilboar",
+   "boardCount": 2,
+   "coreCards": [
+    {
+     "name": "Titus Rivendare",
+     "frequency": 1.0,
+     "commonPosition": 7
+    },
+    {
+     "name": "Rylak Metalhead",
+     "frequency": 1.0,
+     "commonPosition": 3
+    },
+    {
+     "name": "En-Djinn Blazer",
+     "frequency": 0.5,
+     "commonPosition": 2
+    },
+    {
+     "name": "Leyline Surfacer",
+     "frequency": 0.5,
+     "commonPosition": 4
+    },
+    {
+     "name": "Elemental of Surprise",
+     "frequency": 0.5,
+     "commonPosition": 5
+    },
+    {
+     "name": "Balinda Stonehearth",
+     "frequency": 0.5,
+     "commonPosition": 1
+    },
+    {
+     "name": "Brann Bronzebeard",
+     "frequency": 0.5,
+     "commonPosition": 6
+    },
+    {
+     "name": "Monstrous Macaw",
+     "frequency": 0.5,
+     "commonPosition": 2
+    },
+    {
+     "name": "Sewer Lord",
+     "frequency": 0.5,
+     "commonPosition": 4
+    },
+    {
+     "name": "Timewarped Leapfrogger",
+     "frequency": 0.5,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 6703,
+     "minions": [
+      {
+       "cardId": "BG35_883",
+       "name": "Balinda Stonehearth",
+       "pos": 1,
+       "atk": 6,
+       "health": 6,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG34_865_G",
+       "name": "En-Djinn Blazer",
+       "pos": 2,
+       "atk": 15726,
+       "health": 9350,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "BG26_801_G",
+       "name": "Rylak Metalhead",
+       "pos": 3,
+       "atk": 1938,
+       "health": 1016,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG35_881_G",
+       "name": "Leyline Surfacer",
+       "pos": 4,
+       "atk": 13103,
+       "health": 7842,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_175",
+       "name": "Elemental of Surprise",
+       "pos": 5,
+       "atk": 12236,
+       "health": 6272,
+       "tribe": "Elemental",
+       "keywords": [
+        "DIVINE_SHIELD"
+       ]
+      },
+      {
+       "cardId": "TB_BaconUps_045",
+       "name": "Brann Bronzebeard",
+       "pos": 6,
+       "atk": 14,
+       "health": 18,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 236,
+       "health": 248,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    },
+    {
+     "mmr": 7350,
+     "minions": [
+      {
+       "cardId": "BG34_Giant_031",
+       "name": "Timewarped Leapfrogger",
+       "pos": 1,
+       "atk": 11,
+       "health": 19,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 2,
+       "atk": 12,
+       "health": 17,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN"
+       ]
+      },
+      {
+       "cardId": "BGS_078",
+       "name": "Monstrous Macaw",
+       "pos": 3,
+       "atk": 5,
+       "health": 4,
+       "tribe": "Beast",
+       "keywords": []
+      },
+      {
+       "cardId": "BG35_604",
+       "name": "Sewer Lord",
+       "pos": 4,
+       "atk": 7,
+       "health": 9,
+       "tribe": "Beast",
+       "keywords": [
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG26_801",
+       "name": "Rylak Metalhead",
+       "pos": 5,
+       "atk": 12,
+       "health": 16,
+       "tribe": "Beast",
+       "keywords": [
+        "REBORN",
+        "TAUNT",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_354",
+       "name": "Titus Rivendare",
+       "pos": 6,
+       "atk": 1,
+       "health": 7,
+       "tribe": null,
+       "keywords": []
+      },
+      {
+       "cardId": "BG25_354_G",
+       "name": "Titus Rivendare",
+       "pos": 7,
+       "atk": 2,
+       "health": 14,
+       "tribe": null,
+       "keywords": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "archetype": "undead_attack",
+   "name": "Undead Attack",
+   "tribe": "Undead",
+   "boardCount": 1,
+   "coreCards": [
+    {
+     "name": "Forsaken Weaver",
+     "frequency": 1.0,
+     "commonPosition": 3
+    },
+    {
+     "name": "Deathly Striker",
+     "frequency": 1.0,
+     "commonPosition": 6
+    },
+    {
+     "name": "Handless Forsaken",
+     "frequency": 1.0,
+     "commonPosition": 4
+    },
+    {
+     "name": "Sky Admiral Rogers",
+     "frequency": 1.0,
+     "commonPosition": 1
+    }
+   ],
+   "examples": [
+    {
+     "mmr": 6803,
+     "minions": [
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 1,
+       "atk": 162,
+       "health": 80,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG33_823_G",
+       "name": "Sky Admiral Rogers",
+       "pos": 2,
+       "atk": 100,
+       "health": 48,
+       "tribe": "Pirate",
+       "keywords": [
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG34_692_G",
+       "name": "Forsaken Weaver",
+       "pos": 3,
+       "atk": 645,
+       "health": 78,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "TAUNT"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 4,
+       "atk": 523,
+       "health": 14,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG25_010_G",
+       "name": "Handless Forsaken",
+       "pos": 5,
+       "atk": 483,
+       "health": 47,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835",
+       "name": "Deathly Striker",
+       "pos": 6,
+       "atk": 309,
+       "health": 8,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      },
+      {
+       "cardId": "BG31_835_G",
+       "name": "Deathly Striker",
+       "pos": 7,
+       "atk": 641,
+       "health": 86,
+       "tribe": "Undead",
+       "keywords": [
+        "REBORN",
+        "DEATHRATTLE"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,4434 @@
+{
+ "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+ "_fetched": "2026-06-26",
+ "_mmr": 10,
+ "_period": "past-seven",
+ "_heroDataPoints": 53756,
+ "cards": [
+  {
+   "cardId": "BG28_573",
+   "name": "Upper Hand",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.45,
+   "impact": 1.943,
+   "totalPlayed": 8590
+  },
+  {
+   "cardId": "BG35_952",
+   "name": "Back to Back",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 2.527,
+   "impact": 2.002,
+   "totalPlayed": 91426
+  },
+  {
+   "cardId": "BG31_889",
+   "name": "Sharing is Caring",
+   "tribes": [],
+   "techLevel": 7,
+   "averagePlacement": 2.587,
+   "impact": 1.59,
+   "totalPlayed": 547
+  },
+  {
+   "cardId": "BG28_507",
+   "name": "Sacred Gift",
+   "tribes": [],
+   "techLevel": 7,
+   "averagePlacement": 2.591,
+   "impact": 1.589,
+   "totalPlayed": 790
+  },
+  {
+   "cardId": "BG34_889",
+   "name": "Brood of Nozdormu",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.636,
+   "impact": 1.61,
+   "totalPlayed": 4096
+  },
+  {
+   "cardId": "BG23_318",
+   "name": "Leeroy the Reckless",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.656,
+   "impact": 1.708,
+   "totalPlayed": 9062
+  },
+  {
+   "cardId": "BG28_169",
+   "name": "Azerite Empowerment",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 2.672,
+   "impact": 1.622,
+   "totalPlayed": 6855
+  },
+  {
+   "cardId": "BG28_604",
+   "name": "Butchering",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.681,
+   "impact": 1.519,
+   "totalPlayed": 30760
+  },
+  {
+   "cardId": "EBG_Spell_032",
+   "name": "Channel the Devourer",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.689,
+   "impact": 1.629,
+   "totalPlayed": 7083
+  },
+  {
+   "cardId": "BG23_008",
+   "name": "Glowscale",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 2.695,
+   "impact": 1.632,
+   "totalPlayed": 11973
+  },
+  {
+   "cardId": "EBG_Spell_017",
+   "name": "Eyes of the Earth Mother",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 2.75,
+   "impact": 1.61,
+   "totalPlayed": 8773
+  },
+  {
+   "cardId": "EBG_Spell_038",
+   "name": "Lost Staff of Hamuul",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 2.761,
+   "impact": 1.9,
+   "totalPlayed": 26450
+  },
+  {
+   "cardId": "BG30_802",
+   "name": "Knockoff Wisdomball",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 2.785,
+   "impact": 1.743,
+   "totalPlayed": 20631
+  },
+  {
+   "cardId": "BG26_354",
+   "name": "Choral Mrrrglr",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.807,
+   "impact": 1.449,
+   "totalPlayed": 6503
+  },
+  {
+   "cardId": "EBG_Spell_037",
+   "name": "Unmasked Identity",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.838,
+   "impact": 1.717,
+   "totalPlayed": 18134
+  },
+  {
+   "cardId": "BG23_008t",
+   "name": "Glowing Crown",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 2.844,
+   "impact": 1.509,
+   "totalPlayed": 22250
+  },
+  {
+   "cardId": "BG28_849",
+   "name": "Saloon's Finest",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.869,
+   "impact": 1.566,
+   "totalPlayed": 16107
+  },
+  {
+   "cardId": "BG33_893",
+   "name": "Primitive Painter",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.882,
+   "impact": 1.348,
+   "totalPlayed": 4541
+  },
+  {
+   "cardId": "BGS_Treasures_015",
+   "name": "Buy the Holy Light",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 2.897,
+   "impact": 1.304,
+   "totalPlayed": 2917
+  },
+  {
+   "cardId": "BG34_Giant_035t",
+   "name": "Timewarped Crown",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 2.903,
+   "impact": 1.267,
+   "totalPlayed": 538
+  },
+  {
+   "cardId": "BG33_891",
+   "name": "Magicfin Mycologist",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.911,
+   "impact": 1.444,
+   "totalPlayed": 16551
+  },
+  {
+   "cardId": "BG35_911",
+   "name": "Arcane Absorption",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 2.912,
+   "impact": 1.317,
+   "totalPlayed": 67260
+  },
+  {
+   "cardId": "BG33_815",
+   "name": "Wealthy Bounty",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 2.913,
+   "impact": 1.412,
+   "totalPlayed": 72834
+  },
+  {
+   "cardId": "BG33_814",
+   "name": "Friendly Bounty",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 2.92,
+   "impact": 1.399,
+   "totalPlayed": 70751
+  },
+  {
+   "cardId": "BG31_896",
+   "name": "Hallowed Ritual",
+   "tribes": [],
+   "techLevel": 7,
+   "averagePlacement": 2.92,
+   "impact": 1.254,
+   "totalPlayed": 758
+  },
+  {
+   "cardId": "BG26_175",
+   "name": "Elemental of Surprise",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.923,
+   "impact": 1.323,
+   "totalPlayed": 4879
+  },
+  {
+   "cardId": "BG33_811",
+   "name": "Healthy Bounty",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 2.925,
+   "impact": 1.372,
+   "totalPlayed": 64637
+  },
+  {
+   "cardId": "BG33_812",
+   "name": "Hostile Bounty",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 2.929,
+   "impact": 1.368,
+   "totalPlayed": 64430
+  },
+  {
+   "cardId": "BG34_PreMadeChamp_200",
+   "name": "Timewarped Centurion",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 2.932,
+   "impact": 1.233,
+   "totalPlayed": 899
+  },
+  {
+   "cardId": "BG31_820",
+   "name": "Spacefarer",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.933,
+   "impact": 1.327,
+   "totalPlayed": 7682
+  },
+  {
+   "cardId": "BG35_MagicItem_838t",
+   "name": "Double Stitch",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 2.944,
+   "impact": 1.218,
+   "totalPlayed": 2055
+  },
+  {
+   "cardId": "BG25_016",
+   "name": "Sin'dorei Straight Shot",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 2.946,
+   "impact": 1.295,
+   "totalPlayed": 4216
+  },
+  {
+   "cardId": "BG_DAL_775",
+   "name": "Tunnel Blaster",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 2.947,
+   "impact": 1.269,
+   "totalPlayed": 2742
+  },
+  {
+   "cardId": "BG33_813",
+   "name": "Selfish Bounty",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 2.949,
+   "impact": 1.343,
+   "totalPlayed": 66174
+  },
+  {
+   "cardId": "BG34_990",
+   "name": "Wave of Gold",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.949,
+   "impact": 1.291,
+   "totalPlayed": 5248
+  },
+  {
+   "cardId": "BG34_926",
+   "name": "Ruthless Queensguard",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.95,
+   "impact": 1.413,
+   "totalPlayed": 17145
+  },
+  {
+   "cardId": "BG32_172",
+   "name": "Auto Assembler",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 2.959,
+   "impact": 1.281,
+   "totalPlayed": 19958
+  },
+  {
+   "cardId": "BG32_234",
+   "name": "Dastardly Drust",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.961,
+   "impact": 1.3,
+   "totalPlayed": 9412
+  },
+  {
+   "cardId": "BG35_910",
+   "name": "Conflagration",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 2.963,
+   "impact": 1.305,
+   "totalPlayed": 22993
+  },
+  {
+   "cardId": "BG31_176",
+   "name": "Dr. Boom's Monster",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.963,
+   "impact": 1.203,
+   "totalPlayed": 1726
+  },
+  {
+   "cardId": "BG25_807t4",
+   "name": "Shield of the Legion",
+   "tribes": [
+    "Mech",
+    "Demon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 2.964,
+   "impact": 1.2,
+   "totalPlayed": 631
+  },
+  {
+   "cardId": "BG35_341",
+   "name": "Enchanted Sentinel",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 2.973,
+   "impact": 1.268,
+   "totalPlayed": 14905
+  },
+  {
+   "cardId": "BG25_807t3",
+   "name": "Baltharak",
+   "tribes": [
+    "Mech",
+    "Demon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 2.973,
+   "impact": 1.194,
+   "totalPlayed": 1240
+  },
+  {
+   "cardId": "BG34_Giant_597",
+   "name": "Timewarped Immortal",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 2.976,
+   "impact": 1.196,
+   "totalPlayed": 581
+  },
+  {
+   "cardId": "BG25_807t2",
+   "name": "Magtheridon Prime",
+   "tribes": [
+    "Mech",
+    "Demon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 2.977,
+   "impact": 1.19,
+   "totalPlayed": 1270
+  },
+  {
+   "cardId": "BGS_020",
+   "name": "Primalfin Lookout",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 2.98,
+   "impact": 1.269,
+   "totalPlayed": 12873
+  },
+  {
+   "cardId": "BG28_607",
+   "name": "Corrupted Cupcakes",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 2.984,
+   "impact": 1.202,
+   "totalPlayed": 1761
+  },
+  {
+   "cardId": "BG34_633",
+   "name": "Draconic Warden",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 2.985,
+   "impact": 1.346,
+   "totalPlayed": 24547
+  },
+  {
+   "cardId": "BG25_807t",
+   "name": "Rusted Reggie",
+   "tribes": [
+    "Mech",
+    "Demon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 2.986,
+   "impact": 1.18,
+   "totalPlayed": 1272
+  },
+  {
+   "cardId": "BG33_821",
+   "name": "Shipwrecked Rascal",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 2.988,
+   "impact": 1.335,
+   "totalPlayed": 27346
+  },
+  {
+   "cardId": "BG33_890t",
+   "name": "Magicfin Apprentice",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 2.99,
+   "impact": 1.343,
+   "totalPlayed": 25523
+  },
+  {
+   "cardId": "BG_DEEP_015",
+   "name": "Prosthetic Hand",
+   "tribes": [
+    "Undead",
+    "Mech"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 2.991,
+   "impact": 1.338,
+   "totalPlayed": 30023
+  },
+  {
+   "cardId": "BG32_846",
+   "name": "Unleashed Mana Surge",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 2.994,
+   "impact": 1.245,
+   "totalPlayed": 5564
+  },
+  {
+   "cardId": "BG31_819",
+   "name": "Temperature Shift",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.003,
+   "impact": 1.236,
+   "totalPlayed": 9075
+  },
+  {
+   "cardId": "BG34_765",
+   "name": "Dead Sea Ravager",
+   "tribes": [
+    "Undead",
+    "Pirate"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.005,
+   "impact": 1.365,
+   "totalPlayed": 13699
+  },
+  {
+   "cardId": "BG33_920",
+   "name": "Wrathscale Rogue",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.01,
+   "impact": 1.228,
+   "totalPlayed": 5625
+  },
+  {
+   "cardId": "BG35_922",
+   "name": "Queen's Command",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.016,
+   "impact": 1.212,
+   "totalPlayed": 5052
+  },
+  {
+   "cardId": "BG31_859",
+   "name": "Technical Element",
+   "tribes": [
+    "Elemental",
+    "Mech"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.017,
+   "impact": 1.288,
+   "totalPlayed": 21063
+  },
+  {
+   "cardId": "BG32_111",
+   "name": "Nightmare Par-tea Guest",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.037,
+   "impact": 1.541,
+   "totalPlayed": 31831
+  },
+  {
+   "cardId": "BG34_142",
+   "name": "Costume Enthusiast",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.038,
+   "impact": 1.174,
+   "totalPlayed": 4234
+  },
+  {
+   "cardId": "BG25_034",
+   "name": "Captain Sanders",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.039,
+   "impact": 1.162,
+   "totalPlayed": 4466
+  },
+  {
+   "cardId": "BG_BOT_911",
+   "name": "Annoy-o-Module",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.039,
+   "impact": 1.212,
+   "totalPlayed": 19862
+  },
+  {
+   "cardId": "BG24_HERO_100_Buddyt",
+   "name": "Coin Pouch",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.047,
+   "impact": 1.131,
+   "totalPlayed": 1393
+  },
+  {
+   "cardId": "BG35_152",
+   "name": "Void Pup Trainer",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.056,
+   "impact": 1.165,
+   "totalPlayed": 10450
+  },
+  {
+   "cardId": "BG34_231",
+   "name": "Old Soul",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.058,
+   "impact": 1.135,
+   "totalPlayed": 2539
+  },
+  {
+   "cardId": "BG28_601",
+   "name": "Cloning Conch",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.062,
+   "impact": 1.192,
+   "totalPlayed": 9091
+  },
+  {
+   "cardId": "BGS_Treasures_034",
+   "name": "Repeat Customer",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.063,
+   "impact": 1.106,
+   "totalPlayed": 683
+  },
+  {
+   "cardId": "BG31_171t",
+   "name": "Satellite",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.065,
+   "impact": 1.134,
+   "totalPlayed": 11815
+  },
+  {
+   "cardId": "BG34_175",
+   "name": "Junk Jouster",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.065,
+   "impact": 1.206,
+   "totalPlayed": 8254
+  },
+  {
+   "cardId": "BG35_882",
+   "name": "Firelands Fugitive",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.066,
+   "impact": 1.179,
+   "totalPlayed": 9155
+  },
+  {
+   "cardId": "BG28_606",
+   "name": "Spitescale Special",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.07,
+   "impact": 1.233,
+   "totalPlayed": 14573
+  },
+  {
+   "cardId": "BGS_131",
+   "name": "Deadly Spore",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.071,
+   "impact": 1.144,
+   "totalPlayed": 3268
+  },
+  {
+   "cardId": "BG33_899",
+   "name": "Mounting Avalanche",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.072,
+   "impact": 1.12,
+   "totalPlayed": 3264
+  },
+  {
+   "cardId": "BG33_112",
+   "name": "Haunted Carapace",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.072,
+   "impact": 1.098,
+   "totalPlayed": 1845
+  },
+  {
+   "cardId": "BG32_835",
+   "name": "Tranquil Meditative",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.078,
+   "impact": 1.195,
+   "totalPlayed": 13452
+  },
+  {
+   "cardId": "BGS_030",
+   "name": "King Bagurgle",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.079,
+   "impact": 1.147,
+   "totalPlayed": 9415
+  },
+  {
+   "cardId": "BG28_888",
+   "name": "Misplaced Tea Set",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.08,
+   "impact": 1.611,
+   "totalPlayed": 79647
+  },
+  {
+   "cardId": "BG35_141",
+   "name": "Papa Mrrglton",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.08,
+   "impact": 1.144,
+   "totalPlayed": 15543
+  },
+  {
+   "cardId": "BG32_235",
+   "name": "Surfing Sylvar",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.083,
+   "impact": 1.15,
+   "totalPlayed": 10339
+  },
+  {
+   "cardId": "BG28_838",
+   "name": "Perfect Vision",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 3.084,
+   "impact": 1.117,
+   "totalPlayed": 2254
+  },
+  {
+   "cardId": "BG25_009",
+   "name": "Eternal Summoner",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.085,
+   "impact": 1.167,
+   "totalPlayed": 7473
+  },
+  {
+   "cardId": "BG35_702",
+   "name": "Roving Sailor",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.086,
+   "impact": 1.167,
+   "totalPlayed": 14123
+  },
+  {
+   "cardId": "BG26_814",
+   "name": "Lovesick Balladist",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.087,
+   "impact": 1.156,
+   "totalPlayed": 13848
+  },
+  {
+   "cardId": "BG26_817",
+   "name": "Blade Collector",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.09,
+   "impact": 1.163,
+   "totalPlayed": 10257
+  },
+  {
+   "cardId": "BG35_MagicItem_755t",
+   "name": "Chillmere Mosaic",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.091,
+   "impact": 1.077,
+   "totalPlayed": 9534
+  },
+  {
+   "cardId": "BG34_321",
+   "name": "Rabid Panther",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.093,
+   "impact": 1.13,
+   "totalPlayed": 5176
+  },
+  {
+   "cardId": "BG28_550",
+   "name": "Rodeo Performer",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.094,
+   "impact": 1.593,
+   "totalPlayed": 43522
+  },
+  {
+   "cardId": "BG26_147",
+   "name": "Accord-o-Tron",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.096,
+   "impact": 1.129,
+   "totalPlayed": 26913
+  },
+  {
+   "cardId": "BG28_GIL_836",
+   "name": "Hired Headhunter",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.098,
+   "impact": 1.412,
+   "totalPlayed": 27620
+  },
+  {
+   "cardId": "BG26_162",
+   "name": "Dancing Barnstormer",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.101,
+   "impact": 1.128,
+   "totalPlayed": 7493
+  },
+  {
+   "cardId": "BG28_603",
+   "name": "Boon of Beetles",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.101,
+   "impact": 1.177,
+   "totalPlayed": 9064
+  },
+  {
+   "cardId": "BG31_816",
+   "name": "Fire Baller",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.101,
+   "impact": 1.168,
+   "totalPlayed": 17439
+  },
+  {
+   "cardId": "BG33_923",
+   "name": "Sundered Matriarch",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.102,
+   "impact": 1.17,
+   "totalPlayed": 8597
+  },
+  {
+   "cardId": "BGS_123",
+   "name": "Tavern Tempest",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.106,
+   "impact": 1.18,
+   "totalPlayed": 24083
+  },
+  {
+   "cardId": "BG35_140",
+   "name": "Mama Mrrglton",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.107,
+   "impact": 1.112,
+   "totalPlayed": 14885
+  },
+  {
+   "cardId": "BG26_137",
+   "name": "Bream Counter",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.109,
+   "impact": 1.09,
+   "totalPlayed": 3271
+  },
+  {
+   "cardId": "BG33_318",
+   "name": "Bile Spitter",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.109,
+   "impact": 1.119,
+   "totalPlayed": 5259
+  },
+  {
+   "cardId": "BG31_818",
+   "name": "Snow Baller",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.112,
+   "impact": 1.154,
+   "totalPlayed": 17476
+  },
+  {
+   "cardId": "BG31_920",
+   "name": "Darkcrest Strategist",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.12,
+   "impact": 1.1,
+   "totalPlayed": 7578
+  },
+  {
+   "cardId": "BG33_817",
+   "name": "Sanctify",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.121,
+   "impact": 1.114,
+   "totalPlayed": 12453
+  },
+  {
+   "cardId": "BG35_MagicItem_733t",
+   "name": "Jailer Sticker",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.121,
+   "impact": 1.042,
+   "totalPlayed": 2398
+  },
+  {
+   "cardId": "BGS_116",
+   "name": "Refreshing Anomaly",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.121,
+   "impact": 1.199,
+   "totalPlayed": 27804
+  },
+  {
+   "cardId": "BG34_319",
+   "name": "Highkeeper Ra",
+   "tribes": [],
+   "techLevel": 7,
+   "averagePlacement": 3.123,
+   "impact": 1.092,
+   "totalPlayed": 6877
+  },
+  {
+   "cardId": "BGS_018",
+   "name": "Goldrinn, the Great Wolf",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.123,
+   "impact": 1.109,
+   "totalPlayed": 5428
+  },
+  {
+   "cardId": "BG32_835t",
+   "name": "Meditation",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.126,
+   "impact": 1.179,
+   "totalPlayed": 30987
+  },
+  {
+   "cardId": "BGS_012",
+   "name": "Kangor's Apprentice",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.129,
+   "impact": 1.087,
+   "totalPlayed": 4529
+  },
+  {
+   "cardId": "BG25_032",
+   "name": "Peggy Sturdybone",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.13,
+   "impact": 1.096,
+   "totalPlayed": 9710
+  },
+  {
+   "cardId": "BG35_883",
+   "name": "Balinda Stonehearth",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 3.137,
+   "impact": 1.411,
+   "totalPlayed": 21104
+  },
+  {
+   "cardId": "BG35_MagicItem_812t",
+   "name": "Triple Prize",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.138,
+   "impact": 1.026,
+   "totalPlayed": 9969
+  },
+  {
+   "cardId": "BG26_810",
+   "name": "Gunpowder Courier",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.141,
+   "impact": 1.084,
+   "totalPlayed": 9776
+  },
+  {
+   "cardId": "BG35_890",
+   "name": "Ingenious Inventor",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.142,
+   "impact": 1.098,
+   "totalPlayed": 6497
+  },
+  {
+   "cardId": "BG27_017",
+   "name": "Obsidian Ravager",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.143,
+   "impact": 1.038,
+   "totalPlayed": 1641
+  },
+  {
+   "cardId": "BG26_157",
+   "name": "Bristlebach",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.144,
+   "impact": 1.06,
+   "totalPlayed": 2860
+  },
+  {
+   "cardId": "BG27_016",
+   "name": "Champion of Sargeras",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.148,
+   "impact": 1.032,
+   "totalPlayed": 2159
+  },
+  {
+   "cardId": "BG31_HERO_802_Buddy",
+   "name": "Probius",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.148,
+   "impact": 1.016,
+   "totalPlayed": 547
+  },
+  {
+   "cardId": "BG28_500",
+   "name": "Armor Stash",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.153,
+   "impact": 1.452,
+   "totalPlayed": 21796
+  },
+  {
+   "cardId": "BG27_514",
+   "name": "Sea Witch Zar'jira",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.155,
+   "impact": 1.033,
+   "totalPlayed": 3784
+  },
+  {
+   "cardId": "BG22_HERO_201_Buddy",
+   "name": "Submersible Chef",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.159,
+   "impact": 1.018,
+   "totalPlayed": 1507
+  },
+  {
+   "cardId": "BG34_638t",
+   "name": "Red Chromadrake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.159,
+   "impact": 1.124,
+   "totalPlayed": 24084
+  },
+  {
+   "cardId": "BG34_692",
+   "name": "Forsaken Weaver",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.16,
+   "impact": 1.091,
+   "totalPlayed": 7480
+  },
+  {
+   "cardId": "BG31_920t",
+   "name": "Evolving Strategy",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.163,
+   "impact": 1.104,
+   "totalPlayed": 18220
+  },
+  {
+   "cardId": "BG34_635t",
+   "name": "Black Chromadrake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.164,
+   "impact": 1.121,
+   "totalPlayed": 24344
+  },
+  {
+   "cardId": "BG35_334",
+   "name": "Skeletal Strafer",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.166,
+   "impact": 1.027,
+   "totalPlayed": 2963
+  },
+  {
+   "cardId": "BG32_204",
+   "name": "Silky Shimmermoth",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.169,
+   "impact": 1.074,
+   "totalPlayed": 7626
+  },
+  {
+   "cardId": "BG33_240",
+   "name": "Charmwing",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.171,
+   "impact": 1.098,
+   "totalPlayed": 7743
+  },
+  {
+   "cardId": "BG27_556",
+   "name": "Diremuck Forager",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.175,
+   "impact": 1.041,
+   "totalPlayed": 5688
+  },
+  {
+   "cardId": "BG35_342",
+   "name": "Falling Sky Golem",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.176,
+   "impact": 1.123,
+   "totalPlayed": 11370
+  },
+  {
+   "cardId": "BG34_604",
+   "name": "Heroic Underdog",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.177,
+   "impact": 1.053,
+   "totalPlayed": 4804
+  },
+  {
+   "cardId": "BG31_999",
+   "name": "Stitched Salvager",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.178,
+   "impact": 1.004,
+   "totalPlayed": 1895
+  },
+  {
+   "cardId": "BG34_Giant_042",
+   "name": "Timewarped Chameleon",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.178,
+   "impact": 0.996,
+   "totalPlayed": 1137
+  },
+  {
+   "cardId": "BG33_154",
+   "name": "Lord of the Ruins",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.18,
+   "impact": 1.046,
+   "totalPlayed": 5214
+  },
+  {
+   "cardId": "BG34_634t",
+   "name": "Blue Chromadrake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.181,
+   "impact": 1.101,
+   "totalPlayed": 23817
+  },
+  {
+   "cardId": "BG35_153",
+   "name": "Consummate Conqueror",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.181,
+   "impact": 1.07,
+   "totalPlayed": 8342
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_18_Buddy",
+   "name": "Tuskarr Raider",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.183,
+   "impact": 0.982,
+   "totalPlayed": 616
+  },
+  {
+   "cardId": "BG33_823",
+   "name": "Sky Admiral Rogers",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.189,
+   "impact": 1.132,
+   "totalPlayed": 16125
+  },
+  {
+   "cardId": "BG34_636t",
+   "name": "Green Chromadrake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.19,
+   "impact": 1.081,
+   "totalPlayed": 20320
+  },
+  {
+   "cardId": "BG27_514t",
+   "name": "Siren's Song",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.191,
+   "impact": 0.997,
+   "totalPlayed": 8282
+  },
+  {
+   "cardId": "BG28_830",
+   "name": "Golden Touch",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.191,
+   "impact": 1.088,
+   "totalPlayed": 8744
+  },
+  {
+   "cardId": "BG32_841",
+   "name": "Sand Swirler",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.191,
+   "impact": 1.03,
+   "totalPlayed": 7683
+  },
+  {
+   "cardId": "BG35_701",
+   "name": "Brazen Buccaneer",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.191,
+   "impact": 1.058,
+   "totalPlayed": 11361
+  },
+  {
+   "cardId": "BG21_018",
+   "name": "Defiant Shipwright",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.195,
+   "impact": 1.03,
+   "totalPlayed": 11689
+  },
+  {
+   "cardId": "BG28_HERO_800_Buddy",
+   "name": "Reliquary Attendant",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.196,
+   "impact": 0.974,
+   "totalPlayed": 1368
+  },
+  {
+   "cardId": "BG34_637t",
+   "name": "Bronze Chromadrake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.196,
+   "impact": 1.068,
+   "totalPlayed": 20888
+  },
+  {
+   "cardId": "BG29_806",
+   "name": "Iridescent Skyblazer",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.197,
+   "impact": 1.0,
+   "totalPlayed": 3281
+  },
+  {
+   "cardId": "BG30_122",
+   "name": "Mrglin' Burglar",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.197,
+   "impact": 1.002,
+   "totalPlayed": 3817
+  },
+  {
+   "cardId": "BG31_835",
+   "name": "Deathly Striker",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.197,
+   "impact": 1.05,
+   "totalPlayed": 6952
+  },
+  {
+   "cardId": "BG31_824",
+   "name": "Dual-Wield Corsair",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.198,
+   "impact": 1.023,
+   "totalPlayed": 9131
+  },
+  {
+   "cardId": "BG20_GEM_DivineShield",
+   "name": "Blood Gem",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.199,
+   "impact": 0.997,
+   "totalPlayed": 6552
+  },
+  {
+   "cardId": "BG26_146",
+   "name": "Lullabot",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.199,
+   "impact": 1.043,
+   "totalPlayed": 22117
+  },
+  {
+   "cardId": "BG34_921",
+   "name": "Ring Bearer",
+   "tribes": [
+    "Naga",
+    "Dragon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.201,
+   "impact": 1.184,
+   "totalPlayed": 17368
+  },
+  {
+   "cardId": "BG28_882",
+   "name": "Contracted Corpse",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.206,
+   "impact": 1.106,
+   "totalPlayed": 10695
+  },
+  {
+   "cardId": "BG28_884",
+   "name": "Overconfidence",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.207,
+   "impact": 1.349,
+   "totalPlayed": 28831
+  },
+  {
+   "cardId": "BG34_523",
+   "name": "Hunting Tiger Shark",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.209,
+   "impact": 1.087,
+   "totalPlayed": 28475
+  },
+  {
+   "cardId": "BGS_Treasures_104",
+   "name": "Reserve Prices",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.21,
+   "impact": 0.964,
+   "totalPlayed": 914
+  },
+  {
+   "cardId": "BG34_950",
+   "name": "Stone Age Slab",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.213,
+   "impact": 0.96,
+   "totalPlayed": 1207
+  },
+  {
+   "cardId": "BG35_895",
+   "name": "Tidecaller Prophet",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.217,
+   "impact": 0.979,
+   "totalPlayed": 3764
+  },
+  {
+   "cardId": "BG28_825",
+   "name": "Defender's Rites",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.219,
+   "impact": 1.234,
+   "totalPlayed": 21959
+  },
+  {
+   "cardId": "BG28_595",
+   "name": "Ignition Specialist",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.226,
+   "impact": 1.037,
+   "totalPlayed": 7822
+  },
+  {
+   "cardId": "BG33_894",
+   "name": "Coldlight Diver",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.228,
+   "impact": 1.044,
+   "totalPlayed": 19788
+  },
+  {
+   "cardId": "BG35_143",
+   "name": "Deepwater Chieftain",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.231,
+   "impact": 1.001,
+   "totalPlayed": 10491
+  },
+  {
+   "cardId": "BG35_912",
+   "name": "Eonar's Favor",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.236,
+   "impact": 1.106,
+   "totalPlayed": 17304
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_11_Buddy",
+   "name": "Lucifron",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.237,
+   "impact": 0.93,
+   "totalPlayed": 607
+  },
+  {
+   "cardId": "BG31_035",
+   "name": "Groundbreaker",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.238,
+   "impact": 0.98,
+   "totalPlayed": 5728
+  },
+  {
+   "cardId": "BG29_503",
+   "name": "Clunker Junker",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.24,
+   "impact": 0.998,
+   "totalPlayed": 16563
+  },
+  {
+   "cardId": "BG30_129",
+   "name": "Catacomb Crasher",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.242,
+   "impact": 0.949,
+   "totalPlayed": 3020
+  },
+  {
+   "cardId": "BG29_808",
+   "name": "Spiked Savior",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.243,
+   "impact": 0.955,
+   "totalPlayed": 3417
+  },
+  {
+   "cardId": "BG28_520",
+   "name": "Tricky Trousers",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.245,
+   "impact": 1.217,
+   "totalPlayed": 20305
+  },
+  {
+   "cardId": "BG22_202",
+   "name": "Tad",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.248,
+   "impact": 1.008,
+   "totalPlayed": 25001
+  },
+  {
+   "cardId": "BG34_888",
+   "name": "Tomb Turning",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.248,
+   "impact": 0.975,
+   "totalPlayed": 17366
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_93_Buddy",
+   "name": "Baby N'Zoth",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.248,
+   "impact": 0.921,
+   "totalPlayed": 882
+  },
+  {
+   "cardId": "BG26_525",
+   "name": "Imposing Percussionist",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.253,
+   "impact": 0.935,
+   "totalPlayed": 13795
+  },
+  {
+   "cardId": "BG23_002",
+   "name": "Shell Collector",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.254,
+   "impact": 1.022,
+   "totalPlayed": 33018
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_28_Buddy",
+   "name": "Clockwork Assistant",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.255,
+   "impact": 0.921,
+   "totalPlayed": 1429
+  },
+  {
+   "cardId": "BGS_Treasures_039",
+   "name": "Mindflayer Goggles",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.256,
+   "impact": 0.945,
+   "totalPlayed": 5106
+  },
+  {
+   "cardId": "BG34_145",
+   "name": "Futurefin",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.259,
+   "impact": 0.917,
+   "totalPlayed": 1841
+  },
+  {
+   "cardId": "BG28_168",
+   "name": "Shiny Ring",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.26,
+   "impact": 1.089,
+   "totalPlayed": 18427
+  },
+  {
+   "cardId": "BG23_017",
+   "name": "Sanguine Champion",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.262,
+   "impact": 0.913,
+   "totalPlayed": 1697
+  },
+  {
+   "cardId": "BG34_922",
+   "name": "Maelstrom Emergent",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.262,
+   "impact": 0.952,
+   "totalPlayed": 6014
+  },
+  {
+   "cardId": "BG35_881",
+   "name": "Leyline Surfacer",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.262,
+   "impact": 0.963,
+   "totalPlayed": 12015
+  },
+  {
+   "cardId": "BG34_694",
+   "name": "Wintergrasp Ghoul",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.268,
+   "impact": 0.932,
+   "totalPlayed": 4909
+  },
+  {
+   "cardId": "BG35_149",
+   "name": "Deepwater Clan",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.269,
+   "impact": 0.98,
+   "totalPlayed": 28749
+  },
+  {
+   "cardId": "BG35_142",
+   "name": "Cousin Errgl",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.273,
+   "impact": 0.926,
+   "totalPlayed": 4585
+  },
+  {
+   "cardId": "BGS_Treasures_014",
+   "name": "The Unlimited Coin",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.274,
+   "impact": 0.889,
+   "totalPlayed": 13977
+  },
+  {
+   "cardId": "BG35_155",
+   "name": "Twisted Wrathguard",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.276,
+   "impact": 0.969,
+   "totalPlayed": 10112
+  },
+  {
+   "cardId": "BG35_604",
+   "name": "Sewer Lord",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.276,
+   "impact": 0.93,
+   "totalPlayed": 4423
+  },
+  {
+   "cardId": "BGS_Treasures_011",
+   "name": "Training Session",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.276,
+   "impact": 0.902,
+   "totalPlayed": 1575
+  },
+  {
+   "cardId": "BG28_309",
+   "name": "Mummifier",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.278,
+   "impact": 0.931,
+   "totalPlayed": 9618
+  },
+  {
+   "cardId": "BG34_858",
+   "name": "Air Revenant",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.279,
+   "impact": 0.929,
+   "totalPlayed": 4774
+  },
+  {
+   "cardId": "BG34_690",
+   "name": "Plaguerunner",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.284,
+   "impact": 0.919,
+   "totalPlayed": 6271
+  },
+  {
+   "cardId": "BG35_150",
+   "name": "Laboratory Assistant",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.284,
+   "impact": 0.925,
+   "totalPlayed": 17717
+  },
+  {
+   "cardId": "BG25_HERO_105_Buddy",
+   "name": "Talent Scout",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.287,
+   "impact": 0.883,
+   "totalPlayed": 915
+  },
+  {
+   "cardId": "BG24_HERO_100_Buddy",
+   "name": "Shady Aristocrat",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.289,
+   "impact": 0.888,
+   "totalPlayed": 1720
+  },
+  {
+   "cardId": "BG33_820",
+   "name": "Lost City Looter",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.291,
+   "impact": 0.938,
+   "totalPlayed": 13002
+  },
+  {
+   "cardId": "TB_BaconShop_Triples_01",
+   "name": "Triple Reward",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.293,
+   "impact": 2.042,
+   "totalPlayed": 211478
+  },
+  {
+   "cardId": "BG28_521",
+   "name": "Planar Telescope",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.294,
+   "impact": 1.177,
+   "totalPlayed": 26231
+  },
+  {
+   "cardId": "BG35_431",
+   "name": "Earthsong Shaman",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.294,
+   "impact": 0.923,
+   "totalPlayed": 4876
+  },
+  {
+   "cardId": "BG26_149",
+   "name": "Polarizing Beatboxer",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.296,
+   "impact": 0.89,
+   "totalPlayed": 3553
+  },
+  {
+   "cardId": "BGS_049",
+   "name": "Freedealing Gambler",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.297,
+   "impact": 0.984,
+   "totalPlayed": 69758
+  },
+  {
+   "cardId": "BG26_505",
+   "name": "Zesty Shaker",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.299,
+   "impact": 0.889,
+   "totalPlayed": 5420
+  },
+  {
+   "cardId": "BG27_005",
+   "name": "Timecap'n Hooktail",
+   "tribes": [
+    "Dragon",
+    "Pirate"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.301,
+   "impact": 0.95,
+   "totalPlayed": 13587
+  },
+  {
+   "cardId": "BG31_171",
+   "name": "Moonsteel Juggernaut",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.312,
+   "impact": 0.938,
+   "totalPlayed": 8316
+  },
+  {
+   "cardId": "BG34_322",
+   "name": "Stalwart Kodo",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.312,
+   "impact": 0.859,
+   "totalPlayed": 1314
+  },
+  {
+   "cardId": "BG35_602",
+   "name": "Lurking Leviathan",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.317,
+   "impact": 0.874,
+   "totalPlayed": 2983
+  },
+  {
+   "cardId": "BG28_845",
+   "name": "Natural Blessing",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.318,
+   "impact": 0.968,
+   "totalPlayed": 11215
+  },
+  {
+   "cardId": "BG34_865",
+   "name": "En-Djinn Blazer",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.319,
+   "impact": 0.906,
+   "totalPlayed": 10751
+  },
+  {
+   "cardId": "BGS_115t",
+   "name": "Water Droplet",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.319,
+   "impact": 0.926,
+   "totalPlayed": 18857
+  },
+  {
+   "cardId": "BG34_403",
+   "name": "Eternal Tycoon",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.321,
+   "impact": 0.871,
+   "totalPlayed": 3600
+  },
+  {
+   "cardId": "BG27_002t",
+   "name": "Slimy Shield",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.322,
+   "impact": 1.026,
+   "totalPlayed": 38681
+  },
+  {
+   "cardId": "BG33_822",
+   "name": "Bigwig Bandit",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.326,
+   "impact": 0.889,
+   "totalPlayed": 10496
+  },
+  {
+   "cardId": "BGS_Treasures_020",
+   "name": "Top Shelf",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.327,
+   "impact": 0.87,
+   "totalPlayed": 5295
+  },
+  {
+   "cardId": "BG28_519",
+   "name": "Fleeting Vigor",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.328,
+   "impact": 0.948,
+   "totalPlayed": 9335
+  },
+  {
+   "cardId": "BG32_822",
+   "name": "Fire-forged Evoker",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.33,
+   "impact": 0.919,
+   "totalPlayed": 8839
+  },
+  {
+   "cardId": "BG29_841",
+   "name": "Greymane's Champion",
+   "tribes": [],
+   "techLevel": 6,
+   "averagePlacement": 3.332,
+   "impact": 0.969,
+   "totalPlayed": 10276
+  },
+  {
+   "cardId": "BGS_126",
+   "name": "Wildfire Elemental",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.332,
+   "impact": 0.895,
+   "totalPlayed": 8366
+  },
+  {
+   "cardId": "BG33_888",
+   "name": "Hog Watcher",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.333,
+   "impact": 0.863,
+   "totalPlayed": 3802
+  },
+  {
+   "cardId": "BG31_HERO_003_Buddy",
+   "name": "Outland Sunbeam",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.334,
+   "impact": 0.839,
+   "totalPlayed": 1483
+  },
+  {
+   "cardId": "BG26_360",
+   "name": "Scourfin",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.337,
+   "impact": 0.869,
+   "totalPlayed": 6032
+  },
+  {
+   "cardId": "BG27_084",
+   "name": "Sprightly Scarab",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.337,
+   "impact": 0.932,
+   "totalPlayed": 20143
+  },
+  {
+   "cardId": "BG31_330",
+   "name": "Ominous Seer",
+   "tribes": [
+    "Demon",
+    "Naga"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.338,
+   "impact": 1.018,
+   "totalPlayed": 40466
+  },
+  {
+   "cardId": "BG28_308",
+   "name": "Archlich Kel'Thuzad",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.339,
+   "impact": 0.854,
+   "totalPlayed": 3566
+  },
+  {
+   "cardId": "BG34_320",
+   "name": "The Last One Standing",
+   "tribes": [],
+   "techLevel": 7,
+   "averagePlacement": 3.34,
+   "impact": 0.845,
+   "totalPlayed": 2636
+  },
+  {
+   "cardId": "BG34_444",
+   "name": "Easterly Winds",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.34,
+   "impact": 0.864,
+   "totalPlayed": 4437
+  },
+  {
+   "cardId": "BG35_437",
+   "name": "Vinespeaker",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.34,
+   "impact": 0.862,
+   "totalPlayed": 3416
+  },
+  {
+   "cardId": "BG35_MagicItem_306t",
+   "name": "Jailer Sticker",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.34,
+   "impact": 0.824,
+   "totalPlayed": 3108
+  },
+  {
+   "cardId": "BG26_135",
+   "name": "Southsea Busker",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.341,
+   "impact": 0.921,
+   "totalPlayed": 38288
+  },
+  {
+   "cardId": "BG32_324",
+   "name": "Drustfallen Butcher",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.344,
+   "impact": 0.853,
+   "totalPlayed": 4564
+  },
+  {
+   "cardId": "BG26_805",
+   "name": "Humming Bird",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.345,
+   "impact": 0.854,
+   "totalPlayed": 4310
+  },
+  {
+   "cardId": "BG23_004",
+   "name": "Deep-Sea Angler",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.347,
+   "impact": 0.844,
+   "totalPlayed": 6334
+  },
+  {
+   "cardId": "BG25_022",
+   "name": "Scarlet Skull",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.347,
+   "impact": 0.859,
+   "totalPlayed": 7334
+  },
+  {
+   "cardId": "BG25_041",
+   "name": "Felemental",
+   "tribes": [
+    "Elemental",
+    "Demon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.348,
+   "impact": 0.915,
+   "totalPlayed": 22456
+  },
+  {
+   "cardId": "BG31_881",
+   "name": "Time Management",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.352,
+   "impact": 0.904,
+   "totalPlayed": 8352
+  },
+  {
+   "cardId": "BG33_323",
+   "name": "Dustbone Devastator",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.357,
+   "impact": 0.841,
+   "totalPlayed": 5300
+  },
+  {
+   "cardId": "BG28_886",
+   "name": "Staff of Enrichment",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.358,
+   "impact": 0.956,
+   "totalPlayed": 22204
+  },
+  {
+   "cardId": "BG33_825",
+   "name": "Proud Privateer",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.36,
+   "impact": 0.885,
+   "totalPlayed": 11032
+  },
+  {
+   "cardId": "BG35_921",
+   "name": "Abyssal Bruiser",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.362,
+   "impact": 0.826,
+   "totalPlayed": 4608
+  },
+  {
+   "cardId": "BG34_Giant_333",
+   "name": "Timewarped Scout",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.363,
+   "impact": 0.805,
+   "totalPlayed": 641
+  },
+  {
+   "cardId": "BG28_800",
+   "name": "Careful Investment",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.364,
+   "impact": 1.322,
+   "totalPlayed": 45712
+  },
+  {
+   "cardId": "BG32_236",
+   "name": "Aureate Laureate",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.365,
+   "impact": 0.883,
+   "totalPlayed": 18590
+  },
+  {
+   "cardId": "BGS_115",
+   "name": "Sellemental",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.368,
+   "impact": 0.874,
+   "totalPlayed": 20095
+  },
+  {
+   "cardId": "BG28_HERO_801_Buddy",
+   "name": "The Nine Frogs",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 6,
+   "averagePlacement": 3.372,
+   "impact": 0.794,
+   "totalPlayed": 819
+  },
+  {
+   "cardId": "GAME_005",
+   "name": "The Coin",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.372,
+   "impact": 1.294,
+   "totalPlayed": 168554
+  },
+  {
+   "cardId": "BG32_815",
+   "name": "Shifting Tide",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.38,
+   "impact": 0.839,
+   "totalPlayed": 6404
+  },
+  {
+   "cardId": "BG34_731",
+   "name": "Twilight Broodmother",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.38,
+   "impact": 0.824,
+   "totalPlayed": 4436
+  },
+  {
+   "cardId": "BG29_813",
+   "name": "Persistent Poet",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.384,
+   "impact": 0.831,
+   "totalPlayed": 8113
+  },
+  {
+   "cardId": "BG34_689",
+   "name": "Blood Gem Barrage",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.384,
+   "impact": 0.825,
+   "totalPlayed": 34136
+  },
+  {
+   "cardId": "BG34_140",
+   "name": "Expert Aviator",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.385,
+   "impact": 0.835,
+   "totalPlayed": 9125
+  },
+  {
+   "cardId": "BG26_802",
+   "name": "Banana Slamma",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.386,
+   "impact": 0.81,
+   "totalPlayed": 4125
+  },
+  {
+   "cardId": "BG25_039",
+   "name": "Pufferquil",
+   "tribes": [
+    "Quilboar",
+    "Naga"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.388,
+   "impact": 0.808,
+   "totalPlayed": 6084
+  },
+  {
+   "cardId": "BG32_842",
+   "name": "Glowing Cinder",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.388,
+   "impact": 0.821,
+   "totalPlayed": 6243
+  },
+  {
+   "cardId": "BG31_809",
+   "name": "Turquoise Skitterer",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.39,
+   "impact": 0.811,
+   "totalPlayed": 4742
+  },
+  {
+   "cardId": "BG31_815",
+   "name": "Dune Dweller",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.395,
+   "impact": 0.845,
+   "totalPlayed": 14499
+  },
+  {
+   "cardId": "BG27_002",
+   "name": "Oozeling Gladiator",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.396,
+   "impact": 0.952,
+   "totalPlayed": 15349
+  },
+  {
+   "cardId": "BG25_010",
+   "name": "Handless Forsaken",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.406,
+   "impact": 0.8,
+   "totalPlayed": 10073
+  },
+  {
+   "cardId": "BG28_827",
+   "name": "Leaf Through the Pages",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.411,
+   "impact": 1.313,
+   "totalPlayed": 49273
+  },
+  {
+   "cardId": "BG34_Giant_332",
+   "name": "Timewarped Embalmer",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.413,
+   "impact": 0.753,
+   "totalPlayed": 950
+  },
+  {
+   "cardId": "BG32_880",
+   "name": "Friendly Geist",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.415,
+   "impact": 0.785,
+   "totalPlayed": 6847
+  },
+  {
+   "cardId": "BG23_HERO_305_Buddy",
+   "name": "Waxadred, the Drippy",
+   "tribes": [
+    "Elemental",
+    "Dragon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.416,
+   "impact": 0.752,
+   "totalPlayed": 1346
+  },
+  {
+   "cardId": "BG34_Giant_302",
+   "name": "Timewarped Copter",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.416,
+   "impact": 0.746,
+   "totalPlayed": 589
+  },
+  {
+   "cardId": "BG35_601",
+   "name": "Wyvern Outrider",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.417,
+   "impact": 0.784,
+   "totalPlayed": 5502
+  },
+  {
+   "cardId": "BG34_781",
+   "name": "Felhorn",
+   "tribes": [
+    "Demon",
+    "Beast"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.418,
+   "impact": 0.825,
+   "totalPlayed": 17479
+  },
+  {
+   "cardId": "BGS_119",
+   "name": "Crackling Cyclone",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.418,
+   "impact": 0.82,
+   "totalPlayed": 12858
+  },
+  {
+   "cardId": "BG32_330",
+   "name": "Flighty Scout",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.421,
+   "impact": 0.81,
+   "totalPlayed": 15279
+  },
+  {
+   "cardId": "BG25_354",
+   "name": "Titus Rivendare",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.422,
+   "impact": 0.917,
+   "totalPlayed": 14640
+  },
+  {
+   "cardId": "BG28_741",
+   "name": "Charging Czarina",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.422,
+   "impact": 0.763,
+   "totalPlayed": 2509
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_23_Buddy",
+   "name": "Muckslinger",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.424,
+   "impact": 0.742,
+   "totalPlayed": 863
+  },
+  {
+   "cardId": "BG30_125",
+   "name": "Cadaver Caretaker",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.432,
+   "impact": 0.783,
+   "totalPlayed": 10663
+  },
+  {
+   "cardId": "BG26_502",
+   "name": "Deep Blue Crooner",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.433,
+   "impact": 0.756,
+   "totalPlayed": 8319
+  },
+  {
+   "cardId": "BG33_319",
+   "name": "Rimescale Priestess",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.437,
+   "impact": 0.755,
+   "totalPlayed": 6968
+  },
+  {
+   "cardId": "BG25_001",
+   "name": "Risen Rider",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.438,
+   "impact": 0.794,
+   "totalPlayed": 13813
+  },
+  {
+   "cardId": "BG25_011",
+   "name": "Nerubian Deathswarmer",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.443,
+   "impact": 0.77,
+   "totalPlayed": 9603
+  },
+  {
+   "cardId": "BG27_004",
+   "name": "Surf n' Surf",
+   "tribes": [
+    "Naga",
+    "Beast"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.443,
+   "impact": 0.885,
+   "totalPlayed": 33483
+  },
+  {
+   "cardId": "BG28_698",
+   "name": "Gem Confiscation",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.447,
+   "impact": 0.757,
+   "totalPlayed": 8781
+  },
+  {
+   "cardId": "BG35_951",
+   "name": "Might of Stormwind",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.447,
+   "impact": 0.838,
+   "totalPlayed": 13742
+  },
+  {
+   "cardId": "BG30_117",
+   "name": "Volcanic Visitor",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.449,
+   "impact": 0.743,
+   "totalPlayed": 6366
+  },
+  {
+   "cardId": "BG33_140",
+   "name": "River Skipper",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.45,
+   "impact": 0.803,
+   "totalPlayed": 38003
+  },
+  {
+   "cardId": "BG29_807",
+   "name": "Trigore the Lasher",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.459,
+   "impact": 0.733,
+   "totalPlayed": 4283
+  },
+  {
+   "cardId": "BG31_826",
+   "name": "Doubloon Grifter",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.46,
+   "impact": 0.697,
+   "totalPlayed": 1604
+  },
+  {
+   "cardId": "BG34_856",
+   "name": "Waveling",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.46,
+   "impact": 0.748,
+   "totalPlayed": 6644
+  },
+  {
+   "cardId": "BG26_501",
+   "name": "Reef Riffer",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.462,
+   "impact": 0.734,
+   "totalPlayed": 8663
+  },
+  {
+   "cardId": "BG26_ICC_901",
+   "name": "Drakkari Enchanter",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.464,
+   "impact": 0.853,
+   "totalPlayed": 13153
+  },
+  {
+   "cardId": "BG24_500",
+   "name": "Amber Guardian",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.465,
+   "impact": 0.737,
+   "totalPlayed": 6110
+  },
+  {
+   "cardId": "BGS_Treasures_019",
+   "name": "B.A.N.A.N.A.S.",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.47,
+   "impact": 0.701,
+   "totalPlayed": 1456
+  },
+  {
+   "cardId": "BG20_HERO_242_Buddy",
+   "name": "Baby Kodo",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.471,
+   "impact": 0.697,
+   "totalPlayed": 959
+  },
+  {
+   "cardId": "BG27_Reward_504t",
+   "name": "Accelerator",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.472,
+   "impact": 0.689,
+   "totalPlayed": 745
+  },
+  {
+   "cardId": "BG21_005",
+   "name": "Famished Felbat",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.474,
+   "impact": 0.712,
+   "totalPlayed": 4384
+  },
+  {
+   "cardId": "BG28_518",
+   "name": "Chef's Choice",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.475,
+   "impact": 1.08,
+   "totalPlayed": 42614
+  },
+  {
+   "cardId": "BGS_041",
+   "name": "Kalecgos, Arcane Aspect",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.476,
+   "impact": 0.712,
+   "totalPlayed": 4342
+  },
+  {
+   "cardId": "BG30_117t",
+   "name": "Escape Eruption",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.478,
+   "impact": 0.765,
+   "totalPlayed": 21448
+  },
+  {
+   "cardId": "BGS_Treasures_037",
+   "name": "All That Glitters",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.478,
+   "impact": 0.699,
+   "totalPlayed": 3064
+  },
+  {
+   "cardId": "BG23_009",
+   "name": "Lava Lurker",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.479,
+   "impact": 0.703,
+   "totalPlayed": 6659
+  },
+  {
+   "cardId": "BG34_683",
+   "name": "Briarback Drummer",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.483,
+   "impact": 0.71,
+   "totalPlayed": 8444
+  },
+  {
+   "cardId": "BG26_148",
+   "name": "Scrap Scraper",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.486,
+   "impact": 0.721,
+   "totalPlayed": 5657
+  },
+  {
+   "cardId": "BG24_715",
+   "name": "Patient Scout",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.488,
+   "impact": 0.83,
+   "totalPlayed": 29014
+  },
+  {
+   "cardId": "BG28_503",
+   "name": "Fortify",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.495,
+   "impact": 0.871,
+   "totalPlayed": 20686
+  },
+  {
+   "cardId": "BG28_300",
+   "name": "Harmless Bonehead",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.497,
+   "impact": 0.733,
+   "totalPlayed": 15862
+  },
+  {
+   "cardId": "BG24_009",
+   "name": "Picky Eater",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.498,
+   "impact": 0.713,
+   "totalPlayed": 11045
+  },
+  {
+   "cardId": "BG31_HERO_005_Buddy",
+   "name": "Mini-Zerek",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.499,
+   "impact": 0.67,
+   "totalPlayed": 694
+  },
+  {
+   "cardId": "BG34_Giant_324t",
+   "name": "Timewarped Summoning",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.499,
+   "impact": 0.665,
+   "totalPlayed": 695
+  },
+  {
+   "cardId": "BG33_319t",
+   "name": "Rime or Reason",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.506,
+   "impact": 0.734,
+   "totalPlayed": 21055
+  },
+  {
+   "cardId": "BG33_101",
+   "name": "A New Sprout",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.51,
+   "impact": 0.75,
+   "totalPlayed": 12895
+  },
+  {
+   "cardId": "BG33_809",
+   "name": "Divine Sparkbot",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.513,
+   "impact": 0.672,
+   "totalPlayed": 2713
+  },
+  {
+   "cardId": "BG26_867",
+   "name": "Three Lil' Quilboar",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.516,
+   "impact": 0.657,
+   "totalPlayed": 1838
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_57_Buddy",
+   "name": "Chromie",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.519,
+   "impact": 0.653,
+   "totalPlayed": 1429
+  },
+  {
+   "cardId": "BG23_004t",
+   "name": "Angler's Lure",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.526,
+   "impact": 0.71,
+   "totalPlayed": 20516
+  },
+  {
+   "cardId": "BG26_524",
+   "name": "Malchezaar, Prince of Dance",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.528,
+   "impact": 0.655,
+   "totalPlayed": 8220
+  },
+  {
+   "cardId": "BG31_801",
+   "name": "Forest Rover",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.528,
+   "impact": 0.699,
+   "totalPlayed": 15153
+  },
+  {
+   "cardId": "BG31_175",
+   "name": "Holo Rover",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.534,
+   "impact": 0.665,
+   "totalPlayed": 5211
+  },
+  {
+   "cardId": "BG35_MagicItem_817t",
+   "name": "Duplicating Lens",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.535,
+   "impact": 0.635,
+   "totalPlayed": 4752
+  },
+  {
+   "cardId": "BG34_Giant_210t",
+   "name": "Timewarped Shoal",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.538,
+   "impact": 0.622,
+   "totalPlayed": 651
+  },
+  {
+   "cardId": "BG32_821",
+   "name": "Felfire Conjurer",
+   "tribes": [
+    "Demon",
+    "Dragon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.539,
+   "impact": 0.704,
+   "totalPlayed": 11431
+  },
+  {
+   "cardId": "BG29_300",
+   "name": "Very Hungry Winterfinner",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.541,
+   "impact": 0.659,
+   "totalPlayed": 9017
+  },
+  {
+   "cardId": "BG28_512",
+   "name": "Enchanted Lasso",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.545,
+   "impact": 0.789,
+   "totalPlayed": 26361
+  },
+  {
+   "cardId": "BG28_805",
+   "name": "Strike Oil",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.547,
+   "impact": 0.764,
+   "totalPlayed": 18022
+  },
+  {
+   "cardId": "BG28_504",
+   "name": "Recruit a Trainee",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.548,
+   "impact": 0.77,
+   "totalPlayed": 21323
+  },
+  {
+   "cardId": "BG33_156",
+   "name": "Silent Enforcer",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.552,
+   "impact": 0.64,
+   "totalPlayed": 4733
+  },
+  {
+   "cardId": "BG34_Treasure_940",
+   "name": "Timewarped Chef's Choice",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.553,
+   "impact": 0.614,
+   "totalPlayed": 550
+  },
+  {
+   "cardId": "BG32_873",
+   "name": "Ashen Corruptor",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.554,
+   "impact": 0.632,
+   "totalPlayed": 4219
+  },
+  {
+   "cardId": "BG32_891",
+   "name": "Shadowdancer",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.561,
+   "impact": 0.621,
+   "totalPlayed": 3596
+  },
+  {
+   "cardId": "BG26_502t",
+   "name": "Deep Blues",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.565,
+   "impact": 0.667,
+   "totalPlayed": 32840
+  },
+  {
+   "cardId": "BG26_529",
+   "name": "Upbeat Frontdrake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.57,
+   "impact": 0.648,
+   "totalPlayed": 10384
+  },
+  {
+   "cardId": "BG30_123",
+   "name": "Fearless Foodie",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.573,
+   "impact": 0.597,
+   "totalPlayed": 5555
+  },
+  {
+   "cardId": "BG26_LOOT_534",
+   "name": "Gilded Gargoyle",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.575,
+   "impact": 0.593,
+   "totalPlayed": 553
+  },
+  {
+   "cardId": "BG34_920",
+   "name": "Tide Raiser",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.575,
+   "impact": 0.608,
+   "totalPlayed": 7716
+  },
+  {
+   "cardId": "BG26_813t",
+   "name": "The Goldenizer",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.576,
+   "impact": 0.589,
+   "totalPlayed": 4332
+  },
+  {
+   "cardId": "BGS_104",
+   "name": "Nomi, Kitchen Nightmare",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.577,
+   "impact": 0.592,
+   "totalPlayed": 1184
+  },
+  {
+   "cardId": "BG28_633",
+   "name": "Felboar",
+   "tribes": [
+    "Demon",
+    "Quilboar"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.578,
+   "impact": 0.609,
+   "totalPlayed": 4938
+  },
+  {
+   "cardId": "BGS_004",
+   "name": "Wrath Weaver",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.581,
+   "impact": 0.618,
+   "totalPlayed": 9407
+  },
+  {
+   "cardId": "BG21_HERO_010_Buddy",
+   "name": "Warden Thelwater",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.585,
+   "impact": 0.578,
+   "totalPlayed": 588
+  },
+  {
+   "cardId": "BG28_897",
+   "name": "Tavern Dish Banana",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.586,
+   "impact": 0.731,
+   "totalPlayed": 33506
+  },
+  {
+   "cardId": "BG34_330",
+   "name": "Search Through Time",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.593,
+   "impact": 0.728,
+   "totalPlayed": 19749
+  },
+  {
+   "cardId": "BG32_237",
+   "name": "Intrepid Botanist",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.596,
+   "impact": 0.613,
+   "totalPlayed": 10241
+  },
+  {
+   "cardId": "BG25_008",
+   "name": "Eternal Knight",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.599,
+   "impact": 0.6,
+   "totalPlayed": 9304
+  },
+  {
+   "cardId": "BG34_500",
+   "name": "Flaming Enforcer",
+   "tribes": [
+    "Elemental",
+    "Demon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.599,
+   "impact": 0.625,
+   "totalPlayed": 10968
+  },
+  {
+   "cardId": "BGS_078",
+   "name": "Monstrous Macaw",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.607,
+   "impact": 0.629,
+   "totalPlayed": 12874
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_49_Buddy",
+   "name": "Magnus Manastorm",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.607,
+   "impact": 0.556,
+   "totalPlayed": 511
+  },
+  {
+   "cardId": "BGS_071",
+   "name": "Deflect-o-Bot",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.609,
+   "impact": 0.586,
+   "totalPlayed": 6399
+  },
+  {
+   "cardId": "BG_LOE_077",
+   "name": "Brann Bronzebeard",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.612,
+   "impact": 0.802,
+   "totalPlayed": 22214
+  },
+  {
+   "cardId": "BG34_312",
+   "name": "Hardy Orca",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.614,
+   "impact": 0.584,
+   "totalPlayed": 6940
+  },
+  {
+   "cardId": "BG31_803",
+   "name": "Buzzing Vermin",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.616,
+   "impact": 0.602,
+   "totalPlayed": 12161
+  },
+  {
+   "cardId": "BG30_HERO_304_Buddy",
+   "name": "Fantastic Bellhop",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.621,
+   "impact": 0.538,
+   "totalPlayed": 649
+  },
+  {
+   "cardId": "BGS_Treasures_006",
+   "name": "Evolving Tavern",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.621,
+   "impact": 0.54,
+   "totalPlayed": 5193
+  },
+  {
+   "cardId": "BG34_Giant_072",
+   "name": "Timewarped Skipper",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.621,
+   "impact": 0.542,
+   "totalPlayed": 750
+  },
+  {
+   "cardId": "TB_BaconShop_HP_105t",
+   "name": "Fish of N'Zoth",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.624,
+   "impact": 0.541,
+   "totalPlayed": 569
+  },
+  {
+   "cardId": "BG28_966",
+   "name": "Them Apples",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.63,
+   "impact": 0.62,
+   "totalPlayed": 14253
+  },
+  {
+   "cardId": "BGS_Treasures_030",
+   "name": "Big Brann Play",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.631,
+   "impact": 0.537,
+   "totalPlayed": 975
+  },
+  {
+   "cardId": "BG29_611",
+   "name": "Cord Puller",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.633,
+   "impact": 0.58,
+   "totalPlayed": 10116
+  },
+  {
+   "cardId": "TB_BaconShop_HP_101t2",
+   "name": "Prize",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.634,
+   "impact": 0.526,
+   "totalPlayed": 3071
+  },
+  {
+   "cardId": "BG28_303",
+   "name": "Disguised Graverobber",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.635,
+   "impact": 0.556,
+   "totalPlayed": 6710
+  },
+  {
+   "cardId": "BG25_806",
+   "name": "Sly Raptor",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.638,
+   "impact": 0.56,
+   "totalPlayed": 7061
+  },
+  {
+   "cardId": "BG20_301",
+   "name": "Sun-Bacon Relaxer",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.64,
+   "impact": 0.566,
+   "totalPlayed": 11605
+  },
+  {
+   "cardId": "BG20_GEM",
+   "name": "Blood Gem",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.641,
+   "impact": 0.571,
+   "totalPlayed": 101552
+  },
+  {
+   "cardId": "BG34_925",
+   "name": "Seafloor Recruiter",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.643,
+   "impact": 0.541,
+   "totalPlayed": 7652
+  },
+  {
+   "cardId": "BG35_801",
+   "name": "Gluttonous Trogg",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.643,
+   "impact": 0.593,
+   "totalPlayed": 14805
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_10_Buddy",
+   "name": "Bilgewater Mogul",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.643,
+   "impact": 0.52,
+   "totalPlayed": 530
+  },
+  {
+   "cardId": "BG34_Giant_304",
+   "name": "Timewarped Sapper",
+   "tribes": [
+    "Naga"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.648,
+   "impact": 0.515,
+   "totalPlayed": 593
+  },
+  {
+   "cardId": "BG35_MagicItem_872t",
+   "name": "Ophidian Staff",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.649,
+   "impact": 0.516,
+   "totalPlayed": 1175
+  },
+  {
+   "cardId": "BG35_Anomaly_001t",
+   "name": "Fly the Flag",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.653,
+   "impact": 0.508,
+   "totalPlayed": 8532
+  },
+  {
+   "cardId": "BG23_018",
+   "name": "Darkgaze Elder",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 3.654,
+   "impact": 0.514,
+   "totalPlayed": 1648
+  },
+  {
+   "cardId": "BG32_HERO_002_Buddy",
+   "name": "Zippers",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.654,
+   "impact": 0.509,
+   "totalPlayed": 673
+  },
+  {
+   "cardId": "BG26_501t",
+   "name": "Sick Riffs",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.66,
+   "impact": 0.577,
+   "totalPlayed": 31631
+  },
+  {
+   "cardId": "BG33_155",
+   "name": "Devout Hellcaller",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.671,
+   "impact": 0.504,
+   "totalPlayed": 3269
+  },
+  {
+   "cardId": "BG20_100",
+   "name": "Razorfen Geomancer",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.677,
+   "impact": 0.529,
+   "totalPlayed": 15069
+  },
+  {
+   "cardId": "BG35_814",
+   "name": "Scarlet Survivor",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.678,
+   "impact": 0.534,
+   "totalPlayed": 11409
+  },
+  {
+   "cardId": "BG35_123",
+   "name": "Cataclysmic Harbinger",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.689,
+   "impact": 0.52,
+   "totalPlayed": 12289
+  },
+  {
+   "cardId": "BG30_MagicItem_416t",
+   "name": "Token of the Old Gods",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.704,
+   "impact": 0.46,
+   "totalPlayed": 11976
+  },
+  {
+   "cardId": "BG20_GEM_Reborn",
+   "name": "Blood Gem",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.711,
+   "impact": 0.45,
+   "totalPlayed": 5987
+  },
+  {
+   "cardId": "BG30_804",
+   "name": "Robust Evolution",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.714,
+   "impact": 0.522,
+   "totalPlayed": 11341
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_45_Buddy",
+   "name": "Loyal Henchman",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.714,
+   "impact": 0.451,
+   "totalPlayed": 815
+  },
+  {
+   "cardId": "BG26_801",
+   "name": "Rylak Metalhead",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.726,
+   "impact": 0.491,
+   "totalPlayed": 15108
+  },
+  {
+   "cardId": "BGS_Treasures_026",
+   "name": "The Bouncer",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.739,
+   "impact": 0.426,
+   "totalPlayed": 536
+  },
+  {
+   "cardId": "BG21_014",
+   "name": "Prized Promo-Drake",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.744,
+   "impact": 0.433,
+   "totalPlayed": 3759
+  },
+  {
+   "cardId": "BG34_632",
+   "name": "Incubation Researcher",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.746,
+   "impact": 0.439,
+   "totalPlayed": 5690
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_41_Buddy",
+   "name": "Sr. Tomb Diver",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.746,
+   "impact": 0.418,
+   "totalPlayed": 810
+  },
+  {
+   "cardId": "BG34_630",
+   "name": "Twilight Hatchling",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.748,
+   "impact": 0.471,
+   "totalPlayed": 15648
+  },
+  {
+   "cardId": "BG31_Anomaly_124t4",
+   "name": "Golden Arrow",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.749,
+   "impact": 0.409,
+   "totalPlayed": 6418
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_59_Buddy",
+   "name": "Sklibb, Demon Hunter",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 3.75,
+   "impact": 0.412,
+   "totalPlayed": 637
+  },
+  {
+   "cardId": "BG29_862",
+   "name": "Barrens Conjurer",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.763,
+   "impact": 0.414,
+   "totalPlayed": 2754
+  },
+  {
+   "cardId": "BG29_816",
+   "name": "Roaring Recruiter",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.769,
+   "impact": 0.408,
+   "totalPlayed": 4329
+  },
+  {
+   "cardId": "BG27_004t",
+   "name": "Crab Mount",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.771,
+   "impact": 0.578,
+   "totalPlayed": 83959
+  },
+  {
+   "cardId": "BG32_170",
+   "name": "Metallic Hunter",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.772,
+   "impact": 0.413,
+   "totalPlayed": 5779
+  },
+  {
+   "cardId": "BG28_551",
+   "name": "Nalaa the Redeemer",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.774,
+   "impact": 0.405,
+   "totalPlayed": 3224
+  },
+  {
+   "cardId": "BG35_151",
+   "name": "Woodland Defiler",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.774,
+   "impact": 0.402,
+   "totalPlayed": 4677
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_76_Buddy",
+   "name": "Spirit of Air",
+   "tribes": [
+    "Elemental"
+   ],
+   "techLevel": 1,
+   "averagePlacement": 3.776,
+   "impact": 0.385,
+   "totalPlayed": 585
+  },
+  {
+   "cardId": "BG28_571",
+   "name": "Hasty Excavation",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.777,
+   "impact": 0.477,
+   "totalPlayed": 18307
+  },
+  {
+   "cardId": "BG34_Giant_590",
+   "name": "Timewarped Festergut",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.784,
+   "impact": 0.38,
+   "totalPlayed": 749
+  },
+  {
+   "cardId": "BG26_159",
+   "name": "Moon-Bacon Jazzer",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.787,
+   "impact": 0.386,
+   "totalPlayed": 9309
+  },
+  {
+   "cardId": "BG_TTN_401",
+   "name": "Ancestral Automaton",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.811,
+   "impact": 0.37,
+   "totalPlayed": 7024
+  },
+  {
+   "cardId": "EBG_Spell_014",
+   "name": "Pointy Arrow",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.811,
+   "impact": 0.489,
+   "totalPlayed": 35309
+  },
+  {
+   "cardId": "BG33_241",
+   "name": "Sleepy Supporter",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.812,
+   "impact": 0.367,
+   "totalPlayed": 6208
+  },
+  {
+   "cardId": "BGS_Treasures_009",
+   "name": "Gruul Rules",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.814,
+   "impact": 0.35,
+   "totalPlayed": 805
+  },
+  {
+   "cardId": "BG21_015",
+   "name": "Tarecgosa",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.817,
+   "impact": 0.362,
+   "totalPlayed": 6563
+  },
+  {
+   "cardId": "BG34_Giant_031",
+   "name": "Timewarped Leapfrogger",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.818,
+   "impact": 0.346,
+   "totalPlayed": 522
+  },
+  {
+   "cardId": "TB_BaconShop_HP_033t",
+   "name": "Amalgam",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.818,
+   "impact": 0.346,
+   "totalPlayed": 1420
+  },
+  {
+   "cardId": "BG26_199",
+   "name": "Upbeat Duo",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.824,
+   "impact": 0.383,
+   "totalPlayed": 8096
+  },
+  {
+   "cardId": "BG31_178",
+   "name": "Marquee Ticker",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.83,
+   "impact": 0.344,
+   "totalPlayed": 3836
+  },
+  {
+   "cardId": "BG29_840",
+   "name": "Mooneater's Champion",
+   "tribes": [],
+   "techLevel": 5,
+   "averagePlacement": 3.835,
+   "impact": 0.337,
+   "totalPlayed": 2550
+  },
+  {
+   "cardId": "BG_EX1_564",
+   "name": "Faceless Manipulator",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.835,
+   "impact": 0.339,
+   "totalPlayed": 2555
+  },
+  {
+   "cardId": "BG35_340",
+   "name": "Alert Alarmist",
+   "tribes": [
+    "Mech"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.839,
+   "impact": 0.344,
+   "totalPlayed": 6252
+  },
+  {
+   "cardId": "BGS_Treasures_101",
+   "name": "Mageroyal Blossom",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.852,
+   "impact": 0.314,
+   "totalPlayed": 1309
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_01_Buddy",
+   "name": "SI:7 Scout",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.853,
+   "impact": 0.309,
+   "totalPlayed": 518
+  },
+  {
+   "cardId": "TB_BaconShop_HERO_02_Buddy",
+   "name": "Apostle of Galakrond",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.856,
+   "impact": 0.306,
+   "totalPlayed": 929
+  },
+  {
+   "cardId": "BGS_Treasures_040",
+   "name": "Banana Bunch",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.876,
+   "impact": 0.284,
+   "totalPlayed": 620
+  },
+  {
+   "cardId": "BGS_Treasures_012",
+   "name": "On the House",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.914,
+   "impact": 0.253,
+   "totalPlayed": 2640
+  },
+  {
+   "cardId": "BG32_HERO_001_Buddy",
+   "name": "Malorne",
+   "tribes": [
+    "Beast"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 3.915,
+   "impact": 0.249,
+   "totalPlayed": 567
+  },
+  {
+   "cardId": "BG26_174",
+   "name": "Soul Rewinder",
+   "tribes": [
+    "Demon"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 3.916,
+   "impact": 0.25,
+   "totalPlayed": 8483
+  },
+  {
+   "cardId": "BG34_684",
+   "name": "Trench Fighter",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.924,
+   "impact": 0.241,
+   "totalPlayed": 1894
+  },
+  {
+   "cardId": "BGS_Treasures_013",
+   "name": "The Good Stuff",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.924,
+   "impact": 0.236,
+   "totalPlayed": 579
+  },
+  {
+   "cardId": "BGS_Treasures_110",
+   "name": "Crystallization",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.929,
+   "impact": 0.232,
+   "totalPlayed": 799
+  },
+  {
+   "cardId": "BG32_341",
+   "name": "Humon'gozz",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.952,
+   "impact": 0.221,
+   "totalPlayed": 4366
+  },
+  {
+   "cardId": "BGS_Treasures_033",
+   "name": "New Recruit",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.955,
+   "impact": 0.208,
+   "totalPlayed": 1040
+  },
+  {
+   "cardId": "BG24_018",
+   "name": "Tortollan Blue Shell",
+   "tribes": [],
+   "techLevel": 4,
+   "averagePlacement": 3.968,
+   "impact": 0.284,
+   "totalPlayed": 42406
+  },
+  {
+   "cardId": "BGS_Treasures_004",
+   "name": "Gacha Gift",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 3.971,
+   "impact": 0.193,
+   "totalPlayed": 1762
+  },
+  {
+   "cardId": "BG_TB_006",
+   "name": "Big Banana",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 3.98,
+   "impact": 0.182,
+   "totalPlayed": 5813
+  },
+  {
+   "cardId": "BG28_583",
+   "name": "Geomagus Roogug",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 3.996,
+   "impact": 0.167,
+   "totalPlayed": 2140
+  },
+  {
+   "cardId": "BG27_513",
+   "name": "Tide Oracle Morgl",
+   "tribes": [
+    "Murloc"
+   ],
+   "techLevel": 7,
+   "averagePlacement": 3.998,
+   "impact": 0.163,
+   "totalPlayed": 575
+  },
+  {
+   "cardId": "BG20_203",
+   "name": "Prophet of the Boar",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 3.999,
+   "impact": 0.163,
+   "totalPlayed": 1794
+  },
+  {
+   "cardId": "BG_EX1_014t",
+   "name": "Bananas",
+   "tribes": [],
+   "techLevel": null,
+   "averagePlacement": 4.007,
+   "impact": 0.154,
+   "totalPlayed": 11828
+  },
+  {
+   "cardId": "BGS_Treasures_010",
+   "name": "Time Thief",
+   "tribes": [],
+   "techLevel": 2,
+   "averagePlacement": 4.009,
+   "impact": 0.153,
+   "totalPlayed": 1383
+  },
+  {
+   "cardId": "BG30_121",
+   "name": "Hot-Air Surveyor",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 4.017,
+   "impact": 0.144,
+   "totalPlayed": 1754
+  },
+  {
+   "cardId": "BG35_433",
+   "name": "Redtusk Thornraiser",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 4.027,
+   "impact": 0.135,
+   "totalPlayed": 2454
+  },
+  {
+   "cardId": "BG27_HERO_801_Buddy",
+   "name": "Veranus, Stormlord's Mount",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 4.037,
+   "impact": 0.124,
+   "totalPlayed": 760
+  },
+  {
+   "cardId": "BG34_Giant_602",
+   "name": "Timewarped Lei",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 4.039,
+   "impact": 0.12,
+   "totalPlayed": 787
+  },
+  {
+   "cardId": "BG32_430",
+   "name": "Glowgullet Warlord",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 2,
+   "averagePlacement": 4.052,
+   "impact": 0.11,
+   "totalPlayed": 5529
+  },
+  {
+   "cardId": "BGS_Treasures_029",
+   "name": "Rocking and Rolling",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 4.055,
+   "impact": 0.107,
+   "totalPlayed": 1981
+  },
+  {
+   "cardId": "BG26_160",
+   "name": "Prickly Piper",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 4.064,
+   "impact": 0.096,
+   "totalPlayed": 3564
+  },
+  {
+   "cardId": "BG34_Giant_204",
+   "name": "Timewarped Pillager",
+   "tribes": [
+    "Undead"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 4.066,
+   "impact": 0.098,
+   "totalPlayed": 699
+  },
+  {
+   "cardId": "BG34_Giant_038",
+   "name": "Timewarped Elise",
+   "tribes": [],
+   "techLevel": 3,
+   "averagePlacement": 4.096,
+   "impact": 0.065,
+   "totalPlayed": 1265
+  },
+  {
+   "cardId": "BGS_Treasures_100",
+   "name": "Unfurled Codex",
+   "tribes": [],
+   "techLevel": 1,
+   "averagePlacement": 4.099,
+   "impact": 0.061,
+   "totalPlayed": 1511
+  },
+  {
+   "cardId": "BG24_707",
+   "name": "Bristlemane Scrapsmith",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 4.101,
+   "impact": 0.059,
+   "totalPlayed": 2108
+  },
+  {
+   "cardId": "BG34_Giant_208",
+   "name": "Timewarped Pagle",
+   "tribes": [
+    "Pirate"
+   ],
+   "techLevel": 3,
+   "averagePlacement": 4.111,
+   "impact": 0.049,
+   "totalPlayed": 1018
+  },
+  {
+   "cardId": "BG34_682",
+   "name": "Razorfen Flapper",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 4.131,
+   "impact": 0.026,
+   "totalPlayed": 2605
+  },
+  {
+   "cardId": "BG32_433",
+   "name": "Dreaming Thornweaver",
+   "tribes": [
+    "Quilboar"
+   ],
+   "techLevel": 4,
+   "averagePlacement": 4.133,
+   "impact": 0.024,
+   "totalPlayed": 2094
+  },
+  {
+   "cardId": "BG34_Giant_314",
+   "name": "Timewarped Poet",
+   "tribes": [
+    "Dragon"
+   ],
+   "techLevel": 5,
+   "averagePlacement": 4.137,
+   "impact": 0.022,
+   "totalPlayed": 830
+  }
+ ]
+}

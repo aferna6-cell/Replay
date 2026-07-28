@@ -1,0 +1,12 @@
+D 09:25:43.100 LoadingScreen.OnSceneLoaded() - prevMode=HUB currMode=BACON
+D 09:25:43.110 GameState.DebugPrintPower() - CREATE_GAME
+D 09:25:43.110 GameState.DebugPrintPower() -     GameEntity EntityID=1
+D 09:25:43.110 GameState.DebugPrintPower() -         tag=TURN value=1
+D 09:25:43.110 GameState.DebugPrintPower() -     Player EntityID=2 PlayerID=1
+D 09:25:44.000 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=Refreshing Anomaly id=10 zone=HAND zonePos=1 cardId=BGS_116 player=1] CardID=BGS_116
+D 09:25:44.100 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=Tabbycat id=20 zone=PLAY zonePos=1 cardId=CFM_315t player=1] CardID=CFM_315t
+D 09:25:44.110 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Tabbycat id=20 zone=PLAY zonePos=1 cardId=CFM_315t player=1] tag=ATK value=1
+D 09:25:44.120 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Tabbycat id=20 zone=PLAY zonePos=1 cardId=CFM_315t player=1] tag=HEALTH value=1
+D 09:25:50.000 GameState.DebugPrintPower() - TAG_CHANGE Entity=1 tag=STEP value=BACON_COMBAT
+D 09:26:10.000 GameState.DebugPrintPower() - TAG_CHANGE Entity=1 tag=STEP value=BACON_RECRUIT
+D 09:26:10.100 GameState.DebugPrintPower() - TAG_CHANGE Entity=1 tag=TURN value=2

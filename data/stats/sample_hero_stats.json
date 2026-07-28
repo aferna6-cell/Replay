@@ -1,0 +1,10 @@
+{
+  "_note": "Sample/normalized hero stats. Replace with a real export from Firestone (bgs-global-stats) or HSReplay. averagePosition: lower is better (1-8). playstyle drives leveling aggression.",
+  "heroes": [
+    {"cardId": "TB_BaconShop_HERO_34", "name": "Patchwerk", "averagePosition": 4.0, "pickRate": 0.04, "bestTribes": ["Beast", "Mech"], "playstyle": "flexible"},
+    {"cardId": "TB_BaconShop_HERO_53", "name": "Galakrond", "averagePosition": 4.1, "pickRate": 0.05, "bestTribes": ["Dragon"], "playstyle": "economy"},
+    {"cardId": "TB_BaconShop_HERO_15", "name": "Old Murk-Eye", "averagePosition": 4.3, "pickRate": 0.03, "bestTribes": ["Murloc"], "playstyle": "tempo"},
+    {"cardId": "TB_BaconShop_HERO_12", "name": "Millhouse Manastorm", "averagePosition": 4.6, "pickRate": 0.02, "bestTribes": ["Elemental"], "playstyle": "aggressive"},
+    {"cardId": "TB_BaconShop_HERO_43", "name": "Lich Baz'hial", "averagePosition": 4.2, "pickRate": 0.03, "bestTribes": ["Undead", "Demon"], "playstyle": "economy"}
+  ]
+}

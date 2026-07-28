@@ -1,0 +1,12 @@
+{
+  "_note": "Sample/normalized comp stats. Replace with a real export. averagePosition: lower is better. coreCards drive on-comp buy recommendations; powerTurns indicate when the comp spikes.",
+  "comps": [
+    {"name": "Murlocs", "tribe": "Murloc", "averagePosition": 3.7, "popularity": 0.11, "coreCards": ["Murloc Warleader", "Old Murk-Eye", "Brann Bronzebeard", "Toxfin"], "powerTurns": [8, 9], "tier": "S"},
+    {"name": "Beasts", "tribe": "Beast", "averagePosition": 3.9, "popularity": 0.13, "coreCards": ["Mama Bear", "Goldrinn, the Great Wolf", "Pack Leader"], "powerTurns": [9, 10], "tier": "A"},
+    {"name": "Dragons", "tribe": "Dragon", "averagePosition": 3.8, "popularity": 0.10, "coreCards": ["Kalecgos, Arcane Aspect", "Razorgore, the Untamed", "Brann Bronzebeard"], "powerTurns": [9, 11], "tier": "S"},
+    {"name": "Mechs", "tribe": "Mech", "averagePosition": 4.1, "popularity": 0.09, "coreCards": ["Junkbot", "Kangor's Apprentice", "Baron Rivendare"], "powerTurns": [8, 9], "tier": "A"},
+    {"name": "Elementals", "tribe": "Elemental", "averagePosition": 4.0, "popularity": 0.08, "coreCards": ["Nomi, Kitchen Nightmare", "Lil' Rag", "Recycling Wraith"], "powerTurns": [10, 12], "tier": "A"},
+    {"name": "Undead", "tribe": "Undead", "averagePosition": 4.2, "popularity": 0.07, "coreCards": ["Eternal Knight", "Nerubian Deathswarmer", "Baron Rivendare"], "powerTurns": [9, 10], "tier": "B"},
+    {"name": "Demons", "tribe": "Demon", "averagePosition": 4.3, "popularity": 0.06, "coreCards": ["Wrath Weaver", "Soul Juggler", "Mal'Ganis"], "powerTurns": [8, 10], "tier": "B"}
+  ]
+}
