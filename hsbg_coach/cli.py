@@ -267,6 +267,14 @@ def build_parser() -> argparse.ArgumentParser:
                    help="rebuild the BG card knowledge base from HearthstoneJSON"
                    ).set_defaults(func=cmd_refresh_cards)
 
+    sub.add_parser("refresh-context",
+                   help="rebuild the hero-power/trinket/anomaly knowledge base"
+                   ).set_defaults(func=cmd_refresh_context)
+
+    sub.add_parser("context-coverage",
+                   help="how much hero-power/trinket/anomaly text the env can execute"
+                   ).set_defaults(func=cmd_context_coverage)
+
     sub.add_parser("pace", help="show the top-10% leveling/scaling pace benchmark"
                    ).set_defaults(func=cmd_pace)
 
@@ -483,6 +491,35 @@ def cmd_refresh_cards(_args) -> int:
         print("Refresh failed:", exc)
         return 1
     print(f"Wrote {len(kb)} BG minions -> {path}")
+    return 0
+
+
+def cmd_refresh_context(_args) -> int:
+    from . import context_cards
+    print("Building hero-power/trinket/anomaly knowledge from HearthstoneJSON…")
+    try:
+        kb = context_cards.build_context_kb()
+        path = context_cards.save_context_kb(kb)
+    except Exception as exc:
+        print("Refresh failed:", exc)
+        return 1
+    counts = {k: len(context_cards.of_kind(kb, k)) for k in context_cards.KINDS}
+    print(f"Wrote {len(kb)} context cards -> {path}")
+    print("  " + "  ".join(f"{k}={n}" for k, n in counts.items()))
+    return 0
+
+
+def cmd_context_coverage(_args) -> int:
+    from . import context_cards, context_effects
+    kb = context_cards.load_context_kb()
+    if not kb:
+        print("No context knowledge base. Run: refresh-context")
+        return 1
+    print("Mechanical coverage — what the recruit env can execute today:\n")
+    for kind, row in sorted(context_effects.coverage(list(kb.values())).items()):
+        print(f"  {kind:11s} {row['supported']:3d}/{row['total']:3d}  {row['pct']:5.1f}%")
+        for need, n in sorted(row["needs"].items(), key=lambda x: -x[1])[:4]:
+            print(f"      needs {need:20s} {n:3d}")
     return 0
 
 
