@@ -1,0 +1,43 @@
+{
+ "_comment": "The anomalies actually in rotation. HearthstoneJSON ships every anomaly ever printed (107 distinct); training on retired ones teaches a game nobody is playing. Trinkets and heroes need no list here - they are marked active by having a Firestone pick rate from live top-MMR games, so `refresh-stats` keeps them current automatically. Anomalies have no public per-anomaly stats, so this list is maintained by hand from the patch notes.",
+ "_patch": "35.6.2",
+ "_patch_date": "2026-06-11",
+ "_verified": "2026-07-28",
+ "_sources": [
+  "https://hearthstone.blizzard.com/en-us/news/24276665/35-6-patch-notes",
+  "https://hearthstone.blizzard.com/en-us/news/24271882/35-6-2-patch-notes",
+  "https://hearthstone.wiki.gg/wiki/Battlegrounds/Anomaly"
+ ],
+ "_note": "35.6 added 7, updated 5 and returned 17 = 29 distinct, which matches the wiki's current-pool list once Treasure Hoard's three tier variants collapse to one name. All 29 resolve against HearthstoneJSON by exact name.",
+ "anomalies": [
+  "All Bottled Up",
+  "Anomalous Conflux",
+  "Anomalous Cube",
+  "Anomalous Expedition",
+  "Anomalous Timeline",
+  "Audience's Choice",
+  "Bring in the Buddies",
+  "Cosmic Duality",
+  "Darkmoon Faire Prizes",
+  "Double Header",
+  "False Idols",
+  "Fly the Flag",
+  "Golden Arrow",
+  "Golganneth's Tempest",
+  "Grapnel of the Titans",
+  "Greater Fortune",
+  "Greater Pouches",
+  "Lesser Fortune",
+  "Lesser Pouches",
+  "Marin's Treasure Box",
+  "Oathstone's Summoning",
+  "Perfected Alchemy",
+  "Pooled Resources",
+  "Scout's Honor",
+  "Secrets of Norgannon",
+  "The Yogg-iseum",
+  "Treasure Hoard",
+  "Unforeseen Portal",
+  "Up-Prizing"
+ ]
+}
