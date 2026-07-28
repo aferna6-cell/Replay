@@ -10,7 +10,9 @@ from hsbg_coach.bg_env import (
 
 
 def make_env(seed=0):
-    env = BGEnv(seed=seed)
+    # Base-rules lobby: anomalies reprice gold/buy/roll, and these tests
+    # assert the plain economy.
+    env = BGEnv(seed=seed, anomalies=False)
     env.reset(seed=seed)
     return env
 

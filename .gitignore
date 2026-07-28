@@ -23,3 +23,6 @@ bridge/package-lock.json
 # OS
 .DS_Store
 *.pt.meta.json
+
+# Firestone sim sidecar deps (npm install in bridge/ to enable)
+bridge/node_modules/

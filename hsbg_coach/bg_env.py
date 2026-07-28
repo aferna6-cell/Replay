@@ -4,8 +4,13 @@ This is the make-or-break component from ``specs/self-play-rl-agent.md`` §2: a
 deliberately *simplified* 8-player Battlegrounds lobby that is faithful on the
 layers that shape decisions — the economy (gold curve, buy/sell/roll/freeze,
 tavern-up discounts), shop generation from a finite shared pool, triples with a
-discover reward, and real combat resolved by ``sim.py`` — while deferring
-heroes, trinkets, anomalies and the battlecry long tail.
+discover reward, and real combat resolved by ``sim.py``.
+
+A game now opens the way a real one does: eight distinct heroes dealt from the
+active pool, one anomaly rolled for the whole lobby, everyone shopping out of the
+same finite pool (``lobby.py``). The anomaly's parsed effects move the knobs it
+should — starting gold, tier and health, and the price of buying and rolling.
+Trinkets and the battlecry long tail are still deferred.
 
 The card pool is curated: minions from the committed knowledge base
 (`data/cards/bg_cards.json`) whose combat behaviour the simulator models
@@ -32,6 +37,11 @@ from typing import Callable, Dict, List, Optional, Sequence, Tuple
 from . import cards as cards_mod
 from .pace import STANDARD_TAVERN_TIER, load_pace, _at as _curve_at
 from .sim import Combatant, simulate_once
+from .lobby import (LobbySetup, minion_cost as lobby_minion_cost,
+                    refresh_cost as lobby_refresh_cost,
+                    roll_lobby, start_gold as lobby_start_gold,
+                    start_health as lobby_start_health,
+                    start_tier as lobby_start_tier)
 
 # --- rules constants ---------------------------------------------------------
 MAX_BOARD = 7
@@ -158,6 +168,8 @@ class PlayerState:
     alive: bool = True
     placement: Optional[int] = None
     last_board: List[EnvMinion] = field(default_factory=list)  # ghost fights
+    hero: Optional[str] = None
+    hero_power: Optional[str] = None
 
     def level_cost(self) -> Optional[int]:
         if self.tier >= MAX_TIER:
@@ -174,16 +186,20 @@ class BGEnv:
     def __init__(self, n_players: int = 8, seed: Optional[int] = None,
                  opponent_policies: Optional[Sequence[Callable]] = None,
                  kb: Optional[Dict] = None, emb_names: Optional[set] = None,
-                 combat_runs: int = 1):
+                 combat_runs: int = 1, anomalies: bool = True):
         self.n_players = n_players
         self.rng = random.Random(seed)
         self._kb = kb if kb is not None else cards_mod.load_kb()
         self._emb_names = emb_names
         self.opponent_policies = list(opponent_policies or [])
         self.combat_runs = combat_runs
+        # Off gives a base-rules lobby — the plain economy, for tests and
+        # for isolating a change from anomaly variance.
+        self.anomalies = anomalies
         self.turn = 0
         self.players: List[PlayerState] = []
         self.lobby_tribes: List[str] = []
+        self.setup: Optional[LobbySetup] = None   # heroes + anomaly, set in reset
         self._pool: Dict[str, int] = {}
         self._catalogue: Dict[str, EnvMinion] = {}
         self._done = True
@@ -200,12 +216,21 @@ class BGEnv:
         catalogue = build_pool(self._kb, self._emb_names, self.lobby_tribes)
         self._catalogue = {m.name: m for m in catalogue}
         self._pool = {m.name: POOL_COPIES[m.tier] for m in catalogue}
+        # A real game deals 8 heroes and rolls one anomaly for the whole lobby.
+        self.setup = roll_lobby(self.rng, self.n_players,
+                                anomalies=self.anomalies)
         self.players = [PlayerState(idx=i) for i in range(self.n_players)]
         self.turn = 1
         self._done = False
         self._agent_actions = 0
         for p in self.players:
-            p.gold = gold_at(self.turn)
+            seat = self.setup.seats[p.idx] if p.idx < len(self.setup.seats) else None
+            p.hero = seat.hero.name if seat and seat.hero else None
+            p.hero_power = (seat.hero_power.name
+                            if seat and seat.hero_power else None)
+            p.gold = lobby_start_gold(self.setup, gold_at(self.turn))
+            p.tier = lobby_start_tier(self.setup, p.tier)
+            p.hp = lobby_start_health(self.setup, p.hp)
             self._deal_shop(p)
         return self.observe(0)
 
@@ -228,6 +253,15 @@ class BGEnv:
     def _return_to_pool(self, m: EnvMinion) -> None:
         # Golden minions were built from 3 copies; return them all.
         self._pool[m.name] = self._pool.get(m.name, 0) + (3 if m.golden else 1)
+
+    # -- lobby-adjusted costs ----------------------------------------------------
+    def buy_cost(self) -> int:
+        """Gold per shop minion — an anomaly may reprice it."""
+        return lobby_minion_cost(self.setup, BUY_COST) if self.setup else BUY_COST
+
+    def roll_cost(self) -> int:
+        """Gold per refresh — an anomaly may reprice or forbid it."""
+        return lobby_refresh_cost(self.setup, ROLL_COST) if self.setup else ROLL_COST
 
     def _deal_shop(self, p: PlayerState) -> None:
         if p.frozen:
@@ -259,6 +293,12 @@ class BGEnv:
             "hand": [m.view() for m in p.hand],
             "shop": [m.view() for m in p.shop],
             "lobby_tribes": list(self.lobby_tribes),
+            # Full-game context — the model conditions on these, it doesn't
+            # infer them. Opponent heroes are public in a real lobby too.
+            "hero": p.hero,
+            "hero_power": p.hero_power,
+            "anomaly": self.setup.anomaly_name if self.setup else None,
+            "opponent_heroes": [q.hero for q in alive if q.idx != seat],
         }
 
     def snapshot(self, seat: int = 0) -> Dict:
@@ -271,14 +311,14 @@ class BGEnv:
         p = self.players[seat]
         mask = [False] * N_ACTIONS
         for i in range(len(p.shop)):
-            if p.gold >= BUY_COST and len(p.hand) < MAX_HAND:
+            if p.gold >= self.buy_cost() and len(p.hand) < MAX_HAND:
                 mask[A_BUY0 + i] = True
         for i in range(len(p.hand)):
             if len(p.board) < MAX_BOARD:
                 mask[A_PLAY0 + i] = True
         for i in range(len(p.board)):
             mask[A_SELL0 + i] = True
-        if p.gold >= ROLL_COST:
+        if p.gold >= self.roll_cost():
             mask[A_ROLL] = True
         lc = p.level_cost()
         if lc is not None and p.gold >= lc:
@@ -296,7 +336,7 @@ class BGEnv:
             return False                          # illegal = no-op (masked anyway)
         if A_BUY0 <= action < A_BUY0 + N_BUY:
             m = p.shop.pop(action - A_BUY0)
-            p.gold -= BUY_COST
+            p.gold -= self.buy_cost()
             p.hand.append(m)
             self._check_triple(p, m.name)
         elif A_PLAY0 <= action < A_PLAY0 + N_PLAY:
@@ -308,7 +348,7 @@ class BGEnv:
             p.gold += SELL_VALUE
             self._return_to_pool(m)
         elif action == A_ROLL:
-            p.gold -= ROLL_COST
+            p.gold -= self.roll_cost()
             p.frozen = False
             self._deal_shop(p)
         elif action == A_LEVEL:
