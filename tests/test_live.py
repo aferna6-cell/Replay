@@ -59,3 +59,31 @@ def test_overlay_renders_recommendations_prominently():
     assert "Roll the shop" in text
     # the next move appears above the board section
     assert text.index("NEXT") < text.index("Your board")
+
+
+# --- between-games hygiene (owner report 2026-08-20: stale hero-pick panel
+# on the menu screen after replaying a finished log) ------------------------
+
+def test_game_over_shows_waiting_panel_not_stale_state():
+    from hsbg_coach.live import LiveCoach
+    from hsbg_coach.bg import Phase
+    coach = LiveCoach.__new__(LiveCoach)      # no threads/log needed
+    coach._active = True
+    coach._lock = __import__("threading").Lock()
+    coach._version, coach._snap_version, coach._snap_cache = 1, 0, None
+
+    class T:
+        phase = Phase.GAME_OVER
+        def snapshot(self):
+            class S:
+                def to_dict(self):
+                    return {"phase": "recruit", "board": [{"name": "Old"}]}
+            return S()
+        def placement(self):
+            return 4
+    coach.tracker = T()
+    coach._offer = None
+    snap, odds, lines = coach.frame()
+    assert snap["phase"] == "waiting" and snap["board"] == []
+    assert any("placed 4" in n for n in snap["notes"])
+    assert lines == []

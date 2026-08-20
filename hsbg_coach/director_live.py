@@ -154,6 +154,11 @@ class DirectorLoop:
     # -- worker side ---------------------------------------------------------
 
     def start(self) -> threading.Thread:
+        if self.client is not None:
+            # Warm the model off the hot path so the FIRST turn suggestion
+            # doesn't pay Ollama's cold-load time (which blows the per-turn
+            # timeout — seen live 2026-08-20).
+            threading.Thread(target=self.client.warmup, daemon=True).start()
         t = threading.Thread(target=self._work, daemon=True)
         t.start()
         return t

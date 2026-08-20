@@ -97,6 +97,22 @@ class LLMClient:
     def __init__(self, config: Optional[LLMConfig] = None):
         self.config = config or LLMConfig.from_env()
 
+    def warmup(self, timeout_s: float = 120.0) -> bool:
+        """Load the model into memory with one tiny request and a generous
+        timeout. Ollama's COLD model load easily exceeds the per-turn
+        timeout (observed live 2026-08-20: first call timed out at 8s on
+        the owner's laptop) — after this, per-turn calls hit a warm model.
+        Returns True when the model answered; never raises."""
+        saved = self.config.timeout_s
+        try:
+            self.config.timeout_s = timeout_s
+            self.chat("Reply with the single word: ok", "ok?", json_mode=False)
+            return True
+        except LLMError:
+            return False
+        finally:
+            self.config.timeout_s = saved
+
     # --- the one network seam -----------------------------------------
     def _post(self, url: str, payload: dict, headers: Dict[str, str]) -> dict:
         """POST JSON, return parsed JSON. Raises LLMError on any HTTP/

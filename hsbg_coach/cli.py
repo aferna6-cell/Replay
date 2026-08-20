@@ -228,9 +228,19 @@ def _watch_overlay(power, args) -> int:
         from .overlay import Overlay
         ov = Overlay()
     except Exception as exc:  # pragma: no cover - needs a display
-        print("Overlay needs a graphical display:", exc)
+        print("Overlay window could not open:", exc)
+        if "tkinter" in str(exc).lower() or "no module named" in str(exc).lower():
+            print("  Fix: install Tk for this Python — on WSL/Debian/Ubuntu:\n"
+                  "    sudo apt install python3-tk\n"
+                  "  (WSL on Windows 11 shows the window via WSLg.)")
+        print("Falling back to the terminal panel. Tip: keep it visible over "
+              "the game with Windows Terminal's always-on-top (Settings -> "
+              "Appearance -> Always on top, or Ctrl+Shift+P -> 'Toggle "
+              "always on top').")
         coach.stop()
-        return 1
+        if recorder is not None:
+            recorder.close()
+        return _watch_terminal(power, args)
     print("Overlay open — waiting for Hearthstone. Launch a Battlegrounds game; "
           "the panel updates each turn (and prints here too). Close the window to stop.")
     ov.poll(frame_and_echo, interval_ms=120)
