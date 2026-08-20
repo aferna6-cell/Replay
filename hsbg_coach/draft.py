@@ -164,7 +164,10 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
 def _minion_from_name(ck, name):
     if ck is None:
         return {"name": name, "attack": 3, "health": 3}
-    return {"name": ck.name, "attack": ck.attack, "health": ck.health}
+    # Tavern spells (in the KB since 2026-08-20) have no stats — keep the
+    # eval features numeric.
+    return {"name": ck.name, "attack": ck.attack if ck.attack is not None else 0,
+            "health": ck.health if ck.health is not None else 1}
 
 
 def rank_discover(offered: List[str], board, kb, scorer=None,

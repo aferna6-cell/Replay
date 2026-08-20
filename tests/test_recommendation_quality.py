@@ -221,7 +221,7 @@ def test_tier_two_on_turn_two_is_legal_and_recommended():
     assert levels and levels[0].cost == 4          # affordable at 4 gold
     recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
     lvl = next((r for r in recs if r.action.kind == LEVEL), None)
-    assert lvl is not None and "aggressive leveling" in lvl.reason
+    assert lvl is not None and "on-curve tier-up" in lvl.reason
     # The aggressive bonus should put it among the top moves, not buried.
     top3 = {r.action.kind for r in recs[:3]}
     assert LEVEL in top3

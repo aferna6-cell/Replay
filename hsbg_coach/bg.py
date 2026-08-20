@@ -536,6 +536,14 @@ class BGTracker:
             # keeps the shop to what we can actually see and buy.
             if not ent.card_id:
                 continue
+            # Tavern UI fixtures leak in as MINIONs (live 2026-08-20: the
+            # 'Drag To Buy' spell-purchase token was suggested as a buy).
+            # Same DragBuy filter the spell paths already use + a name net.
+            if "DragBuy" in ent.card_id:
+                continue
+            nm = (ent.name or "").strip().lower()
+            if nm in ("drag to buy", "drag-to-buy", "sell a minion"):
+                continue
             if ent.zone == "PLAY" and ent.controller not in (
                 None, str(self.local_player)
             ):

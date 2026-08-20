@@ -76,3 +76,26 @@ def test_thresholds_are_configurable():
     s = advise(snap(turn=3, gold=6, hero_health=35, tavern_tier=1,
                     board=[{"attack": 1, "health": 1}]), cfg)
     assert ActionType.TIER_UP.value not in _actions(s)
+
+
+# --- freeze discipline (owner, live 2026-08-20: "freezes way too often") ----
+
+def test_freeze_not_suggested_for_mediocre_shop():
+    from hsbg_coach.economy import advise as suggest
+    board = [{"name": "A", "attack": 2, "health": 2}]
+    shop = [{"name": "B", "attack": 2, "health": 3},
+            {"name": "C", "attack": 3, "health": 2}]   # marginal upgrades only
+    out = suggest({"turn": 2, "tavern_tier": 1, "gold": 0, "hero_health": 40,
+                   "board": board, "shop": shop})
+    assert not any(s.action == "freeze" for s in out)
+
+
+def test_freeze_suggested_for_triple_completer_you_cannot_afford():
+    from hsbg_coach.economy import advise as suggest
+    board = [{"name": "Molten Rock", "attack": 3, "health": 3},
+             {"name": "Molten Rock", "attack": 3, "health": 3}]
+    shop = [{"name": "Molten Rock", "attack": 3, "health": 3}]
+    out = suggest({"turn": 2, "tavern_tier": 2, "gold": 0, "hero_health": 40,
+                   "board": board, "shop": shop})
+    fr = [s for s in out if s.action == "freeze"]
+    assert fr and "TRIPLE" in fr[0].rationale and fr[0].priority >= 0.7

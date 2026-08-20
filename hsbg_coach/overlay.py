@@ -98,10 +98,13 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
         # Lead with the single best move, then list a couple of alternatives below
         # it (smaller) so you can override the top pick when you disagree.
         out = [f"→ {recommendations[0]}", f"  {status}"]
-        alts = recommendations[1:3]
-        if alts:
+        # Alternatives that aren't just the top line again (duplicate shop
+        # entities produced identical lines — live 2026-08-20).
+        seen = {recommendations[0]}
+        alts = [a for a in recommendations[1:] if a not in seen and not seen.add(a)]
+        if alts[:2]:
             out.append("  or:")
-            out.extend(f"   - {a}" for a in alts)
+            out.extend(f"   - {a}" for a in alts[:2])
         return "\n".join(out)
     # No move to make right now (combat / hero-select / between turns): just show
     # the status line, no combat screen.

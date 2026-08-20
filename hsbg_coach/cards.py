@@ -39,6 +39,8 @@ class CardKnowledge:
     tribes: List[str] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
     text: str = ""
+    kind: str = "minion"                # "minion" | "spell" (tavern spells)
+    cost: Optional[int] = None          # spells: tavern gold cost
 
     def has(self, keyword: str) -> bool:
         return keyword.upper() in self.keywords
@@ -57,7 +59,12 @@ def build_card_kb(cards_source: str = CARDS_URL) -> Dict[str, CardKnowledge]:
     kb: Dict[str, CardKnowledge] = {}
     for c in cards:
         tier = c.get("techLevel")
-        if tier is None or c.get("type") != "MINION":   # BG minions carry techLevel
+        # BG minions AND tavern spells carry techLevel. Spells were missing
+        # until 2026-08-20 (live session: the coach couldn't see "Search
+        # Through Time" at all) — 200+ tavern spells are real purchases the
+        # Director must reason about (spec req 15: effects are GIVEN).
+        ctype = c.get("type")
+        if tier is None or ctype not in ("MINION", "BATTLEGROUND_SPELL"):
             continue
         if c.get("battlegroundsNormalDbfId"):           # skip golden/triple copies
             continue
@@ -71,6 +78,8 @@ def build_card_kb(cards_source: str = CARDS_URL) -> Dict[str, CardKnowledge]:
             tribes=_tribes(c),
             keywords=sorted(m for m in mechanics if m in KEYWORD_MECHANICS),
             text=(c.get("text") or "").replace("\n", " ").replace("[x]", "").strip(),
+            kind="spell" if ctype == "BATTLEGROUND_SPELL" else "minion",
+            cost=c.get("cost") if ctype == "BATTLEGROUND_SPELL" else None,
         )
     return kb
 
@@ -93,7 +102,8 @@ def load_kb(path: str = BG_CARDS) -> Dict[str, CardKnowledge]:
             card_id=r["card_id"], name=r.get("name", ""), tier=r.get("tier"),
             attack=r.get("attack"), health=r.get("health"),
             tribes=list(r.get("tribes", [])), keywords=list(r.get("keywords", [])),
-            text=r.get("text", ""))
+            text=r.get("text", ""), kind=r.get("kind", "minion"),
+            cost=r.get("cost"))
     return out
 
 
