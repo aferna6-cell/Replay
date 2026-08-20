@@ -138,6 +138,27 @@ the trinket endpoint.
 Source: Firestone's public CDN (`static.zerotoheroes.com/api/bgs`), hero/card
 names via HearthstoneJSON. See `decisions/2026-06-24-firestone-bridge.md`.
 
+### Tier7 (HSReplay premium): lobby-conditioned picks
+
+If you subscribe to HSReplay's Tier7, the `tier7` command pulls the stats the
+free Firestone aggregates can't give you — hero tiers/placements **for this
+lobby's tribes** at your MMR, and first-place comps **for this tribe set**:
+
+```bash
+python -m hsbg_coach tier7 hero "A. F. Kay" "Forest Warden Omu" \
+    --tribes Beast,Mech,Naga,Undead --rating 6500
+python -m hsbg_coach tier7 comps --tribes Beast,Mech,Naga,Undead
+```
+
+Auth is your own account's token: set `HSREPLAY_TOKEN`, or point
+`HSREPLAY_OAUTH_FILE` at HDT's `hsreplay_oauth.json`, or run on the machine
+where HDT is logged in (found automatically). On a 401, launch HDT once — it
+refreshes the token; we deliberately never touch the refresh token ourselves.
+Every response is appended to `data/tier7_log.jsonl` (gitignored) as labeled
+context for the ML pick-trainer. Endpoints + caveats:
+`decisions/2026-08-20-tier7-bridge.md`. Keep responses local — personal use
+of your own subscription, not for redistribution.
+
 ### Card knowledge + synergy
 
 The model also *understands* each minion, not just its win rate:

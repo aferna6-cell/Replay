@@ -295,7 +295,63 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--horizon", type=int, default=3, help="turns to look ahead")
     pl.add_argument("--tribe", help="comp you're building toward")
     pl.set_defaults(func=cmd_plan)
+
+    t7 = sub.add_parser("tier7",
+                        help="lobby-conditioned stats from your HSReplay Tier7 sub")
+    t7.add_argument("kind", choices=["hero", "comps", "trinket"])
+    t7.add_argument("options", nargs="*",
+                    help="hero/trinket: the offered names; comps: none")
+    t7.add_argument("--tribes", required=True,
+                    help="comma-separated tribes in this lobby (e.g. Beast,Mech,Naga)")
+    t7.add_argument("--rating", type=int, help="your BG rating (MMR)")
+    t7.add_argument("--hero", help="trinket only: your hero")
+    t7.add_argument("--turn", type=int, default=8, help="trinket only: current turn")
+    t7.add_argument("--duos", action="store_true", help="hero only: duos stats")
+    t7.set_defaults(func=cmd_tier7)
     return p
+
+
+def cmd_tier7(args) -> int:
+    from . import tier7
+    token = tier7.find_token()
+    if not token:
+        print(tier7.TOKEN_HELP)
+        return 1
+    tribes = [t.strip() for t in args.tribes.split(",") if t.strip()]
+    try:
+        if args.kind == "hero":
+            if not args.options:
+                print("Give the offered hero names.")
+                return 1
+            rows = tier7.query_hero_pick(args.options, tribes, token=token,
+                                         rating=args.rating, duos=args.duos)
+            print("Tier7 hero pick — best first (this lobby's tribes):")
+            for i, r in enumerate(rows, 1):
+                avg = f"{r['avg_placement']:.2f}" if r["avg_placement"] is not None else "?"
+                pick = f" · picked {r['pick_rate']:.0%}" if r.get("pick_rate") else ""
+                comps = f" · comps: {', '.join(r['top_comps'])}" if r.get("top_comps") else ""
+                mark = "  ◀ PICK" if i == 1 else ""
+                print(f"  {i}. {r['name']} — tier {r.get('tier') or '?'} · "
+                      f"avg {avg}{pick}{comps}{mark}")
+        elif args.kind == "comps":
+            rows = tier7.query_comps(tribes, token=token)
+            print("Tier7 first-place comps for this lobby:")
+            for r in rows[:10]:
+                print(f"  {r['avg_final_placement']:.2f}  {r['name'] or r['id']} "
+                      f"({r['popularity']:.0%}) — {', '.join(r['key_minions'])}")
+        else:                                          # trinket (raw, calibrating)
+            import json
+            if not args.hero or not args.options:
+                print("Trinket needs --hero and the offered trinket names.")
+                return 1
+            resp = tier7.query_trinket_pick(args.hero, args.options, tribes,
+                                            args.turn, token=token,
+                                            rating=args.rating)
+            print(json.dumps(resp, indent=1)[:2000])
+    except (RuntimeError, ValueError) as exc:
+        print(f"Tier7 query failed: {exc}")
+        return 1
+    return 0
 
 
 def cmd_plan(args) -> int:
