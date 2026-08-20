@@ -99,3 +99,52 @@ def load_kb(path: str = BG_CARDS) -> Dict[str, CardKnowledge]:
 
 def by_name(kb: Dict[str, CardKnowledge]) -> Dict[str, CardKnowledge]:
     return {c.name: c for c in kb.values()}
+
+
+# --- Hero powers ------------------------------------------------------------
+# The Director must be GIVEN each hero power's real effect text (spec req 8 —
+# rules/effects are never trusted to model memory), so "use Reno's hero power
+# on Brann" is reasoned from what the power actually does.
+
+BG_HERO_POWERS = os.path.join(_CARDS_DIR, "bg_hero_powers.json")
+
+
+def build_hero_power_kb(cards_source: str = CARDS_URL) -> Dict[str, dict]:
+    """card_id -> {name, cost, text} for Battlegrounds hero powers, from
+    HearthstoneJSON (type HERO_POWER, BG id conventions)."""
+    cards = _fetch_json(cards_source) if isinstance(cards_source, str) else cards_source
+    out: Dict[str, dict] = {}
+    for c in cards:
+        if c.get("type") != "HERO_POWER":
+            continue
+        cid = c.get("id") or ""
+        # BG hero powers live under TB_BaconShop_* / BG* / TB_Bacon* ids.
+        if not (cid.startswith("TB_Bacon") or cid.startswith("BG")):
+            continue
+        out[cid] = {
+            "name": c.get("name", cid),
+            "cost": c.get("cost", 0),
+            "text": (c.get("text") or "").replace("\n", " ").replace("[x]", "").strip(),
+        }
+    return out
+
+
+def save_hero_power_kb(hp: Dict[str, dict], path: str = BG_HERO_POWERS) -> str:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump({"_source": "HearthstoneJSON", "hero_powers": hp}, fh, indent=1)
+    return path
+
+
+def load_hero_powers(path: str = BG_HERO_POWERS) -> Dict[str, dict]:
+    """card_id -> {name, cost, text}; also indexed by lowercase name for
+    log-side lookups where only the display name is known."""
+    if not os.path.isfile(path):
+        return {}
+    data = json.load(open(path, encoding="utf-8"))
+    hp = dict(data.get("hero_powers", {}))
+    for cid, row in list(hp.items()):
+        name = (row.get("name") or "").lower()
+        if name and name not in hp:
+            hp[name] = row
+    return hp

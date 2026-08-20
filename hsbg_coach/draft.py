@@ -239,7 +239,10 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx)
-    if kind == "discover":
+    if kind in ("discover", "dark_gift"):
+        # Dark gifts rank like discovers — board fit + build direction. The
+        # WHEN-to-press timing call is the Director's (LLM) job; here we only
+        # rank the offered gifts against the live board (spec req 10).
         return rank_discover(offered, board or [], kb, scorer=scorer,
                              hero_ctx=hero_ctx, tier=tier)
     if kind in ("hero_power", "quest"):

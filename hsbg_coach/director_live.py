@@ -178,6 +178,7 @@ class DirectorLoop:
 
     def _suggest(self, snap: dict, choice_kind: Optional[str]) -> Optional[Suggestion]:
         from .game_value import rank_actions
+        snap = self._with_hero_power_text(snap)
         hero_ctx = self._hero_ctx_fn()
         try:
             recs, _base = rank_actions(snap, kb=self.kb, hero_ctx=hero_ctx)
@@ -201,6 +202,25 @@ class DirectorLoop:
             pass
         return sug
 
+    def _with_hero_power_text(self, snap: dict) -> dict:
+        """Attach the hero power's real effect text (from the committed
+        hero-power KB) so the LLM reasons from what the power actually does,
+        never from memory (spec req 8)."""
+        hp = snap.get("hero_power")
+        if not isinstance(hp, dict) or hp.get("text"):
+            return snap
+        if not hasattr(self, "_hp_kb"):
+            try:
+                from .cards import load_hero_powers
+                self._hp_kb = load_hero_powers()
+            except Exception:
+                self._hp_kb = {}
+        row = (self._hp_kb.get(hp.get("card_id") or "")
+               or self._hp_kb.get((hp.get("name") or "").lower()))
+        if row and row.get("text"):
+            return dict(snap, hero_power=dict(hp, text=row["text"]))
+        return snap
+
     # -- helpers -------------------------------------------------------------
 
     @staticmethod
@@ -208,8 +228,8 @@ class DirectorLoop:
         p = str(phase or "")
         if p.startswith("choose "):
             kind = p.split(" ", 1)[1]
-            return {"hero": "hero", "trinket": "trinket",
-                    "discover": "discover"}.get(kind, "discover")
+            return {"hero": "hero", "trinket": "trinket", "discover": "discover",
+                    "dark_gift": "dark_gift"}.get(kind, "discover")
         return None
 
     @staticmethod

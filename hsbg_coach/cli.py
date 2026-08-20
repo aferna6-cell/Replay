@@ -369,10 +369,11 @@ def cmd_refresh_meta(args) -> int:
     from .playbooks import generate_playbooks
     from .stats import _STATS_DIR
     if not args.skip_stats:
-        print("1/4 Refreshing card KB (HearthstoneJSON latest)…")
+        print("1/4 Refreshing card KB + hero powers (HearthstoneJSON latest)…")
         try:
             kb_raw = cards.build_card_kb()
             cards.save_kb(kb_raw)
+            cards.save_hero_power_kb(cards.build_hero_power_kb())
             tier7.refresh_dbf_map()
         except Exception as exc:
             print("   card refresh failed (offline?):", exc)

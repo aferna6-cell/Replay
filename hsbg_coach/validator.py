@@ -29,6 +29,11 @@ _SAFE_JUSTIFICATIONS = {"infinite_economy", "deliberate_freeze", "save_for_spike
 # candidate match — "roll/level/freeze/end" per spec req 2/12's wording.
 _GENERIC_LEGAL_KINDS = {ROLL, LEVEL, FREEZE, END}
 
+# Pressing the dark-gift button isn't in the engine's action space (no log
+# signal yet — spec req 10 # CALIBRATE), but the Director is explicitly asked
+# to call its timing; the player can see whether the button exists.
+DARK_GIFT = "dark_gift"
+
 # Kinds that actually spend gold — used by the no-float-gold check to ask
 # "was there something affordable to do instead of ending the turn?"
 _SPEND_KINDS = {BUY, ROLL, LEVEL, HERO_POWER, BUY_SPELL}
@@ -72,6 +77,12 @@ def classify_move(move: str) -> Tuple[Optional[str], Optional[str]]:
     m = _SELL_RE.match(text)
     if m:
         return SELL, m.group(1).strip()
+    if "hero power" in low:
+        # Targeted uses carry the target after "on": "Use hero power on Brann".
+        m = re.search(r"hero power(?:\s*:\s*| on )(.+)$", text, re.IGNORECASE)
+        return HERO_POWER, (m.group(1).strip() if m else None)
+    if "dark gift" in low or low.startswith(("use gift", "press gift", "open gift")):
+        return DARK_GIFT, None
     if low.startswith("end") or "end turn" in low or low.startswith("pass"):
         return END, None
     if low.startswith("roll"):
@@ -242,6 +253,33 @@ def validate(suggestion: dict, snapshot, candidates: List,
         return accepted, None
 
     if kind in _GENERIC_LEGAL_KINDS:
+        return accepted, None
+
+    if kind == DARK_GIFT:
+        return accepted, None                  # timing call; button visibility
+                                               # is the player's, not the log's
+
+    if kind == HERO_POWER:
+        hp = _get(snapshot, "hero_power")
+        usable = bool(hp.get("usable")) if isinstance(hp, dict) else bool(hp)
+        has_candidate = any(
+            (_get(_cand_action(c), "kind") or "").lower() == HERO_POWER
+            for c in candidates or [])
+        if not (usable or has_candidate):
+            return None, ("hero power suggested but the log shows no usable "
+                          "hero power this turn")
+        # A named target ("on Brann Bronzebeard") must be a real card we know
+        # about — board, shop, or KB — so a hallucinated target can't slip by.
+        if target:
+            names = {str(_get(m, "name") or "").lower()
+                     for m in (_get(snapshot, "board") or [])}
+            names |= {str(_get(m, "name") or "").lower()
+                      for m in (_get(snapshot, "shop") or [])}
+            if kb_names is not None:
+                names |= {n.lower() for n in kb_names}
+            if target.lower() not in names:
+                return None, (f"hero power target {target!r} is not on your "
+                              "board/shop or in the card KB")
         return accepted, None
 
     # Anything else (reposition, hero power, or text we couldn't classify):

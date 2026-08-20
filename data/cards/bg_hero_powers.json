@@ -1,0 +1,850 @@
+{
+ "_source": "HearthstoneJSON",
+ "hero_powers": {
+  "BG20_HERO_100p": {
+   "name": "Glory of Combat",
+   "cost": 0,
+   "text": "After a friendly minion kills an enemy, give it +1 Attack permanently."
+  },
+  "BG20_HERO_101p": {
+   "name": "See the Light",
+   "cost": 2,
+   "text": "Choose a minion in the Tavern. Set its stats to 2 and add it to your hand."
+  },
+  "BG20_HERO_102p": {
+   "name": "For the Horde!",
+   "cost": 0,
+   "text": "Minions in the Tavern have +1/+1. Improves after you buy 3 minions. <i>(3 left!)</i>"
+  },
+  "BG20_HERO_103p": {
+   "name": "Bloodbound",
+   "cost": 1,
+   "text": "Get 2 <b>Blood Gems</b>. <i>(Twice per turn.)</i>"
+  },
+  "BG20_HERO_201p": {
+   "name": "Spirit Swap",
+   "cost": 0,
+   "text": "Choose 2 minions. They gain each other's Attack until next turn."
+  },
+  "BG20_HERO_201p2": {
+   "name": "Spirit Swap",
+   "cost": 0,
+   "text": "Choose a minion. Gain Attack with 0."
+  },
+  "BG20_HERO_202p": {
+   "name": "Power of the Storm",
+   "cost": 0,
+   "text": "At the start of every turn, choose from 2 new Hero Powers."
+  },
+  "BG20_HERO_242p": {
+   "name": "Natural Balance",
+   "cost": 0,
+   "text": "After you buy 20 Tiers' worth of cards, get a Triple Reward. <i>(20 left!)</i>"
+  },
+  "BG20_HERO_280p5": {
+   "name": "Glaive Ricochet",
+   "cost": 0,
+   "text": "Once per turn, after you buy 3 minions, get a plain copy of one of them. <i>(3 left!)</i>"
+  },
+  "BG20_HERO_282p": {
+   "name": "Fragrant Phylactery",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Give your lowest-Attack minion \"<b>Deathrattle:</b> Give your other minions this minion's stats.\""
+  },
+  "BG20_HERO_283p": {
+   "name": "Dungar's Gryphon",
+   "cost": 0,
+   "text": "Choose a new flightpath. Complete it to get a bonus!"
+  },
+  "BG20_HERO_283p_t1": {
+   "name": "Westfall",
+   "cost": 0,
+   "text": "In 1 turn, get a random 1-Cost Tavern spell. <i>(1 turn left!)</i>"
+  },
+  "BG20_HERO_283p_t2": {
+   "name": "Ironforge",
+   "cost": 0,
+   "text": "In 2 turns, gain 2 Gold. <i>(2 turns left!)</i>"
+  },
+  "BG20_HERO_283p_t3": {
+   "name": "Eastern Plaguelands",
+   "cost": 0,
+   "text": "In 3 turns, <b>Discover</b> a minion of your Tier. <i>(3 turns left!)</i>"
+  },
+  "BG20_HERO_301p": {
+   "name": "Devour",
+   "cost": 0,
+   "text": "Sell a friendly minion. Spit its stats onto another."
+  },
+  "BG21_HERO_000p": {
+   "name": "Conviction",
+   "cost": 0,
+   "text": "Give 1 random friendly minion +1/+1. <b><b>Passive</b>:</b> After each combat, choose an improvement."
+  },
+  "BG21_HERO_010p": {
+   "name": "I Spy",
+   "cost": 2,
+   "text": "<b>Discover</b> a plain copy of a minion from your next opponent's warband."
+  },
+  "BG21_HERO_020p": {
+   "name": "Stir the Pot",
+   "cost": 0,
+   "text": "Throw a minion in your pot. When you've gathered 3, <b>Discover</b> from their types. <i>(3 left!)</i>"
+  },
+  "BG21_HERO_030p": {
+   "name": "Pilot the Shredder",
+   "cost": 0,
+   "text": "Start the game with a 2/1 Shredder that summons a minion from your hand and gives it <b>Divine Shield</b>."
+  },
+  "BG22_HERO_000p": {
+   "name": "Deadeye",
+   "cost": 0,
+   "text": "Take aim! <b>Start of Combat:</b> Deal 99 damage to your target."
+  },
+  "BG22_HERO_000p_Alt": {
+   "name": "Lock and Load",
+   "cost": 0,
+   "text": "Remove a minion in the Tavern. When you have space next combat, fire it at a random enemy minion."
+  },
+  "BG22_HERO_000p_t1": {
+   "name": "Aim Left!",
+   "cost": 0,
+   "text": "<b><b>Passive</b>. Start of Combat</b>: Deal 99 damage to the left-most enemy minion."
+  },
+  "BG22_HERO_000p_t2": {
+   "name": "Aim Low!",
+   "cost": 0,
+   "text": "<b>Passive. Start of Combat</b>:  Deal 99 damage to the lowest- Health enemy minion."
+  },
+  "BG22_HERO_000p_t3": {
+   "name": "Aim High!",
+   "cost": 0,
+   "text": "<b>Passive. Start of Combat</b>:  Deal 99 damage to the highest- Health enemy minion."
+  },
+  "BG22_HERO_000p_t4": {
+   "name": "Aim Right!",
+   "cost": 0,
+   "text": "<b>Passive. Start of Combat</b>: Deal 99 damage to the right-most enemy minion."
+  },
+  "BG22_HERO_001p": {
+   "name": "Embrace the Elements",
+   "cost": 0,
+   "text": "Choose an Element. <b>Start of Combat:</b> Call upon that Element."
+  },
+  "BG22_HERO_001p_t1": {
+   "name": "Earth Invocation",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Give 4 random friendly minions \"<b>Deathrattle:</b> Summon a 1/1 Elemental.\""
+  },
+  "BG22_HERO_001p_t2": {
+   "name": "Fire Invocation",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Double your left-most minion's Attack."
+  },
+  "BG22_HERO_001p_t3": {
+   "name": "Water Invocation",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Give your right-most minion <b>Divine Shield</b> and <b>Taunt</b>."
+  },
+  "BG22_HERO_001p_t4": {
+   "name": "Lightning Invocation",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Deal 1 damage to 5 random enemy minions."
+  },
+  "BG22_HERO_002p": {
+   "name": "Frostwolf Fervor",
+   "cost": 0,
+   "text": "When you have space in combat, summon a copy of your highest-Attack minion. <i>(Unlocks on Turn 7.)</i>"
+  },
+  "BG22_HERO_003p": {
+   "name": "Stormpike Strength",
+   "cost": 0,
+   "text": "When you have space in combat, summon a copy of your highest-Health minion. <i>(Unlocks on Turn 7.)</i>"
+  },
+  "BG22_HERO_004p": {
+   "name": "Twice as Nice",
+   "cost": 0,
+   "text": "After the Tavern is <b>Refreshed</b>, copy its highest-Tier minion and <b>Freeze</b> them both."
+  },
+  "BG22_HERO_007p": {
+   "name": "Azshara's Ambition",
+   "cost": 0,
+   "text": "When your warband reaches 30 total Attack, begin your Naga Conquest."
+  },
+  "BG22_HERO_007p2": {
+   "name": "Naga Conquest",
+   "cost": 1,
+   "text": "<b>Discover</b> a Naga."
+  },
+  "BG22_HERO_200p": {
+   "name": "MechGyver",
+   "cost": 0,
+   "text": "After 9 friendly minions die, get a random Mech."
+  },
+  "BG22_HERO_201p": {
+   "name": "Expedition Plans",
+   "cost": 0,
+   "text": "Skip your first turn. <b>Discover</b> minions from Tiers 6, 4, and 2 to get at those Tiers."
+  },
+  "BG22_HERO_305p": {
+   "name": "Broodmother",
+   "cost": 0,
+   "text": "<b>Avenge (4):</b> Summon a 1/1 Whelp that attacks immediately. Improve this by +1/+1."
+  },
+  "BG23_HERO_201p": {
+   "name": "Tentacular",
+   "cost": 0,
+   "text": "When you have space in combat, summon a 2/2 Tentacle with <b>Taunt</b>. <i>(Gains +1/+1 after you sell a minion!)</i>"
+  },
+  "BG23_HERO_303p2": {
+   "name": "Detective for Hire",
+   "cost": 0,
+   "text": "Look at 2 minions. Guess which one your next opponent had last combat for a Tavern Coin."
+  },
+  "BG23_HERO_304p": {
+   "name": "Relics of the Deep",
+   "cost": 0,
+   "text": "At the start of each turn, get a random <b>Spellcraft</b> spell."
+  },
+  "BG23_HERO_305p": {
+   "name": "The Perfect Crime",
+   "cost": 11,
+   "text": "Steal all cards from the Tavern. Each turn, your next Hero Power costs (1) less."
+  },
+  "BG23_HERO_306p": {
+   "name": "Reclaimed Souls",
+   "cost": 2,
+   "text": "<b>Discover</b> a plain copy of a minion that died last combat. <i>(Unlocks on Turn 3.)</i>"
+  },
+  "BG24_HERO_100p": {
+   "name": "Whodunit?",
+   "cost": 0,
+   "text": "At the start of the game, choose one of two <b>Quests</b>."
+  },
+  "BG24_HERO_204p": {
+   "name": "Enhancification",
+   "cost": 0,
+   "text": "After the Tavern is <b>Refreshed</b>, give a random minion in it a random <b>Bonus Keyword</b>, twice."
+  },
+  "BG25_HERO_100p": {
+   "name": "Build-An-Undead",
+   "cost": 3,
+   "text": "Craft a custom Undead. <i>(3 Creations left!)</i>"
+  },
+  "BG25_HERO_103p": {
+   "name": "Rapid Reanimation",
+   "cost": 0,
+   "text": "Choose a friendly minion. <b>Start of Combat:</b> Destroy it. When you have space, \u00a0\u00a0\u00a0resummon an exact copy."
+  },
+  "BG25_HERO_105p": {
+   "name": "Sign a New Artist",
+   "cost": 3,
+   "text": "<b>Discover</b> a <b>Buddy</b>. <i>(Unlocks at Tier 2.)</i>"
+  },
+  "BG26_HERO_101p": {
+   "name": "I'm the Cap'n Now",
+   "cost": 0,
+   "text": "After you buy a Pirate, gain 1 Gold."
+  },
+  "BG26_HERO_102p": {
+   "name": "Major Hymn",
+   "cost": 0,
+   "text": "Twice per turn, give a minion Attack equal to your Tier. <i>(Swaps to Health next turn!)</i>"
+  },
+  "BG26_HERO_102p2": {
+   "name": "Minor Hymn",
+   "cost": 0,
+   "text": "Twice per turn, give a minion Health equal to your Tier. <i>(Swaps to Attack next turn!)</i>"
+  },
+  "BG26_HERO_104p": {
+   "name": "Upbeat Harmony",
+   "cost": 0,
+   "text": "At the end of every 3 turns, get a plain copy of the left- most card in your hand. <i>(3 turns left!)</i>"
+  },
+  "BG27_Anomaly_805t": {
+   "name": "Match Fixing",
+   "cost": 0,
+   "text": "Guess which player will win your next combat."
+  },
+  "BG27_HERO_801p2": {
+   "name": "Choose Your Champion",
+   "cost": 0,
+   "text": "<b><b>Passive</b>.</b> At the start of the game, <b>Discover</b> a Tier 7 minion to get after you \u00a0\u00a0spend 60 Gold. <i>(60 left!)</i>"
+  },
+  "BG28_HERO_400p": {
+   "name": "Lucky Roll",
+   "cost": 1,
+   "text": "Roll a 6-sided die. Gain that much Gold. <i>(Cannot be used again for that many turns!)</i>"
+  },
+  "BG28_HERO_400p2": {
+   "name": "Lucky Roll",
+   "cost": 0,
+   "text": "Roll a 6-sided die. Gain that much Gold. <i>(Can be used again in 0 turns!)</i>"
+  },
+  "BG28_HERO_800p": {
+   "name": "Reliquary Research",
+   "cost": 0,
+   "text": "Every third Tavern spell you buy costs (0). <i>(2 left!)</i>"
+  },
+  "BG28_HERO_801p": {
+   "name": "Blessing of the Nine Frogs",
+   "cost": 1,
+   "text": "Get a random Tavern spell."
+  },
+  "BG30_HERO_304p": {
+   "name": "Fantastic Treasure",
+   "cost": 0,
+   "text": "On Turn 5, choose a Lesser <b>Trinket</b> to buy. <i>(4 turns left!)</i>"
+  },
+  "BG31_Anomaly_117t": {
+   "name": "Eject!",
+   "cost": 0,
+   "text": "Choose a minion. Permanently remove all copies of it from your pool. <i>(Twice per turn.)</i>"
+  },
+  "BG31_HERO_003p": {
+   "name": "The Galaxy's Lens",
+   "cost": 3,
+   "text": "Get a copy of the last Tavern spell you cast. Each turn, your next Hero Power costs (1) less."
+  },
+  "BG31_HERO_005p": {
+   "name": "Cloning Gallery",
+   "cost": 0,
+   "text": "Once per game, summon an exact copy of a friendly minion."
+  },
+  "BG31_HERO_006p": {
+   "name": "Arcane Knowledge",
+   "cost": 0,
+   "text": "The next Tavern spell you buy costs (1) less. <i>(Unlocks on Turn 3.)</i>"
+  },
+  "BG31_HERO_801p": {
+   "name": "Lift Off",
+   "cost": 0,
+   "text": "Start the game with a 2/2 \u00a0Battlecruiser. Whenever the Tavern is <b>Refreshed</b>, add a \u00a0\u00a0Battlecruiser Upgrade to it."
+  },
+  "BG31_HERO_802p": {
+   "name": "Warp Gate",
+   "cost": 0,
+   "text": "At the start of the game, choose from 2 Protoss minions to get after you buy 14 cards. <i>(14 left!)</i>"
+  },
+  "BG31_HERO_811p": {
+   "name": "Spawning Pool",
+   "cost": 6,
+   "text": "Unlock Tier 2 Zerg. Costs (1) less each turn. <b><b>Passive</b>:</b> Start the game with a 2/2 Larva."
+  },
+  "BG31_HERO_811p2": {
+   "name": "Evolution Chamber",
+   "cost": 8,
+   "text": "Unlock Tier 3 Zerg. Costs (1) less each turn. <b>Passive:</b> Your Zerg can morph into Tier 2 Zerg."
+  },
+  "BG31_HERO_811p3": {
+   "name": "Ultralisk Cavern",
+   "cost": 0,
+   "text": "Your Zerg can morph into Tier 3 Zerg."
+  },
+  "BG32_HERO_001p": {
+   "name": "Wisdom of Ancients",
+   "cost": 3,
+   "text": "Increase your maximum Gold by 1."
+  },
+  "BG32_HERO_002p": {
+   "name": "Growing Collection",
+   "cost": 0,
+   "text": "On Turn 8, choose a Greater <b>Trinket</b> to buy. <i>(7 turns left!)</i>"
+  },
+  "BG33_HERO_001p_ALT": {
+   "name": "Heroic Inspiration",
+   "cost": 0,
+   "text": "After 15 friendly minions attack, get a Triple Reward. <i>(15 left!)</i>"
+  },
+  "BG34_HERO_000p": {
+   "name": "Alternate Timeline",
+   "cost": 0,
+   "text": "On Turn 8, visit the Major <b>Timewarp</b>. <i>(7 turns left!)</i>"
+  },
+  "BG34_HERO_001p": {
+   "name": "Mana Per Minute",
+   "cost": 0,
+   "text": "<b>Refresh</b> the Tavern with Tavern spells."
+  },
+  "BG34_HERO_002p": {
+   "name": "Double Time",
+   "cost": 0,
+   "text": "You only need 2 copies to make minions Golden.  They give Tavern Coins instead of Triple Rewards."
+  },
+  "BG34_HERO_004p": {
+   "name": "Warped Conflux",
+   "cost": 0,
+   "text": "On Turn 5, visit the Minor <b>Timewarp</b>. <i>(4 turns left!)</i>"
+  },
+  "BG35_Anomaly_002t": {
+   "name": "Mystery Cube",
+   "cost": 0,
+   "text": "Each turn, choose from 2 new Lesser <b><b>Trinket</b>s</b> to replace this for free. <i>(Unlocks on Turn 5.)</i>"
+  },
+  "BG35_Anomaly_007t": {
+   "name": "Lesser Crystal Ball",
+   "cost": 0,
+   "text": "When you buy a Lesser <b>Trinket</b>, this transforms into a copy of it."
+  },
+  "BG35_Anomaly_008t": {
+   "name": "Greater Crystal Ball",
+   "cost": 0,
+   "text": "When you buy a Greater <b>Trinket</b>, this transforms into a copy of it."
+  },
+  "BG35_HERO_001p": {
+   "name": "King of Duality",
+   "cost": 0,
+   "text": "On Turn 4, <b>Discover</b> two Hero Powers to replace this. <i>(3 turns left!)</i>3On Turn 4, <b>Discover</b> two Hero Powers to replace this. <i>(Done!)</i>"
+  },
+  "BG36_HERO_101p": {
+   "name": "Void Power",
+   "cost": 0,
+   "text": "At the start of the game, <b>Discover</b> a Tier 5 minion with a <b>Dark Gift</b>. It unlocks on Turn 7. <i>(6 turns left!)</i>"
+  },
+  "BG36_HERO_105p": {
+   "name": "Feel Devastation",
+   "cost": 0,
+   "text": "Every 4 turns, <b>Discover</b> a minion with a <b>Dark Gift</b>. <i>(3 turns left!)</i>"
+  },
+  "BGDUO_Anomaly_003t": {
+   "name": "Golden Friendship",
+   "cost": 0,
+   "text": "Goldenize and <b>Pass</b> a minion. <i>(Once per game.)</i>"
+  },
+  "BGDUO_Anomaly_007t": {
+   "name": "Pooled Resources",
+   "cost": 1,
+   "text": "Your teammate gains 1 Gold. <i>(Twice per turn.)</i>2Your teammate gains 1 Gold. <i>(2 left!)</i>"
+  },
+  "BGDUO_HERO_100p": {
+   "name": "[x]",
+   "cost": 0,
+   "text": "<b>Start of Game:</b> Copy your teammate's Hero Power."
+  },
+  "BGDUO_HERO_101p": {
+   "name": "Glorious Gloop",
+   "cost": 0,
+   "text": "Choose a friendly minion. <b>Start of Combat:</b> Transform it into your teammate's highest-Tier minion."
+  },
+  "BGDUO_HERO_104p": {
+   "name": "Efficient Exchange",
+   "cost": 2,
+   "text": "<b>Pass</b> a non-Golden minion."
+  },
+  "BGDUO_HERO_222p": {
+   "name": "Double Trouble",
+   "cost": 0,
+   "text": "Whenever you play a Golden minion, both you and Gall get a Triple Reward. <i>(3 left!)</i>"
+  },
+  "BGDUO_HERO_223p": {
+   "name": "Double Trouble",
+   "cost": 0,
+   "text": "Whenever you play a Golden minion, both you and Cho get a Triple Reward. <i>(3 left!)</i>"
+  },
+  "TB_BaconShop_HP_001": {
+   "name": "Sharpen Blades",
+   "cost": 1,
+   "text": "Give a minion +2/+2. Improves after you buy 4 cards. <i>(4 left!)</i>"
+  },
+  "TB_BaconShop_HP_008": {
+   "name": "Smart Savings",
+   "cost": 1,
+   "text": "After you sell a minion, gain 1 Gold next turn."
+  },
+  "TB_BaconShop_HP_009": {
+   "name": "Skilled Bartender",
+   "cost": 0,
+   "text": "Reduce the Cost of upgrading the Tavern by (1)."
+  },
+  "TB_BaconShop_HP_010": {
+   "name": "Boon of Light",
+   "cost": 1,
+   "text": "Give a minion <b>Divine Shield</b>."
+  },
+  "TB_BaconShop_HP_011": {
+   "name": "Galakrond's Greed",
+   "cost": 1,
+   "text": "Choose a minion in the Tavern. Then choose a higher Tier minion to replace it."
+  },
+  "TB_BaconShop_HP_014": {
+   "name": "Stay Frosty",
+   "cost": 0,
+   "text": "Minions cost (2). The Tavern offers one fewer minion and <b><b>Freeze</b>s</b> at the end of each turn."
+  },
+  "TB_BaconShop_HP_015": {
+   "name": "Tinker",
+   "cost": 1,
+   "text": "<b>Discover</b> a <b>Magnetic</b> Mech. <i>(Unlocks at Tier 4.)</i>"
+  },
+  "TB_BaconShop_HP_017": {
+   "name": "Murloc King",
+   "cost": 1,
+   "text": "At the start of next combat, give your minions \"<b>Deathrattle:</b>  Summon a 1/1 Murloc.\""
+  },
+  "TB_BaconShop_HP_018": {
+   "name": "Rage Potion",
+   "cost": 1,
+   "text": "Give a friendly minion +10 Attack until next turn."
+  },
+  "TB_BaconShop_HP_019": {
+   "name": "DIE, INSECTS!",
+   "cost": 2,
+   "text": "<b>Start of Combat:</b> Deal 8 damage to two \u00a0\u00a0random enemy minions."
+  },
+  "TB_BaconShop_HP_020": {
+   "name": "Prestidigitation",
+   "cost": 0,
+   "text": "Choose a <b>Secret</b>. Put it into the battlefield."
+  },
+  "TB_BaconShop_HP_022": {
+   "name": "Snicker-snack",
+   "cost": 0,
+   "text": "Trigger a friendly minion's <b>Battlecry</b>. <i>(Unlocks on Turn 3.)</i>"
+  },
+  "TB_BaconShop_HP_024": {
+   "name": "Reborn Rites",
+   "cost": 0,
+   "text": "Give a minion <b>Reborn</b> until next turn."
+  },
+  "TB_BaconShop_HP_027": {
+   "name": "Fire the Cannons!",
+   "cost": 1,
+   "text": "<b>Start of Combat:</b> Deal 4 damage to two \u00a0\u00a0random enemy minions."
+  },
+  "TB_BaconShop_HP_028": {
+   "name": "Temporal Tavern",
+   "cost": 1,
+   "text": "<b>Refresh</b> the Tavern. \u00a0Include two minions from a Tier higher than yours."
+  },
+  "TB_BaconShop_HP_033": {
+   "name": "Menagerist",
+   "cost": 0,
+   "text": "Start the game with a 2/2 Amalgam with <b>Venomous</b> and all minion types."
+  },
+  "TB_BaconShop_HP_035": {
+   "name": "All Patched Up",
+   "cost": 0,
+   "text": "Start the game with 30 extra Health."
+  },
+  "TB_BaconShop_HP_036": {
+   "name": "Bloodfury",
+   "cost": 0,
+   "text": "After friendly minions deal 150 damage, open a portal to the Twisting Nether! <i>(150 left!)</i>"
+  },
+  "TB_BaconShop_HP_036t": {
+   "name": "Nether Portal",
+   "cost": 0,
+   "text": "At the start of each turn, get 2 random Demons."
+  },
+  "TB_BaconShop_HP_037a": {
+   "name": "Wax Warband",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Give a friendly minion of each type +1/+1. <i>(Improves after you spend 10 Gold!)</i>"
+  },
+  "TB_BaconShop_HP_038": {
+   "name": "Bananarama",
+   "cost": 0,
+   "text": "At the start of your turn, get 2 Bananas and give everyone else one."
+  },
+  "TB_BaconShop_HP_039t": {
+   "name": "Puzzle Box",
+   "cost": 0,
+   "text": "At the start of your turn, cast a random Tavern spell. <i>(Unlocks on Turn 3.)</i>"
+  },
+  "TB_BaconShop_HP_040": {
+   "name": "Brick by Brick",
+   "cost": 2,
+   "text": "Steal a random minion from the Tavern. Double its Health."
+  },
+  "TB_BaconShop_HP_041": {
+   "name": "A Tale of Kings",
+   "cost": 2,
+   "text": "<b>Discover</b> a minion of a specific minion type. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041a": {
+   "name": "King of Beasts",
+   "cost": 2,
+   "text": "<b>Discover</b> a Beast. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041b": {
+   "name": "King of Mechs",
+   "cost": 2,
+   "text": "<b>Discover</b> a Mech. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041c": {
+   "name": "King of Murlocs",
+   "cost": 2,
+   "text": "<b>Discover</b> a Murloc. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041d": {
+   "name": "King of Demons",
+   "cost": 2,
+   "text": "<b>Discover</b> a Demon. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041f": {
+   "name": "King of Dragons",
+   "cost": 2,
+   "text": "<b>Discover</b> a Dragon. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041g": {
+   "name": "King of Pirates",
+   "cost": 2,
+   "text": "<b>Discover</b> a Pirate. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041h": {
+   "name": "King of Elementals",
+   "cost": 2,
+   "text": "<b>Discover</b> an Elemental. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041i": {
+   "name": "King of Quilboar",
+   "cost": 2,
+   "text": "<b>Discover</b> a Quilboar. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041j": {
+   "name": "King of Naga",
+   "cost": 2,
+   "text": "<b>Discover</b> a Naga. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_041k": {
+   "name": "King of Undead",
+   "cost": 2,
+   "text": "<b>Discover</b> an Undead. Swaps type each turn."
+  },
+  "TB_BaconShop_HP_042": {
+   "name": "Hat Trick",
+   "cost": 0,
+   "text": "When you play a minion, give it a +1/+1 hat  that passes to a friendly minion when sold."
+  },
+  "TB_BaconShop_HP_043": {
+   "name": "Nefarious Fire",
+   "cost": 1,
+   "text": "<b>Start of Combat:</b> Deal 1 damage to all enemy minions."
+  },
+  "TB_BaconShop_HP_044": {
+   "name": "Procrastinate",
+   "cost": 0,
+   "text": "Skip your first two turns, then <b>Discover</b> a minion from Tier 3 and Tier 4."
+  },
+  "TB_BaconShop_HP_046": {
+   "name": "Gonna Be Rich!",
+   "cost": 0,
+   "text": "Once per game, make a friendly minion Golden."
+  },
+  "TB_BaconShop_HP_047": {
+   "name": "Lead Explorer",
+   "cost": 1,
+   "text": "<b>Discover</b> a minion from your Tier. Costs (1) more after each use."
+  },
+  "TB_BaconShop_HP_048": {
+   "name": "Battle Brand",
+   "cost": 0,
+   "text": "After you buy 4 <b>Battlecry</b> minions, get a Brann Bronzebeard. <i>(Once per game.)</i>"
+  },
+  "TB_BaconShop_HP_049": {
+   "name": "Graveyard Shift",
+   "cost": 2,
+   "text": "Steal a card from the Tavern. Take 2 damage."
+  },
+  "TB_BaconShop_HP_050": {
+   "name": "Banshee's Blessing",
+   "cost": 0,
+   "text": "Remove a friendly minion. Give adjacent minions +1/+1."
+  },
+  "TB_BaconShop_HP_051": {
+   "name": "Honorable Warband",
+   "cost": 2,
+   "text": "Give your minions with no type +1/+1."
+  },
+  "TB_BaconShop_HP_052": {
+   "name": "Arcane Alteration",
+   "cost": 0,
+   "text": "Replace a card with a  random one of the same Tier. <i>(Twice per turn.)</i>"
+  },
+  "TB_BaconShop_HP_053": {
+   "name": "I'll Take That!",
+   "cost": 1,
+   "text": "Next combat, get a plain copy of the first minion you kill."
+  },
+  "TB_BaconShop_HP_054": {
+   "name": "Manastorm",
+   "cost": 0,
+   "text": "Minions and <b>Refreshes</b> cost 2 Gold. Upgrading the Tavern costs (1) more."
+  },
+  "TB_BaconShop_HP_056": {
+   "name": "Gone Fishing",
+   "cost": 0,
+   "text": "After you sell 5 minions, get a random Murloc. <i>(5 left!)</i>"
+  },
+  "TB_BaconShop_HP_057": {
+   "name": "Adventure!",
+   "cost": 0,
+   "text": "At the start of the game, <b>Discover</b> a Hero Power."
+  },
+  "TB_BaconShop_HP_061": {
+   "name": "ALL Will Burn!",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Give ALL minions +2 Attack permanently."
+  },
+  "TB_BaconShop_HP_062": {
+   "name": "Dream Portal",
+   "cost": 0,
+   "text": "The Tavern offers an extra Dragon whenever it is <b>Refreshed</b>."
+  },
+  "TB_BaconShop_HP_063": {
+   "name": "Clairvoyance",
+   "cost": 0,
+   "text": "At the start of your turn, gain a free <b>Refresh</b>."
+  },
+  "TB_BaconShop_HP_064": {
+   "name": "Queen of Dragons",
+   "cost": 1,
+   "text": "<b>Discover</b> a Dragon. <i>(Unlocks at Tier 4.)</i>"
+  },
+  "TB_BaconShop_HP_065": {
+   "name": "Demon Hunter Training",
+   "cost": 0,
+   "text": "After 14 friendly minions attack, the first minion you buy each turn is free. <i>(14 left!)</i>"
+  },
+  "TB_BaconShop_HP_065t2": {
+   "name": "Spectral Sight",
+   "cost": 0,
+   "text": "The first minion you buy each turn is free."
+  },
+  "TB_BaconShop_HP_066": {
+   "name": "Verdant Spheres",
+   "cost": 0,
+   "text": "After you buy 3 minions, get a Tavern Coin."
+  },
+  "TB_BaconShop_HP_068": {
+   "name": "Imprison",
+   "cost": 1,
+   "text": "Choose a card in the Tavern to lock in your hand. After 2 turns, unlock it."
+  },
+  "TB_BaconShop_HP_069": {
+   "name": "Wingmen",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Your left- and right-most minions gain +2/+1 and attack immediately."
+  },
+  "TB_BaconShop_HP_072": {
+   "name": "Pirate Parrrrty!",
+   "cost": 3,
+   "text": "Get a Pirate. After you buy a Pirate, your next Hero Power costs (1) less."
+  },
+  "TB_BaconShop_HP_074": {
+   "name": "Buried Treasure",
+   "cost": 1,
+   "text": "Dig for a Golden minion! <i>(4 Digs left.)</i>"
+  },
+  "TB_BaconShop_HP_075": {
+   "name": "Trash for Treasure",
+   "cost": 0,
+   "text": "Remove a friendly minion. <b>Discover</b> one from a Tier lower to get."
+  },
+  "TB_BaconShop_HP_076": {
+   "name": "Piggy Bank",
+   "cost": 0,
+   "text": "Gain 2 Gold. Increases by 1 each turn. <i>(Once per game.)</i>"
+  },
+  "TB_BaconShop_HP_077": {
+   "name": "Bob's Burgles",
+   "cost": 1,
+   "text": "<b>Refresh</b> the Tavern with plain copies of your last  opponent's warband."
+  },
+  "TB_BaconShop_HP_080": {
+   "name": "Kel'Thuzad's Kitty",
+   "cost": 0,
+   "text": "After another hero dies, <b>Discover</b> a minion from their warband. It keeps enchantments."
+  },
+  "TB_BaconShop_HP_081": {
+   "name": "Friendly Wager",
+   "cost": 1,
+   "text": "Guess which player will win their next combat. If you're correct, get 3 Tavern Coins."
+  },
+  "TB_BaconShop_HP_082": {
+   "name": "Everbloom",
+   "cost": 0,
+   "text": "After you upgrade the Tavern, gain 2 Gold."
+  },
+  "TB_BaconShop_HP_084": {
+   "name": "Swap, Lock, & Shop It",
+   "cost": 0,
+   "text": "Swap a friendly non-Golden minion with a random one in the Tavern."
+  },
+  "TB_BaconShop_HP_085": {
+   "name": "Tavern Lighting",
+   "cost": 1,
+   "text": "Get a Lantern Light that gives a minion stats equal to your Tier."
+  },
+  "TB_BaconShop_HP_085t": {
+   "name": "Tavern Lighting",
+   "cost": 0,
+   "text": "Your Tavern spells give an extra +1/+1. At the start of every 3 turns, improve this. <i>(3 turns left!)</i>"
+  },
+  "TB_BaconShop_HP_086": {
+   "name": "Swatting Insects",
+   "cost": 0,
+   "text": "<b>Start of Combat:</b> Give your left-most minion <b>Windfury</b>, <b>Divine Shield</b>, and <b>Taunt</b>."
+  },
+  "TB_BaconShop_HP_087": {
+   "name": "BUY, INSECT!",
+   "cost": 0,
+   "text": "After you buy 12 cards, get Sulfuras. <i>(12 left!)</i>"
+  },
+  "TB_BaconShop_HP_087t": {
+   "name": "Sulfuras",
+   "cost": 0,
+   "text": "At the end of your turn, give your left and right- most minions +8/+8."
+  },
+  "TB_BaconShop_HP_088": {
+   "name": "Avalanche",
+   "cost": 0,
+   "text": "After you play 3 Elementals, reduce the Cost of upgrading the Tavern by (3)."
+  },
+  "TB_BaconShop_HP_101": {
+   "name": "Come One, Come All!",
+   "cost": 0,
+   "text": "Darkmoon Tickets are in the Tavern! Get 3 to <b>Discover</b> a minion of your Tier."
+  },
+  "TB_BaconShop_HP_102": {
+   "name": "Three Wishes",
+   "cost": 3,
+   "text": "If you have two copies of a minion, find the third. <i>(3 Wishes left!)</i>"
+  },
+  "TB_BaconShop_HP_103": {
+   "name": "Embrace Your Rage",
+   "cost": 2,
+   "text": "<b>Start of Combat: </b>Summon and get a minion of your Tier."
+  },
+  "TB_BaconShop_HP_104": {
+   "name": "Saturday C'Thuns!",
+   "cost": 1,
+   "text": "At end of turn, give a friendly minion +1/+1. \u00a0\u00a0Repeat 0 times. <i>\u00a0\u00a0(Improves each turn!)</i>"
+  },
+  "TB_BaconShop_HP_105": {
+   "name": "Avatar of N'Zoth",
+   "cost": 0,
+   "text": "Start the game with a 2/2 Fish that gains all your <b>Deathrattles</b> in combat."
+  },
+  "TB_BaconShop_HP_106": {
+   "name": "Prize Wall",
+   "cost": 0,
+   "text": "Every 4 turns, <b>Discover</b> a Darkmoon Prize. <i>(3 turns left!)</i>"
+  },
+  "TB_BaconShop_HP_107": {
+   "name": "Sprout It Out!",
+   "cost": 0,
+   "text": "Give +1/+2 and <b>Taunt</b> to minions you summon during combat."
+  },
+  "TB_BaconShop_HP_702": {
+   "name": "Runic Empowerment",
+   "cost": 1,
+   "text": "Give a minion +1/+1. Improves after five  friendly minions die.  <i>(5 left!)</i>"
+  },
+  "TB_BaconShop_HP_702t": {
+   "name": "Rune of Damnation",
+   "cost": 1,
+   "text": "Destroy a friendly Undead to get a random Undead. <i>(Unlocks at Tier 2.)</i>"
+  }
+ }
+}

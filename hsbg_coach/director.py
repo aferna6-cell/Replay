@@ -37,7 +37,14 @@ _GAME_RULES_ESSENTIALS = (
     "anything else. Floating unspent gold by ending the turn is a mistake "
     "unless you have infinite economy, are deliberately freezing a shop "
     "you can't afford yet, or are saving gold for next turn's spike — say "
-    "which, in 'justification', when you do it on purpose."
+    "which, in 'justification', when you do it on purpose. "
+    "Hero power: when the state shows a usable hero power, weigh using it "
+    "this turn as a first-class move — timing it well is how each hero is "
+    "played optimally. If it needs a target, NAME the target, e.g. "
+    "'Use hero power on Brann Bronzebeard'. "
+    "Dark gift: when the player has a dark-gift button available, WHEN to "
+    "press it is a real decision — weigh the turn's tempo cost against the "
+    "gift's value, and suggest 'Use dark gift' on the turn that favors it."
 )
 
 # Extra framing injected per spec reqs 10/11 depending on what kind of
@@ -137,7 +144,7 @@ def _snap_get(snapshot, key, default=None):
 def _compact_state(snapshot) -> str:
     board = [_compact_minion(m) for m in (_snap_get(snapshot, "board") or [])]
     shop = [_compact_minion(m) for m in (_snap_get(snapshot, "shop") or [])]
-    return (
+    out = (
         f"Turn {_snap_get(snapshot, 'turn')} · tavern tier "
         f"{_snap_get(snapshot, 'tavern_tier')} · gold "
         f"{_snap_get(snapshot, 'gold')} · hero HP "
@@ -145,6 +152,20 @@ def _compact_state(snapshot) -> str:
         f"Board: {', '.join(board) or '(empty)'}\n"
         f"Shop: {', '.join(shop) or '(empty)'}"
     )
+    hero = _snap_get(snapshot, "hero_name") or _snap_get(snapshot, "hero")
+    if hero:
+        out += f"\nHero: {hero}"
+    hp = _snap_get(snapshot, "hero_power")
+    if hp:
+        name = hp.get("name") if isinstance(hp, dict) else None
+        cost = hp.get("cost") if isinstance(hp, dict) else None
+        usable = hp.get("usable") if isinstance(hp, dict) else None
+        text = hp.get("text") if isinstance(hp, dict) else None
+        out += (f"\nHero power: {name or '?'} (cost {cost if cost is not None else '?'}"
+                f", {'usable now' if usable else 'not usable yet'})")
+        if text:
+            out += f" — {text}"
+    return out
 
 
 def _describe_candidate(candidate) -> str:

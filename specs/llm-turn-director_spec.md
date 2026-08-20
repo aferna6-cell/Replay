@@ -74,6 +74,14 @@ review.
     keywords, tribe, derived synergies) and marked low-confidence; their
     picks are treated like experiments — graded by the reviewer until real
     stats arrive on the next stats refresh.
+14. **Hero powers are first-class moves.** The Director knows each hero
+    power's REAL effect text (committed `data/cards/bg_hero_powers.json`
+    from HearthstoneJSON — req 8, never model memory), sees its
+    cost/usable state from the log, and suggests WHEN to press it as part
+    of playing each hero optimally — naming the target when one is needed
+    ("Use hero power on Brann Bronzebeard"). The validator accepts
+    hero-power moves only when the log shows a usable power (or the engine
+    listed one) and rejects hallucinated targets not on board/shop/KB.
 
 ## Non-goals
 
