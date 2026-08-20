@@ -194,8 +194,57 @@ def _maybe_director(args, coach):
     return d
 
 
+def _watch_overlay_windows(power, args) -> int:
+    """WSL: drive a NATIVE Windows always-on-top panel (scripts/
+    windows_overlay.ps1) — the HDT-grade overlay. The terminal keeps
+    echoing the panel too, but the floating window is the real UI."""
+    import time
+    from .live import LiveCoach
+    from .overlay import format_next
+    from .win_overlay import WindowsOverlay
+
+    recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
+    coach = LiveCoach(power, recorder=recorder, from_start=True)
+    coach.start()
+    director = _maybe_director(args, coach)
+    ov = WindowsOverlay()
+    ov.start()
+    print("Native Windows overlay opened (drag it anywhere over the game; "
+          "Hearthstone must be windowed/borderless, not exclusive "
+          "fullscreen). Ctrl-C here to stop.")
+    last = None
+    try:
+        while ov.alive():
+            snap, odds, lines = coach.frame()
+            if director is not None:
+                lines = director.augment(snap, lines)
+            text = format_next(snap, odds, lines)
+            ov.update(text)
+            if text != last:
+                print("\033[H\033[J" + text, flush=True)
+                last = text
+            time.sleep(0.2)
+        print("Overlay window closed — stopping.")
+    except KeyboardInterrupt:
+        print("\nStopped.")
+    finally:
+        ov.stop()
+        coach.stop()
+        if director is not None:
+            director.stop()
+        if recorder is not None:
+            recorder.close()
+    return 0
+
+
 def _watch_overlay(power, args) -> int:
     """Live overlay: background log thread feeds the coach; the overlay polls it."""
+    if config.is_wsl():
+        from .win_overlay import powershell_exe
+        if powershell_exe():
+            return _watch_overlay_windows(power, args)
+        print("WSL detected but powershell.exe is unreachable — trying the "
+              "Tk overlay instead.")
     from .live import LiveCoach
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     # Read the session from the start so we catch hero-select + early turns that
