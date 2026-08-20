@@ -68,10 +68,14 @@ class WindowsOverlay:
                 "disabled?) — cannot open the native overlay")
         script = to_windows_path(os.path.abspath(_SCRIPT))
         panel = to_windows_path(os.path.abspath(self.panel_file))
+        # Keep PowerShell's stderr in a log so a first-run failure is
+        # diagnosable instead of silently vanishing.
+        self.log_file = self.panel_file + ".ps.log"
+        log = open(self.log_file, "w", encoding="utf-8")
         self._proc = subprocess.Popen(
             [ps, "-NoProfile", "-ExecutionPolicy", "Bypass",
              "-File", script, "-PanelFile", panel],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            stdout=log, stderr=log)
 
     def update(self, text: str) -> None:
         if text == self._last:
