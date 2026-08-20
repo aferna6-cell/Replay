@@ -323,6 +323,58 @@ Auto-detecting these offers from the live log (so they pop in the overlay) is th
 next live step — pending real-game log calibration. For now, type the offered
 names into `pick`.
 
+## The LLM Turn Director (play with a local model)
+
+The Director is an open-weights LLM that coaches you live: **one move at a
+time** with a one-line why, planning the turn and game behind it, grounded in
+current-patch HDT/Tier7 data, and learning from your own games between games.
+Full design: `specs/llm-turn-director_spec.md`.
+
+### One-time setup (your gaming PC)
+
+```bash
+# 1. A local model server (open weights). Install Ollama, then:
+ollama pull qwen2.5:3b-instruct        # small + fast; laptop-friendly
+
+# 2. Build the knowledge layer: card KB + dbf map + last-patch stats +
+#    27 comp playbooks + the meta pack the Director reads.
+python -m hsbg_coach refresh-meta      # re-run after every patch (spec req 13)
+
+# 3. Is your machine fast enough? Measure, don't guess:
+python -m hsbg_coach llm-bench
+# >2.5s verdict? use a smaller model, or a hosted open-weights endpoint:
+#   HSBG_LLM_BACKEND=openai HSBG_LLM_URL=https://api.groq.com/openai HSBG_LLM_KEY=...
+```
+
+### Every session
+
+```bash
+python -m hsbg_coach watch --director            # terminal panel
+python -m hsbg_coach watch --director --overlay  # on-screen overlay
+```
+
+The panel shows `DIRECTOR: <move> — <why>` the moment the LLM answers
+(~1-2s), with the engine's instant pick as the interim line — the coach never
+blanks. A deterministic validator sits between the model and the panel: it
+rejects any end-turn that floats gold (unless the model names a real reason —
+infinite economy / deliberate freeze / save-for-spike), blocks buys of cards
+not in the shop, and requires a hypothesis on any `[experiment]` suggestion.
+
+When a game ends, the reviewer grades every suggestion against the outcome in
+the background (during the queue window): lessons land in `data/lessons.jsonl`
+and are in the Director's context next game; validated experiments get
+promoted into `data/playbooks/_experiments.md`, failed ones are recorded so
+they aren't repeated; every graded decision grows `data/train_corpus.jsonl`.
+Run it manually anytime with `python -m hsbg_coach review`.
+
+### Fine-tuning on your games
+
+```bash
+bash scripts/retrain_lora.sh           # builds ml/sft_dataset.jsonl + prints
+                                       # the remote LoRA recipe (training never
+                                       # runs on the gaming laptop)
+```
+
 ## Take it into a game (live overlay)
 
 On your gaming PC (Windows/Mac), with Hearthstone installed:

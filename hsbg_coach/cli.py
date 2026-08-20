@@ -97,6 +97,9 @@ def _print_board(snap) -> None:
 
 def cmd_watch(args) -> int:
     # Overlay/terminal modes can start with no log yet — they wait for Hearthstone.
+    # --director needs a live panel to render into; plain watch routes to terminal.
+    if getattr(args, "director", False) and not args.overlay:
+        args.terminal = True
     if getattr(args, "terminal", False):
         return _watch_terminal(args.path, args)
     if args.overlay:
@@ -135,11 +138,15 @@ def _watch_terminal(power, args) -> int:
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
+    director = _maybe_director(args, coach)
     print("HSBG Coach (terminal panel) — launch a Battlegrounds game. Ctrl-C to stop.")
     last = None
     try:
         while True:
-            text = format_next(*coach.frame())
+            snap, odds, lines = coach.frame()
+            if director is not None:
+                lines = director.augment(snap, lines)
+            text = format_next(snap, odds, lines)
             if text != last:
                 # Home cursor + clear screen, then repaint the panel in place.
                 print("\033[H\033[J" + text, flush=True)
@@ -149,9 +156,27 @@ def _watch_terminal(power, args) -> int:
         print("\nStopped.")
     finally:
         coach.stop()
+        if director is not None:
+            director.stop()
         if recorder is not None:
             recorder.close()
     return 0
+
+
+def _maybe_director(args, coach):
+    """Build + start a DirectorLoop when --director was asked for; explain and
+    fall back to plain engine advice when its prerequisites are missing."""
+    if not getattr(args, "director", False):
+        return None
+    from .director_live import DirectorLoop
+    d = DirectorLoop(kb=coach.kb, hero_ctx_fn=lambda: coach.hero_ctx)
+    if d.meta_pack is None:
+        print("Director: no meta pack — run `python -m hsbg_coach refresh-meta` "
+              "first. Continuing with engine advice only.")
+    if d.client_error:
+        print(f"Director: LLM unavailable ({d.client_error}) — engine advice only.")
+    d.start()
+    return d
 
 
 def _watch_overlay(power, args) -> int:
@@ -162,6 +187,7 @@ def _watch_overlay(power, args) -> int:
     # are written before/just-as the overlay attaches.
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
+    director = _maybe_director(args, coach)
 
     # Repaint a tidy panel in the terminal too (in place, like htop). The Tk
     # window is unreliable on Apple's deprecated system Tk, so this is always a
@@ -170,7 +196,10 @@ def _watch_overlay(power, args) -> int:
     last_text = [None]
 
     def frame_and_echo():
-        result = coach.frame()
+        snap, odds, lines = coach.frame()
+        if director is not None:
+            lines = director.augment(snap, lines)
+        result = (snap, odds, lines)
         try:
             text = format_next(*result)
             if text != last_text[0]:
@@ -194,6 +223,8 @@ def _watch_overlay(power, args) -> int:
         ov.run()
     finally:
         coach.stop()
+        if director is not None:
+            director.stop()
         if recorder is not None:
             recorder.close()
     return 0
@@ -238,6 +269,10 @@ def build_parser() -> argparse.ArgumentParser:
     w.add_argument("--terminal", action="store_true",
                    help="live recommendations as an in-place terminal panel "
                         "(no GUI; reliable on any macOS — float your terminal window)")
+    w.add_argument("--director", action="store_true",
+                   help="LLM Turn Director: one move + why on top of the panel "
+                        "(needs `refresh-meta` once and an LLM backend; falls "
+                        "back to engine advice if the LLM is unavailable)")
     w.set_defaults(func=cmd_watch)
 
     f = sub.add_parser("parse-file", help="parse a captured log offline")
@@ -308,7 +343,109 @@ def build_parser() -> argparse.ArgumentParser:
     t7.add_argument("--turn", type=int, default=8, help="trinket only: current turn")
     t7.add_argument("--duos", action="store_true", help="hero only: duos stats")
     t7.set_defaults(func=cmd_tier7)
+
+    rm = sub.add_parser("refresh-meta",
+                        help="one motion: card KB + dbf map + last-patch stats "
+                             "+ playbooks + meta pack (spec req 13)")
+    rm.add_argument("--mmr", type=int, default=10)
+    rm.add_argument("--skip-stats", action="store_true",
+                    help="offline: rebuild playbooks + meta pack from committed data")
+    rm.set_defaults(func=cmd_refresh_meta)
+
+    lb = sub.add_parser("llm-bench",
+                        help="measure your LLM backend's real latency (decides "
+                             "local vs hosted)")
+    lb.set_defaults(func=cmd_llm_bench)
+
+    rv = sub.add_parser("review",
+                        help="grade the latest recorded game and bank the lessons")
+    rv.set_defaults(func=cmd_review)
     return p
+
+
+def cmd_refresh_meta(args) -> int:
+    from . import cards, firestone_stats, tier7
+    from .meta_pack import build_meta_pack, save_meta_pack
+    from .playbooks import generate_playbooks
+    from .stats import _STATS_DIR
+    if not args.skip_stats:
+        print("1/4 Refreshing card KB (HearthstoneJSON latest)…")
+        try:
+            kb_raw = cards.build_card_kb()
+            cards.save_kb(kb_raw)
+            tier7.refresh_dbf_map()
+        except Exception as exc:
+            print("   card refresh failed (offline?):", exc)
+        print(f"2/4 Refreshing Firestone stats (mmr-{args.mmr}, last-patch)…")
+        try:
+            firestone_stats.refresh(_STATS_DIR, mmr=args.mmr, period="last-patch")
+        except Exception as exc:
+            print("   stats refresh failed (offline?):", exc)
+    else:
+        print("1-2/4 skipped (--skip-stats)")
+    print("3/4 Regenerating comp playbooks…")
+    paths = generate_playbooks()
+    print(f"   wrote {len(paths)} playbooks -> data/playbooks/")
+    print("4/4 Building the meta pack…")
+    pack = build_meta_pack()
+    out = save_meta_pack(pack)
+    print(f"   wrote {out} (patch_build={pack.get('patch_build') or 'unknown'})")
+    print("Done. The Director reads this pack on next launch.")
+    return 0
+
+
+def cmd_llm_bench(_args) -> int:
+    from .llm_client import LLMClient, LLMError, bench
+    try:
+        client = LLMClient()
+    except LLMError as exc:
+        print("LLM not configured:", exc)
+        return 1
+    cfg = client.config
+    print(f"Benchmarking {cfg.backend} / {cfg.model} at {cfg.url} …")
+    r = bench(client)
+    if not r.get("ok"):
+        print("FAILED:", r.get("error"))
+        print("Local: install Ollama and `ollama pull qwen2.5:3b-instruct`, or set "
+              "HSBG_LLM_BACKEND=openai + HSBG_LLM_URL/HSBG_LLM_KEY for a hosted "
+              "open-weights endpoint.")
+        return 1
+    lat = r["latency_s"]
+    print(f"OK — {lat:.2f}s for a realistic Director prompt.")
+    if lat <= 2.5:
+        print("Verdict: fast enough for live move+why. Use this backend.")
+    else:
+        print("Verdict: too slow for live turns (>2.5s). Try a smaller local model "
+              "(qwen2.5:1.5b-instruct) or a hosted open-weights endpoint "
+              "(HSBG_LLM_BACKEND=openai + Groq/Together URL) — picks like "
+              "hero/trinket can tolerate this latency, turns can't.")
+    return 0
+
+
+def cmd_review(_args) -> int:
+    from .llm_client import LLMClient, LLMError
+    from .reviewer import (append_lessons, append_training_examples,
+                           promote_experiments, review_latest)
+    client = None
+    try:
+        client = LLMClient()
+    except LLMError:
+        pass                                   # deterministic-only review is fine
+    review = review_latest(config.DATA_DIR, client=client)
+    if review is None:
+        print("No completed recorded game found in", config.DATA_DIR)
+        return 1
+    print(f"Reviewed {os.path.basename(review.game_path)} "
+          f"(placement: {review.placement or '?'}):")
+    for g in review.grades:
+        print(f"  T{g.turn}: [{g.verdict}] {g.suggested}"
+              + (f" — better: {g.better}" if g.better else ""))
+    append_lessons(review, os.path.join(config.DATA_DIR, "lessons.jsonl"))
+    promote_experiments(review)
+    append_training_examples(review, review.game_path,
+                             os.path.join(config.DATA_DIR, "train_corpus.jsonl"))
+    print(f"Banked {len(review.lessons)} lessons; corpus updated.")
+    return 0
 
 
 def cmd_tier7(args) -> int:
