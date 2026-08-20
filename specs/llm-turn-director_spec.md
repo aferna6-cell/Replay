@@ -63,6 +63,17 @@ review.
     suggestion is tagged `experiment:` with its hypothesis. The reviewer
     grades experiments against outcomes: validated ones get promoted into
     the playbooks, failed ones are recorded so they are not repeated.
+13. **Patch refresh is one motion.** A new patch (new minions, trinkets,
+    dark gifts, hero changes) triggers a single `refresh-meta` command —
+    card KB (HearthstoneJSON `latest`), dbf map, Firestone `last-patch`
+    stats, and playbook regeneration — and the meta pack records the patch
+    build so stale data is refused (req 4). Patch detection is automatic:
+    the Power.log/build number or a KB-vs-live card-count mismatch flags
+    "meta pack behind the patch" in the overlay. **New-card cold start**:
+    cards with no stats yet are played from the knowledge layer (text,
+    keywords, tribe, derived synergies) and marked low-confidence; their
+    picks are treated like experiments — graded by the reviewer until real
+    stats arrive on the next stats refresh.
 
 ## Non-goals
 
