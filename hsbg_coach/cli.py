@@ -171,7 +171,7 @@ def _maybe_director(args, coach):
     from .director_live import DirectorLoop
     d = DirectorLoop(kb=coach.kb, hero_ctx_fn=lambda: coach.hero_ctx)
     if d.meta_pack is None:
-        print("Director: no meta pack — run `python -m hsbg_coach refresh-meta` "
+        print("Director: no meta pack — run `python3 -m hsbg_coach refresh-meta` "
               "first. Continuing with engine advice only.")
     if d.client_error:
         print(f"Director: LLM unavailable ({d.client_error}) — engine advice only.")
@@ -637,7 +637,7 @@ def cmd_similar(args) -> int:
     from .synergy import load_embeddings, _cosine
     emb = load_embeddings()
     if not emb:
-        print("No card2vec embeddings. Train with `python -m ml.train_card2vec`.")
+        print("No card2vec embeddings. Train with `python3 -m ml.train_card2vec`.")
         return 1
     if args.card not in emb:
         print(f"'{args.card}' not in the embedding vocab.")

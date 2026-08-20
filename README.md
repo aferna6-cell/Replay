@@ -58,19 +58,19 @@ recommendations are fully trustworthy. See `specs/hsbg-coach_spec.md` §7.
 
 ```bash
 # 1. Find your Hearthstone log locations
-python -m hsbg_coach detect
+python3 -m hsbg_coach detect
 
 # 2. Enable the loggers Hearthstone needs (then RESTART Hearthstone)
-python -m hsbg_coach setup
+python3 -m hsbg_coach setup
 
 # 3. Watch a live game: prints board on combat + records trajectories
-python -m hsbg_coach watch
+python3 -m hsbg_coach watch
 
 # Offline: parse a previously captured log (no Hearthstone needed — good for dev)
-python -m hsbg_coach parse-file path/to/Power.log
+python3 -m hsbg_coach parse-file path/to/Power.log
 
 # Show the overlay with sample data (needs a graphical display)
-python -m hsbg_coach overlay
+python3 -m hsbg_coach overlay
 ```
 
 ## Combat odds (no ML)
@@ -113,9 +113,9 @@ for r in recommend(snap, enemy_boards=enemy):       # ranked across layers
 ### Hero/comp-specific advice (population stats)
 
 ```bash
-python -m hsbg_coach stats --hero "Old Murk-Eye"
+python3 -m hsbg_coach stats --hero "Old Murk-Eye"
 # Target comp: Murlocs (tribe Murloc, avg place 3.7, tier S) ...
-python -m hsbg_coach stats --hero "Old Murk-Eye" --tribes "Beast,Mech,Dragon"
+python3 -m hsbg_coach stats --hero "Old Murk-Eye" --tribes "Beast,Mech,Dragon"
 # pivots to the best comp actually available this lobby
 ```
 
@@ -126,8 +126,8 @@ minions, leveling bias) that makes `recommend()` hero/comp-specific.
 comps, ~983k games) is committed. Pull the latest anytime (free, no account):
 
 ```bash
-python -m hsbg_coach refresh-stats                 # latest, all-MMR, last patch
-python -m hsbg_coach refresh-stats --mmr 1 --period past-seven   # top 1%, 7 days
+python3 -m hsbg_coach refresh-stats                 # latest, all-MMR, last patch
+python3 -m hsbg_coach refresh-stats --mmr 1 --period past-seven   # top 1%, 7 days
 ```
 
 It pulls **hero, comp, card, and trinket** stats, defaulting to **top-10% MMR
@@ -145,9 +145,9 @@ free Firestone aggregates can't give you — hero tiers/placements **for this
 lobby's tribes** at your MMR, and first-place comps **for this tribe set**:
 
 ```bash
-python -m hsbg_coach tier7 hero "A. F. Kay" "Forest Warden Omu" \
+python3 -m hsbg_coach tier7 hero "A. F. Kay" "Forest Warden Omu" \
     --tribes Beast,Mech,Naga,Undead --rating 6500
-python -m hsbg_coach tier7 comps --tribes Beast,Mech,Naga,Undead
+python3 -m hsbg_coach tier7 comps --tribes Beast,Mech,Naga,Undead
 ```
 
 Auth is your own account's token: set `HSREPLAY_TOKEN`, or point
@@ -164,7 +164,7 @@ of your own subscription, not for redistribution.
 The model also *understands* each minion, not just its win rate:
 
 - `cards.py` (+ committed `data/cards/bg_cards.json`, refresh with
-  `python -m hsbg_coach refresh-cards`) — every BG minion's **tier**, **tribes**,
+  `python3 -m hsbg_coach refresh-cards`) — every BG minion's **tier**, **tribes**,
   **keywords/effects**, and rules **text**.
 - `synergy.py` — derives synergy tags (tribe buffs, keyword payoffs, Battlecry/
   Deathrattle doublers, hero-power/trinket tribe care) and ranks a shop against
@@ -175,7 +175,7 @@ The model also *understands* each minion, not just its win rate:
   extract per-comp **core cards by board frequency** (so comp core cards are
   data-driven, not tribe-approximated) plus example boards (`stats.example_boards`)
   with positions/keywords — a target board and ML reference data.
-- `pace.py` (+ `firestone_pace.json`, `python -m hsbg_coach pace`) — the
+- `pace.py` (+ `firestone_pace.json`, `python3 -m hsbg_coach pace`) — the
   **early-game process**, derived from real top-10% data: average tavern **tier
   by turn** and board **stats by turn**. `recommend(snap, pace=load_pace())`
   nudges leveling when you're behind the real curve. (Data shows top players
@@ -195,7 +195,7 @@ differentiable win/tie/loss estimator for the future RL agent's lookahead.
 
 ```bash
 pip install -r requirements-ml.txt
-python -m ml.train --train 8000 --epochs 40 --save combat_net.pt
+python3 -m ml.train --train 8000 --epochs 40 --save combat_net.pt
 # val win%-MAE ~0.05, outcome-acc ~0.94 vs the simulator
 ```
 
@@ -204,8 +204,8 @@ together land near each other — it rediscovers tribes unsupervised). It's wire
 into the synergy layer, and you can explore it (no torch needed to *use* it):
 
 ```bash
-python -m ml.train_card2vec --epochs 5     # train (needs torch); commits card2vec.json
-python -m hsbg_coach similar --card "Brann Bronzebeard"   # query (stdlib only)
+python3 -m ml.train_card2vec --epochs 5     # train (needs torch); commits card2vec.json
+python3 -m hsbg_coach similar --card "Brann Bronzebeard"   # query (stdlib only)
 ```
 
 **The board-evaluation net** is the brain that scores a whole board → expected
@@ -214,9 +214,9 @@ keeps learning from *your* games:
 
 ```bash
 # train on the meta (20k labeled final boards)
-python -m ml.train_eval_net --epochs 40        # val MAE ~0.26 placements, r ~0.66 on unseen comps
+python3 -m ml.train_eval_net --epochs 40        # val MAE ~0.26 placements, r ~0.66 on unseen comps
 # fold in your own recorded games as you play (continual learning)
-python -m ml.train_eval_net --trajectories data/
+python3 -m ml.train_eval_net --trajectories data/
 ```
 
 Every game you `watch` is recorded with its final placement, so retraining with
@@ -232,8 +232,8 @@ fallback if it isn't trained); roll/level/freeze by pace/gold heuristics;
 reposition by the combat sim.
 
 ```bash
-python -m hsbg_coach advise                 # demo board built from real card data
-python -m hsbg_coach advise --snapshot game.json --tribe Murloc
+python3 -m hsbg_coach advise                 # demo board built from real card data
+python3 -m hsbg_coach advise --snapshot game.json --tribe Murloc
 ```
 
 ```
@@ -277,7 +277,7 @@ moves. It projects the next K turns (tier, board strength vs the top-10% pace
 curve, HP) under candidate strategies and ranks them:
 
 ```bash
-python -m hsbg_coach plan --horizon 4
+python3 -m hsbg_coach plan --horizon 4
 ```
 
 ```
@@ -304,9 +304,9 @@ the meta's average placement; Discover uses board-fit (the eval net + card2vec
 synergy against your current board):
 
 ```bash
-python -m hsbg_coach pick hero "Rafaam" "Pyramad" "Galakrond"
-python -m hsbg_coach pick trinket "Ironforge Anvil" "Accord-o-Tron Portrait" --board "Holo Rover,Scrap Scraper" --tribe Mech
-python -m hsbg_coach pick discover "Monstrous Macaw" "Holo Rover" --board "Holo Rover,Scrap Scraper" --tribe Mech
+python3 -m hsbg_coach pick hero "Rafaam" "Pyramad" "Galakrond"
+python3 -m hsbg_coach pick trinket "Ironforge Anvil" "Accord-o-Tron Portrait" --board "Holo Rover,Scrap Scraper" --tribe Mech
+python3 -m hsbg_coach pick discover "Monstrous Macaw" "Holo Rover" --board "Holo Rover,Scrap Scraper" --tribe Mech
 ```
 
 Trinkets blend meta placement *with board fit* — a trinket that buffs your tribe
@@ -338,10 +338,10 @@ ollama pull qwen2.5:3b-instruct        # small + fast; laptop-friendly
 
 # 2. Build the knowledge layer: card KB + dbf map + last-patch stats +
 #    27 comp playbooks + the meta pack the Director reads.
-python -m hsbg_coach refresh-meta      # re-run after every patch (spec req 13)
+python3 -m hsbg_coach refresh-meta      # re-run after every patch (spec req 13)
 
 # 3. Is your machine fast enough? Measure, don't guess:
-python -m hsbg_coach llm-bench
+python3 -m hsbg_coach llm-bench
 # >2.5s verdict? use a smaller model, or a hosted open-weights endpoint:
 #   HSBG_LLM_BACKEND=openai HSBG_LLM_URL=https://api.groq.com/openai HSBG_LLM_KEY=...
 ```
@@ -349,8 +349,8 @@ python -m hsbg_coach llm-bench
 ### Every session
 
 ```bash
-python -m hsbg_coach watch --director            # terminal panel
-python -m hsbg_coach watch --director --overlay  # on-screen overlay
+python3 -m hsbg_coach watch --director            # terminal panel
+python3 -m hsbg_coach watch --director --overlay  # on-screen overlay
 ```
 
 The panel shows `DIRECTOR: <move> — <why>` the moment the LLM answers
@@ -365,7 +365,7 @@ the background (during the queue window): lessons land in `data/lessons.jsonl`
 and are in the Director's context next game; validated experiments get
 promoted into `data/playbooks/_experiments.md`, failed ones are recorded so
 they aren't repeated; every graded decision grows `data/train_corpus.jsonl`.
-Run it manually anytime with `python -m hsbg_coach review`.
+Run it manually anytime with `python3 -m hsbg_coach review`.
 
 ### Fine-tuning on your games
 
@@ -380,9 +380,9 @@ bash scripts/retrain_lora.sh           # builds ml/sft_dataset.jsonl + prints
 On your gaming PC (Windows/Mac), with Hearthstone installed:
 
 ```bash
-python -m hsbg_coach setup            # one-time: make Hearthstone emit the logs
+python3 -m hsbg_coach setup            # one-time: make Hearthstone emit the logs
 # launch Hearthstone, start a Battlegrounds game
-python -m hsbg_coach watch --overlay  # on-screen, always-on-top recommendations
+python3 -m hsbg_coach watch --overlay  # on-screen, always-on-top recommendations
 ```
 
 A small draggable panel pins to a screen corner and updates as you play — each
@@ -428,7 +428,7 @@ lobby with real cards from the committed KB, a finite shared pool (real copy
 counts), shop generation by tier, buy/sell/roll/freeze, real tavern-up
 discounts, triples → golden + discover, combat resolved by `sim.py`, and an
 abstract end-of-turn scaling layer standing in for the buff long tail so
-boards track the measured Firestone curve. Validation (`python -m
+boards track the measured Firestone curve. Validation (`python3 -m
 hsbg_coach.bg_env --lobbies 100`): tavern tier within ~0.5 of the real curve,
 board stats on-curve, ~14-turn games, eliminations matching the real
 alive-by-turn table.
@@ -440,14 +440,14 @@ That unlocks the whole learning stack:
 #    one token per minion -> self-attention -> P(finish 1st..8th).
 #    Trained on env self-play MID-GAME states (the states the advisor
 #    actually queries — the old net only ever saw final boards).
-python -m ml.train_set_net --midgame-lobbies 300 --epochs 30
-python -m ml.calibrate                  # per-stage calibration check
+python3 -m ml.train_set_net --midgame-lobbies 300 --epochs 30
+python3 -m ml.calibrate                  # per-stage calibration check
 
 # 2. Behavior-clone the greedy baseline (RL warm start + first league member)
-python -m ml.bc --lobbies 150
+python3 -m ml.bc --lobbies 150
 
 # 3. PPO against a league (scripted baselines + past selves)
-python -m ml.train_ppo --iters 40 --episodes 16
+python3 -m ml.train_ppo --iters 40 --episodes 16
 ```
 
 Phase 1 status: the learned policy **beats the random field decisively**

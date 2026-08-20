@@ -288,7 +288,7 @@ def pack_age_warning(pack: dict, max_days: int = 7) -> Optional[str]:
         return None
     if age > max_days:
         return (f"Meta pack snapshot is {age} days old (fetched {fetched}). "
-                f"Run `python -m hsbg_coach refresh-meta` for current "
+                f"Run `python3 -m hsbg_coach refresh-meta` for current "
                 f"comps/curve/target boards. (Tier7 pick queries are always "
                 f"live and unaffected.)")
     return None

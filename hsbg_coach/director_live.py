@@ -98,7 +98,7 @@ class DirectorLoop:
             sug, done_key = self._suggestion, self._done_key
         out = list(lines)
         if self.meta_pack is None:
-            out.insert(0, "DIRECTOR off — run `python -m hsbg_coach refresh-meta` first")
+            out.insert(0, "DIRECTOR off — run `python3 -m hsbg_coach refresh-meta` first")
         elif self.client_error:
             out.insert(0, f"DIRECTOR (engine-only): {self.client_error[:70]}")
         elif sug is not None and done_key == key:
