@@ -63,13 +63,17 @@ python -m hsbg_coach detect
 # 2. Enable the loggers Hearthstone needs (then RESTART Hearthstone)
 python -m hsbg_coach setup
 
-# 3. Watch a live game: prints board on combat + records trajectories
+# 3. Launch the HDT-style overlay. It can start before Hearthstone and detects
+#    each new game/session automatically; use borderless/windowed game mode.
 python -m hsbg_coach watch
+
+# Optional: keep the live recommendation panel inside your terminal instead
+python -m hsbg_coach watch --terminal
 
 # Offline: parse a previously captured log (no Hearthstone needed — good for dev)
 python -m hsbg_coach parse-file path/to/Power.log
 
-# Show the overlay with sample data (needs a graphical display)
+# Show the overlay with sample data only (needs a graphical display)
 python -m hsbg_coach overlay
 ```
 
