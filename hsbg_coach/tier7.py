@@ -106,6 +106,13 @@ def _oauth_file_candidates() -> List[str]:
         out.append(os.path.join(appdata, "HearthstoneDeckTracker", "hsreplay_oauth.json"))
     out.append(os.path.expanduser(
         "~/AppData/Roaming/HearthstoneDeckTracker/hsreplay_oauth.json"))
+    # WSL: HDT runs on the Windows side — its files are under /mnt/<drive>/.
+    from . import config as _config
+    if _config.is_wsl():
+        import glob as _glob
+        out += _glob.glob(os.path.join(
+            _config.MNT_ROOT, "*", "Users", "*", "AppData", "Roaming",
+            "HearthstoneDeckTracker", "hsreplay_oauth.json"))
     return out
 
 

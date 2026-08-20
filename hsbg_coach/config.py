@@ -57,16 +57,48 @@ def log_dir_candidates() -> List[str]:
     # Bottles/Flatpak elsewhere). A hardcoded prefix list ghost-pointed a
     # real machine at an empty ~/.wine (2026-08-20), so discover every
     # prefix and derive candidates from what actually exists.
+    #
+    # WSL: "linux" that is really a Windows machine — the game runs natively
+    # on the Windows side and its files are reachable under /mnt/<drive>/.
+    # (Owner's setup, 2026-08-20: coach in WSL, Hearthstone on Windows.)
     dirs: List[str] = []
     env = os.environ.get("HSBG_HS_DIR")        # explicit install-dir override
     if env:
         dirs += [os.path.join(env, "Logs"), env]
+    if is_wsl():
+        for hs in _wsl_windows_installs():
+            dirs.append(os.path.join(hs, "Logs"))
+        dirs += glob.glob(os.path.join(
+            MNT_ROOT, "*", "Users", "*", "AppData", "Local", "Blizzard",
+            "Hearthstone", "Logs"))
     for dc in wine_drive_cs():
         for pf in ("Program Files (x86)", "Program Files"):
             dirs.append(os.path.join(dc, pf, "Hearthstone", "Logs"))
         dirs += glob.glob(os.path.join(
             dc, "users", "*", "AppData", "Local", "Blizzard", "Hearthstone", "Logs"))
     return dirs
+
+
+MNT_ROOT = "/mnt"                       # WSL's Windows-drive mount point
+
+
+def is_wsl() -> bool:
+    """Running inside Windows Subsystem for Linux (so the game and HDT are
+    on the Windows side, under /mnt/<drive>/)."""
+    if os.environ.get("WSL_DISTRO_NAME"):
+        return True
+    try:
+        with open("/proc/version", encoding="utf-8") as fh:
+            return "microsoft" in fh.read().lower()
+    except OSError:
+        return False
+
+
+def _wsl_windows_installs() -> List[str]:
+    out = []
+    for pf in ("Program Files (x86)", "Program Files"):
+        out += glob.glob(os.path.join(MNT_ROOT, "*", pf, "Hearthstone"))
+    return out
 
 
 def wine_drive_cs() -> List[str]:
@@ -96,11 +128,13 @@ def _has_hearthstone(drive_c: str) -> bool:
 
 
 def hearthstone_installs() -> List[str]:
-    """Actual Hearthstone install dirs found across Wine prefixes (linux)."""
+    """Actual Hearthstone install dirs found (Wine prefixes + WSL /mnt)."""
     out = []
     env = os.environ.get("HSBG_HS_DIR")
     if env and os.path.isdir(env):
         out.append(env)
+    if is_wsl():
+        out += _wsl_windows_installs()
     for dc in wine_drive_cs():
         for pf in ("Program Files (x86)", "Program Files"):
             d = os.path.join(dc, pf, "Hearthstone")
@@ -131,6 +165,14 @@ def log_config_path_candidates() -> List[str]:
     # candidate here is the right AppData for the real install — writing to
     # a prefix without Hearthstone configures nothing (the 2026-08-20 trap).
     cands: List[str] = []
+    if is_wsl():
+        # The game reads Windows-side AppData; write there via /mnt.
+        for u in glob.glob(os.path.join(MNT_ROOT, "*", "Users", "*")):
+            if os.path.basename(u).lower() in ("public", "default",
+                                               "default user", "all users"):
+                continue
+            cands.append(os.path.join(
+                u, "AppData", "Local", "Blizzard", "Hearthstone", "log.config"))
     for dc in wine_drive_cs():
         users = glob.glob(os.path.join(dc, "users", "*")) or \
             [os.path.join(dc, "users", os.environ.get("USER", "user"))]
