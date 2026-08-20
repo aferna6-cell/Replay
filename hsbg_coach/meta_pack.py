@@ -274,6 +274,26 @@ def check_patch_drift(pack: dict, live_build: Optional[str]) -> Optional[str]:
     return None
 
 
+def pack_age_warning(pack: dict, max_days: int = 7) -> Optional[str]:
+    """A warning when the pack's snapshot data is older than `max_days` —
+    the meta moves weekly even without a patch, and target boards / comp
+    ranks should track it (owner: 'the more recent the data the better')."""
+    fetched = pack.get("fetched")
+    if not fetched:
+        return None
+    try:
+        age = (datetime.date.today()
+               - datetime.date.fromisoformat(str(fetched)[:10])).days
+    except ValueError:
+        return None
+    if age > max_days:
+        return (f"Meta pack snapshot is {age} days old (fetched {fetched}). "
+                f"Run `python -m hsbg_coach refresh-meta` for current "
+                f"comps/curve/target boards. (Tier7 pick queries are always "
+                f"live and unaffected.)")
+    return None
+
+
 def _fmt_curve_row(turn: int, standard: Dict[int, float],
                    measured: Dict[int, float]) -> str:
     s = standard.get(turn)

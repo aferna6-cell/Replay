@@ -225,3 +225,12 @@ def test_build_meta_pack_against_real_committed_data():
     assert len(pack["tribes"]) > 3
     assert len(pack["comps"]) > 3
     assert all("core_cards" in c for c in pack["comps"])
+
+
+def test_pack_age_warning_fires_on_stale_snapshot():
+    import datetime
+    from hsbg_coach.meta_pack import pack_age_warning
+    old = (datetime.date.today() - datetime.timedelta(days=10)).isoformat()
+    assert "refresh-meta" in pack_age_warning({"fetched": old})
+    assert pack_age_warning({"fetched": datetime.date.today().isoformat()}) is None
+    assert pack_age_warning({}) is None

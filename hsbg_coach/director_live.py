@@ -35,7 +35,8 @@ from . import config
 from .director import Suggestion, format_overlay_line, log_suggestion, suggest_move
 from .game_plan import build_game_plan, plan_to_prompt, revise_plan, save_plan
 from .llm_client import LLMClient, LLMError
-from .meta_pack import check_patch_drift, load_meta_pack, pack_for_prompt
+from .meta_pack import (check_patch_drift, load_meta_pack, pack_age_warning,
+                        pack_for_prompt)
 from .reviewer import (append_lessons, append_training_examples,
                        load_lessons_for_prompt, promote_experiments,
                        review_latest)
@@ -62,7 +63,9 @@ class DirectorLoop:
             self.meta_pack = load_meta_pack()
         except (OSError, ValueError):
             self.meta_pack = None              # run `refresh-meta` to create it
-        self.drift = check_patch_drift(self.meta_pack, None) if self.meta_pack else None
+        self.drift = ((check_patch_drift(self.meta_pack, None)
+                       or pack_age_warning(self.meta_pack))
+                      if self.meta_pack else None)
         self.lessons = load_lessons_for_prompt(
             os.path.join(data_dir, "lessons.jsonl"))
         self.plan = None
