@@ -26,11 +26,26 @@ def cmd_detect(_args) -> int:
     print("Power.log:  ", paths.power_log or "NOT FOUND")
     print("log.config: ", paths.log_config,
           "(exists)" if os.path.isfile(paths.log_config) else "(will be created)")
+    if sys.platform.startswith("linux"):
+        installs = config.hearthstone_installs()
+        print("HS installs: ", "; ".join(installs) or
+              "NOT FOUND in any Wine prefix")
+        prefixes = config.wine_drive_cs()
+        if prefixes:
+            print("Wine prefixes searched:")
+            for dc in prefixes:
+                mark = "  [has Hearthstone]" if config._has_hearthstone(dc) else ""
+                print("  -", dc, mark)
+        if not installs:
+            print("\nNo Hearthstone install found. If it lives somewhere "
+                  "unusual, point at it directly:\n"
+                  "  HSBG_HS_DIR=/path/to/Hearthstone python3 -m hsbg_coach detect")
     if not paths.log_dir:
         print("\nSearched these log dirs:")
         for d in config.log_dir_candidates():
             print("  -", d, "[exists]" if os.path.isdir(d) else "")
-        print("\nIf none exist, launch Hearthstone once after `setup`.")
+        print("\nIf none exist, run `setup`, then launch Hearthstone and "
+              "start a game — the Logs folder is created on launch.")
     return 0
 
 
