@@ -45,6 +45,12 @@ class GamePlan:
     # wins, it only reasons about how to get there from the current board).
     plan_a_target: List[str] = field(default_factory=list)
     plan_b_target: List[str] = field(default_factory=list)
+    # The full ranked watchlist (owner, 2026-08-20: "I don't want plan A and
+    # plan B, that is too rigid"): every viable comp this lobby, best first,
+    # each with enablers + target board. plan_a/plan_b above are just the
+    # top two entries kept as internal shorthands — the Director is shown
+    # the whole ranked list and told to prioritize, never force.
+    options: List[dict] = field(default_factory=list)
 
 
 _FINAL_BOARDS_PATH = os.path.join(os.path.dirname(__file__), "..", "data",
@@ -157,10 +163,19 @@ def build_game_plan(lobby_tribes: List[str], meta_pack: dict,
     hero_note = (f" Hero offer {hero_offer} — Tier7 hero-pick data favors "
                 f"{', '.join(boosted[:2])} for this lobby." if hero_offer and boosted
                 else "")
-    notes = (f"Plan A/B are preferences, not locks — the lobby's actual shop "
-             f"offers decide the real line (flexible tribes, spec req 5). "
-             f"Commit late, replay what the shops give you, and re-check "
-             f"pivot_triggers every turn.{hero_note}")
+    notes = (f"This is a ranked WATCHLIST, not a script — every listed comp "
+             f"is live, the ranking is only priority (flexible tribes, spec "
+             f"req 5). Commit late, play what the shops actually offer, move "
+             f"freely down (or back up) the list when the offers say so, and "
+             f"re-check pivot_triggers every turn.{hero_note}")
+
+    options = [{
+        "name": c.get("name", ""),
+        "tribe": c.get("tribe"),
+        "avg_placement": c.get("avg_placement"),
+        "enablers": list(c.get("enabler_cards") or []),
+        "target": _target_board(c),
+    } for c in ranked[:4]]
 
     return GamePlan(
         lobby_tribes=list(lobby_tribes), plan_a=plan_a,
@@ -168,25 +183,31 @@ def build_game_plan(lobby_tribes: List[str], meta_pack: dict,
         plan_b_enablers=plan_b_enablers, pivot_triggers=pivot_triggers,
         notes=notes,
         plan_a_target=_target_board(a), plan_b_target=_target_board(b),
+        options=options,
     )
 
 
 def plan_to_prompt(plan: GamePlan, max_chars: int = 1800) -> str:
     lines = [
         f"Game plan — lobby tribes: {', '.join(plan.lobby_tribes)}",
-        f"Plan A: {plan.plan_a}" +
-        (f" (enablers: {', '.join(plan.plan_a_enablers)})"
-         if plan.plan_a_enablers else ""),
+        "Comp priorities this lobby (ranked from HDT data — prioritize, "
+        "never force; the shops decide what you actually play):",
     ]
-    if plan.plan_a_target:
-        lines.append("Plan A TARGET BOARD (a real winning board from HDT "
-                     "data — path toward it): " + ", ".join(plan.plan_a_target))
-    lines.append(
-        f"Plan B: {plan.plan_b}" +
-        (f" (enablers: {', '.join(plan.plan_b_enablers)})"
-         if plan.plan_b_enablers else ""))
-    if plan.plan_b_target:
-        lines.append("Plan B TARGET BOARD: " + ", ".join(plan.plan_b_target))
+    options = plan.options or [
+        o for o in ({"name": plan.plan_a, "enablers": plan.plan_a_enablers,
+                     "target": plan.plan_a_target, "avg_placement": None},
+                    {"name": plan.plan_b, "enablers": plan.plan_b_enablers,
+                     "target": plan.plan_b_target, "avg_placement": None})
+        if o["name"]]
+    for i, o in enumerate(options, 1):
+        avg = o.get("avg_placement")
+        row = f"  {i}. {o.get('name')}" + (f" (avg {avg})" if avg is not None else "")
+        if o.get("enablers"):
+            row += f" — enablers: {', '.join(o['enablers'])}"
+        lines.append(row)
+        if o.get("target"):
+            lines.append("     TARGET BOARD (real HDT winner — path toward "
+                         "it): " + ", ".join(o["target"]))
     lines.append("Pivot triggers:")
     lines += [f"  - {p}" for p in plan.pivot_triggers]
     lines.append(f"Notes: {plan.notes}")
@@ -215,6 +236,7 @@ def load_plan(path: str = DEFAULT_GAME_PLAN_PATH) -> GamePlan:
     data.setdefault("revised", [])
     data.setdefault("plan_a_target", [])
     data.setdefault("plan_b_target", [])
+    data.setdefault("options", [])
     return GamePlan(**data)
 
 

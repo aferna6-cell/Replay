@@ -25,7 +25,7 @@ review.
 4. **Current patch ONLY.** Meta pack embeds the patch ID; stale-across-patch
    data is refused, not silently served. Firestone pulls pin
    `--period last-patch`; Tier7 is current by construction.
-5. **Flexible tribes.** The game plan ranks the lobby's tribes and names
+5. **Flexible tribes.** The game plan is a ranked WATCHLIST of every viable comp (never a rigid plan-A/B script) and ranks the lobby's tribes and names
    enablers ("Elementals S-tier here: find Brann + …"), but commits late and
    plays what the shops offer. Pivot triggers are part of the plan and the
    Director re-evaluates them every turn.
@@ -86,8 +86,8 @@ review.
     Facts are GIVEN, never inferred: card effects (KB text annotated onto
     every board/shop minion in the prompt), hero powers (req 14), stats,
     tiers, and what wins. The destination is given too: the game plan
-    carries the plan-A/B **target boards** — real winning boards for this
-    comp from HDT data — and the Director's one inference job is pathing:
+    carries a **target board** for every watchlist comp — real winning
+    boards from HDT data — and the Director's one inference job is pathing:
     which move takes the current board toward that target. A card whose
     text isn't shown is treated as unknown and said so, not guessed at.
     Experiments (req 12) stay within this: an experiment combines GIVEN
@@ -120,7 +120,7 @@ game end ─► L4 reviewer (background): grade suggestions vs outcome,
 ```
 
 - **L3 Game Plan** (lobby start, ~5s budget): lobby tribes + Tier7 hero pick
-  stats → strategy memo (plan A/B, enablers to hunt, pivot triggers). Stored
+  stats → strategy memo (ranked comp watchlist with target boards, enablers to hunt, pivot triggers). Stored
   as state; Director may revise it and must say so.
 - **Serving**: model-server-agnostic client — local (Ollama/llama.cpp, small
   Qwen-class model) or hosted open-weights (Groq/Together/OpenRouter).

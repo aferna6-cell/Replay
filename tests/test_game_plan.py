@@ -59,7 +59,8 @@ def test_build_game_plan_excludes_off_lobby_comps():
 
 def test_notes_state_flexible_tribes_rule():
     plan = game_plan.build_game_plan(["Murloc"], make_meta_pack())
-    assert "not locks" in plan.notes or "preference" in plan.notes.lower()
+    # Owner (2026-08-20): plans are a ranked WATCHLIST, never a rigid A/B.
+    assert "WATCHLIST" in plan.notes or "not a script" in plan.notes
 
 
 def test_tier7_hero_rows_boost_matching_comp_over_better_avg_placement():
@@ -93,7 +94,10 @@ def test_placeholder_plan_when_meta_pack_has_no_comps():
 def test_plan_to_prompt_contains_key_fields_and_respects_budget():
     plan = game_plan.build_game_plan(["Murloc", "Beast"], make_meta_pack())
     text = game_plan.plan_to_prompt(plan, max_chars=1200)
-    assert "Plan A" in text and "Pivot triggers" in text
+    # Owner (2026-08-20): the prompt shows the ranked comp watchlist, not
+    # a rigid "Plan A/Plan B" script.
+    assert "Comp priorities" in text and "Pivot triggers" in text
+    assert "Murloc Swarm" in text
     assert len(text) <= 1200
 
     tiny = game_plan.plan_to_prompt(plan, max_chars=20)
