@@ -26,8 +26,8 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER, BUY_COST,
-    SELL_VALUE, MAX_BOARD, tavern_up_cost,
+    Action, BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER,
+    BUY_COST, SELL_VALUE, MAX_BOARD, tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -516,6 +516,28 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # …and never sell a synergistic comp piece for its low stats.
                 v = min(8.0, v + _sell_penalty(state)
                         + _sell_synergy_penalty(a, snapshot, kb))
+                # Sell-to-afford (owner, live 2026-08-20): at 2 gold, selling
+                # a weak minion (+1 gold) to buy a strictly better shop minion
+                # is a real line the one-action view can't see. Score this
+                # sell by the best (sell -> buy) pair it enables.
+                gold_now = _get(snapshot, "gold") or 0
+                if gold_now < BUY_COST <= gold_now + SELL_VALUE:
+                    sold = _apply(state, a)
+                    best_v, best_name = None, None
+                    for m in (_get(snapshot, "shop", []) or []):
+                        nm = (m.get("name") if isinstance(m, dict)
+                              else getattr(m, "name", None))
+                        if not nm:
+                            continue
+                        after = _apply(sold, Action(BUY, nm, BUY_COST,
+                                                    {"minion": m}))
+                        pv = expected_placement(after, scorer, pace, horizon)
+                        if best_v is None or pv < best_v:
+                            best_v, best_name = pv, nm
+                    if best_v is not None and best_v < base - 0.05 and best_v < v:
+                        v = max(1.0, best_v)
+                        reason = (f"sell to afford {best_name} — the swap "
+                                  f"upgrades the board")
         elif a.kind == BUY_SPELL:
             # Spells don't change the board composition the eval net reads, so we
             # value them off base via spell_roles' placement bonus + the reason.

@@ -30,6 +30,7 @@ REPOSITION = "reposition"
 FREEZE = "freeze"
 HERO_POWER = "hero_power"
 END = "end"
+DARK_GIFT = "dark_gift"
 
 
 def tavern_up_cost(tier: Optional[int]) -> Optional[int]:
@@ -61,6 +62,9 @@ class Action:
             return "Reposition the board"
         if self.kind == FREEZE:
             return "Freeze the shop"
+        if self.kind == DARK_GIFT:
+            return (f"Use dark gift: {self.target}" if self.target
+                    else "Use dark gift")
         return "End turn"
 
 
@@ -130,6 +134,11 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     # Freeze — free, needs a shop.
     if shop:
         actions.append(Action(FREEZE))
+
+    # Press a dark gift — free, timing is the decision (spec req 10). The
+    # Director weighs WHEN; we only surface that the button exists.
+    for g in (_get(snapshot, "dark_gifts", []) or []):
+        actions.append(Action(DARK_GIFT, g.get("name"), 0, {"gift": g}))
 
     actions.append(Action(END))
     return actions

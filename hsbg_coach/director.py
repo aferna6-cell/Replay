@@ -202,6 +202,10 @@ def _compact_state(snapshot) -> str:
                 f", {'usable now' if usable else 'not usable yet'})")
         if text:
             out += f" — {text}"
+    gifts = _snap_get(snapshot, "dark_gifts") or []
+    if gifts:
+        names = ", ".join(g.get("name", "?") for g in gifts if isinstance(g, dict))
+        out += f"\nDark gift AVAILABLE (press is free — timing is the call): {names}"
     return out
 
 

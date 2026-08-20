@@ -96,6 +96,7 @@ class Snapshot:
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
+    dark_gifts: List[Dict] = field(default_factory=list)  # pressable gifts
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
@@ -117,6 +118,7 @@ class Snapshot:
             "shop_spells": list(self.shop_spells),
             "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
+            "dark_gifts": list(self.dark_gifts),
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
             "trinkets": list(self.trinkets),
@@ -301,6 +303,7 @@ class BGTracker:
             shop_spells=shop_spells,
             hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
+            dark_gifts=self._dark_gifts(),
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
             trinkets=self._trinkets(),
@@ -375,6 +378,25 @@ class BGTracker:
             self._anchor_tier = tier
         on_tier = max(1, self._recruit_phases - self._tier_anchor)
         return max(0, base - (on_tier - 1))
+
+    def _dark_gifts(self) -> List[Dict]:
+        """Pressable dark gifts the local player holds. Best-effort by card-id
+        pattern — no captured log with gifts existed when this was written, so
+        the exact id convention and the pressable-state tag are # CALIBRATE
+        (first real gift log pins them down). We only require: our entity, id
+        mentions DarkGift, not already used (zone not GRAVEYARD)."""
+        out = []
+        for ent in self.state.entities.values():
+            cid = (ent.card_id or "")
+            if "darkgift" not in cid.lower().replace("_", ""):
+                continue
+            if ent.controller != str(self.local_player):
+                continue
+            if ent.zone in ("GRAVEYARD", "REMOVEDFROMGAME"):
+                continue
+            out.append({"name": self._display_name(cid, ent.name) or "Dark gift",
+                        "card_id": cid})
+        return out
 
     def _hero_power(self) -> Optional[Dict]:
         """The local player's hero power: name, cost, and whether it's usable now

@@ -105,3 +105,30 @@ def test_grounding_rule_in_system_prompt():
     from hsbg_coach.director import _GAME_RULES_ESSENTIALS
     assert "PATHING" in _GAME_RULES_ESSENTIALS
     assert "Never guess what a card does" in _GAME_RULES_ESSENTIALS
+
+
+# --- built-in activatables (owner, live 2026-08-20 round 3) -----------------
+
+def test_sell_to_afford_line_recognized_at_two_gold():
+    from hsbg_coach.game_value import rank_actions
+    from hsbg_coach.actions import SELL
+    snap = {"turn": 6, "tavern_tier": 3, "gold": 2, "hero_health": 30,
+            "board": [{"name": "Weak", "attack": 1, "health": 1},
+                      {"name": "Ok", "attack": 4, "health": 4}],
+            "shop": [{"name": "Strong", "attack": 8, "health": 8}]}
+    recs, _ = rank_actions(snap)
+    sell = next((r for r in recs if r.action.kind == SELL
+                 and r.action.target == "Weak"), None)
+    assert sell is not None
+    assert "sell to afford Strong" in sell.reason
+
+
+def test_dark_gift_action_enumerated_and_in_prompt():
+    from hsbg_coach.actions import legal_actions, DARK_GIFT
+    snap = {"turn": 5, "tavern_tier": 3, "gold": 3, "hero_health": 30,
+            "board": [], "shop": [],
+            "dark_gifts": [{"name": "Bloodstone", "card_id": "BG34_DarkGift_1"}]}
+    acts = [a for a in legal_actions(snap) if a.kind == DARK_GIFT]
+    assert acts and acts[0].describe() == "Use dark gift: Bloodstone"
+    s = _compact_state(snap)
+    assert "Dark gift AVAILABLE" in s and "Bloodstone" in s
