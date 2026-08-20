@@ -40,6 +40,45 @@ class GamePlan:
     pivot_triggers: List[str]
     notes: str
     revised: List[str] = field(default_factory=list)
+    # The REAL winning boards from HDT/Firestone data — the destination the
+    # Director paths toward (grounding req 15: the model never invents what
+    # wins, it only reasons about how to get there from the current board).
+    plan_a_target: List[str] = field(default_factory=list)
+    plan_b_target: List[str] = field(default_factory=list)
+
+
+_FINAL_BOARDS_PATH = os.path.join(os.path.dirname(__file__), "..", "data",
+                                  "stats", "firestone_final_boards.json")
+
+
+def _target_board(comp: dict, final_boards: Optional[List[dict]] = None) -> List[str]:
+    """The comp's destination board, from a real top-MMR winning example
+    (data-driven, position order, deduped); falls back to core cards."""
+    if final_boards is None:
+        try:
+            with open(_FINAL_BOARDS_PATH, encoding="utf-8") as fh:
+                final_boards = json.load(fh).get("boards", [])
+        except (OSError, ValueError):
+            final_boards = []
+    want = (comp.get("name") or "").lower()
+    for b in final_boards or []:
+        if (b.get("name") or "").lower() == want or \
+                (b.get("archetype") or "").replace("_", " ").lower() == want:
+            examples = b.get("examples") or []
+            if examples:
+                best = max(examples, key=lambda e: e.get("mmr") or 0)
+                seen, names = set(), []
+                for m in sorted(best.get("minions", []),
+                                key=lambda m: m.get("pos") or 0):
+                    n = m.get("name")
+                    if n and n not in seen:
+                        seen.add(n)
+                        names.append(n)
+                if names:
+                    return names
+            if b.get("coreCards"):
+                return list(b["coreCards"])
+    return list(comp.get("core_cards") or [])
 
 
 def _candidate_comps(lobby_tribes: List[str], meta_pack: dict) -> List[dict]:
@@ -128,20 +167,27 @@ def build_game_plan(lobby_tribes: List[str], meta_pack: dict,
         plan_a_enablers=plan_a_enablers, plan_b=plan_b,
         plan_b_enablers=plan_b_enablers, pivot_triggers=pivot_triggers,
         notes=notes,
+        plan_a_target=_target_board(a), plan_b_target=_target_board(b),
     )
 
 
-def plan_to_prompt(plan: GamePlan, max_chars: int = 1200) -> str:
+def plan_to_prompt(plan: GamePlan, max_chars: int = 1800) -> str:
     lines = [
         f"Game plan — lobby tribes: {', '.join(plan.lobby_tribes)}",
         f"Plan A: {plan.plan_a}" +
         (f" (enablers: {', '.join(plan.plan_a_enablers)})"
          if plan.plan_a_enablers else ""),
+    ]
+    if plan.plan_a_target:
+        lines.append("Plan A TARGET BOARD (a real winning board from HDT "
+                     "data — path toward it): " + ", ".join(plan.plan_a_target))
+    lines.append(
         f"Plan B: {plan.plan_b}" +
         (f" (enablers: {', '.join(plan.plan_b_enablers)})"
-         if plan.plan_b_enablers else ""),
-        "Pivot triggers:",
-    ]
+         if plan.plan_b_enablers else ""))
+    if plan.plan_b_target:
+        lines.append("Plan B TARGET BOARD: " + ", ".join(plan.plan_b_target))
+    lines.append("Pivot triggers:")
     lines += [f"  - {p}" for p in plan.pivot_triggers]
     lines.append(f"Notes: {plan.notes}")
     if plan.revised:
@@ -167,6 +213,8 @@ def load_plan(path: str = DEFAULT_GAME_PLAN_PATH) -> GamePlan:
     with open(path, encoding="utf-8") as fh:
         data = json.load(fh)
     data.setdefault("revised", [])
+    data.setdefault("plan_a_target", [])
+    data.setdefault("plan_b_target", [])
     return GamePlan(**data)
 
 

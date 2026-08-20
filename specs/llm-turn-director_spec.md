@@ -82,6 +82,16 @@ review.
     ("Use hero power on Brann Bronzebeard"). The validator accepts
     hero-power moves only when the log shows a usable power (or the engine
     listed one) and rejects hallucinated targets not on board/shop/KB.
+15. **The model almost never infers — it paths.** (Owner, 2026-08-20.)
+    Facts are GIVEN, never inferred: card effects (KB text annotated onto
+    every board/shop minion in the prompt), hero powers (req 14), stats,
+    tiers, and what wins. The destination is given too: the game plan
+    carries the plan-A/B **target boards** — real winning boards for this
+    comp from HDT data — and the Director's one inference job is pathing:
+    which move takes the current board toward that target. A card whose
+    text isn't shown is treated as unknown and said so, not guessed at.
+    Experiments (req 12) stay within this: an experiment combines GIVEN
+    effects in an untried way; it never invents an effect.
 
 ## Non-goals
 

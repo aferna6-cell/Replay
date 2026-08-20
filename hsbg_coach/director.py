@@ -44,7 +44,14 @@ _GAME_RULES_ESSENTIALS = (
     "'Use hero power on Brann Bronzebeard'. "
     "Dark gift: when the player has a dark-gift button available, WHEN to "
     "press it is a real decision — weigh the turn's tempo cost against the "
-    "gift's value, and suggest 'Use dark gift' on the turn that favors it."
+    "gift's value, and suggest 'Use dark gift' on the turn that favors it. "
+    "GROUNDING — this is the most important rule: you almost never infer "
+    "facts. Card effects, stats, tiers, what wins, and the target boards are "
+    "all GIVEN to you (card text in [brackets], the meta context, the plan's "
+    "TARGET BOARD from real HDT winning games). Never guess what a card does "
+    "from its name — if its text isn't shown, treat it as unknown and say so "
+    "in 'why'. Your one inference job is PATHING: the sequence of moves that "
+    "takes the current board toward the plan's target board."
 )
 
 # Extra framing injected per spec reqs 10/11 depending on what kind of
@@ -131,9 +138,21 @@ def _compact_minion(m) -> str:
     name = m.get("name") if isinstance(m, dict) else getattr(m, "name", None)
     atk = m.get("attack") if isinstance(m, dict) else getattr(m, "attack", None)
     hp = m.get("health") if isinstance(m, dict) else getattr(m, "health", None)
-    if atk is not None and hp is not None:
-        return f"{name} ({atk}/{hp})"
-    return str(name)
+    out = f"{name} ({atk}/{hp})" if atk is not None and hp is not None else str(name)
+    # Grounding (spec req 15): when the live loop annotated this minion from
+    # the card KB, show the REAL effect — the model must never infer what a
+    # card does from its name.
+    if isinstance(m, dict):
+        bits = []
+        if m.get("tier") is not None:
+            bits.append(f"T{m['tier']}")
+        if m.get("tribes"):
+            bits.append("/".join(m["tribes"]))
+        if m.get("text"):
+            bits.append(str(m["text"])[:90])
+        if bits:
+            out += " [" + " · ".join(bits) + "]"
+    return out
 
 
 def _snap_get(snapshot, key, default=None):

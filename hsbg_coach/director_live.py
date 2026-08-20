@@ -178,7 +178,7 @@ class DirectorLoop:
 
     def _suggest(self, snap: dict, choice_kind: Optional[str]) -> Optional[Suggestion]:
         from .game_value import rank_actions
-        snap = self._with_hero_power_text(snap)
+        snap = self._with_card_knowledge(self._with_hero_power_text(snap))
         hero_ctx = self._hero_ctx_fn()
         try:
             recs, _base = rank_actions(snap, kb=self.kb, hero_ctx=hero_ctx)
@@ -201,6 +201,28 @@ class DirectorLoop:
         except Exception:
             pass
         return sug
+
+    def _with_card_knowledge(self, snap: dict) -> dict:
+        """Annotate every board/shop minion with its KB facts (tier, tribes,
+        real effect text) so the LLM never infers card effects from names
+        (grounding, spec req 15)."""
+        if not self.kb:
+            return snap
+        if not hasattr(self, "_kb_by_name"):
+            from .cards import by_name
+            self._kb_by_name = by_name(self.kb)
+
+        def annotate(m):
+            if not isinstance(m, dict) or m.get("text"):
+                return m
+            ck = self._kb_by_name.get(m.get("name"))
+            if ck is None:
+                return m
+            return dict(m, tier=ck.tier, tribes=list(ck.tribes), text=ck.text)
+
+        return dict(snap,
+                    board=[annotate(m) for m in snap.get("board", []) or []],
+                    shop=[annotate(m) for m in snap.get("shop", []) or []])
 
     def _with_hero_power_text(self, snap: dict) -> dict:
         """Attach the hero power's real effect text (from the committed

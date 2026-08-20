@@ -68,3 +68,40 @@ def test_compact_state_includes_hero_power_text():
     assert "Hero power: Gonna Need That!" in s
     assert "Discover a spell." in s
     assert "usable now" in s
+
+
+# --- Grounding (spec req 15): facts given, inference = pathing only ---------
+
+def test_compact_minion_renders_kb_annotations():
+    from hsbg_coach.director import _compact_minion
+    s = _compact_minion({"name": "Monstrous Macaw", "attack": 5, "health": 3,
+                         "tier": 3, "tribes": ["Beast"],
+                         "text": "After this attacks, trigger a friendly minion's Deathrattle."})
+    assert "T3" in s and "Beast" in s and "Deathrattle" in s
+
+
+def test_game_plan_carries_real_target_board():
+    from hsbg_coach.game_plan import _target_board, build_game_plan, plan_to_prompt
+    comp = {"name": "Mech Magnet", "core_cards": ["Fallback Card"]}
+    fb = [{"name": "Mech Magnet", "archetype": "mech_magnet",
+           "coreCards": ["Core A"],
+           "examples": [{"mmr": 9000, "minions": [
+               {"name": "Ingenious Inventor", "pos": 2},
+               {"name": "Ingenious Inventor", "pos": 1},
+               {"name": "Holo Rover", "pos": 3}]}]}]
+    assert _target_board(comp, fb) == ["Ingenious Inventor", "Holo Rover"]
+    assert _target_board({"name": "Unknown", "core_cards": ["X"]}, fb) == ["X"]
+    pack = {"tribes": [], "heroes": [], "trinkets": [],
+            "curve": {"standard": {}, "measured": {}}, "playbook_index": [],
+            "comps": [{"name": "Murloc Scam", "tribe": "Murloc", "tier": "S",
+                       "avg_placement": 3.0, "core_cards": ["Bile Spitter"],
+                       "enabler_cards": []}]}
+    plan = build_game_plan(["Murloc"], pack)
+    assert plan.plan_a_target                      # real committed data resolves
+    assert "TARGET BOARD" in plan_to_prompt(plan)
+
+
+def test_grounding_rule_in_system_prompt():
+    from hsbg_coach.director import _GAME_RULES_ESSENTIALS
+    assert "PATHING" in _GAME_RULES_ESSENTIALS
+    assert "Never guess what a card does" in _GAME_RULES_ESSENTIALS
