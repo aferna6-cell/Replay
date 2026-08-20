@@ -39,6 +39,30 @@ review.
 8. **Rules are given, not remembered.** Game rules (tavern costs, triples,
    pool sizes, keywords) + the committed card KB go into the model's context
    from files; model memory is never trusted for rules or the meta.
+9. **Curve fluency.** The Director knows the ideal leveling curve — the
+   standard line (tier 2 on turn 2, 4-on-5, 5-on-7-ish) AND the measured
+   top-10% curve from `pace.py`/Firestone pace data (top players level ~0.2
+   tiers ahead of folk wisdom) — and when to deviate: 3-on-3 with a strong
+   tempo board, delaying a level at low HP. Leveling calls are graded by the
+   between-game reviewer like any other move.
+10. **Dark gifts are first-class.** No tracker API exists for them
+    (verified), so: dark-gift cards enter the card KB from HearthstoneJSON;
+    "when to press the button" is a timing policy the Director reasons about
+    (tempo cost this turn vs gift value); the gift choice itself runs
+    through the discover-style ranker. Website-only Tier7 gift stats can be
+    seeded manually into the meta pack when observed.
+11. **Trinkets (and all picks) are situational.** HDT stats are an input,
+    never the verdict: rankings blend meta placement with the live board's
+    tribes/keywords/direction (existing `rank_trinkets` behavior) plus the
+    Director's game-plan reasoning. Same for every Discover and choose-one.
+12. **Bounded experimentation on deep card knowledge.** The model may
+    propose off-meta lines it believes in — but only on top of a synergy
+    knowledge layer (per-card: effect, combo partners, which comps want it,
+    how it's played — compiled from the card KB + card2vec co-occurrence +
+    real winning boards into per-comp playbook files), and every such
+    suggestion is tagged `experiment:` with its hypothesis. The reviewer
+    grades experiments against outcomes: validated ones get promoted into
+    the playbooks, failed ones are recorded so they are not repeated.
 
 ## Non-goals
 
@@ -92,7 +116,11 @@ game end ─► L4 reviewer (background): grade suggestions vs outcome,
    endpoint check.
 2. **Meta pack + Game Plan** — compact current-patch context builder
    (tribes/heroes/comps/enablers/trinkets/dark gifts, Tier7-first) + the
-   lobby-start memo.
+   lobby-start memo. Includes the **knowledge layer**: curve reference
+   (standard + measured pace), per-comp playbooks (key cards, curve, how to
+   play — generated from KB + card2vec + winning boards, in our own words),
+   and per-card synergy notes. Playbooks live in `data/playbooks/` and are
+   regenerated on meta refresh.
 3. **Turn Director** — LLM move+why over engine candidates; server-agnostic
    client; `llm-bench`; the no-float-gold validator.
 4. **Overlay wiring** — `watch` drives the Director; panel = move + why +
