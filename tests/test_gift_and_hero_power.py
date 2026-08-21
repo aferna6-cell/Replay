@@ -132,3 +132,17 @@ def test_dark_gift_action_enumerated_and_in_prompt():
     assert acts and acts[0].describe() == "Use dark gift: Bloodstone"
     s = _compact_state(snap)
     assert "Dark gift AVAILABLE" in s and "Bloodstone" in s
+
+
+def test_multi_button_hero_powers_all_enumerated():
+    # Calibrated vs the real committed Power.log (Marin: two free buttons).
+    from hsbg_coach.actions import legal_actions, HERO_POWER
+    snap = {"turn": 3, "tavern_tier": 2, "gold": 4, "hero_health": 30,
+            "board": [], "shop": [],
+            "hero_powers": [
+                {"name": "Fantastic Treasure", "cost": 0, "usable": True},
+                {"name": "Growing Collection", "cost": 0, "usable": True}]}
+    hp = [a for a in legal_actions(snap) if a.kind == HERO_POWER]
+    assert {a.target for a in hp} == {"Fantastic Treasure", "Growing Collection"}
+    s = _compact_state(snap)
+    assert "Fantastic Treasure" in s and "Growing Collection" in s

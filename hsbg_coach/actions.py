@@ -94,9 +94,16 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
         for m in shop:
             actions.append(Action(BUY, _name(m), BUY_COST, {"minion": m}))
 
-    # Use the hero power — when it's off-cooldown and affordable this turn.
-    hp = _get(snapshot, "hero_power", None)
-    if hp and hp.get("usable"):
+    # Use a hero power — one action per usable BUTTON (heroes can hold
+    # several: Marin's treasures, gift-style powers — calibrated vs a real
+    # log 2026-08-20).
+    powers = _get(snapshot, "hero_powers", None)
+    if not powers:
+        hp = _get(snapshot, "hero_power", None)
+        powers = [hp] if hp else []
+    for hp in powers:
+        if not (hp and hp.get("usable")):
+            continue
         hp_cost = int(hp.get("cost") or 0)
         if gold >= hp_cost:
             actions.append(Action(HERO_POWER, hp.get("name") or "Hero Power",

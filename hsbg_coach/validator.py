@@ -262,6 +262,10 @@ def validate(suggestion: dict, snapshot, candidates: List,
     if kind == HERO_POWER:
         hp = _get(snapshot, "hero_power")
         usable = bool(hp.get("usable")) if isinstance(hp, dict) else bool(hp)
+        for p in (_get(snapshot, "hero_powers") or []):   # any of the buttons
+            if isinstance(p, dict) and p.get("usable"):
+                usable = True
+                break
         has_candidate = any(
             (_get(_cand_action(c), "kind") or "").lower() == HERO_POWER
             for c in candidates or [])

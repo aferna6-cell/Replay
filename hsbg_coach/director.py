@@ -192,16 +192,18 @@ def _compact_state(snapshot) -> str:
     hero = _snap_get(snapshot, "hero_name") or _snap_get(snapshot, "hero")
     if hero:
         out += f"\nHero: {hero}"
-    hp = _snap_get(snapshot, "hero_power")
-    if hp:
-        name = hp.get("name") if isinstance(hp, dict) else None
-        cost = hp.get("cost") if isinstance(hp, dict) else None
-        usable = hp.get("usable") if isinstance(hp, dict) else None
-        text = hp.get("text") if isinstance(hp, dict) else None
+    powers = _snap_get(snapshot, "hero_powers") or []
+    hp_single = _snap_get(snapshot, "hero_power")
+    if not powers and hp_single:
+        powers = [hp_single]
+    for hp in powers:
+        if not isinstance(hp, dict):
+            continue
+        name, cost = hp.get("name"), hp.get("cost")
         out += (f"\nHero power: {name or '?'} (cost {cost if cost is not None else '?'}"
-                f", {'usable now' if usable else 'not usable yet'})")
-        if text:
-            out += f" — {text}"
+                f", {'usable now' if hp.get('usable') else 'not usable yet'})")
+        if hp.get("text"):
+            out += f" — {hp['text']}"
     gifts = _snap_get(snapshot, "dark_gifts") or []
     if gifts:
         names = ", ".join(g.get("name", "?") for g in gifts if isinstance(g, dict))

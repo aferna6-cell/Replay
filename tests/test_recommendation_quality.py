@@ -355,11 +355,13 @@ def test_passive_hero_power_is_not_offered():
     player = Entity(id=-1, name="Me"); player.tags = {"HERO_ENTITY": "90", "RESOURCES": "5"}
     hp = Entity(id=122, name="Wingmen")
     # Passive powers hide their cost and carry no COST tag (Illidan's Wingmen).
-    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "HIDE_COST": "1"}
+    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "ZONE": "PLAY",
+               "HIDE_COST": "1"}
     t.state.entities = {90: hero, -1: player, 122: hp}
     assert t._hero_power() is None          # passive — never offered as "use"
     # An activatable power (real COST, no HIDE_COST) is offered.
-    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "COST": "1"}
+    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "ZONE": "PLAY",
+               "COST": "1"}
     assert t._hero_power() is not None
 
 

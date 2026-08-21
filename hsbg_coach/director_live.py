@@ -233,23 +233,31 @@ class DirectorLoop:
                     shop=[annotate(m) for m in snap.get("shop", []) or []])
 
     def _with_hero_power_text(self, snap: dict) -> dict:
-        """Attach the hero power's real effect text (from the committed
-        hero-power KB) so the LLM reasons from what the power actually does,
-        never from memory (spec req 8)."""
-        hp = snap.get("hero_power")
-        if not isinstance(hp, dict) or hp.get("text"):
-            return snap
+        """Attach each hero power's real effect text (from the committed
+        hero-power KB) so the LLM reasons from what the powers actually do,
+        never from memory (spec req 8). Handles the multi-button case
+        (Marin's treasures, gift-style powers — calibrated 2026-08-20)."""
         if not hasattr(self, "_hp_kb"):
             try:
                 from .cards import load_hero_powers
                 self._hp_kb = load_hero_powers()
             except Exception:
                 self._hp_kb = {}
-        row = (self._hp_kb.get(hp.get("card_id") or "")
-               or self._hp_kb.get((hp.get("name") or "").lower()))
-        if row and row.get("text"):
-            return dict(snap, hero_power=dict(hp, text=row["text"]))
-        return snap
+
+        def enrich(hp):
+            if not isinstance(hp, dict) or hp.get("text"):
+                return hp
+            row = (self._hp_kb.get(hp.get("card_id") or "")
+                   or self._hp_kb.get((hp.get("name") or "").lower()))
+            return dict(hp, text=row["text"]) if row and row.get("text") else hp
+
+        powers = snap.get("hero_powers")
+        out = dict(snap)
+        if powers:
+            out["hero_powers"] = [enrich(p) for p in powers]
+        if isinstance(snap.get("hero_power"), dict):
+            out["hero_power"] = enrich(snap["hero_power"])
+        return out
 
     # -- helpers -------------------------------------------------------------
 
