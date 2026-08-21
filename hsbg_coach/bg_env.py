@@ -516,6 +516,11 @@ class BGEnv:
                     continue
                 policy = (policies[seat] if seat < len(policies) else None
                           ) or greedy_policy
+                # Record start-of-turn AND end-of-recruit states: value models
+                # trained on these get queried mid-turn by the search, so both
+                # ends of the turn's state range need coverage.
+                records.append({"seat": seat, "turn": self.turn,
+                                "state": self.snapshot(seat)})
                 for _ in range(40):
                     a = policy(self.observe(seat), self.legal_mask(seat), self.rng)
                     if self._apply(seat, a):
