@@ -21,7 +21,7 @@ from .bg import BGTracker, Phase, ActionType
 from .board_value import get_scorer
 from .economy import HeroContext
 from .parser import parse_line
-from .tail import tail_lines
+from .tail import tail_latest
 
 
 def advice_lines(snapshot: dict, kb, scorer=None,
@@ -291,22 +291,16 @@ class LiveCoach:
         return self.power_log or config.newest_power_log(config.log_dir_candidates())
 
     def _consume(self):
-        # Wait for a log to exist (launch overlay first, then Hearthstone).
-        path = None
-        while not self._stop.is_set():
-            path = self._resolve_log()
-            if path:
-                break
-            self._stop.wait(2.0)
-        if self._stop.is_set() or not path:
-            return
-        self._active = True
-
+        # Keep discovering sessions for the lifetime of the overlay. Hearthstone
+        # writes a new timestamped Power.log on every launch, so pinning the first
+        # path found makes a long-running coach silently miss later games.
         prev_phase = self.tracker.phase
         prev_game = self.tracker.state.game_counter
-        for line in tail_lines(path, from_start=self.from_start):
+        for line in tail_latest(self._resolve_log, from_start=self.from_start,
+                                stop_event=self._stop):
             if self._stop.is_set():
                 break
+            self._active = True
             offer = self.choices.feed(line)        # hero/trinket/discover offers
             if offer is not None:
                 self._offer = offer
@@ -352,6 +346,11 @@ class LiveCoach:
             return ({"phase": "waiting", "turn": None, "tavern_tier": None,
                      "gold": None, "hero_health": None, "board": [], "shop": [],
                      "notes": ["Launch a Battlegrounds game to begin…"]}, None, [])
+        if not self.tracker.in_bg:
+            return ({"phase": "waiting", "turn": None, "tavern_tier": None,
+                     "gold": None, "hero_health": None, "board": [], "shop": [],
+                     "notes": ["Hearthstone detected — waiting for Battlegrounds…"]},
+                    None, [])
         # Rebuild the snapshot only when the log actually advanced; idle ticks
         # (between your actions) reuse the cached one, so polling at 20 Hz stays
         # near-free and the panel still refreshes the instant you act.

@@ -111,33 +111,13 @@ def _print_board(snap) -> None:
 
 
 def cmd_watch(args) -> int:
-    # Overlay/terminal modes can start with no log yet — they wait for Hearthstone.
-    # --director needs a live panel to render into; plain watch routes to terminal.
-    if getattr(args, "director", False) and not args.overlay:
-        args.terminal = True
+    # The HDT-style overlay is the default. Both live modes may be launched before
+    # Hearthstone and keep discovering new log sessions as the game restarts.
+    # --director rides whichever panel is chosen (on WSL the overlay is the
+    # native Windows panel).
     if getattr(args, "terminal", False):
         return _watch_terminal(args.path, args)
-    if args.overlay:
-        return _watch_overlay(args.path, args)
-    paths = config.Paths.detect()
-    power = args.path or paths.power_log
-    if not power:
-        print("No Power.log found. Run `setup`, launch Hearthstone, then retry.")
-        print("Or pass --path to a captured log.")
-        return 1
-    print(f"Watching {power} (Ctrl-C to stop)")
-    tracker = BGTracker()
-    recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
-    try:
-        _drive(tracker, recorder, tail_lines(power, from_start=args.from_start))
-    except KeyboardInterrupt:
-        print("\nStopped.")
-    finally:
-        if recorder is not None:
-            path = recorder.close()
-            if path:
-                print("Flushed in-progress trajectory to", path)
-    return 0
+    return _watch_overlay(args.path, args)
 
 
 def _watch_terminal(power, args) -> int:
@@ -339,7 +319,7 @@ def build_parser() -> argparse.ArgumentParser:
                    help="read existing log content before tailing")
     w.add_argument("--no-record", action="store_true", help="don't write dataset")
     w.add_argument("--overlay", action="store_true",
-                   help="show the on-screen overlay with live recommendations")
+                   help="show the on-screen overlay (default; retained for compatibility)")
     w.add_argument("--terminal", action="store_true",
                    help="live recommendations as an in-place terminal panel "
                         "(no GUI; reliable on any macOS — float your terminal window)")
@@ -376,7 +356,7 @@ def build_parser() -> argparse.ArgumentParser:
                    help="rebuild the BG card knowledge base from HearthstoneJSON"
                    ).set_defaults(func=cmd_refresh_cards)
 
-    sub.add_parser("pace", help="show the top-10% leveling/scaling pace benchmark"
+    sub.add_parser("pace", help="show the top-10%% leveling/scaling pace benchmark"
                    ).set_defaults(func=cmd_pace)
 
     sim = sub.add_parser("similar",
