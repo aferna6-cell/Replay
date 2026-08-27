@@ -99,12 +99,48 @@ def fetch(url: str, lang: str) -> bool:
     return True
 
 
+def latest_video_ids(channel_url: str, n: int) -> list:
+    """The channel's most recent upload ids (no downloads, one metadata call)."""
+    ytdlp = shutil.which("yt-dlp")
+    if not ytdlp:
+        print("yt-dlp not found — install it with:  pip install yt-dlp")
+        return []
+    url = channel_url.rstrip("/")
+    if not url.endswith("/videos"):
+        url += "/videos"
+    res = subprocess.run(
+        [ytdlp, "--flat-playlist", "--print", "id", "-I", f"1:{n}", url],
+        capture_output=True, text=True)
+    if res.returncode != 0:
+        print(f"channel listing failed:\n{res.stderr.strip()[-400:]}")
+        return []
+    return [v for v in res.stdout.split() if v]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("urls", nargs="+", help="VOD URLs (YouTube or Twitch)")
+    ap.add_argument("urls", nargs="*", help="VOD URLs (YouTube or Twitch)")
+    ap.add_argument("--channel",
+                    help="a channel URL — fetch its latest uploads instead "
+                         "of naming videos one by one")
+    ap.add_argument("--latest", type=int, default=5,
+                    help="with --channel: how many recent videos (default 5)")
     ap.add_argument("--lang", default="en", help="subtitle language (default en)")
     args = ap.parse_args()
-    failures = sum(0 if fetch(u, args.lang) else 1 for u in args.urls)
+
+    urls = list(args.urls)
+    if args.channel:
+        ids = latest_video_ids(args.channel, args.latest)
+        skipped = [v for v in ids if (OUT_DIR / f"{v}.txt").exists()]
+        fresh = [v for v in ids if v not in skipped]
+        if skipped:
+            print(f"{len(skipped)} of the latest {len(ids)} already fetched.")
+        urls += [f"https://www.youtube.com/watch?v={v}" for v in fresh]
+    if not urls:
+        print("Nothing to fetch." if args.channel
+              else "Give VOD URLs or --channel <channel-url>.")
+        return 0 if args.channel else 2
+    failures = sum(0 if fetch(u, args.lang) else 1 for u in urls)
     return 1 if failures else 0
 
 

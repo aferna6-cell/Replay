@@ -13,7 +13,12 @@ Output (local-only; data/vods/ is gitignored):
     data/vods/insights/<id>.json     structured insights per VOD
     data/vods/insights.md            compiled playbook across all VODs
 
-Needs the anthropic SDK + credentials (ANTHROPIC_API_KEY or `ant auth login`).
+Engines (--engine, default auto):
+  claude-code  runs `claude -p` headless — uses your Claude Code SUBSCRIPTION,
+               no API key, no per-token billing. The default when no
+               ANTHROPIC_API_KEY is set.
+  api          anthropic SDK with strict structured output (needs a key).
+
 These insights are commentary-derived opinions, NOT ground truth — they tune
 your own priors and reading of the meta; they are never fed to the eval net.
 """
@@ -108,6 +113,56 @@ TRANSCRIPT:
 """
 
 
+_LIST_KEYS = ("decision_rules", "card_opinions", "leveling_plan",
+              "qa_insights", "general_principles")
+
+
+def _normalize(d: dict) -> dict:
+    """Fill any missing schema keys so the playbook builder never trips."""
+    for k in _LIST_KEYS:
+        if not isinstance(d.get(k), list):
+            d[k] = []
+    for k in ("hero", "comp", "placement"):
+        d.setdefault(k, None)
+    return d
+
+
+def distill_claude_code(path: Path) -> dict:
+    """Distill via the Claude Code CLI — subscription-billed, no API key."""
+    import shutil
+    import subprocess
+    claude = shutil.which("claude")
+    if not claude:
+        raise RuntimeError(
+            "claude CLI not found — install Claude Code in WSL "
+            "(npm install -g @anthropic-ai/claude-code) and log in once")
+    prompt = (_PROMPT.replace("TRANSCRIPT:", "").strip()
+              + "\n\nThe transcript is piped on stdin. Respond with ONLY a "
+              "JSON object (no prose, no code fences) with exactly these "
+              "keys: hero (string|null), comp (string|null), placement "
+              "(int|null), decision_rules (list of {situation, action, "
+              "reasoning, turn}), card_opinions (list of {card, verdict: "
+              "strong|situational|weak, note}), leveling_plan (list of "
+              "{turn, action}), qa_insights (list of {question, answer}), "
+              "general_principles (list of strings).")
+    res = subprocess.run(
+        [claude, "-p", prompt, "--output-format", "json"],
+        input=path.read_text(encoding="utf-8", errors="replace"),
+        capture_output=True, text=True, timeout=900)
+    if res.returncode != 0:
+        raise RuntimeError(f"claude -p failed: {res.stderr.strip()[-300:]}")
+    text = res.stdout
+    try:                     # --output-format json wraps the reply
+        envelope = json.loads(text)
+        text = envelope.get("result", text)
+    except (ValueError, AttributeError):
+        pass
+    start, end = text.find("{"), text.rfind("}")
+    if start < 0 or end <= start:
+        raise RuntimeError("no JSON object in claude output")
+    return _normalize(json.loads(text[start:end + 1]))
+
+
 def distill(path: Path, client, model: str, use_fallbacks: list) -> dict:
     import anthropic
     text = path.read_text(encoding="utf-8", errors="replace")
@@ -188,29 +243,46 @@ def main() -> int:
     ap.add_argument("--force", action="store_true",
                     help="re-distill transcripts that already have insights")
     ap.add_argument("--model", default=MODEL)
+    ap.add_argument("--engine", choices=("auto", "api", "claude-code"),
+                    default="auto",
+                    help="auto: api when ANTHROPIC_API_KEY is set, else the "
+                         "Claude Code CLI on your subscription")
     args = ap.parse_args()
 
-    try:
-        import anthropic
-    except ImportError:
-        print("anthropic SDK missing: pip install -r requirements-vod.txt")
-        return 1
+    import os
+    engine = args.engine
+    if engine == "auto":
+        engine = "api" if os.environ.get("ANTHROPIC_API_KEY") else "claude-code"
+    client = None
+    if engine == "api":
+        try:
+            import anthropic
+        except ImportError:
+            print("anthropic SDK missing: pip install -r requirements-vod.txt "
+                  "(or use --engine claude-code)")
+            return 1
+        client = anthropic.Anthropic()
     targets = args.transcripts or sorted(VODS_DIR.glob("*.txt"))
     if not targets:
         print("No transcripts in data/vods/ — fetch one first:\n"
               "  python scripts/fetch_vod_transcript.py <vod-url>")
         return 1
     INSIGHTS_DIR.mkdir(parents=True, exist_ok=True)
-    client = anthropic.Anthropic()
     use_fallbacks = [True]
     done = 0
+    print(f"Engine: {engine}"
+          + (" (subscription-billed, no API key)" if engine == "claude-code"
+             else ""))
     for t in targets:
         out = INSIGHTS_DIR / f"{t.stem}.json"
         if out.exists() and not args.force:
             continue
         print(f"Distilling {t.name}…")
         try:
-            insights = distill(t, client, args.model, use_fallbacks)
+            if engine == "claude-code":
+                insights = distill_claude_code(t)
+            else:
+                insights = distill(t, client, args.model, use_fallbacks)
         except Exception as exc:
             print(f"  WARN: {exc}")
             continue
