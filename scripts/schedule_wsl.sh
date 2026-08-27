@@ -66,6 +66,17 @@ WINBATDIR="C:\\Users\\$WINUSER\\hsbg-tasks"
 "$SCHTASKS" /Create /F /TN "$TASK_LOGS" /TR "$WINBATDIR\\hsbg_logs.bat" \
   /SC WEEKLY /D SUN /ST 21:00
 
+# Catch-up: if the laptop was off/asleep at the scheduled time, run the task
+# as soon as it's next on and logged in instead of waiting a whole week.
+# (schtasks can't set StartWhenAvailable; PowerShell can.)
+PS="$(command -v powershell.exe || echo /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe)"
+for task in "$TASK_HS" "$TASK_LOGS"; do
+  "$PS" -NoProfile -Command \
+    "Set-ScheduledTask -TaskName '$task' -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable)" \
+    >/dev/null 2>&1 \
+    || echo "note: couldn't enable missed-run catch-up for $task (runs still fire on schedule)"
+done
+
 echo
 echo "Installed (Windows Task Scheduler, runs when you're logged on):"
 echo "  $TASK_HS    Sunday 20:00  HSReplay fetch -> retrain -> push"
