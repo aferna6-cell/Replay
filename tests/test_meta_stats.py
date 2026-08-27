@@ -187,3 +187,24 @@ def test_import_captures_categorizes_all_data_types(tmp_path):
     assert gifts["items"][0]["name"] == "Echoes of Argus"
     # minions files untouched when no minion payloads captured
     assert not (tmp_path / "o.json").exists()
+
+
+def test_import_file_detects_userscript_bundle(tmp_path, monkeypatch):
+    monkeypatch.setattr(hsreplay_import, "_STATS_DIR", str(tmp_path))
+    bundle = tmp_path / "hsreplay_bundle.json"
+    bundle.write_text(json.dumps({"captures": [
+        {"url": "https://hsreplay.net/analytics/query/bg_minions/?Turn=4",
+         "body": {"data": [{"name": "Sellemental", "avg_placement": 3.2}]}},
+        {"url": "https://hsreplay.net/analytics/query/bg_trinket_stats/",
+         "body": {"data": [{"name": "Ship in a Bottle",
+                            "avg_placement": 3.5}]}},
+    ]}), encoding="utf-8")
+    out = tmp_path / "hsreplay_card_stats.json"
+    count = hsreplay_import.import_file(str(bundle), str(out))
+    assert count == 2
+    trinkets = json.loads(
+        (tmp_path / "hsreplay_trinkets_stats.json").read_text())
+    assert trinkets["items"][0]["name"] == "Ship in a Bottle"
+    minions = json.loads(
+        (tmp_path / "hsreplay_minions_stats.json").read_text())
+    assert minions["by_turn"]["4"][0]["name"] == "Sellemental"

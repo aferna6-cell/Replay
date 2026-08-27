@@ -181,14 +181,33 @@ def import_captures(dir_path: str, out_path: str = OUT_PATH,
 
     Returns {"overall": n_minions, "turns": [minion turns],
              "categories": {cat: n_items}}."""
-    # buckets[cat][turn or None][name] = row
-    buckets: Dict[str, Dict[Optional[int], Dict[str, dict]]] = {}
+    wrappers = []
     for path in sorted(glob.glob(os.path.join(dir_path, "*.json"))):
         try:
             with open(path, encoding="utf-8-sig") as fh:
-                blob = json.load(fh)
+                wrappers.append(json.load(fh))
         except (OSError, ValueError):
             continue
+    return ingest_wrappers(wrappers,
+                           f"hsreplay.net capture ({os.path.basename(dir_path)})",
+                           out_path, by_turn_path, stats_dir)
+
+
+def ingest_wrappers(wrappers: List[dict], src: str,
+                    out_path: Optional[str] = None,
+                    by_turn_path: Optional[str] = None,
+                    stats_dir: Optional[str] = None) -> Dict:
+    """Shared merge for captured payload wrappers ({url, post_data, body}) —
+    used by both the Playwright capture dir and the userscript bundle.
+    Path params default to the module-level locations, resolved at call time
+    so tests can redirect them; stats_dir hosts the per-category files."""
+    out_path = out_path or OUT_PATH
+    by_turn_path = by_turn_path or (
+        os.path.join(stats_dir, os.path.basename(BY_TURN_PATH))
+        if stats_dir else BY_TURN_PATH)
+    # buckets[cat][turn or None][name] = row
+    buckets: Dict[str, Dict[Optional[int], Dict[str, dict]]] = {}
+    for blob in wrappers:
         wrapper = blob if isinstance(blob, dict) and "body" in blob else {}
         rows = normalize(_rows_from_json(wrapper.get("body", blob)))
         if not rows:
@@ -200,7 +219,6 @@ def import_captures(dir_path: str, out_path: str = OUT_PATH,
             bucket[r["name"]] = r
 
     stamp = datetime.date.today().isoformat()
-    src = f"hsreplay.net capture ({os.path.basename(dir_path)})"
 
     def ranked(d: Dict[str, dict]) -> list:
         return sorted(d.values(), key=lambda c: c["averagePlacement"])
@@ -231,14 +249,32 @@ def import_captures(dir_path: str, out_path: str = OUT_PATH,
             "categories": categories}
 
 
+def is_wrapper_bundle(blob) -> bool:
+    """A userscript-exported bundle: a list of {url, body} capture wrappers
+    (optionally under a top-level {"captures": [...]})."""
+    if isinstance(blob, dict):
+        blob = blob.get("captures")
+    return (isinstance(blob, list) and len(blob) > 0
+            and all(isinstance(w, dict) and "url" in w and "body" in w
+                    for w in blob))
+
+
 def import_file(path: str, out_path: str = OUT_PATH) -> int:
     """Parse an HSReplay export (JSON/CSV/TSV) and write the stats file.
-    Returns the number of cards imported."""
+    Returns the number of cards imported. A userscript capture bundle is
+    detected and routed through the categorized ingest instead."""
     if path.lower().endswith((".csv", ".tsv", ".txt")):
         rows = _rows_from_csv(path)
     else:
         with open(path, encoding="utf-8-sig") as fh:
-            rows = _rows_from_json(json.load(fh))
+            blob = json.load(fh)
+        if is_wrapper_bundle(blob):
+            wrappers = blob.get("captures") if isinstance(blob, dict) else blob
+            result = ingest_wrappers(
+                wrappers, f"hsreplay.net userscript ({os.path.basename(path)})",
+                out_path=out_path, stats_dir=os.path.dirname(out_path))
+            return sum(result["categories"].values())
+        rows = _rows_from_json(blob)
     cards = normalize(rows)
     if not cards:
         return 0

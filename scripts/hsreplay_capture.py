@@ -103,13 +103,26 @@ every stats request any page makes is captured automatically:
 
 Watch this terminal — a line prints per captured payload.""")
     with sync_playwright() as p:
-        launch = dict(headless=False, viewport=None)
+        # Cloudflare Turnstile rejects obviously-automated browsers, so drop
+        # the automation tells: no --enable-automation banner, no
+        # navigator.webdriver, and prefer real installed Chrome over the
+        # bundled "Chrome for Testing" build (whose branding alone can flag).
+        launch = dict(
+            headless=False, viewport=None,
+            args=["--disable-blink-features=AutomationControlled"],
+            ignore_default_args=["--enable-automation"],
+        )
         try:      # your installed Chrome looks most like a normal user
             ctx = p.chromium.launch_persistent_context(
                 str(PROFILE_DIR), channel="chrome", **launch)
         except Exception:
+            print("(no system Chrome found — using bundled Chromium; if "
+                  "Cloudflare still blocks, install Google Chrome or use the "
+                  "userscript fallback: scripts/hsreplay_capture.user.js)")
             ctx = p.chromium.launch_persistent_context(
                 str(PROFILE_DIR), **launch)
+        ctx.add_init_script(
+            "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
         ctx.on("response", on_response)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(args.url)
