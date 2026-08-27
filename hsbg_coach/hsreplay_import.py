@@ -258,6 +258,217 @@ def import_captures(dir_path: str, out_path: str = OUT_PATH,
                            out_path, by_turn_path, stats_dir)
 
 
+# --- endpoint-specific normalizers ----------------------------------------
+# Grounded in a real capture (2026-08-27 diagnose). HSReplay's BG data ships
+# from these endpoints; each gets a dedicated handler so nothing is guessed.
+# Unrecognized stats URLs still fall through to the generic loose normalizer.
+
+_SKIP_URLS = ("data_volume_manifest", "meta_periods", "youtube", "affiliates",
+              "available_languages", "/account", "/collection")
+
+# Percentile preference when the same endpoint was captured at several MMR
+# filters: tightest slice that still has healthy sample sizes first.
+_PCT_ORDER = ("TOP_10_PERCENT", "TOP_20_PERCENT", "TOP_25_PERCENT",
+              "TOP_1_PERCENT", "TOP_50_PERCENT", "ALL")
+
+
+def _percentile(url: str) -> str:
+    for k, v in parse_qsl(urlsplit(url or "").query):
+        if k.lower() == "battlegroundsmmrpercentile":
+            return v
+    return "ALL"
+
+
+def _pick_preferred(caps: List[dict]) -> dict:
+    """Of several captures of one endpoint, keep the preferred percentile
+    (later capture wins within a percentile)."""
+    by_pct: Dict[str, dict] = {}
+    for c in caps:
+        by_pct[_percentile(c.get("url", ""))] = c
+    for pct in _PCT_ORDER:
+        if pct in by_pct:
+            return by_pct[pct]
+    return caps[-1]
+
+
+def _resolve(dbf, fallback_prefix: str = "dbf") -> str:
+    return resolve_name(dbf) or f"{fallback_prefix}_{dbf}"
+
+
+def _first_ap(flat: Dict) -> Optional[float]:
+    """First avg-placement-alias value among (possibly nested) keys."""
+    for k, v in flat.items():
+        if _canon(str(k).split(".")[-1]) == "averagePlacement":
+            ap = _num(v)
+            if ap is not None and 1.0 <= ap <= 8.0:
+                return ap
+    return None
+
+
+def _flat(row: Dict) -> Dict:
+    """Flatten one level of nested dicts (aggregates blocks)."""
+    out: Dict = {}
+    for k, v in row.items():
+        if isinstance(v, dict):
+            for k2, v2 in v.items():
+                if not isinstance(v2, (dict, list)):
+                    out[f"{k}.{k2}"] = v2
+        else:
+            out[k] = v
+    return out
+
+
+def _h_minion_list(rows, ctx):
+    items, cards = [], []
+    for r in rows:
+        dbf = r.get("minion_dbf_id")
+        if dbf is None:
+            continue
+        flat = _flat(r)
+        item = {"name": _resolve(dbf), "cardId": str(dbf),
+                "techLevel": r.get("minion_tier"), **flat}
+        ap = _first_ap(flat)
+        if ap is not None:
+            item["averagePlacement"] = ap
+            cards.append({"name": item["name"], "cardId": str(dbf),
+                          "averagePlacement": ap,
+                          "techLevel": r.get("minion_tier")})
+        items.append(item)
+    ctx["files"]["minions"] = {"items": items}
+    if cards:
+        ctx["cards"] = sorted(cards, key=lambda c: c["averagePlacement"])
+    ctx["counts"]["minions"] = len(items)
+
+
+def _h_comp_stats(rows, ctx):
+    comp_names = ctx.get("comp_names", {})
+    items = []
+    for r in rows:
+        comp = r.get("friendly_composition")
+        name = comp_names.get(str(comp)) or str(comp)
+        items.append({"name": name, "compositionId": comp,
+                      "averagePlacement": _num(r.get("avg_final_placement")),
+                      "numGames": r.get("num_games"),
+                      "popularity": r.get("popularity"),
+                      "placementDistribution":
+                          r.get("final_placement_distribution")})
+    items.sort(key=lambda c: c["averagePlacement"] or 9)
+    ctx["files"]["comps"] = {"items": items,
+                             "compositions": ctx.get("comp_names", {})}
+    ctx["counts"]["comps"] = len(items)
+
+
+def _h_trinkets(rows, ctx):
+    items = []
+    for r in rows:
+        dbf = r.get("trinket_dbf_id")
+        if dbf is None:
+            continue
+        items.append({"name": _resolve(dbf), "cardId": str(dbf),
+                      "averagePlacement": _num(r.get("avg_final_placement")),
+                      "pickRate": r.get("pick_rate"), "tier": r.get("tier"),
+                      "group": r.get("group"),
+                      "placementDistribution":
+                          r.get("final_placement_distribution")})
+    items.sort(key=lambda c: c["averagePlacement"] or 9)
+    ctx["files"]["trinkets"] = {"items": items}
+    ctx["counts"]["trinkets"] = len(items)
+
+
+def _h_heroes(rows, ctx):
+    comp_names = ctx.get("comp_names", {})
+    items = []
+    for r in rows:
+        dbf = r.get("hero_dbf_id")
+        if dbf is None:
+            continue
+        items.append({
+            "name": _resolve(dbf), "cardId": str(dbf),
+            "averagePlacement": _num(r.get("avg_final_placement")),
+            "adjustedAveragePlacement":
+                _num(r.get("adjusted_avg_final_placement")),
+            "pickRate": r.get("pick_rate"), "tier": r.get("tier_v2"),
+            "bestComposition":
+                comp_names.get(str(r.get("best_composition")))
+                or r.get("best_composition"),
+            "keyMinions": [_resolve(d) for d in
+                           (r.get("key_minions_top3") or [])],
+            "placementDistribution": r.get("final_placement_distribution"),
+        })
+    items.sort(key=lambda c: c["averagePlacement"] or 9)
+    ctx["files"]["heroes"] = {"items": items}
+    ctx["counts"]["heroes"] = len(items)
+
+
+def _sum_owned(r, prefix):
+    return sum(r.get(f"{prefix}_{i}_owned") or 0 for i in (0, 1, 2))
+
+
+def _h_purchase_rates(rows, ctx):
+    """What top players BUY each recruit turn — the per-turn signal."""
+    turns: Dict[str, list] = {}
+    for r in rows:
+        dbf, rnd = r.get("minion_dbf_id"), r.get("recruitment_round")
+        if dbf is None or rnd is None:
+            continue
+        offered = r.get("total_times_offered") or 0
+        picked = _sum_owned(r, "times_picked")
+        d_offered = r.get("total_times_discover_offered") or 0
+        d_picked = _sum_owned(r, "times_discover_picked")
+        entry = {"name": _resolve(dbf), "cardId": str(dbf),
+                 "timesOffered": offered,
+                 "pickRate": round(picked / offered, 4) if offered else None}
+        if d_offered:
+            entry["discoverPickRate"] = round(d_picked / d_offered, 4)
+        turns.setdefault(str(rnd), []).append(entry)
+    for rnd in turns:
+        turns[rnd].sort(key=lambda e: -(e["pickRate"] or 0))
+    ctx["files"]["purchase_rates_by_turn"] = {"turns": turns}
+    ctx["counts"]["purchase_rates"] = sum(len(v) for v in turns.values())
+
+
+def _h_minion_curves(rows, ctx):
+    """Median minion stats per combat round — the scaling curve."""
+    rounds: Dict[str, list] = {}
+    for r in rows:
+        dbf, rnd = r.get("normal_dbf_id"), r.get("combat_round")
+        if dbf is None or rnd is None:
+            continue
+        rounds.setdefault(str(rnd), []).append({
+            "name": _resolve(dbf), "cardId": str(dbf),
+            "golden": bool(r.get("is_premium")),
+            "medianAttack": r.get("median_attack"),
+            "medianHealth": r.get("median_health")})
+    ctx["files"]["minion_curves"] = {"rounds": rounds}
+    ctx["counts"]["minion_curves"] = sum(len(v) for v in rounds.values())
+
+
+def _h_tavern_up(rows, ctx):
+    """Leveling curve: share of lobbies at each tier per recruit round."""
+    rounds: Dict[str, dict] = {}
+    for r in rows:
+        rnd = r.get("recruit_round")
+        tier = r.get("end_of_recruit_round_tier")
+        if rnd is None or tier is None:
+            continue
+        rounds.setdefault(str(rnd), {})[str(tier)] = {
+            "pctAtTier": r.get("pct_at_tier"),
+            "occurrences": r.get("occurrences")}
+    ctx["files"]["tavern_up"] = {"rounds": rounds}
+    ctx["counts"]["tavern_up"] = sum(len(v) for v in rounds.values())
+
+
+_ENDPOINT_HANDLERS = (
+    ("battlegrounds_minion_list", _h_minion_list),
+    ("battlegrounds_comp_stats", _h_comp_stats),
+    ("battlegrounds/trinkets", _h_trinkets),
+    ("battlegrounds/heroes", _h_heroes),
+    ("battlegrounds_purchase_rates_by_turn", _h_purchase_rates),
+    ("battlegrounds_minion_stats", _h_minion_curves),
+    ("battlegrounds_tavern_up_stats", _h_tavern_up),
+)
+
+
 def ingest_wrappers(wrappers: List[dict], src: str,
                     out_path: Optional[str] = None,
                     by_turn_path: Optional[str] = None,
@@ -270,9 +481,43 @@ def ingest_wrappers(wrappers: List[dict], src: str,
     by_turn_path = by_turn_path or (
         os.path.join(stats_dir, os.path.basename(BY_TURN_PATH))
         if stats_dir else BY_TURN_PATH)
+
+    # Pass 1: comp id -> name dictionary + route wrappers.
+    ctx: Dict = {"files": {}, "counts": {}, "comp_names": {}}
+    handled_groups: Dict[str, List[dict]] = {}
+    generic: List[dict] = []
+    for blob in wrappers:
+        wrapper = blob if isinstance(blob, dict) and "body" in blob else {}
+        url = (wrapper.get("url") or "").lower()
+        if any(s in url for s in _SKIP_URLS):
+            continue
+        if "battlegrounds/compositions" in url:
+            for r in _rows_from_json(wrapper.get("body", blob)):
+                if r.get("id") is not None and r.get("name"):
+                    ctx["comp_names"][str(r["id"])] = r["name"]
+            continue
+        for pattern, _handler in _ENDPOINT_HANDLERS:
+            if pattern in url:
+                handled_groups.setdefault(pattern, []).append(wrapper)
+                break
+        else:
+            generic.append(blob)
+
+    # Pass 2: dedicated handlers (preferred MMR percentile per endpoint).
+    for pattern, handler in _ENDPOINT_HANDLERS:
+        caps = handled_groups.get(pattern)
+        if not caps:
+            continue
+        best = _pick_preferred(caps)
+        rows = _rows_from_json(best.get("body", {}))
+        if rows:
+            ctx["percentile"] = _percentile(best.get("url", ""))
+            handler(rows, ctx)
+
+    # Pass 3: generic loose path for anything unrecognized.
     # buckets[cat][turn or None][name] = row
     buckets: Dict[str, Dict[Optional[int], Dict[str, dict]]] = {}
-    for blob in wrappers:
+    for blob in generic:
         wrapper = blob if isinstance(blob, dict) and "body" in blob else {}
         rows = normalize(_rows_from_json(wrapper.get("body", blob)))
         if not rows:
@@ -284,16 +529,28 @@ def ingest_wrappers(wrappers: List[dict], src: str,
             bucket[r["name"]] = r
 
     stamp = datetime.date.today().isoformat()
+    base_dir = stats_dir or _STATS_DIR
+    pct = ctx.get("percentile", "ALL")
+    for kind, payload in ctx["files"].items():
+        _write(os.path.join(base_dir, f"hsreplay_{kind}_stats.json"),
+               {"_source": src, "_imported": stamp, "_percentile": pct,
+                **payload})
+    if ctx.get("cards"):
+        _write(out_path, {"_source": src, "_imported": stamp,
+                          "_percentile": pct, "cards": ctx["cards"]})
 
     def ranked(d: Dict[str, dict]) -> list:
         return sorted(d.values(), key=lambda c: c["averagePlacement"])
 
-    categories: Dict[str, int] = {}
+    categories: Dict[str, int] = dict(ctx["counts"])
     for cat, per_turn in buckets.items():
         overall = per_turn.get(None, {})
         turns = {str(t): ranked(per_turn[t])
                  for t in sorted(t for t in per_turn if t is not None)}
-        categories[cat] = len(overall) or sum(len(v) for v in turns.values())
+        categories[cat] = (categories.get(cat, 0) + len(overall)
+                           or sum(len(v) for v in turns.values()))
+        if cat in ctx["files"]:      # handler already wrote this category
+            continue
         payload = {"_source": src, "_imported": stamp,
                    "items": ranked(overall)}
         if turns:
@@ -302,7 +559,7 @@ def ingest_wrappers(wrappers: List[dict], src: str,
         _write(os.path.join(base, f"hsreplay_{cat}_stats.json"), payload)
 
     minions = buckets.get("minions", {})
-    if minions.get(None):
+    if minions.get(None) and not ctx.get("cards"):
         _write(out_path, {"_source": src, "_imported": stamp,
                           "cards": ranked(minions[None])})
     minion_turns = sorted(t for t in minions if t is not None)
@@ -310,7 +567,8 @@ def ingest_wrappers(wrappers: List[dict], src: str,
         _write(by_turn_path, {
             "_source": src, "_imported": stamp,
             "turns": {str(t): ranked(minions[t]) for t in minion_turns}})
-    return {"overall": len(minions.get(None, {})), "turns": minion_turns,
+    overall = len(ctx.get("cards") or []) or len(minions.get(None, {}))
+    return {"overall": overall, "turns": minion_turns,
             "categories": categories}
 
 
@@ -371,6 +629,10 @@ def diagnose(dir_path: str) -> str:
         if rows and not ok and dedup_key not in seen_urls:
             lines.append("  first row keys: "
                          + ", ".join(list(rows[0])[:20]))
+            for k, v in list(rows[0].items())[:20]:
+                if isinstance(v, dict):
+                    lines.append(f"    {k} keys: "
+                                 + ", ".join(list(v)[:15]))
         elif not rows and dedup_key not in seen_urls:
             lines.append("  body shape:\n"
                          + "\n".join("    " + l for l in
