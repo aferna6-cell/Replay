@@ -336,6 +336,34 @@ final placement it led to. Fold those into the brain after a session:
 The more you play, the sharper it gets on the live meta *and your playstyle* —
 your per-game placements are a sharper signal than the population averages.
 
+## Harvesting Power.log files automatically (logs/ archive)
+
+Hearthstone overwrites `Power.log` every session, so any log you don't capture
+is training data lost. The collector sweeps this machine — the known
+Hearthstone log locations plus a deep scan of your home directory — for every
+`Power.log` / `Power_old.log`, copies each *new* one (deduped by content hash,
+`logs/manifest.json`) into the [`logs/`](logs/) archive, parses it into
+`data/*.jsonl` trajectories, and commits + pushes the logs to GitHub:
+
+```bash
+python scripts/collect_power_logs.py            # collect + parse + push
+python scripts/collect_power_logs.py --train    # ...and retrain the eval net
+python scripts/collect_power_logs.py --dry-run  # preview what it would grab
+```
+
+Schedule it to run unattended (every 48 hours by default; pass
+`--weekly`/`-Weekly` for weekly):
+
+```bash
+# mac/linux (cron)
+./scripts/schedule_collection.sh
+
+# Windows (Task Scheduler; run from the repo root)
+powershell -ExecutionPolicy Bypass -File scripts\schedule_collection.ps1
+```
+
+Scheduled-run output lands in `logs/collect.log` (gitignored).
+
 ## Keeping it fresh (weekly meta pull)
 
 ```bash

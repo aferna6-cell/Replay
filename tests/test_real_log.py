@@ -10,10 +10,13 @@ from hsbg_coach.bg import BGTracker
 from hsbg_coach.parser import parse_line
 from hsbg_coach.choices import ChoiceParser
 
-# Full captured client log, committed at the repo root. The end-to-end test below
-# replays it and pins the live snapshot fields (local player, board, shop, tier,
-# gold, hp). Skipped gracefully if the fixture isn't present.
-REAL_LOG = Path(__file__).resolve().parent.parent / "Power.log"
+# Full captured client log, committed in logs/ (the collected-log archive —
+# see logs/README.md). The end-to-end test below replays it and pins the live
+# snapshot fields (local player, board, shop, tier, gold, hp). The assertions
+# are calibrated to THIS specific capture, so it's pinned by name rather than
+# "newest log in the archive". Skipped gracefully if the fixture isn't present.
+REAL_LOG = (Path(__file__).resolve().parent.parent
+            / "logs" / "Power_20260625-232054_f9b95962.log")
 
 # Verbatim lines from a real client (Battlegrounds game start + hero mulligan).
 REAL_LINES = """\

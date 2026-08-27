@@ -2,6 +2,9 @@
 /data/*.jsonl
 /data/*.jsonl.partial
 
+# Scheduled log-collection output (logs/*.log captures themselves ARE committed)
+/logs/collect.log
+
 # Python
 __pycache__/
 *.py[cod]
