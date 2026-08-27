@@ -8,6 +8,11 @@
 # Fetched VOD transcripts/metadata (other people's content — keep local)
 /data/vods/
 
+# HSReplay capture tooling: browser profile holds your LOGIN SESSION (never
+# commit), raw captures are bulky premium data (normalized stats ARE committed)
+/data/stats/hsreplay_profile/
+/data/stats/hsreplay_captures/
+
 # Python
 __pycache__/
 *.py[cod]

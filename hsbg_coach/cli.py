@@ -250,8 +250,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     h = sub.add_parser("import-hsreplay",
                        help="import an HSReplay.net BG minions export "
-                            "(JSON/CSV) as a card-stats source")
-    h.add_argument("path", help="export file saved from your browser session")
+                            "(JSON/CSV) or a hsreplay_capture.py capture dir")
+    h.add_argument("path", help="export file, or a capture directory from "
+                                "scripts/hsreplay_capture.py")
     h.set_defaults(func=cmd_import_hsreplay)
 
     sub.add_parser("pace", help="show the top-10%% leveling/scaling pace benchmark"
@@ -490,7 +491,18 @@ def cmd_refresh_stats(args) -> int:
 def cmd_import_hsreplay(args) -> int:
     from . import card_meta_stats, hsreplay_import
     try:
-        count = hsreplay_import.import_file(args.path)
+        if os.path.isdir(args.path):
+            result = hsreplay_import.import_captures(args.path)
+            count = result["overall"] + len(result["turns"])
+            if count:
+                card_meta_stats.reload()
+                print(f"Imported {result['overall']} cards overall"
+                      + (f" + turn-filtered stats for turns {result['turns']}"
+                         if result["turns"] else ""))
+                print("Retrain to fold them in: ./scripts/retrain.sh")
+                return 0
+        else:
+            count = hsreplay_import.import_file(args.path)
     except Exception as exc:
         print("Import failed:", exc)
         return 1

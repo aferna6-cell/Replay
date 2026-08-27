@@ -25,12 +25,16 @@ feature block.
 
 import csv
 import datetime
+import glob
 import json
 import os
+import re
 from typing import Dict, List, Optional
+from urllib.parse import parse_qsl, urlsplit
 
-OUT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "stats",
-                        "hsreplay_card_stats.json")
+_STATS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "stats")
+OUT_PATH = os.path.join(_STATS_DIR, "hsreplay_card_stats.json")
+BY_TURN_PATH = os.path.join(_STATS_DIR, "hsreplay_card_stats_by_turn.json")
 
 # Loose key aliases (lowercased, spaces/underscores stripped) -> canonical.
 _KEYS = {
@@ -113,6 +117,68 @@ def normalize(rows: List[dict]) -> List[dict]:
         out.append(card)
     out.sort(key=lambda c: c["averagePlacement"])
     return out
+
+
+def _turn_of(wrapper: dict) -> Optional[int]:
+    """Turn filter a captured request was made with, if any — from the URL
+    query (any param whose name contains 'turn') or the POST body."""
+    for key, val in parse_qsl(urlsplit(wrapper.get("url") or "").query):
+        if "turn" in key.lower():
+            m = re.search(r"\d+", val)
+            if m:
+                return int(m.group())
+    post = wrapper.get("post_data") or ""
+    m = re.search(r'"turns?"\s*:\s*"?(\d+)', post, re.I)
+    return int(m.group(1)) if m else None
+
+
+def _write(path: str, payload: dict) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=1)
+        fh.write("\n")
+
+
+def import_captures(dir_path: str, out_path: str = OUT_PATH,
+                    by_turn_path: str = BY_TURN_PATH) -> Dict:
+    """Ingest a scripts/hsreplay_capture.py capture directory (or any dir of
+    exported JSON files). Un-turn-filtered payloads merge into the overall
+    stats file; turn-filtered ones into the by-turn file. Later captures of
+    the same card/turn override earlier ones (a re-capture is a refresh).
+    Returns {"overall": n_cards, "turns": [turns seen]}."""
+    overall: Dict[str, dict] = {}
+    by_turn: Dict[int, Dict[str, dict]] = {}
+    for path in sorted(glob.glob(os.path.join(dir_path, "*.json"))):
+        try:
+            with open(path, encoding="utf-8-sig") as fh:
+                blob = json.load(fh)
+        except (OSError, ValueError):
+            continue
+        wrapper = blob if isinstance(blob, dict) and "body" in blob else {}
+        cards = normalize(_rows_from_json(wrapper.get("body", blob)))
+        if not cards:
+            continue
+        turn = _turn_of(wrapper)
+        bucket = by_turn.setdefault(turn, {}) if turn is not None else overall
+        for c in cards:
+            bucket[c["name"]] = c
+    stamp = datetime.date.today().isoformat()
+    if overall:
+        _write(out_path, {
+            "_source": f"hsreplay.net capture ({os.path.basename(dir_path)})",
+            "_imported": stamp,
+            "cards": sorted(overall.values(),
+                            key=lambda c: c["averagePlacement"]),
+        })
+    if by_turn:
+        _write(by_turn_path, {
+            "_source": f"hsreplay.net capture ({os.path.basename(dir_path)})",
+            "_imported": stamp,
+            "turns": {str(t): sorted(cards.values(),
+                                     key=lambda c: c["averagePlacement"])
+                      for t, cards in sorted(by_turn.items())},
+        })
+    return {"overall": len(overall), "turns": sorted(by_turn)}
 
 
 def import_file(path: str, out_path: str = OUT_PATH) -> int:

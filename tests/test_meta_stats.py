@@ -104,3 +104,55 @@ def test_hsreplay_import_rejects_empty(tmp_path):
     assert hsreplay_import.import_file(
         str(export), str(tmp_path / "out.json")) == 0
     assert not (tmp_path / "out.json").exists()
+
+
+def _cap(tmp_path, n, url, rows, post=None):
+    (tmp_path / f"cap_{n:04d}.json").write_text(json.dumps(
+        {"url": url, "method": "GET", "post_data": post,
+         "body": {"series": {"data": {"ALL": rows}}}}), encoding="utf-8")
+
+
+def test_import_captures_overall_and_by_turn(tmp_path):
+    cap_dir = tmp_path / "caps"
+    cap_dir.mkdir()
+    _cap(cap_dir, 1, "https://hsreplay.net/analytics/query/bg_minions/?RankRange=TOP_10",
+         [{"name": "Sellemental", "avg_placement": 3.4, "games": 100}])
+    _cap(cap_dir, 2, "https://hsreplay.net/analytics/query/bg_minions/?RankRange=TOP_10&Turn=5",
+         [{"name": "Sellemental", "avg_placement": 3.1}])
+    _cap(cap_dir, 3, "https://hsreplay.net/analytics/query/bg_minions/?turn_range=8",
+         [{"name": "Bream Counter", "avg_placement": 2.9}])
+    # later capture of the same filter overrides (a re-capture is a refresh)
+    _cap(cap_dir, 4, "https://hsreplay.net/analytics/query/bg_minions/?RankRange=TOP_10",
+         [{"name": "Sellemental", "avg_placement": 3.5, "games": 200}])
+    out = tmp_path / "overall.json"
+    by_turn = tmp_path / "by_turn.json"
+    result = hsreplay_import.import_captures(str(cap_dir), str(out), str(by_turn))
+    assert result == {"overall": 1, "turns": [5, 8]}
+    overall = json.loads(out.read_text())["cards"]
+    assert overall == [{"name": "Sellemental", "averagePlacement": 3.5,
+                        "totalPlayed": 200}]
+    turns = json.loads(by_turn.read_text())["turns"]
+    assert turns["5"][0]["averagePlacement"] == 3.1
+    assert turns["8"][0]["name"] == "Bream Counter"
+
+
+def test_import_captures_post_body_turn(tmp_path):
+    cap_dir = tmp_path / "caps"
+    cap_dir.mkdir()
+    _cap(cap_dir, 1, "https://hsreplay.net/api/v1/battlegrounds/stats/",
+         [{"name": "Upper Hand", "avg_placement": 2.5}],
+         post='{"filters": {"turn": 6}}')
+    result = hsreplay_import.import_captures(
+        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"))
+    assert result == {"overall": 0, "turns": [6]}
+
+
+def test_import_captures_ignores_junk(tmp_path):
+    cap_dir = tmp_path / "caps"
+    cap_dir.mkdir()
+    (cap_dir / "cap_0001.json").write_text("not json{", encoding="utf-8")
+    _cap(cap_dir, 2, "https://hsreplay.net/api/v1/account/", [])
+    result = hsreplay_import.import_captures(
+        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"))
+    assert result == {"overall": 0, "turns": []}
+    assert not (tmp_path / "o.json").exists()

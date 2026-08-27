@@ -183,20 +183,30 @@ Two stat sources blend automatically when both exist:
 
 - **Firestone** (`data/stats/firestone_card_stats.json`) — auto-refreshed by
   `hsbg_coach refresh-stats`; always available.
-- **HSReplay.net** (`data/stats/hsreplay_card_stats.json`) — optional.
-  HSReplay has no public API and blocks non-browser traffic, so export the
-  minions-page data from your own logged-in browser session (DevTools →
-  Network → save the JSON, or copy the table into a CSV) and import it:
+- **HSReplay.net** (`data/stats/hsreplay_card_stats.json` +
+  `hsreplay_card_stats_by_turn.json`) — optional. HSReplay has no public API
+  and blocks non-browser traffic, so the repeatable path is the **capture
+  tool**: it opens a real browser window (your login persists between runs in
+  a local profile) and auto-records every stats payload the site fetches
+  while you flip filters — rank, time range, and each **turn** value:
 
 ```bash
-python -m hsbg_coach import-hsreplay path/to/export.json   # or .csv
-./scripts/retrain.sh                                       # fold into the net
+pip install playwright && python -m playwright install chromium   # once
+python scripts/hsreplay_capture.py
+#   1. window opens on the BG minions page (log in on first run)
+#   2. set Rank=Top 10%, then step the Turn filter through each value —
+#      the terminal prints "captured #NNN" as each payload lands
+#   3. press Enter -> auto-import: overall + per-turn stats files
+./scripts/retrain.sh                                   # fold into the net
 ```
 
-The importer accepts loose key names (`avg_placement`, `avgPlacement`,
-"Avg Place"…) since HSReplay's frontend schema is undocumented. After a
-feature-layout change like this, an old local `eval_net.pt` is skipped with a
-retrain hint instead of crashing — run `./scripts/retrain.sh` once.
+No DevTools needed. Manual fallback: save any export yourself and run
+`python -m hsbg_coach import-hsreplay <file-or-capture-dir>` — the importer
+accepts loose key names (`avg_placement`, `avgPlacement`, "Avg Place"…) since
+HSReplay's frontend schema is undocumented. Raw captures and the browser
+profile (your login session!) stay local — gitignored; only the normalized
+stats files are committed. After a feature-layout change, an old local
+`eval_net.pt` is skipped with a retrain hint instead of crashing.
 
 ## Streamer VODs → training trajectories (built)
 
