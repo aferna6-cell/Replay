@@ -1,0 +1,493 @@
+{
+ "_source": "hsreplay.net capture (2026-08-27)",
+ "_imported": "2026-08-27",
+ "_percentile": "TOP_20_PERCENT",
+ "rounds": {
+  "1": {
+   "1": {
+    "pctAtTier": 99.05,
+    "occurrences": 62410
+   },
+   "2": {
+    "pctAtTier": 0.94,
+    "occurrences": 596
+   }
+  },
+  "2": {
+   "1": {
+    "pctAtTier": 17.13,
+    "occurrences": 10796
+   },
+   "2": {
+    "pctAtTier": 82.83,
+    "occurrences": 52194
+   },
+   "3": {
+    "pctAtTier": 0.02,
+    "occurrences": 16
+   }
+  },
+  "3": {
+   "1": {
+    "pctAtTier": 1.82,
+    "occurrences": 1152
+   },
+   "2": {
+    "pctAtTier": 73.83,
+    "occurrences": 46518
+   },
+   "3": {
+    "pctAtTier": 24.34,
+    "occurrences": 15336
+   }
+  },
+  "4": {
+   "1": {
+    "pctAtTier": 0.08,
+    "occurrences": 56
+   },
+   "2": {
+    "pctAtTier": 23.99,
+    "occurrences": 15116
+   },
+   "3": {
+    "pctAtTier": 73.31,
+    "occurrences": 46196
+   },
+   "4": {
+    "pctAtTier": 2.6,
+    "occurrences": 1639
+   }
+  },
+  "5": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 2
+   },
+   "2": {
+    "pctAtTier": 1.39,
+    "occurrences": 882
+   },
+   "3": {
+    "pctAtTier": 60.44,
+    "occurrences": 38084
+   },
+   "4": {
+    "pctAtTier": 38.11,
+    "occurrences": 24013
+   },
+   "5": {
+    "pctAtTier": 0.03,
+    "occurrences": 25
+   }
+  },
+  "6": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.17,
+    "occurrences": 108
+   },
+   "3": {
+    "pctAtTier": 16.07,
+    "occurrences": 10125
+   },
+   "4": {
+    "pctAtTier": 79.22,
+    "occurrences": 49912
+   },
+   "5": {
+    "pctAtTier": 4.49,
+    "occurrences": 2830
+   },
+   "6": {
+    "pctAtTier": 0.04,
+    "occurrences": 26
+   }
+  },
+  "7": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.01,
+    "occurrences": 10
+   },
+   "3": {
+    "pctAtTier": 0.72,
+    "occurrences": 456
+   },
+   "4": {
+    "pctAtTier": 48.51,
+    "occurrences": 30563
+   },
+   "5": {
+    "pctAtTier": 49.25,
+    "occurrences": 31030
+   },
+   "6": {
+    "pctAtTier": 1.49,
+    "occurrences": 941
+   }
+  },
+  "8": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "3": {
+    "pctAtTier": 0.09,
+    "occurrences": 59
+   },
+   "4": {
+    "pctAtTier": 11.91,
+    "occurrences": 7506
+   },
+   "5": {
+    "pctAtTier": 65.83,
+    "occurrences": 41475
+   },
+   "6": {
+    "pctAtTier": 22.15,
+    "occurrences": 13956
+   }
+  },
+  "9": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "3": {
+    "pctAtTier": 0.03,
+    "occurrences": 24
+   },
+   "4": {
+    "pctAtTier": 6.16,
+    "occurrences": 3886
+   },
+   "5": {
+    "pctAtTier": 49.56,
+    "occurrences": 31228
+   },
+   "6": {
+    "pctAtTier": 44.21,
+    "occurrences": 27855
+   }
+  },
+  "10": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "3": {
+    "pctAtTier": 0.01,
+    "occurrences": 7
+   },
+   "4": {
+    "pctAtTier": 2.17,
+    "occurrences": 1369
+   },
+   "5": {
+    "pctAtTier": 30.74,
+    "occurrences": 19369
+   },
+   "6": {
+    "pctAtTier": 67.05,
+    "occurrences": 42243
+   },
+   "7": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   }
+  },
+  "11": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "3": {
+    "pctAtTier": 0.0,
+    "occurrences": 3
+   },
+   "4": {
+    "pctAtTier": 1.17,
+    "occurrences": 739
+   },
+   "5": {
+    "pctAtTier": 20.75,
+    "occurrences": 13077
+   },
+   "6": {
+    "pctAtTier": 78.04,
+    "occurrences": 49167
+   },
+   "7": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   }
+  },
+  "12": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "3": {
+    "pctAtTier": 0.0,
+    "occurrences": 2
+   },
+   "4": {
+    "pctAtTier": 0.74,
+    "occurrences": 469
+   },
+   "5": {
+    "pctAtTier": 14.98,
+    "occurrences": 9435
+   },
+   "6": {
+    "pctAtTier": 84.24,
+    "occurrences": 53040
+   },
+   "7": {
+    "pctAtTier": 0.0,
+    "occurrences": 6
+   }
+  },
+  "13": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "3": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "4": {
+    "pctAtTier": 0.52,
+    "occurrences": 325
+   },
+   "5": {
+    "pctAtTier": 11.81,
+    "occurrences": 7247
+   },
+   "6": {
+    "pctAtTier": 87.63,
+    "occurrences": 53738
+   },
+   "7": {
+    "pctAtTier": 0.0,
+    "occurrences": 6
+   }
+  },
+  "14": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 4
+   },
+   "4": {
+    "pctAtTier": 0.42,
+    "occurrences": 208
+   },
+   "5": {
+    "pctAtTier": 10.0,
+    "occurrences": 4940
+   },
+   "6": {
+    "pctAtTier": 89.55,
+    "occurrences": 44235
+   },
+   "7": {
+    "pctAtTier": 0.01,
+    "occurrences": 6
+   }
+  },
+  "15": {
+   "1": {
+    "pctAtTier": 0.0,
+    "occurrences": 1
+   },
+   "2": {
+    "pctAtTier": 0.0,
+    "occurrences": 2
+   },
+   "4": {
+    "pctAtTier": 0.34,
+    "occurrences": 95
+   },
+   "5": {
+    "pctAtTier": 8.92,
+    "occurrences": 2492
+   },
+   "6": {
+    "pctAtTier": 90.71,
+    "occurrences": 25340
+   },
+   "7": {
+    "pctAtTier": 0.01,
+    "occurrences": 4
+   }
+  },
+  "16": {
+   "4": {
+    "pctAtTier": 0.25,
+    "occurrences": 30
+   },
+   "5": {
+    "pctAtTier": 8.04,
+    "occurrences": 957
+   },
+   "6": {
+    "pctAtTier": 91.68,
+    "occurrences": 10908
+   },
+   "7": {
+    "pctAtTier": 0.01,
+    "occurrences": 2
+   }
+  },
+  "17": {
+   "4": {
+    "pctAtTier": 0.2,
+    "occurrences": 9
+   },
+   "5": {
+    "pctAtTier": 7.04,
+    "occurrences": 307
+   },
+   "6": {
+    "pctAtTier": 92.72,
+    "occurrences": 4039
+   },
+   "7": {
+    "pctAtTier": 0.02,
+    "occurrences": 1
+   }
+  },
+  "18": {
+   "4": {
+    "pctAtTier": 0.19,
+    "occurrences": 3
+   },
+   "5": {
+    "pctAtTier": 5.08,
+    "occurrences": 79
+   },
+   "6": {
+    "pctAtTier": 94.65,
+    "occurrences": 1471
+   },
+   "7": {
+    "pctAtTier": 0.06,
+    "occurrences": 1
+   }
+  },
+  "19": {
+   "4": {
+    "pctAtTier": 0.18,
+    "occurrences": 1
+   },
+   "5": {
+    "pctAtTier": 4.27,
+    "occurrences": 23
+   },
+   "6": {
+    "pctAtTier": 95.35,
+    "occurrences": 513
+   },
+   "7": {
+    "pctAtTier": 0.18,
+    "occurrences": 1
+   }
+  },
+  "20": {
+   "4": {
+    "pctAtTier": 0.6,
+    "occurrences": 1
+   },
+   "5": {
+    "pctAtTier": 1.81,
+    "occurrences": 3
+   },
+   "6": {
+    "pctAtTier": 97.57,
+    "occurrences": 161
+   }
+  },
+  "21": {
+   "5": {
+    "pctAtTier": 1.96,
+    "occurrences": 1
+   },
+   "6": {
+    "pctAtTier": 98.03,
+    "occurrences": 50
+   }
+  },
+  "22": {
+   "6": {
+    "pctAtTier": 100.0,
+    "occurrences": 13
+   }
+  },
+  "23": {
+   "6": {
+    "pctAtTier": 100.0,
+    "occurrences": 6
+   }
+  },
+  "24": {
+   "6": {
+    "pctAtTier": 100.0,
+    "occurrences": 1
+   }
+  },
+  "25": {
+   "6": {
+    "pctAtTier": 100.0,
+    "occurrences": 1
+   }
+  },
+  "26": {
+   "6": {
+    "pctAtTier": 100.0,
+    "occurrences": 1
+   }
+  },
+  "27": {
+   "6": {
+    "pctAtTier": 100.0,
+    "occurrences": 1
+   }
+  }
+ }
+}
