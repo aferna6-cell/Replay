@@ -38,13 +38,19 @@ class EvalNet(nn.Module):
 def train(X: np.ndarray, hero: np.ndarray, y: np.ndarray, n_heroes: int,
           epochs: int = 40, lr: float = 0.005, batch: int = 256,
           weight_decay: float = 1e-4, val: Optional[Tuple] = None,
-          seed: int = 0, verbose: bool = True) -> Tuple[EvalNet, dict]:
+          seed: int = 0, verbose: bool = True,
+          sample_weight: Optional[np.ndarray] = None) -> Tuple[EvalNet, dict]:
+    """`sample_weight` (per-example, optional) turns the loss into weighted
+    MSE — how scarcer, higher-quality sources (VOD games of top players, your
+    own games) outvote the bulk population boards."""
     import copy
     torch.manual_seed(seed)
     model = EvalNet(X.shape[1], n_heroes)
     opt = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
     lossf = nn.MSELoss()
     Xt, ht, yt = (torch.from_numpy(X), torch.from_numpy(hero), torch.from_numpy(y))
+    wt = (torch.from_numpy(sample_weight.astype(np.float32))
+          if sample_weight is not None else None)
     n = Xt.shape[0]
     history = {"val_mae": None, "val_r": None}
     best_mae, best_state = float("inf"), None
@@ -54,7 +60,11 @@ def train(X: np.ndarray, hero: np.ndarray, y: np.ndarray, n_heroes: int,
         for i in range(0, n, batch):
             idx = perm[i:i + batch]
             opt.zero_grad()
-            loss = lossf(model(Xt[idx], ht[idx]), yt[idx])
+            if wt is not None:
+                se = (model(Xt[idx], ht[idx]) - yt[idx]) ** 2
+                loss = (wt[idx] * se).sum() / wt[idx].sum()
+            else:
+                loss = lossf(model(Xt[idx], ht[idx]), yt[idx])
             loss.backward()
             opt.step()
         if val is not None:

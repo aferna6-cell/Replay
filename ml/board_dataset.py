@@ -61,8 +61,11 @@ _ENDGAME_CONTEXT = {"tavern_tier": 6, "gold": 0, "hero_health": 25, "turn": 13,
                     "opponent_profiles": [], "trinkets": [], "anomaly": None}
 
 
-def trajectory_examples(data_dir: str) -> List[Dict]:
-    """Labeled examples from your own recorded games (placement-tagged states)."""
+def trajectory_examples(data_dir: str, weight: float = 1.0) -> List[Dict]:
+    """Labeled examples from recorded games (placement-tagged states).
+    `weight` is the training sample weight attached to every example — used to
+    up-weight scarcer/higher-quality sources (e.g. VOD-reconstructed games of
+    top players) relative to the population boards."""
     byname = cards.by_name(cards.load_kb())
     out: List[Dict] = []
     for path in sorted(glob.glob(os.path.join(data_dir, "*.jsonl"))):
@@ -84,8 +87,16 @@ def trajectory_examples(data_dir: str) -> List[Dict]:
                 out.append({"minions": minions, "hero": UNKNOWN_HERO,
                             "label": float(pl),
                             "state": state,          # whole-state context for training
-                            "group": d.get("game_id") or path})
+                            "group": d.get("game_id") or path,
+                            "weight": weight})
     return out
+
+
+def example_weights(examples: List[Dict]):
+    """Per-sample training weights (1.0 where unset), aligned with to_arrays."""
+    import numpy as _np
+    return _np.array([float(e.get("weight", 1.0)) for e in examples],
+                     dtype=_np.float32)
 
 
 def build_hero_vocab(examples: List[Dict]) -> Dict[str, int]:

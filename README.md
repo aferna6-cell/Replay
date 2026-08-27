@@ -198,20 +198,38 @@ The importer accepts loose key names (`avg_placement`, `avgPlacement`,
 feature-layout change like this, an old local `eval_net.pt` is skipped with a
 retrain hint instead of crashing — run `./scripts/retrain.sh` once.
 
-## Streamer VODs (transcripts today, vision later)
+## Streamer VODs → training trajectories (built)
 
-High-level players' *reasoning* — why they pivot, when they greed — exists
-nowhere in aggregate stats. First rung is built: fetch a VOD's captions to a
-local, timestamped transcript (kept out of git):
+Top players' games are the scarcest, highest-value training signal — and VODs
+are the only way to get them (no public raw-trajectory source exists). The
+`vod/` pipeline reconstructs turn-by-turn `(state, action, outcome)`
+trajectories straight from video:
 
 ```bash
-pip install yt-dlp
-python scripts/fetch_vod_transcript.py https://www.youtube.com/watch?v=…
-# -> data/vods/<id>.txt + <id>.info.json
+pip install -r requirements-vod.txt        # anthropic, yt-dlp, pillow (+ ffmpeg)
+python scripts/ingest_vod.py https://www.youtube.com/watch?v=…  \
+    --section 00:05:00-00:45:00            # optional: just this time range
+# frames every 3s → dedupe → Haiku classifies phases → Opus 5 reads each
+# recruit/endscreen frame (structured output) → data/vods/vod-<id>-gN.jsonl
 ```
 
-The full ladder — including reconstructing turn-by-turn
-`(state, action, outcome)` trajectories from video frames — is specced in
+Training then **weights VOD games highest automatically**: `train_eval_net`
+folds `data/vods/*.jsonl` in at `--vod-weight 3.0` (your own games 1.5,
+population boards 1.0) via weighted MSE. Just run `./scripts/retrain.sh`.
+
+Before trusting a reader config, run the accuracy gate on a screen recording
+of your own game (Power.log = ground truth):
+
+```bash
+python -m vod.validate data/vods/vod-<id>-g1.jsonl data/game-<ts>.jsonl
+# PASS at ≥95% board-content accuracy
+```
+
+Practical notes: run on your own machine (YouTube blocks datacenter IPs;
+`--cookies-from-browser chrome` beats the sign-in wall), `--max-reads` caps
+API spend, `--dry-run` costs nothing. Commentary transcripts (the *reasoning*,
+no board states) still come free via
+`python scripts/fetch_vod_transcript.py <url>`. Design + validation ladder:
 `specs/vod-ingestion_spec.md`.
 
 ## Deep learning (optional `ml/` track)
