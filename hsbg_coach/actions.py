@@ -31,6 +31,11 @@ LEVEL = "level"
 REPOSITION = "reposition"
 FREEZE = "freeze"
 HERO_POWER = "hero_power"
+# Semantic subtype for Season-14 clickable minions. The current engine's generic
+# activatable/economy scorer is the HERO_POWER path, so legal_actions routes these
+# through that path while preserving this subtype in Action.detail. That makes the
+# existing advisor + whole-game fallback score it immediately without pretending
+# it is a buy/sell, while the description/log remains explicitly "Activate X".
 MINION_ACTIVATE = "minion_activate"
 END = "end"
 DARK_GIFT = "dark_gift"
@@ -47,7 +52,14 @@ class Action:
     cost: int = 0                      # gold spent (negative = gold gained)
     detail: Dict = field(default_factory=dict)
 
+    @property
+    def semantic_kind(self) -> str:
+        return self.detail.get("semantic_kind") or self.kind
+
     def describe(self) -> str:
+        if self.semantic_kind == MINION_ACTIVATE:
+            tail = f" ({self.cost}g)" if self.cost else ""
+            return f"Activate {self.target}{tail}"
         if self.kind == BUY:
             return f"Buy {self.target}"
         if self.kind == BUY_SPELL:
@@ -55,9 +67,6 @@ class Action:
         if self.kind == HERO_POWER:
             tail = f" ({self.cost}g)" if self.cost else ""
             return f"Use hero power: {self.target}{tail}"
-        if self.kind == MINION_ACTIVATE:
-            tail = f" ({self.cost}g)" if self.cost else ""
-            return f"Activate {self.target}{tail}"
         if self.kind == SELL:
             return f"Sell {self.target}"
         if self.kind == LEVEL:
@@ -122,8 +131,8 @@ def _activate_info(m, kb=None) -> Optional[Dict]:
     is INTERACTABLE_OBJECT_COST and the BG-specific tooltip marker is
     BACON_ACTIVATE_TOOLTIP. We prefer those Power.log tags, with card text as a
     fallback so a refreshed HearthstoneJSON KB still works if a client omits one
-    static tag. EXHAUSTED is the standard live once-per-turn gate; a handful of
-    possible explicit used tags are honored too if Blizzard emits them.
+    static tag. EXHAUSTED is the standard live once-per-turn gate; possible
+    explicit used-state tags are honored too if Blizzard emits them.
     """
     tags = _tags(m)
     ck = _kb_card(m, kb)
@@ -138,7 +147,7 @@ def _activate_info(m, kb=None) -> Optional[Dict]:
     if not marker:
         return None
 
-    # If the live entity explicitly says the interaction is unavailable, trust it.
+    # If the live entity explicitly says interaction is disabled, trust it.
     if "INTERACTABLE_OBJECT" in tags and str(tags.get("INTERACTABLE_OBJECT")) == "0":
         return None
     used_tags = (
@@ -197,15 +206,18 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
                                   hp_cost, {"hero_power": hp}))
 
     # Season 14 Activate — a board minion is a clickable Recruit-phase action,
-    # with its own gold cost and once-per-turn exhaustion state. Never surface it
-    # in combat, after use, or when unaffordable.
+    # with its own gold cost and once-per-turn availability. Route through the
+    # already-live activatable scorer but preserve semantic_kind + effect details
+    # so the Director/log knows this is a MINION activation, never a hero power.
     if phase in ("", "recruit"):
         for m in board:
             info = _activate_info(m, kb)
             if info is not None and gold >= int(info["cost"] or 0):
-                actions.append(Action(MINION_ACTIVATE, info["name"],
-                                      int(info["cost"] or 0),
-                                      {"activate": info, "minion": m}))
+                actions.append(Action(
+                    HERO_POWER, info["name"], int(info["cost"] or 0),
+                    {"semantic_kind": MINION_ACTIVATE,
+                     "activate": info, "minion": m},
+                ))
 
     # Buy a tavern spell — variable cost (its own COST), affordability checked.
     for sp in (_get(snapshot, "shop_spells", []) or []):
