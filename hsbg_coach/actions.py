@@ -2,12 +2,14 @@
 
 The recommender's job is to rank "what should I do now?", so first we need the
 full menu of what's *possible*: buy each shop minion, sell each board minion,
-roll, tier up, reposition, freeze, end. This module knows the rules (costs, board
-cap, tier cap) and nothing about which action is good — that's the advisor.
+roll, tier up, reposition, freeze, activate board minions, end. This module
+knows the rules (costs, board cap, tier cap) and nothing about which action is
+good — that's the advisor.
 
 Stdlib only.
 """
 
+import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
@@ -29,6 +31,7 @@ LEVEL = "level"
 REPOSITION = "reposition"
 FREEZE = "freeze"
 HERO_POWER = "hero_power"
+MINION_ACTIVATE = "minion_activate"
 END = "end"
 DARK_GIFT = "dark_gift"
 
@@ -40,7 +43,7 @@ def tavern_up_cost(tier: Optional[int]) -> Optional[int]:
 @dataclass
 class Action:
     kind: str
-    target: Optional[str] = None       # card name for buy/sell
+    target: Optional[str] = None       # card name for buy/sell/activate
     cost: int = 0                      # gold spent (negative = gold gained)
     detail: Dict = field(default_factory=dict)
 
@@ -52,6 +55,9 @@ class Action:
         if self.kind == HERO_POWER:
             tail = f" ({self.cost}g)" if self.cost else ""
             return f"Use hero power: {self.target}{tail}"
+        if self.kind == MINION_ACTIVATE:
+            tail = f" ({self.cost}g)" if self.cost else ""
+            return f"Activate {self.target}{tail}"
         if self.kind == SELL:
             return f"Sell {self.target}"
         if self.kind == LEVEL:
@@ -78,12 +84,93 @@ def _name(m) -> str:
     return getattr(m, "name", None) or getattr(m, "card_id", None) or "?"
 
 
+def _card_id(m) -> Optional[str]:
+    return (m.get("card_id") if isinstance(m, dict)
+            else getattr(m, "card_id", None))
+
+
+def _tags(m) -> Dict:
+    tags = m.get("tags", {}) if isinstance(m, dict) else getattr(m, "tags", {})
+    return tags or {}
+
+
+def _kb_card(m, kb):
+    """Resolve live minion -> CardKnowledge without requiring a name index."""
+    if not kb:
+        return None
+    cid = _card_id(m)
+    if cid and cid in kb:
+        return kb[cid]
+    nm = _name(m)
+    for ck in kb.values():
+        if getattr(ck, "name", None) == nm:
+            return ck
+    return None
+
+
+def _as_int(value, default=None):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _activate_info(m, kb=None) -> Optional[Dict]:
+    """Return grounded Season-14 Activate metadata for one board minion.
+
+    Blizzard's Activate minions are INTERACTABLE_OBJECTs. Their live gold price
+    is INTERACTABLE_OBJECT_COST and the BG-specific tooltip marker is
+    BACON_ACTIVATE_TOOLTIP. We prefer those Power.log tags, with card text as a
+    fallback so a refreshed HearthstoneJSON KB still works if a client omits one
+    static tag. EXHAUSTED is the standard live once-per-turn gate; a handful of
+    possible explicit used tags are honored too if Blizzard emits them.
+    """
+    tags = _tags(m)
+    ck = _kb_card(m, kb)
+    text = getattr(ck, "text", "") if ck is not None else ""
+    plain = re.sub(r"<[^>]+>", "", text or "")
+
+    marker = (
+        str(tags.get("INTERACTABLE_OBJECT", "")) == "1"
+        or str(tags.get("BACON_ACTIVATE_TOOLTIP", "")) == "1"
+        or bool(re.search(r"\bActivate\s*\(", plain, re.IGNORECASE))
+    )
+    if not marker:
+        return None
+
+    # If the live entity explicitly says the interaction is unavailable, trust it.
+    if "INTERACTABLE_OBJECT" in tags and str(tags.get("INTERACTABLE_OBJECT")) == "0":
+        return None
+    used_tags = (
+        "EXHAUSTED", "INTERACTABLE_OBJECT_EXHAUSTED",
+        "INTERACTABLE_OBJECT_USED", "INTERACTABLE_OBJECT_USED_THIS_TURN",
+    )
+    if any(str(tags.get(tag, "0")) == "1" for tag in used_tags):
+        return None
+
+    cost = _as_int(tags.get("INTERACTABLE_OBJECT_COST"))
+    if cost is None:
+        match = re.search(r"\bActivate\s*\((\d+)\)", plain, re.IGNORECASE)
+        cost = int(match.group(1)) if match else 0
+
+    return {
+        "name": _name(m),
+        "card_id": _card_id(m),
+        "entity_id": (m.get("entity_id") if isinstance(m, dict)
+                      else getattr(m, "entity_id", None)),
+        "cost": cost,
+        "text": plain.strip(),
+        "tags": dict(tags),
+    }
+
+
 def legal_actions(snapshot, kb=None) -> List[Action]:
     """Every action that is legal given current gold, tier, board and shop."""
     gold = _get(snapshot, "gold")
     tier = _get(snapshot, "tavern_tier") or 1
     board = list(_get(snapshot, "board", []) or [])
     shop = list(_get(snapshot, "shop", []) or [])
+    phase = str(_get(snapshot, "phase", "") or "").lower()
     gold = 0 if gold is None else int(gold)
 
     actions: List[Action] = []
@@ -108,6 +195,17 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
         if gold >= hp_cost:
             actions.append(Action(HERO_POWER, hp.get("name") or "Hero Power",
                                   hp_cost, {"hero_power": hp}))
+
+    # Season 14 Activate — a board minion is a clickable Recruit-phase action,
+    # with its own gold cost and once-per-turn exhaustion state. Never surface it
+    # in combat, after use, or when unaffordable.
+    if phase in ("", "recruit"):
+        for m in board:
+            info = _activate_info(m, kb)
+            if info is not None and gold >= int(info["cost"] or 0):
+                actions.append(Action(MINION_ACTIVATE, info["name"],
+                                      int(info["cost"] or 0),
+                                      {"activate": info, "minion": m}))
 
     # Buy a tavern spell — variable cost (its own COST), affordability checked.
     for sp in (_get(snapshot, "shop_spells", []) or []):
