@@ -142,6 +142,40 @@ def load_trinket_stats(source: Optional[str]) -> List[TrinketStats]:
     ]
 
 
+def _apply_hsreplay_priors(db: "StatsDB") -> None:
+    """Blend HSReplay hero/trinket placements into the Firestone stats
+    (HSReplay weighted higher — larger population, top-MMR filtered) and
+    append HSReplay-only trinkets so draft ranking sees them."""
+    try:
+        from . import hsreplay_priors as hp
+    except Exception:
+        return
+    try:
+        for h in db.heroes:
+            ap = hp.hero_prior(h.name)
+            if ap is not None:
+                h.average_position = round(
+                    hp.blend(h.average_position, ap), 3)
+        known = {t.name.lower() for t in db.trinkets}
+        for t in db.trinkets:
+            ap = hp.trinket_prior(t.name)
+            if ap is not None:
+                t.average_position = round(
+                    hp.blend(t.average_position, ap), 3)
+        for item in hp.trinket_items():
+            name = item.get("name") or ""
+            ap = item.get("averagePlacement")
+            if not name or name.lower() in known or ap is None:
+                continue
+            db.trinkets.append(TrinketStats(
+                name=name, card_id=item.get("cardId", ""),
+                average_position=float(ap),
+                pick_rate=float(item.get("pickRate") or 0.0),
+                tier=str(item.get("tier", "?")), text=""))
+    except Exception:
+        pass
+
+
 class StatsDB:
     """Loaded hero + comp stats with lookups for advice."""
 
@@ -156,12 +190,15 @@ class StatsDB:
              comp_source: Optional[str] = None,
              trinket_source: Optional[str] = None) -> "StatsDB":
         """Load stats. Defaults to the real Firestone snapshot if present, else
-        the bundled sample data."""
-        return cls(
+        the bundled sample data. HSReplay placements (when imported) blend in
+        at higher weight, and HSReplay-only trinkets are appended."""
+        db = cls(
             load_hero_stats(hero_source or default_hero_source()),
             load_comp_stats(comp_source or default_comp_source()),
             load_trinket_stats(trinket_source or default_trinket_source()),
         )
+        _apply_hsreplay_priors(db)
+        return db
 
     def best_trinkets(self, limit: int = 5) -> List[TrinketStats]:
         return sorted(self.trinkets, key=lambda t: t.average_position)[:limit]

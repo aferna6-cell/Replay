@@ -201,17 +201,27 @@ def _late_scaling_adjust(action, snapshot):
             "scales your board up — a real power upgrade for the late game")
 
 
-def _quality_buy_adjust(action):
-    """(placement_adjustment, reason, is_strong) from real top-MMR card stats.
-    Works for both minion buys and spell buys (different detail keys)."""
+def _quality_buy_adjust(action, snapshot=None):
+    """(placement_adjustment, reason, is_strong) from real top-MMR card stats,
+    plus a turn-aware nudge from what top players actually buy this turn
+    (HSReplay purchase rates). Works for both minion and spell buys."""
     card = action.detail.get("minion") or action.detail.get("spell") or {}
     cid = (card.get("card_id") if isinstance(card, dict)
            else getattr(card, "card_id", None))
     try:
         from .card_quality import buy_adjust
-        return buy_adjust(cid, action.target)
+        adj, reason, strong = buy_adjust(cid, action.target)
     except Exception:
-        return 0.0, None, False
+        adj, reason, strong = 0.0, None, False
+    try:
+        from .hsreplay_priors import turn_buy_adjust
+        tadj, treason = turn_buy_adjust(action.target,
+                                        _get(snapshot, "turn", None))
+        adj += tadj
+        reason = reason or treason
+    except Exception:
+        pass
+    return adj, reason, strong
 
 
 def _lobby_tech_adjust(action, snapshot):
@@ -452,7 +462,7 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # Meta quality: real top-MMR placement for this card. Strong cards
                 # get bought instead of rolled past; a strong card is also exempt
                 # from the filler/off-comp penalties below (it's worth buying).
-                qadj, qreason, q_strong = _quality_buy_adjust(a)
+                qadj, qreason, q_strong = _quality_buy_adjust(a, snapshot)
                 if qadj:
                     v = max(1.0, min(8.0, v + qadj))
                     if qreason and not tech_reason:
@@ -528,7 +538,7 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
             v = max(1.0, base + bonus)
             reason = sreason
             # Meta quality for spells too — a strong tavern spell is a priority buy.
-            qadj, qreason, _ = _quality_buy_adjust(a)
+            qadj, qreason, _ = _quality_buy_adjust(a, snapshot)
             if qadj:
                 v = max(1.0, v + qadj)
                 if qreason:

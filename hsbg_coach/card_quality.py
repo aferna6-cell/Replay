@@ -40,7 +40,18 @@ def _index():
 
 
 def placement(card_id: Optional[str] = None, name: Optional[str] = None) -> Optional[float]:
-    """Real top-MMR average placement for a card (lower = better), or None."""
+    """Real top-MMR average placement for a card (lower = better), or None.
+    Name lookups go through the blended Firestone+HSReplay prior
+    (card_meta_stats — HSReplay weighted higher); card-id lookups fall back
+    to the Firestone-only index (the only source keyed by id)."""
+    if name:
+        try:
+            from .card_meta_stats import prior
+            p = prior(name)
+            if p is not None:
+                return p[0]
+        except Exception:
+            pass
     by_id, by_name = _index()
     if card_id and card_id in by_id:
         return by_id[card_id]

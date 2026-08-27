@@ -30,12 +30,31 @@ def _real_capture_wrappers():
               {"series": {"data": {"ALL": [
                   {"minion_dbf_id": 100001, "minion_tier": 2,
                    "composition_ids": [92],
-                   "normal_aggregates": {"avg_final_placement": 3.31,
-                                         "num_games": 5000},
-                   "premium_aggregates": {"avg_final_placement": 2.9}},
+                   "normal_aggregates": [
+                       {"combat_round": 3,
+                        "sum_of_placements_for_players_with_minion": 662,
+                        "count_of_games_with_minion": 200,
+                        "sum_of_placements_for_players_without_minion": 4500,
+                        "count_of_games_without_minion": 1000},
+                       {"combat_round": 4,
+                        "sum_of_placements_for_players_with_minion": 330,
+                        "count_of_games_with_minion": 100,
+                        "sum_of_placements_for_players_without_minion": 4600,
+                        "count_of_games_without_minion": 1000}],
+                   "premium_aggregates": [
+                       {"combat_round": 4,
+                        "sum_of_placements_for_players_with_minion": 29,
+                        "count_of_games_with_minion": 10,
+                        "sum_of_placements_for_players_without_minion": 450,
+                        "count_of_games_without_minion": 100}]},
                   {"minion_dbf_id": 100002, "minion_tier": 3,
                    "composition_ids": [55],
-                   "normal_aggregates": {"avg_final_placement": 2.95}},
+                   "normal_aggregates": [
+                       {"combat_round": 5,
+                        "sum_of_placements_for_players_with_minion": 295,
+                        "count_of_games_with_minion": 100,
+                        "sum_of_placements_for_players_without_minion": 3500,
+                        "count_of_games_without_minion": 1000}]},
               ]}}}),
         _wrap(f"https://hsreplay.net/analytics/query/battlegrounds_comp_stats/{q}",
               {"series": {"data": {"ALL": [
@@ -94,7 +113,23 @@ def test_real_endpoints_end_to_end(tmp_path, names):
 
     cards = json.loads(out.read_text())["cards"]
     assert cards[0] == {"name": "Bream Counter", "cardId": "100002",
-                        "averagePlacement": 2.95, "techLevel": 3}
+                        "averagePlacement": 2.95, "impact": 0.55,
+                        "techLevel": 3, "totalPlayed": 100}
+    sell = cards[1]
+    assert sell["name"] == "Sellemental"
+    assert sell["averagePlacement"] == pytest.approx(992 / 300, abs=1e-3)
+    assert sell["impact"] == pytest.approx(9100 / 2000 - 992 / 300, abs=1e-3)
+
+    by_turn = json.loads(
+        (tmp_path / "hsreplay_card_stats_by_turn.json").read_text())["turns"]
+    assert by_turn["3"][0]["averagePlacement"] == pytest.approx(3.31)
+    assert by_turn["5"][0]["name"] == "Bream Counter"
+
+    minions = json.loads(
+        (tmp_path / "hsreplay_minions_stats.json").read_text())["items"]
+    sell_item = next(m for m in minions if m["name"] == "Sellemental")
+    assert sell_item["goldenAveragePlacement"] == pytest.approx(2.9)
+    assert sell_item["byRound"]["4"]["games"] == 100
 
     comps = json.loads((tmp_path / "hsreplay_comps_stats.json").read_text())
     assert comps["items"][0]["name"] == "Elementals"     # id 92 resolved

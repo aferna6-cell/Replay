@@ -318,25 +318,63 @@ def _flat(row: Dict) -> Dict:
     return out
 
 
+def _agg_summary(agg_rows):
+    """Collapse a minion's per-combat-round aggregate list (raw placement
+    sums with/without the minion) into (avg_placement, impact, games,
+    by_round). Placement is the game's FINAL placement, so each round row is
+    'avg final placement of players holding it at round N'; the overall is
+    observation-weighted across rounds."""
+    sw = cw = so = co = 0
+    by_round = {}
+    for r in agg_rows or []:
+        w_cnt = r.get("count_of_games_with_minion") or 0
+        w_sum = r.get("sum_of_placements_for_players_with_minion") or 0
+        o_cnt = r.get("count_of_games_without_minion") or 0
+        o_sum = r.get("sum_of_placements_for_players_without_minion") or 0
+        cw += w_cnt; sw += w_sum; co += o_cnt; so += o_sum
+        rnd = r.get("combat_round")
+        if rnd is not None and w_cnt:
+            cell = {"averagePlacement": round(w_sum / w_cnt, 3),
+                    "games": w_cnt}
+            if o_cnt:
+                cell["impact"] = round(o_sum / o_cnt - w_sum / w_cnt, 3)
+            by_round[str(rnd)] = cell
+    ap = round(sw / cw, 3) if cw else None
+    impact = round(so / co - sw / cw, 3) if (cw and co) else None
+    return ap, impact, cw, by_round
+
+
 def _h_minion_list(rows, ctx):
-    items, cards = [], []
+    items, cards, by_turn = [], [], {}
     for r in rows:
         dbf = r.get("minion_dbf_id")
         if dbf is None:
             continue
-        flat = _flat(r)
-        item = {"name": _resolve(dbf), "cardId": str(dbf),
-                "techLevel": r.get("minion_tier"), **flat}
-        ap = _first_ap(flat)
-        if ap is not None:
-            item["averagePlacement"] = ap
-            cards.append({"name": item["name"], "cardId": str(dbf),
-                          "averagePlacement": ap,
-                          "techLevel": r.get("minion_tier")})
+        name = _resolve(dbf)
+        ap, impact, games, by_round = _agg_summary(r.get("normal_aggregates"))
+        g_ap, g_impact, _, _ = _agg_summary(r.get("premium_aggregates"))
+        item = {"name": name, "cardId": str(dbf),
+                "techLevel": r.get("minion_tier"),
+                "compositionIds": r.get("composition_ids") or [],
+                "averagePlacement": ap, "impact": impact,
+                "observations": games, "byRound": by_round,
+                "goldenAveragePlacement": g_ap, "goldenImpact": g_impact}
         items.append(item)
+        if ap is not None:
+            cards.append({"name": name, "cardId": str(dbf),
+                          "averagePlacement": ap, "impact": impact,
+                          "techLevel": r.get("minion_tier"),
+                          "totalPlayed": games})
+        for rnd, cell in by_round.items():
+            by_turn.setdefault(rnd, []).append(
+                {"name": name, "cardId": str(dbf), **cell})
+    for rnd in by_turn:
+        by_turn[rnd].sort(key=lambda c: c["averagePlacement"])
     ctx["files"]["minions"] = {"items": items}
     if cards:
         ctx["cards"] = sorted(cards, key=lambda c: c["averagePlacement"])
+    if by_turn:
+        ctx["cards_by_turn"] = by_turn
     ctx["counts"]["minions"] = len(items)
 
 
@@ -538,6 +576,10 @@ def ingest_wrappers(wrappers: List[dict], src: str,
     if ctx.get("cards"):
         _write(out_path, {"_source": src, "_imported": stamp,
                           "_percentile": pct, "cards": ctx["cards"]})
+    if ctx.get("cards_by_turn"):
+        _write(by_turn_path, {"_source": src, "_imported": stamp,
+                              "_percentile": pct,
+                              "turns": ctx["cards_by_turn"]})
 
     def ranked(d: Dict[str, dict]) -> list:
         return sorted(d.values(), key=lambda c: c["averagePlacement"])
@@ -563,7 +605,7 @@ def ingest_wrappers(wrappers: List[dict], src: str,
         _write(out_path, {"_source": src, "_imported": stamp,
                           "cards": ranked(minions[None])})
     minion_turns = sorted(t for t in minions if t is not None)
-    if minion_turns:
+    if minion_turns and not ctx.get("cards_by_turn"):
         _write(by_turn_path, {
             "_source": src, "_imported": stamp,
             "turns": {str(t): ranked(minions[t]) for t in minion_turns}})

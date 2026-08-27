@@ -42,6 +42,14 @@ def load_pace(source: Optional[str] = None) -> Dict[str, Dict[int, float]]:
     src = source or (FIRESTONE_PACE if os.path.isfile(FIRESTONE_PACE) else None)
     d = json.load(open(src, encoding="utf-8")) if src else {}
     tavern = {int(k): v for k, v in d.get("tavern_tier", {}).items()} or dict(STANDARD_TAVERN_TIER)
+    # Blend in the HSReplay leveling curve (expected tier per round from the
+    # real at-tier distribution) when imported — weighted over Firestone.
+    try:
+        from .hsreplay_priors import blend, tavern_tier_curve
+        for rnd, tier in tavern_tier_curve().items():
+            tavern[rnd] = round(blend(tavern.get(rnd), tier), 3)
+    except Exception:
+        pass
     return {
         "tavern_tier": tavern,
         "leveling": {int(k): v for k, v in d.get("leveling", {}).items()},
