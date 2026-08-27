@@ -493,12 +493,13 @@ def cmd_import_hsreplay(args) -> int:
     try:
         if os.path.isdir(args.path):
             result = hsreplay_import.import_captures(args.path)
-            count = result["overall"] + len(result["turns"])
+            count = sum(result["categories"].values())
             if count:
                 card_meta_stats.reload()
-                print(f"Imported {result['overall']} cards overall"
-                      + (f" + turn-filtered stats for turns {result['turns']}"
-                         if result["turns"] else ""))
+                for cat, n in sorted(result["categories"].items()):
+                    print(f"  {cat:11s} {n:4d} items")
+                if result["turns"]:
+                    print(f"  minion turn splits: {result['turns']}")
                 print("Retrain to fold them in: ./scripts/retrain.sh")
                 return 0
         else:

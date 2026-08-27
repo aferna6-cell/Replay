@@ -28,7 +28,10 @@ from functools import lru_cache
 from typing import Dict, Optional, Tuple
 
 _STATS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "stats")
-SOURCES = ("firestone_card_stats.json", "hsreplay_card_stats.json")
+# Source blend weights. HSReplay outweighs Firestone by design: its BG data
+# comes from the larger HDT-uploading population and (via the capture tool)
+# is filtered to top-10% lobbies, so where the two disagree we lean HSReplay.
+SOURCES = {"firestone_card_stats.json": 1.0, "hsreplay_card_stats.json": 2.0}
 
 # Neutral averagePlacement (kept in sync with card_quality._NEUTRAL).
 NEUTRAL_PLACEMENT = 3.4
@@ -44,19 +47,20 @@ def _load(path: str) -> list:
 
 @lru_cache(maxsize=1)
 def _index() -> Dict[str, Tuple[float, float]]:
-    """lowercase name -> (averagePlacement, impact), mean-blended across the
-    sources that know the card. Missing impact contributes 0."""
+    """lowercase name -> (averagePlacement, impact), weighted-mean-blended
+    across the sources that know the card (weights in SOURCES). Missing
+    impact contributes 0."""
     acc: Dict[str, list] = {}
-    for fname in SOURCES:
+    for fname, w in SOURCES.items():
         for c in _load(os.path.join(_STATS_DIR, fname)):
             name = (c.get("name") or "").lower()
             ap = c.get("averagePlacement")
             if not name or ap is None:
                 continue
-            acc.setdefault(name, []).append((float(ap),
-                                             float(c.get("impact") or 0.0)))
-    return {name: (sum(a for a, _ in rows) / len(rows),
-                   sum(i for _, i in rows) / len(rows))
+            acc.setdefault(name, []).append(
+                (w, float(ap), float(c.get("impact") or 0.0)))
+    return {name: (sum(w * a for w, a, _ in rows) / sum(w for w, _, _ in rows),
+                   sum(w * i for w, _, i in rows) / sum(w for w, _, _ in rows))
             for name, rows in acc.items()}
 
 

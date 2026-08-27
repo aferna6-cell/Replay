@@ -183,20 +183,23 @@ Two stat sources blend automatically when both exist:
 
 - **Firestone** (`data/stats/firestone_card_stats.json`) — auto-refreshed by
   `hsbg_coach refresh-stats`; always available.
-- **HSReplay.net** (`data/stats/hsreplay_card_stats.json` +
-  `hsreplay_card_stats_by_turn.json`) — optional. HSReplay has no public API
+- **HSReplay.net** — optional but **weighted 2× over Firestone** in the prior
+  blend (larger HDT population, top-10% filtered). HSReplay has no public API
   and blocks non-browser traffic, so the repeatable path is the **capture
   tool**: it opens a real browser window (your login persists between runs in
   a local profile) and auto-records every stats payload the site fetches
-  while you flip filters — rank, time range, and each **turn** value:
+  while you browse — minions, **comps, heroes, trinkets, dark gifts, quests**,
+  each split by the **turn** filter when you use it. Each category lands in
+  its own `data/stats/hsreplay_<category>_stats.json`:
 
 ```bash
 pip install playwright && python -m playwright install chromium   # once
 python scripts/hsreplay_capture.py
 #   1. window opens on the BG minions page (log in on first run)
-#   2. set Rank=Top 10%, then step the Turn filter through each value —
+#   2. set Rank=Top 10%, step the Turn filter through each value, then
+#      visit Comps / Heroes / Trinkets / Dark Gifts pages the same way —
 #      the terminal prints "captured #NNN" as each payload lands
-#   3. press Enter -> auto-import: overall + per-turn stats files
+#   3. press Enter -> auto-import, categorized + per-turn stats files
 ./scripts/retrain.sh                                   # fold into the net
 ```
 

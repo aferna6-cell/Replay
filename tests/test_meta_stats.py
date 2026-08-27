@@ -27,14 +27,15 @@ def test_prior_single_source(stats_dir):
     assert card_meta_stats.prior("Nonexistent Card") is None
 
 
-def test_prior_blends_both_sources(stats_dir):
+def test_prior_blends_both_sources_hsreplay_weighted_higher(stats_dir):
     _write(stats_dir / "firestone_card_stats.json",
            [{"name": "Sellemental", "averagePlacement": 3.0, "impact": 0.4}])
     _write(stats_dir / "hsreplay_card_stats.json",
            [{"name": "Sellemental", "averagePlacement": 3.4, "impact": 0.2}])
     ap, impact = card_meta_stats.prior("Sellemental")
-    assert ap == pytest.approx(3.2)
-    assert impact == pytest.approx(0.3)
+    # weighted mean: firestone 1.0, hsreplay 2.0
+    assert ap == pytest.approx((3.0 * 1 + 3.4 * 2) / 3)
+    assert impact == pytest.approx((0.4 * 1 + 0.2 * 2) / 3)
 
 
 def test_prior_golden_falls_back_to_base(stats_dir):
@@ -126,8 +127,11 @@ def test_import_captures_overall_and_by_turn(tmp_path):
          [{"name": "Sellemental", "avg_placement": 3.5, "games": 200}])
     out = tmp_path / "overall.json"
     by_turn = tmp_path / "by_turn.json"
-    result = hsreplay_import.import_captures(str(cap_dir), str(out), str(by_turn))
-    assert result == {"overall": 1, "turns": [5, 8]}
+    result = hsreplay_import.import_captures(str(cap_dir), str(out), str(by_turn),
+                                             stats_dir=str(tmp_path))
+    assert result["overall"] == 1
+    assert result["turns"] == [5, 8]
+    assert result["categories"] == {"minions": 1}
     overall = json.loads(out.read_text())["cards"]
     assert overall == [{"name": "Sellemental", "averagePlacement": 3.5,
                         "totalPlayed": 200}]
@@ -143,8 +147,10 @@ def test_import_captures_post_body_turn(tmp_path):
          [{"name": "Upper Hand", "avg_placement": 2.5}],
          post='{"filters": {"turn": 6}}')
     result = hsreplay_import.import_captures(
-        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"))
-    assert result == {"overall": 0, "turns": [6]}
+        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"),
+        stats_dir=str(tmp_path))
+    assert result["overall"] == 0
+    assert result["turns"] == [6]
 
 
 def test_import_captures_ignores_junk(tmp_path):
@@ -153,6 +159,31 @@ def test_import_captures_ignores_junk(tmp_path):
     (cap_dir / "cap_0001.json").write_text("not json{", encoding="utf-8")
     _cap(cap_dir, 2, "https://hsreplay.net/api/v1/account/", [])
     result = hsreplay_import.import_captures(
-        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"))
-    assert result == {"overall": 0, "turns": []}
+        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"),
+        stats_dir=str(tmp_path))
+    assert result == {"overall": 0, "turns": [], "categories": {}}
+    assert not (tmp_path / "o.json").exists()
+
+
+def test_import_captures_categorizes_all_data_types(tmp_path):
+    cap_dir = tmp_path / "caps"
+    cap_dir.mkdir()
+    _cap(cap_dir, 1, "https://hsreplay.net/analytics/query/bg_comp_stats/",
+         [{"name": "Murlocs", "avg_placement": 3.2}])
+    _cap(cap_dir, 2, "https://hsreplay.net/analytics/query/bg_trinket_stats/",
+         [{"name": "Ship in a Bottle", "avg_placement": 3.5}])
+    _cap(cap_dir, 3, "https://hsreplay.net/analytics/query/bg_dark_gift_stats/",
+         [{"name": "Echoes of Argus", "avg_placement": 3.1}])
+    _cap(cap_dir, 4, "https://hsreplay.net/analytics/query/bg_hero_stats/",
+         [{"name": "Reno Jackson", "avg_placement": 3.9}])
+    result = hsreplay_import.import_captures(
+        str(cap_dir), str(tmp_path / "o.json"), str(tmp_path / "t.json"),
+        stats_dir=str(tmp_path))
+    assert result["categories"] == {"comps": 1, "trinkets": 1,
+                                    "dark_gifts": 1, "heroes": 1}
+    comps = json.loads((tmp_path / "hsreplay_comps_stats.json").read_text())
+    assert comps["items"][0]["name"] == "Murlocs"
+    gifts = json.loads((tmp_path / "hsreplay_dark_gifts_stats.json").read_text())
+    assert gifts["items"][0]["name"] == "Echoes of Argus"
+    # minions files untouched when no minion payloads captured
     assert not (tmp_path / "o.json").exists()

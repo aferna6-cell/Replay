@@ -92,9 +92,16 @@ def main() -> int:
         print(f"  captured #{count[0]:03d}  {short}")
 
     print(f"Captures -> {capture_dir}")
-    print("Opening browser… log in if asked, then flip filters "
-          "(rank, time range, and each TURN value). Every stats request the "
-          "page makes is captured automatically.")
+    print("""Opening browser… log in if asked, then walk the WHOLE BG section —
+every stats request any page makes is captured automatically:
+
+  1. Minions page: set Rank = Top 10%, then step the TURN filter through
+     each value (let the table reload between clicks)
+  2. Comps page: same — overall, then per-turn if offered
+  3. Heroes, Trinkets, Dark Gifts / Quests pages: open each, flip the
+     filters you care about
+
+Watch this terminal — a line prints per captured payload.""")
     with sync_playwright() as p:
         launch = dict(headless=False, viewport=None)
         try:      # your installed Chrome looks most like a normal user
@@ -128,12 +135,12 @@ def main() -> int:
     from hsbg_coach import card_meta_stats, hsreplay_import
     result = hsreplay_import.import_captures(str(capture_dir))
     card_meta_stats.reload()
-    print(f"Imported: {result['overall']} cards overall"
-          + (f", turn-filtered data for turns {sorted(result['turns'])}"
-             if result["turns"] else "")
-          + f"\n  -> {hsreplay_import.OUT_PATH}"
-          + (f"\n  -> {hsreplay_import.BY_TURN_PATH}" if result["turns"] else ""))
-    if not result["overall"] and not result["turns"]:
+    print(f"Imported: {result['overall']} minions overall"
+          + (f", minion turn splits {result['turns']}" if result["turns"] else ""))
+    for cat, n in sorted(result["categories"].items()):
+        print(f"  {cat:11s} {n:4d} items -> "
+              f"{hsreplay_import.category_path(cat)}")
+    if not result["categories"]:
         print("No minion rows recognized in the captures. Run again and make "
               "sure the stats table actually reloads when you flip filters; "
               "if it still finds nothing, share one cap_*.json so the "

@@ -36,6 +36,32 @@ _STATS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "stats")
 OUT_PATH = os.path.join(_STATS_DIR, "hsreplay_card_stats.json")
 BY_TURN_PATH = os.path.join(_STATS_DIR, "hsreplay_card_stats_by_turn.json")
 
+# Everything HSReplay publishes for BG, not just minions. Categorized by
+# request-URL keywords (first match wins); each category gets its own
+# data/stats/hsreplay_<category>_stats.json. Minions additionally keep the
+# legacy OUT_PATH/BY_TURN_PATH files that card_meta_stats blends from.
+CATEGORIES = (
+    ("comps", ("comp", "composition", "archetype")),
+    ("trinkets", ("trinket",)),
+    ("dark_gifts", ("gift", "darkgift", "dark-gift", "anomal")),
+    ("quests", ("quest", "reward")),
+    ("heroes", ("hero",)),
+    ("minions", ("minion", "card")),
+)
+
+
+def category_of(wrapper: dict) -> str:
+    haystack = ((wrapper.get("url") or "") + " "
+                + (wrapper.get("post_data") or "")).lower()
+    for cat, keys in CATEGORIES:
+        if any(k in haystack for k in keys):
+            return cat
+    return "minions"       # rows with a name + 1-8 avg placement default here
+
+
+def category_path(cat: str) -> str:
+    return os.path.join(_STATS_DIR, f"hsreplay_{cat}_stats.json")
+
 # Loose key aliases (lowercased, spaces/underscores stripped) -> canonical.
 _KEYS = {
     "name": ("name", "cardname", "card", "minion", "minionname"),
@@ -140,14 +166,23 @@ def _write(path: str, payload: dict) -> None:
 
 
 def import_captures(dir_path: str, out_path: str = OUT_PATH,
-                    by_turn_path: str = BY_TURN_PATH) -> Dict:
+                    by_turn_path: str = BY_TURN_PATH,
+                    stats_dir: Optional[str] = None) -> Dict:
     """Ingest a scripts/hsreplay_capture.py capture directory (or any dir of
-    exported JSON files). Un-turn-filtered payloads merge into the overall
-    stats file; turn-filtered ones into the by-turn file. Later captures of
-    the same card/turn override earlier ones (a re-capture is a refresh).
-    Returns {"overall": n_cards, "turns": [turns seen]}."""
-    overall: Dict[str, dict] = {}
-    by_turn: Dict[int, Dict[str, dict]] = {}
+    exported JSON files). Every payload is categorized (minions / comps /
+    heroes / trinkets / dark_gifts / quests) from its request URL and split
+    by the turn filter it was captured under. Later captures of the same
+    (category, turn, name) override earlier ones (a re-capture is a refresh).
+
+    Writes one hsreplay_<category>_stats.json per non-empty category
+    ({"items": [...], "by_turn": {turn: [...]}}) — plus, for minions, the
+    legacy hsreplay_card_stats.json / _by_turn.json that card_meta_stats and
+    the eval-net priors blend from.
+
+    Returns {"overall": n_minions, "turns": [minion turns],
+             "categories": {cat: n_items}}."""
+    # buckets[cat][turn or None][name] = row
+    buckets: Dict[str, Dict[Optional[int], Dict[str, dict]]] = {}
     for path in sorted(glob.glob(os.path.join(dir_path, "*.json"))):
         try:
             with open(path, encoding="utf-8-sig") as fh:
@@ -155,30 +190,45 @@ def import_captures(dir_path: str, out_path: str = OUT_PATH,
         except (OSError, ValueError):
             continue
         wrapper = blob if isinstance(blob, dict) and "body" in blob else {}
-        cards = normalize(_rows_from_json(wrapper.get("body", blob)))
-        if not cards:
+        rows = normalize(_rows_from_json(wrapper.get("body", blob)))
+        if not rows:
             continue
+        cat = category_of(wrapper)
         turn = _turn_of(wrapper)
-        bucket = by_turn.setdefault(turn, {}) if turn is not None else overall
-        for c in cards:
-            bucket[c["name"]] = c
+        bucket = buckets.setdefault(cat, {}).setdefault(turn, {})
+        for r in rows:
+            bucket[r["name"]] = r
+
     stamp = datetime.date.today().isoformat()
-    if overall:
-        _write(out_path, {
-            "_source": f"hsreplay.net capture ({os.path.basename(dir_path)})",
-            "_imported": stamp,
-            "cards": sorted(overall.values(),
-                            key=lambda c: c["averagePlacement"]),
-        })
-    if by_turn:
+    src = f"hsreplay.net capture ({os.path.basename(dir_path)})"
+
+    def ranked(d: Dict[str, dict]) -> list:
+        return sorted(d.values(), key=lambda c: c["averagePlacement"])
+
+    categories: Dict[str, int] = {}
+    for cat, per_turn in buckets.items():
+        overall = per_turn.get(None, {})
+        turns = {str(t): ranked(per_turn[t])
+                 for t in sorted(t for t in per_turn if t is not None)}
+        categories[cat] = len(overall) or sum(len(v) for v in turns.values())
+        payload = {"_source": src, "_imported": stamp,
+                   "items": ranked(overall)}
+        if turns:
+            payload["by_turn"] = turns
+        base = stats_dir or _STATS_DIR
+        _write(os.path.join(base, f"hsreplay_{cat}_stats.json"), payload)
+
+    minions = buckets.get("minions", {})
+    if minions.get(None):
+        _write(out_path, {"_source": src, "_imported": stamp,
+                          "cards": ranked(minions[None])})
+    minion_turns = sorted(t for t in minions if t is not None)
+    if minion_turns:
         _write(by_turn_path, {
-            "_source": f"hsreplay.net capture ({os.path.basename(dir_path)})",
-            "_imported": stamp,
-            "turns": {str(t): sorted(cards.values(),
-                                     key=lambda c: c["averagePlacement"])
-                      for t, cards in sorted(by_turn.items())},
-        })
-    return {"overall": len(overall), "turns": sorted(by_turn)}
+            "_source": src, "_imported": stamp,
+            "turns": {str(t): ranked(minions[t]) for t in minion_turns}})
+    return {"overall": len(minions.get(None, {})), "turns": minion_turns,
+            "categories": categories}
 
 
 def import_file(path: str, out_path: str = OUT_PATH) -> int:
