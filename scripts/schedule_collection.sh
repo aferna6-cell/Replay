@@ -12,7 +12,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 REPO="$(pwd)"
-PYTHON="$(command -v python3 || command -v python)"
+# Prefer the project venv (it holds torch for the --train step; cron doesn't
+# activate venvs on its own).
+if [ -x "$REPO/.venv/bin/python" ]; then
+  PYTHON="$REPO/.venv/bin/python"
+else
+  PYTHON="$(command -v python3 || command -v python)"
+fi
 MARKER="# hsbg-collect-power-logs"
 
 SCHEDULE="0 21 */2 * *"   # 21:00 on every 2nd day of the month (~every 48h)
