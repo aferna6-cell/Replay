@@ -5,6 +5,9 @@
 # Scheduled log-collection output (logs/*.log captures themselves ARE committed)
 /logs/collect.log
 
+# Fetched VOD transcripts/metadata (other people's content — keep local)
+/data/vods/
+
 # Python
 __pycache__/
 *.py[cod]

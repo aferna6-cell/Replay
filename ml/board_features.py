@@ -28,9 +28,15 @@ TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
           "Pirate", "Naga", "Undead", "Quilboar", "All"]
 _TRIBE_IX = {t: i for i, t in enumerate(TRIBES)}
 
-# dense layout = [card2vec mean | tribe hist | scalars]; scalars listed for docs.
+# dense layout = [card2vec mean | tribe hist | scalars | meta priors];
+# scalars/meta listed for docs.
 _SCALARS = ["size", "sum_atk", "sum_hp", "mean_atk", "mean_hp", "max_tier",
             "mean_tier", "golden", "divine", "reborn", "taunt"]
+# Population priors across ALL games (not just winning final boards) — the
+# explicit anti-survivorship-bias channel. See hsbg_coach/card_meta_stats.py.
+# Placements enter as (NEUTRAL - ap) so positive = better; zeros = no data.
+_META = ["meta_ap_mean", "meta_ap_best", "meta_impact_mean",
+         "meta_impact_best", "meta_coverage"]
 
 
 def _i(v, default: int = 0) -> int:
@@ -84,7 +90,26 @@ def emb_dim(emb: Dict[str, List[float]]) -> int:
 
 
 def feature_dim(emb: Dict[str, List[float]]) -> int:
-    return emb_dim(emb) + len(TRIBES) + len(_SCALARS)
+    return emb_dim(emb) + len(TRIBES) + len(_SCALARS) + len(_META)
+
+
+def meta_prior_vector(minions: List[Dict]) -> np.ndarray:
+    """Population-prior block for a board: how these cards perform across ALL
+    games (mean/best placement edge, mean/best impact, stat coverage)."""
+    from hsbg_coach.card_meta_stats import NEUTRAL_PLACEMENT, prior
+    aps, impacts = [], []
+    for m in minions:
+        p = prior(m.get("name") or "")
+        if p is not None:
+            aps.append(NEUTRAL_PLACEMENT - p[0])   # positive = better card
+            impacts.append(p[1])
+    if not aps:
+        return np.zeros(len(_META))
+    return np.array([
+        float(np.mean(aps)), float(np.max(aps)),
+        float(np.mean(impacts)), float(np.max(impacts)),
+        len(aps) / max(len(minions), 1),
+    ], dtype=float)
 
 
 # Whole-state context (beyond the board): tavern tier, gold, hero health, turn, and
@@ -146,4 +171,4 @@ def board_vector(minions: List[Dict], emb: Dict[str, List[float]]) -> np.ndarray
         sum(m["golden"] for m in minions), sum(m["divine"] for m in minions),
         sum(m["reborn"] for m in minions), sum(m["taunt"] for m in minions),
     ], dtype=float)
-    return np.concatenate([c2v, hist, scalars])
+    return np.concatenate([c2v, hist, scalars, meta_prior_vector(minions)])

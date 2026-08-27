@@ -1,0 +1,112 @@
+#!/usr/bin/env python3
+"""Fetch a streamer VOD's transcript (YouTube/Twitch) into data/vods/.
+
+First rung of the VOD-ingestion ladder (specs/vod-ingestion_spec.md):
+transcripts capture the *reasoning* of high-level players — why they pivot,
+what they scout for, when they level — which no aggregate stat carries. The
+raw board states themselves need the vision rung (same spec, not built yet).
+
+Requires yt-dlp (``pip install yt-dlp``). Uses the platform's subtitles when
+present, else auto-generated captions. Output stays LOCAL (data/vods/ is
+gitignored — transcripts of other people's content don't belong in the repo).
+
+Usage:
+    python scripts/fetch_vod_transcript.py <url> [<url> ...]
+    python scripts/fetch_vod_transcript.py --lang en <url>
+
+Output per VOD:
+    data/vods/<video-id>.txt        cleaned transcript, [mm:ss] timestamped
+    data/vods/<video-id>.info.json  title/channel/duration metadata
+"""
+
+import argparse
+import json
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUT_DIR = REPO_ROOT / "data" / "vods"
+
+
+def _clean_vtt(vtt_text: str) -> str:
+    """WebVTT -> '[mm:ss] line' text, deduping the rolling repeats that
+    auto-captions emit (each cue re-shows the previous line)."""
+    out, last = [], None
+    stamp = None
+    for raw in vtt_text.splitlines():
+        line = raw.strip()
+        m = re.match(r"(\d+):(\d+):(\d+)[.,]\d+\s+-->", line)
+        if m:
+            h, mnt, s = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            total = h * 3600 + mnt * 60 + s
+            stamp = f"[{total // 60:d}:{total % 60:02d}]"
+            continue
+        if (not line or line == "WEBVTT" or line.isdigit()
+                or line.startswith(("Kind:", "Language:", "NOTE"))):
+            continue
+        text = re.sub(r"<[^>]+>", "", line).strip()   # strip cue tags
+        if not text or text == last:
+            continue
+        # rolling-caption overlap: skip if the previous line ends with this one
+        if last and (last.endswith(text) or text.startswith(last)):
+            last = text if text.startswith(last) else last
+            if text.startswith(last):
+                continue
+        out.append(f"{stamp or '[0:00]'} {text}")
+        last = text
+    return "\n".join(out) + "\n"
+
+
+def fetch(url: str, lang: str) -> bool:
+    ytdlp = shutil.which("yt-dlp")
+    if not ytdlp:
+        print("yt-dlp not found — install it with:  pip install yt-dlp")
+        return False
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        res = subprocess.run(
+            [ytdlp, "--skip-download", "--write-info-json",
+             "--write-subs", "--write-auto-subs",
+             "--sub-langs", f"{lang}.*,{lang}", "--sub-format", "vtt",
+             "-o", str(Path(tmp) / "%(id)s.%(ext)s"), url],
+            capture_output=True, text=True)
+        if res.returncode != 0:
+            print(f"yt-dlp failed for {url}:\n{res.stderr.strip()[-500:]}")
+            return False
+        tmp_path = Path(tmp)
+        infos = list(tmp_path.glob("*.info.json"))
+        vtts = sorted(tmp_path.glob("*.vtt"))
+        if not vtts:
+            print(f"No subtitles/captions available for {url}")
+            return False
+        vid = infos[0].stem.replace(".info", "") if infos else vtts[0].stem.split(".")[0]
+        transcript = _clean_vtt(vtts[0].read_text(encoding="utf-8",
+                                                  errors="replace"))
+        (OUT_DIR / f"{vid}.txt").write_text(transcript, encoding="utf-8")
+        if infos:
+            info = json.loads(infos[0].read_text(encoding="utf-8"))
+            meta = {k: info.get(k) for k in
+                    ("id", "title", "channel", "uploader", "duration",
+                     "upload_date", "webpage_url")}
+            (OUT_DIR / f"{vid}.info.json").write_text(
+                json.dumps(meta, indent=1) + "\n", encoding="utf-8")
+        lines = transcript.count("\n")
+        print(f"Saved {OUT_DIR / (vid + '.txt')}  ({lines} lines)")
+    return True
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("urls", nargs="+", help="VOD URLs (YouTube or Twitch)")
+    ap.add_argument("--lang", default="en", help="subtitle language (default en)")
+    args = ap.parse_args()
+    failures = sum(0 if fetch(u, args.lang) else 1 for u in args.urls)
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

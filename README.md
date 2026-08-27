@@ -169,6 +169,51 @@ The model also *understands* each minion, not just its win rate:
 `bridge/` wraps Firestone's open-source simulator. `cd bridge && npm install`
 activates it; `recommend()` then uses it automatically, else the built-in sim.
 
+## Population card priors (anti-survivorship-bias)
+
+card2vec and the final-board corpora only ever see boards that *survived to the
+end of a game* — cards that quietly lose games leave no trace there. To
+counteract that, the eval net's board features carry an explicit
+**population-prior block** (`ml/board_features.py::meta_prior_vector`): each
+board is annotated with how its cards perform across **all** games — mean/best
+placement edge and impact, from per-card `averagePlacement`/`impact` stats —
+via `hsbg_coach/card_meta_stats.py`.
+
+Two stat sources blend automatically when both exist:
+
+- **Firestone** (`data/stats/firestone_card_stats.json`) — auto-refreshed by
+  `hsbg_coach refresh-stats`; always available.
+- **HSReplay.net** (`data/stats/hsreplay_card_stats.json`) — optional.
+  HSReplay has no public API and blocks non-browser traffic, so export the
+  minions-page data from your own logged-in browser session (DevTools →
+  Network → save the JSON, or copy the table into a CSV) and import it:
+
+```bash
+python -m hsbg_coach import-hsreplay path/to/export.json   # or .csv
+./scripts/retrain.sh                                       # fold into the net
+```
+
+The importer accepts loose key names (`avg_placement`, `avgPlacement`,
+"Avg Place"…) since HSReplay's frontend schema is undocumented. After a
+feature-layout change like this, an old local `eval_net.pt` is skipped with a
+retrain hint instead of crashing — run `./scripts/retrain.sh` once.
+
+## Streamer VODs (transcripts today, vision later)
+
+High-level players' *reasoning* — why they pivot, when they greed — exists
+nowhere in aggregate stats. First rung is built: fetch a VOD's captions to a
+local, timestamped transcript (kept out of git):
+
+```bash
+pip install yt-dlp
+python scripts/fetch_vod_transcript.py https://www.youtube.com/watch?v=…
+# -> data/vods/<id>.txt + <id>.info.json
+```
+
+The full ladder — including reconstructing turn-by-turn
+`(state, action, outcome)` trajectories from video frames — is specced in
+`specs/vod-ingestion_spec.md`.
+
 ## Deep learning (optional `ml/` track)
 
 The core package is stdlib-only. The `ml/` track adds the first real neural

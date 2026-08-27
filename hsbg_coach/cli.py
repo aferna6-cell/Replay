@@ -248,6 +248,12 @@ def build_parser() -> argparse.ArgumentParser:
                    help="rebuild the BG card knowledge base from HearthstoneJSON"
                    ).set_defaults(func=cmd_refresh_cards)
 
+    h = sub.add_parser("import-hsreplay",
+                       help="import an HSReplay.net BG minions export "
+                            "(JSON/CSV) as a card-stats source")
+    h.add_argument("path", help="export file saved from your browser session")
+    h.set_defaults(func=cmd_import_hsreplay)
+
     sub.add_parser("pace", help="show the top-10%% leveling/scaling pace benchmark"
                    ).set_defaults(func=cmd_pace)
 
@@ -478,6 +484,25 @@ def cmd_refresh_stats(args) -> int:
         return 1
     print(f"Wrote {result['num_heroes']} heroes -> {result['heroes']}")
     print(f"Wrote {result['num_comps']} comps  -> {result['comps']}")
+    return 0
+
+
+def cmd_import_hsreplay(args) -> int:
+    from . import card_meta_stats, hsreplay_import
+    try:
+        count = hsreplay_import.import_file(args.path)
+    except Exception as exc:
+        print("Import failed:", exc)
+        return 1
+    if not count:
+        print("No usable minion rows found in", args.path)
+        print("Need at least a card-name column and an avg-placement column "
+              "(1.0–8.0). See hsbg_coach/hsreplay_import.py for accepted keys.")
+        return 1
+    card_meta_stats.reload()
+    print(f"Imported {count} cards -> {hsreplay_import.OUT_PATH}")
+    print("They now blend with the Firestone stats (advisor + eval-net "
+          "features). Retrain to fold them into the net: ./scripts/retrain.sh")
     return 0
 
 
