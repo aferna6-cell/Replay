@@ -44,8 +44,17 @@ PROFILE_DIR = STATS_DIR / "hsreplay_profile"
 CAPTURES_ROOT = STATS_DIR / "hsreplay_captures"
 DEFAULT_URL = "https://hsreplay.net/battlegrounds/minions/"
 
-# Responses worth keeping: JSON from hsreplay's stats/analytics endpoints.
-_INTERESTING = re.compile(r"hsreplay\.net/(analytics|api)/", re.I)
+# Capture EVERY JSON response except known trackers/ads — the stats payloads
+# have shipped from several hosts/paths over time, so an allowlist misses data;
+# the importer sorts out what's usable.
+_BLOCKED = re.compile(
+    r"google|gstatic|doubleclick|facebook|sentry|amplitude|braze|"
+    r"cloudflareinsights|adsystem|quantserve|scorecard|adnxs|criteo|"
+    r"prebid|rubicon|pubmatic|onetrust|cookielaw", re.I)
+
+
+def _interesting(url: str) -> bool:
+    return not _BLOCKED.search(url)
 
 
 def main() -> int:
@@ -69,7 +78,7 @@ def main() -> int:
 
     def on_response(response):
         url = response.url
-        if not _INTERESTING.search(url):
+        if not _interesting(url):
             return
         try:
             ctype = response.headers.get("content-type", "")

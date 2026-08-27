@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HSBG Coach — HSReplay capture
 // @namespace    hsbg-coach
-// @version      1.0
+// @version      1.1
 // @description  Records the BG stats payloads hsreplay.net fetches while you browse, and downloads them as one bundle for `python -m hsbg_coach import-hsreplay`.
 // @match        https://hsreplay.net/*
 // @run-at       document-start
@@ -18,7 +18,10 @@
 //     python -m hsbg_coach import-hsreplay ~/Downloads/hsreplay_bundle.json
 (function () {
   "use strict";
-  const INTERESTING = /hsreplay\.net\/(analytics|api)\//i;
+  // Capture every JSON response except trackers/ads — the importer decides
+  // what's usable, and an allowlist risks missing the host the stats ship from.
+  const BLOCKED = /google|gstatic|doubleclick|facebook|sentry|amplitude|braze|cloudflareinsights|adsystem|quantserve|scorecard|adnxs|criteo|prebid|rubicon|pubmatic|onetrust|cookielaw/i;
+  const INTERESTING = { test: (u) => !BLOCKED.test(u) };
   const captures = [];
 
   function record(url, method, postData, body) {

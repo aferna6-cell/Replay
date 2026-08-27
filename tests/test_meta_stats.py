@@ -208,3 +208,37 @@ def test_import_file_detects_userscript_bundle(tmp_path, monkeypatch):
     minions = json.loads(
         (tmp_path / "hsreplay_minions_stats.json").read_text())
     assert minions["by_turn"]["4"][0]["name"] == "Sellemental"
+
+
+def test_normalize_resolves_dbf_ids(monkeypatch):
+    monkeypatch.setattr(hsreplay_import, "_NAME_INDEX",
+                        {"104553": "Sellemental", "BG28_573": "Upper Hand"})
+    rows = hsreplay_import._rows_from_json({
+        "104553": {"avg_final_placement": 3.44, "games": 500},
+        "104554": {"avg_final_placement": 2.9},
+        "104555": {"avg_final_placement": 3.0},
+        "104556": {"avg_final_placement": 3.1},
+    })
+    assert len(rows) == 4                       # dict keyed by dbf id -> rows
+    cards = hsreplay_import.normalize(rows)
+    assert cards == [{"name": "Sellemental", "averagePlacement": 3.44,
+                      "cardId": "104553", "totalPlayed": 500}]
+    # card-id string resolution too
+    cards = hsreplay_import.normalize(
+        [{"card_id": "BG28_573", "avg_placement": 2.45}])
+    assert cards[0]["name"] == "Upper Hand"
+
+
+def test_diagnose_reports_shapes(tmp_path, monkeypatch):
+    monkeypatch.setattr(hsreplay_import, "_NAME_INDEX", {})
+    cap_dir = tmp_path / "caps"
+    cap_dir.mkdir()
+    _cap(cap_dir, 1, "https://hsreplay.net/analytics/query/bg_minions/",
+         [{"weird_key": "Sellemental", "strange_stat": 3.4}])
+    (cap_dir / "cap_0002.json").write_text(json.dumps(
+        {"url": "https://hsreplay.net/api/v1/whatever/",
+         "body": {"unrecognized": {"envelope": True}}}), encoding="utf-8")
+    report = hsreplay_import.diagnose(str(cap_dir))
+    assert "first row keys: weird_key, strange_stat" in report
+    assert "body shape:" in report
+    assert "normalized 0" in report

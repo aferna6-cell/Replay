@@ -34,3 +34,6 @@ bridge/package-lock.json
 # OS
 .DS_Store
 *.pt.meta.json
+
+# HearthstoneJSON dbf-id index (auto-downloaded cache, regenerable)
+/data/cards/hsjson_index.json

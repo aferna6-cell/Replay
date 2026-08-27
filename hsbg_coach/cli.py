@@ -253,6 +253,10 @@ def build_parser() -> argparse.ArgumentParser:
                             "(JSON/CSV) or a hsreplay_capture.py capture dir")
     h.add_argument("path", help="export file, or a capture directory from "
                                 "scripts/hsreplay_capture.py")
+    h.add_argument("--diagnose", action="store_true",
+                   help="report what a capture dir holds and why rows did or "
+                        "didn't normalize (paste the output when imports "
+                        "find nothing)")
     h.set_defaults(func=cmd_import_hsreplay)
 
     sub.add_parser("pace", help="show the top-10%% leveling/scaling pace benchmark"
@@ -490,6 +494,13 @@ def cmd_refresh_stats(args) -> int:
 
 def cmd_import_hsreplay(args) -> int:
     from . import card_meta_stats, hsreplay_import
+    if getattr(args, "diagnose", False):
+        target = args.path
+        if not os.path.isdir(target):
+            print("--diagnose expects a capture directory")
+            return 1
+        print(hsreplay_import.diagnose(target))
+        return 0
     try:
         if os.path.isdir(args.path):
             result = hsreplay_import.import_captures(args.path)
