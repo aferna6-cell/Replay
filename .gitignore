@@ -2,8 +2,9 @@
 /data/*.jsonl
 /data/*.jsonl.partial
 
-# Scheduled log-collection output (logs/*.log captures themselves ARE committed)
+# Scheduled-job output (logs/*.log captures themselves ARE committed)
 /logs/collect.log
+/logs/hsreplay_weekly.log
 
 # Fetched VOD transcripts/metadata (other people's content — keep local)
 /data/vods/

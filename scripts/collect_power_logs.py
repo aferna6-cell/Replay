@@ -152,15 +152,37 @@ def collect(args) -> list:
     return added
 
 
-def parse_logs(new_logs: list) -> None:
-    """Turn each new log into (state, action, outcome) trajectories in data/."""
-    for log in new_logs:
-        print(f"Parsing {log.name} -> trajectories…")
-        res = subprocess.run(
-            [sys.executable, "-m", "hsbg_coach", "parse-file", str(log)],
-            cwd=REPO_ROOT)
-        if res.returncode != 0:
-            print(f"  WARN: parse failed for {log.name} (continuing)")
+def parse_one(log: Path) -> bool:
+    """Parse a single log into (state, action, outcome) trajectories."""
+    print(f"Parsing {log.name} -> trajectories…")
+    res = subprocess.run(
+        [sys.executable, "-m", "hsbg_coach", "parse-file", str(log)],
+        cwd=REPO_ROOT)
+    if res.returncode != 0:
+        print(f"  WARN: parse failed for {log.name} (continuing)")
+        return False
+    return True
+
+
+def parse_all_pending() -> int:
+    """Parse every archived log not yet folded into data/ trajectories —
+    both freshly collected logs and any backlog in logs/ (e.g. logs pulled
+    from GitHub on a fresh clone, or archived before this flag existed).
+    Tracked via a `parsed` flag per manifest entry, so this is idempotent."""
+    manifest = load_manifest()
+    parsed = 0
+    for meta in manifest["files"].values():
+        if meta.get("parsed"):
+            continue
+        log = LOGS_DIR / meta["name"]
+        if not log.is_file():
+            continue
+        if parse_one(log):
+            meta["parsed"] = True
+            parsed += 1
+    if parsed:
+        save_manifest(manifest)
+    return parsed
 
 
 def train() -> None:
@@ -226,8 +248,10 @@ def main() -> int:
     added = collect(args)
     if args.dry_run:
         return 0
-    if added and not args.no_parse:
-        parse_logs(added)
+    if not args.no_parse:
+        n = parse_all_pending()
+        if n:
+            print(f"Parsed {n} archived log(s) into trajectories.")
     if args.train:
         train()
     if added and not args.no_push:

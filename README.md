@@ -442,6 +442,13 @@ Scheduled-run output lands in `logs/collect.log` (gitignored).
 
 ## Keeping it fresh (weekly meta pull)
 
+HSReplay refreshes itself weekly too: `./scripts/schedule_hsreplay.sh` installs
+a Sunday-evening cron that fetches fresh top-20% stats through your saved
+browser session (`scripts/hsreplay_autofetch.py` — no clicking; run the
+interactive capture once first so the profile is logged in), retrains the
+eval net, and pushes the stats. Output: `logs/hsreplay_weekly.log`.
+
+
 ```bash
 ./scripts/weekly_update.sh            # refresh cards + stats from Firestone, retrain everything
 ```
