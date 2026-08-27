@@ -54,12 +54,33 @@ def log_dir_candidates() -> List[str]:
         ]
     # Linux (e.g. Lutris/Wine) — best effort.
     user = os.environ.get("USER", "user")
-    return [
+    dirs = [
         _expand("~/Games/hearthstone/drive_c/Program Files (x86)/Hearthstone/Logs"),
         _expand("~/.wine/drive_c/Program Files (x86)/Hearthstone/Logs"),
         _expand("~/.wine/drive_c/users", user,
                 "AppData/Local/Blizzard/Hearthstone/Logs"),
     ]
+    # WSL: Hearthstone runs Windows-side; its dirs are visible under /mnt/<drive>.
+    # Wildcards are fine — the callers glob these paths.
+    if is_wsl():
+        dirs += [
+            "/mnt/*/Program Files (x86)/Hearthstone/Logs",
+            "/mnt/*/Hearthstone/Logs",
+            "/mnt/*/Users/*/AppData/Local/Blizzard/Hearthstone/Logs",
+            "/mnt/*/Users/*/AppData/Local/Blizzard/Hearthstone",
+        ]
+    return dirs
+
+
+def is_wsl() -> bool:
+    """Running under Windows Subsystem for Linux (Windows drives on /mnt)."""
+    if not sys.platform.startswith("linux"):
+        return False
+    try:
+        with open("/proc/version", encoding="utf-8", errors="replace") as fh:
+            return "microsoft" in fh.read().lower()
+    except OSError:
+        return os.path.isdir("/mnt/c")
 
 
 def newest_power_log(dirs: List[str]) -> Optional[str]:

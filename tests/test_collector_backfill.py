@@ -52,3 +52,31 @@ def test_parse_failure_not_marked(tmp_path, monkeypatch):
     assert collector.parse_all_pending() == 0
     saved = json.loads((logs / "manifest.json").read_text())
     assert "parsed" not in saved["files"]["aaa"]   # retried next run
+
+
+def test_looks_like_power_log(tmp_path):
+    hs = b"D 10:00:00.0 GameState.DebugPrintPower() - CREATE_GAME\n"
+    (tmp_path / "Power.log").write_bytes(b"anything")          # exact name
+    (tmp_path / "Power_aug20.log").write_bytes(hs)             # renamed, real
+    (tmp_path / "week2.txt").write_bytes(hs)                   # renamed, real
+    (tmp_path / "powershell.log").write_bytes(b"PS boot ok\n") # decoy
+    (tmp_path / "notes.txt").write_bytes(b"todo list\n")       # decoy
+    (tmp_path / "video.mp4").write_bytes(hs)                   # wrong ext
+    assert collector.looks_like_power_log(tmp_path / "Power.log")
+    assert collector.looks_like_power_log(tmp_path / "Power_aug20.log")
+    assert collector.looks_like_power_log(tmp_path / "week2.txt")
+    assert not collector.looks_like_power_log(tmp_path / "powershell.log")
+    assert not collector.looks_like_power_log(tmp_path / "notes.txt")
+    assert not collector.looks_like_power_log(tmp_path / "video.mp4")
+
+
+def test_deep_scan_finds_renamed_logs(tmp_path, monkeypatch):
+    docs = tmp_path / "Documents" / "hs-backups"
+    docs.mkdir(parents=True)
+    hs = b"D 10:00:00.0 PowerTaskList.DebugPrintPower() - TAG_CHANGE\n" * 50
+    (docs / "Power_2026_08_20.log").write_bytes(hs)
+    (docs / "game_week1.txt").write_bytes(hs)
+    (docs / "unrelated.log").write_bytes(b"app started\n" * 50)
+    monkeypatch.setattr(collector, "LOGS_DIR", tmp_path / "repo-logs")
+    found = {p.name for p in collector.deep_scan([tmp_path])}
+    assert found == {"Power_2026_08_20.log", "game_week1.txt"}
