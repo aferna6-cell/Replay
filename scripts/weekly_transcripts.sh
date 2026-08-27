@@ -9,7 +9,10 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
-CHANNELS="${HSBG_CHANNELS:-https://www.youtube.com/channel/UCG9RWeCIYuqKKk-HTQHZLGQ}"  # Rdu Hearthstone
+# Stream-VOD playlists, resolved by title on each channel. Format per entry:
+# "<channel-url>|<playlist-title-substring>". Add more educational high-rank
+# streamers as extra entries (space-separated) or via HSBG_SOURCES.
+SOURCES="${HSBG_SOURCES:-https://www.youtube.com/channel/UCG9RWeCIYuqKKk-HTQHZLGQ|season 14}"  # Rdu stream VODs
 LATEST="${HSBG_LATEST:-5}"
 
 if [ -x ".venv/bin/python" ]; then
@@ -19,16 +22,26 @@ else
   PY="$(command -v python3 || command -v python)"
 fi
 
-echo "==> 1/2  Fetch latest transcripts ($(date))"
-for ch in $CHANNELS; do
-  "$PY" scripts/fetch_vod_transcript.py --channel "$ch" --latest "$LATEST" \
+echo "==> 1/3  Fetch latest stream-VOD transcripts ($(date))"
+for src in $SOURCES; do
+  ch="${src%%|*}"; title="${src#*|}"
+  "$PY" scripts/fetch_vod_transcript.py --channel "$ch" \
+    --playlist-title "$title" --latest "$LATEST" \
     || echo "WARN: fetch failed for $ch (continuing)"
 done
 
-echo "==> 2/2  Distill new transcripts -> playbook (Claude Code subscription)"
+echo "==> 2/3  Distill new transcripts -> playbook + expert priors (subscription)"
 "$PY" scripts/distill_transcripts.py --engine claude-code \
   || echo "WARN: distillation failed — transcripts are saved; re-run later:"\
           " python scripts/distill_transcripts.py --engine claude-code"
 
+echo "==> 3/3  Commit + push expert priors (only if they moved)"
+git add data/stats/expert_card_stats.json 2>/dev/null || true
+if git diff --cached --quiet; then
+  echo "Expert priors unchanged."
+else
+  git commit -m "Expert card priors refresh from streamer VODs ($(date +%Y-%m-%d))"
+  git push || echo "WARN: push failed — commit is local; next run retries."
+fi
 echo "Playbook: data/vods/insights.md"
 echo "Done."

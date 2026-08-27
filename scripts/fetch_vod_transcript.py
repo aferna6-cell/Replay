@@ -99,22 +99,50 @@ def fetch(url: str, lang: str) -> bool:
     return True
 
 
-def latest_video_ids(channel_url: str, n: int) -> list:
-    """The channel's most recent upload ids (no downloads, one metadata call)."""
+def latest_video_ids(source_url: str, n: int) -> list:
+    """Most recent video ids from a channel or a playlist (metadata only).
+    n <= 0 means ALL entries (the first-pass backfill)."""
     ytdlp = shutil.which("yt-dlp")
     if not ytdlp:
         print("yt-dlp not found — install it with:  pip install yt-dlp")
         return []
-    url = channel_url.rstrip("/")
-    if not url.endswith("/videos"):
+    url = source_url.rstrip("/")
+    is_playlist = "list=" in url or "/playlist" in url
+    if not is_playlist and not url.endswith("/videos"):
         url += "/videos"
-    res = subprocess.run(
-        [ytdlp, "--flat-playlist", "--print", "id", "-I", f"1:{n}", url],
-        capture_output=True, text=True)
+    cmd = [ytdlp, "--flat-playlist", "--print", "id"]
+    if n > 0:
+        cmd += ["-I", f"1:{n}"]
+    res = subprocess.run(cmd + [url], capture_output=True, text=True)
     if res.returncode != 0:
-        print(f"channel listing failed:\n{res.stderr.strip()[-400:]}")
+        print(f"listing failed:\n{res.stderr.strip()[-400:]}")
         return []
     return [v for v in res.stdout.split() if v]
+
+
+def find_playlist(channel_url: str, title_pattern: str) -> str:
+    """Resolve a channel playlist by (case-insensitive) title substring —
+    e.g. --playlist-title 'season 14' on Rdu's channel."""
+    ytdlp = shutil.which("yt-dlp")
+    if not ytdlp:
+        return ""
+    url = channel_url.rstrip("/")
+    if not url.endswith("/playlists"):
+        url += "/playlists"
+    res = subprocess.run(
+        [ytdlp, "--flat-playlist", "--print", "%(id)s|%(title)s", url],
+        capture_output=True, text=True)
+    if res.returncode != 0:
+        print(f"playlist listing failed:\n{res.stderr.strip()[-400:]}")
+        return ""
+    want = title_pattern.lower()
+    for line in res.stdout.splitlines():
+        pid, _, title = line.partition("|")
+        if want in title.lower():
+            print(f"Playlist matched: {title.strip()}")
+            return f"https://www.youtube.com/playlist?list={pid.strip()}"
+    print(f"No playlist title containing '{title_pattern}' on {url}")
+    return ""
 
 
 def main() -> int:
@@ -123,23 +151,37 @@ def main() -> int:
     ap.add_argument("--channel",
                     help="a channel URL — fetch its latest uploads instead "
                          "of naming videos one by one")
+    ap.add_argument("--playlist",
+                    help="a playlist URL — fetch from this playlist")
+    ap.add_argument("--playlist-title",
+                    help="with --channel: resolve the playlist whose title "
+                         "contains this text (e.g. 'season 14')")
     ap.add_argument("--latest", type=int, default=5,
-                    help="with --channel: how many recent videos (default 5)")
+                    help="how many recent videos (default 5)")
+    ap.add_argument("--all", action="store_true",
+                    help="fetch EVERY video in the source (first-pass backfill)")
     ap.add_argument("--lang", default="en", help="subtitle language (default en)")
     args = ap.parse_args()
 
+    source = args.playlist
+    if not source and args.channel and args.playlist_title:
+        source = find_playlist(args.channel, args.playlist_title)
+        if not source:
+            return 1
+    source = source or args.channel
+
     urls = list(args.urls)
-    if args.channel:
-        ids = latest_video_ids(args.channel, args.latest)
+    if source:
+        ids = latest_video_ids(source, 0 if args.all else args.latest)
         skipped = [v for v in ids if (OUT_DIR / f"{v}.txt").exists()]
         fresh = [v for v in ids if v not in skipped]
         if skipped:
-            print(f"{len(skipped)} of the latest {len(ids)} already fetched.")
+            print(f"{len(skipped)} of {len(ids)} already fetched.")
         urls += [f"https://www.youtube.com/watch?v={v}" for v in fresh]
     if not urls:
-        print("Nothing to fetch." if args.channel
-              else "Give VOD URLs or --channel <channel-url>.")
-        return 0 if args.channel else 2
+        print("Nothing new to fetch." if source
+              else "Give VOD URLs, --channel, or --playlist.")
+        return 0 if source else 2
     failures = sum(0 if fetch(u, args.lang) else 1 for u in urls)
     return 1 if failures else 0
 

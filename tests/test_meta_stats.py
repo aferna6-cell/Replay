@@ -242,3 +242,44 @@ def test_diagnose_reports_shapes(tmp_path, monkeypatch):
     assert "first row keys: weird_key, strange_stat" in report
     assert "body shape:" in report
     assert "normalized 0" in report
+
+
+def test_expert_priors_outrank_all_sources(stats_dir):
+    _write(stats_dir / "firestone_card_stats.json",
+           [{"name": "Sellemental", "averagePlacement": 3.8}])
+    _write(stats_dir / "hsreplay_card_stats.json",
+           [{"name": "Sellemental", "averagePlacement": 3.6}])
+    _write(stats_dir / "expert_card_stats.json",
+           [{"name": "Sellemental", "averagePlacement": 2.9}])   # "strong"
+    ap, _ = card_meta_stats.prior("Sellemental")
+    expected = (3.8 * 1 + 3.6 * 2 + 2.9 * 3) / 6
+    assert ap == pytest.approx(expected)
+    assert ap < 3.6            # the expert read pulls the blend below the stats
+
+
+def test_compile_expert_priors(tmp_path, monkeypatch):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "dt", "scripts/distill_transcripts.py")
+    dt = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(dt)
+    monkeypatch.setattr(dt, "INSIGHTS_DIR", tmp_path / "insights")
+    monkeypatch.setattr(dt, "EXPERT_STATS", tmp_path / "expert_card_stats.json")
+    dt.INSIGHTS_DIR.mkdir()
+    (dt.INSIGHTS_DIR / "v1.json").write_text(json.dumps({
+        "comp": "Elementals", "placement": 1,
+        "card_opinions": [
+            {"card": "Sellemental", "verdict": "strong", "note": "x"},
+            {"card": "Bad Egg", "verdict": "weak", "note": "y"}]}))
+    (dt.INSIGHTS_DIR / "v2.json").write_text(json.dumps({
+        "card_opinions": [
+            {"card": "Sellemental", "verdict": "situational", "note": "z"}]}))
+    assert dt.compile_expert_priors() == 2
+    data = json.loads((tmp_path / "expert_card_stats.json").read_text())
+    sell = next(c for c in data["cards"] if c["name"] == "Sellemental")
+    assert sell["averagePlacement"] == pytest.approx((2.9 + 3.4) / 2)
+    assert sell["mentions"] == 2
+    assert sell["verdicts"] == {"strong": 1, "situational": 1}
+    assert data["cards"][-1]["name"] == "Bad Egg"          # weak sorts last
+    assert data["comp_results"] == [{"comp": "Elementals", "placement": 1,
+                                     "vod": "v1"}]

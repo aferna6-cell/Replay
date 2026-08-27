@@ -34,6 +34,11 @@ sys.path.insert(0, str(REPO_ROOT))
 VODS_DIR = REPO_ROOT / "data" / "vods"
 INSIGHTS_DIR = VODS_DIR / "insights"
 PLAYBOOK = VODS_DIR / "insights.md"
+EXPERT_STATS = REPO_ROOT / "data" / "stats" / "expert_card_stats.json"
+
+# Verdict -> pseudo average-placement, so expert reads blend with the stat
+# sources on the same scale (neutral ~3.4; lower = better).
+_VERDICT_AP = {"strong": 2.9, "situational": 3.4, "weak": 4.1}
 
 MODEL = "claude-opus-5"
 _FALLBACK_BETA = "server-side-fallback-2026-07-01"
@@ -236,6 +241,50 @@ def build_playbook() -> int:
     return len(docs)
 
 
+def compile_expert_priors() -> int:
+    """Aggregate the streamer's card verdicts across every distilled VOD into
+    data/stats/expert_card_stats.json — a prior source card_meta_stats blends
+    at the HIGHEST weight (a top player's read outranks population averages,
+    per the project owner's call). Repeated mentions average; the mention
+    count is kept so the blend's confidence is inspectable."""
+    votes = {}
+    comp_notes = []
+    for path in sorted(INSIGHTS_DIR.glob("*.json")):
+        try:
+            d = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        for c in d.get("card_opinions", []):
+            ap = _VERDICT_AP.get(c.get("verdict"))
+            name = (c.get("card") or "").strip()
+            if not name or ap is None:
+                continue
+            v = votes.setdefault(name.lower(), {"name": name, "aps": [],
+                                                "verdicts": {}})
+            v["aps"].append(ap)
+            v["verdicts"][c["verdict"]] = v["verdicts"].get(c["verdict"], 0) + 1
+        if d.get("comp") and d.get("placement"):
+            comp_notes.append({"comp": d["comp"],
+                               "placement": d["placement"],
+                               "vod": path.stem})
+    if not votes:
+        return 0
+    cards = [{"name": v["name"],
+              "averagePlacement": round(sum(v["aps"]) / len(v["aps"]), 3),
+              "mentions": len(v["aps"]), "verdicts": v["verdicts"]}
+             for v in votes.values()]
+    cards.sort(key=lambda c: c["averagePlacement"])
+    EXPERT_STATS.parent.mkdir(parents=True, exist_ok=True)
+    EXPERT_STATS.write_text(json.dumps({
+        "_source": "distilled streamer commentary (expert reads)",
+        "_note": "pseudo-placements from spoken verdicts; strong=2.9 "
+                 "situational=3.4 weak=4.1, averaged over mentions",
+        "cards": cards,
+        "comp_results": comp_notes,
+    }, indent=1) + "\n", encoding="utf-8")
+    return len(cards)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("transcripts", nargs="*", type=Path,
@@ -294,6 +343,11 @@ def main() -> int:
     n = build_playbook()
     if n:
         print(f"Playbook rebuilt from {n} VOD(s) -> {PLAYBOOK}")
+    cards = compile_expert_priors()
+    if cards:
+        print(f"Expert card priors: {cards} cards -> {EXPERT_STATS}")
+        print("These now blend into the model at the highest weight — "
+              "retrain to fold them in: ./scripts/retrain.sh")
     return 0 if (done or n) else 1
 
 

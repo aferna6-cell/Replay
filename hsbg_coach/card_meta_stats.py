@@ -28,10 +28,14 @@ from functools import lru_cache
 from typing import Dict, Optional, Tuple
 
 _STATS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "stats")
-# Source blend weights. HSReplay outweighs Firestone by design: its BG data
-# comes from the larger HDT-uploading population and (via the capture tool)
-# is filtered to top-10% lobbies, so where the two disagree we lean HSReplay.
-SOURCES = {"firestone_card_stats.json": 1.0, "hsreplay_card_stats.json": 2.0}
+# Source blend weights (project owner's call): expert reads from distilled
+# top-player commentary (scripts/distill_transcripts.py) outrank everything —
+# a world-class player's stated evaluation carries context no population
+# average sees; HSReplay (top-MMR filtered, big population) outranks
+# Firestone. All three are pseudo/real averagePlacement on the same scale.
+SOURCES = {"firestone_card_stats.json": 1.0,
+           "hsreplay_card_stats.json": 2.0,
+           "expert_card_stats.json": 3.0}
 
 # Neutral averagePlacement (kept in sync with card_quality._NEUTRAL).
 NEUTRAL_PLACEMENT = 3.4
