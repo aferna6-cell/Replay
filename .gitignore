@@ -2,9 +2,10 @@
 /data/*.jsonl
 /data/*.jsonl.partial
 
-# Scheduled-job output (logs/*.log captures themselves ARE committed)
-/logs/collect.log
-/logs/hsreplay_weekly.log
+# Collected Power.log archive stays LOCAL — raw session logs exceed GitHub's
+# 100 MB file limit (training reads them from disk). The small seed log
+# committed before this rule remains tracked. Scheduled-job output too.
+/logs/*.log
 
 # Fetched VOD transcripts/metadata (other people's content — keep local)
 /data/vods/

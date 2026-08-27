@@ -125,6 +125,8 @@ def find_playlist(channel_url: str, title_pattern: str) -> str:
     e.g. --playlist-title 'season 14' on Rdu's channel."""
     ytdlp = shutil.which("yt-dlp")
     if not ytdlp:
+        print("yt-dlp not found — install it with:  "
+              "pip install -r requirements-vod.txt")
         return ""
     url = channel_url.rstrip("/")
     if not url.endswith("/playlists"):

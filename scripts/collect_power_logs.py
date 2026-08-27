@@ -4,21 +4,21 @@
 Scans the known Hearthstone log locations (via ``hsbg_coach.config``) plus a
 deep scan of your home directory for any ``Power.log`` / ``Power_old.log``,
 copies each *new* one (deduped by content hash) into ``logs/`` with a unique
-name, parses it into training trajectories (``data/*.jsonl``), then commits and
-pushes the logs to GitHub. Designed to run unattended from cron / Task
+name, and parses it into training trajectories (``data/*.jsonl``). Logs stay
+LOCAL (raw session logs exceed GitHub's 100 MB file limit — training reads
+them from disk). Designed to run unattended from cron / Task
 Scheduler — see ``scripts/schedule_collection.sh`` (mac/linux) and
 ``scripts/schedule_collection.ps1`` (Windows).
 
 Usage:
-    python scripts/collect_power_logs.py                 # collect + parse + push
+    python scripts/collect_power_logs.py                 # collect + parse
     python scripts/collect_power_logs.py --train         # ...and retrain the eval net
     python scripts/collect_power_logs.py --dry-run       # show what would happen
     python scripts/collect_power_logs.py --no-deep-scan  # only known HS locations
     python scripts/collect_power_logs.py --scan-root D:\\  # extra scan root(s)
 
 Every step after collection is best-effort: a parse or train failure never
-blocks the commit/push of the raw logs — the raw log is the asset we must not
-lose.
+loses the archived raw logs — they are the asset.
 """
 
 import argparse
@@ -28,7 +28,6 @@ import os
 import shutil
 import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 
@@ -236,35 +235,6 @@ def train() -> None:
               "pip install -r requirements-ml.txt). Logs were still collected.")
 
 
-def git(*cmd: str) -> subprocess.CompletedProcess:
-    return subprocess.run(["git", *cmd], cwd=REPO_ROOT,
-                          capture_output=True, text=True)
-
-
-def commit_and_push(count: int) -> None:
-    git("add", "logs")
-    if git("diff", "--cached", "--quiet").returncode == 0:
-        print("Nothing new staged — no commit.")
-        return
-    msg = f"Collect {count} Power.log file(s) ({datetime.now():%Y-%m-%d})"
-    res = git("commit", "-m", msg)
-    if res.returncode != 0:
-        print("Commit failed:\n" + res.stderr)
-        return
-    branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
-    git("pull", "--rebase", "origin", branch)  # best effort; push retries below
-    for attempt, wait in enumerate((0, 2, 4, 8, 16)):
-        if wait:
-            time.sleep(wait)
-        res = git("push", "-u", "origin", branch)
-        if res.returncode == 0:
-            print(f"Pushed to origin/{branch}.")
-            return
-        print(f"Push attempt {attempt + 1} failed: {res.stderr.strip()}")
-    print("Push failed after retries — logs are committed locally; "
-          "they'll go up next run.")
-
-
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true",
@@ -277,8 +247,6 @@ def main() -> int:
                          "default: your home directory")
     ap.add_argument("--no-parse", action="store_true",
                     help="skip building trajectories from the new logs")
-    ap.add_argument("--no-push", action="store_true",
-                    help="collect and commit locally but don't push")
     ap.add_argument("--train", action="store_true",
                     help="retrain the eval net after parsing (needs torch)")
     args = ap.parse_args()
@@ -293,12 +261,10 @@ def main() -> int:
             print(f"Parsed {n} archived log(s) into trajectories.")
     if args.train:
         train()
-    if added and not args.no_push:
-        commit_and_push(len(added))
-    elif added:
-        git("add", "logs")
-        git("commit", "-m",
-            f"Collect {len(added)} Power.log file(s) ({datetime.now():%Y-%m-%d})")
+    if added:
+        print(f"{len(added)} log(s) archived in logs/ — kept LOCAL by design "
+              "(raw session logs blow past GitHub's 100 MB file limit; "
+              "training uses them from disk).")
     return 0
 
 
