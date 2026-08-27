@@ -2,9 +2,9 @@
 
 Beyond win-rate numbers, the model has to know what a minion IS: its tavern
 **tier**, its **tribe(s)**, its **keywords/effects** (Battlecry, Deathrattle,
-Divine Shield, Magnetic, …), and its rules **text**. That's the difference
-between "this card places 3.4" and knowing *why* — and it's the substrate the
-synergy layer (`synergy.py`) reads.
+Divine Shield, Magnetic, Activate, …), and its rules **text**. That's the
+difference between "this card places 3.4" and knowing *why* — and it's the
+substrate the synergy layer (`synergy.py`) reads.
 
 Source: HearthstoneJSON (free). We keep only Battlegrounds minions (those with a
 `techLevel`) and store a slim knowledge file at ``data/cards/bg_cards.json``,
@@ -22,10 +22,13 @@ _CARDS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "cards")
 BG_CARDS = os.path.join(_CARDS_DIR, "bg_cards.json")
 
 # Mechanics (HearthstoneJSON `mechanics` strings) that matter in BG combat/scaling.
+# Season 14's public data represents the clickable Activate keyword as
+# INTERACTABLE_OBJECT; keep it so the model can identify these cards explicitly.
 KEYWORD_MECHANICS = {
     "BATTLECRY", "DEATHRATTLE", "DIVINE_SHIELD", "TAUNT", "POISONOUS", "VENOMOUS",
     "REBORN", "WINDFURY", "MEGA_WINDFURY", "MAGNETIC", "FRENZY", "STEALTH",
     "OVERKILL", "SPELLPOWER", "CLEAVE", "AVENGE", "CHOOSE_ONE",
+    "INTERACTABLE_OBJECT",
 }
 
 
@@ -39,8 +42,6 @@ class CardKnowledge:
     tribes: List[str] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
     text: str = ""
-    kind: str = "minion"                # "minion" | "spell" (tavern spells)
-    cost: Optional[int] = None          # spells: tavern gold cost
 
     def has(self, keyword: str) -> bool:
         return keyword.upper() in self.keywords
@@ -59,12 +60,7 @@ def build_card_kb(cards_source: str = CARDS_URL) -> Dict[str, CardKnowledge]:
     kb: Dict[str, CardKnowledge] = {}
     for c in cards:
         tier = c.get("techLevel")
-        # BG minions AND tavern spells carry techLevel. Spells were missing
-        # until 2026-08-20 (live session: the coach couldn't see "Search
-        # Through Time" at all) — 200+ tavern spells are real purchases the
-        # Director must reason about (spec req 15: effects are GIVEN).
-        ctype = c.get("type")
-        if tier is None or ctype not in ("MINION", "BATTLEGROUND_SPELL"):
+        if tier is None or c.get("type") != "MINION":   # BG minions carry techLevel
             continue
         if c.get("battlegroundsNormalDbfId"):           # skip golden/triple copies
             continue
@@ -78,8 +74,6 @@ def build_card_kb(cards_source: str = CARDS_URL) -> Dict[str, CardKnowledge]:
             tribes=_tribes(c),
             keywords=sorted(m for m in mechanics if m in KEYWORD_MECHANICS),
             text=(c.get("text") or "").replace("\n", " ").replace("[x]", "").strip(),
-            kind="spell" if ctype == "BATTLEGROUND_SPELL" else "minion",
-            cost=c.get("cost") if ctype == "BATTLEGROUND_SPELL" else None,
         )
     return kb
 
@@ -102,59 +96,9 @@ def load_kb(path: str = BG_CARDS) -> Dict[str, CardKnowledge]:
             card_id=r["card_id"], name=r.get("name", ""), tier=r.get("tier"),
             attack=r.get("attack"), health=r.get("health"),
             tribes=list(r.get("tribes", [])), keywords=list(r.get("keywords", [])),
-            text=r.get("text", ""), kind=r.get("kind", "minion"),
-            cost=r.get("cost"))
+            text=r.get("text", ""))
     return out
 
 
 def by_name(kb: Dict[str, CardKnowledge]) -> Dict[str, CardKnowledge]:
     return {c.name: c for c in kb.values()}
-
-
-# --- Hero powers ------------------------------------------------------------
-# The Director must be GIVEN each hero power's real effect text (spec req 8 —
-# rules/effects are never trusted to model memory), so "use Reno's hero power
-# on Brann" is reasoned from what the power actually does.
-
-BG_HERO_POWERS = os.path.join(_CARDS_DIR, "bg_hero_powers.json")
-
-
-def build_hero_power_kb(cards_source: str = CARDS_URL) -> Dict[str, dict]:
-    """card_id -> {name, cost, text} for Battlegrounds hero powers, from
-    HearthstoneJSON (type HERO_POWER, BG id conventions)."""
-    cards = _fetch_json(cards_source) if isinstance(cards_source, str) else cards_source
-    out: Dict[str, dict] = {}
-    for c in cards:
-        if c.get("type") != "HERO_POWER":
-            continue
-        cid = c.get("id") or ""
-        # BG hero powers live under TB_BaconShop_* / BG* / TB_Bacon* ids.
-        if not (cid.startswith("TB_Bacon") or cid.startswith("BG")):
-            continue
-        out[cid] = {
-            "name": c.get("name", cid),
-            "cost": c.get("cost", 0),
-            "text": (c.get("text") or "").replace("\n", " ").replace("[x]", "").strip(),
-        }
-    return out
-
-
-def save_hero_power_kb(hp: Dict[str, dict], path: str = BG_HERO_POWERS) -> str:
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as fh:
-        json.dump({"_source": "HearthstoneJSON", "hero_powers": hp}, fh, indent=1)
-    return path
-
-
-def load_hero_powers(path: str = BG_HERO_POWERS) -> Dict[str, dict]:
-    """card_id -> {name, cost, text}; also indexed by lowercase name for
-    log-side lookups where only the display name is known."""
-    if not os.path.isfile(path):
-        return {}
-    data = json.load(open(path, encoding="utf-8"))
-    hp = dict(data.get("hero_powers", {}))
-    for cid, row in list(hp.items()):
-        name = (row.get("name") or "").lower()
-        if name and name not in hp:
-            hp[name] = row
-    return hp
