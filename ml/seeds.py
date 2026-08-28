@@ -18,28 +18,39 @@ multiplicative (blocks tile the whole seed space, one block per base seed):
   * ``ml/train_ppo.py`` episodes    base * 1000003 + k   (k = 1..iters*episodes)
   * ``ml/midgame_dataset.py``       base * 100003 + i    (i = 0..lobbies-1)
 
-THE RESERVED EVALUATION INTERVAL
-================================
-[EVAL_SEED_START, EVAL_SEED_END] = [10_250_000, 10_299_999]  (50_000 seeds)
+THE RESERVED INTERVALS — TRAIN / DEV / TEST SPLIT
+=================================================
+TEST  [EVAL_SEED_START, EVAL_SEED_END] = [10_250_000, 10_299_999] (50_000 seeds)
+DEV   [DEV_SEED_START,  DEV_SEED_END]  = [10_550_000, 10_599_999] (50_000 seeds)
 
-Why these schemes cannot reach it under any current default or reasonable
-configuration:
+TRAIN (everything else, via the schemes above) learns parameters. DEV is for
+model development: diagnosing checkpoints, comparing experimental variants,
+choosing hyperparameters and training durations (``ml/dev_benchmark.py``).
+TEST is Replay Benchmark v1 (``ml/benchmark.py``): the held-out final test
+set, used sparingly for final confirmation only — never for iterating on
+models. Repeatedly steering development by TEST results would silently turn
+the test set into a dev set and invalidate the published baselines.
+
+Why the training schemes cannot reach either interval under any current
+default or reasonable configuration:
   * additive schemes: with their shipped default bases they top out around
-    10^5, four orders of magnitude below the interval.
-  * PPO: no multiple of 1000003 lies inside the interval; the nearest block
-    start below it is 1000003*10 = 10_000_030, which is 249_970 seeds away.
-    So for EVERY base seed, a single PPO run would need 249_970 or more
-    episodes (defaults: 640) before any episode seed could land inside.
-  * midgame dataset: no multiple of 100003 lies inside; the nearest block
-    start below is 100003*102 = 10_200_306, 49_694 seeds away. So for EVERY
-    base seed, one generation run would need more than 49_694 lobbies
-    (defaults: 300; calibrate: 60) to reach the interval.
+    10^5, four orders of magnitude below both intervals.
+  * PPO: no multiple of 1000003 lies inside either interval; the nearest
+    block start below TEST is 1000003*10 = 10_000_030, 249_970 seeds away
+    (and 549_970 below DEV). So for EVERY base seed, a single PPO run would
+    need 249_970+ episodes (defaults: 640) before any episode seed could
+    land in TEST, and 549_970+ to land in DEV.
+  * midgame dataset: no multiple of 100003 lies inside either interval; the
+    nearest block starts below are 100003*102 = 10_200_306 (49_694 below
+    TEST) and 100003*105 = 10_500_315 (49_685 below DEV). So for EVERY base
+    seed, one generation run would need >49_694 (TEST) / >49_685 (DEV)
+    lobbies (defaults: 300; calibrate: 60) to reach them.
 
 This is separation under stated bounds, NOT a mathematical guarantee: a PPO
 run with base seed 10 and >=249_970 episodes, a midgame run with base seed 102
-and >49_694 lobbies, or an additive base chosen near 10.25M WOULD collide.
-``check_training_range()`` makes those cases loud at training time, and the
-benchmark refuses to run outside the reserved interval.
+and >49_694 lobbies, or an additive base chosen near the intervals WOULD
+collide. ``check_training_range()`` makes those cases loud at training time,
+and both evaluation CLIs refuse to run outside their reserved interval.
 
 WHAT FUTURE TRAINING CODE MUST PRESERVE
 =======================================
@@ -53,49 +64,70 @@ benchmark lobbies; it is out of scope here.
 
 import sys
 
-EVAL_SEED_START = 10_250_000
-EVAL_SEED_END = 10_299_999                 # inclusive; 50_000 evaluation seeds
+EVAL_SEED_START = 10_250_000               # TEST — Replay Benchmark v1
+EVAL_SEED_END = 10_299_999                 # inclusive; 50_000 seeds
+DEV_SEED_START = 10_550_000                # DEV — model development eval
+DEV_SEED_END = 10_599_999                  # inclusive; 50_000 seeds
 
 _PPO_STRIDE = 1_000_003
 _MIDGAME_STRIDE = 100_003
 _DAGGER_STRIDE = 10_000
 
 
-# --- benchmark side -----------------------------------------------------------
+# --- evaluation side ----------------------------------------------------------
 def eval_game_seed(base: int, i: int) -> int:
-    """Seed for benchmark game i (deterministic: base + i)."""
+    """Seed for evaluation game i (deterministic: base + i)."""
     return base + i
 
 
-def validate_eval_range(base: int, games: int) -> None:
-    """Reject a benchmark request that leaves the reserved interval."""
+def _validate_range(base: int, games: int, start: int, end: int,
+                    label: str) -> None:
     if games < 1:
         raise ValueError(f"--games must be >= 1, got {games}")
     last = eval_game_seed(base, games - 1)
-    if base < EVAL_SEED_START or last > EVAL_SEED_END:
+    if base < start or last > end:
         raise ValueError(
             f"requested evaluation seeds {base}-{last} exceed the reserved "
-            f"Replay Benchmark v1 interval [{EVAL_SEED_START}, "
-            f"{EVAL_SEED_END}] — pick a base seed and game count that fit "
-            f"(capacity {EVAL_SEED_END - EVAL_SEED_START + 1} games)")
+            f"{label} interval [{start}, {end}] — pick a base seed and game "
+            f"count that fit (capacity {end - start + 1} games)")
+
+
+def validate_eval_range(base: int, games: int) -> None:
+    """Reject a TEST (Benchmark v1) request that leaves its interval."""
+    _validate_range(base, games, EVAL_SEED_START, EVAL_SEED_END,
+                    "Replay Benchmark v1 TEST")
+
+
+def validate_dev_range(base: int, games: int) -> None:
+    """Reject a DEV evaluation request that leaves the DEV interval."""
+    _validate_range(base, games, DEV_SEED_START, DEV_SEED_END, "Replay DEV")
 
 
 def overlaps_eval_range(lo: int, hi: int) -> bool:
-    """Does the inclusive seed span [lo, hi] intersect the reserved interval?"""
+    """Does the inclusive seed span [lo, hi] intersect the TEST interval?"""
     return lo <= EVAL_SEED_END and hi >= EVAL_SEED_START
 
 
+def overlaps_dev_range(lo: int, hi: int) -> bool:
+    """Does the inclusive seed span [lo, hi] intersect the DEV interval?"""
+    return lo <= DEV_SEED_END and hi >= DEV_SEED_START
+
+
 def check_training_range(scheme: str, lo: int, hi: int) -> bool:
-    """Loud warning when a planned training seed span would touch the
-    reserved evaluation interval. Returns True when it overlaps. A warning,
-    not an error, so existing training workflows keep running — but results
-    trained on benchmark seeds must not be benchmarked."""
+    """Loud warning when a planned training seed span would touch a reserved
+    evaluation interval (TEST or DEV). Returns True when it overlaps. A
+    warning, not an error, so existing training workflows keep running — but
+    results trained on reserved seeds must not be evaluated on them."""
+    hit = []
     if overlaps_eval_range(lo, hi):
+        hit.append(f"TEST [{EVAL_SEED_START}, {EVAL_SEED_END}]")
+    if overlaps_dev_range(lo, hi):
+        hit.append(f"DEV [{DEV_SEED_START}, {DEV_SEED_END}]")
+    if hit:
         print(f"WARNING [{scheme}]: planned training seeds {lo}-{hi} overlap "
-              f"the reserved Replay Benchmark v1 evaluation interval "
-              f"[{EVAL_SEED_START}, {EVAL_SEED_END}]. A model trained on "
-              f"these lobbies must NOT be scored with ml.benchmark — choose "
-              f"a different base seed.", file=sys.stderr)
+              f"the reserved evaluation interval(s) {' and '.join(hit)}. A "
+              f"model trained on these lobbies must NOT be scored on them — "
+              f"choose a different base seed.", file=sys.stderr)
         return True
     return False
 

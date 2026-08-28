@@ -54,8 +54,12 @@ def _gae(rewards: List[float], values: List[float]) -> np.ndarray:
 
 
 def _update(net, opt, batch) -> dict:
+    """One PPO update pass. The extra stats (approx KL, clip fraction, grad
+    norm) are pure observations on tensors the optimization already computes
+    — no additional RNG draws, no change to gradients or step order."""
     toks, mask, zones, ctx, legal, acts, old_logp, adv, ret = batch
-    stats = {"pi": 0.0, "v": 0.0, "ent": 0.0}
+    stats = {"pi": 0.0, "v": 0.0, "ent": 0.0, "approx_kl": 0.0,
+             "clip_frac": 0.0, "grad_norm": 0.0, "batches": 0}
     n = toks.shape[0]
     for _ in range(PPO_EPOCHS):
         perm = torch.randperm(n)
@@ -74,11 +78,19 @@ def _update(net, opt, batch) -> dict:
             loss = pi_loss + VALUE_COEF * v_loss - ENTROPY * ent
             opt.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
+            grad_norm = torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
             opt.step()
             stats["pi"] += float(pi_loss.item())
             stats["v"] += float(v_loss.item())
             stats["ent"] += float(ent.item())
+            with torch.no_grad():
+                # approx KL(old || new) per Schulman: mean(old_logp - logp),
+                # on the pre-step forward of this minibatch
+                stats["approx_kl"] += float((old_logp[ix] - logp).mean().item())
+                stats["clip_frac"] += float(
+                    ((ratio - 1.0).abs() > CLIP).float().mean().item())
+            stats["grad_norm"] += float(grad_norm.item())
+            stats["batches"] += 1
     return stats
 
 
@@ -92,7 +104,36 @@ def main(argv=None):
     p.add_argument("--eval-episodes", type=int, default=40)
     p.add_argument("--out", default=_OUT)
     p.add_argument("--from-bc", default=_BC)
+    p.add_argument("--save-iters", default="",
+                   help="comma-separated iteration numbers to snapshot for "
+                        "diagnostics (0 = the exact warm-start weights before "
+                        "any PPO update); requires --save-dir. Snapshotting "
+                        "never perturbs training RNG or behavior.")
+    p.add_argument("--save-dir", help="directory for --save-iters snapshots")
+    p.add_argument("--diag-log",
+                   help="append per-iteration optimization diagnostics "
+                        "(losses, entropy, approx KL, clip fraction, grad "
+                        "norm, rollout placement, shaping, league size, "
+                        "steps) as JSON lines to this file")
     a = p.parse_args(argv)
+
+    save_iters = {int(x) for x in a.save_iters.split(",") if x.strip()}
+    if save_iters and not a.save_dir:
+        p.error("--save-iters requires --save-dir")
+
+    def _snapshot(iteration: int) -> None:
+        if iteration in save_iters:
+            os.makedirs(a.save_dir, exist_ok=True)
+            save_policy(net, os.path.join(a.save_dir,
+                                          f"iter_{iteration:03d}.pt"),
+                        {"kind": "ppo-diagnostic", "iter": iteration,
+                         "seed": a.seed})
+
+    def _diag(record: dict) -> None:
+        if a.diag_log:
+            import json
+            with open(a.diag_log, "a", encoding="utf-8") as f:
+                f.write(json.dumps(record) + "\n")
 
     torch.manual_seed(a.seed)
     rng = random.Random(a.seed)
@@ -107,6 +148,7 @@ def main(argv=None):
         print("No BC checkpoint — starting from scratch "
               "(run `python -m ml.bc` first for a better start)")
     net.train()
+    _snapshot(0)             # exact warm-start weights, before any PPO update
     opt = torch.optim.AdamW(net.parameters(), lr=3e-4, weight_decay=1e-4)
     league: List = []
 
@@ -145,10 +187,23 @@ def main(argv=None):
         ret = torch.from_numpy(np.concatenate(rets))
         adv = (adv - adv.mean()) / (adv.std() + 1e-6)
 
-        _update(net, opt, (toks, mask, zones, ctx, legal, acts, old_logp, adv, ret))
+        stats = _update(net, opt,
+                        (toks, mask, zones, ctx, legal, acts, old_logp, adv, ret))
         print(f"iter {it:3d}  avg placement {np.mean(placements):.2f}  "
               f"steps {toks.shape[0]:4d}  shaping {shaping:.2f}  "
               f"league {len(league)}")
+        nb = max(1, stats["batches"])
+        _diag({"iter": it + 1,
+               "rollout_avg_placement": float(np.mean(placements)),
+               "steps": int(toks.shape[0]), "shaping": float(shaping),
+               "league_size": len(league),
+               "pi_loss": stats["pi"] / nb, "v_loss": stats["v"] / nb,
+               "entropy": stats["ent"] / nb,
+               "approx_kl": stats["approx_kl"] / nb,
+               "clip_frac": stats["clip_frac"] / nb,
+               "grad_norm": stats["grad_norm"] / nb,
+               "minibatches": stats["batches"]})
+        _snapshot(it + 1)
 
         if (it + 1) % LEAGUE_EVERY == 0:
             frozen = copy.deepcopy(net)

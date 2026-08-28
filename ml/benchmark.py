@@ -237,14 +237,24 @@ class BenchmarkResult:
 def run_benchmark(agent: Agent, field: str, games: int,
                   base_seed: int = EVAL_SEED_BASE,
                   progress: bool = False) -> BenchmarkResult:
-    """Deterministic evaluation: game i uses seed base_seed + i, validated
-    to sit inside the reserved evaluation interval (ml/seeds.py). Single
-    process on purpose — parallelism is a documented future optimization so
-    v1 stays trivially reproducible."""
+    """Deterministic TEST evaluation: game i uses seed base_seed + i,
+    validated to sit inside the reserved Benchmark v1 TEST interval
+    (ml/seeds.py). Development evaluation lives in ml/dev_benchmark.py on
+    the separate DEV interval — this entry point is the held-out test set,
+    used sparingly for final confirmation, never for model iteration.
+    Single process on purpose — parallelism is a documented future
+    optimization so v1 stays trivially reproducible."""
+    validate_eval_range(base_seed, games)
+    return _run_games(agent, field, games, base_seed, progress)
+
+
+def _run_games(agent: Agent, field: str, games: int, base_seed: int,
+               progress: bool = False) -> BenchmarkResult:
+    """The shared evaluation loop; callers are responsible for validating
+    the seed range against the right reserved interval first."""
     if field not in _FIELDS:
         raise ValueError(f"unknown field {field!r} "
                          f"(expected one of {sorted(_FIELDS)})")
-    validate_eval_range(base_seed, games)
     placements: List[int] = []
     latencies: List[float] = []
     for i in range(games):
@@ -289,6 +299,7 @@ def result_to_json(res: BenchmarkResult) -> Dict:
     included, so results identify what ran and compare across machines."""
     return {
         "benchmark_version": BENCHMARK_VERSION,
+        "evaluation_split": "test",        # ml/dev_benchmark.py stamps "dev"
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "agent": res.agent.name,
         "agent_kind": res.agent.kind,
