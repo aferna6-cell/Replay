@@ -390,6 +390,69 @@ loop, league, and eval gates are all in place; it's a `--iters` dial now.
 `get_scorer()` prefers `ml/set_net.pt` automatically, so the advisor, the
 whole-game ranking, and the overlay all read the new brain once trained.
 
+## Replay Benchmark
+
+`python -m ml.benchmark` is the one canonical way to measure agent strength
+(`ml/benchmark.py`). It exists so every future ML change — PPO tuning, network
+redesigns, new features — is judged against the **same fixed standard** instead
+of ad-hoc eval loops with drifting seeds and fields.
+
+**How it works.** The tested agent sits in seat 0 of a `BGEnv` lobby against
+seven copies of one field policy. Game `i` runs on seed `base_seed + i`, so the
+whole run is deterministic and every agent experiences the *identical* seeded
+lobbies and opponents. Learned checkpoints act by argmax (no sampling), so
+their evaluation is deterministic too.
+
+**Train/eval seed separation.** Benchmark seeds default to `100000+`
+(`EVAL_SEED_BASE`). Training code lives in low seed ranges (`ml/bc.py`,
+`ml/train_ppo.py`). **Never train on seeds ≥ 100000** — an agent trained on
+the benchmark lobbies would memorize them and its numbers would be
+meaningless. This separation is by convention, stated here and in the module,
+not mathematically enforced.
+
+**Supported agents** — `--agent random`, `--agent greedy`, and
+`--agent policy --checkpoint <file>.pt` for any `PolicyNet` checkpoint (BC,
+BC + DAgger, and PPO all share the same checkpoint format, so they're all
+evaluated through `--checkpoint`; use `--name` to label them).
+**Supported fields** — `--field greedy` (default, the field that matters) and
+`--field random`.
+
+```bash
+# Full default suite (random, greedy, + BC/PPO checkpoints when present):
+python -m ml.benchmark --games 1000
+
+# Individual agents vs the all-greedy field:
+python -m ml.benchmark --agent random --games 1000 --field greedy
+python -m ml.benchmark --agent greedy --games 1000 --field greedy
+python -m ml.benchmark --agent policy --checkpoint ml/policy_bc.pt \
+    --name "BC + DAgger" --games 1000 --field greedy
+python -m ml.benchmark --agent policy --checkpoint ml/policy_ppo.pt \
+    --name PPO --games 1000 --field greedy --json-out results/ppo_vs_greedy.json
+
+# Compare saved result JSONs (sorted by avg placement; warns on
+# mismatched version/field/games/seed):
+python -m ml.benchmark compare results/*.json
+```
+
+**Metrics**: average / median placement, placement std dev, Top-4 rate, win
+rate, the full 1st–8th placement distribution, a seeded percentile-bootstrap
+95% CI on average placement, and agent decision latency (mean/p50/p95 of the
+decision function only, not env stepping). `--json-out` writes a
+machine-readable record including the benchmark version, seeds, and
+environment config.
+
+**The 4.5 threshold**: an 8-player lobby averages placement 4.5 by
+construction, so average placement **below 4.5 means the tested agent
+outperformed the field's average** — nothing more. It is not a claim of
+optimal play.
+
+**Comparability**: results are only comparable when the benchmark version,
+environment, field, game count, and base seed all match. If `bg_env` rules or
+pace assumptions change materially, that's a new benchmark version
+(`BENCHMARK_VERSION` in `ml/benchmark.py`) and old numbers belong to the old
+one. v1 is single-process by design (reproducibility over speed); parallel
+execution is a documented future optimization.
+
 ## Turn planning is beam search now
 
 `hsbg advise` plans the full turn by beam search over action *sequences*
