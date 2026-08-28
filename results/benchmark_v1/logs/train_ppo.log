@@ -38,3 +38,8 @@ iter  35  avg placement 5.94  steps  484  shaping 0.00  league 4
 iter  36  avg placement 5.62  steps  517  shaping 0.00  league 4
 iter  37  avg placement 5.69  steps  577  shaping 0.00  league 4
 iter  38  avg placement 5.56  steps  599  shaping 0.00  league 4
+iter  39  avg placement 6.50  steps  508  shaping 0.00  league 4
+
+Saved -> ml/policy_ppo.pt
+Evaluating vs all-greedy field (40 episodes)…
+PPO policy avg placement vs greedy field: 6.55  (<4.5 beats the field)
