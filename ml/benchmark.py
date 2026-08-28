@@ -69,6 +69,19 @@ BOOTSTRAP_RESAMPLES = 2_000
 _FIELDS: Dict[str, Callable] = {"greedy": greedy_policy, "random": random_policy}
 
 
+def field_seats(field: str) -> List[Callable]:
+    """The 7 opponent seats for a TEST field name (homogeneous by design).
+
+    Seat i of ``BGEnv`` takes ``opponent_policies[i-1]``, so the returned
+    order IS the seat assignment — deterministic and identical for every
+    evaluated agent. ``ml/dev_benchmark.py`` extends this with DEV-only
+    mixed diagnostic fields; TEST fields stay homogeneous."""
+    if field not in _FIELDS:
+        raise ValueError(f"unknown field {field!r} "
+                         f"(expected one of {sorted(_FIELDS)})")
+    return [_FIELDS[field]] * FIELD_SIZE
+
+
 class BenchmarkIntegrityError(RuntimeError):
     """A condition that would silently corrupt benchmark results — always
     fail the run loudly instead of scoring around it."""
@@ -145,7 +158,7 @@ def _validated_action(action, mask: Sequence[bool], agent: Agent,
 
 
 # --- single game --------------------------------------------------------------
-def run_game(agent: Agent, field_policy: Callable, seed: int) -> Dict:
+def run_game(agent: Agent, field_policy, seed: int) -> Dict:
     """One seeded lobby: tested agent in seat 0 vs 7 copies of the field
     policy. Returns the placement plus per-decision latencies (seconds),
     timing ONLY the agent's decision function — for a learned policy that is
@@ -153,7 +166,14 @@ def run_game(agent: Agent, field_policy: Callable, seed: int) -> Dict:
     itself — never ``env.step``. An episode that does not terminate within
     MAX_DECISIONS raises instead of being scored (a silent 8th would corrupt
     the numbers)."""
-    env = BGEnv(seed=seed, opponent_policies=[field_policy] * FIELD_SIZE)
+    # `field_policy` is either one policy for all 7 seats, or an explicit
+    # 7-entry seat assignment (index i -> seat i+1).
+    seats = (list(field_policy) if isinstance(field_policy, (list, tuple))
+             else [field_policy] * FIELD_SIZE)
+    if len(seats) != FIELD_SIZE:
+        raise ValueError(f"field must supply exactly {FIELD_SIZE} opponent "
+                         f"seats, got {len(seats)}")
+    env = BGEnv(seed=seed, opponent_policies=seats)
     obs = env.reset(seed=seed)
     rng = random.Random(seed)       # the tested agent's private rng
     latencies: List[float] = []
@@ -249,16 +269,16 @@ def run_benchmark(agent: Agent, field: str, games: int,
 
 
 def _run_games(agent: Agent, field: str, games: int, base_seed: int,
-               progress: bool = False) -> BenchmarkResult:
+               progress: bool = False, seats=None) -> BenchmarkResult:
     """The shared evaluation loop; callers are responsible for validating
-    the seed range against the right reserved interval first."""
-    if field not in _FIELDS:
-        raise ValueError(f"unknown field {field!r} "
-                         f"(expected one of {sorted(_FIELDS)})")
+    the seed range against the right reserved interval first. `seats` lets a
+    caller supply an explicit 7-seat composition (DEV diagnostic fields);
+    omitted, the homogeneous TEST field named by `field` is used."""
+    seats = seats if seats is not None else field_seats(field)
     placements: List[int] = []
     latencies: List[float] = []
     for i in range(games):
-        g = run_game(agent, _FIELDS[field], eval_game_seed(base_seed, i))
+        g = run_game(agent, seats, eval_game_seed(base_seed, i))
         placements.append(g["placement"])
         latencies.extend(g["latencies"])
         if progress and (i + 1) % 50 == 0:

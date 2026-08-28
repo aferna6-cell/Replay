@@ -28,7 +28,10 @@ def rollout(policy_step: Callable, seed: int,
     env = BGEnv(seed=seed, opponent_policies=list(opponents or []))
     obs = env.reset(seed=seed)
     traj = {"tokens": [], "mask": [], "zones": [], "ctx": [], "legal": [],
-            "action": [], "logp": [], "value": [], "reward": []}
+            "action": [], "logp": [], "value": [], "reward": [],
+            # diagnostic split of `reward` into its two sources; purely
+            # recorded, never fed back into training
+            "shaping_reward": [], "terminal_reward": []}
     placement = 8
     for _ in range(MAX_DECISIONS):
         legal = env.legal_mask(0)
@@ -38,11 +41,14 @@ def rollout(policy_step: Callable, seed: int,
         prev_tier = obs["tavern_tier"]
         prev_gold = obs["gold"]
         obs, reward, done, info = env.step(a)
+        terminal_reward = reward
+        shaping_reward = 0.0
         if shaping and (done or obs["turn"] != prev_turn):
             target = STANDARD_TAVERN_TIER.get(prev_turn, 6.0)
-            reward += shaping * max(-2.0, min(1.0, prev_tier - target)) * 0.05
+            shaping_reward = shaping * max(-2.0, min(1.0, prev_tier - target)) * 0.05
             # Gold stranded at end of turn is (almost) pure waste in BG.
-            reward -= shaping * 0.01 * max(0, prev_gold - 1)
+            shaping_reward -= shaping * 0.01 * max(0, prev_gold - 1)
+            reward += shaping_reward
         traj["tokens"].append(arrays[0])
         traj["mask"].append(arrays[1])
         traj["zones"].append(arrays[2])
@@ -52,6 +58,8 @@ def rollout(policy_step: Callable, seed: int,
         traj["logp"].append(logp)
         traj["value"].append(v)
         traj["reward"].append(reward)
+        traj["shaping_reward"].append(shaping_reward)
+        traj["terminal_reward"].append(terminal_reward)
         if done:
             placement = info.get("placement", 8)
             break
