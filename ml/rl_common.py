@@ -8,6 +8,7 @@ import numpy as np
 from hsbg_coach.bg_env import BGEnv, greedy_policy, random_policy
 from hsbg_coach import cards
 from .env_obs import encode_obs
+from .seeds import legacy_eval_seed
 
 MAX_DECISIONS = 400          # hard cap on agent decisions per episode
 
@@ -78,10 +79,11 @@ def evaluate_policy(env_policy: Callable, episodes: int = 30, seed: int = 9000,
     (default: all-greedy — the baseline the spec says Phase 1 must beat)."""
     total = 0.0
     for i in range(episodes):
-        env = BGEnv(seed=seed + i,
+        s = legacy_eval_seed(seed, i)
+        env = BGEnv(seed=s,
                     opponent_policies=list(field or [greedy_policy] * 7))
-        obs = env.reset(seed=seed + i)
-        rng = random.Random(seed + i)
+        obs = env.reset(seed=s)
+        rng = random.Random(s)
         for _ in range(MAX_DECISIONS):
             a = env_policy(obs, env.legal_mask(0), rng)
             obs, reward, done, info = env.step(a)

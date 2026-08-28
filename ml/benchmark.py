@@ -1,9 +1,13 @@
 """Replay Benchmark v1 — the canonical, reproducible agent evaluation.
 
-One command compares every Replay agent under identical, deterministic
-conditions: same seeded lobbies, same opponent field, same seat (the tested
-agent always sits in seat 0 of ``BGEnv``). Every future ML change gets
-measured against this fixed standard instead of ad-hoc eval loops.
+One command compares every Replay agent from the same deterministic initial
+conditions: identical evaluation seed per game, identical environment
+configuration, identical opponent field, identical tested seat (seat 0 of
+``BGEnv``). Because the tested agent's own actions feed back into the shared
+pool and combat pairings, trajectories legitimately diverge between agents
+after the first differing decision — what is fixed is the seeded starting
+point and every rule around it, so any outcome difference is attributable to
+the agent, not the setup.
 
     python -m ml.benchmark --games 1000                    # full default suite
     python -m ml.benchmark --agent greedy --games 200 --field greedy
@@ -11,14 +15,22 @@ measured against this fixed standard instead of ad-hoc eval loops.
         --name PPO --games 1000 --field greedy --json-out results/ppo.json
     python -m ml.benchmark compare results/*.json
 
-SEED DISCIPLINE — evaluation seeds are OFF-LIMITS for training.
-Game ``i`` runs on seed ``base_seed + i`` with ``base_seed`` defaulting to
-``EVAL_SEED_BASE`` (100000). Training code uses low seed ranges (``ml/bc.py``
-seeds 0..~30k, ``ml/train_ppo.py`` derives from ``seed * 1_000_003``, the old
-``ml/rl_common.evaluate_policy`` used 9000+). Never train on seeds >= 100000:
-an agent trained on the exact benchmark lobbies would memorize them and the
-numbers would stop meaning anything. We can't enforce this mathematically —
-so it is stated here, in the README, and in the JSON output instead.
+SEED DISCIPLINE — see ``ml/seeds.py`` (the single authority on seed policy).
+Evaluation owns the finite reserved interval [EVAL_SEED_START, EVAL_SEED_END]
+= [10_250_000, 10_299_999]; game ``i`` runs on ``base_seed + i`` and the
+benchmark REFUSES a run whose seed range leaves that interval. The interval
+was placed after auditing every BGEnv-seeding training scheme (BC, DAgger,
+PPO's base*1000003+k episodes, the midgame dataset's base*100003+i lobbies,
+the legacy 9000+ eval): no current default or reasonable configuration can
+reach it, and the exact bounds of that claim — not a mathematical guarantee —
+are documented in ``ml/seeds.py``. Training entry points warn loudly if a
+planned run would touch the interval.
+
+INTEGRITY — a benchmark that silently mishandles episodes or actions can make
+a model look better than it is, so both are hard failures here: an episode
+that does not terminate within the decision cap raises (it is never scored as
+8th), and an agent action is validated as an in-range, legal action index
+before use (no Python negative indexing making -1 "legal").
 
 The tested agent and every scripted opponent see the exact same observation
 contract (``BGEnv.observe`` dict + legal mask); the learned policy additionally
@@ -29,11 +41,14 @@ is not evidence of optimal play.
 """
 
 import argparse
+import hashlib
 import json
 import math
+import operator
 import os
 import random
 import statistics
+import subprocess
 import sys
 import time
 from dataclasses import dataclass, field as dc_field
@@ -42,15 +57,21 @@ from typing import Callable, Dict, List, Optional, Sequence
 
 from hsbg_coach.bg_env import BGEnv, MAX_TURNS, greedy_policy, random_policy
 from .rl_common import MAX_DECISIONS
+from .seeds import (EVAL_SEED_END, EVAL_SEED_START, eval_game_seed,
+                    validate_eval_range)
 
 BENCHMARK_VERSION = "Replay Benchmark v1"
-# Evaluation-only seed base — see the module docstring. Do not train on these.
-EVAL_SEED_BASE = 100_000
+EVAL_SEED_BASE = EVAL_SEED_START           # default --seed; policy: ml/seeds.py
 FIELD_SIZE = 7                     # opponents; 8-player lobby, agent in seat 0
 BEAT_FIELD_THRESHOLD = 4.5         # lobby-average placement
 BOOTSTRAP_RESAMPLES = 2_000
 
 _FIELDS: Dict[str, Callable] = {"greedy": greedy_policy, "random": random_policy}
+
+
+class BenchmarkIntegrityError(RuntimeError):
+    """A condition that would silently corrupt benchmark results — always
+    fail the run loudly instead of scoring around it."""
 
 
 # --- agents -------------------------------------------------------------------
@@ -62,7 +83,8 @@ class Agent:
     name: str
     kind: str                       # "random" | "greedy" | "policy"
     policy: Callable
-    checkpoint: Optional[str] = None
+    checkpoint: Optional[str] = None          # basename only, never a path
+    checkpoint_sha256: Optional[str] = None   # fingerprint of the .pt bytes
 
 
 def make_agent(kind: str, checkpoint: Optional[str] = None,
@@ -76,6 +98,10 @@ def make_agent(kind: str, checkpoint: Optional[str] = None,
             raise ValueError("--agent policy requires --checkpoint")
         if not os.path.isfile(checkpoint):
             raise ValueError(f"checkpoint not found: {checkpoint}")
+        # The filename alone can't identify a model (different weights can
+        # share "policy_ppo.pt") — fingerprint the actual bytes evaluated.
+        with open(checkpoint, "rb") as f:
+            sha256 = hashlib.sha256(f.read()).hexdigest()
         # torch stays a lazy import so scripted-agent benchmarks run without it
         from hsbg_coach.synergy import load_embeddings
         from .policy_net import as_env_policy, load_policy
@@ -89,9 +115,33 @@ def make_agent(kind: str, checkpoint: Optional[str] = None,
         # greedy=True → argmax decisions, so evaluation is deterministic
         policy = as_env_policy(net, load_embeddings(), kb_byname(), greedy=True)
         return Agent(name or os.path.basename(checkpoint), "policy", policy,
-                     checkpoint=os.path.basename(checkpoint))
+                     checkpoint=os.path.basename(checkpoint),
+                     checkpoint_sha256=sha256)
     raise ValueError(f"unknown agent kind: {kind!r} "
                      f"(expected random | greedy | policy)")
+
+
+def _validated_action(action, mask: Sequence[bool], agent: Agent,
+                      seed: int) -> int:
+    """The action must be an integer index into the mask, in range, and
+    legal — checked explicitly so Python negative indexing can never make -1
+    read as the (legal) last action."""
+    where = f"agent {agent.name!r} on seed {seed}"
+    try:
+        idx = operator.index(action)
+    except TypeError:
+        raise BenchmarkIntegrityError(
+            f"{where} returned non-integer action {action!r}") from None
+    if idx < 0 or idx >= len(mask):
+        raise BenchmarkIntegrityError(
+            f"{where} returned out-of-range action {idx} "
+            f"(valid indices 0..{len(mask) - 1}, "
+            f"legal: {[i for i, ok in enumerate(mask) if ok]})")
+    if not mask[idx]:
+        raise BenchmarkIntegrityError(
+            f"{where} chose illegal (masked) action {idx} "
+            f"(legal: {[i for i, ok in enumerate(mask) if ok]})")
+    return idx
 
 
 # --- single game --------------------------------------------------------------
@@ -100,25 +150,27 @@ def run_game(agent: Agent, field_policy: Callable, seed: int) -> Dict:
     policy. Returns the placement plus per-decision latencies (seconds),
     timing ONLY the agent's decision function — for a learned policy that is
     observation encoding + network forward, for scripted agents the heuristic
-    itself — never ``env.step``."""
+    itself — never ``env.step``. An episode that does not terminate within
+    MAX_DECISIONS raises instead of being scored (a silent 8th would corrupt
+    the numbers)."""
     env = BGEnv(seed=seed, opponent_policies=[field_policy] * FIELD_SIZE)
     obs = env.reset(seed=seed)
     rng = random.Random(seed)       # the tested agent's private rng
     latencies: List[float] = []
-    placement = 8
     for _ in range(MAX_DECISIONS):
         mask = env.legal_mask(0)
         t0 = time.perf_counter()
         action = agent.policy(obs, mask, rng)
         latencies.append(time.perf_counter() - t0)
-        if not mask[action]:
-            raise RuntimeError(f"agent {agent.name!r} chose illegal action "
-                               f"{action} on seed {seed}")
+        action = _validated_action(action, mask, agent, seed)
         obs, _, done, info = env.step(action)
         if done:
-            placement = info.get("placement", 8)
-            break
-    return {"seed": seed, "placement": placement, "latencies": latencies}
+            return {"seed": seed, "placement": info.get("placement", 8),
+                    "latencies": latencies}
+    raise BenchmarkIntegrityError(
+        f"episode did not terminate: agent {agent.name!r}, seed {seed}, "
+        f"{len(latencies)} decisions (cap MAX_DECISIONS={MAX_DECISIONS}) — "
+        f"refusing to score an unfinished game")
 
 
 # --- metrics ------------------------------------------------------------------
@@ -185,16 +237,18 @@ class BenchmarkResult:
 def run_benchmark(agent: Agent, field: str, games: int,
                   base_seed: int = EVAL_SEED_BASE,
                   progress: bool = False) -> BenchmarkResult:
-    """Deterministic evaluation: game i uses seed base_seed + i. Single
+    """Deterministic evaluation: game i uses seed base_seed + i, validated
+    to sit inside the reserved evaluation interval (ml/seeds.py). Single
     process on purpose — parallelism is a documented future optimization so
     v1 stays trivially reproducible."""
     if field not in _FIELDS:
         raise ValueError(f"unknown field {field!r} "
                          f"(expected one of {sorted(_FIELDS)})")
+    validate_eval_range(base_seed, games)
     placements: List[int] = []
     latencies: List[float] = []
     for i in range(games):
-        g = run_game(agent, _FIELDS[field], base_seed + i)
+        g = run_game(agent, _FIELDS[field], eval_game_seed(base_seed, i))
         placements.append(g["placement"])
         latencies.extend(g["latencies"])
         if progress and (i + 1) % 50 == 0:
@@ -209,20 +263,45 @@ def run_benchmark(agent: Agent, field: str, games: int,
         placements=placements)
 
 
+def git_commit() -> Optional[str]:
+    """The repo HEAD the benchmark ran from, "-dirty" suffixed when the
+    working tree has uncommitted changes; None (stored as JSON null) when Git
+    metadata is unavailable — e.g. outside a checkout. Never fails the run."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
+                             capture_output=True, text=True, timeout=10)
+        if sha.returncode != 0:
+            return None
+        commit = sha.stdout.strip()
+        dirty = subprocess.run(["git", "status", "--porcelain"], cwd=root,
+                               capture_output=True, text=True, timeout=10)
+        if dirty.returncode == 0 and dirty.stdout.strip():
+            commit += "-dirty"
+        return commit
+    except Exception:
+        return None
+
+
 def result_to_json(res: BenchmarkResult) -> Dict:
-    """Machine-readable record. Checkpoint is stored as a basename and no
-    absolute paths are included, so results compare across machines."""
+    """Machine-readable record. Model identity is explicit (checkpoint
+    basename + sha256 of its bytes, repo commit) and no absolute paths are
+    included, so results identify what ran and compare across machines."""
     return {
         "benchmark_version": BENCHMARK_VERSION,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "agent": res.agent.name,
         "agent_kind": res.agent.kind,
         "checkpoint": res.agent.checkpoint,
+        "checkpoint_sha256": res.agent.checkpoint_sha256,
+        "git_commit": git_commit(),
         "field": res.field,
         "games": res.games,
         "base_seed": res.base_seed,
         "seed_range": [res.base_seed, res.base_seed + res.games - 1],
-        "seed_policy": "evaluation-only seeds; never reuse for training",
+        "seed_policy": (f"evaluation-only seeds from the reserved interval "
+                        f"[{EVAL_SEED_START}, {EVAL_SEED_END}]; never reuse "
+                        f"for training (see ml/seeds.py)"),
         "environment": {"env": "hsbg_coach.bg_env.BGEnv", "n_players": 8,
                         "field_size": FIELD_SIZE, "max_turns": MAX_TURNS,
                         "max_decisions": MAX_DECISIONS,
@@ -235,12 +314,25 @@ def result_to_json(res: BenchmarkResult) -> Dict:
     }
 
 
-def save_json(res: BenchmarkResult, path: str) -> None:
+def suite_to_json(results: Sequence[BenchmarkResult]) -> Dict:
+    """Suite files use a versioned wrapper — {"benchmark_version", …,
+    "results": [<result objects>]} — and compare mode understands both this
+    wrapper and bare single-result files."""
+    return {"benchmark_version": BENCHMARK_VERSION,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "results": [result_to_json(r) for r in results]}
+
+
+def _write_json(blob: Dict, path: str) -> None:
     parent = os.path.dirname(path)
     if parent:
         os.makedirs(parent, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(result_to_json(res), f, indent=2)
+        json.dump(blob, f, indent=2)
+
+
+def save_json(res: BenchmarkResult, path: str) -> None:
+    _write_json(result_to_json(res), path)
 
 
 # --- reporting ----------------------------------------------------------------
@@ -259,11 +351,27 @@ def _table(rows: List[Dict]) -> str:
     return "\n".join(lines)
 
 
+def _identity_lines(rows: List[Dict]) -> List[str]:
+    """Model identity per row — a differing checkpoint hash is the point of
+    a comparison, so it is surfaced, never treated as an error."""
+    out = ["", "Identities:"]
+    for r in sorted(rows, key=lambda r: r["metrics"]["avg_placement"]):
+        sha = r.get("checkpoint_sha256")
+        ident = (f"{r.get('checkpoint')} sha256:{sha[:12]}" if sha
+                 else "(scripted, no checkpoint)")
+        out.append(f"  {r['agent'][:20]:<20} {ident}   "
+                   f"git:{r.get('git_commit') or 'unknown'}")
+    return out
+
+
 def print_summary(res: BenchmarkResult) -> None:
     m, ci = res.metrics, res.ci95
     print(f"\n{res.agent.name} vs {FIELD_SIZE}x {res.field} "
           f"({res.games} games, seeds {res.base_seed}-"
           f"{res.base_seed + res.games - 1})")
+    if res.agent.checkpoint_sha256:
+        print(f"Checkpoint: {res.agent.checkpoint} "
+              f"sha256:{res.agent.checkpoint_sha256[:12]}")
     print(f"Avg placement: {m['avg_placement']:.2f}")
     print(f"95% CI: [{ci['low']:.2f}, {ci['high']:.2f}]  ({ci['method']})")
     print(f"Median: {m['median_placement']:g}   Std dev: {m['std_placement']:.2f}")
@@ -286,22 +394,42 @@ def print_summary(res: BenchmarkResult) -> None:
 
 
 # --- compare mode -------------------------------------------------------------
+def _flatten_results(blob) -> List[Dict]:
+    """Accept a single-result file, a suite wrapper ({"results": [...]}), or
+    a bare list of results — every JSON shape this CLI can write."""
+    if isinstance(blob, dict) and "results" in blob:
+        return list(blob["results"])
+    if isinstance(blob, dict):
+        return [blob]
+    if isinstance(blob, list):
+        return list(blob)
+    raise ValueError(f"unrecognized result JSON shape: {type(blob).__name__}")
+
+
 def compare_files(paths: Sequence[str]) -> str:
-    """Table over saved result JSONs, sorted by average placement. Warns when
-    version/field/games/seed differ — those results aren't comparable."""
-    rows = [json.load(open(p, encoding="utf-8")) for p in paths]
+    """Table over saved result JSONs (single-result and suite files alike),
+    sorted by average placement. Warns when the run conditions —
+    version/field/games/seed/environment — differ, because those results
+    aren't apples-to-apples. Differing checkpoint hashes are expected (that
+    is what's being compared) and shown in the identity block, not warned."""
+    rows: List[Dict] = []
+    for p in paths:
+        with open(p, encoding="utf-8") as f:
+            rows.extend(_flatten_results(json.load(f)))
     keys = {(r.get("benchmark_version"), r.get("field"), r.get("games"),
-             r.get("base_seed")) for r in rows}
+             r.get("base_seed"), json.dumps(r.get("environment"),
+                                            sort_keys=True)) for r in rows}
     out = []
     if len(keys) > 1:
-        out.append("WARNING: results differ in version/field/games/seed — "
-                   "comparison is not apples-to-apples:")
+        out.append("WARNING: results differ in version/field/games/seed/"
+                   "environment — comparison is not apples-to-apples:")
         for r in rows:
             out.append(f"  {r.get('agent')}: {r.get('benchmark_version')}, "
                        f"field={r.get('field')}, games={r.get('games')}, "
                        f"base_seed={r.get('base_seed')}")
         out.append("")
     out.append(_table(rows))
+    out.extend(_identity_lines(rows))
     return "\n".join(out)
 
 
@@ -327,7 +455,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     p = argparse.ArgumentParser(
         prog="ml.benchmark",
         description=f"{BENCHMARK_VERSION} — deterministic agent evaluation. "
-                    "Seeds >= 100000 are evaluation-only; never train on them.")
+                    f"Seeds live in the reserved evaluation interval "
+                    f"[{EVAL_SEED_START}, {EVAL_SEED_END}] (ml/seeds.py); "
+                    f"never train on them.")
     p.add_argument("--agent", choices=["random", "greedy", "policy"],
                    help="agent to test (omit to run the default suite: "
                         "random, greedy, plus BC/PPO checkpoints if present)")
@@ -336,12 +466,18 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     p.add_argument("--games", type=int, default=100)
     p.add_argument("--seed", type=int, default=EVAL_SEED_BASE,
                    help=f"base evaluation seed (default {EVAL_SEED_BASE}; "
-                        "game i uses seed+i)")
+                        "game i uses seed+i; the whole range must stay "
+                        "inside the reserved evaluation interval)")
     p.add_argument("--field", choices=sorted(_FIELDS), default="greedy",
                    help="opponent field: 7 copies of this policy (default greedy)")
     p.add_argument("--json-out", help="write machine-readable results here")
     p.add_argument("--quiet", action="store_true", help="no progress lines")
     a = p.parse_args(argv)
+
+    try:
+        validate_eval_range(a.seed, a.games)
+    except ValueError as e:
+        p.error(str(e))
 
     print(f"{BENCHMARK_VERSION}")
     print(f"Evaluation games: {a.games}")
@@ -361,7 +497,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             print(f"\nSaved -> {a.json_out}")
         return 0
 
-    # Default suite: every agent on the identical seeded lobbies.
+    # Default suite: every agent evaluated from the same deterministic
+    # initial conditions (same seeds, env config, field, seat).
     results = []
     for kind, ckpt, name in DEFAULT_SUITE:
         if kind == "policy" and not (ckpt and os.path.isfile(ckpt)):
@@ -370,14 +507,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         agent = make_agent(kind, ckpt, name)
         results.append(run_benchmark(agent, a.field, a.games, a.seed,
                                      progress=not a.quiet))
+    rows = [result_to_json(r) for r in results]
     print()
-    print(_table([result_to_json(r) for r in results]))
+    print(_table(rows))
+    print("\n".join(_identity_lines(rows)))
     if a.json_out:
-        parent = os.path.dirname(a.json_out)
-        if parent:
-            os.makedirs(parent, exist_ok=True)
-        with open(a.json_out, "w", encoding="utf-8") as f:
-            json.dump([result_to_json(r) for r in results], f, indent=2)
+        _write_json(suite_to_json(results), a.json_out)
         print(f"\nSaved -> {a.json_out}")
     return 0
 

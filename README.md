@@ -399,16 +399,30 @@ of ad-hoc eval loops with drifting seeds and fields.
 
 **How it works.** The tested agent sits in seat 0 of a `BGEnv` lobby against
 seven copies of one field policy. Game `i` runs on seed `base_seed + i`, so the
-whole run is deterministic and every agent experiences the *identical* seeded
-lobbies and opponents. Learned checkpoints act by argmax (no sampling), so
-their evaluation is deterministic too.
+whole run is deterministic and every agent is evaluated from the **same
+deterministic initial conditions** — same seed, environment configuration,
+field policy, and seat. (Trajectories legitimately diverge once agents make
+different decisions, since actions feed back into the shared pool and combat;
+what's fixed is the starting point and every rule around it.) Learned
+checkpoints act by argmax (no sampling), so their evaluation is deterministic
+too. Integrity is enforced, not assumed: a game that fails to terminate within
+the decision cap raises instead of being scored 8th, and every agent action is
+validated as an in-range, unmasked action index before use.
 
-**Train/eval seed separation.** Benchmark seeds default to `100000+`
-(`EVAL_SEED_BASE`). Training code lives in low seed ranges (`ml/bc.py`,
-`ml/train_ppo.py`). **Never train on seeds ≥ 100000** — an agent trained on
-the benchmark lobbies would memorize them and its numbers would be
-meaningless. This separation is by convention, stated here and in the module,
-not mathematically enforced.
+**Train/eval seed separation.** `ml/seeds.py` is the single authority.
+Evaluation owns the finite reserved interval **[10,250,000 – 10,299,999]**
+(50,000 seeds), and the benchmark refuses any run whose seed range leaves it.
+The interval was placed after auditing every `BGEnv`-seeding training scheme —
+BC/DAgger (`base + i`, `base + 10000·round + i`), PPO (`base·1000003 + k`),
+the midgame dataset (`base·100003 + i`), the legacy 9000+ eval loop: no
+multiple of either multiplicative stride falls inside the interval, so under
+current defaults and any reasonable run size (a PPO run needs ≥249,970
+episodes, a midgame run ≥49,695 lobbies to reach it) training cannot touch
+benchmark seeds. That is separation under stated bounds, **not a mathematical
+guarantee** — the exact collision conditions are documented in `ml/seeds.py`,
+training entry points warn loudly if a planned run would overlap, and future
+training code must derive its seeds through `ml/seeds.py` helpers and keep
+calling `check_training_range`. Never intentionally train on reserved seeds.
 
 **Supported agents** — `--agent random`, `--agent greedy`, and
 `--agent policy --checkpoint <file>.pt` for any `PolicyNet` checkpoint (BC,
@@ -438,8 +452,16 @@ python -m ml.benchmark compare results/*.json
 rate, the full 1st–8th placement distribution, a seeded percentile-bootstrap
 95% CI on average placement, and agent decision latency (mean/p50/p95 of the
 decision function only, not env stepping). `--json-out` writes a
-machine-readable record including the benchmark version, seeds, and
-environment config.
+machine-readable record including the benchmark version, seeds, environment
+config, and **model identity**: the checkpoint's basename plus the SHA-256 of
+its exact bytes (a filename like `policy_ppo.pt` can't identify a model), and
+the repo Git commit (suffixed `-dirty` for uncommitted changes; `null` outside
+a checkout). Single-agent runs write one result object; the default suite
+writes a versioned wrapper `{"benchmark_version", "timestamp", "results":
+[...]}` — `compare` consumes both shapes, warns when run conditions
+(version/field/games/seed/environment) differ, and prints each agent's
+checkpoint fingerprint (differing model hashes are the point of a comparison,
+never an error).
 
 **The 4.5 threshold**: an 8-player lobby averages placement 4.5 by
 construction, so average placement **below 4.5 means the tested agent

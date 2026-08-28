@@ -19,6 +19,7 @@ from hsbg_coach import cards
 from hsbg_coach.bg_env import (
     BGEnv, greedy_policy, make_greedy_policy, random_policy,
 )
+from . import seeds
 from .board_features import minion_from_snapshot
 
 _STYLES = [greedy_policy, make_greedy_policy(0.7), make_greedy_policy(-0.7)]
@@ -37,10 +38,14 @@ def generate_examples(lobbies: int = 200, seed: int = 0,
     """Env self-play -> dataset rows in board_dataset's example shape:
     {minions (normalized), hero, label, state, group}."""
     byname = byname if byname is not None else cards.by_name(cards.load_kb())
+    if lobbies:
+        seeds.check_training_range(
+            "ml.midgame_dataset", seeds.midgame_lobby_seed(seed, 0),
+            seeds.midgame_lobby_seed(seed, lobbies - 1))
     rng = random.Random(seed)
     out: List[Dict] = []
     for i in range(lobbies):
-        env = BGEnv(seed=seed * 100003 + i)
+        env = BGEnv(seed=seeds.midgame_lobby_seed(seed, i))
         for rec in env.play_scripted(_field(rng)):
             s = rec["state"]
             minions = [m for m in (minion_from_snapshot(x, byname)

@@ -24,6 +24,7 @@ import torch
 import torch.nn.functional as F
 
 from hsbg_coach.synergy import load_embeddings
+from . import seeds
 from .policy_net import PolicyNet, save_policy, load_policy, as_env_policy
 from .rl_common import rollout, mixed_field, evaluate_policy, kb_byname
 from .tokens import token_dim
@@ -112,14 +113,18 @@ def main(argv=None):
     def policy_step(arrays, legal):
         return net.act(arrays, legal, greedy=False)
 
-    ep_seed = a.seed * 1_000_003
+    seeds.check_training_range(
+        "ml.train_ppo", seeds.ppo_episode_seed(a.seed, 1),
+        seeds.ppo_episode_seed(a.seed, a.iters * a.episodes))
+    ep_index = 0
     for it in range(a.iters):
         anneal = max(0.0, 1.0 - it / max(1, a.iters * 0.7))
         shaping = a.shaping * anneal
         trajs = []
         for e in range(a.episodes):
-            ep_seed += 1
-            trajs.append(rollout(policy_step, ep_seed,
+            ep_index += 1
+            trajs.append(rollout(policy_step,
+                                 seeds.ppo_episode_seed(a.seed, ep_index),
                                  opponents=mixed_field(rng, league),
                                  emb=emb, byname=byname, shaping=shaping))
         placements = [t["placement"] for t in trajs]
