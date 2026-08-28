@@ -11,3 +11,20 @@ DAgger round 1: visiting the learned policy's states…
   +2729 labeled states (total 10048)
 epoch 0  imitation acc 66.3%
 epoch 1  imitation acc 79.4%
+epoch 2  imitation acc 81.6%
+epoch 3  imitation acc 82.3%
+epoch 4  imitation acc 83.3%
+epoch 5  imitation acc 83.5%
+
+DAgger round 2: visiting the learned policy's states…
+  +2691 labeled states (total 12739)
+epoch 0  imitation acc 69.3%
+epoch 1  imitation acc 79.8%
+epoch 2  imitation acc 81.3%
+epoch 3  imitation acc 81.6%
+epoch 4  imitation acc 81.9%
+epoch 5  imitation acc 82.4%
+Saved -> ml/policy_bc.pt
+
+Evaluating vs all-greedy field (30 episodes)…
+BC policy avg placement 6.47  (4.5 = even with the field)
