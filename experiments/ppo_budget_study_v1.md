@@ -18,8 +18,9 @@ reward function are all untouched.
 ## Setup
 
 - **One continuous trajectory** from the exact BC + DAgger warm start
-  (`policy_bc.pt`, parameter hash `9a5b6a83…`), seed 0, 16 episodes/iteration,
-  320 iterations.
+  (`policy_bc.pt`, parameter hash `094417bdcaa7af62…`, which the iteration-0
+  checkpoint reproduces exactly), seed 0, 16 episodes/iteration, 320
+  iterations.
 - **Frozen shaping schedule.** `--shaping-horizon 40` pins the anneal
   reference, so iterations 1–40 see exactly the original shaping values
   (reaching 0 at iteration 28) and everything after 40 sees 0. Without it, a
