@@ -317,6 +317,8 @@ def test_json_output_schema_and_roundtrip(tmp_path):
     assert "timestamp" in blob and "avg_placement_ci95" in blob
     assert blob["checkpoint_sha256"] is None     # scripted agent: no model
     assert "git_commit" in blob                  # sha, sha-dirty, or null
+    assert blob["placements"] == res.placements  # per-game raw data, game i
+    assert len(blob["placements"]) == 3          # on seed base+i (pairing)
     assert os.path.sep not in (blob["checkpoint"] or "")   # no machine paths
 
 

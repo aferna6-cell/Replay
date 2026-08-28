@@ -307,6 +307,9 @@ def result_to_json(res: BenchmarkResult) -> Dict:
                         "max_decisions": MAX_DECISIONS,
                         "agent_seat": 0},
         "metrics": res.metrics,
+        # Per-game raw placements; index i is the game on seed base_seed+i,
+        # so equal-config runs are paired sample-by-sample (ml/analyze_benchmark).
+        "placements": list(res.placements),
         "avg_placement_ci95": res.ci95,
         "decision_latency": res.latency,
         "beat_field_threshold": BEAT_FIELD_THRESHOLD,
