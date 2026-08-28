@@ -1,11 +1,11 @@
 {
   "benchmark_version": "Replay Benchmark v1",
-  "timestamp": "2026-08-28T18:16:23.365045+00:00",
+  "timestamp": "2026-08-28T18:38:41.607129+00:00",
   "agent": "BC",
   "agent_kind": "policy",
   "checkpoint": "policy_bc_plain.pt",
   "checkpoint_sha256": "e4cb0390e140d78435f17338b6ec43a0c77a46eb7def4c1fc45f0f88903dd95f",
-  "git_commit": "07fe098458389562c67e38f59392b56bba153bcc-dirty",
+  "git_commit": "40409625728f9f63ef0265e023811c320f6b50e8-dirty",
   "field": "greedy",
   "games": 1000,
   "base_seed": 10250000,
@@ -1051,9 +1051,9 @@
   },
   "decision_latency": {
     "decisions": 30419,
-    "mean_ms": 177.68077249955712,
-    "p50_ms": 171.94478100009292,
-    "p95_ms": 263.8537609996092
+    "mean_ms": 0.9137621791708473,
+    "p50_ms": 0.881982999999309,
+    "p95_ms": 1.1507720009831246
   },
   "beat_field_threshold": 4.5,
   "beats_field": false

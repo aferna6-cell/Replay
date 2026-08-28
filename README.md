@@ -468,6 +468,29 @@ construction, so average placement **below 4.5 means the tested agent
 outperformed the field's average** — nothing more. It is not a claim of
 optimal play.
 
+### Measured baseline (Replay Baseline Experiment v1, 2026-08-28)
+
+**Replay Benchmark v1 · 1000 games per agent · same reserved evaluation seeds
+(10,250,000–10,250,999) · vs 7 greedy opponents.** Every number comes from the
+committed result JSON in `results/benchmark_v1/`; full setup, paired
+statistics, and failure analysis in
+[`experiments/replay_baseline_v1.md`](experiments/replay_baseline_v1.md).
+
+| Agent | Avg Place | 95% CI | Top-4 | Win | p95 latency |
+|---|---|---|---|---|---|
+| Greedy | **4.445** | [4.308, 4.600] | 52.6% | 11.8% | 0.008 ms |
+| BC | 6.497 | [6.375, 6.618] | 17.2% | 3.1% | 1.15 ms |
+| BC + DAgger | 6.527 | [6.409, 6.652] | 15.8% | 2.8% | 1.10 ms |
+| PPO | 6.798 | [6.686, 6.910] | 12.5% | 1.9% | 1.10 ms |
+| Random | 7.989 | [7.982, 7.995] | 0.0% | 0.0% | 0.004 ms |
+
+Honest reading: no learned agent beats the field yet. Paired comparisons on
+the same seeds show BC vs BC + DAgger has no clear difference, and the
+shipped PPO recipe (640 episodes) currently makes its warm start *worse* by
+0.27 places (CI [0.15, 0.39]) on this benchmark — while still crushing a
+random field (training diagnostic 1.00). These are the "before" numbers that
+every future change must beat.
+
 **Comparability**: results are only comparable when the benchmark version,
 environment, field, game count, and base seed all match. If `bg_env` rules or
 pace assumptions change materially, that's a new benchmark version

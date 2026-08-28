@@ -1,0 +1,146 @@
+{
+  "method": "paired percentile bootstrap",
+  "bootstrap_seed": 0,
+  "pairs": [
+    {
+      "a": "Random",
+      "b": "Greedy",
+      "n": 1000,
+      "mean_diff": 3.544,
+      "ci95": [
+        3.404,
+        3.689
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "Greedy places better"
+    },
+    {
+      "a": "Random",
+      "b": "BC",
+      "n": 1000,
+      "mean_diff": 1.492,
+      "ci95": [
+        1.372,
+        1.615
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "BC places better"
+    },
+    {
+      "a": "Random",
+      "b": "BC + DAgger",
+      "n": 1000,
+      "mean_diff": 1.462,
+      "ci95": [
+        1.343,
+        1.586
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "BC + DAgger places better"
+    },
+    {
+      "a": "Random",
+      "b": "PPO",
+      "n": 1000,
+      "mean_diff": 1.191,
+      "ci95": [
+        1.083,
+        1.308
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "PPO places better"
+    },
+    {
+      "a": "Greedy",
+      "b": "BC",
+      "n": 1000,
+      "mean_diff": -2.052,
+      "ci95": [
+        -2.196,
+        -1.912
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "Greedy places better"
+    },
+    {
+      "a": "Greedy",
+      "b": "BC + DAgger",
+      "n": 1000,
+      "mean_diff": -2.082,
+      "ci95": [
+        -2.232,
+        -1.934
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "Greedy places better"
+    },
+    {
+      "a": "Greedy",
+      "b": "PPO",
+      "n": 1000,
+      "mean_diff": -2.353,
+      "ci95": [
+        -2.509,
+        -2.199
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "Greedy places better"
+    },
+    {
+      "a": "BC",
+      "b": "BC + DAgger",
+      "n": 1000,
+      "mean_diff": -0.03,
+      "ci95": [
+        -0.194,
+        0.139
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)"
+    },
+    {
+      "a": "BC",
+      "b": "PPO",
+      "n": 1000,
+      "mean_diff": -0.301,
+      "ci95": [
+        -0.466,
+        -0.132
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "BC places better"
+    },
+    {
+      "a": "BC + DAgger",
+      "b": "PPO",
+      "n": 1000,
+      "mean_diff": -0.271,
+      "ci95": [
+        -0.391,
+        -0.152
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "BC + DAgger places better"
+    }
+  ]
+}

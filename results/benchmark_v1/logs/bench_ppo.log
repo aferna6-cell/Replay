@@ -2,3 +2,17 @@ Replay Benchmark v1
 Evaluation games: 1000
 Seed range: 10250000-10250999
 Field: 7x greedy
+
+PPO vs 7x greedy (1000 games, seeds 10250000-10250999)
+Checkpoint: policy_ppo.pt sha256:7d240bbcfdc0
+Avg placement: 6.80
+95% CI: [6.69, 6.91]  (percentile bootstrap)
+Median: 8   Std dev: 1.78
+Top-4: 12.5%
+Win rate: 1.9%
+Placements: 1:19  2:23  3:41  4:42  5:67  6:98  7:161  8:549
+Decision latency: mean 0.88ms  p50 0.83ms  p95 1.10ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+Saved -> results/benchmark_v1/ppo_vs_greedy.json

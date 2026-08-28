@@ -11,7 +11,7 @@ Median: 7   Std dev: 1.95
 Top-4: 15.8%
 Win rate: 2.8%
 Placements: 1:28  2:44  3:35  4:51  5:79  6:110  7:177  8:476
-Decision latency: mean 162.30ms  p50 191.81ms  p95 263.46ms
+Decision latency: mean 0.86ms  p50 0.83ms  p95 1.10ms
 
 FAIL: does not beat 4.5 average placement threshold
 

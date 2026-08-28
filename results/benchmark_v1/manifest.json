@@ -1,0 +1,96 @@
+{
+  "experiment": "Replay Baseline Experiment v1",
+  "timestamp_utc": "2026-08-28T20:30:00Z",
+  "benchmark_version": "Replay Benchmark v1",
+  "code_commit": "5b7b46f2bc07dec4e545982c37faf2d7041febea",
+  "code_commit_note": "All benchmark/training/analysis code is from commit 5b7b46f; commits after it on the branch only add result artifacts under results/. Result JSONs record the result-commit HEAD at their run time with a '-dirty' suffix because the results directory itself was being written during the runs; no source file differed from 5b7b46f during any run.",
+  "evaluation": {
+    "reserved_seed_interval": [
+      10250000,
+      10299999
+    ],
+    "base_seed": 10250000,
+    "games": 1000,
+    "seed_range": [
+      10250000,
+      10250999
+    ],
+    "field": "greedy",
+    "opponents": 7,
+    "tested_seat": 0,
+    "benchmark_command_template": "python -m ml.benchmark --agent <kind> [--checkpoint <ckpt> --name <name>] --games 1000 --field greedy --json-out <out>.json"
+  },
+  "software": {
+    "python": "3.11.15",
+    "torch": "2.13.0+cu130",
+    "numpy": "2.4.6"
+  },
+  "agents": [
+    {
+      "name": "Random",
+      "kind": "random",
+      "result": "results/benchmark_v1/random_vs_greedy.json"
+    },
+    {
+      "name": "Greedy",
+      "kind": "greedy",
+      "result": "results/benchmark_v1/greedy_vs_greedy.json"
+    },
+    {
+      "name": "BC",
+      "kind": "policy",
+      "checkpoint": "policy_bc_plain.pt",
+      "checkpoint_sha256": "e4cb0390e140d78435f17338b6ec43a0c77a46eb7def4c1fc45f0f88903dd95f",
+      "training_command": "python -m ml.bc --lobbies 150 --epochs 6 --dagger-rounds 0 --seed 0 --out ml/policy_bc_plain.pt",
+      "training_seed": 0,
+      "expert_demonstrations": 7319,
+      "final_imitation_accuracy": 0.843,
+      "training_log": "results/benchmark_v1/logs/train_bc_plain.log",
+      "result": "results/benchmark_v1/bc_vs_greedy.json"
+    },
+    {
+      "name": "BC + DAgger",
+      "kind": "policy",
+      "checkpoint": "policy_bc.pt",
+      "checkpoint_sha256": "bd3a4386329ecf1abc045e90d069816b801aa02d18db04af625e8ef452b0d871",
+      "training_command": "python -m ml.bc --lobbies 150 --epochs 6 --dagger-rounds 2 --dagger-lobbies 80 --seed 0 --out ml/policy_bc.pt",
+      "training_seed": 0,
+      "expert_demonstrations": 7319,
+      "dagger_labeled_states": [
+        2729,
+        2691
+      ],
+      "total_labeled_states": 12739,
+      "final_imitation_accuracy": 0.824,
+      "training_log": "results/benchmark_v1/logs/train_bc_dagger.log",
+      "result": "results/benchmark_v1/bc_dagger_vs_greedy.json"
+    },
+    {
+      "name": "PPO",
+      "kind": "policy",
+      "checkpoint": "policy_ppo.pt",
+      "checkpoint_sha256": "7d240bbcfdc04b5fc47a1fae86f2767753f8819f553ac592237663a8bcd0a0f6",
+      "training_command": "python -m ml.train_ppo --iters 40 --episodes 16 --seed 0 --shaping 1.0 --from-bc ml/policy_bc.pt --out ml/policy_ppo.pt",
+      "training_seed": 0,
+      "iterations": 40,
+      "episodes_per_iteration": 16,
+      "total_episodes": 640,
+      "shaping_initial": 1.0,
+      "warm_start_checkpoint_sha256": "bd3a4386329ecf1abc045e90d069816b801aa02d18db04af625e8ef452b0d871",
+      "hyperparameters_note": "All other hyperparameters are the shipped ml/train_ppo.py defaults: lr 3e-4 AdamW wd 1e-4, GAMMA 0.999, LAM 0.95, CLIP 0.2, ENTROPY 0.01, VALUE_COEF 0.5, PPO_EPOCHS 4, league snapshot every 8 iters (max 5), mixed_field opponents.",
+      "training_log": "results/benchmark_v1/logs/train_ppo.log",
+      "result": "results/benchmark_v1/ppo_vs_greedy.json"
+    }
+  ],
+  "analysis": {
+    "paired_comparisons": "results/benchmark_v1/paired_analysis.json",
+    "method": "paired percentile bootstrap, 10000 resamples, bootstrap seed 0",
+    "command": "python -m ml.analyze_benchmark results/benchmark_v1/*_vs_greedy.json --json-out results/benchmark_v1/paired_analysis.json"
+  },
+  "notes": [
+    "Model checkpoints (*.pt) are gitignored per repo convention and NOT stored in Git; only their SHA-256 fingerprints are recorded. Exact re-verification of these numbers requires the binaries (or retraining with the recorded commands, which is expected to reproduce them on the same software versions).",
+    "Determinism cross-check: the BC and BC+DAgger 1000-game benchmarks were each executed twice (once under heavy concurrent CPU load, once on an idle machine); both produced byte-identical placement sequences. The committed JSONs are the idle-machine runs.",
+    "Decision latency figures are from the idle-machine runs; contended runs had inflated latency (placements unaffected).",
+    "Training-time eval printouts in ml.bc / ml.train_ppo logs are legacy diagnostics (30/40 episodes, seed 9000), NOT official results. Only the 1000-game Benchmark v1 JSONs are canonical."
+  ]
+}
