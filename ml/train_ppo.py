@@ -42,6 +42,19 @@ LEAGUE_EVERY = 8
 LEAGUE_MAX = 5
 
 
+def diag_stats(old_logp, logp, clip: float = CLIP):
+    """(approx_kl, clip_fraction) for one minibatch — pure observation.
+
+    approx_kl is Schulman's cheap estimator of KL(old || new),
+    ``mean(old_logp - logp)``; clip_fraction is the share of samples whose
+    probability ratio left the PPO trust region ``|r - 1| > clip``. Neither
+    feeds back into the loss, the gradients, or the RNG.
+    """
+    ratio = torch.exp(logp - old_logp)
+    return (float((old_logp - logp).mean().item()),
+            float(((ratio - 1.0).abs() > clip).float().mean().item()))
+
+
 def _gae(rewards: List[float], values: List[float]) -> np.ndarray:
     adv = np.zeros(len(rewards), dtype=np.float32)
     last = 0.0
@@ -84,11 +97,9 @@ def _update(net, opt, batch) -> dict:
             stats["v"] += float(v_loss.item())
             stats["ent"] += float(ent.item())
             with torch.no_grad():
-                # approx KL(old || new) per Schulman: mean(old_logp - logp),
-                # on the pre-step forward of this minibatch
-                stats["approx_kl"] += float((old_logp[ix] - logp).mean().item())
-                stats["clip_frac"] += float(
-                    ((ratio - 1.0).abs() > CLIP).float().mean().item())
+                kl, cf = diag_stats(old_logp[ix], logp)
+                stats["approx_kl"] += kl
+                stats["clip_frac"] += cf
             stats["grad_norm"] += float(grad_norm.item())
             stats["batches"] += 1
     return stats

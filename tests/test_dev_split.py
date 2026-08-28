@@ -219,3 +219,39 @@ def test_ppo_save_iters_requires_save_dir(tmp_path):
     from ml.train_ppo import main as ppo_main
     with pytest.raises(SystemExit):
         ppo_main(["--iters", "1", "--save-iters", "0"])
+
+
+def test_diag_stats_math():
+    """approx KL and clip fraction on known inputs."""
+    torch = _torch()
+    from ml.train_ppo import diag_stats
+    # identical policies: ratio == 1 everywhere -> kl 0, nothing clipped
+    lp = torch.tensor([-1.0, -2.0, -0.5])
+    kl, cf = diag_stats(lp, lp, clip=0.2)
+    assert kl == pytest.approx(0.0) and cf == pytest.approx(0.0)
+    # new policy uniformly more likely by +0.1 nats: kl = -0.1, ratio e^0.1
+    kl, cf = diag_stats(lp, lp + 0.1, clip=0.2)
+    assert kl == pytest.approx(-0.1, abs=1e-6)
+    assert cf == pytest.approx(0.0)                  # e^0.1-1 = 0.105 < 0.2
+    # one sample far outside the trust region -> exactly 1/3 clipped
+    kl, cf = diag_stats(lp, lp + torch.tensor([0.0, 0.0, 1.0]), clip=0.2)
+    assert cf == pytest.approx(1 / 3)
+    assert kl == pytest.approx(-1 / 3, abs=1e-6)
+
+
+def test_paired_dev_comparison():
+    """Two DEV runs on identical config pair game-by-game."""
+    from ml.analyze_benchmark import compare_pair, paired_diff
+    from ml.dev_benchmark import dev_result_to_json
+    rnd = dev_result_to_json(run_dev_benchmark(
+        make_agent("random", name="Rando"), "greedy", games=5))
+    gre = dev_result_to_json(run_dev_benchmark(
+        make_agent("greedy", name="Greed"), "greedy", games=5))
+    row = compare_pair(rnd, gre, seed=0)
+    assert row["n"] == 5
+    # random must not place better than greedy: diff (random - greedy) > 0
+    assert row["mean_diff"] > 0
+    assert row["ci95"][0] <= row["mean_diff"] <= row["ci95"][1]
+    # pairing is game-by-game on the same seeds, not a difference of means
+    manual = paired_diff(rnd["placements"], gre["placements"], seed=0)
+    assert manual["mean_diff"] == pytest.approx(row["mean_diff"])
