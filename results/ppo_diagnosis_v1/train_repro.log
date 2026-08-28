@@ -8,3 +8,39 @@ iter   5  avg placement 5.81  steps  583  shaping 0.82  league 0
 iter   6  avg placement 6.31  steps  475  shaping 0.79  league 0
 iter   7  avg placement 6.00  steps  498  shaping 0.75  league 0
 iter   8  avg placement 4.88  steps  591  shaping 0.71  league 1
+iter   9  avg placement 5.19  steps  595  shaping 0.68  league 1
+iter  10  avg placement 5.31  steps  579  shaping 0.64  league 1
+iter  11  avg placement 5.44  steps  586  shaping 0.61  league 1
+iter  12  avg placement 5.69  steps  521  shaping 0.57  league 1
+iter  13  avg placement 5.62  steps  508  shaping 0.54  league 1
+iter  14  avg placement 5.69  steps  491  shaping 0.50  league 1
+iter  15  avg placement 6.31  steps  480  shaping 0.46  league 1
+iter  16  avg placement 6.50  steps  461  shaping 0.43  league 2
+iter  17  avg placement 6.12  steps  496  shaping 0.39  league 2
+iter  18  avg placement 5.56  steps  553  shaping 0.36  league 2
+iter  19  avg placement 5.81  steps  548  shaping 0.32  league 2
+iter  20  avg placement 6.06  steps  545  shaping 0.29  league 2
+iter  21  avg placement 5.56  steps  582  shaping 0.25  league 2
+iter  22  avg placement 6.12  steps  546  shaping 0.21  league 2
+iter  23  avg placement 5.56  steps  630  shaping 0.18  league 2
+iter  24  avg placement 6.06  steps  501  shaping 0.14  league 3
+iter  25  avg placement 5.81  steps  617  shaping 0.11  league 3
+iter  26  avg placement 6.00  steps  605  shaping 0.07  league 3
+iter  27  avg placement 5.44  steps  627  shaping 0.04  league 3
+iter  28  avg placement 5.94  steps  548  shaping 0.00  league 3
+iter  29  avg placement 5.94  steps  581  shaping 0.00  league 3
+iter  30  avg placement 5.44  steps  674  shaping 0.00  league 3
+iter  31  avg placement 6.00  steps  564  shaping 0.00  league 3
+iter  32  avg placement 6.44  steps  518  shaping 0.00  league 4
+iter  33  avg placement 4.88  steps  633  shaping 0.00  league 4
+iter  34  avg placement 5.38  steps  652  shaping 0.00  league 4
+iter  35  avg placement 5.94  steps  484  shaping 0.00  league 4
+iter  36  avg placement 5.62  steps  517  shaping 0.00  league 4
+iter  37  avg placement 5.69  steps  577  shaping 0.00  league 4
+iter  38  avg placement 5.56  steps  599  shaping 0.00  league 4
+iter  39  avg placement 6.50  steps  508  shaping 0.00  league 4
+
+Saved -> /tmp/claude-0/-home-user/2e905c85-271c-5c69-9540-ebb825e0aeaf/scratchpad/ppo_repro.pt
+Evaluating vs all-greedy field (40 episodes)…
+PPO policy avg placement vs greedy field: 6.55  (<4.5 beats the field)
+PPO policy avg placement vs random field: 1.00
