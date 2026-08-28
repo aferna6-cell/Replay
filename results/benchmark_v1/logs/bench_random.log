@@ -1,0 +1,17 @@
+Replay Benchmark v1
+Evaluation games: 1000
+Seed range: 10250000-10250999
+Field: 7x greedy
+
+Random vs 7x greedy (1000 games, seeds 10250000-10250999)
+Avg placement: 7.99
+95% CI: [7.98, 8.00]  (percentile bootstrap)
+Median: 8   Std dev: 0.10
+Top-4: 0.0%
+Win rate: 0.0%
+Placements: 1:0  2:0  3:0  4:0  5:0  6:0  7:11  8:989
+Decision latency: mean 0.00ms  p50 0.00ms  p95 0.00ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+Saved -> results/benchmark_v1/random_vs_greedy.json

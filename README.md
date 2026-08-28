@@ -390,6 +390,114 @@ loop, league, and eval gates are all in place; it's a `--iters` dial now.
 `get_scorer()` prefers `ml/set_net.pt` automatically, so the advisor, the
 whole-game ranking, and the overlay all read the new brain once trained.
 
+## Replay Benchmark
+
+`python -m ml.benchmark` is the one canonical way to measure agent strength
+(`ml/benchmark.py`). It exists so every future ML change — PPO tuning, network
+redesigns, new features — is judged against the **same fixed standard** instead
+of ad-hoc eval loops with drifting seeds and fields.
+
+**How it works.** The tested agent sits in seat 0 of a `BGEnv` lobby against
+seven copies of one field policy. Game `i` runs on seed `base_seed + i`, so the
+whole run is deterministic and every agent is evaluated from the **same
+deterministic initial conditions** — same seed, environment configuration,
+field policy, and seat. (Trajectories legitimately diverge once agents make
+different decisions, since actions feed back into the shared pool and combat;
+what's fixed is the starting point and every rule around it.) Learned
+checkpoints act by argmax (no sampling), so their evaluation is deterministic
+too. Integrity is enforced, not assumed: a game that fails to terminate within
+the decision cap raises instead of being scored 8th, and every agent action is
+validated as an in-range, unmasked action index before use.
+
+**Train/eval seed separation.** `ml/seeds.py` is the single authority.
+Evaluation owns the finite reserved interval **[10,250,000 – 10,299,999]**
+(50,000 seeds), and the benchmark refuses any run whose seed range leaves it.
+The interval was placed after auditing every `BGEnv`-seeding training scheme —
+BC/DAgger (`base + i`, `base + 10000·round + i`), PPO (`base·1000003 + k`),
+the midgame dataset (`base·100003 + i`), the legacy 9000+ eval loop: no
+multiple of either multiplicative stride falls inside the interval, so under
+current defaults and any reasonable run size (a PPO run needs ≥249,970
+episodes, a midgame run ≥49,695 lobbies to reach it) training cannot touch
+benchmark seeds. That is separation under stated bounds, **not a mathematical
+guarantee** — the exact collision conditions are documented in `ml/seeds.py`,
+training entry points warn loudly if a planned run would overlap, and future
+training code must derive its seeds through `ml/seeds.py` helpers and keep
+calling `check_training_range`. Never intentionally train on reserved seeds.
+
+**Supported agents** — `--agent random`, `--agent greedy`, and
+`--agent policy --checkpoint <file>.pt` for any `PolicyNet` checkpoint (BC,
+BC + DAgger, and PPO all share the same checkpoint format, so they're all
+evaluated through `--checkpoint`; use `--name` to label them).
+**Supported fields** — `--field greedy` (default, the field that matters) and
+`--field random`.
+
+```bash
+# Full default suite (random, greedy, + BC/PPO checkpoints when present):
+python -m ml.benchmark --games 1000
+
+# Individual agents vs the all-greedy field:
+python -m ml.benchmark --agent random --games 1000 --field greedy
+python -m ml.benchmark --agent greedy --games 1000 --field greedy
+python -m ml.benchmark --agent policy --checkpoint ml/policy_bc.pt \
+    --name "BC + DAgger" --games 1000 --field greedy
+python -m ml.benchmark --agent policy --checkpoint ml/policy_ppo.pt \
+    --name PPO --games 1000 --field greedy --json-out results/ppo_vs_greedy.json
+
+# Compare saved result JSONs (sorted by avg placement; warns on
+# mismatched version/field/games/seed):
+python -m ml.benchmark compare results/*.json
+```
+
+**Metrics**: average / median placement, placement std dev, Top-4 rate, win
+rate, the full 1st–8th placement distribution, a seeded percentile-bootstrap
+95% CI on average placement, and agent decision latency (mean/p50/p95 of the
+decision function only, not env stepping). `--json-out` writes a
+machine-readable record including the benchmark version, seeds, environment
+config, and **model identity**: the checkpoint's basename plus the SHA-256 of
+its exact bytes (a filename like `policy_ppo.pt` can't identify a model), and
+the repo Git commit (suffixed `-dirty` for uncommitted changes; `null` outside
+a checkout). Single-agent runs write one result object; the default suite
+writes a versioned wrapper `{"benchmark_version", "timestamp", "results":
+[...]}` — `compare` consumes both shapes, warns when run conditions
+(version/field/games/seed/environment) differ, and prints each agent's
+checkpoint fingerprint (differing model hashes are the point of a comparison,
+never an error).
+
+**The 4.5 threshold**: an 8-player lobby averages placement 4.5 by
+construction, so average placement **below 4.5 means the tested agent
+outperformed the field's average** — nothing more. It is not a claim of
+optimal play.
+
+### Measured baseline (Replay Baseline Experiment v1, 2026-08-28)
+
+**Replay Benchmark v1 · 1000 games per agent · same reserved evaluation seeds
+(10,250,000–10,250,999) · vs 7 greedy opponents.** Every number comes from the
+committed result JSON in `results/benchmark_v1/`; full setup, paired
+statistics, and failure analysis in
+[`experiments/replay_baseline_v1.md`](experiments/replay_baseline_v1.md).
+
+| Agent | Avg Place | 95% CI | Top-4 | Win | p95 latency |
+|---|---|---|---|---|---|
+| Greedy | **4.445** | [4.308, 4.600] | 52.6% | 11.8% | 0.008 ms |
+| BC | 6.497 | [6.375, 6.618] | 17.2% | 3.1% | 1.15 ms |
+| BC + DAgger | 6.527 | [6.409, 6.652] | 15.8% | 2.8% | 1.10 ms |
+| PPO | 6.798 | [6.686, 6.910] | 12.5% | 1.9% | 1.10 ms |
+| Random | 7.989 | [7.982, 7.995] | 0.0% | 0.0% | 0.004 ms |
+
+Honest reading: no learned agent beats the field yet. Paired comparisons on
+the same seeds show BC vs BC + DAgger has no clear difference, and the
+shipped PPO recipe (640 episodes) currently makes its warm start *worse* by
+0.27 places (CI [0.15, 0.39]) on this benchmark — while still crushing a
+random field (training diagnostic 1.00). These are the "before" numbers that
+every future change must beat.
+
+**Comparability**: results are only comparable when the benchmark version,
+environment, field, game count, and base seed all match. If `bg_env` rules or
+pace assumptions change materially, that's a new benchmark version
+(`BENCHMARK_VERSION` in `ml/benchmark.py`) and old numbers belong to the old
+one. v1 is single-process by design (reproducibility over speed); parallel
+execution is a documented future optimization.
+
 ## Turn planning is beam search now
 
 `hsbg advise` plans the full turn by beam search over action *sequences*

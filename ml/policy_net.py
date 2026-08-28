@@ -77,7 +77,9 @@ def save_policy(net: PolicyNet, path: str, meta: Optional[Dict] = None) -> None:
 
 
 def load_policy(path: str) -> PolicyNet:
-    blob = torch.load(path, map_location="cpu", weights_only=False)
+    # weights_only=True: checkpoints are tensors + primitives only, and this
+    # refuses pickled code — loading a third-party .pt must not execute it.
+    blob = torch.load(path, map_location="cpu", weights_only=True)
     net = PolicyNet(blob["tok_dim"])
     net.load_state_dict(blob["state"])
     net.eval()

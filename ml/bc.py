@@ -19,6 +19,7 @@ import torch.nn.functional as F
 
 from hsbg_coach.bg_env import BGEnv, greedy_policy
 from hsbg_coach.synergy import load_embeddings
+from . import seeds
 from .env_obs import encode_obs
 from .policy_net import PolicyNet, save_policy, as_env_policy
 from .rl_common import evaluate_policy, kb_byname
@@ -31,9 +32,10 @@ def collect(lobbies: int, emb: Dict, byname: Dict, seed: int = 0) -> List[Tuple]
     """(arrays, legal, action) demonstrations from the greedy baseline."""
     out = []
     for i in range(lobbies):
-        env = BGEnv(seed=seed + i)
-        obs = env.reset(seed=seed + i)
-        rng = random.Random(seed + i)
+        s = seeds.bc_lobby_seed(seed, i)
+        env = BGEnv(seed=s)
+        obs = env.reset(seed=s)
+        rng = random.Random(s)
         for _ in range(400):
             legal = env.legal_mask(0)
             a = greedy_policy(obs, legal, rng)
@@ -53,9 +55,10 @@ def collect_dagger(net: PolicyNet, lobbies: int, emb: Dict, byname: Dict,
     so labels are exact on any state — the ideal DAgger setting."""
     out = []
     for i in range(lobbies):
-        env = BGEnv(seed=seed + i)
-        obs = env.reset(seed=seed + i)
-        rng = random.Random(seed + i)
+        s = seeds.bc_lobby_seed(seed, i)
+        env = BGEnv(seed=s)
+        obs = env.reset(seed=s)
+        rng = random.Random(s)
         for _ in range(400):
             legal = env.legal_mask(0)
             arrays = encode_obs(obs, emb, byname)
@@ -118,6 +121,9 @@ def main(argv=None):
 
     emb = load_embeddings()
     byname = kb_byname()
+    hi = (seeds.dagger_round_base(a.seed, a.dagger_rounds) + a.dagger_lobbies - 1
+          if a.dagger_rounds else a.seed + a.lobbies - 1)
+    seeds.check_training_range("ml.bc", a.seed, hi)
     print(f"Collecting demonstrations from {a.lobbies} lobbies…")
     demos = collect(a.lobbies, emb, byname, seed=a.seed)
     print(f"  {len(demos)} decisions")
@@ -126,7 +132,7 @@ def main(argv=None):
     for rnd in range(a.dagger_rounds):
         print(f"\nDAgger round {rnd + 1}: visiting the learned policy's states…")
         extra = collect_dagger(net, a.dagger_lobbies, emb, byname,
-                               seed=a.seed + (rnd + 1) * 10_000)
+                               seed=seeds.dagger_round_base(a.seed, rnd + 1))
         demos += extra
         print(f"  +{len(extra)} labeled states (total {len(demos)})")
         net = train_bc(demos, emb, epochs=a.epochs, seed=a.seed)

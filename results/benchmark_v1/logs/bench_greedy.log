@@ -1,0 +1,17 @@
+Replay Benchmark v1
+Evaluation games: 1000
+Seed range: 10250000-10250999
+Field: 7x greedy
+
+Greedy vs 7x greedy (1000 games, seeds 10250000-10250999)
+Avg placement: 4.45
+95% CI: [4.31, 4.60]  (percentile bootstrap)
+Median: 4   Std dev: 2.29
+Top-4: 52.6%
+Win rate: 11.8%
+Placements: 1:118  2:141  3:131  4:136  5:112  6:112  7:124  8:126
+Decision latency: mean 0.00ms  p50 0.00ms  p95 0.01ms
+
+PASS: beats 4.5 average placement threshold (outperforms the field's average — not proof of optimal play)
+
+Saved -> results/benchmark_v1/greedy_vs_greedy.json
