@@ -1,0 +1,493 @@
+{
+  "experiment": "Replay Experiment 1 \u2014 PPO Degradation Diagnosis",
+  "evaluation_split": "dev",
+  "dev_games_per_checkpoint": 200,
+  "dev_seed_range": [
+    10550000,
+    10550199
+  ],
+  "curve": [
+    {
+      "iteration": 0,
+      "greedy_avg": 6.68,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.43,
+        "high": 6.935
+      },
+      "greedy_top4": 0.135,
+      "greedy_win": 0.02,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart": 0.0,
+      "value_mean": -0.09246109426021576,
+      "value_std": 0.535218358039856,
+      "entropy": null,
+      "approx_kl": null,
+      "clip_frac": null,
+      "grad_norm": null,
+      "rollout_avg_placement": null,
+      "league_size": 0,
+      "shaping": 1.0
+    },
+    {
+      "iteration": 1,
+      "greedy_avg": 6.815,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.57,
+        "high": 7.04
+      },
+      "greedy_top4": 0.12,
+      "greedy_win": 0.005,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 0.9596846699714661,
+      "kl_from_warmstart": 0.010848136618733406,
+      "value_mean": -0.23234425485134125,
+      "value_std": 0.1454770416021347,
+      "entropy": 0.45579346641898155,
+      "approx_kl": 0.01948854571674019,
+      "clip_frac": 0.040394927840679884,
+      "grad_norm": 0.9386020600795746,
+      "rollout_avg_placement": 5.75,
+      "league_size": 0,
+      "shaping": 1.0
+    },
+    {
+      "iteration": 2,
+      "greedy_avg": 6.765,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.52,
+        "high": 7.005
+      },
+      "greedy_top4": 0.1,
+      "greedy_win": 0.025,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.841891884803772,
+      "warmstart_agreement": 0.9808558821678162,
+      "kl_from_warmstart": 0.02185126207768917,
+      "value_mean": -0.12476456165313721,
+      "value_std": 0.3093873858451843,
+      "entropy": 0.3941087909042835,
+      "approx_kl": 0.002166516049328493,
+      "clip_frac": 0.023202113807201385,
+      "grad_norm": 0.5844811461865902,
+      "rollout_avg_placement": 5.8125,
+      "league_size": 0,
+      "shaping": 0.9642857142857143
+    },
+    {
+      "iteration": 4,
+      "greedy_avg": 6.73,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.49,
+        "high": 6.975
+      },
+      "greedy_top4": 0.1,
+      "greedy_win": 0.025,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.8227477669715881,
+      "warmstart_agreement": 0.9472972750663757,
+      "kl_from_warmstart": 0.06150980666279793,
+      "value_mean": -0.05061940848827362,
+      "value_std": 0.4377414882183075,
+      "entropy": 0.42694152394930523,
+      "approx_kl": 0.010909670277518066,
+      "clip_frac": 0.028773356849948566,
+      "grad_norm": 0.6747569839159647,
+      "rollout_avg_placement": 5.625,
+      "league_size": 0,
+      "shaping": 0.8928571428571429
+    },
+    {
+      "iteration": 8,
+      "greedy_avg": 6.77,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.53,
+        "high": 7.01
+      },
+      "greedy_top4": 0.11,
+      "greedy_win": 0.015,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.7797297239303589,
+      "warmstart_agreement": 0.9108108282089233,
+      "kl_from_warmstart": 0.21559882164001465,
+      "value_mean": -0.04090076684951782,
+      "value_std": 0.47082796692848206,
+      "entropy": 0.47704681009054184,
+      "approx_kl": 0.0006820963462814689,
+      "clip_frac": 0.023195376561488956,
+      "grad_norm": 1.028969395905733,
+      "rollout_avg_placement": 6.0,
+      "league_size": 0,
+      "shaping": 0.75
+    },
+    {
+      "iteration": 12,
+      "greedy_avg": 6.71,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.455,
+        "high": 6.955
+      },
+      "greedy_top4": 0.12,
+      "greedy_win": 0.03,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.7788287997245789,
+      "warmstart_agreement": 0.8029279112815857,
+      "kl_from_warmstart": 0.21597307920455933,
+      "value_mean": 0.08146414905786514,
+      "value_std": 0.40746769309043884,
+      "entropy": 0.5692308942476908,
+      "approx_kl": 0.006381681656421279,
+      "clip_frac": 0.044182855247830354,
+      "grad_norm": 0.9539469207326571,
+      "rollout_avg_placement": 5.4375,
+      "league_size": 1,
+      "shaping": 0.6071428571428572
+    },
+    {
+      "iteration": 16,
+      "greedy_avg": 6.6,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.37,
+        "high": 6.83
+      },
+      "greedy_top4": 0.12,
+      "greedy_win": 0.015,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.792792797088623,
+      "warmstart_agreement": 0.8128378391265869,
+      "kl_from_warmstart": 0.19746020436286926,
+      "value_mean": 0.07657952606678009,
+      "value_std": 0.5365274548530579,
+      "entropy": 0.5638438761234283,
+      "approx_kl": 0.002734733381657861,
+      "clip_frac": 0.03571428544819355,
+      "grad_norm": 1.2247043550014496,
+      "rollout_avg_placement": 6.3125,
+      "league_size": 1,
+      "shaping": 0.4642857142857143
+    },
+    {
+      "iteration": 24,
+      "greedy_avg": 6.855,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.605,
+        "high": 7.075
+      },
+      "greedy_top4": 0.105,
+      "greedy_win": 0.005,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.7488738894462585,
+      "warmstart_agreement": 0.8695945739746094,
+      "kl_from_warmstart": 0.23994950950145721,
+      "value_mean": 0.09000024944543839,
+      "value_std": 0.49631497263908386,
+      "entropy": 0.5039200186729431,
+      "approx_kl": 0.01082996501160475,
+      "clip_frac": 0.07034560386091471,
+      "grad_norm": 1.2056899468104045,
+      "rollout_avg_placement": 5.5625,
+      "league_size": 2,
+      "shaping": 0.1785714285714286
+    },
+    {
+      "iteration": 32,
+      "greedy_avg": 6.775,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.53,
+        "high": 7.0
+      },
+      "greedy_top4": 0.145,
+      "greedy_win": 0.01,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.7826576828956604,
+      "warmstart_agreement": 0.917792797088623,
+      "kl_from_warmstart": 0.23627275228500366,
+      "value_mean": 0.02818668819963932,
+      "value_std": 0.5021918416023254,
+      "entropy": 0.5440072690447172,
+      "approx_kl": 0.012884725806846594,
+      "clip_frac": 0.09061999277522166,
+      "grad_norm": 1.4816826780637105,
+      "rollout_avg_placement": 6.0,
+      "league_size": 3,
+      "shaping": 0.0
+    },
+    {
+      "iteration": 40,
+      "greedy_avg": 6.88,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.66,
+        "high": 7.11
+      },
+      "greedy_top4": 0.12,
+      "greedy_win": 0.015,
+      "random_avg": 1.0,
+      "random_top4": 1.0,
+      "expert_agreement": 0.7718468308448792,
+      "warmstart_agreement": 0.9020270109176636,
+      "kl_from_warmstart": 0.37138617038726807,
+      "value_mean": 0.029808390885591507,
+      "value_std": 0.5685974359512329,
+      "entropy": 0.5145081020891666,
+      "approx_kl": 0.004884098001639359,
+      "clip_frac": 0.060469370568171144,
+      "grad_norm": 1.523724026978016,
+      "rollout_avg_placement": 6.5,
+      "league_size": 4,
+      "shaping": 0.0
+    }
+  ],
+  "paired_vs_iter0_greedy": [
+    {
+      "a": "iter001",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.135,
+      "ci95": [
+        -0.16,
+        0.425
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 1
+    },
+    {
+      "a": "iter004",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.05,
+      "ci95": [
+        -0.085,
+        0.195
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 4
+    },
+    {
+      "a": "iter008",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.09,
+      "ci95": [
+        -0.06,
+        0.245
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 8
+    },
+    {
+      "a": "iter016",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": -0.08,
+      "ci95": [
+        -0.325,
+        0.16
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 16
+    },
+    {
+      "a": "iter024",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.175,
+      "ci95": [
+        -0.1,
+        0.45
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 24
+    },
+    {
+      "a": "iter040",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.2,
+      "ci95": [
+        -0.04,
+        0.445
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40
+    }
+  ],
+  "paired_vs_iter0_random": [
+    {
+      "a": "iter001",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 1
+    },
+    {
+      "a": "iter004",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 4
+    },
+    {
+      "a": "iter008",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 8
+    },
+    {
+      "a": "iter016",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 16
+    },
+    {
+      "a": "iter024",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 24
+    },
+    {
+      "a": "iter040",
+      "b": "iter000",
+      "n": 200,
+      "mean_diff": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40
+    }
+  ],
+  "trend_analysis": {
+    "method": "paired percentile bootstrap over the shared DEV seeds",
+    "late_minus_early": {
+      "contrast": "mean(24,32,40) - mean(0,1,2)",
+      "mean": 0.08333333333333334,
+      "ci95": [
+        -0.11166666666666672,
+        0.2750000000000002
+      ]
+    },
+    "slope_per_iter": {
+      "mean": 0.0026829824861657825,
+      "ci95": [
+        -0.0031450738775743057,
+        0.00845513149637743
+      ],
+      "total_over_40_iters": 0.1073192994466313
+    },
+    "power": {
+      "n": 200,
+      "paired_sd_iter40_minus_iter0": 1.7764512080190555,
+      "se": 0.12561406956373083,
+      "min_resolvable_effect": 0.2462035763449124,
+      "se_at_1000_games": 0.0561763196949779,
+      "published_test_effect": 0.271,
+      "note": "the DEV sample resolves effects >= ~0.25 placements; the published TEST degradation (0.271, measured on 1000 games) sits at that edge, so a flat DEV curve is underpowered evidence, not a refutation"
+    }
+  }
+}

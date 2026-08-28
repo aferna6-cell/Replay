@@ -97,19 +97,75 @@ def main() -> int:
         row["iteration"] = it
         pairs_random.append(row)
 
+    trend = _trend(greedy)
+    print(f"\nPooled trend contrasts (greedy DEV, paired over the same seeds)")
+    print(f"  late(24,32,40) - early(0,1,2): {trend['late_minus_early']['mean']:+.3f} "
+          f"95% CI [{trend['late_minus_early']['ci95'][0]:+.3f}, "
+          f"{trend['late_minus_early']['ci95'][1]:+.3f}]")
+    print(f"  slope per iteration:           {trend['slope_per_iter']['mean']:+.5f} "
+          f"95% CI [{trend['slope_per_iter']['ci95'][0]:+.5f}, "
+          f"{trend['slope_per_iter']['ci95'][1]:+.5f}]")
+    print(f"  min resolvable effect at n={trend['power']['n']}: "
+          f"{trend['power']['min_resolvable_effect']:.3f}  "
+          f"(published TEST effect was {trend['power']['published_test_effect']})")
+
     out = {"experiment": "Replay Experiment 1 — PPO Degradation Diagnosis",
            "evaluation_split": "dev",
            "dev_games_per_checkpoint": greedy[0]["games"],
            "dev_seed_range": greedy[0]["seed_range"],
            "curve": curve,
            "paired_vs_iter0_greedy": pairs,
-           "paired_vs_iter0_random": pairs_random}
+           "paired_vs_iter0_random": pairs_random,
+           "trend_analysis": trend}
     with open(f"{DIR}/learning_curve.json", "w") as f:
         json.dump(out, f, indent=2)
     print(f"\nSaved -> {DIR}/learning_curve.json")
 
     _plots(curve)
     return 0
+
+
+def _trend(greedy) -> dict:
+    """Pre-specified pooled contrasts over the SAME DEV seeds, plus the
+    power the 200-game dev sample actually has. Pooling several checkpoints
+    per side buys resolution that single iteration-vs-0 pairs lack."""
+    import random
+    import statistics as st
+
+    P = {it: greedy[it]["placements"] for it in ITERS}
+    n = len(P[0])
+
+    def boot(diffs, seed, B=10000):
+        rng = random.Random(seed)
+        means = sorted(sum(rng.choices(diffs, k=len(diffs))) / len(diffs)
+                       for _ in range(B))
+        return {"mean": st.mean(diffs),
+                "ci95": [means[int(0.025 * B) - 1], means[int(0.975 * B)]]}
+
+    early, late = [0, 1, 2], [24, 32, 40]
+    lme = boot([st.mean(P[i][g] for i in late) - st.mean(P[i][g] for i in early)
+                for g in range(n)], seed=0)
+    xm = st.mean(ITERS)
+    sxx = sum((x - xm) ** 2 for x in ITERS)
+    slope = boot([sum((x - xm) * (P[x][g] - st.mean(P[i][g] for i in ITERS))
+                      for x in ITERS) / sxx for g in range(n)], seed=1)
+    d40 = [P[40][g] - P[0][g] for g in range(n)]
+    sd = st.stdev(d40)
+    return {
+        "method": "paired percentile bootstrap over the shared DEV seeds",
+        "late_minus_early": {"contrast": "mean(24,32,40) - mean(0,1,2)", **lme},
+        "slope_per_iter": {**slope,
+                           "total_over_40_iters": 40 * slope["mean"]},
+        "power": {"n": n, "paired_sd_iter40_minus_iter0": sd,
+                  "se": sd / (n ** 0.5),
+                  "min_resolvable_effect": 1.96 * sd / (n ** 0.5),
+                  "se_at_1000_games": sd / (1000 ** 0.5),
+                  "published_test_effect": 0.271,
+                  "note": "the DEV sample resolves effects >= ~0.25 placements; "
+                          "the published TEST degradation (0.271, measured on "
+                          "1000 games) sits at that edge, so a flat DEV curve "
+                          "is underpowered evidence, not a refutation"},
+    }
 
 
 def _plots(curve) -> None:
