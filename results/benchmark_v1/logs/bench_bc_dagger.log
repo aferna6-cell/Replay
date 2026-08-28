@@ -2,3 +2,17 @@ Replay Benchmark v1
 Evaluation games: 1000
 Seed range: 10250000-10250999
 Field: 7x greedy
+
+BC + DAgger vs 7x greedy (1000 games, seeds 10250000-10250999)
+Checkpoint: policy_bc.pt sha256:bd3a4386329e
+Avg placement: 6.53
+95% CI: [6.41, 6.65]  (percentile bootstrap)
+Median: 7   Std dev: 1.95
+Top-4: 15.8%
+Win rate: 2.8%
+Placements: 1:28  2:44  3:35  4:51  5:79  6:110  7:177  8:476
+Decision latency: mean 162.30ms  p50 191.81ms  p95 263.46ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+Saved -> results/benchmark_v1/bc_dagger_vs_greedy.json
