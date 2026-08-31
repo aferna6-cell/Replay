@@ -1,0 +1,1 @@
++ /usr/bin/python3 -m ml.train_ppo --iters 320 --episodes 16 --seed 2 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_2/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_2/checkpoints --diag-log results/ppo_multiseed_v1/seed_2/train_diag.jsonl --eval-episodes 1

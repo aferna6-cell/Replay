@@ -1,0 +1,204 @@
+{
+  "experiment": "Replay Experiment 2 \u2014 PPO Training-Budget Study",
+  "timestamp_utc": "2026-08-28T21:46:31.173899+00:00",
+  "code_commit": "5fe14c23775381ce514522fd67fb29d01592f419",
+  "question": "Does more PPO experience produce measurable improvement, or only more policy drift?",
+  "single_variable": "PPO training budget (iterations x 16 episodes)",
+  "unchanged": [
+    "architecture",
+    "learning rate",
+    "gamma",
+    "lambda",
+    "clip",
+    "entropy coefficient",
+    "value coefficient",
+    "optimizer",
+    "opponent league logic",
+    "reward function"
+  ],
+  "training": {
+    "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 0 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_budget_v1/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_budget_v1/checkpoints --diag-log results/ppo_budget_v1/train_diag.jsonl",
+    "training_seed": 0,
+    "seed_scheme": "ml.seeds.ppo_episode_seed(0, k) = 0*1000003 + k",
+    "episodes_per_iteration": 16,
+    "iterations": 320,
+    "total_episodes": 5120,
+    "warm_start": {
+      "file": "policy_bc.pt",
+      "checkpoint_sha256": "bd3a4386329ecf1abc045e90d069816b801aa02d18db04af625e8ef452b0d871",
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    "hyperparameters": {
+      "lr": 0.0003,
+      "weight_decay": 0.0001,
+      "optimizer": "AdamW",
+      "gamma": 0.999,
+      "lam": 0.95,
+      "clip": 0.2,
+      "entropy": 0.01,
+      "value_coef": 0.5,
+      "ppo_epochs": 4,
+      "minibatch": 256,
+      "grad_clip_norm": 1.0,
+      "league_every": 8,
+      "league_max": 5,
+      "note": "all shipped defaults, unchanged from the baseline"
+    },
+    "shaping_schedule": {
+      "initial": 1.0,
+      "horizon_iterations": 40,
+      "formula": "shaping = 1.0 * max(0, 1 - it / (horizon * 0.7))",
+      "iterations_1_to_40": "exactly the original baseline values",
+      "reaches_zero_at_iteration": 28,
+      "extension_behavior": "shaping stays 0.0 for every iteration after 40, so extending the run does not alter the reward the first 40 iterations saw"
+    }
+  },
+  "reproduction_gate": {
+    "requirement": "the extended trajectory's iteration-40 parameters must equal the historical baseline PPO model",
+    "baseline_ppo_parameter_sha256": "2ba6d7020b8747ec30d0a1ae5876224c788b1c27123828b053e91ea8ebde4f0c",
+    "extended_iter40_parameter_sha256": "2ba6d7020b8747ec30d0a1ae5876224c788b1c27123828b053e91ea8ebde4f0c",
+    "passed": true,
+    "note": "parameter_sha256 is filename-independent; the raw checkpoint_sha256 differs between these two files purely because torch.save embeds an archive name derived from the filename (found in Experiment 1)"
+  },
+  "checkpoints": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "primary": true,
+      "file": "iter_000.pt",
+      "checkpoint_sha256": "03abd3d364b2c17de0a590fdb1a109d78b5eeafa75d2fc2f295e945aa33fe7e8",
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    {
+      "iteration": 10,
+      "cumulative_episodes": 160,
+      "primary": false,
+      "file": "iter_010.pt",
+      "checkpoint_sha256": "b9371ebec1981bdf82132cb7e02550c5dec8dc3b58e1f67a1a442ceb2b36dc2a",
+      "parameter_sha256": "9fecb02567f14d4da66f0eed14adcca5c38aaf0dd33f11792806721d2c2123c6"
+    },
+    {
+      "iteration": 20,
+      "cumulative_episodes": 320,
+      "primary": false,
+      "file": "iter_020.pt",
+      "checkpoint_sha256": "940ffb37aa3c316b9f0371979a67cfc9655b01f3eb34c89e7acb40ff2c17c647",
+      "parameter_sha256": "8f91490a23419ace023eea6074f9843fed8a3496fa592058da334174e353288e"
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "primary": true,
+      "file": "iter_040.pt",
+      "checkpoint_sha256": "fc0aeae2fd1e4f427fef3e57f6bda69cda91f3589b12df532cfff4da6b601050",
+      "parameter_sha256": "2ba6d7020b8747ec30d0a1ae5876224c788b1c27123828b053e91ea8ebde4f0c"
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "primary": true,
+      "file": "iter_080.pt",
+      "checkpoint_sha256": "6a3befdf71c1db772e5a940315631341ca99135eca0ac1c68010d674c52b8dec",
+      "parameter_sha256": "abb59ca960a797e3cbe7b1b261f98443763a1ef161c46006264fcef62573fd3c"
+    },
+    {
+      "iteration": 120,
+      "cumulative_episodes": 1920,
+      "primary": false,
+      "file": "iter_120.pt",
+      "checkpoint_sha256": "0d1733e51d8d5dba7a14173f0c52d80f122a0471322cfbe3967b8ab6974bb5bc",
+      "parameter_sha256": "eeba8a55f0db7775408076e96cc44731ca27cd36334db590dd6875cdebc18251"
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "primary": true,
+      "file": "iter_160.pt",
+      "checkpoint_sha256": "4152871c2b25ad70cb9ecf5a25d8f0547d00325f4729b68aa3dbf7caa6447336",
+      "parameter_sha256": "3a25ee4b7edb05e8666abd0ff6c74642de1ba2e91f3c89cb7d9256ca42046b23"
+    },
+    {
+      "iteration": 240,
+      "cumulative_episodes": 3840,
+      "primary": false,
+      "file": "iter_240.pt",
+      "checkpoint_sha256": "0e68f529a99d612e50aa8ea69a81884e29c32f5a582850858efab149361c7525",
+      "parameter_sha256": "5ca24036bb084b012cd5b511a6a606db935c00dc854e2b28a5c8a3b6f38ec01d"
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "primary": true,
+      "file": "iter_320.pt",
+      "checkpoint_sha256": "9c6b7f8196a21a367f0833aa2a684b9ee0060398028918ddc9f3e4674d99871c",
+      "parameter_sha256": "0d724208397bfdcfe3daf561215eff7921c9961f0086e23e22d87746747bf13a"
+    }
+  ],
+  "evaluation": {
+    "split": "dev",
+    "dev_interval": [
+      10550000,
+      10599999
+    ],
+    "test_interval_NOT_USED": [
+      10250000,
+      10299999
+    ],
+    "test_usage": "Benchmark v1 TEST was not run at any point in this experiment and was not used to select any checkpoint",
+    "primary_field": {
+      "name": "greedy",
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy"
+    },
+    "intermediate_diagnostic_field": {
+      "name": "greedy4_random3",
+      "games": 500,
+      "seed_range": [
+        10550000,
+        10550499
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random",
+      "kind": "dev diagnostic; the 4.5 threshold does NOT apply",
+      "calibration": "warm start scored 4.55 with a spread distribution on a separate DEV sub-range (base 10570000, 100 games) \u2014 chosen once, not searched over compositions"
+    },
+    "drift_corpus": {
+      "source": "ml.policy_drift.build_corpus (greedy trajectories)",
+      "lobbies": 100,
+      "seed_base": 10590000,
+      "note": "the same frozen corpus definition as Experiment 1"
+    }
+  },
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "software": {
+    "python": "3.11.15",
+    "torch": "2.13.0+cu130",
+    "numpy": "2.4.6"
+  },
+  "artifacts": {
+    "learning_curve": "results/ppo_budget_v1/learning_curve.json",
+    "paired_analysis": "results/ppo_budget_v1/paired_analysis.json",
+    "policy_drift": "results/ppo_budget_v1/policy_drift.json",
+    "action_category_drift": "results/ppo_budget_v1/action_category_drift.json",
+    "rl_signal": "results/ppo_budget_v1/rl_signal.json",
+    "train_diag": "results/ppo_budget_v1/train_diag.jsonl",
+    "plots": "results/ppo_budget_v1/plots/",
+    "report": "experiments/ppo_budget_study_v1.md"
+  },
+  "limitations": [
+    "TRAINING SEED 0 ONLY. This is a budget-mechanism study on the exact historical training trajectory, not a claim about PPO across random initializations. Replication across independent training seeds is deliberately deferred until a budget effect worth replicating is established.",
+    "Checkpoint binaries are gitignored per repo convention; only their fingerprints are stored. Exact re-verification requires the binaries or retraining with the recorded command.",
+    "DEV evaluation of learned checkpoints is deterministic (argmax actions, seeded env), but bitwise reproducibility across different torch versions or hardware is not guaranteed."
+  ]
+}

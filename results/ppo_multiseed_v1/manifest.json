@@ -1,0 +1,168 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "timestamp_utc": "2026-08-31T20:34:01.418103+00:00",
+  "code_commit": "8ffe58bedd84f6e09882b988339cc6a0dd4abcf5",
+  "question": "Does the Exp2 U-shaped budget curve (mid-budget gain, late regression, unbounded drift) replicate across independent PPO training seeds?",
+  "single_variable": "PPO training seed",
+  "frozen_from_experiment_2": [
+    "architecture",
+    "optimizer",
+    "lr",
+    "weight_decay",
+    "gamma",
+    "lambda",
+    "ppo clip",
+    "entropy coef",
+    "value coef",
+    "ppo epochs",
+    "batch size",
+    "league behavior/schedule",
+    "reward",
+    "shaping magnitude/schedule",
+    "episodes per iteration",
+    "observation encoder",
+    "action space",
+    "BC+DAgger warm-start checkpoint",
+    "DEV evaluation protocol",
+    "drift corpus"
+  ],
+  "warm_start": {
+    "file": "policy_bc.pt",
+    "checkpoint_sha256": "73f07e37aa929bce58b5dada88ba7a527ac33a4410ca4d5f089e121275ed6e04",
+    "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+    "matches_experiment_2_parameter_sha256": true,
+    "reproduction": "PYTHONHASHSEED=0 python scripts/reproduce_warm_start_bc.py (requires torch.use_deterministic_algorithms(True); do not force single-threaded BLAS)"
+  },
+  "training": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "seed_0_source": "Experiment 2 results/ppo_budget_v1 (not rerun)",
+    "new_seeds": [
+      1,
+      2,
+      3
+    ],
+    "commands": {
+      "1": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 1 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_1/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_1/checkpoints --diag-log results/ppo_multiseed_v1/seed_1/train_diag.jsonl",
+      "2": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 2 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_2/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_2/checkpoints --diag-log results/ppo_multiseed_v1/seed_2/train_diag.jsonl",
+      "3": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 3 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_3/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_3/checkpoints --diag-log results/ppo_multiseed_v1/seed_3/train_diag.jsonl",
+      "0": "Experiment 2 published trajectory (results/ppo_budget_v1) \u2014 not retrained"
+    },
+    "seed_scheme": "ml.seeds.ppo_episode_seed(base, k) = base*1000003 + k",
+    "episodes_per_iteration": 16,
+    "iterations": 320,
+    "total_episodes_per_seed": 5120,
+    "primary_checkpoints": [
+      0,
+      40,
+      80,
+      160,
+      320
+    ],
+    "shaping_horizon": 40,
+    "hyperparameters": {
+      "lr": 0.0003,
+      "weight_decay": 0.0001,
+      "optimizer": "AdamW",
+      "gamma": 0.999,
+      "lam": 0.95,
+      "clip": 0.2,
+      "entropy": 0.01,
+      "value_coef": 0.5,
+      "ppo_epochs": 4,
+      "minibatch": 256,
+      "grad_clip_norm": 1.0,
+      "league_every": 8,
+      "league_max": 5
+    },
+    "per_seed_meta": {
+      "0": {
+        "training_seed": 0,
+        "source": "results/ppo_budget_v1 (Experiment 2 \u2014 not retrained)",
+        "warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+        "note": "Seed 0 is the published Exp2 trajectory; checkpoints are gitignored and not re-derived here."
+      },
+      "1": {
+        "training_seed": 1
+      },
+      "2": {
+        "training_seed": 2
+      },
+      "3": {
+        "training_seed": 3
+      }
+    }
+  },
+  "evaluation": {
+    "split": "dev",
+    "dev_interval": [
+      10550000,
+      10599999
+    ],
+    "test_interval_NOT_USED": [
+      10250000,
+      10299999
+    ],
+    "test_usage": "Benchmark v1 TEST was not run and must not be used",
+    "primary_field": {
+      "name": "greedy",
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy"
+    },
+    "intermediate_diagnostic_field": {
+      "name": "greedy4_random3",
+      "games": 500,
+      "seed_range": [
+        10550000,
+        10550499
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random",
+      "kind": "dev diagnostic; the 4.5 threshold does NOT apply"
+    },
+    "drift_corpus": {
+      "source": "ml.policy_drift.build_corpus (greedy trajectories)",
+      "lobbies": 100,
+      "seed_base": 10590000,
+      "expected_fingerprint_prefix": "2ec217b353bd",
+      "note": "same frozen corpus definition as Experiments 1 and 2"
+    }
+  },
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "software": {
+    "python": "3.12.3",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.4.4"
+  },
+  "artifacts": {
+    "per_seed": {
+      "0": "results/ppo_multiseed_v1/seed_0/",
+      "1": "results/ppo_multiseed_v1/seed_1/",
+      "2": "results/ppo_multiseed_v1/seed_2/",
+      "3": "results/ppo_multiseed_v1/seed_3/"
+    },
+    "aggregate": "results/ppo_multiseed_v1/aggregate/",
+    "report": "experiments/ppo_multiseed_replication_v1.md"
+  },
+  "limitations": [
+    "n=4 training seeds is exploratory only.",
+    "Checkpoint binaries are gitignored; manifests carry fingerprints.",
+    "Seed 0 is the published Exp2 trajectory; seeds 1\u20133 were trained in this experiment from the verified warm start.",
+    "Do not select a best seed or deploy iter80 from these results."
+  ]
+}
