@@ -1,0 +1,291 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-seed PPO Budget Replication",
+  "timestamp_utc": "2026-08-31T20:58:59.901380+00:00",
+  "code_commit": "c64f8b3a3b637a38311457e2ea7e3578ad2fa89e",
+  "protocol": {
+    "frozen_from": "Replay Experiment 2",
+    "new_training_seeds": [
+      1,
+      2,
+      3
+    ],
+    "seed0_policy": "read committed results/ppo_budget_v1 artifacts only; never retrained or re-evaluated",
+    "iterations": 320,
+    "episodes_per_iteration": 16,
+    "total_episodes_per_seed": 5120,
+    "checkpoints": [
+      0,
+      40,
+      80,
+      160,
+      320
+    ],
+    "shaping_initial": 1.0,
+    "shaping_horizon": 40,
+    "warm_start": {
+      "file": "ml/policy_bc.pt",
+      "checkpoint_sha256": "bd3a4386329ecf1abc045e90d069816b801aa02d18db04af625e8ef452b0d871",
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    "hyperparameters": {
+      "lr": 0.0003,
+      "weight_decay": 0.0001,
+      "optimizer": "AdamW",
+      "gamma": 0.999,
+      "lambda": 0.95,
+      "clip": 0.2,
+      "entropy_coefficient": 0.01,
+      "value_coefficient": 0.5,
+      "ppo_epochs": 4,
+      "minibatch": 256,
+      "gradient_clip_norm": 1.0,
+      "league_every": 8,
+      "league_max": 5
+    }
+  },
+  "execution_environment": {
+    "OMP_NUM_THREADS": 1,
+    "MKL_NUM_THREADS": 1,
+    "note": "CPU scheduling controls used for all new training and evaluation runs; they do not change the model, optimizer, seed stream, update order, or PPO hyperparameters"
+  },
+  "training_runs": [
+    {
+      "training_seed": 1,
+      "training_seed_span": [
+        1000004,
+        1005123
+      ],
+      "training_command": "env OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python3 -m ml.train_ppo --iters 320 --episodes 16 --seed 1 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --require-from-bc-parameter-sha256 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b --out results/ppo_multiseed_v1/seed_1/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_1/checkpoints --diag-log results/ppo_multiseed_v1/seed_1/train_diag.jsonl --eval-episodes 40",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "file": "results/ppo_multiseed_v1/seed_1/checkpoints/iter_000.pt",
+          "checkpoint_sha256": "50cdf96be3680fa07aa3806f10f07bac16a3021353cbe7f386c3db0c66ee7fce",
+          "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "file": "results/ppo_multiseed_v1/seed_1/checkpoints/iter_040.pt",
+          "checkpoint_sha256": "58a27344620ebe740fafcb0a9b6a1f613e2e5a9b2912c69256adc924b2b13264",
+          "parameter_sha256": "cd4f1c40942c24f04c8623e854bdb9fa54c991a9e16b164db1173a178c2a3ee8"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "file": "results/ppo_multiseed_v1/seed_1/checkpoints/iter_080.pt",
+          "checkpoint_sha256": "0703977380a0d93ac1e33adb8ce4fca5ad279a7b63849b585e25a630631e27e0",
+          "parameter_sha256": "99b6216a4b14e86835f842a8b6e9ac8c629a4637bc49ee9fddecb8eecfb88b33"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "file": "results/ppo_multiseed_v1/seed_1/checkpoints/iter_160.pt",
+          "checkpoint_sha256": "d429a916102779484b19dbbf0df3741fee51a5a5219c24d04d4079a83ebc8ccc",
+          "parameter_sha256": "ed69d519cf6095a689cc0ab962e9711b01cb203490bc5827d18f5ac65fbc2df8"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "file": "results/ppo_multiseed_v1/seed_1/checkpoints/iter_320.pt",
+          "checkpoint_sha256": "4c82dd27b399d2480d3595d466a7705ea48cc462d0c462e8178423c3fbb8062d",
+          "parameter_sha256": "12d2bcaecdf212b0ba76f61a8cc1d67bd3b0f7293d6bdfeb05c7934a9c8ebac2"
+        }
+      ],
+      "evaluation_commands": [
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_000.pt --name ppo-seed1-iter000 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_1/dev/iter000_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_000.pt --name ppo-seed1-iter000 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_1/dev/iter000_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_040.pt --name ppo-seed1-iter040 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_1/dev/iter040_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_040.pt --name ppo-seed1-iter040 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_1/dev/iter040_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_080.pt --name ppo-seed1-iter080 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_1/dev/iter080_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_080.pt --name ppo-seed1-iter080 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_1/dev/iter080_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_160.pt --name ppo-seed1-iter160 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_1/dev/iter160_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_160.pt --name ppo-seed1-iter160 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_1/dev/iter160_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_320.pt --name ppo-seed1-iter320 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_1/dev/iter320_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_1/checkpoints/iter_320.pt --name ppo-seed1-iter320 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_1/dev/iter320_vs_greedy4_random3.json --quiet"
+      ],
+      "diagnostic_commands": [
+        "python3 -m ml.policy_drift --reference results/ppo_multiseed_v1/seed_1/checkpoints/iter_000.pt --checkpoints results/ppo_multiseed_v1/seed_1/checkpoints/iter_000.pt results/ppo_multiseed_v1/seed_1/checkpoints/iter_040.pt results/ppo_multiseed_v1/seed_1/checkpoints/iter_080.pt results/ppo_multiseed_v1/seed_1/checkpoints/iter_160.pt results/ppo_multiseed_v1/seed_1/checkpoints/iter_320.pt --json-out results/ppo_multiseed_v1/seed_1/policy_drift.json --categories-out results/ppo_multiseed_v1/seed_1/action_category_drift.json"
+      ]
+    },
+    {
+      "training_seed": 2,
+      "training_seed_span": [
+        2000007,
+        2005126
+      ],
+      "training_command": "env OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python3 -m ml.train_ppo --iters 320 --episodes 16 --seed 2 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --require-from-bc-parameter-sha256 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b --out results/ppo_multiseed_v1/seed_2/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_2/checkpoints --diag-log results/ppo_multiseed_v1/seed_2/train_diag.jsonl --eval-episodes 40",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "file": "results/ppo_multiseed_v1/seed_2/checkpoints/iter_000.pt",
+          "checkpoint_sha256": "0fd37b306b31aa8d8286ddf7916c550c59088874a5d9b3648cf91a03e40b724e",
+          "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "file": "results/ppo_multiseed_v1/seed_2/checkpoints/iter_040.pt",
+          "checkpoint_sha256": "aa437c85ef33f364fa8bd9671b78c4009df0a92c8a2e5e98cbeca74a803f7643",
+          "parameter_sha256": "bf46c134ac39e795228ff71bd835ae43b15acca8e3a9c00726234eb92f377aa8"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "file": "results/ppo_multiseed_v1/seed_2/checkpoints/iter_080.pt",
+          "checkpoint_sha256": "fd79fc5ecf213cf5d81defb6ba62c2c4948540826a845e8ede59293f890dd16c",
+          "parameter_sha256": "6b32058f129bac12231064a18d1fead8013d5fed0868cafce19b468464c25141"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "file": "results/ppo_multiseed_v1/seed_2/checkpoints/iter_160.pt",
+          "checkpoint_sha256": "3a17249ce69d26cfbfe6d870ed89b28bc47bf3140129c97c6f386da9fcfb060c",
+          "parameter_sha256": "0b8c2eea606ab772b80a3897d9a60b18456e9c023e50cb355858c77e4f1d2246"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "file": "results/ppo_multiseed_v1/seed_2/checkpoints/iter_320.pt",
+          "checkpoint_sha256": "00b8a0f999bdfe60568febca82575b35f963b2beed9c869ed32781c5fc8a89ae",
+          "parameter_sha256": "20d6467b2a1cb9c0cb78981cc420f0be2a5935336f94f97438e640f9905f5389"
+        }
+      ],
+      "evaluation_commands": [
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_000.pt --name ppo-seed2-iter000 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_2/dev/iter000_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_000.pt --name ppo-seed2-iter000 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_2/dev/iter000_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_040.pt --name ppo-seed2-iter040 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_2/dev/iter040_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_040.pt --name ppo-seed2-iter040 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_2/dev/iter040_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_080.pt --name ppo-seed2-iter080 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_2/dev/iter080_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_080.pt --name ppo-seed2-iter080 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_2/dev/iter080_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_160.pt --name ppo-seed2-iter160 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_2/dev/iter160_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_160.pt --name ppo-seed2-iter160 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_2/dev/iter160_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_320.pt --name ppo-seed2-iter320 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_2/dev/iter320_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_2/checkpoints/iter_320.pt --name ppo-seed2-iter320 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_2/dev/iter320_vs_greedy4_random3.json --quiet"
+      ],
+      "diagnostic_commands": [
+        "python3 -m ml.policy_drift --reference results/ppo_multiseed_v1/seed_2/checkpoints/iter_000.pt --checkpoints results/ppo_multiseed_v1/seed_2/checkpoints/iter_000.pt results/ppo_multiseed_v1/seed_2/checkpoints/iter_040.pt results/ppo_multiseed_v1/seed_2/checkpoints/iter_080.pt results/ppo_multiseed_v1/seed_2/checkpoints/iter_160.pt results/ppo_multiseed_v1/seed_2/checkpoints/iter_320.pt --json-out results/ppo_multiseed_v1/seed_2/policy_drift.json --categories-out results/ppo_multiseed_v1/seed_2/action_category_drift.json"
+      ]
+    },
+    {
+      "training_seed": 3,
+      "training_seed_span": [
+        3000010,
+        3005129
+      ],
+      "training_command": "env OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python3 -m ml.train_ppo --iters 320 --episodes 16 --seed 3 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --require-from-bc-parameter-sha256 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b --out results/ppo_multiseed_v1/seed_3/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_3/checkpoints --diag-log results/ppo_multiseed_v1/seed_3/train_diag.jsonl --eval-episodes 40",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "file": "results/ppo_multiseed_v1/seed_3/checkpoints/iter_000.pt",
+          "checkpoint_sha256": "1c3bbb901169f6d949426240347d6e0a89192bb920227cf01befa15813fa2588",
+          "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "file": "results/ppo_multiseed_v1/seed_3/checkpoints/iter_040.pt",
+          "checkpoint_sha256": "21c8bff2001ef3065db8a7b20382f8e2c8c146ed8f2f8aeeb7a2a7ccd1d000f4",
+          "parameter_sha256": "8636a229731f3e19ecc1ad7b8783880444f0204a1d14417096bbbc451738e2a8"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "file": "results/ppo_multiseed_v1/seed_3/checkpoints/iter_080.pt",
+          "checkpoint_sha256": "ed08709006ced203d3342494caf70b5dd658d98f4389662623e664a4f690b902",
+          "parameter_sha256": "377ead4ab0799233bc838047deeba1d0deb0c52206bff980af49f356e5872038"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "file": "results/ppo_multiseed_v1/seed_3/checkpoints/iter_160.pt",
+          "checkpoint_sha256": "d3291536faa830dbbbc63ca3968a8990116b8b4b277882493ff21f37b5d9f6eb",
+          "parameter_sha256": "d40547a916e6460377f5793029418f0a21870fe7b241480d456445a96ae8cb88"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "file": "results/ppo_multiseed_v1/seed_3/checkpoints/iter_320.pt",
+          "checkpoint_sha256": "3e2594b8b481f803a0e32f7545b0fbc926f2455ac8d823bdda7c8476a2835d8a",
+          "parameter_sha256": "eeab8283d15bbf5238f6a3a811903618d3c27ec4b5935d082a71038300db3d96"
+        }
+      ],
+      "evaluation_commands": [
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_000.pt --name ppo-seed3-iter000 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_3/dev/iter000_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_000.pt --name ppo-seed3-iter000 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_3/dev/iter000_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_040.pt --name ppo-seed3-iter040 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_3/dev/iter040_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_040.pt --name ppo-seed3-iter040 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_3/dev/iter040_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_080.pt --name ppo-seed3-iter080 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_3/dev/iter080_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_080.pt --name ppo-seed3-iter080 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_3/dev/iter080_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_160.pt --name ppo-seed3-iter160 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_3/dev/iter160_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_160.pt --name ppo-seed3-iter160 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_3/dev/iter160_vs_greedy4_random3.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_320.pt --name ppo-seed3-iter320 --games 1000 --seed 10550000 --field greedy --json-out results/ppo_multiseed_v1/seed_3/dev/iter320_vs_greedy.json --quiet",
+        "python3 -m ml.dev_benchmark --agent policy --checkpoint results/ppo_multiseed_v1/seed_3/checkpoints/iter_320.pt --name ppo-seed3-iter320 --games 500 --seed 10550000 --field greedy4_random3 --json-out results/ppo_multiseed_v1/seed_3/dev/iter320_vs_greedy4_random3.json --quiet"
+      ],
+      "diagnostic_commands": [
+        "python3 -m ml.policy_drift --reference results/ppo_multiseed_v1/seed_3/checkpoints/iter_000.pt --checkpoints results/ppo_multiseed_v1/seed_3/checkpoints/iter_000.pt results/ppo_multiseed_v1/seed_3/checkpoints/iter_040.pt results/ppo_multiseed_v1/seed_3/checkpoints/iter_080.pt results/ppo_multiseed_v1/seed_3/checkpoints/iter_160.pt results/ppo_multiseed_v1/seed_3/checkpoints/iter_320.pt --json-out results/ppo_multiseed_v1/seed_3/policy_drift.json --categories-out results/ppo_multiseed_v1/seed_3/action_category_drift.json"
+      ]
+    }
+  ],
+  "evaluation": {
+    "split": "DEV",
+    "base_seed": 10550000,
+    "greedy": {
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ],
+      "field": "7x greedy"
+    },
+    "greedy4_random3": {
+      "games": 500,
+      "seed_range": [
+        10550000,
+        10550499
+      ],
+      "field": "seats 1-4 greedy; seats 5-7 random",
+      "kind": "diagnostic; 4.5 threshold does not apply"
+    },
+    "test_interval_NOT_USED": [
+      10250000,
+      10299999
+    ]
+  },
+  "drift_corpus": {
+    "states": 4440,
+    "fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+    "source": "exact Experiment 2 frozen corpus definition"
+  },
+  "analysis": {
+    "all_seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "paired_bootstrap": "10000 resamples per seed and field",
+    "artifacts": {
+      "aggregate": "results/ppo_multiseed_v1/aggregate.json",
+      "paired": "results/ppo_multiseed_v1/paired_analysis.json",
+      "rl_signal": "results/ppo_multiseed_v1/rl_signal.json",
+      "plots": "results/ppo_multiseed_v1/plots",
+      "report": "experiments/ppo_multiseed_replication_v1.md"
+    }
+  },
+  "software": {
+    "python": "3.12.3",
+    "torch": "2.13.0+cu130",
+    "numpy": "2.4.4"
+  },
+  "checkpoint_storage": "checkpoint binaries are gitignored by repository convention; exact hashes are committed here",
+  "guardrails": [
+    "No PPO hyperparameter tuning",
+    "No seed or checkpoint selection",
+    "No Experiment 4 execution",
+    "No TEST seed use"
+  ]
+}

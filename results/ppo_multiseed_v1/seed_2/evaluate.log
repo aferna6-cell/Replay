@@ -1,0 +1,209 @@
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 1000
+DEV seed range: 10550000-10550999
+Field: greedy (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy)
+
+ppo-seed2-iter000 vs 7x greedy (1000 games, seeds 10550000-10550999)
+Checkpoint: iter_000.pt sha256:0fd37b306b31
+Avg placement: 6.55
+95% CI: [6.44, 6.67]  (percentile bootstrap)
+Median: 7   Std dev: 1.92
+Top-4: 14.9%
+Win rate: 3.5%
+Placements: 1:35  2:26  3:38  4:50  5:86  6:105  7:187  8:473
+Decision latency: mean 0.61ms  p50 0.60ms  p95 0.75ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter000_vs_greedy.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 500
+DEV seed range: 10550000-10550499
+Field: greedy4_random3 (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random)
+
+ppo-seed2-iter000 vs 7x greedy4_random3 (500 games, seeds 10550000-10550499)
+Checkpoint: iter_000.pt sha256:0fd37b306b31
+Avg placement: 4.37
+95% CI: [4.24, 4.50]  (percentile bootstrap)
+Median: 5   Std dev: 1.50
+Top-4: 45.2%
+Win rate: 5.8%
+Placements: 1:29  2:31  3:59  4:107  5:206  6:28  7:29  8:11
+Decision latency: mean 0.62ms  p50 0.62ms  p95 0.76ms
+
+PASS: beats 4.5 average placement threshold (outperforms the field's average — not proof of optimal play)
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter000_vs_greedy4_random3.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 1000
+DEV seed range: 10550000-10550999
+Field: greedy (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy)
+
+ppo-seed2-iter040 vs 7x greedy (1000 games, seeds 10550000-10550999)
+Checkpoint: iter_040.pt sha256:aa437c85ef33
+Avg placement: 6.56
+95% CI: [6.44, 6.68]  (percentile bootstrap)
+Median: 7   Std dev: 1.89
+Top-4: 14.0%
+Win rate: 3.6%
+Placements: 1:36  2:28  3:24  4:52  5:83  6:131  7:181  8:465
+Decision latency: mean 0.61ms  p50 0.60ms  p95 0.75ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter040_vs_greedy.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 500
+DEV seed range: 10550000-10550499
+Field: greedy4_random3 (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random)
+
+ppo-seed2-iter040 vs 7x greedy4_random3 (500 games, seeds 10550000-10550499)
+Checkpoint: iter_040.pt sha256:aa437c85ef33
+Avg placement: 4.42
+95% CI: [4.28, 4.54]  (percentile bootstrap)
+Median: 5   Std dev: 1.50
+Top-4: 42.2%
+Win rate: 5.8%
+Placements: 1:29  2:35  3:40  4:107  5:224  6:27  7:25  8:13
+Decision latency: mean 0.62ms  p50 0.61ms  p95 0.76ms
+
+PASS: beats 4.5 average placement threshold (outperforms the field's average — not proof of optimal play)
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter040_vs_greedy4_random3.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 1000
+DEV seed range: 10550000-10550999
+Field: greedy (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy)
+
+ppo-seed2-iter080 vs 7x greedy (1000 games, seeds 10550000-10550999)
+Checkpoint: iter_080.pt sha256:fd79fc5ecf21
+Avg placement: 6.57
+95% CI: [6.46, 6.69]  (percentile bootstrap)
+Median: 7   Std dev: 1.89
+Top-4: 14.5%
+Win rate: 3.5%
+Placements: 1:35  2:25  3:31  4:54  5:72  6:131  7:187  8:465
+Decision latency: mean 0.62ms  p50 0.60ms  p95 0.76ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter080_vs_greedy.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 500
+DEV seed range: 10550000-10550499
+Field: greedy4_random3 (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random)
+
+ppo-seed2-iter080 vs 7x greedy4_random3 (500 games, seeds 10550000-10550499)
+Checkpoint: iter_080.pt sha256:fd79fc5ecf21
+Avg placement: 4.44
+95% CI: [4.31, 4.56]  (percentile bootstrap)
+Median: 5   Std dev: 1.44
+Top-4: 43.0%
+Win rate: 3.8%
+Placements: 1:19  2:35  3:55  4:106  5:220  6:28  7:23  8:14
+Decision latency: mean 0.62ms  p50 0.61ms  p95 0.76ms
+
+PASS: beats 4.5 average placement threshold (outperforms the field's average — not proof of optimal play)
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter080_vs_greedy4_random3.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 1000
+DEV seed range: 10550000-10550999
+Field: greedy (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy)
+
+ppo-seed2-iter160 vs 7x greedy (1000 games, seeds 10550000-10550999)
+Checkpoint: iter_160.pt sha256:3a17249ce69d
+Avg placement: 6.52
+95% CI: [6.41, 6.63]  (percentile bootstrap)
+Median: 7   Std dev: 1.81
+Top-4: 15.9%
+Win rate: 0.8%
+Placements: 1:8  2:34  3:64  4:53  5:75  6:126  7:208  8:432
+Decision latency: mean 0.61ms  p50 0.59ms  p95 0.76ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter160_vs_greedy.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 500
+DEV seed range: 10550000-10550499
+Field: greedy4_random3 (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random)
+
+ppo-seed2-iter160 vs 7x greedy4_random3 (500 games, seeds 10550000-10550499)
+Checkpoint: iter_160.pt sha256:3a17249ce69d
+Avg placement: 4.50
+95% CI: [4.39, 4.61]  (percentile bootstrap)
+Median: 5   Std dev: 1.26
+Top-4: 45.6%
+Win rate: 0.4%
+Placements: 1:2  2:30  3:66  4:130  5:211  6:19  7:34  8:8
+Decision latency: mean 0.62ms  p50 0.60ms  p95 0.76ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter160_vs_greedy4_random3.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 1000
+DEV seed range: 10550000-10550999
+Field: greedy (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy)
+
+ppo-seed2-iter320 vs 7x greedy (1000 games, seeds 10550000-10550999)
+Checkpoint: iter_320.pt sha256:00b8a0f999bd
+Avg placement: 6.57
+95% CI: [6.46, 6.68]  (percentile bootstrap)
+Median: 7   Std dev: 1.71
+Top-4: 14.7%
+Win rate: 0.8%
+Placements: 1:8  2:21  3:52  4:66  5:80  6:131  7:221  8:421
+Decision latency: mean 0.61ms  p50 0.58ms  p95 0.77ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter320_vs_greedy.json
+Replay DEV Evaluation
+NOT Benchmark v1 test results
+Evaluation games: 500
+DEV seed range: 10550000-10550499
+Field: greedy4_random3 (seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random)
+
+ppo-seed2-iter320 vs 7x greedy4_random3 (500 games, seeds 10550000-10550499)
+Checkpoint: iter_320.pt sha256:00b8a0f999bd
+Avg placement: 4.40
+95% CI: [4.29, 4.50]  (percentile bootstrap)
+Median: 5   Std dev: 1.20
+Top-4: 49.0%
+Win rate: 1.0%
+Placements: 1:5  2:24  3:75  4:141  5:208  6:18  7:22  8:7
+Decision latency: mean 0.61ms  p50 0.59ms  p95 0.76ms
+
+PASS: beats 4.5 average placement threshold (outperforms the field's average — not proof of optimal play)
+
+(dev split — not a Benchmark v1 test result)
+Saved -> results/ppo_multiseed_v1/seed_2/dev/iter320_vs_greedy4_random3.json
+Building frozen corpus: 100 greedy lobbies from seed 10590000 (DEV diagnostic range)…
+  4440 states, fingerprint 2ec217b353bd
+  iter_000.pt: expert 0.845  warmstart 1.000  KL 0.0000  value -0.092±0.535
+  iter_040.pt: expert 0.615  warmstart 0.666  KL 0.7503  value +0.106±0.557
+  iter_080.pt: expert 0.701  warmstart 0.757  KL 0.5516  value +0.113±0.475
+  iter_160.pt: expert 0.503  warmstart 0.485  KL 1.0019  value +0.102±0.437
+  iter_320.pt: expert 0.428  warmstart 0.486  KL 1.2546  value +0.156±0.407
+Saved -> results/ppo_multiseed_v1/seed_2/policy_drift.json
+Saved -> results/ppo_multiseed_v1/seed_2/action_category_drift.json

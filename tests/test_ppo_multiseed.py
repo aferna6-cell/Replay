@@ -130,3 +130,29 @@ def test_integrity_evaluator_never_imputes_unfinished_game(monkeypatch):
     assert result["complete_case_metrics"]["avg_placement"] == 4
     assert result["mean_placement_sensitivity_bounds"] == [3.0, 16 / 3]
     assert result["failures"][0]["seed"] == DEV_BASE_SEED + 1
+
+
+def test_committed_experiment3_artifact_contract():
+    root = Path("results/ppo_multiseed_v1")
+    aggregate = json.loads((root / "aggregate.json").read_text())
+    manifest = json.loads((root / "manifest.json").read_text())
+    assert aggregate["new_training_seeds"] == [1, 2, 3]
+    assert aggregate["seed0_source"] == "committed Experiment 2 artifacts only"
+    assert aggregate["evaluation_split"] == "DEV only; TEST never used"
+    assert manifest["protocol"]["checkpoints"] == list(ITERATIONS)
+    assert [x["training_seed"] for x in manifest["training_runs"]] == [1, 2, 3]
+    assert manifest["evaluation"]["greedy"]["seed_range"] == [10550000, 10550999]
+    assert manifest["evaluation"]["test_interval_NOT_USED"] == [10250000, 10299999]
+    assert manifest["drift_corpus"]["states"] == 4440
+    assert manifest["drift_corpus"]["fingerprint_sha256"] == CORPUS_FINGERPRINT
+    for seed in ALL_SEEDS:
+        assert len(aggregate["curves"][str(seed)]) == 5
+        assert set(aggregate["rl_signal_blocks"][str(seed)]) == {
+            "iters_1_40", "iters_41_160", "iters_161_320"}
+        assert "freeze" in aggregate["action_category_iter320"][str(seed)]
+    assert aggregate["curves"]["1"][-1]["greedy_integrity"]["games_unfinished"] == 5
+    assert aggregate["curves"]["1"][-1]["mixed_integrity"]["games_unfinished"] == 2
+    for name in ("A_multiseed_dev_curves.png",
+                 "B_multiseed_drift_curves.png",
+                 "C_multiseed_rl_signal.png"):
+        assert (root / "plots" / name).stat().st_size > 1000

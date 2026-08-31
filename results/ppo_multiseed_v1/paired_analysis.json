@@ -1,0 +1,1558 @@
+{
+  "method": "per-seed paired percentile bootstrap, 10000 resamples",
+  "positive_difference": "checkpoint places worse than reference",
+  "paired": {
+    "0": {
+      "greedy": {
+        "iter40_vs_iter0": {
+          "a": "iter040",
+          "b": "iter000",
+          "n": 1000,
+          "mean_diff": 0.207,
+          "ci95": [
+            0.093,
+            0.322
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter000 places better"
+        },
+        "iter80_vs_iter0": {
+          "a": "iter080",
+          "b": "iter000",
+          "n": 1000,
+          "mean_diff": -0.229,
+          "ci95": [
+            -0.392,
+            -0.061
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter080 places better"
+        },
+        "iter160_vs_iter0": {
+          "a": "iter160",
+          "b": "iter000",
+          "n": 1000,
+          "mean_diff": -0.119,
+          "ci95": [
+            -0.245,
+            0.008
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter0": {
+          "a": "iter320",
+          "b": "iter000",
+          "n": 1000,
+          "mean_diff": 0.052,
+          "ci95": [
+            -0.104,
+            0.21
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter40": {
+          "a": "iter080",
+          "b": "iter040",
+          "n": 1000,
+          "mean_diff": -0.436,
+          "ci95": [
+            -0.593,
+            -0.277
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter080 places better"
+        },
+        "iter160_vs_iter40": {
+          "a": "iter160",
+          "b": "iter040",
+          "n": 1000,
+          "mean_diff": -0.326,
+          "ci95": [
+            -0.451,
+            -0.205
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter160 places better"
+        },
+        "iter320_vs_iter40": {
+          "a": "iter320",
+          "b": "iter040",
+          "n": 1000,
+          "mean_diff": -0.155,
+          "ci95": [
+            -0.303,
+            0.0
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter80": {
+          "a": "iter320",
+          "b": "iter080",
+          "n": 1000,
+          "mean_diff": 0.281,
+          "ci95": [
+            0.138,
+            0.425
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter080 places better"
+        }
+      },
+      "greedy4_random3": {
+        "iter40_vs_iter0": {
+          "a": "iter040",
+          "b": "iter000",
+          "n": 500,
+          "mean_diff": 0.062,
+          "ci95": [
+            -0.078,
+            0.202
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter0": {
+          "a": "iter080",
+          "b": "iter000",
+          "n": 500,
+          "mean_diff": -0.088,
+          "ci95": [
+            -0.254,
+            0.078
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter0": {
+          "a": "iter160",
+          "b": "iter000",
+          "n": 500,
+          "mean_diff": -0.164,
+          "ci95": [
+            -0.31,
+            -0.02
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter160 places better"
+        },
+        "iter320_vs_iter0": {
+          "a": "iter320",
+          "b": "iter000",
+          "n": 500,
+          "mean_diff": 0.038,
+          "ci95": [
+            -0.122,
+            0.204
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter40": {
+          "a": "iter080",
+          "b": "iter040",
+          "n": 500,
+          "mean_diff": -0.15,
+          "ci95": [
+            -0.32,
+            0.022
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter40": {
+          "a": "iter160",
+          "b": "iter040",
+          "n": 500,
+          "mean_diff": -0.226,
+          "ci95": [
+            -0.374,
+            -0.078
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "iter160 places better"
+        },
+        "iter320_vs_iter40": {
+          "a": "iter320",
+          "b": "iter040",
+          "n": 500,
+          "mean_diff": -0.024,
+          "ci95": [
+            -0.192,
+            0.142
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter80": {
+          "a": "iter320",
+          "b": "iter080",
+          "n": 500,
+          "mean_diff": 0.126,
+          "ci95": [
+            -0.016,
+            0.268
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "verdict": "no clear difference (CI includes 0)"
+        }
+      }
+    },
+    "1": {
+      "greedy": {
+        "iter40_vs_iter0": {
+          "a": "ppo-seed1-iter040",
+          "b": "ppo-seed1-iter000",
+          "n": 1000,
+          "mean_diff": 0.237,
+          "ci95": [
+            0.089,
+            0.387
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter000 places better"
+        },
+        "iter80_vs_iter0": {
+          "a": "ppo-seed1-iter080",
+          "b": "ppo-seed1-iter000",
+          "n": 1000,
+          "mean_diff": 0.534,
+          "ci95": [
+            0.437,
+            0.632
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter000 places better"
+        },
+        "iter160_vs_iter0": {
+          "a": "ppo-seed1-iter160",
+          "b": "ppo-seed1-iter000",
+          "n": 1000,
+          "mean_diff": 0.307,
+          "ci95": [
+            0.159,
+            0.453
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter000 places better"
+        },
+        "iter320_vs_iter0": {
+          "a": "ppo-seed1-iter320",
+          "b": "ppo-seed1-iter000",
+          "n": 1000,
+          "n_complete_pairs": 995,
+          "n_unfinished": 5,
+          "mean_diff": 0.32964824120603015,
+          "ci95": [
+            0.18090452261306533,
+            0.47537688442211057
+          ],
+          "method": "paired percentile bootstrap on completed pairs",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "mean_diff_sensitivity_bounds": [
+            0.31,
+            0.345
+          ],
+          "verdict": "integrity-censored; no placement imputed"
+        },
+        "iter80_vs_iter40": {
+          "a": "ppo-seed1-iter080",
+          "b": "ppo-seed1-iter040",
+          "n": 1000,
+          "mean_diff": 0.297,
+          "ci95": [
+            0.174,
+            0.421
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter040 places better"
+        },
+        "iter160_vs_iter40": {
+          "a": "ppo-seed1-iter160",
+          "b": "ppo-seed1-iter040",
+          "n": 1000,
+          "mean_diff": 0.07,
+          "ci95": [
+            -0.057,
+            0.198
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter40": {
+          "a": "ppo-seed1-iter320",
+          "b": "ppo-seed1-iter040",
+          "n": 1000,
+          "n_complete_pairs": 995,
+          "n_unfinished": 5,
+          "mean_diff": 0.09949748743718594,
+          "ci95": [
+            -0.0371859296482412,
+            0.23618090452261306
+          ],
+          "method": "paired percentile bootstrap on completed pairs",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "mean_diff_sensitivity_bounds": [
+            0.073,
+            0.108
+          ],
+          "verdict": "integrity-censored; no placement imputed"
+        },
+        "iter320_vs_iter80": {
+          "a": "ppo-seed1-iter320",
+          "b": "ppo-seed1-iter080",
+          "n": 1000,
+          "n_complete_pairs": 995,
+          "n_unfinished": 5,
+          "mean_diff": -0.207035175879397,
+          "ci95": [
+            -0.3316582914572864,
+            -0.08341708542713568
+          ],
+          "method": "paired percentile bootstrap on completed pairs",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "mean_diff_sensitivity_bounds": [
+            -0.224,
+            -0.189
+          ],
+          "verdict": "integrity-censored; no placement imputed"
+        }
+      },
+      "greedy4_random3": {
+        "iter40_vs_iter0": {
+          "a": "ppo-seed1-iter040",
+          "b": "ppo-seed1-iter000",
+          "n": 500,
+          "mean_diff": 0.236,
+          "ci95": [
+            0.08,
+            0.39
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter000 places better"
+        },
+        "iter80_vs_iter0": {
+          "a": "ppo-seed1-iter080",
+          "b": "ppo-seed1-iter000",
+          "n": 500,
+          "mean_diff": 0.496,
+          "ci95": [
+            0.366,
+            0.626
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter000 places better"
+        },
+        "iter160_vs_iter0": {
+          "a": "ppo-seed1-iter160",
+          "b": "ppo-seed1-iter000",
+          "n": 500,
+          "mean_diff": 0.3,
+          "ci95": [
+            0.136,
+            0.462
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter000 places better"
+        },
+        "iter320_vs_iter0": {
+          "a": "ppo-seed1-iter320",
+          "b": "ppo-seed1-iter000",
+          "n": 500,
+          "n_complete_pairs": 498,
+          "n_unfinished": 2,
+          "mean_diff": 0.3714859437751004,
+          "ci95": [
+            0.20481927710843373,
+            0.536144578313253
+          ],
+          "method": "paired percentile bootstrap on completed pairs",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "mean_diff_sensitivity_bounds": [
+            0.364,
+            0.392
+          ],
+          "verdict": "integrity-censored; no placement imputed"
+        },
+        "iter80_vs_iter40": {
+          "a": "ppo-seed1-iter080",
+          "b": "ppo-seed1-iter040",
+          "n": 500,
+          "mean_diff": 0.26,
+          "ci95": [
+            0.132,
+            0.392
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "ppo-seed1-iter040 places better"
+        },
+        "iter160_vs_iter40": {
+          "a": "ppo-seed1-iter160",
+          "b": "ppo-seed1-iter040",
+          "n": 500,
+          "mean_diff": 0.064,
+          "ci95": [
+            -0.08,
+            0.21
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter40": {
+          "a": "ppo-seed1-iter320",
+          "b": "ppo-seed1-iter040",
+          "n": 500,
+          "n_complete_pairs": 498,
+          "n_unfinished": 2,
+          "mean_diff": 0.142570281124498,
+          "ci95": [
+            0,
+            0.28714859437751006
+          ],
+          "method": "paired percentile bootstrap on completed pairs",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "mean_diff_sensitivity_bounds": [
+            0.128,
+            0.156
+          ],
+          "verdict": "integrity-censored; no placement imputed"
+        },
+        "iter320_vs_iter80": {
+          "a": "ppo-seed1-iter320",
+          "b": "ppo-seed1-iter080",
+          "n": 500,
+          "n_complete_pairs": 498,
+          "n_unfinished": 2,
+          "mean_diff": -0.12449799196787148,
+          "ci95": [
+            -0.27309236947791166,
+            0.02208835341365462
+          ],
+          "method": "paired percentile bootstrap on completed pairs",
+          "resamples": 10000,
+          "bootstrap_seed": 1,
+          "mean_diff_sensitivity_bounds": [
+            -0.132,
+            -0.104
+          ],
+          "verdict": "integrity-censored; no placement imputed"
+        }
+      }
+    },
+    "2": {
+      "greedy": {
+        "iter40_vs_iter0": {
+          "a": "ppo-seed2-iter040",
+          "b": "ppo-seed2-iter000",
+          "n": 1000,
+          "mean_diff": 0.006,
+          "ci95": [
+            -0.12,
+            0.128
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter0": {
+          "a": "ppo-seed2-iter080",
+          "b": "ppo-seed2-iter000",
+          "n": 1000,
+          "mean_diff": 0.015,
+          "ci95": [
+            -0.111,
+            0.139
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter0": {
+          "a": "ppo-seed2-iter160",
+          "b": "ppo-seed2-iter000",
+          "n": 1000,
+          "mean_diff": -0.031,
+          "ci95": [
+            -0.189,
+            0.125
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter0": {
+          "a": "ppo-seed2-iter320",
+          "b": "ppo-seed2-iter000",
+          "n": 1000,
+          "mean_diff": 0.017,
+          "ci95": [
+            -0.107,
+            0.142
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter40": {
+          "a": "ppo-seed2-iter080",
+          "b": "ppo-seed2-iter040",
+          "n": 1000,
+          "mean_diff": 0.009,
+          "ci95": [
+            -0.044,
+            0.063
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter40": {
+          "a": "ppo-seed2-iter160",
+          "b": "ppo-seed2-iter040",
+          "n": 1000,
+          "mean_diff": -0.037,
+          "ci95": [
+            -0.193,
+            0.121
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter40": {
+          "a": "ppo-seed2-iter320",
+          "b": "ppo-seed2-iter040",
+          "n": 1000,
+          "mean_diff": 0.011,
+          "ci95": [
+            -0.135,
+            0.163
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter80": {
+          "a": "ppo-seed2-iter320",
+          "b": "ppo-seed2-iter080",
+          "n": 1000,
+          "mean_diff": 0.002,
+          "ci95": [
+            -0.143,
+            0.151
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        }
+      },
+      "greedy4_random3": {
+        "iter40_vs_iter0": {
+          "a": "ppo-seed2-iter040",
+          "b": "ppo-seed2-iter000",
+          "n": 500,
+          "mean_diff": 0.046,
+          "ci95": [
+            -0.096,
+            0.188
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter0": {
+          "a": "ppo-seed2-iter080",
+          "b": "ppo-seed2-iter000",
+          "n": 500,
+          "mean_diff": 0.068,
+          "ci95": [
+            -0.066,
+            0.206
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter0": {
+          "a": "ppo-seed2-iter160",
+          "b": "ppo-seed2-iter000",
+          "n": 500,
+          "mean_diff": 0.132,
+          "ci95": [
+            -0.028,
+            0.29
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter0": {
+          "a": "ppo-seed2-iter320",
+          "b": "ppo-seed2-iter000",
+          "n": 500,
+          "mean_diff": 0.03,
+          "ci95": [
+            -0.1,
+            0.16
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter40": {
+          "a": "ppo-seed2-iter080",
+          "b": "ppo-seed2-iter040",
+          "n": 500,
+          "mean_diff": 0.022,
+          "ci95": [
+            -0.054,
+            0.098
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter40": {
+          "a": "ppo-seed2-iter160",
+          "b": "ppo-seed2-iter040",
+          "n": 500,
+          "mean_diff": 0.086,
+          "ci95": [
+            -0.078,
+            0.254
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter40": {
+          "a": "ppo-seed2-iter320",
+          "b": "ppo-seed2-iter040",
+          "n": 500,
+          "mean_diff": -0.016,
+          "ci95": [
+            -0.166,
+            0.134
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter80": {
+          "a": "ppo-seed2-iter320",
+          "b": "ppo-seed2-iter080",
+          "n": 500,
+          "mean_diff": -0.038,
+          "ci95": [
+            -0.182,
+            0.11
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 2,
+          "verdict": "no clear difference (CI includes 0)"
+        }
+      }
+    },
+    "3": {
+      "greedy": {
+        "iter40_vs_iter0": {
+          "a": "ppo-seed3-iter040",
+          "b": "ppo-seed3-iter000",
+          "n": 1000,
+          "mean_diff": 0.323,
+          "ci95": [
+            0.178,
+            0.465
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter000 places better"
+        },
+        "iter80_vs_iter0": {
+          "a": "ppo-seed3-iter080",
+          "b": "ppo-seed3-iter000",
+          "n": 1000,
+          "mean_diff": 0.52,
+          "ci95": [
+            0.375,
+            0.667
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter000 places better"
+        },
+        "iter160_vs_iter0": {
+          "a": "ppo-seed3-iter160",
+          "b": "ppo-seed3-iter000",
+          "n": 1000,
+          "mean_diff": 0.315,
+          "ci95": [
+            0.174,
+            0.458
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter000 places better"
+        },
+        "iter320_vs_iter0": {
+          "a": "ppo-seed3-iter320",
+          "b": "ppo-seed3-iter000",
+          "n": 1000,
+          "mean_diff": 0.137,
+          "ci95": [
+            -0.023,
+            0.295
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter40": {
+          "a": "ppo-seed3-iter080",
+          "b": "ppo-seed3-iter040",
+          "n": 1000,
+          "mean_diff": 0.197,
+          "ci95": [
+            0.093,
+            0.304
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter040 places better"
+        },
+        "iter160_vs_iter40": {
+          "a": "ppo-seed3-iter160",
+          "b": "ppo-seed3-iter040",
+          "n": 1000,
+          "mean_diff": -0.008,
+          "ci95": [
+            -0.112,
+            0.095
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter40": {
+          "a": "ppo-seed3-iter320",
+          "b": "ppo-seed3-iter040",
+          "n": 1000,
+          "mean_diff": -0.186,
+          "ci95": [
+            -0.325,
+            -0.046
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter320 places better"
+        },
+        "iter320_vs_iter80": {
+          "a": "ppo-seed3-iter320",
+          "b": "ppo-seed3-iter080",
+          "n": 1000,
+          "mean_diff": -0.383,
+          "ci95": [
+            -0.505,
+            -0.264
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter320 places better"
+        }
+      },
+      "greedy4_random3": {
+        "iter40_vs_iter0": {
+          "a": "ppo-seed3-iter040",
+          "b": "ppo-seed3-iter000",
+          "n": 500,
+          "mean_diff": 0.406,
+          "ci95": [
+            0.25,
+            0.562
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter000 places better"
+        },
+        "iter80_vs_iter0": {
+          "a": "ppo-seed3-iter080",
+          "b": "ppo-seed3-iter000",
+          "n": 500,
+          "mean_diff": 0.358,
+          "ci95": [
+            0.196,
+            0.518
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter000 places better"
+        },
+        "iter160_vs_iter0": {
+          "a": "ppo-seed3-iter160",
+          "b": "ppo-seed3-iter000",
+          "n": 500,
+          "mean_diff": 0.31,
+          "ci95": [
+            0.158,
+            0.462
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter000 places better"
+        },
+        "iter320_vs_iter0": {
+          "a": "ppo-seed3-iter320",
+          "b": "ppo-seed3-iter000",
+          "n": 500,
+          "mean_diff": 0.078,
+          "ci95": [
+            -0.088,
+            0.242
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter80_vs_iter40": {
+          "a": "ppo-seed3-iter080",
+          "b": "ppo-seed3-iter040",
+          "n": 500,
+          "mean_diff": -0.048,
+          "ci95": [
+            -0.182,
+            0.082
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter160_vs_iter40": {
+          "a": "ppo-seed3-iter160",
+          "b": "ppo-seed3-iter040",
+          "n": 500,
+          "mean_diff": -0.096,
+          "ci95": [
+            -0.216,
+            0.022
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "no clear difference (CI includes 0)"
+        },
+        "iter320_vs_iter40": {
+          "a": "ppo-seed3-iter320",
+          "b": "ppo-seed3-iter040",
+          "n": 500,
+          "mean_diff": -0.328,
+          "ci95": [
+            -0.478,
+            -0.18
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter320 places better"
+        },
+        "iter320_vs_iter80": {
+          "a": "ppo-seed3-iter320",
+          "b": "ppo-seed3-iter080",
+          "n": 500,
+          "mean_diff": -0.28,
+          "ci95": [
+            -0.428,
+            -0.132
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 3,
+          "verdict": "ppo-seed3-iter320 places better"
+        }
+      }
+    }
+  },
+  "cross_seed": {
+    "greedy_iter40_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.19325,
+        "sd": 0.13416501034174297,
+        "min": 0.006,
+        "max": 0.323,
+        "ci95_seed_bootstrap": [
+          0.06375,
+          0.294
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2040
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.18866666666666668,
+        "sd": 0.16393392978066906,
+        "min": 0.006,
+        "max": 0.323,
+        "ci95_seed_bootstrap": [
+          0.006,
+          0.323
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3040
+      },
+      "per_seed_mean_diff": {
+        "0": 0.207,
+        "1": 0.237,
+        "2": 0.006,
+        "3": 0.323
+      }
+    },
+    "greedy_iter80_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.21000000000000002,
+        "sd": 0.3793951326343904,
+        "min": -0.229,
+        "max": 0.534,
+        "ci95_seed_bootstrap": [
+          -0.10700000000000001,
+          0.527
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2080
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.35633333333333334,
+        "sd": 0.2956862075466716,
+        "min": 0.015,
+        "max": 0.534,
+        "ci95_seed_bootstrap": [
+          0.015,
+          0.534
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3080
+      },
+      "per_seed_mean_diff": {
+        "0": -0.229,
+        "1": 0.534,
+        "2": 0.015,
+        "3": 0.52
+      }
+    },
+    "greedy_iter160_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.118,
+        "sd": 0.22575798250929394,
+        "min": -0.119,
+        "max": 0.315,
+        "ci95_seed_bootstrap": [
+          -0.075,
+          0.311
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2160
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.197,
+        "sd": 0.1974943037153224,
+        "min": -0.031,
+        "max": 0.315,
+        "ci95_seed_bootstrap": [
+          -0.031,
+          0.315
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3160
+      },
+      "per_seed_mean_diff": {
+        "0": -0.119,
+        "1": 0.307,
+        "2": -0.031,
+        "3": 0.315
+      }
+    },
+    "greedy_iter320_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.13391206030150754,
+        "sd": 0.13988114401573296,
+        "min": 0.017,
+        "max": 0.32964824120603015,
+        "ci95_seed_bootstrap": [
+          0.0345,
+          0.2602361809045226
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2320
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.16121608040201005,
+        "sd": 0.1577245846240638,
+        "min": 0.017,
+        "max": 0.32964824120603015,
+        "ci95_seed_bootstrap": [
+          0.017,
+          0.32964824120603015
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3320
+      },
+      "per_seed_mean_diff": {
+        "0": 0.052,
+        "1": 0.32964824120603015,
+        "2": 0.017,
+        "3": 0.137
+      }
+    },
+    "greedy_iter80_vs_iter40": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.016749999999999998,
+        "sd": 0.32458832901589874,
+        "min": -0.436,
+        "max": 0.297,
+        "ci95_seed_bootstrap": [
+          -0.27775,
+          0.247
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2120
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.16766666666666666,
+        "sd": 0.14622357311094997,
+        "min": 0.009,
+        "max": 0.297,
+        "ci95_seed_bootstrap": [
+          0.009,
+          0.297
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3120
+      },
+      "per_seed_mean_diff": {
+        "0": -0.436,
+        "1": 0.297,
+        "2": 0.009,
+        "3": 0.197
+      }
+    },
+    "greedy_iter160_vs_iter40": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": -0.07525,
+        "sd": 0.17316538337670148,
+        "min": -0.326,
+        "max": 0.07,
+        "ci95_seed_bootstrap": [
+          -0.2465,
+          0.043250000000000004
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2200
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.008333333333333337,
+        "sd": 0.05533835318595354,
+        "min": -0.037,
+        "max": 0.07,
+        "ci95_seed_bootstrap": [
+          -0.037,
+          0.07
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3200
+      },
+      "per_seed_mean_diff": {
+        "0": -0.326,
+        "1": 0.07,
+        "2": -0.037,
+        "3": -0.008
+      }
+    },
+    "greedy_iter320_vs_iter40": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": -0.057625628140703516,
+        "sd": 0.13584169454659398,
+        "min": -0.186,
+        "max": 0.09949748743718594,
+        "ci95_seed_bootstrap": [
+          -0.17049999999999998,
+          0.055248743718592966
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2360
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": -0.02516750418760469,
+        "sd": 0.1461446889305487,
+        "min": -0.186,
+        "max": 0.09949748743718594,
+        "ci95_seed_bootstrap": [
+          -0.186,
+          0.09949748743718594
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3360
+      },
+      "per_seed_mean_diff": {
+        "0": -0.155,
+        "1": 0.09949748743718594,
+        "2": 0.011,
+        "3": -0.186
+      }
+    },
+    "greedy_iter320_vs_iter80": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": -0.07675879396984925,
+        "sd": 0.2857445912259115,
+        "min": -0.383,
+        "max": 0.281,
+        "ci95_seed_bootstrap": [
+          -0.2950175879396985,
+          0.15899120603015077
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2400
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": -0.19601172529313232,
+        "sd": 0.19273657501138922,
+        "min": -0.383,
+        "max": 0.002,
+        "ci95_seed_bootstrap": [
+          -0.383,
+          0.002
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3400
+      },
+      "per_seed_mean_diff": {
+        "0": 0.281,
+        "1": -0.207035175879397,
+        "2": 0.002,
+        "3": -0.383
+      }
+    },
+    "greedy4_random3_iter40_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.1875,
+        "sd": 0.16918136225167751,
+        "min": 0.046,
+        "max": 0.406,
+        "ci95_seed_bootstrap": [
+          0.054,
+          0.321
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2040
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.22933333333333333,
+        "sd": 0.180092568789868,
+        "min": 0.046,
+        "max": 0.406,
+        "ci95_seed_bootstrap": [
+          0.046,
+          0.406
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3040
+      },
+      "per_seed_mean_diff": {
+        "0": 0.062,
+        "1": 0.236,
+        "2": 0.046,
+        "3": 0.406
+      }
+    },
+    "greedy4_random3_iter80_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.2085,
+        "sd": 0.266244874755052,
+        "min": -0.088,
+        "max": 0.496,
+        "ci95_seed_bootstrap": [
+          -0.009999999999999995,
+          0.427
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2080
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.30733333333333335,
+        "sd": 0.21845213053054285,
+        "min": 0.068,
+        "max": 0.496,
+        "ci95_seed_bootstrap": [
+          0.068,
+          0.496
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3080
+      },
+      "per_seed_mean_diff": {
+        "0": -0.088,
+        "1": 0.496,
+        "2": 0.068,
+        "3": 0.358
+      }
+    },
+    "greedy4_random3_iter160_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.1445,
+        "sd": 0.2212833778966087,
+        "min": -0.164,
+        "max": 0.31,
+        "ci95_seed_bootstrap": [
+          -0.04800000000000001,
+          0.305
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2160
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.24733333333333332,
+        "sd": 0.10000666644445926,
+        "min": 0.132,
+        "max": 0.31,
+        "ci95_seed_bootstrap": [
+          0.132,
+          0.31
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3160
+      },
+      "per_seed_mean_diff": {
+        "0": -0.164,
+        "1": 0.3,
+        "2": 0.132,
+        "3": 0.31
+      }
+    },
+    "greedy4_random3_iter320_vs_iter0": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.1293714859437751,
+        "sd": 0.16276965413458316,
+        "min": 0.03,
+        "max": 0.3714859437751004,
+        "ci95_seed_bootstrap": [
+          0.034,
+          0.28811445783132533
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2320
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.15982864792503348,
+        "sd": 0.18486510802453252,
+        "min": 0.03,
+        "max": 0.3714859437751004,
+        "ci95_seed_bootstrap": [
+          0.03,
+          0.3714859437751004
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3320
+      },
+      "per_seed_mean_diff": {
+        "0": 0.038,
+        "1": 0.3714859437751004,
+        "2": 0.03,
+        "3": 0.078
+      }
+    },
+    "greedy4_random3_iter80_vs_iter40": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": 0.021000000000000005,
+        "sd": 0.17428329428452594,
+        "min": -0.15,
+        "max": 0.26,
+        "ci95_seed_bootstrap": [
+          -0.107,
+          0.183
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2120
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.078,
+        "sd": 0.16145587632539116,
+        "min": -0.048,
+        "max": 0.26,
+        "ci95_seed_bootstrap": [
+          -0.048,
+          0.26
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3120
+      },
+      "per_seed_mean_diff": {
+        "0": -0.15,
+        "1": 0.26,
+        "2": 0.022,
+        "3": -0.048
+      }
+    },
+    "greedy4_random3_iter160_vs_iter40": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": -0.043000000000000003,
+        "sd": 0.14650142206363276,
+        "min": -0.226,
+        "max": 0.086,
+        "ci95_seed_bootstrap": [
+          -0.161,
+          0.075
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2200
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": 0.018,
+        "sd": 0.09933780750550114,
+        "min": -0.096,
+        "max": 0.086,
+        "ci95_seed_bootstrap": [
+          -0.096,
+          0.086
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3200
+      },
+      "per_seed_mean_diff": {
+        "0": -0.226,
+        "1": 0.064,
+        "2": 0.086,
+        "3": -0.096
+      }
+    },
+    "greedy4_random3_iter320_vs_iter40": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": -0.05635742971887551,
+        "sd": 0.19667032102975987,
+        "min": -0.328,
+        "max": 0.142570281124498,
+        "ci95_seed_bootstrap": [
+          -0.25,
+          0.10092771084337349
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2360
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": -0.06714323962516734,
+        "sd": 0.23941766975082526,
+        "min": -0.328,
+        "max": 0.142570281124498,
+        "ci95_seed_bootstrap": [
+          -0.328,
+          0.142570281124498
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3360
+      },
+      "per_seed_mean_diff": {
+        "0": -0.024,
+        "1": 0.142570281124498,
+        "2": -0.016,
+        "3": -0.328
+      }
+    },
+    "greedy4_random3_iter320_vs_iter80": {
+      "all_seeds_0_3": {
+        "n_training_seeds": 4,
+        "mean": -0.07912449799196787,
+        "sd": 0.16948648448977527,
+        "min": -0.28,
+        "max": 0.126,
+        "ci95_seed_bootstrap": [
+          -0.21950000000000003,
+          0.06337550200803213
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 2400
+      },
+      "replication_seeds_1_3": {
+        "n_training_seeds": 3,
+        "mean": -0.14749933065595716,
+        "sd": 0.12262869234434094,
+        "min": -0.28,
+        "max": -0.038,
+        "ci95_seed_bootstrap": [
+          -0.28,
+          -0.038
+        ],
+        "resamples": 10000,
+        "bootstrap_seed": 3400
+      },
+      "per_seed_mean_diff": {
+        "0": 0.126,
+        "1": -0.12449799196787148,
+        "2": -0.038,
+        "3": -0.28
+      }
+    }
+  },
+  "u_shape_classification": {
+    "definition": "point U-shape: iter80 mean placement is lower than iter0 and iter320 is higher than iter80; strict U-shape requires both paired 95% CIs to exclude 0",
+    "per_seed": {
+      "0": {
+        "iter80_better_than_iter0_point_estimate": true,
+        "iter80_better_than_iter0_ci_excludes_zero": true,
+        "iter320_worse_than_iter80_point_estimate": true,
+        "iter320_worse_than_iter80_ci_excludes_zero": true,
+        "u_shape_point_estimate": true,
+        "integrity_censored": false,
+        "strict_u_shape": true
+      },
+      "1": {
+        "iter80_better_than_iter0_point_estimate": false,
+        "iter80_better_than_iter0_ci_excludes_zero": false,
+        "iter320_worse_than_iter80_point_estimate": false,
+        "iter320_worse_than_iter80_ci_excludes_zero": false,
+        "u_shape_point_estimate": false,
+        "integrity_censored": true,
+        "strict_u_shape": false
+      },
+      "2": {
+        "iter80_better_than_iter0_point_estimate": false,
+        "iter80_better_than_iter0_ci_excludes_zero": false,
+        "iter320_worse_than_iter80_point_estimate": true,
+        "iter320_worse_than_iter80_ci_excludes_zero": false,
+        "u_shape_point_estimate": false,
+        "integrity_censored": false,
+        "strict_u_shape": false
+      },
+      "3": {
+        "iter80_better_than_iter0_point_estimate": false,
+        "iter80_better_than_iter0_ci_excludes_zero": false,
+        "iter320_worse_than_iter80_point_estimate": false,
+        "iter320_worse_than_iter80_ci_excludes_zero": false,
+        "u_shape_point_estimate": false,
+        "integrity_censored": false,
+        "strict_u_shape": false
+      }
+    },
+    "replication_seed_counts_out_of_3": {
+      "iter80_better_than_iter0_point_estimate": 0,
+      "iter80_better_than_iter0_ci_excludes_zero": 0,
+      "iter320_worse_than_iter80_point_estimate": 1,
+      "iter320_worse_than_iter80_ci_excludes_zero": 0,
+      "u_shape_point_estimate": 0,
+      "integrity_censored": 1,
+      "strict_u_shape": 0
+    }
+  }
+}
