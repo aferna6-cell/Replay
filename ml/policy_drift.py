@@ -104,17 +104,29 @@ def masked_kl(logits_p, logits_q, legal):
     return term.sum(dim=-1)
 
 
+def masked_entropy(logits, legal):
+    """Per-state entropy over legal actions only, from masked logits."""
+    import torch
+    logp = torch.log_softmax(logits, dim=-1)
+    p = torch.exp(logp)
+    term = torch.where(legal > 0.5, -p * logp, torch.zeros_like(p))
+    return term.sum(dim=-1)
+
+
 def drift_metrics(logits_k, values_k, logits_ref, tensors) -> Dict:
     """All drift numbers for one checkpoint against the reference (iter 0)."""
     legal, expert = tensors[4], tensors[5]
     acts_k = logits_k.argmax(dim=-1)
     acts_ref = logits_ref.argmax(dim=-1)
     kl = masked_kl(logits_ref, logits_k, legal)
+    ent = masked_entropy(logits_k, legal)
     return {
         "expert_agreement": float((acts_k == expert).float().mean().item()),
         "warmstart_agreement": float((acts_k == acts_ref).float().mean().item()),
         "kl_from_warmstart_mean": float(kl.mean().item()),
         "kl_from_warmstart_p95": float(kl.quantile(0.95).item()),
+        "entropy_mean": float(ent.mean().item()),
+        "entropy_std": float(ent.std().item()),
         "value_mean": float(values_k.mean().item()),
         "value_std": float(values_k.std().item()),
     }
@@ -135,6 +147,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     p.add_argument("--lobbies", type=int, default=CORPUS_LOBBIES)
     p.add_argument("--corpus-seed", type=int, default=CORPUS_SEED_BASE)
     p.add_argument("--json-out", required=True)
+    p.add_argument("--categories-out",
+                   help="also write the expert->PPO and warmstart->PPO "
+                        "action-category confusion analysis here")
     a = p.parse_args(argv)
 
     from .policy_net import load_policy
@@ -144,16 +159,33 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     tensors = corpus_tensors(states)
     print(f"  {len(states)} states, fingerprint {fingerprint[:12]}")
 
+    from .action_categories import confusion, top_transitions
+    from .model_fingerprint import checkpoint_fingerprint
+
     ref = load_policy(a.reference)
     logits_ref, values_ref = policy_outputs(ref, tensors)
+    expert_acts = [int(x) for x in tensors[5].tolist()]
+    ref_acts = [int(x) for x in logits_ref.argmax(dim=-1).tolist()]
     rows: List[Dict] = []
+    categories: List[Dict] = []
     for path in a.checkpoints:
         net = load_policy(path)
         logits_k, values_k = policy_outputs(net, tensors)
         row = {"checkpoint": os.path.basename(path),
-               "checkpoint_sha256": _sha256(path),
+               **checkpoint_fingerprint(path),
                **drift_metrics(logits_k, values_k, logits_ref, tensors)}
         rows.append(row)
+        # Which decisions changed — vs the expert, and vs the warm start.
+        k_acts = [int(x) for x in logits_k.argmax(dim=-1).tolist()]
+        vs_expert = confusion(expert_acts, k_acts)
+        vs_warm = confusion(ref_acts, k_acts)
+        categories.append({
+            "checkpoint": os.path.basename(path),
+            "vs_expert": {**vs_expert,
+                          "top_transitions": top_transitions(vs_expert)},
+            "vs_warmstart": {**vs_warm,
+                             "top_transitions": top_transitions(vs_warm)},
+        })
         print(f"  {row['checkpoint']}: expert {row['expert_agreement']:.3f}  "
               f"warmstart {row['warmstart_agreement']:.3f}  "
               f"KL {row['kl_from_warmstart_mean']:.4f}  "
@@ -165,7 +197,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                    "source": "greedy seat-0 trajectories via ml.bc.collect",
                    "split": "dev (diagnostic sub-range; never TEST seeds)"},
         "reference": {"checkpoint": os.path.basename(a.reference),
-                      "checkpoint_sha256": _sha256(a.reference)},
+                      **checkpoint_fingerprint(a.reference)},
         "kl_definition": "mean over states of KL(pi_reference || pi_k) on "
                          "legal-action-masked softmax distributions",
         "checkpoints": rows,
@@ -174,6 +206,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     with open(a.json_out, "w", encoding="utf-8") as f:
         json.dump(blob, f, indent=2)
     print(f"Saved -> {a.json_out}")
+    if a.categories_out:
+        with open(a.categories_out, "w", encoding="utf-8") as f:
+            json.dump({"corpus": blob["corpus"],
+                       "reference": blob["reference"],
+                       "categories": ("action index -> decision category, "
+                                      "derived from hsbg_coach.bg_env"),
+                       "checkpoints": categories}, f, indent=2)
+        print(f"Saved -> {a.categories_out}")
     return 0
 
 

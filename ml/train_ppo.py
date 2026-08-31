@@ -55,6 +55,47 @@ def diag_stats(old_logp, logp, clip: float = CLIP):
             float(((ratio - 1.0).abs() > clip).float().mean().item()))
 
 
+def rl_signal(adv_raw, ret, values, placements, shaping_r, terminal_r) -> dict:
+    """Does the policy receive variation that can tell good decisions from
+    bad ones? Measured on RAW advantages, before PPO's per-batch
+    normalization (which rescales any signal, however weak, to unit std).
+
+    * ``adv_*`` — GAE advantages exactly as ``_gae`` produced them.
+    * ``adv_frac_positive/zero/negative`` — sign split; a healthy batch
+      separates actions in both directions. "zero" means |a| < 1e-8.
+    * ``value_explained_variance`` — 1 - Var(returns - values) / Var(returns).
+      1.0 = the value head explains returns perfectly, 0.0 = no better than
+      predicting the mean, negative = worse than the mean.
+    * ``shaping_reward_sum`` / ``terminal_reward_sum`` — the two reward
+      sources separated, so their relative contribution is visible as
+      shaping anneals away.
+    """
+    adv = np.asarray(adv_raw, dtype=np.float64)
+    ret = np.asarray(ret, dtype=np.float64)
+    val = np.asarray(values, dtype=np.float64)
+    resid = ret - val
+    ret_var = float(ret.var())
+    return {
+        "adv_mean": float(adv.mean()),
+        "adv_std": float(adv.std()),
+        "adv_mean_abs": float(np.abs(adv).mean()),
+        "adv_frac_positive": float((adv > 1e-8).mean()),
+        "adv_frac_zero": float((np.abs(adv) <= 1e-8).mean()),
+        "adv_frac_negative": float((adv < -1e-8).mean()),
+        "return_mean": float(ret.mean()),
+        "return_std": float(ret.std()),
+        "value_pred_mean": float(val.mean()),
+        "value_pred_std": float(val.std()),
+        "value_explained_variance": (float(1.0 - resid.var() / ret_var)
+                                     if ret_var > 1e-12 else None),
+        "placement_mean": float(np.mean(placements)),
+        "placement_std": float(np.std(placements)),
+        "placement_distinct": len(set(placements)),
+        "shaping_reward_sum": float(np.sum(shaping_r)),
+        "terminal_reward_sum": float(np.sum(terminal_r)),
+    }
+
+
 def _gae(rewards: List[float], values: List[float]) -> np.ndarray:
     adv = np.zeros(len(rewards), dtype=np.float32)
     last = 0.0
@@ -125,8 +166,18 @@ def main(argv=None):
                    help="append per-iteration optimization diagnostics "
                         "(losses, entropy, approx KL, clip fraction, grad "
                         "norm, rollout placement, shaping, league size, "
-                        "steps) as JSON lines to this file")
+                        "steps, and raw advantage/return/value signal) as "
+                        "JSON lines to this file")
+    p.add_argument("--shaping-horizon", type=int, default=None,
+                   help="anneal the shaping weight against this iteration "
+                        "count instead of --iters. Defaults to --iters (the "
+                        "shipped behavior). Set it to pin the ORIGINAL "
+                        "schedule when extending a run: --iters 320 "
+                        "--shaping-horizon 40 reproduces the 40-iteration "
+                        "schedule for iterations 1-40 and holds shaping at 0 "
+                        "afterwards, so training budget is the only variable.")
     a = p.parse_args(argv)
+    horizon = a.shaping_horizon if a.shaping_horizon else a.iters
 
     save_iters = {int(x) for x in a.save_iters.split(",") if x.strip()}
     if save_iters and not a.save_dir:
@@ -171,7 +222,7 @@ def main(argv=None):
         seeds.ppo_episode_seed(a.seed, a.iters * a.episodes))
     ep_index = 0
     for it in range(a.iters):
-        anneal = max(0.0, 1.0 - it / max(1, a.iters * 0.7))
+        anneal = max(0.0, 1.0 - it / max(1, horizon * 0.7))
         shaping = a.shaping * anneal
         trajs = []
         for e in range(a.episodes):
@@ -196,6 +247,12 @@ def main(argv=None):
             rets.append(adv + np.asarray(t["value"], dtype=np.float32))
         adv = torch.from_numpy(np.concatenate(advs))
         ret = torch.from_numpy(np.concatenate(rets))
+        # RL-signal diagnostics on the RAW advantages, before normalization.
+        signal = rl_signal(
+            np.concatenate(advs), np.concatenate(rets),
+            [v for t in trajs for v in t["value"]], placements,
+            [r for t in trajs for r in t["shaping_reward"]],
+            [r for t in trajs for r in t["terminal_reward"]])
         adv = (adv - adv.mean()) / (adv.std() + 1e-6)
 
         stats = _update(net, opt,
@@ -213,7 +270,7 @@ def main(argv=None):
                "approx_kl": stats["approx_kl"] / nb,
                "clip_frac": stats["clip_frac"] / nb,
                "grad_norm": stats["grad_norm"] / nb,
-               "minibatches": stats["batches"]})
+               "minibatches": stats["batches"], **signal})
         _snapshot(it + 1)
 
         if (it + 1) % LEAGUE_EVERY == 0:

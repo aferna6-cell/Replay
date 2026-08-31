@@ -26,12 +26,45 @@ import argparse
 import sys
 from typing import Dict, Optional, Sequence
 
-from .benchmark import (BenchmarkResult, _FIELDS, _run_games, _write_json,
-                        make_agent, print_summary, result_to_json)
+from hsbg_coach.bg_env import greedy_policy, random_policy
+
+from .benchmark import (BenchmarkResult, FIELD_SIZE, _FIELDS, _run_games,
+                        _write_json, field_seats, make_agent, print_summary,
+                        result_to_json)
 from .seeds import DEV_SEED_END, DEV_SEED_START, validate_dev_range
 
 DEV_VERSION = "Replay DEV Evaluation (Benchmark v1 machinery)"
 DEV_BANNER = "Replay DEV Evaluation\nNOT Benchmark v1 test results"
+
+# DEV-only mixed diagnostic fields. These are NOT benchmarks and carry no
+# "beats the field" interpretation: with heterogeneous opponents the lobby
+# still averages 4.5 across all 8 seats, but the tested agent's seat is not
+# exchangeable with the others, so 4.5 is not a meaningful threshold for it.
+# Seat assignment is positional and fixed (index i -> BGEnv seat i+1), so
+# every checkpoint meets the identical opponent in the identical seat.
+DEV_DIAGNOSTIC_FIELDS = {
+    # Intermediate strength between the saturated all-random field and the
+    # all-greedy field: seats 1-4 greedy, seats 5-7 random.
+    "greedy4_random3": [greedy_policy] * 4 + [random_policy] * 3,
+}
+
+
+def dev_field_seats(field: str):
+    """7 opponent seats for a DEV field: the TEST field names plus the
+    DEV-only mixed diagnostic compositions."""
+    if field in DEV_DIAGNOSTIC_FIELDS:
+        seats = list(DEV_DIAGNOSTIC_FIELDS[field])
+        assert len(seats) == FIELD_SIZE
+        return seats
+    return field_seats(field)
+
+
+def field_composition(field: str) -> str:
+    """Human-readable opponent composition, recorded in the result JSON."""
+    names = {id(greedy_policy): "greedy", id(random_policy): "random"}
+    seats = dev_field_seats(field)
+    return ", ".join(f"seat{i + 1}={names.get(id(p), 'policy')}"
+                     for i, p in enumerate(seats))
 
 
 def run_dev_benchmark(agent, field: str, games: int,
@@ -40,7 +73,8 @@ def run_dev_benchmark(agent, field: str, games: int,
     """Deterministic DEV evaluation: game i uses seed base_seed + i,
     validated against the reserved DEV interval."""
     validate_dev_range(base_seed, games)
-    return _run_games(agent, field, games, base_seed, progress)
+    return _run_games(agent, field, games, base_seed, progress,
+                      seats=dev_field_seats(field))
 
 
 def dev_result_to_json(res: BenchmarkResult) -> Dict:
@@ -48,6 +82,18 @@ def dev_result_to_json(res: BenchmarkResult) -> Dict:
     blob = result_to_json(res)
     blob["benchmark_version"] = DEV_VERSION
     blob["evaluation_split"] = "dev"
+    blob["field_composition"] = field_composition(res.field)
+    if res.field in DEV_DIAGNOSTIC_FIELDS:
+        blob["field_kind"] = "dev diagnostic (mixed opponents)"
+        blob["beat_field_threshold"] = None       # 4.5 does not apply here
+        blob["beats_field"] = None
+        blob["threshold_note"] = (
+            "mixed-opponent DEV diagnostic field: the tested seat is not "
+            "exchangeable with the opponent seats, so the 4.5 lobby average "
+            "is NOT a beat-the-field threshold here. Use it only to compare "
+            "checkpoints against each other on identical seeds.")
+    else:
+        blob["field_kind"] = "homogeneous"
     blob["seed_policy"] = (f"development-split seeds from the reserved DEV "
                            f"interval [{DEV_SEED_START}, {DEV_SEED_END}]; "
                            f"never train on them; NOT Benchmark v1 test "
@@ -74,7 +120,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                    help=f"base DEV seed (default {DEV_SEED_START}; game i "
                         "uses seed+i; the range must stay inside the DEV "
                         "interval)")
-    p.add_argument("--field", choices=sorted(_FIELDS), default="greedy")
+    p.add_argument("--field", default="greedy",
+                   choices=sorted(set(_FIELDS) | set(DEV_DIAGNOSTIC_FIELDS)),
+                   help="opponent field; the mixed compositions are DEV-only "
+                        "diagnostics, not benchmarks")
     p.add_argument("--json-out", help="write machine-readable results here")
     p.add_argument("--quiet", action="store_true", help="no progress lines")
     a = p.parse_args(argv)
@@ -88,7 +137,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     print(DEV_BANNER)
     print(f"Evaluation games: {a.games}")
     print(f"DEV seed range: {a.seed}-{a.seed + a.games - 1}")
-    print(f"Field: 7x {a.field}")
+    print(f"Field: {a.field} ({field_composition(a.field)})")
     res = run_dev_benchmark(agent, a.field, a.games, a.seed,
                             progress=not a.quiet)
     print_summary(res)
