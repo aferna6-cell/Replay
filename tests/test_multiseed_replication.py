@@ -366,6 +366,36 @@ def test_plots_consume_result_json_not_hardcoded_values(tmp_path):
     assert all(os.path.getsize(p) > 0 for p in written)
 
 
+def test_plotted_curve_follows_the_json_when_the_json_changes(tmp_path):
+    """The figure must be a function of the artifacts, not of literals.
+
+    Rendering the same seed twice with one placement perturbed has to change
+    the learning-curve image; if the series were hard-coded it would not.
+    """
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    import copy
+
+    from ml.multiseed_analysis import assemble_replication
+    from scripts.ppo_multiseed_aggregate import plot_from_json
+
+    bundle = load_seed_bundle(0)
+    first = tmp_path / "before"
+    plot_from_json({0: bundle}, assemble_replication({0: bundle}), str(first))
+    before = (first / "A_multiseed_dev_curves.png").read_bytes()
+
+    moved = copy.deepcopy(bundle)
+    for row in moved["curve"]["curve"]:
+        if row["iteration"] == 80:
+            row["greedy_avg"] += 1.0
+    moved["placements"][80] += 1.0
+    second = tmp_path / "after"
+    plot_from_json({0: moved}, assemble_replication({0: moved}), str(second))
+    after = (second / "A_multiseed_dev_curves.png").read_bytes()
+
+    assert before != after
+
+
 def test_seed_report_refuses_to_rebuild_seed_0():
     from scripts.ppo_multiseed_seed_report import assemble_seed
     with pytest.raises(ValueError, match="seed 0"):
