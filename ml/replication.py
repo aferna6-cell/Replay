@@ -20,11 +20,13 @@ handful of training seeds is the only sample that speaks to training
 variability. Nothing here pools games across seeds into one n=4000 sample.
 """
 
+import json
 import math
+import os
 import statistics as st
 from typing import Dict, List, Optional, Sequence
 
-from .analyze_benchmark import compare_pair
+from .analyze_benchmark import compare_pair, load_result
 
 PRIMARY_ITERS = [0, 40, 80, 160, 320]
 EPISODES_PER_ITER = 16
@@ -254,4 +256,237 @@ def effect_across_seeds(paired_by_seed: Dict[int, Sequence[Dict]],
         "n_ci_excludes_zero_worse": sigs.count("worse"),
         "n_ci_includes_zero": sigs.count("none"),
         "across_seed_effect": exploratory_ci(diffs),
+    }
+
+
+# --- artifact loading ---------------------------------------------------------
+RL_BLOCKS = {"iters_1_40": (1, 40), "iters_41_160": (41, 160),
+             "iters_161_320": (161, 320)}
+RL_METRICS = ("rollout_avg_placement", "adv_mean", "adv_std", "adv_mean_abs",
+              "adv_frac_positive", "adv_frac_negative", "adv_frac_zero",
+              "return_mean", "return_std", "value_pred_mean",
+              "value_pred_std", "value_explained_variance", "placement_std",
+              "shaping_reward_sum", "terminal_reward_sum", "entropy",
+              "approx_kl", "clip_frac", "grad_norm", "pi_loss", "v_loss",
+              "steps", "league_size")
+
+
+def iteration_of(checkpoint_name: str) -> int:
+    """80 from 'iter_080.pt' — Experiment 2's drift rows key on the filename."""
+    stem = os.path.basename(checkpoint_name).split(".")[0]
+    return int(stem.split("_")[-1])
+
+
+def load_seed_bundle(training_seed: int, dev_dir: str, drift_path: str,
+                     categories_path: str, diag_path: str,
+                     iterations: Optional[Sequence[int]] = None) -> Dict:
+    """Every committed artifact for one training seed, keyed by iteration.
+
+    Reads only files; computes nothing. Experiment 2's seed-0 artifacts are
+    loaded through this same function and are never written back.
+    """
+    iters = list(iterations or PRIMARY_ITERS)
+    drift = {iteration_of(r["checkpoint"]): r
+             for r in json.load(open(drift_path, encoding="utf-8"))["checkpoints"]}
+    cats = {iteration_of(r["checkpoint"]): r
+            for r in json.load(open(categories_path,
+                                    encoding="utf-8"))["checkpoints"]}
+    with open(diag_path, encoding="utf-8") as f:
+        diag = [json.loads(line) for line in f if line.strip()]
+    return {
+        "training_seed": training_seed,
+        "iterations": iters,
+        "greedy": {it: load_result(f"{dev_dir}/iter{it:03d}_vs_greedy.json")
+                   for it in iters},
+        "mixed": {it: load_result(
+            f"{dev_dir}/iter{it:03d}_vs_greedy4_random3.json") for it in iters},
+        "drift": {it: drift[it] for it in iters},
+        "categories": {it: cats[it] for it in iters},
+        "diag": diag,
+    }
+
+
+def build_curve(bundle: Dict) -> List[Dict]:
+    """One row per primary budget: DEV placement on both fields plus the
+    drift diagnostics measured on the frozen corpus."""
+    rows = []
+    for it in bundle["iterations"]:
+        g, m = bundle["greedy"][it], bundle["mixed"][it]
+        d, c = bundle["drift"][it], bundle["categories"][it]["vs_expert"]
+        rows.append({
+            "training_seed": bundle["training_seed"],
+            "iteration": it, "cumulative_episodes": episodes(it),
+            "greedy_avg": g["metrics"]["avg_placement"],
+            "greedy_ci95": g["avg_placement_ci95"],
+            "greedy_median": g["metrics"]["median_placement"],
+            "greedy_std": g["metrics"]["std_placement"],
+            "greedy_top4": g["metrics"]["top4_rate"],
+            "greedy_win": g["metrics"]["win_rate"],
+            "greedy_placement_counts": g["metrics"]["placement_counts"],
+            "greedy_games": g["games"], "greedy_seed_range": g["seed_range"],
+            "mixed_avg": m["metrics"]["avg_placement"],
+            "mixed_ci95": m["avg_placement_ci95"],
+            "mixed_top4": m["metrics"]["top4_rate"],
+            "mixed_win": m["metrics"]["win_rate"],
+            "mixed_games": m["games"], "mixed_seed_range": m["seed_range"],
+            "expert_agreement": d["expert_agreement"],
+            "warmstart_agreement": d["warmstart_agreement"],
+            "kl_from_warmstart": d["kl_from_warmstart_mean"],
+            "corpus_entropy": d["entropy_mean"],
+            "value_mean": d["value_mean"], "value_std": d["value_std"],
+            "parameter_sha256": d["parameter_sha256"],
+            "checkpoint_sha256": d["checkpoint_sha256"],
+            "expert_disagreement_by_category":
+                c["disagreement_share_by_category"],
+            "drift_contribution_by_category": c["contribution_to_total_drift"],
+        })
+    return rows
+
+
+def rl_blocks(diag: Sequence[Dict]) -> Dict:
+    """Experiment 2's per-training-block means, recomputed per seed."""
+    out = {}
+    for name, (lo, hi) in RL_BLOCKS.items():
+        rows = [r for r in diag if lo <= r["iter"] <= hi]
+        out[name] = {"iterations": [lo, hi], "n": len(rows), **{
+            k: (st.mean(r[k] for r in rows if r.get(k) is not None)
+                if any(r.get(k) is not None for r in rows) else None)
+            for k in RL_METRICS}}
+    return out
+
+
+# --- drift / category replication ---------------------------------------------
+def freeze_stats(category_row: Dict) -> Dict:
+    """How often the checkpoint picks `freeze` on the frozen corpus — the
+    action Experiment 2 found the greedy expert never takes."""
+    conf = category_row["vs_expert"]
+    matrix = conf["confusion_matrix"]
+    chosen = sum(tos.get("freeze", 0) for tos in matrix.values())
+    n = conf["n_states"]
+    return {"freeze_selections": chosen, "n_states": n,
+            "freeze_rate": chosen / n if n else None,
+            "freeze_appears": chosen > 0,
+            "expert_freeze_states":
+                conf["reference_category_counts"].get("freeze", 0)}
+
+
+def category_replication(category_row: Dict) -> Dict:
+    """The expert -> PPO category picture Experiment 2 reported, per seed."""
+    conf = category_row["vs_expert"]
+    return {
+        "iteration": category_row.get("iteration"),
+        "overall_agreement": conf["overall_agreement"],
+        "n_disagreements": conf["n_disagreements"],
+        "confusion_matrix": conf["confusion_matrix"],
+        "expert_category_counts": conf["reference_category_counts"],
+        "disagreement_share_by_category":
+            conf["disagreement_share_by_category"],
+        "contribution_to_total_drift": conf["contribution_to_total_drift"],
+        "top_transitions": conf.get("top_transitions", [])[:6],
+        **freeze_stats(category_row),
+    }
+
+
+def spearman(xs: Sequence[float], ys: Sequence[float]) -> Optional[float]:
+    """Rank correlation, ties averaged. Descriptive association only — with
+    five budgets per seed it cannot support a causal reading."""
+    n = len(xs)
+    if n < 3 or len(ys) != n:
+        return None
+
+    def ranks(vals):
+        order = sorted(range(n), key=lambda i: vals[i])
+        out = [0.0] * n
+        i = 0
+        while i < n:
+            j = i
+            while j + 1 < n and vals[order[j + 1]] == vals[order[i]]:
+                j += 1
+            avg = (i + j) / 2.0 + 1.0
+            for k in range(i, j + 1):
+                out[order[k]] = avg
+            i = j + 1
+        return out
+
+    rx, ry = ranks(list(xs)), ranks(list(ys))
+    mx, my = st.mean(rx), st.mean(ry)
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    den = math.sqrt(sum((a - mx) ** 2 for a in rx)
+                    * sum((b - my) ** 2 for b in ry))
+    return num / den if den > 0 else None
+
+
+def drift_vs_performance(curve: Sequence[Dict]) -> Dict:
+    """Within one seed: is the best-placing budget also closer to the expert
+    and to its warm start than the budgets that follow it?
+
+    Association only. Nothing here identifies a direction of causation — a
+    checkpoint could place well *because* it stayed near the prior, or drift
+    and placement could both track a third property of the trajectory.
+    """
+    rows = sorted(curve, key=lambda r: r["iteration"])
+    placements = [r["greedy_avg"] for r in rows]
+    best = min(rows, key=lambda r: r["greedy_avg"])
+    later = [r for r in rows if r["iteration"] > best["iteration"]]
+    return {
+        "best_iteration": best["iteration"],
+        "best_greedy_avg": best["greedy_avg"],
+        "best_expert_agreement": best["expert_agreement"],
+        "best_kl_from_warmstart": best["kl_from_warmstart"],
+        "later_mean_expert_agreement":
+            st.mean(r["expert_agreement"] for r in later) if later else None,
+        "later_mean_kl_from_warmstart":
+            st.mean(r["kl_from_warmstart"] for r in later) if later else None,
+        "best_has_higher_expert_agreement_than_later":
+            (best["expert_agreement"]
+             > st.mean(r["expert_agreement"] for r in later)) if later else None,
+        "best_has_lower_kl_than_later":
+            (best["kl_from_warmstart"]
+             < st.mean(r["kl_from_warmstart"] for r in later)) if later else None,
+        "spearman_placement_vs_expert_agreement":
+            spearman(placements, [r["expert_agreement"] for r in rows]),
+        "spearman_placement_vs_kl":
+            spearman(placements, [r["kl_from_warmstart"] for r in rows]),
+        "note": ("descriptive association across five budgets within one "
+                 "training seed; no causal claim"),
+    }
+
+
+# --- plot inputs --------------------------------------------------------------
+def build_plot_data(curves_by_seed: Dict[int, Sequence[Dict]],
+                    categories_iter320: Dict[int, Dict],
+                    rl_blocks_by_seed: Dict[int, Dict]) -> Dict:
+    """Every numeric series the plots draw, derived purely from the loaded
+    result artifacts. The plotting code renders this and nothing else, so no
+    measured value is ever typed into a figure script."""
+    from .action_categories import CATEGORIES
+    seeds = sorted(curves_by_seed)
+    iters = [r["iteration"] for r in sorted(curves_by_seed[seeds[0]],
+                                            key=lambda r: r["iteration"])]
+    eps = [episodes(i) for i in iters]
+
+    def series(key):
+        return {s: [r[key] for r in sorted(curves_by_seed[s],
+                                           key=lambda r: r["iteration"])]
+                for s in seeds}
+
+    greedy = series("greedy_avg")
+    mean_curve = [st.mean(greedy[s][i] for s in seeds)
+                  for i in range(len(iters))]
+    return {
+        "training_seeds": seeds, "iterations": iters, "episodes": eps,
+        "greedy_avg": greedy,
+        "greedy_mean_across_seeds": mean_curve,
+        "mixed_avg": series("mixed_avg"),
+        "expert_agreement": series("expert_agreement"),
+        "warmstart_agreement": series("warmstart_agreement"),
+        "kl_from_warmstart": series("kl_from_warmstart"),
+        "categories": list(CATEGORIES),
+        "category_disagreement_iter320": {
+            s: [(categories_iter320[s]["disagreement_share_by_category"]
+                 .get(c) or 0.0) for c in CATEGORIES] for s in seeds},
+        "freeze_selections_iter320": {
+            s: categories_iter320[s]["freeze_selections"] for s in seeds},
+        "rl_blocks": {s: rl_blocks_by_seed[s] for s in seeds},
+        "rl_block_names": list(RL_BLOCKS),
     }
