@@ -1,0 +1,770 @@
+{
+  "method": "deterministic paired percentile bootstrap, 10000 resamples, bootstrap seed 0 (per ml.analyze_benchmark)",
+  "convention": "mean_diff = target - reference; positive = target places WORSE (higher placement) than reference; negative = target places BETTER",
+  "pair_specs": [
+    [
+      40,
+      0
+    ],
+    [
+      80,
+      0
+    ],
+    [
+      160,
+      0
+    ],
+    [
+      320,
+      0
+    ],
+    [
+      80,
+      40
+    ],
+    [
+      160,
+      40
+    ],
+    [
+      320,
+      40
+    ],
+    [
+      160,
+      80
+    ],
+    [
+      320,
+      80
+    ]
+  ],
+  "by_seed": {
+    "0": [
+      {
+        "a": "iter040",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.207,
+        "ci95": [
+          0.093,
+          0.322
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "target_episodes": 640,
+        "reference_episodes": 0
+      },
+      {
+        "a": "iter080",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter080 places better",
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "target_episodes": 1280,
+        "reference_episodes": 0
+      },
+      {
+        "a": "iter160",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": -0.119,
+        "ci95": [
+          -0.245,
+          0.008
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "target_episodes": 2560,
+        "reference_episodes": 0
+      },
+      {
+        "a": "iter320",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.052,
+        "ci95": [
+          -0.104,
+          0.21
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "target_episodes": 5120,
+        "reference_episodes": 0
+      },
+      {
+        "a": "iter080",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.436,
+        "ci95": [
+          -0.593,
+          -0.277
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter080 places better",
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "target_episodes": 1280,
+        "reference_episodes": 640
+      },
+      {
+        "a": "iter160",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.326,
+        "ci95": [
+          -0.451,
+          -0.205
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter160 places better",
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "target_episodes": 2560,
+        "reference_episodes": 640
+      },
+      {
+        "a": "iter320",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.155,
+        "ci95": [
+          -0.303,
+          0.0
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "target_episodes": 5120,
+        "reference_episodes": 640
+      },
+      {
+        "a": "iter160",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": 0.11,
+        "ci95": [
+          -0.044,
+          0.262
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "target_episodes": 2560,
+        "reference_episodes": 1280
+      },
+      {
+        "a": "iter320",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter080 places better",
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "target_episodes": 5120,
+        "reference_episodes": 1280
+      }
+    ],
+    "1": [
+      {
+        "a": "PPO_seed1_iter40",
+        "b": "PPO_seed1_iter0",
+        "n": 995,
+        "mean_diff": 0.23015075376884422,
+        "ci95": [
+          0.07839195979899498,
+          0.3798994974874372
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter0 places better",
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "target_episodes": 640,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed1_iter80",
+        "b": "PPO_seed1_iter0",
+        "n": 995,
+        "mean_diff": 0.5366834170854271,
+        "ci95": [
+          0.4381909547738693,
+          0.6351758793969849
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter0 places better",
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "target_episodes": 1280,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed1_iter160",
+        "b": "PPO_seed1_iter0",
+        "n": 995,
+        "mean_diff": 0.31055276381909547,
+        "ci95": [
+          0.1658291457286432,
+          0.4542713567839196
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter0 places better",
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "target_episodes": 2560,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed1_iter320",
+        "b": "PPO_seed1_iter0",
+        "n": 995,
+        "mean_diff": 0.32964824120603015,
+        "ci95": [
+          0.18190954773869347,
+          0.4763819095477387
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter0 places better",
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "target_episodes": 5120,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed1_iter80",
+        "b": "PPO_seed1_iter40",
+        "n": 995,
+        "mean_diff": 0.3065326633165829,
+        "ci95": [
+          0.18391959798994975,
+          0.42814070351758793
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter40 places better",
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "target_episodes": 1280,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed1_iter160",
+        "b": "PPO_seed1_iter40",
+        "n": 995,
+        "mean_diff": 0.08040201005025126,
+        "ci95": [
+          -0.04522613065326633,
+          0.2100502512562814
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "target_episodes": 2560,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed1_iter320",
+        "b": "PPO_seed1_iter40",
+        "n": 995,
+        "mean_diff": 0.09949748743718594,
+        "ci95": [
+          -0.036180904522613064,
+          0.24020100502512562
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "target_episodes": 5120,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed1_iter160",
+        "b": "PPO_seed1_iter80",
+        "n": 995,
+        "mean_diff": -0.22613065326633167,
+        "ci95": [
+          -0.33969849246231154,
+          -0.11155778894472362
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter160 places better",
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "target_episodes": 2560,
+        "reference_episodes": 1280
+      },
+      {
+        "a": "PPO_seed1_iter320",
+        "b": "PPO_seed1_iter80",
+        "n": 995,
+        "mean_diff": -0.207035175879397,
+        "ci95": [
+          -0.32964824120603015,
+          -0.08542713567839195
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed1_iter320 places better",
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "target_episodes": 5120,
+        "reference_episodes": 1280
+      }
+    ],
+    "2": [
+      {
+        "a": "PPO_seed2_iter40",
+        "b": "PPO_seed2_iter0",
+        "n": 1000,
+        "mean_diff": 0.006,
+        "ci95": [
+          -0.116,
+          0.133
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "target_episodes": 640,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed2_iter80",
+        "b": "PPO_seed2_iter0",
+        "n": 1000,
+        "mean_diff": 0.015,
+        "ci95": [
+          -0.107,
+          0.141
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "target_episodes": 1280,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed2_iter160",
+        "b": "PPO_seed2_iter0",
+        "n": 1000,
+        "mean_diff": -0.031,
+        "ci95": [
+          -0.186,
+          0.126
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "target_episodes": 2560,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed2_iter320",
+        "b": "PPO_seed2_iter0",
+        "n": 1000,
+        "mean_diff": 0.017,
+        "ci95": [
+          -0.109,
+          0.145
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "target_episodes": 5120,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed2_iter80",
+        "b": "PPO_seed2_iter40",
+        "n": 1000,
+        "mean_diff": 0.009,
+        "ci95": [
+          -0.044,
+          0.061
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "target_episodes": 1280,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed2_iter160",
+        "b": "PPO_seed2_iter40",
+        "n": 1000,
+        "mean_diff": -0.037,
+        "ci95": [
+          -0.196,
+          0.124
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "target_episodes": 2560,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed2_iter320",
+        "b": "PPO_seed2_iter40",
+        "n": 1000,
+        "mean_diff": 0.011,
+        "ci95": [
+          -0.142,
+          0.161
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "target_episodes": 5120,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed2_iter160",
+        "b": "PPO_seed2_iter80",
+        "n": 1000,
+        "mean_diff": -0.046,
+        "ci95": [
+          -0.205,
+          0.116
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "target_episodes": 2560,
+        "reference_episodes": 1280
+      },
+      {
+        "a": "PPO_seed2_iter320",
+        "b": "PPO_seed2_iter80",
+        "n": 1000,
+        "mean_diff": 0.002,
+        "ci95": [
+          -0.148,
+          0.151
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "target_episodes": 5120,
+        "reference_episodes": 1280
+      }
+    ],
+    "3": [
+      {
+        "a": "PPO_seed3_iter40",
+        "b": "PPO_seed3_iter0",
+        "n": 1000,
+        "mean_diff": 0.323,
+        "ci95": [
+          0.181,
+          0.47
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter0 places better",
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "target_episodes": 640,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed3_iter80",
+        "b": "PPO_seed3_iter0",
+        "n": 1000,
+        "mean_diff": 0.52,
+        "ci95": [
+          0.375,
+          0.668
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter0 places better",
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "target_episodes": 1280,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed3_iter160",
+        "b": "PPO_seed3_iter0",
+        "n": 1000,
+        "mean_diff": 0.315,
+        "ci95": [
+          0.175,
+          0.46
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter0 places better",
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "target_episodes": 2560,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed3_iter320",
+        "b": "PPO_seed3_iter0",
+        "n": 1000,
+        "mean_diff": 0.137,
+        "ci95": [
+          -0.017,
+          0.295
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "target_episodes": 5120,
+        "reference_episodes": 0
+      },
+      {
+        "a": "PPO_seed3_iter80",
+        "b": "PPO_seed3_iter40",
+        "n": 1000,
+        "mean_diff": 0.197,
+        "ci95": [
+          0.093,
+          0.301
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter40 places better",
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "target_episodes": 1280,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed3_iter160",
+        "b": "PPO_seed3_iter40",
+        "n": 1000,
+        "mean_diff": -0.008,
+        "ci95": [
+          -0.113,
+          0.095
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "target_episodes": 2560,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed3_iter320",
+        "b": "PPO_seed3_iter40",
+        "n": 1000,
+        "mean_diff": -0.186,
+        "ci95": [
+          -0.323,
+          -0.048
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter320 places better",
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "target_episodes": 5120,
+        "reference_episodes": 640
+      },
+      {
+        "a": "PPO_seed3_iter160",
+        "b": "PPO_seed3_iter80",
+        "n": 1000,
+        "mean_diff": -0.205,
+        "ci95": [
+          -0.287,
+          -0.123
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter160 places better",
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "target_episodes": 2560,
+        "reference_episodes": 1280
+      },
+      {
+        "a": "PPO_seed3_iter320",
+        "b": "PPO_seed3_iter80",
+        "n": 1000,
+        "mean_diff": -0.383,
+        "ci95": [
+          -0.5,
+          -0.265
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "PPO_seed3_iter320 places better",
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "target_episodes": 5120,
+        "reference_episodes": 1280
+      }
+    ]
+  },
+  "supplementary_320_vs_160_by_seed": {
+    "0": {
+      "a": "iter320",
+      "b": "iter160",
+      "n": 1000,
+      "mean_diff": 0.171,
+      "ci95": [
+        0.026,
+        0.326
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter160 places better",
+      "target_iteration": 320,
+      "reference_iteration": 160,
+      "note": "supplementary \u2014 not one of the 9 pre-registered comparisons"
+    },
+    "1": {
+      "a": "PPO_seed1_iter320",
+      "b": "PPO_seed1_iter160",
+      "n": 995,
+      "mean_diff": 0.019095477386934675,
+      "ci95": [
+        -0.08040201005025126,
+        0.1185929648241206
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "target_iteration": 320,
+      "reference_iteration": 160,
+      "note": "supplementary \u2014 not one of the 9 pre-registered comparisons"
+    },
+    "2": {
+      "a": "PPO_seed2_iter320",
+      "b": "PPO_seed2_iter160",
+      "n": 1000,
+      "mean_diff": 0.048,
+      "ci95": [
+        -0.104,
+        0.195
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "target_iteration": 320,
+      "reference_iteration": 160,
+      "note": "supplementary \u2014 not one of the 9 pre-registered comparisons"
+    },
+    "3": {
+      "a": "PPO_seed3_iter320",
+      "b": "PPO_seed3_iter160",
+      "n": 1000,
+      "mean_diff": -0.178,
+      "ci95": [
+        -0.297,
+        -0.062
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "PPO_seed3_iter320 places better",
+      "target_iteration": 320,
+      "reference_iteration": 160,
+      "note": "supplementary \u2014 not one of the 9 pre-registered comparisons"
+    }
+  }
+}

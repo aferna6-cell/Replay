@@ -151,6 +151,22 @@ def classify_trajectory(curve_by_iter, pairwise_by_pair):
     return "other", evidence
 
 
+def pearson(xs, ys):
+    """Simple Pearson correlation coefficient (no scipy dependency), used
+    only for descriptive drift-replication summaries — never a causal or
+    inferential claim from n=4 seeds."""
+    n = len(xs)
+    if n < 2:
+        return None
+    mx, my = st.mean(xs), st.mean(ys)
+    cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    vx = sum((x - mx) ** 2 for x in xs)
+    vy = sum((y - my) ** 2 for y in ys)
+    if vx <= 0 or vy <= 0:
+        return None
+    return cov / math.sqrt(vx * vy)
+
+
 # --- main ----------------------------------------------------------------------
 
 def main() -> int:
@@ -313,18 +329,6 @@ def main() -> int:
             best_vs_later.append({"seed": seed, "best_iteration": best_it,
                                   "later_checkpoints": "none (320 is best)"})
     drift_replication["best_checkpoint_vs_later"] = best_vs_later
-
-    def pearson(xs, ys):
-        n = len(xs)
-        if n < 2:
-            return None
-        mx, my = st.mean(xs), st.mean(ys)
-        cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
-        vx = sum((x - mx) ** 2 for x in xs)
-        vy = sum((y - my) ** 2 for y in ys)
-        if vx <= 0 or vy <= 0:
-            return None
-        return cov / math.sqrt(vx * vy)
 
     all_expert = [curves[s][it]["expert_agreement"] for s in SEEDS for it in ITERS]
     all_kl = [curves[s][it]["kl_from_warmstart"] for s in SEEDS for it in ITERS]

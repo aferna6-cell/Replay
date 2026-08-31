@@ -1,0 +1,99 @@
+{
+  "note": "n=4 training seeds; std/mean across seeds is descriptive, not a population estimate. Seed 0 is the existing Experiment 2 trajectory (reused as-is); seeds 1-3 are new.",
+  "seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "episodes_per_iteration": 16,
+  "table": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "per_seed": {
+        "0": 6.554,
+        "1": 6.5638190954773865,
+        "2": 6.554,
+        "3": 6.554
+      },
+      "mean": 6.556454773869347,
+      "median": 6.554,
+      "min": 6.554,
+      "max": 6.5638190954773865,
+      "std": 0.004909547738693121,
+      "n_seeds": 4
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "per_seed": {
+        "0": 6.761,
+        "1": 6.793969849246231,
+        "2": 6.56,
+        "3": 6.877
+      },
+      "mean": 6.747992462311558,
+      "median": 6.777484924623115,
+      "min": 6.56,
+      "max": 6.877,
+      "std": 0.1344956341453188,
+      "n_seeds": 4
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "per_seed": {
+        "0": 6.325,
+        "1": 7.100502512562814,
+        "2": 6.569,
+        "3": 7.074
+      },
+      "mean": 6.767125628140704,
+      "median": 6.8215,
+      "min": 6.325,
+      "max": 7.100502512562814,
+      "std": 0.3829886259216196,
+      "n_seeds": 4
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "per_seed": {
+        "0": 6.435,
+        "1": 6.874371859296482,
+        "2": 6.523,
+        "3": 6.869
+      },
+      "mean": 6.67534296482412,
+      "median": 6.696,
+      "min": 6.435,
+      "max": 6.874371859296482,
+      "std": 0.22955657819649755,
+      "n_seeds": 4
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "per_seed": {
+        "0": 6.606,
+        "1": 6.893467336683417,
+        "2": 6.571,
+        "3": 6.691
+      },
+      "mean": 6.690366834170854,
+      "median": 6.6485,
+      "min": 6.571,
+      "max": 6.893467336683417,
+      "std": 0.1444719336385763,
+      "n_seeds": 4
+    }
+  ]
+}

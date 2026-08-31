@@ -1,0 +1,365 @@
+{
+  "cross_seed_summary_ref": "results/ppo_multiseed_v1/aggregate/cross_seed_summary.json",
+  "question_a_iter80_minus_iter0": {
+    "question": "iter80 - iter0 (1,280 episodes vs warm start); seed 0 reference value was -0.229",
+    "per_seed": [
+      {
+        "seed": 0,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "improves": true,
+        "worsens": false,
+        "ci_excludes_zero": true,
+        "direction_if_significant": "improvement"
+      },
+      {
+        "seed": 1,
+        "mean_diff": 0.5366834170854271,
+        "ci95": [
+          0.4381909547738693,
+          0.6351758793969849
+        ],
+        "improves": false,
+        "worsens": true,
+        "ci_excludes_zero": true,
+        "direction_if_significant": "regression"
+      },
+      {
+        "seed": 2,
+        "mean_diff": 0.015,
+        "ci95": [
+          -0.107,
+          0.141
+        ],
+        "improves": false,
+        "worsens": true,
+        "ci_excludes_zero": false,
+        "direction_if_significant": null
+      },
+      {
+        "seed": 3,
+        "mean_diff": 0.52,
+        "ci95": [
+          0.375,
+          0.668
+        ],
+        "improves": false,
+        "worsens": true,
+        "ci_excludes_zero": true,
+        "direction_if_significant": "regression"
+      }
+    ],
+    "n_improve": 1,
+    "n_worsen": 3,
+    "n_ci_excludes_zero": 3
+  },
+  "question_b_iter320_minus_iter80": {
+    "question": "iter320 - iter80 (does the long-training regression replicate?); seed 0 showed clear regression",
+    "per_seed": [
+      {
+        "seed": 0,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "regresses": true,
+        "continues_improving": false,
+        "ci_excludes_zero": true,
+        "statistically_indistinguishable": false
+      },
+      {
+        "seed": 1,
+        "mean_diff": -0.207035175879397,
+        "ci95": [
+          -0.32964824120603015,
+          -0.08542713567839195
+        ],
+        "regresses": false,
+        "continues_improving": true,
+        "ci_excludes_zero": true,
+        "statistically_indistinguishable": false
+      },
+      {
+        "seed": 2,
+        "mean_diff": 0.002,
+        "ci95": [
+          -0.148,
+          0.151
+        ],
+        "regresses": true,
+        "continues_improving": false,
+        "ci_excludes_zero": false,
+        "statistically_indistinguishable": true
+      },
+      {
+        "seed": 3,
+        "mean_diff": -0.383,
+        "ci95": [
+          -0.5,
+          -0.265
+        ],
+        "regresses": false,
+        "continues_improving": true,
+        "ci_excludes_zero": true,
+        "statistically_indistinguishable": false
+      }
+    ],
+    "n_regress": 2,
+    "n_continue_improving": 2,
+    "n_indistinguishable": 1
+  },
+  "u_shape_classification": {
+    "0": "U-like/transient improvement",
+    "1": "other",
+    "2": "mostly flat/noisy",
+    "3": "other"
+  },
+  "u_shape_evidence": {
+    "0": {
+      "avg_placement": {
+        "0": 6.554,
+        "40": 6.761,
+        "80": 6.325,
+        "160": 6.435,
+        "320": 6.606
+      },
+      "sig_vs_iter0": {
+        "40": "worse",
+        "80": "better",
+        "160": "none",
+        "320": "none"
+      },
+      "monotonic_improve_raw": false,
+      "monotonic_degrade_raw": false
+    },
+    "1": {
+      "avg_placement": {
+        "0": 6.5638190954773865,
+        "40": 6.793969849246231,
+        "80": 7.100502512562814,
+        "160": 6.874371859296482,
+        "320": 6.893467336683417
+      },
+      "sig_vs_iter0": {
+        "40": "worse",
+        "80": "worse",
+        "160": "worse",
+        "320": "worse"
+      },
+      "monotonic_improve_raw": false,
+      "monotonic_degrade_raw": false
+    },
+    "2": {
+      "avg_placement": {
+        "0": 6.554,
+        "40": 6.56,
+        "80": 6.569,
+        "160": 6.523,
+        "320": 6.571
+      },
+      "sig_vs_iter0": {
+        "40": "none",
+        "80": "none",
+        "160": "none",
+        "320": "none"
+      },
+      "monotonic_improve_raw": false,
+      "monotonic_degrade_raw": false
+    },
+    "3": {
+      "avg_placement": {
+        "0": 6.554,
+        "40": 6.877,
+        "80": 7.074,
+        "160": 6.869,
+        "320": 6.691
+      },
+      "sig_vs_iter0": {
+        "40": "worse",
+        "80": "worse",
+        "160": "worse",
+        "320": "none"
+      },
+      "monotonic_improve_raw": false,
+      "monotonic_degrade_raw": false
+    }
+  },
+  "n_transient_improvement_of_4": 1,
+  "drift_replication": {
+    "per_seed_iter320": {
+      "0": {
+        "expert_agreement": 0.4259009063243866,
+        "warmstart_agreement": 0.407657653093338,
+        "kl_from_warmstart": 1.170961618423462,
+        "entropy_mean": 0.7572892308235168
+      },
+      "1": {
+        "expert_agreement": 0.41981983184814453,
+        "warmstart_agreement": 0.36418917775154114,
+        "kl_from_warmstart": 2.020977258682251,
+        "entropy_mean": 1.073962926864624
+      },
+      "2": {
+        "expert_agreement": 0.4283783733844757,
+        "warmstart_agreement": 0.4858108162879944,
+        "kl_from_warmstart": 1.254551649093628,
+        "entropy_mean": 0.9903987646102905
+      },
+      "3": {
+        "expert_agreement": 0.48220720887184143,
+        "warmstart_agreement": 0.44549548625946045,
+        "kl_from_warmstart": 1.3558900356292725,
+        "entropy_mean": 0.9735341668128967
+      }
+    },
+    "notes": [
+      "Correlations are descriptive only (n=20 checkpoint-observations across 4 seeds, not independent samples) \u2014 no causal claim."
+    ],
+    "best_checkpoint_vs_later": [
+      {
+        "seed": 0,
+        "best_iteration": 80,
+        "best_expert_agreement": 0.8092342615127563,
+        "best_kl": 0.24876049160957336,
+        "later_mean_expert_agreement": 0.5845720618963242,
+        "later_mean_kl": 0.8274765163660049,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      },
+      {
+        "seed": 1,
+        "best_iteration": 40,
+        "best_expert_agreement": 0.7108108401298523,
+        "best_kl": 0.4415561258792877,
+        "later_mean_expert_agreement": 0.4652402500311534,
+        "later_mean_kl": 1.8596378962198894,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      },
+      {
+        "seed": 2,
+        "best_iteration": 160,
+        "best_expert_agreement": 0.5031531453132629,
+        "best_kl": 1.0019497871398926,
+        "later_mean_expert_agreement": 0.4283783733844757,
+        "later_mean_kl": 1.254551649093628,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      },
+      {
+        "seed": 3,
+        "best_iteration": 320,
+        "later_checkpoints": "none (320 is best)"
+      }
+    ],
+    "descriptive_correlation_expert_agreement_vs_placement": -0.425090404508072,
+    "descriptive_correlation_kl_vs_placement": 0.49764258388962873,
+    "large_drift_consistent_across_seeds": true
+  },
+  "action_category_replication": {
+    "per_seed_iter320": {
+      "0": {
+        "disagreement_share_by_category": {
+          "buy": 0.7339003645200486,
+          "play": 0.4,
+          "sell": 1.0,
+          "roll": 0.7056213017751479,
+          "level": 0.25829383886255924,
+          "freeze": null,
+          "end": 0.5014634146341463
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2369556688897607,
+          "play": 0.11769321302471558,
+          "sell": 0.026677128285602196,
+          "roll": 0.3742644174185955,
+          "level": 0.04276186739897999,
+          "freeze": 0.0,
+          "end": 0.20164770498234602
+        },
+        "freeze_appears": true,
+        "freeze_selections": 153,
+        "freeze_rate": 0.03445945945945946,
+        "n_states": 4440
+      },
+      "1": {
+        "disagreement_share_by_category": {
+          "buy": 0.6767922235722965,
+          "play": 0.224,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.24881516587677724,
+          "freeze": null,
+          "end": 0.3180487804878049
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.21622670807453417,
+          "play": 0.06521739130434782,
+          "sell": 0.026397515527950312,
+          "roll": 0.5248447204968945,
+          "level": 0.04076086956521739,
+          "freeze": 0.0,
+          "end": 0.1265527950310559
+        },
+        "freeze_appears": true,
+        "freeze_selections": 167,
+        "freeze_rate": 0.03761261261261261,
+        "n_states": 4440
+      },
+      "2": {
+        "disagreement_share_by_category": {
+          "buy": 0.7460510328068044,
+          "play": 0.08933333333333333,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.3009478672985782,
+          "freeze": null,
+          "end": 0.3024390243902439
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.24192277383766744,
+          "play": 0.02639873916469661,
+          "sell": 0.026792750197005517,
+          "roll": 0.5327029156816391,
+          "level": 0.05003940110323089,
+          "freeze": 0.0,
+          "end": 0.12214342001576044
+        },
+        "freeze_appears": false,
+        "freeze_selections": 0,
+        "freeze_rate": 0.0,
+        "n_states": 4440
+      },
+      "3": {
+        "disagreement_share_by_category": {
+          "buy": 0.7837181044957473,
+          "play": 0.0026666666666666666,
+          "sell": 1.0,
+          "roll": 0.9911242603550295,
+          "level": 0.1990521327014218,
+          "freeze": null,
+          "end": 0.15609756097560976
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2805567638103523,
+          "play": 0.0008699434536755111,
+          "sell": 0.02957807742496738,
+          "roll": 0.5828621139625925,
+          "level": 0.03653762505437146,
+          "freeze": 0.0,
+          "end": 0.06959547629404089
+        },
+        "freeze_appears": true,
+        "freeze_selections": 100,
+        "freeze_rate": 0.02252252252252252,
+        "n_states": 4440
+      }
+    },
+    "tempo_pattern_repeats_n_of_4": 4,
+    "freeze_appears_n_of_4": 3
+  }
+}
