@@ -1,0 +1,45 @@
+{
+  "training_seed": 2,
+  "checkpoints": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "primary": true,
+      "file": "iter_000.pt",
+      "checkpoint_sha256": "0fd37b306b31aa8d8286ddf7916c550c59088874a5d9b3648cf91a03e40b724e",
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "primary": true,
+      "file": "iter_040.pt",
+      "checkpoint_sha256": "aa437c85ef33f364fa8bd9671b78c4009df0a92c8a2e5e98cbeca74a803f7643",
+      "parameter_sha256": "bf46c134ac39e795228ff71bd835ae43b15acca8e3a9c00726234eb92f377aa8"
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "primary": true,
+      "file": "iter_080.pt",
+      "checkpoint_sha256": "fd79fc5ecf213cf5d81defb6ba62c2c4948540826a845e8ede59293f890dd16c",
+      "parameter_sha256": "6b32058f129bac12231064a18d1fead8013d5fed0868cafce19b468464c25141"
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "primary": true,
+      "file": "iter_160.pt",
+      "checkpoint_sha256": "3a17249ce69d26cfbfe6d870ed89b28bc47bf3140129c97c6f386da9fcfb060c",
+      "parameter_sha256": "0b8c2eea606ab772b80a3897d9a60b18456e9c023e50cb355858c77e4f1d2246"
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "primary": true,
+      "file": "iter_320.pt",
+      "checkpoint_sha256": "00b8a0f999bdfe60568febca82575b35f963b2beed9c869ed32781c5fc8a89ae",
+      "parameter_sha256": "20d6467b2a1cb9c0cb78981cc420f0be2a5935336f94f97438e640f9905f5389"
+    }
+  ]
+}
