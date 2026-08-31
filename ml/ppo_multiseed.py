@@ -59,6 +59,7 @@ def train_command(seed: int) -> list[str]:
     """Exact frozen Experiment 2 recipe for one independent seed."""
     root = seed_dir(seed)
     return [
+        "env", "OMP_NUM_THREADS=1", "MKL_NUM_THREADS=1",
         "python3", "-m", "ml.train_ppo",
         "--iters", "320",
         "--episodes", str(EPISODES_PER_ITERATION),

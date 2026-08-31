@@ -434,10 +434,72 @@ def _report(data):
         "",
         "## Drift, action categories, and RL signal",
         "",
-        "Per-seed expert/warm-start/KL curves, complete iteration-320 category "
-        "confusions (including freeze counts), and all raw-advantage, return, "
-        "critic, entropy, KL, clipping, gradient, loss, placement, and reward-source "
-        "block summaries are machine-recorded in `aggregate.json`.",
+        "The full budget table above is the expert/warm-start/KL curve. "
+        "Iteration-320 category summaries follow; the committed aggregate keeps "
+        "the complete confusion matrices.",
+        "",
+        "| seed | expert agreement | warm-start agreement | expert→freeze | warm-start→freeze | largest expert transitions |",
+        "|---:|---:|---:|---:|---:|---|",
+        "",
+    ]
+    for seed in data["seeds"]:
+        curve320 = next(x for x in data["curves"][str(seed)]
+                        if x["iteration"] == 320)
+        cat = data["action_category_iter320"][str(seed)]
+        transitions = ", ".join(
+            f"{x['from']}→{x['to']} {x['count']}"
+            for x in cat["vs_expert"]["top_transitions"][:3])
+        lines.append(
+            f"| {seed} | {curve320['expert_agreement']:.1%} | "
+            f"{curve320['warmstart_agreement']:.1%} | "
+            f"{cat['freeze']['expert_to_freeze']} | "
+            f"{cat['freeze']['warmstart_to_freeze']} | {transitions} |")
+    lines += [
+        "",
+        "RL-signal means by training block (raw advantages are measured before "
+        "normalization):",
+        "",
+        "| seed | block | mean abs adv | positive adv | value EV | return SD | placement SD | entropy | approx KL | clip frac |",
+        "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for seed in data["seeds"]:
+        for block, values in data["rl_signal_blocks"][str(seed)].items():
+            lines.append(
+                f"| {seed} | {block} | {values['adv_mean_abs']:.3f} | "
+                f"{values['adv_frac_positive']:.3f} | "
+                f"{values['value_explained_variance']:.3f} | "
+                f"{values['return_std']:.3f} | {values['placement_std']:.3f} | "
+                f"{values['entropy']:.3f} | {values['approx_kl']:.4f} | "
+                f"{values['clip_frac']:.3f} |")
+    lines += [
+        "",
+        "Cross-seed primary-effect summaries:",
+        "",
+        "| comparison | group | mean | SD | range | seed-bootstrap 95% CI |",
+        "|---|---|---:|---:|---:|---:|",
+    ]
+    for target, reference in ((80, 0), (320, 80)):
+        effect = data["aggregate_effects"][
+            f"greedy_iter{target}_vs_iter{reference}"]
+        for key, label in (("all_seeds_0_3", "seeds 0–3"),
+                           ("replication_seeds_1_3", "seeds 1–3")):
+            x = effect[key]
+            lines.append(
+                f"| iter{target} − iter{reference} | {label} | "
+                f"{x['mean']:+.3f} | {x['sd']:.3f} | "
+                f"[{x['min']:+.3f}, {x['max']:+.3f}] | "
+                f"[{x['ci95_seed_bootstrap'][0]:+.3f}, "
+                f"{x['ci95_seed_bootstrap'][1]:+.3f}] |")
+    lines += [
+        "",
+        "Seed 1 iteration 320 had 5/1,000 unfinished greedy games and 2/500 "
+        "unfinished mixed games at the unchanged 400-decision integrity cap. "
+        "They remain null, never imputed; its reported means/CIs are labeled "
+        "complete-case and paired effects include best/worst-case bounds.",
+        "",
+        "All remaining raw-advantage, return, critic, entropy, KL, clipping, "
+        "gradient, loss, placement, reward-source, category, and hash fields "
+        "are machine-recorded in `aggregate.json`.",
         "",
         "## Outcome and next experiment",
         "",

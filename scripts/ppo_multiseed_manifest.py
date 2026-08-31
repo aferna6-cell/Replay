@@ -100,6 +100,13 @@ def main():
                 "league_every": LEAGUE_EVERY, "league_max": LEAGUE_MAX,
             },
         },
+        "execution_environment": {
+            "OMP_NUM_THREADS": 1,
+            "MKL_NUM_THREADS": 1,
+            "note": ("CPU scheduling controls used for all new training and "
+                     "evaluation runs; they do not change the model, optimizer, "
+                     "seed stream, update order, or PPO hyperparameters"),
+        },
         "training_runs": runs,
         "evaluation": {
             "split": "DEV",
