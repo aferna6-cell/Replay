@@ -17,9 +17,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from ml.dev_benchmark import run_dev_benchmark, save_dev_json  # noqa: E402
 from ml.benchmark import make_agent  # noqa: E402
-from ml.dev_partial import (partial_result_to_json,  # noqa: E402
-                            run_dev_benchmark_tolerant)
 from ml.model_fingerprint import checkpoint_fingerprint  # noqa: E402
 from ml.multiseed_analysis import (  # noqa: E402
     CORPUS_FINGERPRINT_SHA256, CORPUS_LOBBIES, CORPUS_SEED_BASE,
@@ -62,25 +61,22 @@ def evaluate_seed(seed: int, directory: str | None = None,
             agent = make_agent("policy", path, f"iter{it:03d}")
             print(f"  eval iter {it:3d}  {field}  {games} games  "
                   f"seeds {DEV_EVAL_BASE}-{DEV_EVAL_BASE + games - 1}")
-            # Tolerant runner: a policy that cannot finish a lobby has that
-            # lobby recorded instead of aborting the whole checkpoint. The
-            # MAX_DECISIONS guard itself is untouched.
-            res, stalled, completed = run_dev_benchmark_tolerant(
-                agent, field, games, DEV_EVAL_BASE, progress=not quiet)
-            blob = partial_result_to_json(res, stalled, completed, games)
+            res = run_dev_benchmark(agent, field, games, DEV_EVAL_BASE,
+                                    progress=not quiet)
+            # persist fingerprints on the result JSON
+            blob_path = out
+            save_dev_json(res, blob_path)
+            import json
+            with open(blob_path, encoding="utf-8") as f:
+                blob = json.load(f)
             blob["training_seed"] = seed
             blob["ppo_iteration"] = it
             blob["cumulative_training_episodes"] = it * 16
             blob["parameter_sha256"] = fp["parameter_sha256"]
             blob["checkpoint_sha256"] = fp["checkpoint_sha256"]
-            import json
-            with open(out, "w", encoding="utf-8") as f:
+            with open(blob_path, "w", encoding="utf-8") as f:
                 json.dump(blob, f, indent=2)
                 f.write("\n")
-            if stalled:
-                print(f"    WARNING: {len(stalled)}/{games} lobbies did not "
-                      f"terminate within MAX_DECISIONS; this checkpoint's "
-                      f"result is INCOMPLETE and optimistic")
     write_json(os.path.join(directory, "checkpoints.json"), {
         "training_seed": seed,
         "warm_start_parameter_sha256": WARM_START_PARAMETER_SHA256,

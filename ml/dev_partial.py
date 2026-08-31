@@ -1,176 +1,103 @@
-"""DEV evaluation that survives a policy which cannot finish a lobby.
+"""Restricted comparison against a checkpoint that fails the DEV protocol.
 
-``ml.benchmark.run_game`` refuses to score an episode that has not
-terminated within ``MAX_DECISIONS`` — scoring it as a silent 8th place would
-corrupt the numbers. That guard is correct and is NOT relaxed here.
+``ml.benchmark`` refuses to score an episode that has not terminated within
+``MAX_DECISIONS``, so a policy that stalls on even one of the fixed DEV
+lobbies has **no defined DEV score**. Experiment 3 hit exactly that: training
+seed 1's 5,120-episode policy loops on 5 of the 1000 greedy lobbies and 2 of
+the 500 mixed ones, and
+``scripts/ppo_multiseed_protocol_failure.py`` records the failure rather than
+inventing a placement. That treatment is the primary one and is not relaxed
+here: the unscoreable checkpoint stays out of the headline tables.
 
-Experiment 3 ran into it: one training seed's 5,120-episode policy stalls on
-a handful of the 1000 fixed DEV lobbies, so the whole evaluation aborted and
-that checkpoint had no measurement at all. This module runs the identical
-protocol lobby by lobby and records the stalls as data:
+This module supplies the *supplementary* reading. Question B asks for
+iter320 − iter80 on every training seed, and for seed 1 the only honest
+answer short of "undefined" is the paired difference over the lobbies both
+checkpoints actually finished. That number exists, so it is computed — with
+its bias stated every time it is produced:
 
-  * completed lobbies are scored exactly as ``ml.dev_benchmark`` scores them
-    (same seeds, same seat assignment, same metrics, same bootstrap CI);
-  * lobbies the policy could not finish are recorded by seed and excluded;
-  * the resulting JSON is stamped ``complete: false`` so nothing downstream
-    can mistake it for a full 1000-game result.
+    the excluded lobbies are precisely the ones where the policy degenerated,
+    so a restricted estimate flatters the failing checkpoint.
 
-A restricted result is **biased in the policy's favour**: the excluded
-lobbies are exactly the ones where its behavior degenerated. Comparisons
-against it must go through ``paired_common_games``, which pairs only the
-lobbies both checkpoints finished and reports how many were dropped.
-
-DEV split only; the seed range is validated against the reserved DEV
-interval by the same helper the normal path uses.
+DEV split only; nothing here re-runs games or reads TEST.
 """
 
-from typing import Dict, List, Optional, Sequence, Tuple
+import json
+from typing import Dict, List, Mapping, Optional, Sequence
 
-from .benchmark import (Agent, BenchmarkIntegrityError, BenchmarkResult,
-                        bootstrap_ci, compute_metrics, latency_stats,
-                        run_game)
 from .analyze_benchmark import paired_diff
-from .dev_benchmark import dev_field_seats, dev_result_to_json
-from .seeds import DEV_SEED_START, eval_game_seed, validate_dev_range
 
-RESTRICTED_NOTE = (
-    "INCOMPLETE EVALUATION. The policy failed to terminate some of the fixed "
-    "DEV lobbies within ml.benchmark.MAX_DECISIONS, so those lobbies carry no "
-    "placement. The metrics below cover only the lobbies that finished and "
-    "are therefore optimistic: the excluded lobbies are the ones where the "
-    "policy's behavior degenerated. Pair this result against others only on "
-    "the lobbies both finished.")
+BIAS_NOTE = (
+    "restricted to the DEV lobbies both checkpoints finished. The excluded "
+    "lobbies are the ones the failing checkpoint could not terminate, so "
+    "this estimate flatters that checkpoint and is NOT a benchmark result.")
 
 
-def run_dev_benchmark_tolerant(agent: Agent, field: str, games: int,
-                               base_seed: int = DEV_SEED_START,
-                               progress: bool = False
-                               ) -> Tuple[BenchmarkResult, List[Dict], List[int]]:
-    """(result over completed lobbies, stalled lobbies, completed indices).
-
-    Identical to ``ml.dev_benchmark.run_dev_benchmark`` when nothing stalls.
-    """
-    validate_dev_range(base_seed, games)
-    seats = dev_field_seats(field)
-    placements: List[int] = []
-    latencies: List[float] = []
-    completed: List[int] = []
-    stalled: List[Dict] = []
-    for i in range(games):
-        seed = eval_game_seed(base_seed, i)
-        try:
-            g = run_game(agent, seats, seed)
-        except BenchmarkIntegrityError as e:
-            stalled.append({"index": i, "seed": seed, "reason": str(e)})
-            continue
-        placements.append(g["placement"])
-        latencies.extend(g["latencies"])
-        completed.append(i)
-        if progress and (i + 1) % 100 == 0:
-            print(f"  {agent.name}: {i + 1}/{games} lobbies "
-                  f"({len(stalled)} did not terminate)")
-    if not placements:
-        raise BenchmarkIntegrityError(
-            f"agent {agent.name!r} finished 0 of {games} DEV lobbies — "
-            f"there is nothing to score")
-    res = BenchmarkResult(agent=agent, field=field, games=len(placements),
-                          base_seed=base_seed,
-                          metrics=compute_metrics(placements),
-                          ci95=bootstrap_ci(placements, seed=base_seed),
-                          latency=latency_stats(latencies),
-                          placements=placements)
-    return res, stalled, completed
-
-
-def partial_result_to_json(res: BenchmarkResult, stalled: Sequence[Dict],
-                           completed: Sequence[int],
-                           games_requested: int) -> Dict:
-    """The DEV result schema plus an unmissable completeness record.
-
-    ``games`` stays equal to ``len(placements)`` so the file remains a valid
-    single-result JSON, while ``games_requested`` and ``seed_range`` keep the
-    protocol's fixed 1000-lobby (or 500-lobby) block visible.
-    """
-    blob = dev_result_to_json(res)
-    blob["games_requested"] = games_requested
-    blob["seed_range"] = [res.base_seed, res.base_seed + games_requested - 1]
-    blob["complete"] = not stalled
-    blob["games_non_terminating"] = len(stalled)
-    blob["non_termination_rate"] = len(stalled) / games_requested
-    if stalled:
-        blob["non_terminating_seeds"] = [s["seed"] for s in stalled]
-        blob["completed_game_indices"] = list(completed)
-        blob["restricted_note"] = RESTRICTED_NOTE
-        blob["beats_field"] = None       # an incomplete run decides nothing
+def load_protocol_failure(path: str) -> Dict:
+    with open(path, encoding="utf-8") as f:
+        blob = json.load(f)
+    if "n_non_terminating" not in blob:
+        raise ValueError(f"{path}: not a protocol-failure diagnostic")
     return blob
 
 
-def _index_map(blob) -> Dict[int, int]:
-    """game index -> position in the placement list."""
-    idx = blob.get("completed_game_indices")
-    if idx is None:
-        idx = range(blob["games"])
-    return {int(g): pos for pos, g in enumerate(idx)}
+def completed_indices(diagnostic: Mapping) -> List[int]:
+    """Game indices the failing checkpoint did finish, in evaluation order."""
+    base = diagnostic["seed_range"][0]
+    attempted = int(diagnostic["games_attempted"])
+    stalled = {int(s) - base for s in diagnostic["non_terminating_game_seeds"]}
+    idx = [i for i in range(attempted) if i not in stalled]
+    placements = diagnostic["completed_games_diagnostic"]["placements"]
+    if len(idx) != len(placements):
+        raise ValueError(
+            f"diagnostic is inconsistent: {len(idx)} lobbies implied "
+            f"complete but {len(placements)} placements recorded")
+    return idx
 
 
-def is_complete(blob) -> bool:
-    return bool(blob.get("complete", True))
+def restricted_pair(diagnostic: Mapping, scored: Mapping,
+                    seed: int = 0) -> Dict:
+    """Paired difference (failing checkpoint − scored checkpoint) over the
+    lobbies the failing checkpoint finished.
 
-
-def paired_common_games(a, b, seed: int = 0) -> Dict:
-    """Paired difference (a - b) over the lobbies BOTH runs finished.
-
-    Falls back to the ordinary full pairing when both runs are complete, so
-    the number is identical to ``ml.analyze_benchmark.compare_pair`` in the
-    normal case. When either run is restricted, the dropped lobbies are
-    reported alongside the estimate — they are never silently discarded.
+    ``scored`` is an ordinary DEV result JSON for the same field and seed
+    block, so its placement list is indexed by game order.
     """
-    for blob in (a, b):
-        if blob.get("base_seed") != a.get("base_seed"):
-            raise ValueError("results use different DEV base seeds")
-        if blob.get("field") != a.get("field"):
-            raise ValueError("results use different opponent fields")
-    requested = max(a.get("games_requested", a["games"]),
-                    b.get("games_requested", b["games"]))
-    ia, ib = _index_map(a), _index_map(b)
-    common = sorted(set(ia) & set(ib))
-    if not common:
-        raise ValueError("the two runs share no completed lobby")
-    pa = [a["placements"][ia[g]] for g in common]
-    pb = [b["placements"][ib[g]] for g in common]
+    base = diagnostic["seed_range"][0]
+    if scored["base_seed"] != base:
+        raise ValueError("the two runs use different DEV base seeds")
+    if scored["field"] != diagnostic["field"]:
+        raise ValueError("the two runs use different opponent fields")
+    attempted = int(diagnostic["games_attempted"])
+    if scored["games"] != attempted:
+        raise ValueError(f"the scored run covers {scored['games']} lobbies, "
+                         f"the diagnostic attempted {attempted}")
+    idx = completed_indices(diagnostic)
+    pa = list(diagnostic["completed_games_diagnostic"]["placements"])
+    pb = [scored["placements"][i] for i in idx]
     out = paired_diff(pa, pb, seed=seed)
-    out.update({
-        "a": a.get("agent"), "b": b.get("agent"),
-        "games_requested": requested,
-        "games_paired": len(common),
-        "games_dropped": requested - len(common),
-        "restricted": len(common) != requested,
-        "a_complete": is_complete(a), "b_complete": is_complete(b),
-    })
     lo, hi = out["ci95"]
-    out["ci_excludes_zero"] = not (lo <= 0 <= hi)
-    if out["restricted"]:
-        out["note"] = (
-            f"paired on the {len(common)} of {requested} DEV lobbies both "
-            f"checkpoints finished; the {requested - len(common)} dropped "
-            f"lobbies are ones a policy could not terminate, so this "
-            f"estimate is optimistic for that policy")
+    out.update({
+        "a": f"iter{diagnostic['ppo_iteration']:03d} (UNSCOREABLE)",
+        "b": scored.get("agent"),
+        "field": diagnostic["field"],
+        "games_attempted": attempted,
+        "games_paired": len(idx),
+        "games_dropped": attempted - len(idx),
+        "restricted": True,
+        "ci_excludes_zero": not (lo <= 0 <= hi),
+        "status": "restricted supplement",
+        "bias_note": BIAS_NOTE,
+    })
     return out
 
 
-def scan_non_termination(checkpoint: str, field: str, games: int,
-                         base_seed: int = DEV_SEED_START,
-                         name: Optional[str] = None) -> Dict:
-    """Standalone count of the DEV lobbies a checkpoint cannot finish."""
-    from .benchmark import make_agent
-    agent = make_agent("policy", checkpoint, name)
-    res, stalled, completed = run_dev_benchmark_tolerant(agent, field, games,
-                                                         base_seed)
-    return {"checkpoint": agent.checkpoint, "field": field,
-            "games_requested": games,
-            "games_completed": len(completed),
-            "games_non_terminating": len(stalled),
-            "non_termination_rate": len(stalled) / games,
-            "non_terminating_seeds": [s["seed"] for s in stalled],
-            "completed_avg_placement": res.metrics["avg_placement"],
-            "note": RESTRICTED_NOTE}
+def restricted_pairs(diagnostic: Mapping, scored_by_iter: Mapping[int, Mapping],
+                     references: Optional[Sequence[int]] = None,
+                     seed: int = 0) -> Dict[str, Dict]:
+    """The failing checkpoint against each reference budget, restricted."""
+    refs = list(references if references is not None else sorted(scored_by_iter))
+    it = int(diagnostic["ppo_iteration"])
+    return {f"iter{it}-iter{ref}": restricted_pair(diagnostic,
+                                                   scored_by_iter[ref],
+                                                   seed=seed)
+            for ref in refs}

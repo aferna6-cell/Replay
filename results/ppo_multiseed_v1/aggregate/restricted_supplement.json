@@ -1,0 +1,208 @@
+{
+  "kind": "RESTRICTED SUPPLEMENT \u2014 not a benchmark or DEV result",
+  "why": "the primary analysis leaves an unscoreable checkpoint unscored; these paired differences exist only on the lobbies it finished and are reported so the pre-specified per-seed questions have a stated answer rather than a gap",
+  "bias": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result.",
+  "checkpoints": [
+    {
+      "training_seed": 1,
+      "iteration": 320,
+      "field": "greedy",
+      "games_attempted": 1000,
+      "games_non_terminating": 5,
+      "non_terminating_game_seeds": [
+        10550123,
+        10550352,
+        10550385,
+        10550539,
+        10550809
+      ],
+      "completed_subset_avg_placement": 6.893467336683417,
+      "pairs": {
+        "iter320-iter0": {
+          "n": 995,
+          "mean_diff": 0.32964824120603015,
+          "ci95": [
+            0.18190954773869347,
+            0.4763819095477387
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter000",
+          "field": "greedy",
+          "games_attempted": 1000,
+          "games_paired": 995,
+          "games_dropped": 5,
+          "restricted": true,
+          "ci_excludes_zero": true,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        },
+        "iter320-iter40": {
+          "n": 995,
+          "mean_diff": 0.09949748743718594,
+          "ci95": [
+            -0.036180904522613064,
+            0.24020100502512562
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter040",
+          "field": "greedy",
+          "games_attempted": 1000,
+          "games_paired": 995,
+          "games_dropped": 5,
+          "restricted": true,
+          "ci_excludes_zero": false,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        },
+        "iter320-iter80": {
+          "n": 995,
+          "mean_diff": -0.207035175879397,
+          "ci95": [
+            -0.32964824120603015,
+            -0.08542713567839195
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter080",
+          "field": "greedy",
+          "games_attempted": 1000,
+          "games_paired": 995,
+          "games_dropped": 5,
+          "restricted": true,
+          "ci_excludes_zero": true,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        },
+        "iter320-iter160": {
+          "n": 995,
+          "mean_diff": 0.019095477386934675,
+          "ci95": [
+            -0.08040201005025126,
+            0.1185929648241206
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter160",
+          "field": "greedy",
+          "games_attempted": 1000,
+          "games_paired": 995,
+          "games_dropped": 5,
+          "restricted": true,
+          "ci_excludes_zero": false,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        }
+      },
+      "source": "results/ppo_multiseed_v1/seed_1/dev/iter320_vs_greedy.protocol_failure.json"
+    },
+    {
+      "training_seed": 1,
+      "iteration": 320,
+      "field": "greedy4_random3",
+      "games_attempted": 500,
+      "games_non_terminating": 2,
+      "non_terminating_game_seeds": [
+        10550123,
+        10550352
+      ],
+      "completed_subset_avg_placement": 4.748995983935743,
+      "pairs": {
+        "iter320-iter0": {
+          "n": 498,
+          "mean_diff": 0.3714859437751004,
+          "ci95": [
+            0.20682730923694778,
+            0.5341365461847389
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter000",
+          "field": "greedy4_random3",
+          "games_attempted": 500,
+          "games_paired": 498,
+          "games_dropped": 2,
+          "restricted": true,
+          "ci_excludes_zero": true,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        },
+        "iter320-iter40": {
+          "n": 498,
+          "mean_diff": 0.142570281124498,
+          "ci95": [
+            0.0,
+            0.29116465863453816
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter040",
+          "field": "greedy4_random3",
+          "games_attempted": 500,
+          "games_paired": 498,
+          "games_dropped": 2,
+          "restricted": true,
+          "ci_excludes_zero": false,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        },
+        "iter320-iter80": {
+          "n": 498,
+          "mean_diff": -0.12449799196787148,
+          "ci95": [
+            -0.27309236947791166,
+            0.02208835341365462
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter080",
+          "field": "greedy4_random3",
+          "games_attempted": 500,
+          "games_paired": 498,
+          "games_dropped": 2,
+          "restricted": true,
+          "ci_excludes_zero": false,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        },
+        "iter320-iter160": {
+          "n": 498,
+          "mean_diff": 0.07228915662650602,
+          "ci95": [
+            -0.05220883534136546,
+            0.19879518072289157
+          ],
+          "method": "paired percentile bootstrap",
+          "resamples": 10000,
+          "bootstrap_seed": 0,
+          "a": "iter320 (UNSCOREABLE)",
+          "b": "iter160",
+          "field": "greedy4_random3",
+          "games_attempted": 500,
+          "games_paired": 498,
+          "games_dropped": 2,
+          "restricted": true,
+          "ci_excludes_zero": false,
+          "status": "restricted supplement",
+          "bias_note": "restricted to the DEV lobbies both checkpoints finished. The excluded lobbies are the ones the failing checkpoint could not terminate, so this estimate flatters that checkpoint and is NOT a benchmark result."
+        }
+      },
+      "source": "results/ppo_multiseed_v1/seed_1/dev/iter320_vs_greedy4_random3.protocol_failure.json"
+    }
+  ]
+}
