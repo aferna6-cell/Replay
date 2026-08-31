@@ -1,0 +1,332 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "timestamp_utc": "2026-08-31T21:21:44.090483+00:00",
+  "code_commit": "8ffe58bedd84f6e09882b988339cc6a0dd4abcf5",
+  "question": "Does the transient PPO improvement around 1,280\u20132,560 episodes reproduce across independent PPO training seeds, and does performance then decay with extended training?",
+  "single_variable": "PPO training seed (seeds 0, 1, 2, 3)",
+  "unchanged_recipe": [
+    "architecture",
+    "optimizer (AdamW)",
+    "learning rate (3e-4)",
+    "weight decay (1e-4)",
+    "gamma (0.999)",
+    "lambda (0.95)",
+    "clip (0.2)",
+    "entropy coefficient (0.01)",
+    "value coefficient (0.5)",
+    "ppo_epochs (4)",
+    "batch size / minibatch (256)",
+    "league behavior (league_every 8, league_max 5)",
+    "reward function",
+    "shaping magnitude (1.0)",
+    "shaping schedule (--shaping-horizon 40)",
+    "episodes per iteration (16)",
+    "observation encoder",
+    "action space (28)"
+  ],
+  "warm_start": {
+    "file": "ml/policy_bc.pt",
+    "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b",
+    "checkpoint_sha256": "63a5e80aa4c5775fc8523c60f637eabffe5375b2957f52ec200f745913398a9e",
+    "identical_across_all_seeds": true,
+    "note": "Exact same BC+DAgger checkpoint used to initialize every PPO seed trajectory"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "per_seed_training": {
+    "seed_0": {
+      "training_seed": 0,
+      "episodes_per_iteration": 16,
+      "iterations": 320,
+      "total_episodes": 5120,
+      "seed_range": [
+        1,
+        5120
+      ],
+      "overlaps_dev": false,
+      "overlaps_test": false,
+      "command": "historical Experiment 2 (seed 0)",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "primary": true,
+          "file": "iter_000.pt",
+          "checkpoint_sha256": "03abd3d364b2c17de0a590fdb1a109d78b5eeafa75d2fc2f295e945aa33fe7e8",
+          "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "primary": true,
+          "file": "iter_040.pt",
+          "checkpoint_sha256": "fc0aeae2fd1e4f427fef3e57f6bda69cda91f3589b12df532cfff4da6b601050",
+          "parameter_sha256": "2ba6d7020b8747ec30d0a1ae5876224c788b1c27123828b053e91ea8ebde4f0c"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "primary": true,
+          "file": "iter_080.pt",
+          "checkpoint_sha256": "6a3befdf71c1db772e5a940315631341ca99135eca0ac1c68010d674c52b8dec",
+          "parameter_sha256": "abb59ca960a797e3cbe7b1b261f98443763a1ef161c46006264fcef62573fd3c"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "primary": true,
+          "file": "iter_160.pt",
+          "checkpoint_sha256": "4152871c2b25ad70cb9ecf5a25d8f0547d00325f4729b68aa3dbf7caa6447336",
+          "parameter_sha256": "3a25ee4b7edb05e8666abd0ff6c74642de1ba2e91f3c89cb7d9256ca42046b23"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "primary": true,
+          "file": "iter_320.pt",
+          "checkpoint_sha256": "9c6b7f8196a21a367f0833aa2a684b9ee0060398028918ddc9f3e4674d99871c",
+          "parameter_sha256": "0d724208397bfdcfe3daf561215eff7921c9961f0086e23e22d87746747bf13a"
+        }
+      ]
+    },
+    "seed_1": {
+      "training_seed": 1,
+      "episodes_per_iteration": 16,
+      "iterations": 320,
+      "total_episodes": 5120,
+      "seed_range": [
+        1000004,
+        1005123
+      ],
+      "overlaps_dev": false,
+      "overlaps_test": false,
+      "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 1 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_1/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_1/checkpoints --diag-log results/ppo_multiseed_v1/seed_1/train_diag.jsonl",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "primary": true,
+          "file": "iter_000.pt",
+          "checkpoint_sha256": "e19ed93856e5af570d183c5ad3f912e89d9f71de9fac7548e653fb28baf087cf",
+          "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "primary": true,
+          "file": "iter_040.pt",
+          "checkpoint_sha256": "ba5718de206f71c530142c0d14aa3f8bb9fca8f0ef4fb27c140fd1d7f4d6d18d",
+          "parameter_sha256": "805c25157f1b6d5b04995ecb78053ca57b4cc65bfd9eebb84d9a50181f6c5bf6"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "primary": true,
+          "file": "iter_080.pt",
+          "checkpoint_sha256": "95d8c1dc6696645739a1bee04d6d73915795ae4adfd231d96c73f1bbed9e08b9",
+          "parameter_sha256": "63458bcc4d4f9ac1f1298186ce3b8283c18065b5751c5bc916a13a14e72d106a"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "primary": true,
+          "file": "iter_160.pt",
+          "checkpoint_sha256": "fc43f9c0137566e36b89586e2222cadcda07fb26ced9a2027af3ae82744edf9a",
+          "parameter_sha256": "07bc242754d33c22ff0d691a0212db95e2e2397b7bf407ad04c7689b46f4afab"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "primary": true,
+          "file": "iter_320.pt",
+          "checkpoint_sha256": "0b41fcfd2c27c8e6680fe04dbbce1b955eea79ec2ebb9856f6f53f28c6e8ca01",
+          "parameter_sha256": "b2f5a7ee7976a520115a3e836f7a51f07b03cf18ba03f1846fb13b238b23e415"
+        }
+      ]
+    },
+    "seed_2": {
+      "training_seed": 2,
+      "episodes_per_iteration": 16,
+      "iterations": 320,
+      "total_episodes": 5120,
+      "seed_range": [
+        2000007,
+        2005126
+      ],
+      "overlaps_dev": false,
+      "overlaps_test": false,
+      "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 2 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_2/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_2/checkpoints --diag-log results/ppo_multiseed_v1/seed_2/train_diag.jsonl",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "primary": true,
+          "file": "iter_000.pt",
+          "checkpoint_sha256": "befa0339c3598fab529b00ddc910437cc33df2f5441c0af2ca0b81daed4c3f66",
+          "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "primary": true,
+          "file": "iter_040.pt",
+          "checkpoint_sha256": "e6d7f10b13809376047f677f4c7fd86aba6ec9ae7edbb70333b39812f38f134d",
+          "parameter_sha256": "08679e6a63dc54045bfc9bdc9724a1737fc45fee9d7bd0eb29fed11c31399f09"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "primary": true,
+          "file": "iter_080.pt",
+          "checkpoint_sha256": "a535b5dac91c5ca1df74853ef1c64096185ebd9ff802580fba5e845d89147a78",
+          "parameter_sha256": "3c6b3113cbaa11022d4eaef3e10c1dcbd642d215c14be535c600d7d65e69da85"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "primary": true,
+          "file": "iter_160.pt",
+          "checkpoint_sha256": "330351d2c9f5fed95e9d46bd5185fdea6125816f1e124e8489984b203f8a3312",
+          "parameter_sha256": "cada8b0b47a447c135ebf717fd0c07db09547755eec8e7f994250d855253866c"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "primary": true,
+          "file": "iter_320.pt",
+          "checkpoint_sha256": "f07a41fc468b84b3ff375ebc92bf9dbcf4ff61c71c5a804371b27e257f9bec0d",
+          "parameter_sha256": "42b18da352728bc6763cb8e1f8041eb36ef4356c3128d58e098e44fbf78168c4"
+        }
+      ]
+    },
+    "seed_3": {
+      "training_seed": 3,
+      "episodes_per_iteration": 16,
+      "iterations": 320,
+      "total_episodes": 5120,
+      "seed_range": [
+        3000010,
+        3005129
+      ],
+      "overlaps_dev": false,
+      "overlaps_test": false,
+      "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 3 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_3/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_multiseed_v1/seed_3/checkpoints --diag-log results/ppo_multiseed_v1/seed_3/train_diag.jsonl",
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "primary": true,
+          "file": "iter_000.pt",
+          "checkpoint_sha256": "5252950685e4dcb7ca41ea655306e2c060f37b19148e53e4ff278d29b7525f8c",
+          "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b"
+        },
+        {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "primary": true,
+          "file": "iter_040.pt",
+          "checkpoint_sha256": "49ec8af4c037f1174b9711edced7f787d8e2839d23f770ccc066f389aebfcaab",
+          "parameter_sha256": "04247d1cab91eeababb59dd9f70478472c63a4bf0e8af47d3ce9687fc580a91e"
+        },
+        {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "primary": true,
+          "file": "iter_080.pt",
+          "checkpoint_sha256": "7e932ada19edd4305370868f4083d50eb2323eec041f68e49ccc8de00a0afc5c",
+          "parameter_sha256": "5cdd11771a125258ba7f54cf06bbbf4d1dc43b673e926f41c43fb95e497f578e"
+        },
+        {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "primary": true,
+          "file": "iter_160.pt",
+          "checkpoint_sha256": "598d3f9d956dd0ff3d7ecac8ec6342365fd8f1ef97ab46f599f67ce12acec865",
+          "parameter_sha256": "f715be7ae9e72ac8836f0f08a9abb585c7900db089afd452a55e9d2b6f6fa7da"
+        },
+        {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "primary": true,
+          "file": "iter_320.pt",
+          "checkpoint_sha256": "790e320db5eef2b375390b2f9e031fc1c5703d8558a1ecb6d03f4ae8fa7b062c",
+          "parameter_sha256": "a533b41c80046eb1b6ae692f9f5fcf5bfda88d6ffe8b838d6ffe07fe577452c8"
+        }
+      ]
+    }
+  },
+  "evaluation": {
+    "split": "dev",
+    "dev_interval": [
+      10550000,
+      10599999
+    ],
+    "test_interval_LOCKED": [
+      10250000,
+      10299999
+    ],
+    "test_usage": "Benchmark v1 TEST was NOT run at any point during Experiment 3.",
+    "primary_field": {
+      "name": "greedy",
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy"
+    },
+    "intermediate_diagnostic_field": {
+      "name": "greedy4_random3",
+      "games": 500,
+      "seed_range": [
+        10550000,
+        10550499
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random"
+    },
+    "drift_corpus": {
+      "source": "ml.policy_drift.build_corpus (greedy trajectories)",
+      "lobbies": 100,
+      "seed_base": 10590000,
+      "states": 4440
+    }
+  },
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "software": {
+    "python": "3.12.3",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.4.4"
+  },
+  "artifacts": {
+    "manifest": "results/ppo_multiseed_v1/manifest.json",
+    "cross_seed_summary": "results/ppo_multiseed_v1/aggregate/cross_seed_summary.json",
+    "paired_results": "results/ppo_multiseed_v1/aggregate/paired_results.json",
+    "replication_analysis": "results/ppo_multiseed_v1/aggregate/replication_analysis.json",
+    "plots": "results/ppo_multiseed_v1/aggregate/plots/",
+    "report": "experiments/ppo_multiseed_replication_v1.md"
+  },
+  "limitations": [
+    "FOUR TOTAL PPO TRAINING SEEDS (N=4). While this establishes that Seed 0's improvement does not robustly generalize, 4 seeds remains a small sample for population-level distributional estimation.",
+    "DEV split only. Benchmark v1 TEST set remains locked until an intervention is chosen and validated.",
+    "Checkpoint binaries are gitignored per repo convention; parameter fingerprints are committed in full."
+  ]
+}
