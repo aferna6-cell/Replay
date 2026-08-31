@@ -6,6 +6,7 @@ Seed 0 is read exclusively from the committed Experiment 2 artifacts. Seeds
 
 import json
 import random
+import re
 import statistics as st
 import sys
 from pathlib import Path
@@ -31,6 +32,15 @@ SIGNAL_KEYS = (
     "terminal_reward_sum", "entropy", "approx_kl", "clip_frac", "grad_norm",
     "pi_loss", "v_loss",
 )
+LINE_NUMBER_FRAGMENT = re.compile(r"^\s*\d+\|", re.MULTILINE)
+
+
+def validate_generated_text(text):
+    """Reject accidental editor/tool line-number annotations."""
+    match = LINE_NUMBER_FRAGMENT.search(text)
+    if match:
+        line = text.count("\n", 0, match.start()) + 1
+        raise ValueError(f"generated text contains line-number fragment at {line}")
 
 
 def _paths(seed, iteration, field):
@@ -523,7 +533,9 @@ def _report(data):
         "No PPO tuning, checkpoint selection, Experiment 4 execution, or TEST "
         "evaluation was performed.",
     ]
-    REPORT_PATH.write_text("\n".join(lines) + "\n")
+    text = "\n".join(lines) + "\n"
+    validate_generated_text(text)
+    REPORT_PATH.write_text(text)
     return outcome
 
 

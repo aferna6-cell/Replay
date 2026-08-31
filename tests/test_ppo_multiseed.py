@@ -92,7 +92,7 @@ def test_required_warmstart_hash_guard_fails_closed(tmp_path, monkeypatch):
 
 
 def test_cross_seed_bootstrap_is_deterministic_and_descriptive():
-    from scripts.ppo_multiseed_report import _seed_boot
+    from scripts.ppo_multiseed_report import _seed_boot, validate_generated_text
 
     a = _seed_boot([-0.2, 0.0, 0.1, 0.3], seed=7, resamples=1000)
     b = _seed_boot([-0.2, 0.0, 0.1, 0.3], seed=7, resamples=1000)
@@ -100,6 +100,9 @@ def test_cross_seed_bootstrap_is_deterministic_and_descriptive():
     assert a["n_training_seeds"] == 4
     assert a["mean"] == pytest.approx(0.05)
     assert a["min"] == -0.2 and a["max"] == 0.3
+    validate_generated_text("- DEV\n| 320 | 5120 |\n")
+    with pytest.raises(ValueError, match="line-number fragment"):
+        validate_generated_text("intro\n    10|- DEV\n")
 
 
 def test_action_category_mapping_includes_freeze():
