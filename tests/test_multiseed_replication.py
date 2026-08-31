@@ -1,496 +1,372 @@
-"""Experiment 3 machinery: cross-training-seed loading, within-seed paired
-comparisons, the pre-specified curve-shape rule, aggregate descriptives, and
-the plot inputs.
+"""Experiment 3: multi-seed aggregation, isolation, and classification."""
 
-The synthetic fixtures below are deliberately not the measured values, so a
-test that passes proves the *logic*, not the numbers. The few tests that do
-read committed artifacts read JSON only (never checkpoints) and assert
-protocol invariants: one frozen warm start, identical DEV seeds everywhere,
-and no contact with the reserved Benchmark v1 TEST interval.
-"""
-
-import importlib.util
 import json
 import os
-import re
 
 import pytest
 
 from ml import seeds
-from ml.replication import (COMPARISONS, FLAT_RANGE, PRIMARY_ITERS,
-                            SHAPE_CLASSES, build_curve, build_plot_data,
-                            category_replication, classify_curve,
-                            cross_seed_summary, describe, drift_vs_performance,
-                            effect_across_seeds, episodes, exploratory_ci,
-                            freeze_stats, iteration_of, load_seed_bundle,
-                            paired_table, rl_blocks, significance, spearman)
-
-REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MULTISEED = os.path.join(REPO, "results", "ppo_multiseed_v1")
-EXP2 = os.path.join(REPO, "results", "ppo_budget_v1")
-WARMSTART_SHA = ("094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea"
-                 "11246d473b")
-NEW_SEEDS = [1, 2, 3]
+from ml.multiseed_analysis import (
+    ALL_SEEDS, CORPUS_FINGERPRINT_SHA256, DEV_EVAL_BASE, DEV_EVAL_GAMES,
+    DEV_EVAL_LAST, PRIMARY_ITERS, SEED0_DIR, WARM_START_PARAMETER_SHA256,
+    WITHIN_SEED_PAIRS, assert_corpus_fingerprint, assert_dev_eval_seeds,
+    assert_eval_seeds_match_experiment2, assert_training_seeds_isolated,
+    assert_warmstart_hash, classify_ushape, cross_seed_table, episodes,
+    freeze_count, load_dev_result, load_seed_bundle, load_within_seed_paired,
+    outcome_and_recommendation, pair_key, planned_ppo_span, question_a,
+    question_b, seed_dir, summarize_numbers, training_seeds_isolated,
+    within_seed_paired,
+)
 
 
-def _report_module():
-    path = os.path.join(REPO, "scripts", "ppo_multiseed_report.py")
-    spec = importlib.util.spec_from_file_location("ppo_multiseed_report", path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+# --- isolation / metadata -----------------------------------------------------
+def test_training_seeds_1_2_3_outside_dev_and_test():
+    assert_training_seeds_isolated(ALL_SEEDS)
+    rows = training_seeds_isolated(ALL_SEEDS)
+    assert {r["training_seed"] for r in rows} == {0, 1, 2, 3}
+    for r in rows:
+        assert r["isolated"]
+        assert not r["overlaps_dev"]
+        assert not r["overlaps_test"]
+        assert r["hi"] < seeds.EVAL_SEED_START
+        assert r["hi"] < seeds.DEV_SEED_START
 
 
-# --- synthetic fixtures -------------------------------------------------------
-def _dev_result(agent, placements, field="greedy"):
-    """A minimal DEV result JSON of the shape ml.analyze_benchmark accepts."""
-    n = len(placements)
-    return {
-        "benchmark_version": "Replay DEV Evaluation (Benchmark v1 machinery)",
-        "evaluation_split": "dev", "agent": agent, "field": field,
-        "games": n, "base_seed": seeds.DEV_SEED_START,
-        "seed_range": [seeds.DEV_SEED_START, seeds.DEV_SEED_START + n - 1],
-        "environment": {"env": "hsbg_coach.bg_env.BGEnv"},
-        "placements": list(placements),
-        "avg_placement_ci95": {"low": 0.0, "high": 0.0},
-        "metrics": {"games": n, "avg_placement": sum(placements) / n,
-                    "median_placement": 5.0, "std_placement": 1.0,
-                    "top4_rate": 0.25, "win_rate": 0.05,
-                    "placement_counts": {str(p): placements.count(p)
-                                         for p in range(1, 9)}},
+def test_planned_span_uses_centralized_ppo_helper():
+    for s in ALL_SEEDS:
+        lo, hi = planned_ppo_span(s)
+        assert lo == seeds.ppo_episode_seed(s, 1)
+        assert hi == seeds.ppo_episode_seed(s, 320 * 16)
+
+
+def test_dev_eval_seeds_match_experiment_2_exactly():
+    assert_dev_eval_seeds()
+    assert DEV_EVAL_BASE == 10_550_000
+    assert DEV_EVAL_LAST == 10_550_999
+    assert DEV_EVAL_GAMES == 1000
+    # every committed Experiment 2 greedy file uses that interval
+    for it in PRIMARY_ITERS:
+        blob = load_dev_result(SEED0_DIR, it, "greedy")
+        assert_eval_seeds_match_experiment2(blob, "greedy")
+        assert blob["seed_range"] == [10_550_000, 10_550_999]
+        assert blob["evaluation_split"] == "dev"
+    for it in PRIMARY_ITERS:
+        blob = load_dev_result(SEED0_DIR, it, "greedy4_random3")
+        assert_eval_seeds_match_experiment2(blob, "greedy4_random3")
+        assert blob["seed_range"] == [10_550_000, 10_550_499]
+
+
+def test_eval_seed_mismatch_is_rejected():
+    blob = load_dev_result(SEED0_DIR, 0, "greedy")
+    bad = dict(blob)
+    bad["base_seed"] = seeds.EVAL_SEED_START
+    with pytest.raises(ValueError, match="base seed"):
+        assert_eval_seeds_match_experiment2(bad, "greedy")
+    testish = dict(blob)
+    testish["evaluation_split"] = "test"
+    with pytest.raises(ValueError, match="evaluation_split"):
+        assert_eval_seeds_match_experiment2(testish, "greedy")
+
+
+def test_frozen_warm_start_hash_matches_experiment_2_manifest():
+    man = json.load(open(os.path.join(SEED0_DIR, "manifest.json")))
+    assert man["training"]["warm_start"]["parameter_sha256"] == (
+        WARM_START_PARAMETER_SHA256)
+    curve0 = json.load(open(os.path.join(SEED0_DIR, "learning_curve.json")))
+    iter0 = next(c for c in curve0["curve"] if c["iteration"] == 0)
+    assert_warmstart_hash(iter0["parameter_sha256"])
+    with pytest.raises(ValueError, match="warm-start"):
+        assert_warmstart_hash("0" * 64)
+
+
+def test_frozen_corpus_fingerprint_matches_experiment_2():
+    drift = json.load(open(os.path.join(SEED0_DIR, "policy_drift.json")))
+    assert drift["corpus"]["fingerprint_sha256"] == CORPUS_FINGERPRINT_SHA256
+    assert drift["corpus"]["states"] == 4440
+    assert_corpus_fingerprint(drift["corpus"]["fingerprint_sha256"])
+    with pytest.raises(ValueError, match="corpus fingerprint"):
+        assert_corpus_fingerprint("deadbeef")
+
+
+def test_seed_dir_does_not_point_seed_0_at_experiment_3_tree():
+    assert seed_dir(0) == SEED0_DIR == "results/ppo_budget_v1"
+    assert seed_dir(1) == "results/ppo_multiseed_v1/seed_1"
+    assert seed_dir(2) == "results/ppo_multiseed_v1/seed_2"
+    assert seed_dir(3) == "results/ppo_multiseed_v1/seed_3"
+
+
+# --- cross-seed loading of the Experiment 2 seed-0 reference -----------------
+def test_load_seed_0_from_experiment_2_not_a_copy():
+    bundle = load_seed_bundle(0)
+    assert bundle["source"] == "experiment_2"
+    assert bundle["source_dir"] == SEED0_DIR
+    assert bundle["training_seed"] == 0
+    assert bundle["placements"][0] == pytest.approx(6.554)
+    assert bundle["placements"][80] == pytest.approx(6.325)
+    assert bundle["placements"][320] == pytest.approx(6.606)
+    assert_warmstart_hash(bundle["curve"]["curve"][0]["parameter_sha256"])
+
+
+# --- within-seed paired comparisons ------------------------------------------
+def test_within_seed_pairs_are_the_nine_prespecified():
+    assert WITHIN_SEED_PAIRS == (
+        (40, 0), (80, 0), (160, 0), (320, 0),
+        (80, 40), (160, 40), (320, 40),
+        (160, 80), (320, 80),
+    )
+
+
+def test_seed0_paired_matches_experiment_2_published_numbers():
+    paired = load_within_seed_paired(SEED0_DIR)
+    # published Experiment 2 table (greedy, 1000 DEV games)
+    r = paired[pair_key(40, 0)]
+    assert r["mean_diff"] == pytest.approx(0.207)
+    assert r["ci95"][0] == pytest.approx(0.093, abs=1e-3)
+    assert r["ci95"][1] == pytest.approx(0.322, abs=1e-3)
+    r = paired[pair_key(80, 0)]
+    assert r["mean_diff"] == pytest.approx(-0.229)
+    assert r["ci_excludes_zero"]
+    r = paired[pair_key(80, 40)]
+    assert r["mean_diff"] == pytest.approx(-0.436)
+    r = paired[pair_key(320, 0)]
+    assert r["mean_diff"] == pytest.approx(0.052)
+    assert not r["ci_excludes_zero"]
+    # newly required pairs that Experiment 2 did not publish as a table
+    assert pair_key(160, 80) in paired
+    assert pair_key(320, 80) in paired
+    assert paired[pair_key(320, 80)]["mean_diff"] == pytest.approx(0.281)
+
+
+def test_within_seed_paired_on_synthetic_identical_games():
+    placements = [4, 5, 6, 7] * 25  # 100 games
+    def _res(name):
+        return {
+            "agent": name, "benchmark_version": "v", "field": "greedy",
+            "games": 100, "base_seed": DEV_EVAL_BASE,
+            "seed_range": [DEV_EVAL_BASE, DEV_EVAL_BASE + 99],
+            "environment": {"env": "x"}, "placements": list(placements),
+            "metrics": {"avg_placement": 5.5},
+        }
+    greedy = {it: _res(f"iter{it:03d}") for it in PRIMARY_ITERS}
+    # make iter80 better by 1 placement on every game
+    greedy[80] = dict(greedy[80])
+    greedy[80]["placements"] = [p - 1 for p in placements]
+    greedy[80]["agent"] = "iter080"
+    rows = within_seed_paired(greedy)
+    assert rows[pair_key(80, 0)]["mean_diff"] == pytest.approx(-1.0)
+    assert rows[pair_key(80, 0)]["ci_excludes_zero"]
+    assert rows[pair_key(40, 0)]["mean_diff"] == pytest.approx(0.0)
+    assert not rows[pair_key(40, 0)]["ci_excludes_zero"]
+
+
+# --- aggregate summary math ---------------------------------------------------
+def test_summarize_numbers_known_case():
+    s = summarize_numbers([1.0, 2.0, 3.0, 4.0])
+    assert s["n"] == 4
+    assert s["mean"] == pytest.approx(2.5)
+    assert s["median"] == pytest.approx(2.5)
+    assert s["min"] == 1.0 and s["max"] == 4.0
+    assert s["std"] == pytest.approx(1.2909944487358056)  # sample stdev
+    assert "n=4" in s["note"]
+
+
+def test_cross_seed_table_math():
+    bundles = {
+        0: {"placements": {0: 6.0, 40: 6.2, 80: 5.8, 160: 5.9, 320: 6.1}},
+        1: {"placements": {0: 6.0, 40: 6.0, 80: 6.4, 160: 6.2, 320: 6.3}},
     }
+    table = cross_seed_table(bundles)
+    it80 = table["by_iteration"]["80"]
+    assert it80["mean"] == pytest.approx(6.1)
+    assert it80["min"] == pytest.approx(5.8)
+    assert it80["max"] == pytest.approx(6.4)
+    assert it80["per_seed"][0] == 5.8
+    assert "training seed" in table["replication_unit"]
 
 
-def _paired_rows(sig_by_pair, means=None):
-    """Fake paired rows carrying only what classify_curve reads."""
-    rows = []
-    for target, ref in COMPARISONS:
-        s = sig_by_pair.get((target, ref), "none")
-        ci = {"better": [-0.30, -0.10], "worse": [0.10, 0.30],
-              "none": [-0.10, 0.10]}[s]
-        rows.append({"iteration": target, "reference_iteration": ref,
-                     "label": f"iter{target} - iter{ref}", "ci95": ci,
-                     "significance": s,
-                     "mean_diff": (means or {}).get((target, ref),
-                                                    sum(ci) / 2)})
-    return rows
+def test_questions_a_and_b_counts():
+    def _pair(mean, lo, hi):
+        return {"mean_diff": mean, "ci95": [lo, hi],
+                "ci_excludes_zero": not (lo <= 0 <= hi)}
+
+    bundles = {
+        0: {"paired": {pair_key(80, 0): _pair(-0.23, -0.39, -0.06),
+                       pair_key(320, 80): _pair(0.28, 0.10, 0.45)}},
+        1: {"paired": {pair_key(80, 0): _pair(0.10, -0.05, 0.25),
+                       pair_key(320, 80): _pair(-0.02, -0.15, 0.10)}},
+        2: {"paired": {pair_key(80, 0): _pair(-0.15, -0.30, -0.01),
+                       pair_key(320, 80): _pair(0.20, 0.05, 0.35)}},
+        3: {"paired": {pair_key(80, 0): _pair(0.40, 0.20, 0.60),
+                       pair_key(320, 80): _pair(0.05, -0.10, 0.20)}},
+    }
+    qa = question_a(bundles)
+    assert qa["n_improve"] == 2
+    assert qa["n_worsen"] == 2
+    assert qa["n_ci_excludes_zero_improve"] == 2
+    assert qa["n_ci_excludes_zero_worsen"] == 1
+    qb = question_b(bundles)
+    assert qb["n_regress"] == 2
+    assert qb["n_continue_improving"] == 0
+    assert qb["n_indistinguishable"] == 2
 
 
-def _curve(training_seed, greedy, expert=None, kl=None):
-    rows = []
-    for i, it in enumerate(PRIMARY_ITERS):
-        rows.append({
-            "training_seed": training_seed, "iteration": it,
-            "cumulative_episodes": episodes(it), "greedy_avg": greedy[i],
-            "greedy_ci95": {"low": greedy[i] - 0.1, "high": greedy[i] + 0.1},
-            "greedy_top4": 0.2, "greedy_win": 0.03,
-            "mixed_avg": greedy[i] - 2.0,
-            "expert_agreement": (expert or [0.8] * 5)[i],
-            "warmstart_agreement": 1.0 - 0.1 * i,
-            "kl_from_warmstart": (kl or [0.0, 0.2, 0.3, 0.5, 1.1])[i],
-            "corpus_entropy": 0.5 + 0.01 * i,
-            "expert_disagreement_by_category": {
-                "buy": 0.7, "play": 0.1 * (i + 1), "sell": 0.2,
-                "roll": 0.05 * i, "level": 0.1, "freeze": None,
-                "end": 0.02 * i},
-            "drift_contribution_by_category": {c: 0.1 for c in
-                                               ("buy", "play", "sell", "roll",
-                                                "level", "freeze", "end")},
-        })
-    return rows
+# --- U-shape classification ---------------------------------------------------
+def test_classify_ushape_seed0_is_transient():
+    p = {0: 6.554, 40: 6.761, 80: 6.325, 160: 6.435, 320: 6.606}
+    got = classify_ushape(p)
+    assert got["label"] == "U-like / transient improvement"
+    assert got["mid_best_iteration"] == 80
+    assert got["mid_gain_mean"] is True
+    assert got["late_regression_mean"] is True
 
 
-# --- protocol invariants over the committed artifacts -------------------------
-def _metadata(seed):
-    path = os.path.join(MULTISEED, f"seed_{seed}", "checkpoint_metadata.json")
-    if not os.path.isfile(path):
-        pytest.skip(f"seed {seed} artifacts not present")
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+def test_classify_ushape_monotonic_improvement():
+    p = {0: 6.6, 40: 6.4, 80: 6.2, 160: 6.0, 320: 5.8}
+    assert classify_ushape(p)["label"] == "monotonic improvement"
 
 
-@pytest.mark.parametrize("seed", NEW_SEEDS)
-def test_every_seed_starts_from_the_same_frozen_warm_start(seed):
-    """The training-seed control: BC is fixed so only PPO randomness varies.
-    A different iteration-0 hash would mean we measured BC randomness too."""
-    meta = _metadata(seed)
-    iter0 = next(c for c in meta["checkpoints"] if c["iteration"] == 0)
-    assert iter0["parameter_sha256"] == WARMSTART_SHA
-    assert meta["iter0_matches_frozen_warm_start"] is True
-    assert meta["training_seed"] == seed
+def test_classify_ushape_monotonic_degradation():
+    p = {0: 6.0, 40: 6.2, 80: 6.4, 160: 6.5, 320: 6.7}
+    assert classify_ushape(p)["label"] == "monotonic degradation"
 
 
-def test_warm_start_hash_is_identical_across_all_training_seeds():
-    hashes = {s: _metadata(s)["iter0_parameter_sha256"] for s in NEW_SEEDS}
-    assert len(set(hashes.values())) == 1, hashes
-    assert set(hashes.values()) == {WARMSTART_SHA}
+def test_classify_ushape_flat():
+    p = {0: 6.50, 40: 6.51, 80: 6.49, 160: 6.50, 320: 6.52}
+    # mid best (80) is below iter0 and 320 is above mid best → U-like on means
+    # use a truly flat curve
+    p = {0: 6.50, 40: 6.50, 80: 6.50, 160: 6.50, 320: 6.50}
+    assert classify_ushape(p)["label"] == "mostly flat/noisy"
 
 
-@pytest.mark.parametrize("seed", NEW_SEEDS)
-def test_training_seed_metadata_is_recorded_per_seed(seed):
-    """Each artifact must say which PPO training seed produced it — otherwise
-    cross-seed aggregation could silently mix trajectories."""
-    for name in ("policy_drift.json", "action_category_drift.json"):
-        path = os.path.join(MULTISEED, f"seed_{seed}", name)
-        if not os.path.isfile(path):
-            pytest.skip(f"seed {seed} artifacts not present")
-        with open(path, encoding="utf-8") as f:
-            assert json.load(f)["training_seed"] == seed
-    trained = {c["iteration"] for c in _metadata(seed)["checkpoints"]}
-    assert set(PRIMARY_ITERS) <= trained
+def test_classify_ushape_other_when_only_late_gain():
+    # worse at mid-budget, better at the end — not U, not monotone
+    p = {0: 6.5, 40: 6.8, 80: 6.7, 160: 6.6, 320: 6.2}
+    assert classify_ushape(p)["label"] == "other"
 
 
-def test_evaluation_seeds_are_identical_across_every_run():
-    """Pairing is only valid because every checkpoint of every training seed
-    met the same DEV lobbies — including Experiment 2's seed-0 runs."""
-    expected = {"greedy": (1000, [seeds.DEV_SEED_START,
-                                  seeds.DEV_SEED_START + 999]),
-                "greedy4_random3": (500, [seeds.DEV_SEED_START,
-                                          seeds.DEV_SEED_START + 499])}
-    checked = 0
-    for root in [EXP2] + [os.path.join(MULTISEED, f"seed_{s}")
-                          for s in NEW_SEEDS]:
-        for it in PRIMARY_ITERS:
-            for field, (games, rng) in expected.items():
-                path = os.path.join(root, "dev",
-                                    f"iter{it:03d}_vs_{field}.json")
-                if not os.path.isfile(path):
-                    continue
-                with open(path, encoding="utf-8") as f:
-                    blob = json.load(f)
-                assert blob["evaluation_split"] == "dev"
-                assert blob["base_seed"] == seeds.DEV_SEED_START
-                assert blob["games"] == games
-                assert blob["seed_range"] == rng
-                assert len(blob["placements"]) == games
-                checked += 1
-    if checked == 0:
-        pytest.skip("no DEV artifacts present")
+def test_classify_ushape_prefers_u_over_monotone_when_both_could_apply():
+    # dips then rises — U wins even if someone squints at monotone
+    p = {0: 6.5, 40: 6.4, 80: 6.0, 160: 6.1, 320: 6.3}
+    assert classify_ushape(p)["label"] == "U-like / transient improvement"
 
 
-def test_dev_and_test_isolation_for_experiment_3():
-    """No evaluated lobby and no PPO episode of seeds 1-3 may touch TEST, and
-    no training episode may touch DEV either."""
-    seeds.validate_dev_range(seeds.DEV_SEED_START, 1000)
-    with pytest.raises(ValueError):                 # DEV cannot reach TEST
-        seeds.validate_eval_range(seeds.DEV_SEED_START, 1000)
-    for s in NEW_SEEDS:
-        lo = seeds.ppo_episode_seed(s, 1)
-        hi = seeds.ppo_episode_seed(s, 320 * 16)
-        assert not seeds.overlaps_eval_range(lo, hi)
-        assert not seeds.overlaps_dev_range(lo, hi)
-        assert not seeds.check_training_range("ml.train_ppo", lo, hi)
+# --- outcome rule -------------------------------------------------------------
+def test_outcome_a_when_most_trajectories_are_u_like():
+    analysis = {
+        "n_training_seeds": 4,
+        "question_a_1280_episode_replication": {
+            "per_seed": [
+                {"training_seed": 0, "direction": "improve"},
+                {"training_seed": 1, "direction": "improve"},
+                {"training_seed": 2, "direction": "improve"},
+                {"training_seed": 3, "direction": "worsen"},
+            ]},
+        "question_b_late_regression": {"n_regress": 3},
+        "ushape": {
+            "n_transient_improvement": 3,
+            "per_seed": {
+                "0": {"label": "U-like / transient improvement"},
+                "1": {"label": "U-like / transient improvement"},
+                "2": {"label": "U-like / transient improvement"},
+                "3": {"label": "monotonic degradation"},
+            }},
+    }
+    d = outcome_and_recommendation(analysis)
+    assert d["outcome"] == "A"
+    assert "anchoring" in d["recommendation"]
 
 
-def test_drift_corpus_is_the_frozen_experiment_1_corpus():
-    for s in NEW_SEEDS:
-        path = os.path.join(MULTISEED, f"seed_{s}", "policy_drift.json")
-        if not os.path.isfile(path):
-            pytest.skip("drift artifacts not present")
-        with open(path, encoding="utf-8") as f:
-            corpus = json.load(f)["corpus"]
-        assert corpus["fingerprint_sha256"].startswith("2ec217b353bd")
-        assert corpus["states"] == 4440
-        assert corpus["lobbies"] == 100
-        assert corpus["seed_base"] == seeds.DEV_SEED_START + 40_000
+def test_outcome_b_when_new_seeds_never_improve():
+    analysis = {
+        "n_training_seeds": 4,
+        "question_a_1280_episode_replication": {
+            "per_seed": [
+                {"training_seed": 0, "direction": "improve"},
+                {"training_seed": 1, "direction": "worsen"},
+                {"training_seed": 2, "direction": "worsen"},
+                {"training_seed": 3, "direction": "worsen"},
+            ]},
+        "question_b_late_regression": {"n_regress": 0},
+        "ushape": {
+            "n_transient_improvement": 1,
+            "per_seed": {
+                "0": {"label": "U-like / transient improvement"},
+                "1": {"label": "monotonic degradation"},
+                "2": {"label": "mostly flat/noisy"},
+                "3": {"label": "other"},
+            }},
+    }
+    d = outcome_and_recommendation(analysis)
+    assert d["outcome"] == "B"
+    assert "stochastic rather than algorithmic" in d["recommendation"]
 
 
-# --- loading ------------------------------------------------------------------
-def test_iteration_of_parses_checkpoint_filenames():
-    assert iteration_of("iter_080.pt") == 80
-    assert iteration_of("/x/y/iter_000.pt") == 0
-    assert iteration_of("iter_320.pt") == 320
+def test_outcome_c_when_shapes_vary_and_some_new_seeds_improve():
+    analysis = {
+        "n_training_seeds": 4,
+        "question_a_1280_episode_replication": {
+            "per_seed": [
+                {"training_seed": 0, "direction": "improve"},
+                {"training_seed": 1, "direction": "improve"},
+                {"training_seed": 2, "direction": "worsen"},
+                {"training_seed": 3, "direction": "worsen"},
+            ]},
+        "question_b_late_regression": {"n_regress": 1},
+        "ushape": {
+            "n_transient_improvement": 1,
+            "per_seed": {
+                "0": {"label": "U-like / transient improvement"},
+                "1": {"label": "monotonic improvement"},
+                "2": {"label": "monotonic degradation"},
+                "3": {"label": "mostly flat/noisy"},
+            }},
+    }
+    d = outcome_and_recommendation(analysis)
+    assert d["outcome"] == "C"
+    assert "stability" in d["recommendation"]
 
 
-def test_load_seed_bundle_and_build_curve_round_trip(tmp_path):
-    dev = tmp_path / "dev"
-    dev.mkdir()
-    greedy = {0: [8, 8, 6, 6], 40: [8, 8, 8, 6], 80: [4, 4, 6, 6],
-              160: [5, 5, 6, 6], 320: [7, 7, 6, 6]}
-    for it, pl in greedy.items():
-        (dev / f"iter{it:03d}_vs_greedy.json").write_text(
-            json.dumps(_dev_result(f"s9_iter{it:03d}", pl)))
-        (dev / f"iter{it:03d}_vs_greedy4_random3.json").write_text(
-            json.dumps(_dev_result(f"s9_iter{it:03d}", [p - 2 for p in pl],
-                                   field="greedy4_random3")))
-    drift = {"checkpoints": [
-        {"checkpoint": f"iter_{it:03d}.pt", "parameter_sha256": "p",
-         "checkpoint_sha256": "c", "expert_agreement": 0.8 - 0.05 * i,
-         "warmstart_agreement": 1.0 - 0.1 * i, "kl_from_warmstart_mean": 0.2 * i,
-         "entropy_mean": 0.5, "value_mean": 0.1, "value_std": 0.2}
-        for i, it in enumerate(PRIMARY_ITERS)]}
-    cats = {"checkpoints": [
-        {"checkpoint": f"iter_{it:03d}.pt", "vs_expert": {
-            "n_states": 10, "n_disagreements": 2, "overall_agreement": 0.8,
-            "confusion_matrix": {"roll": {"roll": 8, "freeze": 2}},
-            "reference_category_counts": {"roll": 10, "freeze": 0},
-            "disagreement_share_by_category": {"roll": 0.2},
-            "contribution_to_total_drift": {"roll": 1.0}}}
-        for it in PRIMARY_ITERS]}
-    (tmp_path / "policy_drift.json").write_text(json.dumps(drift))
-    (tmp_path / "action_category_drift.json").write_text(json.dumps(cats))
-    (tmp_path / "diag.jsonl").write_text("".join(
-        json.dumps({"iter": i, "entropy": 0.5, "approx_kl": 0.01,
-                    "rollout_avg_placement": 5.0}) + "\n"
-        for i in range(1, 321)))
-
-    bundle = load_seed_bundle(9, str(dev), str(tmp_path / "policy_drift.json"),
-                              str(tmp_path / "action_category_drift.json"),
-                              str(tmp_path / "diag.jsonl"))
-    assert bundle["training_seed"] == 9
-    assert sorted(bundle["greedy"]) == PRIMARY_ITERS
-    curve = build_curve(bundle)
-    assert [r["iteration"] for r in curve] == PRIMARY_ITERS
-    assert [r["cumulative_episodes"] for r in curve] == [0, 640, 1280, 2560, 5120]
-    assert curve[2]["greedy_avg"] == pytest.approx(5.0)     # [4,4,6,6]
-    assert curve[2]["mixed_avg"] == pytest.approx(3.0)
-    assert curve[0]["warmstart_agreement"] == 1.0
-    blocks = rl_blocks(bundle["diag"])
-    assert blocks["iters_1_40"]["n"] == 40
-    assert blocks["iters_41_160"]["n"] == 120
-    assert blocks["iters_161_320"]["n"] == 160
-    assert blocks["iters_161_320"]["entropy"] == pytest.approx(0.5)
+# --- freeze accounting + plots consume JSON ----------------------------------
+def test_freeze_count_from_confusion_matrix():
+    matrix = {"end": {"freeze": 153, "roll": 10},
+              "roll": {"buy": 5}, "buy": {}, "play": {"freeze": 2},
+              "sell": {}, "level": {}, "freeze": {}}
+    assert freeze_count(matrix) == 155
 
 
-# --- within-seed paired comparisons -------------------------------------------
-def test_paired_table_computes_the_nine_pre_specified_comparisons():
-    by_iter = {0: _dev_result("i0", [8, 8, 8, 8]),
-               40: _dev_result("i40", [8, 8, 8, 8]),
-               80: _dev_result("i80", [6, 6, 6, 6]),
-               160: _dev_result("i160", [7, 7, 7, 7]),
-               320: _dev_result("i320", [8, 8, 8, 8])}
-    rows = paired_table(by_iter)
-    assert len(rows) == 9
-    assert [(r["iteration"], r["reference_iteration"]) for r in rows] == \
-        list(COMPARISONS)
-    got = {r["label"]: r for r in rows}
-    assert got["iter80 - iter0"]["mean_diff"] == pytest.approx(-2.0)
-    assert got["iter80 - iter0"]["significance"] == "better"
-    assert got["iter320 - iter80"]["mean_diff"] == pytest.approx(2.0)
-    assert got["iter320 - iter80"]["significance"] == "worse"
-    assert got["iter40 - iter0"]["mean_diff"] == pytest.approx(0.0)
-    assert got["iter40 - iter0"]["significance"] == "none"
-    # deterministic: the same inputs give the same bootstrap CI
-    assert paired_table(by_iter)[0]["ci95"] == rows[0]["ci95"]
+def test_episodes_formula():
+    assert episodes(0) == 0
+    assert episodes(80) == 1280
+    assert episodes(320) == 5120
 
 
-def test_paired_table_refuses_mismatched_evaluation_seeds():
-    a = _dev_result("i0", [8, 8, 8, 8])
-    b = _dev_result("i80", [6, 6, 6, 6])
-    b["base_seed"] = seeds.DEV_SEED_START + 1
-    with pytest.raises(ValueError, match="not paired-comparable"):
-        paired_table({0: a, 80: b, 40: a, 160: a, 320: a})
+def test_plots_consume_result_json_not_hardcoded_values(tmp_path):
+    matplotlib = pytest.importorskip("matplotlib")
+    matplotlib.use("Agg")
+    from scripts.ppo_multiseed_aggregate import plot_from_json
+    from ml.multiseed_analysis import assemble_replication
+
+    bundle = load_seed_bundle(0)
+    analysis = assemble_replication({0: bundle})
+    # the plotted mean at iter 80 must equal the JSON, not a literal 6.325
+    mean80 = analysis["cross_seed_summary"]["by_iteration"]["80"]["mean"]
+    assert mean80 == pytest.approx(bundle["placements"][80])
+    assert mean80 == pytest.approx(6.325)
+    written = plot_from_json({0: bundle}, analysis, str(tmp_path))
+    names = {os.path.basename(p) for p in written}
+    assert names == {
+        "A_multiseed_dev_curves.png",
+        "B_cross_seed_mean.png",
+        "C_expert_agreement.png",
+        "D_kl_from_warmstart.png",
+        "E_warmstart_agreement.png",
+        "F_category_drift_iter320.png",
+        "G_rl_diagnostics.png",
+    }
+    assert all(os.path.getsize(p) > 0 for p in written)
 
 
-def test_significance_reads_the_ci_not_the_point_estimate():
-    assert significance([-0.4, -0.1]) == "better"
-    assert significance([0.1, 0.4]) == "worse"
-    assert significance([-0.4, 0.1]) == "none"
-    assert significance([0.0, 0.4]) == "none"       # touching zero is not sig
-
-
-# --- the pre-specified curve-shape rule ---------------------------------------
-def test_shape_rule_labels_a_u_shaped_trajectory():
-    avg = {0: 6.55, 40: 6.76, 80: 6.32, 160: 6.43, 320: 6.61}
-    rows = _paired_rows({(80, 0): "better", (40, 0): "worse",
-                         (80, 40): "better", (160, 40): "better",
-                         (320, 80): "worse"})
-    got = classify_curve(avg, rows)
-    assert got["shape_class"] == SHAPE_CLASSES[0]
-    assert got["transient_peak_iterations"] == [80]
-    assert got["descriptive"]["best_budget_iteration"] == 80
-    assert got["descriptive"]["point_estimate_transient"] is True
-
-
-def test_shape_rule_needs_both_the_gain_and_the_regression():
-    avg = {0: 6.55, 40: 6.76, 80: 6.32, 160: 6.43, 320: 6.35}
-    # significant gain at 80, but iter320 is NOT significantly worse than it
-    got = classify_curve(avg, _paired_rows({(80, 0): "better"}))
-    assert got["shape_class"] != SHAPE_CLASSES[0]
-    # and a regression without a significant gain is not a U either
-    got2 = classify_curve(avg, _paired_rows({(320, 80): "worse"}))
-    assert got2["shape_class"] != SHAPE_CLASSES[0]
-
-
-def test_shape_rule_labels_monotonic_improvement_and_degradation():
-    up = {0: 6.6, 40: 6.4, 80: 6.2, 160: 6.0, 320: 5.8}
-    got = classify_curve(up, _paired_rows({(320, 0): "better"}))
-    assert got["shape_class"] == SHAPE_CLASSES[1]
-    down = {0: 5.8, 40: 6.0, 80: 6.2, 160: 6.4, 320: 6.6}
-    got = classify_curve(down, _paired_rows({(320, 0): "worse"}))
-    assert got["shape_class"] == SHAPE_CLASSES[2]
-    # a significant endpoint effect with a non-monotone path is NOT monotone
-    wiggly = {0: 6.6, 40: 6.9, 80: 6.2, 160: 6.4, 320: 5.8}
-    got = classify_curve(wiggly, _paired_rows({(320, 0): "better"}))
-    assert got["shape_class"] == SHAPE_CLASSES[4]
-
-
-def test_shape_rule_labels_flat_and_other():
-    flat = {0: 6.50, 40: 6.52, 80: 6.48, 160: 6.55, 320: 6.51}
-    got = classify_curve(flat, _paired_rows({}))
-    assert got["shape_class"] == SHAPE_CLASSES[3]
-    assert got["descriptive"]["range"] <= FLAT_RANGE
-    # same significance picture but a wide span is not "flat"
-    wide = {0: 6.10, 40: 6.60, 80: 6.20, 160: 6.55, 320: 6.30}
-    assert classify_curve(wide, _paired_rows({})
-                          )["shape_class"] == SHAPE_CLASSES[4]
-    # significant comparisons that match no shape fall through to "other"
-    got = classify_curve(flat, _paired_rows({(160, 40): "worse"}))
-    assert got["shape_class"] == SHAPE_CLASSES[4]
-    assert got["significant_comparisons"] == ["iter160 - iter40 worse"]
-
-
-def test_shape_rule_never_invents_a_class():
-    for avg, sig in [({0: 1, 40: 2, 80: 3, 160: 4, 320: 5}, {}),
-                     ({0: 5, 40: 4, 80: 3, 160: 2, 320: 1}, {(320, 0): "worse"}),
-                     ({0: 6, 40: 6, 80: 6, 160: 6, 320: 6}, {(80, 0): "worse"})]:
-        assert classify_curve(avg, _paired_rows(sig))["shape_class"] \
-            in SHAPE_CLASSES
-
-
-# --- aggregate math -----------------------------------------------------------
-def test_describe_and_cross_seed_summary_math():
-    d = describe([1.0, 2.0, 3.0, 6.0])
-    assert d["n"] == 4 and d["mean"] == pytest.approx(3.0)
-    assert d["median"] == pytest.approx(2.5)
-    assert d["min"] == 1.0 and d["max"] == 6.0
-    assert d["sd"] == pytest.approx(2.1602468994692865)   # sample sd, n-1
-
-    avg = {0: {0: 6.0, 40: 7.0, 80: 5.0, 160: 5.5, 320: 6.5},
-           1: {0: 6.0, 40: 6.0, 80: 6.0, 160: 6.0, 320: 6.0}}
-    s = cross_seed_summary(avg)
-    assert s["training_seeds"] == [0, 1]
-    row40 = next(r for r in s["per_budget"] if r["iteration"] == 40)
-    assert row40["cumulative_episodes"] == 640
-    assert row40["by_seed"] == {"0": 7.0, "1": 6.0}
-    assert row40["mean"] == pytest.approx(6.5)
-    assert row40["min"] == 6.0 and row40["max"] == 7.0
-    # individual seeds are always kept alongside the summary statistics
-    assert all("by_seed" in r for r in s["per_budget"])
-
-
-def test_exploratory_ci_is_labeled_and_widens_with_spread():
-    tight = exploratory_ci([0.10, 0.11, 0.09, 0.10])
-    wide = exploratory_ci([-0.40, 0.50, 0.10, -0.20])
-    assert tight["label"] == "exploratory" and "n=4" in tight["caveat"]
-    assert (wide["ci95"][1] - wide["ci95"][0]) > \
-        (tight["ci95"][1] - tight["ci95"][0])
-    assert exploratory_ci([0.1])["ci95"] is None
-
-
-def test_effect_across_seeds_counts_directions_and_significance():
-    paired = {0: _paired_rows({(80, 0): "better"},
-                              means={(80, 0): -0.229}),
-              1: _paired_rows({}, means={(80, 0): -0.05}),
-              2: _paired_rows({(80, 0): "worse"}, means={(80, 0): 0.30}),
-              3: _paired_rows({}, means={(80, 0): 0.02})}
-    e = effect_across_seeds(paired, 80, 0)
-    assert e["comparison"] == "iter80 - iter0"
-    assert [r["training_seed"] for r in e["per_seed"]] == [0, 1, 2, 3]
-    assert e["n_point_estimate_better"] == 2      # -0.229, -0.05
-    assert e["n_point_estimate_worse"] == 2
-    assert e["n_ci_excludes_zero_better"] == 1
-    assert e["n_ci_excludes_zero_worse"] == 1
-    assert e["n_ci_includes_zero"] == 2
-    assert e["across_seed_effect"]["label"] == "exploratory"
-
-
-# --- drift / category helpers -------------------------------------------------
-def test_freeze_stats_counts_a_new_action_the_expert_never_takes():
-    row = {"vs_expert": {
-        "n_states": 100, "n_disagreements": 20, "overall_agreement": 0.8,
-        "confusion_matrix": {"end": {"end": 50, "freeze": 12},
-                             "roll": {"roll": 30, "freeze": 3},
-                             "freeze": {}},
-        "reference_category_counts": {"end": 62, "roll": 33, "freeze": 0},
-        "disagreement_share_by_category": {"end": 0.2},
-        "contribution_to_total_drift": {"end": 1.0}}}
-    f = freeze_stats(row)
-    assert f["freeze_selections"] == 15
-    assert f["freeze_rate"] == pytest.approx(0.15)
-    assert f["freeze_appears"] is True
-    assert f["expert_freeze_states"] == 0
-    row["vs_expert"]["confusion_matrix"] = {"end": {"end": 100}}
-    assert freeze_stats(row)["freeze_appears"] is False
-    assert category_replication(row)["overall_agreement"] == 0.8
-
-
-def test_spearman_and_drift_vs_performance_are_descriptive():
-    assert spearman([1, 2, 3, 4], [1, 2, 3, 4]) == pytest.approx(1.0)
-    assert spearman([1, 2, 3, 4], [4, 3, 2, 1]) == pytest.approx(-1.0)
-    assert spearman([1, 2], [1, 2]) is None
-    curve = _curve(1, [6.6, 6.7, 6.3, 6.4, 6.9],
-                   expert=[0.85, 0.78, 0.82, 0.74, 0.42])
-    got = drift_vs_performance(curve)
-    assert got["best_iteration"] == 80
-    assert got["best_expert_agreement"] == pytest.approx(0.82)
-    assert got["later_mean_expert_agreement"] == pytest.approx(0.58)
-    assert got["best_has_higher_expert_agreement_than_later"] is True
-    assert got["best_has_lower_kl_than_later"] is True
-    assert "no causal claim" in got["note"]
-
-
-# --- plots read result data, never typed-in numbers ---------------------------
-def test_build_plot_data_mirrors_its_inputs():
-    curves = {0: _curve(0, [6.554, 6.761, 6.325, 6.435, 6.606]),
-              1: _curve(1, [6.1, 6.2, 6.3, 6.4, 6.5])}
-    cats = {s: {"disagreement_share_by_category":
-                {"roll": 0.1 * s, "end": 0.2, "freeze": None},
-                "freeze_selections": 7 * s} for s in (0, 1)}
-    blocks = {s: {n: {"entropy": 0.5 + s} for n in
-                  ("iters_1_40", "iters_41_160", "iters_161_320")}
-              for s in (0, 1)}
-    d = build_plot_data(curves, cats, blocks)
-    assert d["training_seeds"] == [0, 1]
-    assert d["episodes"] == [0, 640, 1280, 2560, 5120]
-    assert d["greedy_avg"][0] == [6.554, 6.761, 6.325, 6.435, 6.606]
-    assert d["greedy_mean_across_seeds"][0] == pytest.approx((6.554 + 6.1) / 2)
-    assert d["category_disagreement_iter320"][1][d["categories"].index("roll")] \
-        == pytest.approx(0.1)
-    # a category the confusion never saw becomes 0.0, not a crash
-    assert d["category_disagreement_iter320"][0][
-        d["categories"].index("freeze")] == 0.0
-    assert d["freeze_selections_iter320"] == {0: 0, 1: 7}
-    # changing the inputs changes the plotted series
-    curves[1] = _curve(1, [1.0, 2.0, 3.0, 4.0, 5.0])
-    assert build_plot_data(curves, cats, blocks)["greedy_avg"][1] == \
-        [1.0, 2.0, 3.0, 4.0, 5.0]
-
-
-def test_plot_renderer_draws_only_supplied_series(tmp_path):
-    mod = _report_module()
-    curves = {0: _curve(0, [6.5, 6.7, 6.3, 6.4, 6.6]),
-              1: _curve(1, [6.0, 6.1, 6.2, 6.3, 6.4])}
-    cats = {s: {"disagreement_share_by_category": {"roll": 0.3},
-                "freeze_selections": s} for s in (0, 1)}
-    blocks = {s: {n: {"rollout_avg_placement": 5.5, "entropy": 0.5,
-                      "approx_kl": 0.01, "clip_frac": 0.06,
-                      "value_explained_variance": 0.6, "adv_mean_abs": 0.2}
-                  for n in ("iters_1_40", "iters_41_160", "iters_161_320")}
-              for s in (0, 1)}
-    mod._plots(build_plot_data(curves, cats, blocks), out=str(tmp_path))
-    made = sorted(p for p in os.listdir(tmp_path) if p.endswith(".png"))
-    assert [p[0] for p in made] == list("ABCDEFG")
-    assert all(os.path.getsize(tmp_path / p) > 0 for p in made)
-
-
-def test_plot_code_contains_no_measured_values():
-    """Every number a figure draws must come from the result JSON. Guard
-    against a value being typed into the plotting code by checking that no
-    numeric literal in the report script equals a measured DEV placement."""
-    path = os.path.join(REPO, "scripts", "ppo_multiseed_report.py")
-    with open(path, encoding="utf-8") as f:
-        literals = {float(m) for m in
-                    re.findall(r"(?<![\w.])\d+\.\d+", f.read())}
-    measured = set()
-    for root in [EXP2] + [os.path.join(MULTISEED, f"seed_{s}")
-                          for s in NEW_SEEDS]:
-        for it in PRIMARY_ITERS:
-            p = os.path.join(root, "dev", f"iter{it:03d}_vs_greedy.json")
-            if os.path.isfile(p):
-                with open(p, encoding="utf-8") as f:
-                    m = json.load(f)["metrics"]
-                measured |= {round(m["avg_placement"], 3),
-                             round(m["std_placement"], 3),
-                             m["top4_rate"], m["win_rate"]}
-    assert not (literals & measured), sorted(literals & measured)
+def test_seed_report_refuses_to_rebuild_seed_0():
+    from scripts.ppo_multiseed_seed_report import assemble_seed
+    with pytest.raises(ValueError, match="seed 0"):
+        assemble_seed(0)
