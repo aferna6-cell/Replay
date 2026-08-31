@@ -1,0 +1,29 @@
+seed 1: iter0 parameter_sha256 = 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b
+  matches frozen warm start: True
+  eval iter   0  greedy  1000 games  seeds 10550000-10550999
+  eval iter   0  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter  40  greedy  1000 games  seeds 10550000-10550999
+  eval iter  40  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter  80  greedy  1000 games  seeds 10550000-10550999
+  eval iter  80  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter 160  greedy  1000 games  seeds 10550000-10550999
+  eval iter 160  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter 320  greedy  1000 games  seeds 10550000-10550999
+Traceback (most recent call last):
+  File "/workspace/scripts/ppo_multiseed_eval.py", line 117, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/scripts/ppo_multiseed_eval.py", line 112, in main
+    evaluate_seed(a.seed, a.dir, quiet=a.quiet)
+  File "/workspace/scripts/ppo_multiseed_eval.py", line 64, in evaluate_seed
+    res = run_dev_benchmark(agent, field, games, DEV_EVAL_BASE,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ml/dev_benchmark.py", line 76, in run_dev_benchmark
+    return _run_games(agent, field, games, base_seed, progress,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ml/benchmark.py", line 281, in _run_games
+    g = run_game(agent, seats, eval_game_seed(base_seed, i))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ml/benchmark.py", line 190, in run_game
+    raise BenchmarkIntegrityError(
+ml.benchmark.BenchmarkIntegrityError: episode did not terminate: agent 'iter320', seed 10550123, 400 decisions (cap MAX_DECISIONS=400) — refusing to score an unfinished game

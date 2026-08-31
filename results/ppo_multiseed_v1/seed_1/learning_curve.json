@@ -1,0 +1,363 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "evaluation_split": "dev",
+  "training_seed": 1,
+  "episodes_per_iteration": 16,
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "greedy_games": 1000,
+  "mixed_games": 500,
+  "dev_seed_range_greedy": [
+    10550000,
+    10550999
+  ],
+  "dev_seed_range_mixed": [
+    10550000,
+    10550499
+  ],
+  "unscoreable_iterations": [
+    320
+  ],
+  "curve": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "training_seed": 1,
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart": 0.0,
+      "corpus_entropy": 0.35243120789527893,
+      "value_mean": -0.09246109426021576,
+      "value_std": 0.535218358039856,
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+      "checkpoint_sha256": "50cdf96be3680fa07aa3806f10f07bac16a3021353cbe7f386c3db0c66ee7fce",
+      "expert_disagreement_by_category": {
+        "buy": 0.7399756986634265,
+        "play": 0.008,
+        "sell": 1.0,
+        "roll": 0.0022189349112426036,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.000975609756097561
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.8864628820960698,
+        "play": 0.008733624454148471,
+        "sell": 0.09898107714701601,
+        "roll": 0.004366812227074236,
+        "level": 0.0,
+        "freeze": 0.0,
+        "end": 0.001455604075691412
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.554,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.438,
+        "high": 6.675
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.921219404440836,
+      "greedy_top4": 0.149,
+      "greedy_win": 0.035,
+      "greedy_placement_counts": {
+        "1": 35,
+        "2": 26,
+        "3": 38,
+        "4": 50,
+        "5": 86,
+        "6": 105,
+        "7": 187,
+        "8": 473
+      },
+      "mixed_avg": 4.37,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.236,
+        "high": 4.496
+      },
+      "mixed_top4": 0.452,
+      "mixed_win": 0.058
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "training_seed": 1,
+      "expert_agreement": 0.7108108401298523,
+      "warmstart_agreement": 0.7409909963607788,
+      "kl_from_warmstart": 0.4415561258792877,
+      "corpus_entropy": 0.6497909426689148,
+      "value_mean": 0.07502727955579758,
+      "value_std": 0.5079826712608337,
+      "parameter_sha256": "cd4f1c40942c24f04c8623e854bdb9fa54c991a9e16b164db1173a178c2a3ee8",
+      "checkpoint_sha256": "58a27344620ebe740fafcb0a9b6a1f613e2e5a9b2912c69256adc924b2b13264",
+      "expert_disagreement_by_category": {
+        "buy": 0.7630619684082625,
+        "play": 0.021333333333333333,
+        "sell": 1.0,
+        "roll": 0.28476331360946744,
+        "level": 0.43364928909952605,
+        "freeze": null,
+        "end": 0.003902439024390244
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.48909657320872274,
+        "play": 0.012461059190031152,
+        "sell": 0.0529595015576324,
+        "roll": 0.2998442367601246,
+        "level": 0.1425233644859813,
+        "freeze": 0.0,
+        "end": 0.003115264797507788
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.791,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.689,
+        "high": 6.892
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.6141000588563275,
+      "greedy_top4": 0.101,
+      "greedy_win": 0.014,
+      "greedy_placement_counts": {
+        "1": 14,
+        "2": 18,
+        "3": 27,
+        "4": 42,
+        "5": 72,
+        "6": 127,
+        "7": 230,
+        "8": 470
+      },
+      "mixed_avg": 4.606,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.506,
+        "high": 4.708
+      },
+      "mixed_top4": 0.402,
+      "mixed_win": 0.014
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "training_seed": 1,
+      "expert_agreement": 0.5430180430412292,
+      "warmstart_agreement": 0.6468468308448792,
+      "kl_from_warmstart": 1.2074921131134033,
+      "corpus_entropy": 0.8850913047790527,
+      "value_mean": 0.0461510606110096,
+      "value_std": 0.46282100677490234,
+      "parameter_sha256": "99b6216a4b14e86835f842a8b6e9ac8c629a4637bc49ee9fddecb8eecfb88b33",
+      "checkpoint_sha256": "0703977380a0d93ac1e33adb8ce4fca5ad279a7b63849b585e25a630631e27e0",
+      "expert_disagreement_by_category": {
+        "buy": 0.741190765492102,
+        "play": 0.009333333333333334,
+        "sell": 1.0,
+        "roll": 0.7374260355029586,
+        "level": 0.6824644549763034,
+        "freeze": null,
+        "end": 0.0575609756097561
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.30064070970921636,
+        "play": 0.0034499753573188764,
+        "sell": 0.03351404632824051,
+        "roll": 0.4913750616067028,
+        "level": 0.14194184327254805,
+        "freeze": 0.0,
+        "end": 0.029078363725973385
+      },
+      "dev_status": "ok",
+      "greedy_avg": 7.088,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 7.01,
+        "high": 7.172
+      },
+      "greedy_median": 8.0,
+      "greedy_std": 1.279162225833768,
+      "greedy_top4": 0.047,
+      "greedy_win": 0.008,
+      "greedy_placement_counts": {
+        "1": 8,
+        "2": 5,
+        "3": 13,
+        "4": 21,
+        "5": 49,
+        "6": 132,
+        "7": 266,
+        "8": 506
+      },
+      "mixed_avg": 4.866,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.768,
+        "high": 4.964
+      },
+      "mixed_top4": 0.298,
+      "mixed_win": 0.012
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "training_seed": 1,
+      "expert_agreement": 0.4328828752040863,
+      "warmstart_agreement": 0.3770270347595215,
+      "kl_from_warmstart": 2.3504443168640137,
+      "corpus_entropy": 0.9918056726455688,
+      "value_mean": -0.003424834692850709,
+      "value_std": 0.41189610958099365,
+      "parameter_sha256": "ed69d519cf6095a689cc0ab962e9711b01cb203490bc5827d18f5ac65fbc2df8",
+      "checkpoint_sha256": "d429a916102779484b19dbbf0df3741fee51a5a5219c24d04d4079a83ebc8ccc",
+      "expert_disagreement_by_category": {
+        "buy": 0.675577156743621,
+        "play": 0.02666666666666667,
+        "sell": 1.0,
+        "roll": 1.0,
+        "level": 0.6611374407582938,
+        "freeze": null,
+        "end": 0.2370731707317073
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.22081016679904686,
+        "play": 0.007942811755361398,
+        "sell": 0.027005559968228753,
+        "roll": 0.5369340746624305,
+        "level": 0.1108022239872915,
+        "freeze": 0.0,
+        "end": 0.09650516282764099
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.861,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.771,
+        "high": 6.945
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.4441880071514235,
+      "greedy_top4": 0.083,
+      "greedy_win": 0.006,
+      "greedy_placement_counts": {
+        "1": 6,
+        "2": 13,
+        "3": 12,
+        "4": 52,
+        "5": 76,
+        "6": 141,
+        "7": 241,
+        "8": 459
+      },
+      "mixed_avg": 4.67,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.566,
+        "high": 4.766
+      },
+      "mixed_top4": 0.382,
+      "mixed_win": 0.008
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "training_seed": 1,
+      "expert_agreement": 0.41981983184814453,
+      "warmstart_agreement": 0.36418917775154114,
+      "kl_from_warmstart": 2.020977258682251,
+      "corpus_entropy": 1.073962926864624,
+      "value_mean": 0.158011794090271,
+      "value_std": 0.3680182993412018,
+      "parameter_sha256": "12d2bcaecdf212b0ba76f61a8cc1d67bd3b0f7293d6bdfeb05c7934a9c8ebac2",
+      "checkpoint_sha256": "4c82dd27b399d2480d3595d466a7705ea48cc462d0c462e8178423c3fbb8062d",
+      "expert_disagreement_by_category": {
+        "buy": 0.6767922235722965,
+        "play": 0.224,
+        "sell": 1.0,
+        "roll": 1.0,
+        "level": 0.24881516587677724,
+        "freeze": null,
+        "end": 0.3180487804878049
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.21622670807453417,
+        "play": 0.06521739130434782,
+        "sell": 0.026397515527950312,
+        "roll": 0.5248447204968945,
+        "level": 0.04076086956521739,
+        "freeze": 0.0,
+        "end": 0.1265527950310559
+      },
+      "dev_status": "protocol_failure",
+      "dev_status_detail": "5/1000 DEV games non-terminating within 400 decisions \u2014 the frozen protocol refuses to score this checkpoint",
+      "greedy_avg": null,
+      "greedy_ci95": null,
+      "greedy_median": null,
+      "greedy_std": null,
+      "greedy_top4": null,
+      "greedy_win": null,
+      "greedy_placement_counts": null,
+      "mixed_avg": null,
+      "mixed_ci95": null,
+      "mixed_top4": null,
+      "mixed_win": null
+    }
+  ],
+  "paired_keys": [
+    "iter40-iter0",
+    "iter80-iter0",
+    "iter160-iter0",
+    "iter320-iter0",
+    "iter80-iter40",
+    "iter160-iter40",
+    "iter320-iter40",
+    "iter160-iter80",
+    "iter320-iter80"
+  ],
+  "ushape": {
+    "label": "other (iter320 unscoreable \u2014 fails the frozen DEV protocol)",
+    "extension_label": "monotonic degradation",
+    "unscoreable_iterations": [
+      320
+    ],
+    "mid_best_iteration": 160,
+    "mid_best_episodes": 2560,
+    "mid_gain_mean": false,
+    "late_regression_mean": true,
+    "late_regression_kind": "protocol failure (non-terminating deterministic play) \u2014 strictly worse than any scoreable checkpoint",
+    "significant_mid_gain": false,
+    "significant_late_regression": true,
+    "monotonic_improvement_sequence": false,
+    "monotonic_degradation_sequence": true,
+    "vs_iter0_all_cis_include_zero": false,
+    "placements": {
+      "0": 6.554,
+      "40": 6.791,
+      "80": 7.088,
+      "160": 6.861
+    },
+    "rule": "strict rule needs five scoreable means; iteration 320 is unscoreable, so label = other(...) and extension_label applies the documented ordering extension (unscoreable == strictly worst)"
+  }
+}

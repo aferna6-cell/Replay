@@ -1,0 +1,151 @@
+{
+  "training_seed": 1,
+  "method": "deterministic paired percentile bootstrap, 10000 resamples, seed 0",
+  "note": "positive difference = first checkpoint places worse (lower placement is better)",
+  "pairs": {
+    "iter40-iter0": {
+      "a": "iter040",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": 0.237,
+      "ci95": [
+        0.088,
+        0.387
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter000 places better",
+      "status": "ok",
+      "iteration": 40,
+      "reference_iteration": 0,
+      "ci_excludes_zero": true,
+      "reading": "first worse (CI excludes 0)"
+    },
+    "iter80-iter0": {
+      "a": "iter080",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": 0.534,
+      "ci95": [
+        0.436,
+        0.633
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter000 places better",
+      "status": "ok",
+      "iteration": 80,
+      "reference_iteration": 0,
+      "ci_excludes_zero": true,
+      "reading": "first worse (CI excludes 0)"
+    },
+    "iter160-iter0": {
+      "a": "iter160",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": 0.307,
+      "ci95": [
+        0.16,
+        0.453
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter000 places better",
+      "status": "ok",
+      "iteration": 160,
+      "reference_iteration": 0,
+      "ci_excludes_zero": true,
+      "reading": "first worse (CI excludes 0)"
+    },
+    "iter320-iter0": {
+      "iteration": 320,
+      "reference_iteration": 0,
+      "status": "unscoreable",
+      "unscoreable_iterations": [
+        320
+      ],
+      "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS",
+      "reading": "not computable \u2014 a side of the pair has no defined DEV score under the frozen protocol"
+    },
+    "iter80-iter40": {
+      "a": "iter080",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": 0.297,
+      "ci95": [
+        0.174,
+        0.418
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter040 places better",
+      "status": "ok",
+      "iteration": 80,
+      "reference_iteration": 40,
+      "ci_excludes_zero": true,
+      "reading": "first worse (CI excludes 0)"
+    },
+    "iter160-iter40": {
+      "a": "iter160",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": 0.07,
+      "ci95": [
+        -0.058,
+        0.196
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 160,
+      "reference_iteration": 40,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter320-iter40": {
+      "iteration": 320,
+      "reference_iteration": 40,
+      "status": "unscoreable",
+      "unscoreable_iterations": [
+        320
+      ],
+      "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS",
+      "reading": "not computable \u2014 a side of the pair has no defined DEV score under the frozen protocol"
+    },
+    "iter160-iter80": {
+      "a": "iter160",
+      "b": "iter080",
+      "n": 1000,
+      "mean_diff": -0.227,
+      "ci95": [
+        -0.34,
+        -0.11
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter160 places better",
+      "status": "ok",
+      "iteration": 160,
+      "reference_iteration": 80,
+      "ci_excludes_zero": true,
+      "reading": "first better (CI excludes 0)"
+    },
+    "iter320-iter80": {
+      "iteration": 320,
+      "reference_iteration": 80,
+      "status": "unscoreable",
+      "unscoreable_iterations": [
+        320
+      ],
+      "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS",
+      "reading": "not computable \u2014 a side of the pair has no defined DEV score under the frozen protocol"
+    }
+  }
+}

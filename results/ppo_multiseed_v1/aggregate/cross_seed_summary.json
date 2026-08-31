@@ -1,0 +1,125 @@
+{
+  "replication_unit": "training seed (n=4); not 4000 independent games",
+  "by_iteration": {
+    "0": {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "per_seed": {
+        "0": 6.554,
+        "1": 6.554,
+        "2": 6.554,
+        "3": 6.554
+      },
+      "unscoreable_seeds": {},
+      "n": 4,
+      "mean": 6.554,
+      "median": 6.554,
+      "min": 6.554,
+      "max": 6.554,
+      "std": 0.0,
+      "values": [
+        6.554,
+        6.554,
+        6.554,
+        6.554
+      ],
+      "note": "n=4 training seeds; descriptive only, not a population CI"
+    },
+    "40": {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "per_seed": {
+        "0": 6.761,
+        "1": 6.791,
+        "2": 6.56,
+        "3": 6.877
+      },
+      "unscoreable_seeds": {},
+      "n": 4,
+      "mean": 6.74725,
+      "median": 6.776,
+      "min": 6.56,
+      "max": 6.877,
+      "std": 0.13416501034174314,
+      "values": [
+        6.761,
+        6.791,
+        6.56,
+        6.877
+      ],
+      "note": "n=4 training seeds; descriptive only, not a population CI"
+    },
+    "80": {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "per_seed": {
+        "0": 6.325,
+        "1": 7.088,
+        "2": 6.569,
+        "3": 7.074
+      },
+      "unscoreable_seeds": {},
+      "n": 4,
+      "mean": 6.764,
+      "median": 6.8215,
+      "min": 6.325,
+      "max": 7.088,
+      "std": 0.3793951326343903,
+      "values": [
+        6.325,
+        7.088,
+        6.569,
+        7.074
+      ],
+      "note": "n=4 training seeds; descriptive only, not a population CI"
+    },
+    "160": {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "per_seed": {
+        "0": 6.435,
+        "1": 6.861,
+        "2": 6.523,
+        "3": 6.869
+      },
+      "unscoreable_seeds": {},
+      "n": 4,
+      "mean": 6.672,
+      "median": 6.692,
+      "min": 6.435,
+      "max": 6.869,
+      "std": 0.22575798250929402,
+      "values": [
+        6.435,
+        6.861,
+        6.523,
+        6.869
+      ],
+      "note": "n=4 training seeds; descriptive only, not a population CI"
+    },
+    "320": {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "per_seed": {
+        "0": 6.606,
+        "2": 6.571,
+        "3": 6.691
+      },
+      "unscoreable_seeds": {
+        "1": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS"
+      },
+      "n": 3,
+      "mean": 6.6226666666666665,
+      "median": 6.606,
+      "min": 6.571,
+      "max": 6.691,
+      "std": 0.0617116952719121,
+      "values": [
+        6.606,
+        6.571,
+        6.691
+      ],
+      "note": "n=4 training seeds; descriptive only, not a population CI"
+    }
+  }
+}

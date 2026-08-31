@@ -53,12 +53,26 @@ def plot_from_json(bundles, analysis, out_dir: str) -> list:
     def _curve(bundle, it):
         return next(c for c in bundle["curve"]["curve"] if c["iteration"] == it)
 
+    def plot_scoreable(ax, s, ys, **kw):
+        """Plot only the scoreable points (unscoreable checkpoints have no
+        DEV placement; the gap is annotated instead of interpolated)."""
+        pts = [(e, y) for e, y in zip(eps, ys) if y is not None]
+        ax.plot([e for e, _ in pts], [y for _, y in pts], color=colors[s],
+                marker=markers[s], **kw)
+        for e, y in zip(eps, ys):
+            if y is None:
+                ax.annotate(f"seed {s}: unscoreable", xy=(e, pts[-1][1]),
+                            fontsize=7, color=colors[s],
+                            xytext=(e * 0.82, pts[-1][1]),
+                            arrowprops={"arrowstyle": "->",
+                                        "color": colors[s], "alpha": 0.6})
+
     # A. Multi-seed DEV learning curves
     fig, ax = plt.subplots(figsize=(8.0, 4.6))
     greedy = series("greedy_avg")
     for s, ys in greedy.items():
-        ax.plot(eps, ys, color=colors[s], marker=markers[s],
-                linewidth=1.8, markersize=6, label=f"seed {s}")
+        plot_scoreable(ax, s, ys, linewidth=1.8, markersize=6,
+                       label=f"seed {s}")
     ax.invert_yaxis()
     ax.set_xlabel("cumulative PPO training episodes")
     ax.set_ylabel("DEV avg placement (lower is better)")
@@ -74,12 +88,12 @@ def plot_from_json(bundles, analysis, out_dir: str) -> list:
     # B. Mean across seeds + individual points/lines
     fig, ax = plt.subplots(figsize=(8.0, 4.6))
     for s, ys in greedy.items():
-        ax.plot(eps, ys, color=colors[s], marker=markers[s],
-                linewidth=0.9, alpha=0.65, markersize=5, label=f"seed {s}")
+        plot_scoreable(ax, s, ys, linewidth=0.9, alpha=0.65, markersize=5,
+                       label=f"seed {s}")
     means = [analysis["cross_seed_summary"]["by_iteration"][str(it)]["mean"]
              for it in PRIMARY_ITERS]
     ax.plot(eps, means, color="#111", linewidth=2.4, marker="o",
-            markersize=7, label="mean across seeds")
+            markersize=7, label="mean across scoreable seeds")
     ax.invert_yaxis()
     ax.set_xlabel("cumulative PPO training episodes")
     ax.set_ylabel("DEV avg placement (lower is better)")
@@ -189,7 +203,9 @@ def main(argv=None) -> int:
     print(hdr)
     for it in PRIMARY_ITERS:
         row = analysis["cross_seed_summary"]["by_iteration"][str(it)]
-        cells = "".join(f"{row['per_seed'][s]:8.3f}" for s in bundles)
+        cells = "".join(
+            (f"{row['per_seed'][s]:8.3f}" if s in row["per_seed"]
+             else f"{'UNSCORD':>8}") for s in bundles)
         std = row["std"] if row["std"] is not None else float("nan")
         print(f"{it:>5} {episodes(it):>6}{cells}{row['mean']:8.3f}{std:7.3f}")
 
@@ -199,8 +215,13 @@ def main(argv=None) -> int:
               f"[{r['ci95'][0]:+.3f}, {r['ci95'][1]:+.3f}]  {r['direction']}")
     print("\nQuestion B  iter320 − iter80")
     for r in analysis["question_b_late_regression"]["per_seed"]:
-        print(f"  seed {r['training_seed']}: {r['mean_diff']:+.3f}  "
-              f"[{r['ci95'][0]:+.3f}, {r['ci95'][1]:+.3f}]  {r['direction']}")
+        if r["mean_diff"] is None:
+            print(f"  seed {r['training_seed']}: {r['direction']} — "
+                  f"{r['reason']}")
+        else:
+            print(f"  seed {r['training_seed']}: {r['mean_diff']:+.3f}  "
+                  f"[{r['ci95'][0]:+.3f}, {r['ci95'][1]:+.3f}]  "
+                  f"{r['direction']}")
     print("\nU-shape:", analysis["ushape"]["statement"])
     for s, sh in analysis["ushape"]["per_seed"].items():
         print(f"  seed {s}: {sh['label']}")

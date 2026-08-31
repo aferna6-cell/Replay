@@ -1,0 +1,379 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "evaluation_split": "dev",
+  "training_seed": 3,
+  "episodes_per_iteration": 16,
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "greedy_games": 1000,
+  "mixed_games": 500,
+  "dev_seed_range_greedy": [
+    10550000,
+    10550999
+  ],
+  "dev_seed_range_mixed": [
+    10550000,
+    10550499
+  ],
+  "unscoreable_iterations": [],
+  "curve": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "training_seed": 3,
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart": 0.0,
+      "corpus_entropy": 0.35243120789527893,
+      "value_mean": -0.09246109426021576,
+      "value_std": 0.535218358039856,
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+      "checkpoint_sha256": "1c3bbb901169f6d949426240347d6e0a89192bb920227cf01befa15813fa2588",
+      "expert_disagreement_by_category": {
+        "buy": 0.7399756986634265,
+        "play": 0.008,
+        "sell": 1.0,
+        "roll": 0.0022189349112426036,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.000975609756097561
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.8864628820960698,
+        "play": 0.008733624454148471,
+        "sell": 0.09898107714701601,
+        "roll": 0.004366812227074236,
+        "level": 0.0,
+        "freeze": 0.0,
+        "end": 0.001455604075691412
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.554,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.438,
+        "high": 6.675
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.921219404440836,
+      "greedy_top4": 0.149,
+      "greedy_win": 0.035,
+      "greedy_placement_counts": {
+        "1": 35,
+        "2": 26,
+        "3": 38,
+        "4": 50,
+        "5": 86,
+        "6": 105,
+        "7": 187,
+        "8": 473
+      },
+      "mixed_avg": 4.37,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.236,
+        "high": 4.496
+      },
+      "mixed_top4": 0.452,
+      "mixed_win": 0.058
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "training_seed": 3,
+      "expert_agreement": 0.6862612366676331,
+      "warmstart_agreement": 0.6481981873512268,
+      "kl_from_warmstart": 0.5421631932258606,
+      "corpus_entropy": 0.6779001951217651,
+      "value_mean": 0.004053997341543436,
+      "value_std": 0.433113157749176,
+      "parameter_sha256": "8636a229731f3e19ecc1ad7b8783880444f0204a1d14417096bbbc451738e2a8",
+      "checkpoint_sha256": "21c8bff2001ef3065db8a7b20382f8e2c8c146ed8f2f8aeeb7a2a7ccd1d000f4",
+      "expert_disagreement_by_category": {
+        "buy": 0.7181044957472661,
+        "play": 0.008,
+        "sell": 1.0,
+        "roll": 0.27514792899408286,
+        "level": 0.6990521327014217,
+        "freeze": null,
+        "end": 0.05951219512195122
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.42426417803302224,
+        "play": 0.004307250538406317,
+        "sell": 0.048815506101938265,
+        "roll": 0.2670495333811917,
+        "level": 0.21177315147164394,
+        "freeze": 0.0,
+        "end": 0.04379038047379756
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.877,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.789,
+        "high": 6.966
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.4056567859900937,
+      "greedy_top4": 0.078,
+      "greedy_win": 0.002,
+      "greedy_placement_counts": {
+        "1": 2,
+        "2": 9,
+        "3": 27,
+        "4": 40,
+        "5": 68,
+        "6": 166,
+        "7": 224,
+        "8": 464
+      },
+      "mixed_avg": 4.776,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.68,
+        "high": 4.872
+      },
+      "mixed_top4": 0.334,
+      "mixed_win": 0.004
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "training_seed": 3,
+      "expert_agreement": 0.6247747540473938,
+      "warmstart_agreement": 0.5864864587783813,
+      "kl_from_warmstart": 0.727647602558136,
+      "corpus_entropy": 1.0242594480514526,
+      "value_mean": 0.07566913217306137,
+      "value_std": 0.5551416277885437,
+      "parameter_sha256": "377ead4ab0799233bc838047deeba1d0deb0c52206bff980af49f356e5872038",
+      "checkpoint_sha256": "ed08709006ced203d3342494caf70b5dd658d98f4389662623e664a4f690b902",
+      "expert_disagreement_by_category": {
+        "buy": 0.7703523693803159,
+        "play": 0.11733333333333333,
+        "sell": 0.9558823529411765,
+        "roll": 0.3291420118343195,
+        "level": 0.590047393364929,
+        "freeze": null,
+        "end": 0.18048780487804877
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.38055222088835533,
+        "play": 0.05282112845138055,
+        "sell": 0.039015606242496996,
+        "roll": 0.26710684273709484,
+        "level": 0.14945978391356543,
+        "freeze": 0.0,
+        "end": 0.11104441776710684
+      },
+      "dev_status": "ok",
+      "greedy_avg": 7.074,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.991,
+        "high": 7.157
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.335860771188375,
+      "greedy_top4": 0.043,
+      "greedy_win": 0.017,
+      "greedy_placement_counts": {
+        "1": 17,
+        "2": 4,
+        "3": 7,
+        "4": 15,
+        "5": 54,
+        "6": 119,
+        "7": 288,
+        "8": 496
+      },
+      "mixed_avg": 4.728,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.632,
+        "high": 4.828
+      },
+      "mixed_top4": 0.31,
+      "mixed_win": 0.024
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "training_seed": 3,
+      "expert_agreement": 0.42972972989082336,
+      "warmstart_agreement": 0.3889639675617218,
+      "kl_from_warmstart": 1.9046919345855713,
+      "corpus_entropy": 0.9499027729034424,
+      "value_mean": 0.031953953206539154,
+      "value_std": 0.4144309461116791,
+      "parameter_sha256": "d40547a916e6460377f5793029418f0a21870fe7b241480d456445a96ae8cb88",
+      "checkpoint_sha256": "d3291536faa830dbbbc63ca3968a8990116b8b4b277882493ff21f37b5d9f6eb",
+      "expert_disagreement_by_category": {
+        "buy": 0.7703523693803159,
+        "play": 0.0,
+        "sell": 1.0,
+        "roll": 1.0,
+        "level": 0.44549763033175355,
+        "freeze": null,
+        "end": 0.28292682926829266
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.25039494470774093,
+        "play": 0.0,
+        "sell": 0.026856240126382307,
+        "roll": 0.5339652448657188,
+        "level": 0.07424960505529225,
+        "freeze": 0.0,
+        "end": 0.11453396524486571
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.869,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.779,
+        "high": 6.958
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.3870252340891278,
+      "greedy_top4": 0.064,
+      "greedy_win": 0.011,
+      "greedy_placement_counts": {
+        "1": 11,
+        "2": 3,
+        "3": 12,
+        "4": 38,
+        "5": 79,
+        "6": 175,
+        "7": 237,
+        "8": 445
+      },
+      "mixed_avg": 4.68,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.592,
+        "high": 4.766
+      },
+      "mixed_top4": 0.378,
+      "mixed_win": 0.008
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "training_seed": 3,
+      "expert_agreement": 0.48220720887184143,
+      "warmstart_agreement": 0.44549548625946045,
+      "kl_from_warmstart": 1.3558900356292725,
+      "corpus_entropy": 0.9735341668128967,
+      "value_mean": 0.23908062279224396,
+      "value_std": 0.45849183201789856,
+      "parameter_sha256": "eeab8283d15bbf5238f6a3a811903618d3c27ec4b5935d082a71038300db3d96",
+      "checkpoint_sha256": "3e2594b8b481f803a0e32f7545b0fbc926f2455ac8d823bdda7c8476a2835d8a",
+      "expert_disagreement_by_category": {
+        "buy": 0.7837181044957473,
+        "play": 0.0026666666666666666,
+        "sell": 1.0,
+        "roll": 0.9911242603550295,
+        "level": 0.1990521327014218,
+        "freeze": null,
+        "end": 0.15609756097560976
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.2805567638103523,
+        "play": 0.0008699434536755111,
+        "sell": 0.02957807742496738,
+        "roll": 0.5828621139625925,
+        "level": 0.03653762505437146,
+        "freeze": 0.0,
+        "end": 0.06959547629404089
+      },
+      "dev_status": "ok",
+      "greedy_avg": 6.691,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.575,
+        "high": 6.799
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.8323534047775827,
+      "greedy_top4": 0.123,
+      "greedy_win": 0.034,
+      "greedy_placement_counts": {
+        "1": 34,
+        "2": 29,
+        "3": 19,
+        "4": 41,
+        "5": 54,
+        "6": 134,
+        "7": 208,
+        "8": 481
+      },
+      "mixed_avg": 4.448,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.326,
+        "high": 4.57
+      },
+      "mixed_top4": 0.426,
+      "mixed_win": 0.054
+    }
+  ],
+  "paired_keys": [
+    "iter40-iter0",
+    "iter80-iter0",
+    "iter160-iter0",
+    "iter320-iter0",
+    "iter80-iter40",
+    "iter160-iter40",
+    "iter320-iter40",
+    "iter160-iter80",
+    "iter320-iter80"
+  ],
+  "ushape": {
+    "label": "other",
+    "extension_label": "other",
+    "unscoreable_iterations": [],
+    "mid_best_iteration": 160,
+    "mid_best_episodes": 2560,
+    "mid_gain_mean": false,
+    "late_regression_mean": false,
+    "significant_mid_gain": false,
+    "significant_late_regression": false,
+    "monotonic_improvement_sequence": false,
+    "monotonic_degradation_sequence": false,
+    "vs_iter0_all_cis_include_zero": false,
+    "placements": {
+      "0": 6.554,
+      "40": 6.877,
+      "80": 7.074,
+      "160": 6.869,
+      "320": 6.691
+    },
+    "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other."
+  }
+}

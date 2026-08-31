@@ -1,0 +1,178 @@
+{
+  "training_seed": 2,
+  "method": "deterministic paired percentile bootstrap, 10000 resamples, seed 0",
+  "note": "positive difference = first checkpoint places worse (lower placement is better)",
+  "pairs": {
+    "iter40-iter0": {
+      "a": "iter040",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": 0.006,
+      "ci95": [
+        -0.116,
+        0.133
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 40,
+      "reference_iteration": 0,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter80-iter0": {
+      "a": "iter080",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": 0.015,
+      "ci95": [
+        -0.107,
+        0.141
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 80,
+      "reference_iteration": 0,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter160-iter0": {
+      "a": "iter160",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": -0.031,
+      "ci95": [
+        -0.186,
+        0.126
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 160,
+      "reference_iteration": 0,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter320-iter0": {
+      "a": "iter320",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": 0.017,
+      "ci95": [
+        -0.109,
+        0.145
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 320,
+      "reference_iteration": 0,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter80-iter40": {
+      "a": "iter080",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": 0.009,
+      "ci95": [
+        -0.044,
+        0.061
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 80,
+      "reference_iteration": 40,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter160-iter40": {
+      "a": "iter160",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": -0.037,
+      "ci95": [
+        -0.196,
+        0.124
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 160,
+      "reference_iteration": 40,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter320-iter40": {
+      "a": "iter320",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": 0.011,
+      "ci95": [
+        -0.142,
+        0.161
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 320,
+      "reference_iteration": 40,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter160-iter80": {
+      "a": "iter160",
+      "b": "iter080",
+      "n": 1000,
+      "mean_diff": -0.046,
+      "ci95": [
+        -0.205,
+        0.116
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 160,
+      "reference_iteration": 80,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    },
+    "iter320-iter80": {
+      "a": "iter320",
+      "b": "iter080",
+      "n": 1000,
+      "mean_diff": 0.002,
+      "ci95": [
+        -0.148,
+        0.151
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "status": "ok",
+      "iteration": 320,
+      "reference_iteration": 80,
+      "ci_excludes_zero": false,
+      "reading": "indistinguishable (CI includes 0)"
+    }
+  }
+}
