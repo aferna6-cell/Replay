@@ -156,6 +156,10 @@ def main(argv=None):
     p.add_argument("--eval-episodes", type=int, default=40)
     p.add_argument("--out", default=_OUT)
     p.add_argument("--from-bc", default=_BC)
+    p.add_argument("--require-from-bc-parameter-sha256",
+                   help="fail before training unless --from-bc exists and has "
+                        "this filename-independent parameter fingerprint; "
+                        "a reproducibility guard that does not alter training")
     p.add_argument("--save-iters", default="",
                    help="comma-separated iteration numbers to snapshot for "
                         "diagnostics (0 = the exact warm-start weights before "
@@ -201,6 +205,15 @@ def main(argv=None):
     rng = random.Random(a.seed)
     emb = load_embeddings()
     byname = kb_byname()
+
+    if a.require_from_bc_parameter_sha256:
+        if not os.path.isfile(a.from_bc):
+            p.error(f"required warm-start checkpoint does not exist: {a.from_bc}")
+        from .model_fingerprint import checkpoint_parameter_sha256
+        actual = checkpoint_parameter_sha256(a.from_bc)
+        if actual != a.require_from_bc_parameter_sha256:
+            p.error("warm-start parameter SHA256 mismatch: "
+                    f"expected {a.require_from_bc_parameter_sha256}, got {actual}")
 
     if os.path.isfile(a.from_bc):
         net = load_policy(a.from_bc)
