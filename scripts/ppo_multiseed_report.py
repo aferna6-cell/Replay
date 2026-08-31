@@ -38,6 +38,70 @@ def _paths(seed, iteration, field):
     return root / "dev" / f"iter{iteration:03d}_vs_{field}.json"
 
 
+def _load_eval(seed, iteration, field):
+    path = _paths(seed, iteration, field)
+    if path.exists():
+        result = load_result(str(path))
+        result["integrity"] = {
+            "games_requested": result["games"],
+            "games_completed": result["games"],
+            "games_unfinished": 0,
+            "mean_placement_sensitivity_bounds": [
+                result["metrics"]["avg_placement"],
+                result["metrics"]["avg_placement"],
+            ],
+        }
+        return result
+    raw = json.load(open(path.with_name(path.stem + "_integrity.json")))
+    return {
+        "agent": raw["agent"],
+        "games": raw["games_requested"],
+        "placements": raw["placements_nullable"],
+        "metrics": raw["complete_case_metrics"],
+        "avg_placement_ci95": None,
+        "integrity": {
+            k: raw[k] for k in (
+                "games_requested", "games_completed", "games_unfinished",
+                "mean_placement_sensitivity_bounds", "failures",
+                "integrity_note",
+            )
+        },
+    }
+
+
+def _paired_eval(a, b, seed):
+    """Canonical paired bootstrap, or labeled complete-case bootstrap."""
+    if all(x is not None for x in a["placements"] + b["placements"]):
+        return compare_pair(a, b, seed=seed)
+    pairs = [(x, y) for x, y in zip(a["placements"], b["placements"])
+             if x is not None and y is not None]
+    diffs = [x - y for x, y in pairs]
+    rng = random.Random(seed)
+    resamples = 10000
+    means = sorted(st.mean(rng.choices(diffs, k=len(diffs)))
+                   for _ in range(resamples))
+    known_sum = sum(diffs)
+    missing_refs = [
+        y for x, y in zip(a["placements"], b["placements"]) if x is None
+    ]
+    n = len(a["placements"])
+    return {
+        "a": a["agent"], "b": b["agent"], "n": n,
+        "n_complete_pairs": len(diffs),
+        "n_unfinished": n - len(diffs),
+        "mean_diff": st.mean(diffs),
+        "ci95": [means[int(.025 * resamples) - 1],
+                 means[int(.975 * resamples)]],
+        "method": "paired percentile bootstrap on completed pairs",
+        "resamples": resamples, "bootstrap_seed": seed,
+        "mean_diff_sensitivity_bounds": [
+            (known_sum + sum(1 - y for y in missing_refs)) / n,
+            (known_sum + sum(8 - y for y in missing_refs)) / n,
+        ],
+        "verdict": "integrity-censored; no placement imputed",
+    }
+
+
 def _drift(seed):
     root = EXPERIMENT2_DIR if seed == 0 else EXPERIMENT_DIR / f"seed_{seed}"
     d = json.load(open(root / "policy_drift.json"))
@@ -86,7 +150,7 @@ def build():
     drift_rows, cat_rows, signals = {}, {}, {}
     for seed in ALL_SEEDS:
         evaluations[seed] = {
-            field: {it: load_result(str(_paths(seed, it, field)))
+            field: {it: _load_eval(seed, it, field)
                     for it in ITERATIONS}
             for field in FIELDS
         }
@@ -130,13 +194,14 @@ def build():
                 "value_std": d["value_std"],
                 "parameter_sha256": d["parameter_sha256"],
                 "checkpoint_sha256": d["checkpoint_sha256"],
+                "greedy_integrity": g["integrity"],
+                "mixed_integrity": m["integrity"],
             })
         for field in FIELDS:
             paired[seed][field] = {}
             for target, reference in PAIRS:
-                row = compare_pair(evaluations[seed][field][target],
-                                   evaluations[seed][field][reference],
-                                   seed=seed)
+                row = _paired_eval(evaluations[seed][field][target],
+                                   evaluations[seed][field][reference], seed)
                 paired[seed][field][f"iter{target}_vs_iter{reference}"] = row
 
     aggregate_curves = []
@@ -170,13 +235,16 @@ def build():
     for seed in ALL_SEEDS:
         gain = paired[seed]["greedy"]["iter80_vs_iter0"]
         decay = paired[seed]["greedy"]["iter320_vs_iter80"]
+        censored = bool(gain.get("n_unfinished") or decay.get("n_unfinished"))
         u_shape[seed] = {
             "iter80_better_than_iter0_point_estimate": gain["mean_diff"] < 0,
             "iter80_better_than_iter0_ci_excludes_zero": gain["ci95"][1] < 0,
             "iter320_worse_than_iter80_point_estimate": decay["mean_diff"] > 0,
             "iter320_worse_than_iter80_ci_excludes_zero": decay["ci95"][0] > 0,
             "u_shape_point_estimate": gain["mean_diff"] < 0 and decay["mean_diff"] > 0,
-            "strict_u_shape": gain["ci95"][1] < 0 and decay["ci95"][0] > 0,
+            "integrity_censored": censored,
+            "strict_u_shape": (not censored and gain["ci95"][1] < 0
+                               and decay["ci95"][0] > 0),
         }
     replication = [u_shape[s] for s in (1, 2, 3)]
     counts = {
@@ -293,8 +361,13 @@ def _plots_from_committed_json(path):
 
 
 def _fmt_effect(row):
-    return (f"{row['mean_diff']:+.3f} "
+    text = (f"{row['mean_diff']:+.3f} "
             f"[{row['ci95'][0]:+.3f}, {row['ci95'][1]:+.3f}]")
+    if row.get("n_unfinished"):
+        bounds = row["mean_diff_sensitivity_bounds"]
+        text += (f" complete-case ({row['n_complete_pairs']}/{row['n']}); "
+                 f"sensitivity [{bounds[0]:+.3f}, {bounds[1]:+.3f}]")
+    return text
 
 
 def _report(data):
@@ -317,8 +390,8 @@ def _report(data):
         "",
         "## Full budget table",
         "",
-        "| iter | episodes | seed | greedy avg | top-4 | win | mixed avg | expert | warm-start | KL |",
-        "|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        "| iter | episodes | seed | greedy avg | top-4 | win | mixed avg | unfinished G/M | expert | warm-start | KL |",
+        "|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for seed in data["seeds"]:
         for x in data["curves"][str(seed)]:
@@ -326,6 +399,8 @@ def _report(data):
                 f"| {x['iteration']} | {x['cumulative_episodes']} | {seed} | "
                 f"{x['greedy_avg']:.3f} | {x['greedy_top4']:.1%} | "
                 f"{x['greedy_win']:.1%} | {x['mixed_avg']:.3f} | "
+                f"{x['greedy_integrity']['games_unfinished']}/"
+                f"{x['mixed_integrity']['games_unfinished']} | "
                 f"{x['expert_agreement']:.1%} | {x['warmstart_agreement']:.1%} | "
                 f"{x['kl_from_warmstart']:.3f} |")
     for field in FIELDS:

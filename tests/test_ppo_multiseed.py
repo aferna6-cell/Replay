@@ -107,3 +107,26 @@ def test_action_category_mapping_includes_freeze():
     from ml.action_categories import CATEGORIES, action_category
     assert "freeze" in CATEGORIES
     assert action_category(A_FREEZE) == "freeze"
+
+
+def test_integrity_evaluator_never_imputes_unfinished_game(monkeypatch):
+    from types import SimpleNamespace
+    from ml import dev_integrity
+    from ml.benchmark import BenchmarkIntegrityError
+
+    agent = SimpleNamespace(name="policy", checkpoint="policy.pt")
+
+    def fake_run(_agent, _seats, seed):
+        if seed == DEV_BASE_SEED + 1:
+            raise BenchmarkIntegrityError("did not terminate")
+        return {"placement": 4, "latencies": [0.001]}
+
+    monkeypatch.setattr(dev_integrity, "run_game", fake_run)
+    result = dev_integrity.run_integrity_dev(
+        agent, "greedy", 3, DEV_BASE_SEED)
+    assert result["placements_nullable"] == [4, None, 4]
+    assert result["games_completed"] == 2
+    assert result["games_unfinished"] == 1
+    assert result["complete_case_metrics"]["avg_placement"] == 4
+    assert result["mean_placement_sensitivity_bounds"] == [3.0, 16 / 3]
+    assert result["failures"][0]["seed"] == DEV_BASE_SEED + 1
