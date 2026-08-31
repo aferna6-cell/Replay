@@ -21,7 +21,6 @@ from typing import Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 from ml.action_categories import CATEGORIES
 from ml.analyze_benchmark import compare_pair, load_result
-from ml.dev_partial import paired_common_games
 from ml.seeds import (DEV_SEED_END, DEV_SEED_START, EVAL_SEED_END,
                       EVAL_SEED_START, check_training_range,
                       overlaps_dev_range, overlaps_eval_range,
@@ -140,24 +139,32 @@ def load_dev_result(directory: str, iteration: int,
     return load_result(path)
 
 
-def games_requested(result: Mapping) -> int:
-    """The lobbies the protocol asked for, which is what must be identical
-    everywhere. ``games`` counts the ones that produced a placement — the two
-    differ only for a checkpoint that could not finish some lobbies."""
-    return int(result.get("games_requested", result["games"]))
-
-
-def is_complete(result: Mapping) -> bool:
-    return bool(result.get("complete", True))
+def dev_protocol_status(directory: str, iteration: int,
+                        field: str = "greedy") -> Tuple[str, Dict]:
+    """('ok', scored result) when the checkpoint completed the frozen DEV
+    protocol; ('protocol_failure', diagnostic blob) when it could not — the
+    benchmark machinery refuses to score non-terminating episodes, so such a
+    checkpoint has NO defined DEV score (see
+    scripts/ppo_multiseed_protocol_failure.py). Raises FileNotFoundError when
+    neither artifact exists."""
+    scored = os.path.join(directory, "dev",
+                          f"iter{iteration:03d}_vs_{field}.json")
+    if os.path.isfile(scored):
+        return "ok", load_result(scored)
+    failure = os.path.join(directory, "dev",
+                           f"iter{iteration:03d}_vs_{field}"
+                           f".protocol_failure.json")
+    if os.path.isfile(failure):
+        with open(failure, encoding="utf-8") as f:
+            return "protocol_failure", json.load(f)
+    raise FileNotFoundError(f"no DEV result or protocol-failure diagnostic "
+                            f"for iter {iteration} vs {field} in {directory}")
 
 
 def eval_seed_record(result: Mapping) -> Dict:
     return {
         "base_seed": result["base_seed"],
         "games": result["games"],
-        "games_requested": games_requested(result),
-        "complete": is_complete(result),
-        "games_non_terminating": int(result.get("games_non_terminating", 0)),
         "seed_range": list(result["seed_range"]),
         "evaluation_split": result.get("evaluation_split"),
         "field": result["field"],
@@ -166,13 +173,7 @@ def eval_seed_record(result: Mapping) -> Dict:
 
 def assert_eval_seeds_match_experiment2(result: Mapping,
                                         field: str = "greedy") -> None:
-    """Every checkpoint must reuse Experiment 2's DEV seed interval.
-
-    A checkpoint that stalled on some lobbies is allowed through — the stall
-    is a measurement, not a protocol violation — but only because it still
-    attempted the identical block of seeds. It stays flagged incomplete, and
-    ``within_seed_paired`` pairs it only on shared lobbies.
-    """
+    """Every checkpoint must reuse Experiment 2's DEV seed interval."""
     expected_games = DEV_EVAL_GAMES if field == "greedy" else MIXED_GAMES
     expected_last = DEV_EVAL_BASE + expected_games - 1
     if result.get("evaluation_split") != "dev":
@@ -180,54 +181,41 @@ def assert_eval_seeds_match_experiment2(result: Mapping,
                          f"{result.get('evaluation_split')!r}")
     if result["base_seed"] != DEV_EVAL_BASE:
         raise ValueError(f"DEV base seed {result['base_seed']} != {DEV_EVAL_BASE}")
-    if games_requested(result) != expected_games:
-        raise ValueError(f"games_requested {games_requested(result)} != "
-                         f"{expected_games}")
+    if result["games"] != expected_games:
+        raise ValueError(f"games {result['games']} != {expected_games}")
     if list(result["seed_range"]) != [DEV_EVAL_BASE, expected_last]:
         raise ValueError(f"seed_range {result['seed_range']} != "
                          f"[{DEV_EVAL_BASE}, {expected_last}]")
     if result["field"] != field:
         raise ValueError(f"field {result['field']!r} != {field!r}")
-    if not is_complete(result) and result["games"] >= expected_games:
-        raise ValueError("result is flagged incomplete but scored every "
-                         "requested lobby — inconsistent record")
-
-
-def completeness_report(directory: str) -> Dict:
-    """Per checkpoint and field: did the policy finish every DEV lobby?"""
-    rows = []
-    for it in PRIMARY_ITERS:
-        for field in ("greedy", MIXED_FIELD):
-            blob = load_dev_result(directory, it, field)
-            rows.append({"iteration": it, "field": field,
-                         **eval_seed_record(blob),
-                         "non_terminating_seeds":
-                             list(blob.get("non_terminating_seeds", []))})
-    return {"per_checkpoint": rows,
-            "any_incomplete": any(not r["complete"] for r in rows),
-            "n_incomplete": sum(1 for r in rows if not r["complete"]),
-            "note": ("a checkpoint that cannot finish a lobby within "
-                     "ml.benchmark.MAX_DECISIONS has that lobby excluded; "
-                     "its placement average is then optimistic")}
 
 
 def within_seed_paired(greedy_by_iter: Mapping[int, Mapping],
-                       bootstrap_seed: int = 0) -> Dict[str, Dict]:
-    """The nine pre-specified paired comparisons for one training seed."""
+                       bootstrap_seed: int = 0,
+                       unscoreable: Mapping[int, str] = ()) -> Dict[str, Dict]:
+    """The nine pre-specified paired comparisons for one training seed.
+
+    ``unscoreable`` maps iterations that FAILED the frozen DEV protocol to a
+    reason string; any pre-specified pair touching such an iteration gets an
+    explicit ``status: "unscoreable"`` row instead of fabricated numbers."""
+    unscoreable = dict(unscoreable or {})
     out: Dict[str, Dict] = {}
     for it, ref in WITHIN_SEED_PAIRS:
-        a, b = greedy_by_iter[it], greedy_by_iter[ref]
-        if is_complete(a) and is_complete(b):
-            row = dict(compare_pair(a, b, seed=bootstrap_seed))
-            row["games_paired"] = row["n"]
-            row["games_dropped"] = 0
-            row["restricted"] = False
-        else:
-            # One side stalled on some lobbies: pair on the lobbies both
-            # finished and say so, rather than dropping the comparison or
-            # pretending the vectors line up.
-            row = dict(paired_common_games(a, b, seed=bootstrap_seed))
-            row["verdict"] = "restricted to lobbies both checkpoints finished"
+        bad = [x for x in (it, ref) if x in unscoreable]
+        if bad:
+            out[pair_key(it, ref)] = {
+                "iteration": it, "reference_iteration": ref,
+                "status": "unscoreable",
+                "unscoreable_iterations": bad,
+                "reason": "; ".join(unscoreable[x] for x in bad),
+                "reading": "not computable — a side of the pair has no "
+                           "defined DEV score under the frozen protocol",
+            }
+            continue
+        row = compare_pair(greedy_by_iter[it], greedy_by_iter[ref],
+                           seed=bootstrap_seed)
+        row = dict(row)
+        row["status"] = "ok"
         row["iteration"] = it
         row["reference_iteration"] = ref
         row["ci_excludes_zero"] = ci_excludes_zero(row["ci95"])
@@ -241,12 +229,28 @@ def within_seed_paired(greedy_by_iter: Mapping[int, Mapping],
     return out
 
 
+def dev_greedy_with_status(directory: str) -> Tuple[Dict[int, Dict],
+                                                    Dict[int, str]]:
+    """(scored greedy results by iteration, unscoreable iteration reasons)."""
+    greedy: Dict[int, Dict] = {}
+    unscoreable: Dict[int, str] = {}
+    for it in PRIMARY_ITERS:
+        status, blob = dev_protocol_status(directory, it, "greedy")
+        if status == "ok":
+            assert_eval_seeds_match_experiment2(blob, "greedy")
+            greedy[it] = blob
+        else:
+            unscoreable[it] = (
+                f"iteration {it} failed the frozen DEV protocol: "
+                f"{blob['n_non_terminating']}/{blob['games_attempted']} "
+                f"games non-terminating within MAX_DECISIONS")
+    return greedy, unscoreable
+
+
 def load_within_seed_paired(directory: str, bootstrap_seed: int = 0) -> Dict[str, Dict]:
-    greedy = {it: load_dev_result(directory, it, "greedy")
-              for it in PRIMARY_ITERS}
-    for blob in greedy.values():
-        assert_eval_seeds_match_experiment2(blob, "greedy")
-    return within_seed_paired(greedy, bootstrap_seed=bootstrap_seed)
+    greedy, unscoreable = dev_greedy_with_status(directory)
+    return within_seed_paired(greedy, bootstrap_seed=bootstrap_seed,
+                              unscoreable=unscoreable)
 
 
 def _mean(xs: Sequence[float]) -> float:
@@ -279,7 +283,8 @@ def placements_by_iter(directory: str) -> Dict[int, float]:
 
 
 def classify_ushape(placements: Mapping[int, float],
-                    paired: Optional[Mapping[str, Mapping]] = None) -> Dict:
+                    paired: Optional[Mapping[str, Mapping]] = None,
+                    unscoreable: Iterable[int] = ()) -> Dict:
     """Documented U-shape / trajectory-shape rule.
 
     Inputs are greedy mean placements (lower is better) at the five primary
@@ -306,15 +311,73 @@ def classify_ushape(placements: Mapping[int, float],
     flip the qualitative class. CI flags are recorded alongside:
     ``significant_mid_gain`` (a mid-budget − iter0 CI is entirely < 0) and
     ``significant_late_regression`` (iter320 − mid-best CI is entirely > 0).
+
+    PROTOCOL-FAILURE EXTENSION (added after observing that a checkpoint can
+    fail the frozen DEV protocol outright — seed 1's iteration 320 loops
+    forever in DEV lobbies, so the benchmark machinery refuses to score it;
+    the direction of the extension is forced, not tuned): pass such
+    iterations in ``unscoreable``. An unscoreable checkpoint is ordered
+    strictly WORSE than every scoreable checkpoint — a policy that cannot
+    finish its games has, a fortiori, regressed. The strict rule above
+    cannot run without five means, so the result carries BOTH labels:
+    ``label`` (the strict rule; "other (iterN unscoreable)" when a primary
+    iteration has no defined score) and ``extension_label`` (the label under
+    the ordering extension). Only iteration 320 may be unscoreable under
+    this implementation; anything else raises.
     """
     p = {int(k): float(v) for k, v in placements.items()}
-    missing = [it for it in PRIMARY_ITERS if it not in p]
+    unscoreable = sorted(int(x) for x in (unscoreable or ()))
+    if unscoreable and unscoreable != [320]:
+        raise ValueError(f"only iteration 320 may be unscoreable, got "
+                         f"{unscoreable}")
+    missing = [it for it in PRIMARY_ITERS
+               if it not in p and it not in unscoreable]
     if missing:
         raise ValueError(f"classify_ushape missing iterations {missing}")
 
     mid_iters = (80, 160)
     mid_best_it = min(mid_iters, key=lambda it: (p[it], it))
     mid_gain = p[mid_best_it] < p[0]
+
+    if unscoreable:
+        # iteration 320 has no defined DEV score; the strict rule cannot
+        # label the curve, and the ordering extension makes late regression
+        # automatically true.
+        label = "other (iter320 unscoreable — fails the frozen DEV protocol)"
+        ext = ("U-like / transient improvement" if mid_gain
+               else "monotonic degradation")
+        sig_mid = False
+        if paired is not None:
+            sig_mid = any(
+                paired[pair_key(it, 0)].get("mean_diff", 0) < 0
+                and paired[pair_key(it, 0)].get("ci_excludes_zero", False)
+                for it in mid_iters
+                if pair_key(it, 0) in paired
+                and paired[pair_key(it, 0)].get("status", "ok") == "ok")
+        return {
+            "label": label,
+            "extension_label": ext,
+            "unscoreable_iterations": unscoreable,
+            "mid_best_iteration": mid_best_it,
+            "mid_best_episodes": episodes(mid_best_it),
+            "mid_gain_mean": mid_gain,
+            "late_regression_mean": True,
+            "late_regression_kind": "protocol failure (non-terminating "
+                                    "deterministic play) — strictly worse "
+                                    "than any scoreable checkpoint",
+            "significant_mid_gain": sig_mid,
+            "significant_late_regression": True,
+            "monotonic_improvement_sequence": False,
+            "monotonic_degradation_sequence": not mid_gain,
+            "vs_iter0_all_cis_include_zero": False,
+            "placements": {str(it): p[it] for it in PRIMARY_ITERS
+                           if it in p},
+            "rule": ("strict rule needs five scoreable means; iteration 320 "
+                     "is unscoreable, so label = other(...) and "
+                     "extension_label applies the documented ordering "
+                     "extension (unscoreable == strictly worst)"),
+        }
+
     late_reg = p[320] > p[mid_best_it]
     seq = [p[it] for it in PRIMARY_ITERS]
     mono_imp = (all(seq[i] >= seq[i + 1] for i in range(len(seq) - 1))
@@ -354,6 +417,8 @@ def classify_ushape(placements: Mapping[int, float],
 
     return {
         "label": label,
+        "extension_label": label,       # no unscoreable iterations here
+        "unscoreable_iterations": [],
         "mid_best_iteration": mid_best_it,
         "mid_best_episodes": episodes(mid_best_it),
         "mid_gain_mean": mid_gain,
@@ -414,33 +479,29 @@ def load_seed_bundle(seed: int) -> Dict:
     drift = load_seed_drift(directory)
     cats = load_seed_categories(directory)
     paired = load_within_seed_paired(directory)
-    greedy = {it: load_dev_result(directory, it, "greedy")
-              for it in PRIMARY_ITERS}
-    mixed = {it: load_dev_result(directory, it, MIXED_FIELD)
-             for it in PRIMARY_ITERS}
-    for blob in greedy.values():
-        assert_eval_seeds_match_experiment2(blob, "greedy")
-    for blob in mixed.values():
-        assert_eval_seeds_match_experiment2(blob, MIXED_FIELD)
+    greedy, unscoreable = dev_greedy_with_status(directory)
+    mixed: Dict[int, Dict] = {}
+    failures: Dict[int, Dict] = {}
+    for it in PRIMARY_ITERS:
+        status, blob = dev_protocol_status(directory, it, MIXED_FIELD)
+        if status == "ok":
+            assert_eval_seeds_match_experiment2(blob, MIXED_FIELD)
+            mixed[it] = blob
+    for it in unscoreable:
+        _, failures[it] = dev_protocol_status(directory, it, "greedy")
     assert_corpus_fingerprint(drift["corpus"]["fingerprint_sha256"])
     if drift["corpus"]["states"] != CORPUS_STATES:
         raise ValueError(f"seed {seed} corpus states {drift['corpus']['states']} "
                          f"!= {CORPUS_STATES}")
     iter0 = next(c for c in curve["curve"] if c["iteration"] == 0)
     assert_warmstart_hash(iter0["parameter_sha256"])
-    placements = {c["iteration"]: c["greedy_avg"] for c in curve["curve"]}
-    shape = classify_ushape(placements, paired)
-    completeness = completeness_report(directory)
-    if completeness["any_incomplete"]:
-        shape = dict(shape)
-        shape["caveat"] = (
-            "at least one checkpoint of this training seed could not finish "
-            "every DEV lobby; its placement average excludes those lobbies "
-            "and is optimistic, so the shape label rests on a biased point")
+    placements = {c["iteration"]: c["greedy_avg"] for c in curve["curve"]
+                  if c.get("greedy_avg") is not None}
+    shape = classify_ushape(placements, paired,
+                            unscoreable=sorted(unscoreable))
     return {
         "training_seed": seed,
         "source_dir": directory,
-        "completeness": completeness,
         "source": "experiment_2" if seed == 0 else "experiment_3",
         "curve": curve,
         "drift": drift,
@@ -449,42 +510,36 @@ def load_seed_bundle(seed: int) -> Dict:
         "greedy": greedy,
         "mixed": mixed,
         "placements": placements,
+        "unscoreable": {it: unscoreable[it] for it in unscoreable},
+        "protocol_failures": failures,
         "shape": shape,
     }
 
 
 def cross_seed_table(bundles: Mapping[int, Mapping]) -> Dict:
-    """iter × seed greedy averages, then mean/median/min/max/std across seeds."""
+    """iter × seed greedy averages, then mean/median/min/max/std across seeds.
+
+    A seed whose checkpoint failed the frozen DEV protocol contributes no
+    number for that iteration; it is listed under ``unscoreable_seeds`` and
+    the summary statistics cover the scoreable seeds only."""
     by_iter = {}
     for it in PRIMARY_ITERS:
-        vals = {s: float(bundles[s]["placements"][it]) for s in sorted(bundles)}
+        vals = {s: float(bundles[s]["placements"][it])
+                for s in sorted(bundles) if it in bundles[s]["placements"]}
+        unscoreable = {s: bundles[s]["unscoreable"][it]
+                       for s in sorted(bundles)
+                       if it in bundles[s].get("unscoreable", {})}
         by_iter[str(it)] = {
             "iteration": it,
             "cumulative_episodes": episodes(it),
             "per_seed": vals,
+            "unscoreable_seeds": unscoreable,
             **summarize_numbers([vals[s] for s in sorted(vals)]),
         }
-    out = {
+    return {
         "replication_unit": "training seed (n=4); not 4000 independent games",
         "by_iteration": by_iter,
     }
-    if all("curve" in bundles[s] for s in bundles):
-        by_iter_mixed = {}
-        for it in PRIMARY_ITERS:
-            vals = {s: float(_curve_row(bundles[s], it)["mixed_avg"])
-                    for s in sorted(bundles)}
-            by_iter_mixed[str(it)] = {
-                "iteration": it,
-                "cumulative_episodes": episodes(it),
-                "per_seed": vals,
-                **summarize_numbers([vals[s] for s in sorted(vals)]),
-            }
-        out["mixed_diagnostic_field"] = {
-            "field": MIXED_FIELD, "games": MIXED_GAMES,
-            "note": ("relative instrument only — the 4.5 lobby average is "
-                     "not a threshold for this field"),
-            "by_iteration": by_iter_mixed}
-    return out
 
 
 def question_a(bundles: Mapping[int, Mapping]) -> Dict:
@@ -523,10 +578,25 @@ def question_a(bundles: Mapping[int, Mapping]) -> Dict:
 
 
 def question_b(bundles: Mapping[int, Mapping]) -> Dict:
-    """Does performance decay after the transient? iter320 − iter80 per seed."""
+    """Does performance decay after the transient? iter320 − iter80 per seed.
+
+    A seed whose iteration 320 failed the frozen DEV protocol has no paired
+    number; it is reported as ``regress_protocol_failure`` — a policy that
+    cannot finish its games has regressed in the strongest observable sense,
+    but no CI can be attached to that."""
     rows = []
     for s in sorted(bundles):
         pair = bundles[s]["paired"][pair_key(320, 80)]
+        if pair.get("status") == "unscoreable":
+            rows.append({
+                "training_seed": s,
+                "mean_diff": None,
+                "ci95": None,
+                "ci_excludes_zero": None,
+                "direction": "regress_protocol_failure",
+                "reason": pair["reason"],
+            })
+            continue
         if pair["mean_diff"] > 0:
             direction = "regress"
         elif pair["mean_diff"] < 0:
@@ -550,6 +620,11 @@ def question_b(bundles: Mapping[int, Mapping]) -> Dict:
                                     for r in rows),
         "n_indistinguishable": sum(r["direction"] == "indistinguishable"
                                    for r in rows),
+        "n_regress_protocol_failure": sum(
+            r["direction"] == "regress_protocol_failure" for r in rows),
+        "n_regress_including_protocol_failures": sum(
+            r["direction"] in ("regress", "regress_protocol_failure")
+            for r in rows),
         "n_seeds": len(rows),
     }
 
@@ -573,8 +648,11 @@ def drift_replication(bundles: Mapping[int, Mapping]) -> Dict:
             "kl_from_warmstart": r320["kl_from_warmstart"],
             "corpus_entropy": r320["corpus_entropy"],
         })
-        # Best = lowest greedy mean among primary checkpoints.
-        best_it = min(PRIMARY_ITERS, key=lambda it: rows[it]["greedy_avg"])
+        # Best = lowest greedy mean among the SCOREABLE primary checkpoints
+        # (an unscoreable checkpoint cannot be anyone's best).
+        scoreable = [it for it in PRIMARY_ITERS
+                     if rows[it].get("greedy_avg") is not None]
+        best_it = min(scoreable, key=lambda it: rows[it]["greedy_avg"])
         later = [it for it in PRIMARY_ITERS if it > best_it]
         if later:
             later_it = later[-1]  # the last later checkpoint (320 if best < 320)
@@ -741,6 +819,9 @@ def assemble_replication(bundles: Mapping[int, Mapping]) -> Dict:
     shapes = {s: bundles[s]["shape"] for s in sorted(bundles)}
     n_transient = sum(
         shapes[s]["label"] == "U-like / transient improvement" for s in shapes)
+    n_transient_ext = sum(
+        shapes[s].get("extension_label", shapes[s]["label"])
+        == "U-like / transient improvement" for s in shapes)
     drift = drift_replication(bundles)
     cats = category_replication(bundles)
     rl = rl_comparison(bundles)
@@ -759,24 +840,22 @@ def assemble_replication(bundles: Mapping[int, Mapping]) -> Dict:
         "corpus_fingerprint_sha256": CORPUS_FINGERPRINT_SHA256,
         "dev_eval_seeds": [DEV_EVAL_BASE, DEV_EVAL_LAST],
         "cross_seed_summary": table,
-        "evaluation_completeness": {
-            "by_seed": {str(s): bundles[s]["completeness"]
-                        for s in sorted(bundles)},
-            "n_seeds_with_an_incomplete_checkpoint": sum(
-                bundles[s]["completeness"]["any_incomplete"]
-                for s in sorted(bundles)),
-            "note": ("a checkpoint that cannot finish a DEV lobby within "
-                     "ml.benchmark.MAX_DECISIONS has that lobby excluded "
-                     "from its average and from every paired comparison "
-                     "involving it; such averages are optimistic")},
         "question_a_1280_episode_replication": qa,
         "question_b_late_regression": qb,
         "ushape": {
             "per_seed": {str(s): shapes[s] for s in shapes},
             "n_transient_improvement": n_transient,
+            "n_transient_improvement_with_extension": n_transient_ext,
+            "extension_note": ("the extension counts a seed whose iteration "
+                               "320 is unscoreable (fails the frozen DEV "
+                               "protocol) as late-regressing, since a policy "
+                               "that cannot finish its games is strictly "
+                               "worse than any scoreable checkpoint"),
             "n_trajectories": len(shapes),
-            "statement": (f"{n_transient} / {len(shapes)} trajectories show "
-                          "transient improvement followed by regression"),
+            "statement": (f"{n_transient_ext} / {len(shapes)} trajectories "
+                          "show transient improvement followed by regression "
+                          f"({n_transient} under the strict five-mean rule; "
+                          "see extension_note)"),
         },
         "drift_replication": drift,
         "category_replication": cats,
@@ -790,13 +869,20 @@ def outcome_and_recommendation(analysis: Mapping) -> Dict:
     """Pick the single best-supported outcome and one Experiment 4 rec."""
     qa = analysis["question_a_1280_episode_replication"]
     qb = analysis["question_b_late_regression"]
-    n_trans = analysis["ushape"]["n_transient_improvement"]
+    # Use the extension count: an unscoreable iteration 320 is a late
+    # regression in the strongest observable sense (documented in
+    # classify_ushape; the direction of that ordering is forced, not tuned).
+    n_trans = analysis["ushape"].get(
+        "n_transient_improvement_with_extension",
+        analysis["ushape"]["n_transient_improvement"])
     n = analysis["n_training_seeds"]
     n_new_improve = sum(
         r["training_seed"] != 0 and r["direction"] == "improve"
         for r in qa["per_seed"])
     n_new = sum(r["training_seed"] != 0 for r in qa["per_seed"])
-    labels = [analysis["ushape"]["per_seed"][str(s)]["label"]
+    labels = [analysis["ushape"]["per_seed"][str(s)].get(
+                  "extension_label",
+                  analysis["ushape"]["per_seed"][str(s)]["label"])
               for s in range(n)]
     distinct = set(labels)
 
@@ -850,7 +936,8 @@ def outcome_and_recommendation(analysis: Mapping) -> Dict:
         "n_transient": n_trans,
         "n_new_seeds_iter80_improve": n_new_improve,
         "n_new_seeds": n_new,
-        "n_iter320_regress_vs_iter80": qb["n_regress"],
+        "n_iter320_regress_vs_iter80": qb.get(
+            "n_regress_including_protocol_failures", qb["n_regress"]),
         "shape_labels": labels,
     }
 

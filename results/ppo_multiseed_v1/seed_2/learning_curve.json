@@ -20,11 +20,39 @@
     10550000,
     10550499
   ],
+  "unscoreable_iterations": [],
   "curve": [
     {
       "iteration": 0,
       "cumulative_episodes": 0,
       "training_seed": 2,
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart": 0.0,
+      "corpus_entropy": 0.35243120789527893,
+      "value_mean": -0.09246109426021576,
+      "value_std": 0.535218358039856,
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+      "checkpoint_sha256": "0fd37b306b31aa8d8286ddf7916c550c59088874a5d9b3648cf91a03e40b724e",
+      "expert_disagreement_by_category": {
+        "buy": 0.7399756986634265,
+        "play": 0.008,
+        "sell": 1.0,
+        "roll": 0.0022189349112426036,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.000975609756097561
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.8864628820960698,
+        "play": 0.008733624454148471,
+        "sell": 0.09898107714701601,
+        "roll": 0.004366812227074236,
+        "level": 0.0,
+        "freeze": 0.0,
+        "end": 0.001455604075691412
+      },
+      "dev_status": "ok",
       "greedy_avg": 6.554,
       "greedy_ci95": {
         "method": "percentile bootstrap",
@@ -56,38 +84,39 @@
         "high": 4.496
       },
       "mixed_top4": 0.452,
-      "mixed_win": 0.058,
-      "expert_agreement": 0.8452702760696411,
-      "warmstart_agreement": 1.0,
-      "kl_from_warmstart": 0.0,
-      "corpus_entropy": 0.35243120789527893,
-      "value_mean": -0.09246109426021576,
-      "value_std": 0.535218358039856,
-      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
-      "checkpoint_sha256": "0fd37b306b31aa8d8286ddf7916c550c59088874a5d9b3648cf91a03e40b724e",
-      "expert_disagreement_by_category": {
-        "buy": 0.7399756986634265,
-        "play": 0.008,
-        "sell": 1.0,
-        "roll": 0.0022189349112426036,
-        "level": 0.0,
-        "freeze": null,
-        "end": 0.000975609756097561
-      },
-      "drift_contribution_by_category": {
-        "buy": 0.8864628820960698,
-        "play": 0.008733624454148471,
-        "sell": 0.09898107714701601,
-        "roll": 0.004366812227074236,
-        "level": 0.0,
-        "freeze": 0.0,
-        "end": 0.001455604075691412
-      }
+      "mixed_win": 0.058
     },
     {
       "iteration": 40,
       "cumulative_episodes": 640,
       "training_seed": 2,
+      "expert_agreement": 0.615315318107605,
+      "warmstart_agreement": 0.6664414405822754,
+      "kl_from_warmstart": 0.7502884864807129,
+      "corpus_entropy": 0.8359612226486206,
+      "value_mean": 0.10631483048200607,
+      "value_std": 0.557019829750061,
+      "parameter_sha256": "bf46c134ac39e795228ff71bd835ae43b15acca8e3a9c00726234eb92f377aa8",
+      "checkpoint_sha256": "aa437c85ef33f364fa8bd9671b78c4009df0a92c8a2e5e98cbeca74a803f7643",
+      "expert_disagreement_by_category": {
+        "buy": 0.7594167679222357,
+        "play": 0.004,
+        "sell": 1.0,
+        "roll": 0.6730769230769231,
+        "level": 0.06635071090047394,
+        "freeze": null,
+        "end": 0.0721951219512195
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.3659250585480094,
+        "play": 0.001756440281030445,
+        "sell": 0.03981264637002342,
+        "roll": 0.5327868852459017,
+        "level": 0.01639344262295082,
+        "freeze": 0.0,
+        "end": 0.04332552693208431
+      },
+      "dev_status": "ok",
       "greedy_avg": 6.56,
       "greedy_ci95": {
         "method": "percentile bootstrap",
@@ -119,38 +148,39 @@
         "high": 4.542
       },
       "mixed_top4": 0.422,
-      "mixed_win": 0.058,
-      "expert_agreement": 0.615315318107605,
-      "warmstart_agreement": 0.6664414405822754,
-      "kl_from_warmstart": 0.7502884864807129,
-      "corpus_entropy": 0.8359612226486206,
-      "value_mean": 0.10631483048200607,
-      "value_std": 0.557019829750061,
-      "parameter_sha256": "bf46c134ac39e795228ff71bd835ae43b15acca8e3a9c00726234eb92f377aa8",
-      "checkpoint_sha256": "aa437c85ef33f364fa8bd9671b78c4009df0a92c8a2e5e98cbeca74a803f7643",
-      "expert_disagreement_by_category": {
-        "buy": 0.7594167679222357,
-        "play": 0.004,
-        "sell": 1.0,
-        "roll": 0.6730769230769231,
-        "level": 0.06635071090047394,
-        "freeze": null,
-        "end": 0.0721951219512195
-      },
-      "drift_contribution_by_category": {
-        "buy": 0.3659250585480094,
-        "play": 0.001756440281030445,
-        "sell": 0.03981264637002342,
-        "roll": 0.5327868852459017,
-        "level": 0.01639344262295082,
-        "freeze": 0.0,
-        "end": 0.04332552693208431
-      }
+      "mixed_win": 0.058
     },
     {
       "iteration": 80,
       "cumulative_episodes": 1280,
       "training_seed": 2,
+      "expert_agreement": 0.7009009122848511,
+      "warmstart_agreement": 0.7565315365791321,
+      "kl_from_warmstart": 0.5516027808189392,
+      "corpus_entropy": 0.6632764339447021,
+      "value_mean": 0.11305423825979233,
+      "value_std": 0.47491753101348877,
+      "parameter_sha256": "6b32058f129bac12231064a18d1fead8013d5fed0868cafce19b468464c25141",
+      "checkpoint_sha256": "fd79fc5ecf213cf5d81defb6ba62c2c4948540826a845e8ede59293f890dd16c",
+      "expert_disagreement_by_category": {
+        "buy": 0.7825030376670717,
+        "play": 0.004,
+        "sell": 1.0,
+        "roll": 0.4526627218934911,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.000975609756097561
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.48493975903614456,
+        "play": 0.002259036144578313,
+        "sell": 0.05120481927710843,
+        "roll": 0.4608433734939759,
+        "level": 0.0,
+        "freeze": 0.0,
+        "end": 0.0007530120481927711
+      },
+      "dev_status": "ok",
       "greedy_avg": 6.569,
       "greedy_ci95": {
         "method": "percentile bootstrap",
@@ -182,38 +212,39 @@
         "high": 4.564
       },
       "mixed_top4": 0.43,
-      "mixed_win": 0.038,
-      "expert_agreement": 0.7009009122848511,
-      "warmstart_agreement": 0.7565315365791321,
-      "kl_from_warmstart": 0.5516027808189392,
-      "corpus_entropy": 0.6632764339447021,
-      "value_mean": 0.11305423825979233,
-      "value_std": 0.47491753101348877,
-      "parameter_sha256": "6b32058f129bac12231064a18d1fead8013d5fed0868cafce19b468464c25141",
-      "checkpoint_sha256": "fd79fc5ecf213cf5d81defb6ba62c2c4948540826a845e8ede59293f890dd16c",
-      "expert_disagreement_by_category": {
-        "buy": 0.7825030376670717,
-        "play": 0.004,
-        "sell": 1.0,
-        "roll": 0.4526627218934911,
-        "level": 0.0,
-        "freeze": null,
-        "end": 0.000975609756097561
-      },
-      "drift_contribution_by_category": {
-        "buy": 0.48493975903614456,
-        "play": 0.002259036144578313,
-        "sell": 0.05120481927710843,
-        "roll": 0.4608433734939759,
-        "level": 0.0,
-        "freeze": 0.0,
-        "end": 0.0007530120481927711
-      }
+      "mixed_win": 0.038
     },
     {
       "iteration": 160,
       "cumulative_episodes": 2560,
       "training_seed": 2,
+      "expert_agreement": 0.5031531453132629,
+      "warmstart_agreement": 0.48513513803482056,
+      "kl_from_warmstart": 1.0019497871398926,
+      "corpus_entropy": 0.7946617603302002,
+      "value_mean": 0.10217447578907013,
+      "value_std": 0.4373536705970764,
+      "parameter_sha256": "0b8c2eea606ab772b80a3897d9a60b18456e9c023e50cb355858c77e4f1d2246",
+      "checkpoint_sha256": "3a17249ce69d26cfbfe6d870ed89b28bc47bf3140129c97c6f386da9fcfb060c",
+      "expert_disagreement_by_category": {
+        "buy": 0.795868772782503,
+        "play": 0.018666666666666668,
+        "sell": 1.0,
+        "roll": 0.9859467455621301,
+        "level": 0.20853080568720378,
+        "freeze": null,
+        "end": 0.04682926829268293
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.2969174977334542,
+        "play": 0.006346328195829556,
+        "sell": 0.030825022665457842,
+        "roll": 0.6042611060743427,
+        "level": 0.03989120580235721,
+        "freeze": 0.0,
+        "end": 0.021758839528558477
+      },
+      "dev_status": "ok",
       "greedy_avg": 6.523,
       "greedy_ci95": {
         "method": "percentile bootstrap",
@@ -245,38 +276,39 @@
         "high": 4.61
       },
       "mixed_top4": 0.456,
-      "mixed_win": 0.004,
-      "expert_agreement": 0.5031531453132629,
-      "warmstart_agreement": 0.48513513803482056,
-      "kl_from_warmstart": 1.0019497871398926,
-      "corpus_entropy": 0.7946617603302002,
-      "value_mean": 0.10217447578907013,
-      "value_std": 0.4373536705970764,
-      "parameter_sha256": "0b8c2eea606ab772b80a3897d9a60b18456e9c023e50cb355858c77e4f1d2246",
-      "checkpoint_sha256": "3a17249ce69d26cfbfe6d870ed89b28bc47bf3140129c97c6f386da9fcfb060c",
-      "expert_disagreement_by_category": {
-        "buy": 0.795868772782503,
-        "play": 0.018666666666666668,
-        "sell": 1.0,
-        "roll": 0.9859467455621301,
-        "level": 0.20853080568720378,
-        "freeze": null,
-        "end": 0.04682926829268293
-      },
-      "drift_contribution_by_category": {
-        "buy": 0.2969174977334542,
-        "play": 0.006346328195829556,
-        "sell": 0.030825022665457842,
-        "roll": 0.6042611060743427,
-        "level": 0.03989120580235721,
-        "freeze": 0.0,
-        "end": 0.021758839528558477
-      }
+      "mixed_win": 0.004
     },
     {
       "iteration": 320,
       "cumulative_episodes": 5120,
       "training_seed": 2,
+      "expert_agreement": 0.4283783733844757,
+      "warmstart_agreement": 0.4858108162879944,
+      "kl_from_warmstart": 1.254551649093628,
+      "corpus_entropy": 0.9903987646102905,
+      "value_mean": 0.1560514271259308,
+      "value_std": 0.40713369846343994,
+      "parameter_sha256": "20d6467b2a1cb9c0cb78981cc420f0be2a5935336f94f97438e640f9905f5389",
+      "checkpoint_sha256": "00b8a0f999bdfe60568febca82575b35f963b2beed9c869ed32781c5fc8a89ae",
+      "expert_disagreement_by_category": {
+        "buy": 0.7460510328068044,
+        "play": 0.08933333333333333,
+        "sell": 1.0,
+        "roll": 1.0,
+        "level": 0.3009478672985782,
+        "freeze": null,
+        "end": 0.3024390243902439
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.24192277383766744,
+        "play": 0.02639873916469661,
+        "sell": 0.026792750197005517,
+        "roll": 0.5327029156816391,
+        "level": 0.05003940110323089,
+        "freeze": 0.0,
+        "end": 0.12214342001576044
+      },
+      "dev_status": "ok",
       "greedy_avg": 6.571,
       "greedy_ci95": {
         "method": "percentile bootstrap",
@@ -308,33 +340,7 @@
         "high": 4.5
       },
       "mixed_top4": 0.49,
-      "mixed_win": 0.01,
-      "expert_agreement": 0.4283783733844757,
-      "warmstart_agreement": 0.4858108162879944,
-      "kl_from_warmstart": 1.254551649093628,
-      "corpus_entropy": 0.9903987646102905,
-      "value_mean": 0.1560514271259308,
-      "value_std": 0.40713369846343994,
-      "parameter_sha256": "20d6467b2a1cb9c0cb78981cc420f0be2a5935336f94f97438e640f9905f5389",
-      "checkpoint_sha256": "00b8a0f999bdfe60568febca82575b35f963b2beed9c869ed32781c5fc8a89ae",
-      "expert_disagreement_by_category": {
-        "buy": 0.7460510328068044,
-        "play": 0.08933333333333333,
-        "sell": 1.0,
-        "roll": 1.0,
-        "level": 0.3009478672985782,
-        "freeze": null,
-        "end": 0.3024390243902439
-      },
-      "drift_contribution_by_category": {
-        "buy": 0.24192277383766744,
-        "play": 0.02639873916469661,
-        "sell": 0.026792750197005517,
-        "roll": 0.5327029156816391,
-        "level": 0.05003940110323089,
-        "freeze": 0.0,
-        "end": 0.12214342001576044
-      }
+      "mixed_win": 0.01
     }
   ],
   "paired_keys": [
@@ -350,6 +356,8 @@
   ],
   "ushape": {
     "label": "U-like / transient improvement",
+    "extension_label": "U-like / transient improvement",
+    "unscoreable_iterations": [],
     "mid_best_iteration": 160,
     "mid_best_episodes": 2560,
     "mid_gain_mean": true,

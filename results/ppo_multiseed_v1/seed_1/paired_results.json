@@ -16,9 +16,7 @@
       "resamples": 10000,
       "bootstrap_seed": 0,
       "verdict": "iter000 places better",
-      "games_paired": 1000,
-      "games_dropped": 0,
-      "restricted": false,
+      "status": "ok",
       "iteration": 40,
       "reference_iteration": 0,
       "ci_excludes_zero": true,
@@ -37,9 +35,7 @@
       "resamples": 10000,
       "bootstrap_seed": 0,
       "verdict": "iter000 places better",
-      "games_paired": 1000,
-      "games_dropped": 0,
-      "restricted": false,
+      "status": "ok",
       "iteration": 80,
       "reference_iteration": 0,
       "ci_excludes_zero": true,
@@ -58,38 +54,21 @@
       "resamples": 10000,
       "bootstrap_seed": 0,
       "verdict": "iter000 places better",
-      "games_paired": 1000,
-      "games_dropped": 0,
-      "restricted": false,
+      "status": "ok",
       "iteration": 160,
       "reference_iteration": 0,
       "ci_excludes_zero": true,
       "reading": "first worse (CI excludes 0)"
     },
     "iter320-iter0": {
-      "n": 995,
-      "mean_diff": 0.32964824120603015,
-      "ci95": [
-        0.18190954773869347,
-        0.4763819095477387
-      ],
-      "method": "paired percentile bootstrap",
-      "resamples": 10000,
-      "bootstrap_seed": 0,
-      "a": "iter320",
-      "b": "iter000",
-      "games_requested": 1000,
-      "games_paired": 995,
-      "games_dropped": 5,
-      "restricted": true,
-      "a_complete": false,
-      "b_complete": true,
-      "ci_excludes_zero": true,
-      "note": "paired on the 995 of 1000 DEV lobbies both checkpoints finished; the 5 dropped lobbies are ones a policy could not terminate, so this estimate is optimistic for that policy",
-      "verdict": "restricted to lobbies both checkpoints finished",
       "iteration": 320,
       "reference_iteration": 0,
-      "reading": "first worse (CI excludes 0)"
+      "status": "unscoreable",
+      "unscoreable_iterations": [
+        320
+      ],
+      "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS",
+      "reading": "not computable \u2014 a side of the pair has no defined DEV score under the frozen protocol"
     },
     "iter80-iter40": {
       "a": "iter080",
@@ -104,9 +83,7 @@
       "resamples": 10000,
       "bootstrap_seed": 0,
       "verdict": "iter040 places better",
-      "games_paired": 1000,
-      "games_dropped": 0,
-      "restricted": false,
+      "status": "ok",
       "iteration": 80,
       "reference_iteration": 40,
       "ci_excludes_zero": true,
@@ -125,38 +102,21 @@
       "resamples": 10000,
       "bootstrap_seed": 0,
       "verdict": "no clear difference (CI includes 0)",
-      "games_paired": 1000,
-      "games_dropped": 0,
-      "restricted": false,
+      "status": "ok",
       "iteration": 160,
       "reference_iteration": 40,
       "ci_excludes_zero": false,
       "reading": "indistinguishable (CI includes 0)"
     },
     "iter320-iter40": {
-      "n": 995,
-      "mean_diff": 0.09949748743718594,
-      "ci95": [
-        -0.036180904522613064,
-        0.24020100502512562
-      ],
-      "method": "paired percentile bootstrap",
-      "resamples": 10000,
-      "bootstrap_seed": 0,
-      "a": "iter320",
-      "b": "iter040",
-      "games_requested": 1000,
-      "games_paired": 995,
-      "games_dropped": 5,
-      "restricted": true,
-      "a_complete": false,
-      "b_complete": true,
-      "ci_excludes_zero": false,
-      "note": "paired on the 995 of 1000 DEV lobbies both checkpoints finished; the 5 dropped lobbies are ones a policy could not terminate, so this estimate is optimistic for that policy",
-      "verdict": "restricted to lobbies both checkpoints finished",
       "iteration": 320,
       "reference_iteration": 40,
-      "reading": "indistinguishable (CI includes 0)"
+      "status": "unscoreable",
+      "unscoreable_iterations": [
+        320
+      ],
+      "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS",
+      "reading": "not computable \u2014 a side of the pair has no defined DEV score under the frozen protocol"
     },
     "iter160-iter80": {
       "a": "iter160",
@@ -171,38 +131,21 @@
       "resamples": 10000,
       "bootstrap_seed": 0,
       "verdict": "iter160 places better",
-      "games_paired": 1000,
-      "games_dropped": 0,
-      "restricted": false,
+      "status": "ok",
       "iteration": 160,
       "reference_iteration": 80,
       "ci_excludes_zero": true,
       "reading": "first better (CI excludes 0)"
     },
     "iter320-iter80": {
-      "n": 995,
-      "mean_diff": -0.207035175879397,
-      "ci95": [
-        -0.32964824120603015,
-        -0.08542713567839195
-      ],
-      "method": "paired percentile bootstrap",
-      "resamples": 10000,
-      "bootstrap_seed": 0,
-      "a": "iter320",
-      "b": "iter080",
-      "games_requested": 1000,
-      "games_paired": 995,
-      "games_dropped": 5,
-      "restricted": true,
-      "a_complete": false,
-      "b_complete": true,
-      "ci_excludes_zero": true,
-      "note": "paired on the 995 of 1000 DEV lobbies both checkpoints finished; the 5 dropped lobbies are ones a policy could not terminate, so this estimate is optimistic for that policy",
-      "verdict": "restricted to lobbies both checkpoints finished",
       "iteration": 320,
       "reference_iteration": 80,
-      "reading": "first better (CI excludes 0)"
+      "status": "unscoreable",
+      "unscoreable_iterations": [
+        320
+      ],
+      "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS",
+      "reading": "not computable \u2014 a side of the pair has no defined DEV score under the frozen protocol"
     }
   }
 }

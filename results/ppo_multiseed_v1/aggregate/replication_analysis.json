@@ -22,6 +22,7 @@
           "2": 6.554,
           "3": 6.554
         },
+        "unscoreable_seeds": {},
         "n": 4,
         "mean": 6.554,
         "median": 6.554,
@@ -45,6 +46,7 @@
           "2": 6.56,
           "3": 6.877
         },
+        "unscoreable_seeds": {},
         "n": 4,
         "mean": 6.74725,
         "median": 6.776,
@@ -68,6 +70,7 @@
           "2": 6.569,
           "3": 7.074
         },
+        "unscoreable_seeds": {},
         "n": 4,
         "mean": 6.764,
         "median": 6.8215,
@@ -91,6 +94,7 @@
           "2": 6.523,
           "3": 6.869
         },
+        "unscoreable_seeds": {},
         "n": 4,
         "mean": 6.672,
         "median": 6.692,
@@ -110,790 +114,26 @@
         "cumulative_episodes": 5120,
         "per_seed": {
           "0": 6.606,
-          "1": 6.893467336683417,
           "2": 6.571,
           "3": 6.691
         },
-        "n": 4,
-        "mean": 6.690366834170854,
-        "median": 6.6485,
+        "unscoreable_seeds": {
+          "1": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS"
+        },
+        "n": 3,
+        "mean": 6.6226666666666665,
+        "median": 6.606,
         "min": 6.571,
-        "max": 6.893467336683417,
-        "std": 0.1444719336385763,
+        "max": 6.691,
+        "std": 0.0617116952719121,
         "values": [
           6.606,
-          6.893467336683417,
           6.571,
           6.691
         ],
         "note": "n=4 training seeds; descriptive only, not a population CI"
       }
-    },
-    "mixed_diagnostic_field": {
-      "field": "greedy4_random3",
-      "games": 500,
-      "note": "relative instrument only \u2014 the 4.5 lobby average is not a threshold for this field",
-      "by_iteration": {
-        "0": {
-          "iteration": 0,
-          "cumulative_episodes": 0,
-          "per_seed": {
-            "0": 4.37,
-            "1": 4.37,
-            "2": 4.37,
-            "3": 4.37
-          },
-          "n": 4,
-          "mean": 4.37,
-          "median": 4.37,
-          "min": 4.37,
-          "max": 4.37,
-          "std": 0.0,
-          "values": [
-            4.37,
-            4.37,
-            4.37,
-            4.37
-          ],
-          "note": "n=4 training seeds; descriptive only, not a population CI"
-        },
-        "40": {
-          "iteration": 40,
-          "cumulative_episodes": 640,
-          "per_seed": {
-            "0": 4.432,
-            "1": 4.606,
-            "2": 4.416,
-            "3": 4.776
-          },
-          "n": 4,
-          "mean": 4.5575,
-          "median": 4.519,
-          "min": 4.416,
-          "max": 4.776,
-          "std": 0.1691813622516772,
-          "values": [
-            4.432,
-            4.606,
-            4.416,
-            4.776
-          ],
-          "note": "n=4 training seeds; descriptive only, not a population CI"
-        },
-        "80": {
-          "iteration": 80,
-          "cumulative_episodes": 1280,
-          "per_seed": {
-            "0": 4.282,
-            "1": 4.866,
-            "2": 4.438,
-            "3": 4.728
-          },
-          "n": 4,
-          "mean": 4.5785,
-          "median": 4.583,
-          "min": 4.282,
-          "max": 4.866,
-          "std": 0.2662448747550519,
-          "values": [
-            4.282,
-            4.866,
-            4.438,
-            4.728
-          ],
-          "note": "n=4 training seeds; descriptive only, not a population CI"
-        },
-        "160": {
-          "iteration": 160,
-          "cumulative_episodes": 2560,
-          "per_seed": {
-            "0": 4.206,
-            "1": 4.67,
-            "2": 4.502,
-            "3": 4.68
-          },
-          "n": 4,
-          "mean": 4.5145,
-          "median": 4.586,
-          "min": 4.206,
-          "max": 4.68,
-          "std": 0.22128337789660843,
-          "values": [
-            4.206,
-            4.67,
-            4.502,
-            4.68
-          ],
-          "note": "n=4 training seeds; descriptive only, not a population CI"
-        },
-        "320": {
-          "iteration": 320,
-          "cumulative_episodes": 5120,
-          "per_seed": {
-            "0": 4.408,
-            "1": 4.748995983935743,
-            "2": 4.4,
-            "3": 4.448
-          },
-          "n": 4,
-          "mean": 4.501248995983936,
-          "median": 4.428000000000001,
-          "min": 4.4,
-          "max": 4.748995983935743,
-          "std": 0.1664940039483477,
-          "values": [
-            4.408,
-            4.748995983935743,
-            4.4,
-            4.448
-          ],
-          "note": "n=4 training seeds; descriptive only, not a population CI"
-        }
-      }
     }
-  },
-  "evaluation_completeness": {
-    "by_seed": {
-      "0": {
-        "per_checkpoint": [
-          {
-            "iteration": 0,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 0,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          }
-        ],
-        "any_incomplete": false,
-        "n_incomplete": 0,
-        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
-      },
-      "1": {
-        "per_checkpoint": [
-          {
-            "iteration": 0,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 0,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 995,
-            "games_requested": 1000,
-            "complete": false,
-            "games_non_terminating": 5,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": [
-              10550123,
-              10550352,
-              10550385,
-              10550539,
-              10550809
-            ]
-          },
-          {
-            "iteration": 320,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 498,
-            "games_requested": 500,
-            "complete": false,
-            "games_non_terminating": 2,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": [
-              10550123,
-              10550352
-            ]
-          }
-        ],
-        "any_incomplete": true,
-        "n_incomplete": 2,
-        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
-      },
-      "2": {
-        "per_checkpoint": [
-          {
-            "iteration": 0,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 0,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          }
-        ],
-        "any_incomplete": false,
-        "n_incomplete": 0,
-        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
-      },
-      "3": {
-        "per_checkpoint": [
-          {
-            "iteration": 0,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 0,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 40,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 80,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 160,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy",
-            "base_seed": 10550000,
-            "games": 1000,
-            "games_requested": 1000,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550999
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          },
-          {
-            "iteration": 320,
-            "field": "greedy4_random3",
-            "base_seed": 10550000,
-            "games": 500,
-            "games_requested": 500,
-            "complete": true,
-            "games_non_terminating": 0,
-            "seed_range": [
-              10550000,
-              10550499
-            ],
-            "evaluation_split": "dev",
-            "non_terminating_seeds": []
-          }
-        ],
-        "any_incomplete": false,
-        "n_incomplete": 0,
-        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
-      }
-    },
-    "n_seeds_with_an_incomplete_checkpoint": 1,
-    "note": "a checkpoint that cannot finish a DEV lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded from its average and from every paired comparison involving it; such averages are optimistic"
   },
   "question_a_1280_episode_replication": {
     "comparison": "iter80 - iter0 (positive = iter80 worse)",
@@ -960,13 +200,11 @@
       },
       {
         "training_seed": 1,
-        "mean_diff": -0.207035175879397,
-        "ci95": [
-          -0.32964824120603015,
-          -0.08542713567839195
-        ],
-        "ci_excludes_zero": true,
-        "direction": "continue_improving"
+        "mean_diff": null,
+        "ci95": null,
+        "ci_excludes_zero": null,
+        "direction": "regress_protocol_failure",
+        "reason": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS"
       },
       {
         "training_seed": 2,
@@ -990,14 +228,18 @@
       }
     ],
     "n_regress": 1,
-    "n_continue_improving": 2,
+    "n_continue_improving": 1,
     "n_indistinguishable": 1,
+    "n_regress_protocol_failure": 1,
+    "n_regress_including_protocol_failures": 2,
     "n_seeds": 4
   },
   "ushape": {
     "per_seed": {
       "0": {
         "label": "U-like / transient improvement",
+        "extension_label": "U-like / transient improvement",
+        "unscoreable_iterations": [],
         "mid_best_iteration": 80,
         "mid_best_episodes": 1280,
         "mid_gain_mean": true,
@@ -1017,28 +259,33 @@
         "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other."
       },
       "1": {
-        "label": "other",
+        "label": "other (iter320 unscoreable \u2014 fails the frozen DEV protocol)",
+        "extension_label": "monotonic degradation",
+        "unscoreable_iterations": [
+          320
+        ],
         "mid_best_iteration": 160,
         "mid_best_episodes": 2560,
         "mid_gain_mean": false,
         "late_regression_mean": true,
+        "late_regression_kind": "protocol failure (non-terminating deterministic play) \u2014 strictly worse than any scoreable checkpoint",
         "significant_mid_gain": false,
-        "significant_late_regression": false,
+        "significant_late_regression": true,
         "monotonic_improvement_sequence": false,
-        "monotonic_degradation_sequence": false,
+        "monotonic_degradation_sequence": true,
         "vs_iter0_all_cis_include_zero": false,
         "placements": {
           "0": 6.554,
           "40": 6.791,
           "80": 7.088,
-          "160": 6.861,
-          "320": 6.893467336683417
+          "160": 6.861
         },
-        "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other.",
-        "caveat": "at least one checkpoint of this training seed could not finish every DEV lobby; its placement average excludes those lobbies and is optimistic, so the shape label rests on a biased point"
+        "rule": "strict rule needs five scoreable means; iteration 320 is unscoreable, so label = other(...) and extension_label applies the documented ordering extension (unscoreable == strictly worst)"
       },
       "2": {
         "label": "U-like / transient improvement",
+        "extension_label": "U-like / transient improvement",
+        "unscoreable_iterations": [],
         "mid_best_iteration": 160,
         "mid_best_episodes": 2560,
         "mid_gain_mean": true,
@@ -1059,6 +306,8 @@
       },
       "3": {
         "label": "other",
+        "extension_label": "other",
+        "unscoreable_iterations": [],
         "mid_best_iteration": 160,
         "mid_best_episodes": 2560,
         "mid_gain_mean": false,
@@ -1079,8 +328,10 @@
       }
     },
     "n_transient_improvement": 2,
+    "n_transient_improvement_with_extension": 2,
+    "extension_note": "the extension counts a seed whose iteration 320 is unscoreable (fails the frozen DEV protocol) as late-regressing, since a policy that cannot finish its games is strictly worse than any scoreable checkpoint",
     "n_trajectories": 4,
-    "statement": "2 / 4 trajectories show transient improvement followed by regression"
+    "statement": "2 / 4 trajectories show transient improvement followed by regression (2 under the strict five-mean rule; see extension_note)"
   },
   "drift_replication": {
     "iter320": {
@@ -1997,10 +1248,10 @@
     "n_transient": 2,
     "n_new_seeds_iter80_improve": 0,
     "n_new_seeds": 3,
-    "n_iter320_regress_vs_iter80": 1,
+    "n_iter320_regress_vs_iter80": 2,
     "shape_labels": [
       "U-like / transient improvement",
-      "other",
+      "monotonic degradation",
       "U-like / transient improvement",
       "other"
     ]

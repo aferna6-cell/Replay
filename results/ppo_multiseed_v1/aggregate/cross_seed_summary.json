@@ -10,6 +10,7 @@
         "2": 6.554,
         "3": 6.554
       },
+      "unscoreable_seeds": {},
       "n": 4,
       "mean": 6.554,
       "median": 6.554,
@@ -33,6 +34,7 @@
         "2": 6.56,
         "3": 6.877
       },
+      "unscoreable_seeds": {},
       "n": 4,
       "mean": 6.74725,
       "median": 6.776,
@@ -56,6 +58,7 @@
         "2": 6.569,
         "3": 7.074
       },
+      "unscoreable_seeds": {},
       "n": 4,
       "mean": 6.764,
       "median": 6.8215,
@@ -79,6 +82,7 @@
         "2": 6.523,
         "3": 6.869
       },
+      "unscoreable_seeds": {},
       "n": 4,
       "mean": 6.672,
       "median": 6.692,
@@ -98,145 +102,24 @@
       "cumulative_episodes": 5120,
       "per_seed": {
         "0": 6.606,
-        "1": 6.893467336683417,
         "2": 6.571,
         "3": 6.691
       },
-      "n": 4,
-      "mean": 6.690366834170854,
-      "median": 6.6485,
+      "unscoreable_seeds": {
+        "1": "iteration 320 failed the frozen DEV protocol: 5/1000 games non-terminating within MAX_DECISIONS"
+      },
+      "n": 3,
+      "mean": 6.6226666666666665,
+      "median": 6.606,
       "min": 6.571,
-      "max": 6.893467336683417,
-      "std": 0.1444719336385763,
+      "max": 6.691,
+      "std": 0.0617116952719121,
       "values": [
         6.606,
-        6.893467336683417,
         6.571,
         6.691
       ],
       "note": "n=4 training seeds; descriptive only, not a population CI"
-    }
-  },
-  "mixed_diagnostic_field": {
-    "field": "greedy4_random3",
-    "games": 500,
-    "note": "relative instrument only \u2014 the 4.5 lobby average is not a threshold for this field",
-    "by_iteration": {
-      "0": {
-        "iteration": 0,
-        "cumulative_episodes": 0,
-        "per_seed": {
-          "0": 4.37,
-          "1": 4.37,
-          "2": 4.37,
-          "3": 4.37
-        },
-        "n": 4,
-        "mean": 4.37,
-        "median": 4.37,
-        "min": 4.37,
-        "max": 4.37,
-        "std": 0.0,
-        "values": [
-          4.37,
-          4.37,
-          4.37,
-          4.37
-        ],
-        "note": "n=4 training seeds; descriptive only, not a population CI"
-      },
-      "40": {
-        "iteration": 40,
-        "cumulative_episodes": 640,
-        "per_seed": {
-          "0": 4.432,
-          "1": 4.606,
-          "2": 4.416,
-          "3": 4.776
-        },
-        "n": 4,
-        "mean": 4.5575,
-        "median": 4.519,
-        "min": 4.416,
-        "max": 4.776,
-        "std": 0.1691813622516772,
-        "values": [
-          4.432,
-          4.606,
-          4.416,
-          4.776
-        ],
-        "note": "n=4 training seeds; descriptive only, not a population CI"
-      },
-      "80": {
-        "iteration": 80,
-        "cumulative_episodes": 1280,
-        "per_seed": {
-          "0": 4.282,
-          "1": 4.866,
-          "2": 4.438,
-          "3": 4.728
-        },
-        "n": 4,
-        "mean": 4.5785,
-        "median": 4.583,
-        "min": 4.282,
-        "max": 4.866,
-        "std": 0.2662448747550519,
-        "values": [
-          4.282,
-          4.866,
-          4.438,
-          4.728
-        ],
-        "note": "n=4 training seeds; descriptive only, not a population CI"
-      },
-      "160": {
-        "iteration": 160,
-        "cumulative_episodes": 2560,
-        "per_seed": {
-          "0": 4.206,
-          "1": 4.67,
-          "2": 4.502,
-          "3": 4.68
-        },
-        "n": 4,
-        "mean": 4.5145,
-        "median": 4.586,
-        "min": 4.206,
-        "max": 4.68,
-        "std": 0.22128337789660843,
-        "values": [
-          4.206,
-          4.67,
-          4.502,
-          4.68
-        ],
-        "note": "n=4 training seeds; descriptive only, not a population CI"
-      },
-      "320": {
-        "iteration": 320,
-        "cumulative_episodes": 5120,
-        "per_seed": {
-          "0": 4.408,
-          "1": 4.748995983935743,
-          "2": 4.4,
-          "3": 4.448
-        },
-        "n": 4,
-        "mean": 4.501248995983936,
-        "median": 4.428000000000001,
-        "min": 4.4,
-        "max": 4.748995983935743,
-        "std": 0.1664940039483477,
-        "values": [
-          4.408,
-          4.748995983935743,
-          4.4,
-          4.448
-        ],
-        "note": "n=4 training seeds; descriptive only, not a population CI"
-      }
     }
   }
 }

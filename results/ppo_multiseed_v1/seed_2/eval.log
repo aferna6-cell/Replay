@@ -1,0 +1,22 @@
+seed 2: iter0 parameter_sha256 = 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b
+  matches frozen warm start: True
+  eval iter   0  greedy  1000 games  seeds 10550000-10550999
+  eval iter   0  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter  40  greedy  1000 games  seeds 10550000-10550999
+  eval iter  40  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter  80  greedy  1000 games  seeds 10550000-10550999
+  eval iter  80  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter 160  greedy  1000 games  seeds 10550000-10550999
+  eval iter 160  greedy4_random3  500 games  seeds 10550000-10550499
+  eval iter 320  greedy  1000 games  seeds 10550000-10550999
+  eval iter 320  greedy4_random3  500 games  seeds 10550000-10550499
+Building frozen corpus: 100 greedy lobbies from seed 10590000 (DEV diagnostic range)…
+  4440 states, fingerprint 2ec217b353bd
+  iter_000.pt: expert 0.845  warmstart 1.000  KL 0.0000  value -0.092±0.535
+  iter_040.pt: expert 0.615  warmstart 0.666  KL 0.7503  value +0.106±0.557
+  iter_080.pt: expert 0.701  warmstart 0.757  KL 0.5516  value +0.113±0.475
+  iter_160.pt: expert 0.503  warmstart 0.485  KL 1.0019  value +0.102±0.437
+  iter_320.pt: expert 0.428  warmstart 0.486  KL 1.2546  value +0.156±0.407
+Saved -> results/ppo_multiseed_v1/seed_2/policy_drift.json
+Saved -> results/ppo_multiseed_v1/seed_2/action_category_drift.json
+  corpus fingerprint 2ec217b353bd == historical 2ec217b353bd
