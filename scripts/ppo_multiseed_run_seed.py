@@ -284,7 +284,9 @@ def main(argv=None) -> int:
         evaluate(a.seed, seed_dir)
     if not a.skip_drift:
         drift(a.seed, seed_dir)
-    summarize_seed(a.seed, seed_dir)
+    # Summaries need DEV eval + drift JSON; skip on train-only runs.
+    if not a.skip_eval and not a.skip_drift:
+        summarize_seed(a.seed, seed_dir)
     return 0
 
 

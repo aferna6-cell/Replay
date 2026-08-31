@@ -1,0 +1,45 @@
+{
+  "training_seed": 3,
+  "warm_start": {
+    "checkpoint_sha256": "73f07e37aa929bce58b5dada88ba7a527ac33a4410ca4d5f089e121275ed6e04",
+    "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+  },
+  "iter0": {
+    "checkpoint_sha256": "1c3bbb901169f6d949426240347d6e0a89192bb920227cf01befa15813fa2588",
+    "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+  },
+  "iter0_matches_warm_start": true,
+  "warm_start_matches_exp2": true,
+  "checkpoints": {
+    "0": {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "checkpoint_sha256": "1c3bbb901169f6d949426240347d6e0a89192bb920227cf01befa15813fa2588",
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    "40": {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "checkpoint_sha256": "7313539ef1947bd79ecca397cef7d13c9bfeeb0bfefca93e9c3006d39e677375",
+      "parameter_sha256": "6e4bbf7d081505fa26bd441adbeeea71e5843e62bd821051c264aefef7513157"
+    },
+    "80": {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "checkpoint_sha256": "f09040cca23bc2a99f411d36916d58448915f7ac0de1ff11dd6943fa92ba1c3e",
+      "parameter_sha256": "4506cbdd5955b7a2e5686db574576f96e8c003cd6b420305a093daa87c572d02"
+    },
+    "160": {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "checkpoint_sha256": "ace1a103315204730cf36dc007f8c87f9a2cdacd5c1c6b849c6f14287dfdaa02",
+      "parameter_sha256": "f625c17c2a8d46653e89f659104c4f8a60975cc888471b374ba350be2ee2ec49"
+    },
+    "320": {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "checkpoint_sha256": "bfafd7178d5812e974160985d9a5c15108f0c57744693eaec58cc59519024800",
+      "parameter_sha256": "af8a412eecacd6711d9d6930b3bb1cef3dae93250ee396540070d7bef4779701"
+    }
+  }
+}

@@ -325,3 +325,20 @@ Saved -> results/ppo_multiseed_v1/seed_1/final.pt
 Evaluating vs all-greedy field (1 episodes)…
 PPO policy avg placement vs greedy field: 6.00  (<4.5 beats the field)
 PPO policy avg placement vs random field: 1.00
+iter0 == warm start == Exp2: 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b
+Traceback (most recent call last):
+  File "/workspace/scripts/ppo_multiseed_run_seed.py", line 292, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/scripts/ppo_multiseed_run_seed.py", line 287, in main
+    summarize_seed(a.seed, seed_dir)
+  File "/workspace/scripts/ppo_multiseed_run_seed.py", line 149, in summarize_seed
+    greedy = load_seed_greedy(seed_dir)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ml/multiseed_analysis.py", line 37, in load_seed_greedy
+    return {it: load_result(f"{seed_dir}/dev/iter{it:03d}_vs_greedy.json")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ml/analyze_benchmark.py", line 41, in load_result
+    with open(path, encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'results/ppo_multiseed_v1/seed_1/dev/iter000_vs_greedy.json'

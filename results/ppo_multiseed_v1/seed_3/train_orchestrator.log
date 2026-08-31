@@ -325,3 +325,4 @@ Saved -> results/ppo_multiseed_v1/seed_3/final.pt
 Evaluating vs all-greedy field (1 episodes)…
 PPO policy avg placement vs greedy field: 8.00  (<4.5 beats the field)
 PPO policy avg placement vs random field: 1.00
+iter0 == warm start == Exp2: 094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b
