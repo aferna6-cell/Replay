@@ -21,6 +21,7 @@ from typing import Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 from ml.action_categories import CATEGORIES
 from ml.analyze_benchmark import compare_pair, load_result
+from ml.dev_partial import paired_common_games
 from ml.seeds import (DEV_SEED_END, DEV_SEED_START, EVAL_SEED_END,
                       EVAL_SEED_START, check_training_range,
                       overlaps_dev_range, overlaps_eval_range,
@@ -139,10 +140,24 @@ def load_dev_result(directory: str, iteration: int,
     return load_result(path)
 
 
+def games_requested(result: Mapping) -> int:
+    """The lobbies the protocol asked for, which is what must be identical
+    everywhere. ``games`` counts the ones that produced a placement — the two
+    differ only for a checkpoint that could not finish some lobbies."""
+    return int(result.get("games_requested", result["games"]))
+
+
+def is_complete(result: Mapping) -> bool:
+    return bool(result.get("complete", True))
+
+
 def eval_seed_record(result: Mapping) -> Dict:
     return {
         "base_seed": result["base_seed"],
         "games": result["games"],
+        "games_requested": games_requested(result),
+        "complete": is_complete(result),
+        "games_non_terminating": int(result.get("games_non_terminating", 0)),
         "seed_range": list(result["seed_range"]),
         "evaluation_split": result.get("evaluation_split"),
         "field": result["field"],
@@ -151,7 +166,13 @@ def eval_seed_record(result: Mapping) -> Dict:
 
 def assert_eval_seeds_match_experiment2(result: Mapping,
                                         field: str = "greedy") -> None:
-    """Every checkpoint must reuse Experiment 2's DEV seed interval."""
+    """Every checkpoint must reuse Experiment 2's DEV seed interval.
+
+    A checkpoint that stalled on some lobbies is allowed through — the stall
+    is a measurement, not a protocol violation — but only because it still
+    attempted the identical block of seeds. It stays flagged incomplete, and
+    ``within_seed_paired`` pairs it only on shared lobbies.
+    """
     expected_games = DEV_EVAL_GAMES if field == "greedy" else MIXED_GAMES
     expected_last = DEV_EVAL_BASE + expected_games - 1
     if result.get("evaluation_split") != "dev":
@@ -159,13 +180,35 @@ def assert_eval_seeds_match_experiment2(result: Mapping,
                          f"{result.get('evaluation_split')!r}")
     if result["base_seed"] != DEV_EVAL_BASE:
         raise ValueError(f"DEV base seed {result['base_seed']} != {DEV_EVAL_BASE}")
-    if result["games"] != expected_games:
-        raise ValueError(f"games {result['games']} != {expected_games}")
+    if games_requested(result) != expected_games:
+        raise ValueError(f"games_requested {games_requested(result)} != "
+                         f"{expected_games}")
     if list(result["seed_range"]) != [DEV_EVAL_BASE, expected_last]:
         raise ValueError(f"seed_range {result['seed_range']} != "
                          f"[{DEV_EVAL_BASE}, {expected_last}]")
     if result["field"] != field:
         raise ValueError(f"field {result['field']!r} != {field!r}")
+    if not is_complete(result) and result["games"] >= expected_games:
+        raise ValueError("result is flagged incomplete but scored every "
+                         "requested lobby — inconsistent record")
+
+
+def completeness_report(directory: str) -> Dict:
+    """Per checkpoint and field: did the policy finish every DEV lobby?"""
+    rows = []
+    for it in PRIMARY_ITERS:
+        for field in ("greedy", MIXED_FIELD):
+            blob = load_dev_result(directory, it, field)
+            rows.append({"iteration": it, "field": field,
+                         **eval_seed_record(blob),
+                         "non_terminating_seeds":
+                             list(blob.get("non_terminating_seeds", []))})
+    return {"per_checkpoint": rows,
+            "any_incomplete": any(not r["complete"] for r in rows),
+            "n_incomplete": sum(1 for r in rows if not r["complete"]),
+            "note": ("a checkpoint that cannot finish a lobby within "
+                     "ml.benchmark.MAX_DECISIONS has that lobby excluded; "
+                     "its placement average is then optimistic")}
 
 
 def within_seed_paired(greedy_by_iter: Mapping[int, Mapping],
@@ -173,9 +216,18 @@ def within_seed_paired(greedy_by_iter: Mapping[int, Mapping],
     """The nine pre-specified paired comparisons for one training seed."""
     out: Dict[str, Dict] = {}
     for it, ref in WITHIN_SEED_PAIRS:
-        row = compare_pair(greedy_by_iter[it], greedy_by_iter[ref],
-                           seed=bootstrap_seed)
-        row = dict(row)
+        a, b = greedy_by_iter[it], greedy_by_iter[ref]
+        if is_complete(a) and is_complete(b):
+            row = dict(compare_pair(a, b, seed=bootstrap_seed))
+            row["games_paired"] = row["n"]
+            row["games_dropped"] = 0
+            row["restricted"] = False
+        else:
+            # One side stalled on some lobbies: pair on the lobbies both
+            # finished and say so, rather than dropping the comparison or
+            # pretending the vectors line up.
+            row = dict(paired_common_games(a, b, seed=bootstrap_seed))
+            row["verdict"] = "restricted to lobbies both checkpoints finished"
         row["iteration"] = it
         row["reference_iteration"] = ref
         row["ci_excludes_zero"] = ci_excludes_zero(row["ci95"])
@@ -378,9 +430,17 @@ def load_seed_bundle(seed: int) -> Dict:
     assert_warmstart_hash(iter0["parameter_sha256"])
     placements = {c["iteration"]: c["greedy_avg"] for c in curve["curve"]}
     shape = classify_ushape(placements, paired)
+    completeness = completeness_report(directory)
+    if completeness["any_incomplete"]:
+        shape = dict(shape)
+        shape["caveat"] = (
+            "at least one checkpoint of this training seed could not finish "
+            "every DEV lobby; its placement average excludes those lobbies "
+            "and is optimistic, so the shape label rests on a biased point")
     return {
         "training_seed": seed,
         "source_dir": directory,
+        "completeness": completeness,
         "source": "experiment_2" if seed == 0 else "experiment_3",
         "curve": curve,
         "drift": drift,
@@ -404,10 +464,27 @@ def cross_seed_table(bundles: Mapping[int, Mapping]) -> Dict:
             "per_seed": vals,
             **summarize_numbers([vals[s] for s in sorted(vals)]),
         }
-    return {
+    out = {
         "replication_unit": "training seed (n=4); not 4000 independent games",
         "by_iteration": by_iter,
     }
+    if all("curve" in bundles[s] for s in bundles):
+        by_iter_mixed = {}
+        for it in PRIMARY_ITERS:
+            vals = {s: float(_curve_row(bundles[s], it)["mixed_avg"])
+                    for s in sorted(bundles)}
+            by_iter_mixed[str(it)] = {
+                "iteration": it,
+                "cumulative_episodes": episodes(it),
+                "per_seed": vals,
+                **summarize_numbers([vals[s] for s in sorted(vals)]),
+            }
+        out["mixed_diagnostic_field"] = {
+            "field": MIXED_FIELD, "games": MIXED_GAMES,
+            "note": ("relative instrument only — the 4.5 lobby average is "
+                     "not a threshold for this field"),
+            "by_iteration": by_iter_mixed}
+    return out
 
 
 def question_a(bundles: Mapping[int, Mapping]) -> Dict:
@@ -682,6 +759,16 @@ def assemble_replication(bundles: Mapping[int, Mapping]) -> Dict:
         "corpus_fingerprint_sha256": CORPUS_FINGERPRINT_SHA256,
         "dev_eval_seeds": [DEV_EVAL_BASE, DEV_EVAL_LAST],
         "cross_seed_summary": table,
+        "evaluation_completeness": {
+            "by_seed": {str(s): bundles[s]["completeness"]
+                        for s in sorted(bundles)},
+            "n_seeds_with_an_incomplete_checkpoint": sum(
+                bundles[s]["completeness"]["any_incomplete"]
+                for s in sorted(bundles)),
+            "note": ("a checkpoint that cannot finish a DEV lobby within "
+                     "ml.benchmark.MAX_DECISIONS has that lobby excluded "
+                     "from its average and from every paired comparison "
+                     "involving it; such averages are optimistic")},
         "question_a_1280_episode_replication": qa,
         "question_b_late_regression": qb,
         "ushape": {

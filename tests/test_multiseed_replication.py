@@ -370,3 +370,165 @@ def test_seed_report_refuses_to_rebuild_seed_0():
     from scripts.ppo_multiseed_seed_report import assemble_seed
     with pytest.raises(ValueError, match="seed 0"):
         assemble_seed(0)
+
+
+# --- checkpoints that cannot finish a DEV lobby -------------------------------
+def _dev_blob(name, placements, games_requested=None, stalled_seeds=(),
+              completed=None, field="greedy"):
+    requested = games_requested or len(placements)
+    blob = {
+        "agent": name, "benchmark_version": "v", "evaluation_split": "dev",
+        "field": field, "games": len(placements), "base_seed": DEV_EVAL_BASE,
+        "games_requested": requested,
+        "seed_range": [DEV_EVAL_BASE, DEV_EVAL_BASE + requested - 1],
+        "environment": {"env": "x"}, "placements": list(placements),
+        "metrics": {"avg_placement": sum(placements) / len(placements)},
+        "complete": not stalled_seeds,
+    }
+    if stalled_seeds:
+        blob["games_non_terminating"] = len(stalled_seeds)
+        blob["non_terminating_seeds"] = list(stalled_seeds)
+        blob["completed_game_indices"] = list(completed)
+    return blob
+
+
+def test_partial_result_json_records_the_lobbies_that_stalled():
+    from ml.benchmark import Agent, BenchmarkResult, compute_metrics
+    from ml.dev_partial import partial_result_to_json
+    placements = [4, 5, 6, 7, 8]
+    res = BenchmarkResult(agent=Agent("iter320", "policy", lambda *a: 0),
+                          field="greedy", games=len(placements),
+                          base_seed=DEV_EVAL_BASE,
+                          metrics=compute_metrics(placements),
+                          ci95={"low": 4.0, "high": 8.0}, latency={},
+                          placements=placements)
+    stalled = [{"index": 2, "seed": DEV_EVAL_BASE + 2, "reason": "stall"},
+               {"index": 5, "seed": DEV_EVAL_BASE + 5, "reason": "stall"}]
+    blob = partial_result_to_json(res, stalled, [0, 1, 3, 4, 6], 7)
+    assert blob["complete"] is False
+    assert blob["games"] == 5 and blob["games_requested"] == 7
+    assert blob["games_non_terminating"] == 2
+    assert blob["non_terminating_seeds"] == [DEV_EVAL_BASE + 2,
+                                             DEV_EVAL_BASE + 5]
+    # the seed block stays the full requested range, so the protocol is visible
+    assert blob["seed_range"] == [DEV_EVAL_BASE, DEV_EVAL_BASE + 6]
+    assert blob["beats_field"] is None
+    assert "INCOMPLETE" in blob["restricted_note"]
+    # a run that finished everything is not flagged and carries no index list
+    full = partial_result_to_json(res, [], [0, 1, 2, 3, 4], 5)
+    assert full["complete"] is True
+    assert "completed_game_indices" not in full
+
+
+def test_paired_common_games_matches_the_normal_pairing_when_complete():
+    from ml.analyze_benchmark import compare_pair
+    from ml.dev_partial import paired_common_games
+    a = _dev_blob("a", [4, 5, 6, 7, 8, 3])
+    b = _dev_blob("b", [5, 5, 7, 7, 8, 4])
+    got = paired_common_games(a, b)
+    assert got["mean_diff"] == pytest.approx(compare_pair(a, b)["mean_diff"])
+    assert got["restricted"] is False and got["games_dropped"] == 0
+    assert got["games_paired"] == 6
+
+
+def test_paired_common_games_drops_only_the_shared_missing_lobbies():
+    from ml.dev_partial import paired_common_games
+    full = _dev_blob("iter080", [4, 4, 4, 4, 4, 4])
+    # the stalled policy has no placement for lobbies 1 and 4
+    partial = _dev_blob("iter320", [8, 8, 8, 8], games_requested=6,
+                        stalled_seeds=[DEV_EVAL_BASE + 1, DEV_EVAL_BASE + 4],
+                        completed=[0, 2, 3, 5])
+    got = paired_common_games(partial, full)
+    assert got["games_paired"] == 4 and got["games_dropped"] == 2
+    assert got["restricted"] is True
+    assert got["mean_diff"] == pytest.approx(4.0)
+    assert got["a_complete"] is False and got["b_complete"] is True
+    assert "optimistic" in got["note"]
+
+
+def test_within_seed_paired_handles_a_restricted_checkpoint():
+    from ml.multiseed_analysis import within_seed_paired
+    base = [4, 5, 6, 7] * 25
+    greedy = {it: _dev_blob(f"iter{it:03d}", base) for it in PRIMARY_ITERS}
+    greedy[320] = _dev_blob("iter320", base[:-2], games_requested=100,
+                            stalled_seeds=[DEV_EVAL_BASE + 98,
+                                           DEV_EVAL_BASE + 99],
+                            completed=list(range(98)))
+    rows = within_seed_paired(greedy)
+    assert rows[pair_key(320, 80)]["restricted"] is True
+    assert rows[pair_key(320, 80)]["games_paired"] == 98
+    assert rows[pair_key(320, 80)]["games_dropped"] == 2
+    # comparisons that do not involve the restricted checkpoint stay full
+    assert rows[pair_key(80, 0)]["restricted"] is False
+    assert rows[pair_key(80, 0)]["games_paired"] == 100
+
+
+def test_incomplete_result_is_accepted_but_never_silently():
+    from ml.multiseed_analysis import (assert_eval_seeds_match_experiment2,
+                                       eval_seed_record, games_requested,
+                                       is_complete)
+    partial = _dev_blob("iter320", [8] * 995, games_requested=DEV_EVAL_GAMES,
+                        stalled_seeds=[DEV_EVAL_BASE + i for i in range(5)],
+                        completed=list(range(5, 1000)))
+    assert_eval_seeds_match_experiment2(partial, "greedy")   # attempted block ok
+    assert games_requested(partial) == DEV_EVAL_GAMES
+    assert is_complete(partial) is False
+    rec = eval_seed_record(partial)
+    assert rec["complete"] is False and rec["games_non_terminating"] == 5
+    assert rec["games_requested"] == DEV_EVAL_GAMES
+    # a record that claims to be incomplete while scoring everything is a bug
+    inconsistent = dict(partial, games=DEV_EVAL_GAMES)
+    with pytest.raises(ValueError, match="inconsistent record"):
+        assert_eval_seeds_match_experiment2(inconsistent, "greedy")
+
+
+def test_tolerant_runner_records_stalls_instead_of_aborting(monkeypatch):
+    """The MAX_DECISIONS guard is not relaxed — the stall becomes data."""
+    import ml.dev_partial as dp
+    from ml.benchmark import Agent, BenchmarkIntegrityError
+
+    stall_at = {DEV_EVAL_BASE + 1, DEV_EVAL_BASE + 3}
+
+    def fake_run_game(agent, seats, seed):
+        if seed in stall_at:
+            raise BenchmarkIntegrityError(f"episode did not terminate: {seed}")
+        return {"seed": seed, "placement": 1 + (seed - DEV_EVAL_BASE) % 8,
+                "latencies": [0.001]}
+
+    monkeypatch.setattr(dp, "run_game", fake_run_game)
+    agent = Agent("stub", "policy", lambda *a: 0)
+    res, stalled, completed = dp.run_dev_benchmark_tolerant(agent, "greedy", 6)
+    assert [s["seed"] for s in stalled] == sorted(stall_at)
+    assert completed == [0, 2, 4, 5]
+    assert res.games == 4 and len(res.placements) == 4
+
+    # a policy that finishes nothing is refused outright rather than scored
+    monkeypatch.setattr(dp, "run_game", lambda *a: (_ for _ in ()).throw(
+        BenchmarkIntegrityError("stall")))
+    with pytest.raises(BenchmarkIntegrityError, match="finished 0 of"):
+        dp.run_dev_benchmark_tolerant(agent, "greedy", 3)
+
+
+def test_committed_results_report_their_completeness():
+    """Whatever the outcome, every committed DEV result must state whether
+    the policy finished all of its lobbies."""
+    from ml.multiseed_analysis import MULTI_DIR, eval_seed_record
+    checked = 0
+    for s in (1, 2, 3):
+        directory = os.path.join(MULTI_DIR, f"seed_{s}")
+        for it in PRIMARY_ITERS:
+            path = os.path.join(directory, "dev", f"iter{it:03d}_vs_greedy.json")
+            if not os.path.isfile(path):
+                continue
+            with open(path, encoding="utf-8") as f:
+                blob = json.load(f)
+            rec = eval_seed_record(blob)
+            assert rec["games_requested"] == DEV_EVAL_GAMES
+            assert rec["seed_range"] == [DEV_EVAL_BASE, DEV_EVAL_LAST]
+            assert isinstance(rec["complete"], bool)
+            if not rec["complete"]:
+                assert blob["non_terminating_seeds"]
+                assert len(blob["completed_game_indices"]) == blob["games"]
+            checked += 1
+    if checked == 0:
+        pytest.skip("no Experiment 3 DEV artifacts present")
