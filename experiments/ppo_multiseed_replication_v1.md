@@ -124,7 +124,6 @@ The full budget table above is the expert/warm-start/KL curve. Iteration-320 cat
 
 | seed | expert agreement | warm-start agreement | expert→freeze | warm-start→freeze | largest expert transitions |
 |---:|---:|---:|---:|---:|---|
-
 | 0 | 42.6% | 40.8% | 153 | 153 | roll→buy 935, end→roll 251, play→buy 227 |
 | 1 | 42.0% | 36.4% | 167 | 167 | roll→buy 1352, end→buy 192, play→buy 135 |
 | 2 | 42.8% | 48.6% | 0 | 0 | roll→buy 1352, end→buy 192, level→buy 127 |

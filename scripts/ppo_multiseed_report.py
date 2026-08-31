@@ -440,7 +440,6 @@ def _report(data):
         "",
         "| seed | expert agreement | warm-start agreement | expert→freeze | warm-start→freeze | largest expert transitions |",
         "|---:|---:|---:|---:|---:|---|",
-        "",
     ]
     for seed in data["seeds"]:
         curve320 = next(x for x in data["curves"][str(seed)]
