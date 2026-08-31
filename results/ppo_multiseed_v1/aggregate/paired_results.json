@@ -1,0 +1,412 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "description": "Within-seed paired bootstrap comparisons on 1000 identical DEV games (vs 7x greedy)",
+  "method": "deterministic paired percentile bootstrap, 10,000 resamples, seed 0",
+  "convention": "mean_diff = target - reference; positive = target is WORSE (higher placement), negative = target is BETTER",
+  "by_seed": {
+    "seed_0": {
+      "iter040_vs_iter000": {
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "mean_diff": 0.207,
+        "ci95": [
+          0.093,
+          0.322
+        ],
+        "verdict": "iter000 places better",
+        "n_games": 1000
+      },
+      "iter080_vs_iter000": {
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "verdict": "iter080 places better",
+        "n_games": 1000
+      },
+      "iter160_vs_iter000": {
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "mean_diff": -0.119,
+        "ci95": [
+          -0.245,
+          0.008
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter000": {
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "mean_diff": 0.052,
+        "ci95": [
+          -0.104,
+          0.21
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter040": {
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "mean_diff": -0.436,
+        "ci95": [
+          -0.593,
+          -0.277
+        ],
+        "verdict": "iter080 places better",
+        "n_games": 1000
+      },
+      "iter160_vs_iter040": {
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "mean_diff": -0.326,
+        "ci95": [
+          -0.451,
+          -0.205
+        ],
+        "verdict": "iter160 places better",
+        "n_games": 1000
+      },
+      "iter320_vs_iter040": {
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "mean_diff": -0.155,
+        "ci95": [
+          -0.303,
+          0.0
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter080": {
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "mean_diff": 0.11,
+        "ci95": [
+          -0.044,
+          0.262
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter080": {
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "verdict": "iter080 places better",
+        "n_games": 1000
+      }
+    },
+    "seed_1": {
+      "iter040_vs_iter000": {
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "mean_diff": 0.037,
+        "ci95": [
+          -0.037,
+          0.111
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter000": {
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "mean_diff": -0.047,
+        "ci95": [
+          -0.201,
+          0.108
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter000": {
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "mean_diff": 0.02,
+        "ci95": [
+          -0.037,
+          0.076
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter000": {
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "mean_diff": 0.024,
+        "ci95": [
+          -0.057,
+          0.106
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter040": {
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "mean_diff": -0.084,
+        "ci95": [
+          -0.235,
+          0.067
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter040": {
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "mean_diff": -0.017,
+        "ci95": [
+          -0.086,
+          0.051
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter040": {
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "mean_diff": -0.013,
+        "ci95": [
+          -0.079,
+          0.053
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter080": {
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "mean_diff": 0.067,
+        "ci95": [
+          -0.084,
+          0.219
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter080": {
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "mean_diff": 0.071,
+        "ci95": [
+          -0.075,
+          0.221
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      }
+    },
+    "seed_2": {
+      "iter040_vs_iter000": {
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "mean_diff": 0.011,
+        "ci95": [
+          -0.151,
+          0.17
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter000": {
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "mean_diff": 0.142,
+        "ci95": [
+          -0.01,
+          0.296
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter000": {
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "mean_diff": 0.124,
+        "ci95": [
+          0.024,
+          0.225
+        ],
+        "verdict": "Seed2_iter000 places better",
+        "n_games": 1000
+      },
+      "iter320_vs_iter000": {
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "mean_diff": 0.029,
+        "ci95": [
+          -0.08,
+          0.14
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter040": {
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "mean_diff": 0.131,
+        "ci95": [
+          -0.023,
+          0.285
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter040": {
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "mean_diff": 0.113,
+        "ci95": [
+          -0.034,
+          0.265
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter040": {
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "mean_diff": 0.018,
+        "ci95": [
+          -0.139,
+          0.178
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter160_vs_iter080": {
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "mean_diff": -0.018,
+        "ci95": [
+          -0.154,
+          0.12
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter080": {
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "mean_diff": -0.113,
+        "ci95": [
+          -0.262,
+          0.036
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      }
+    },
+    "seed_3": {
+      "iter040_vs_iter000": {
+        "target_iteration": 40,
+        "reference_iteration": 0,
+        "mean_diff": 0.062,
+        "ci95": [
+          -0.015,
+          0.139
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter000": {
+        "target_iteration": 80,
+        "reference_iteration": 0,
+        "mean_diff": 0.569,
+        "ci95": [
+          0.435,
+          0.704
+        ],
+        "verdict": "Seed3_iter000 places better",
+        "n_games": 1000
+      },
+      "iter160_vs_iter000": {
+        "target_iteration": 160,
+        "reference_iteration": 0,
+        "mean_diff": 0.578,
+        "ci95": [
+          0.437,
+          0.72
+        ],
+        "verdict": "Seed3_iter000 places better",
+        "n_games": 1000
+      },
+      "iter320_vs_iter000": {
+        "target_iteration": 320,
+        "reference_iteration": 0,
+        "mean_diff": -0.015,
+        "ci95": [
+          -0.103,
+          0.073
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter080_vs_iter040": {
+        "target_iteration": 80,
+        "reference_iteration": 40,
+        "mean_diff": 0.507,
+        "ci95": [
+          0.372,
+          0.641
+        ],
+        "verdict": "Seed3_iter040 places better",
+        "n_games": 1000
+      },
+      "iter160_vs_iter040": {
+        "target_iteration": 160,
+        "reference_iteration": 40,
+        "mean_diff": 0.516,
+        "ci95": [
+          0.375,
+          0.654
+        ],
+        "verdict": "Seed3_iter040 places better",
+        "n_games": 1000
+      },
+      "iter320_vs_iter040": {
+        "target_iteration": 320,
+        "reference_iteration": 40,
+        "mean_diff": -0.077,
+        "ci95": [
+          -0.153,
+          -0.004
+        ],
+        "verdict": "Seed3_iter320 places better",
+        "n_games": 1000
+      },
+      "iter160_vs_iter080": {
+        "target_iteration": 160,
+        "reference_iteration": 80,
+        "mean_diff": 0.009,
+        "ci95": [
+          -0.098,
+          0.117
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "n_games": 1000
+      },
+      "iter320_vs_iter080": {
+        "target_iteration": 320,
+        "reference_iteration": 80,
+        "mean_diff": -0.584,
+        "ci95": [
+          -0.719,
+          -0.45
+        ],
+        "verdict": "Seed3_iter320 places better",
+        "n_games": 1000
+      }
+    }
+  }
+}
