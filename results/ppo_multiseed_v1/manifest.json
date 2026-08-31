@@ -1,7 +1,7 @@
 {
   "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
-  "timestamp_utc": "2026-08-31T20:59:18.315065+00:00",
-  "code_commit": "78e149080250409d6d1c61551fc560572d56902b",
+  "timestamp_utc": "2026-08-31T21:20:40.162230+00:00",
+  "code_commit": "0c83f31391635f8dc87ccb7ac763d4a6a950fbfb",
   "question": "Does the transient PPO improvement around 1,280\u20132,560 episodes reproduce across independent PPO training seeds, and does performance then decay with extended training?",
   "single_variable": "PPO training seed",
   "unchanged": [
@@ -29,8 +29,29 @@
   "warm_start": {
     "file": "ml/policy_bc.pt",
     "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+    "verified_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+    "verified_checkpoint_sha256": "bd3a4386329ecf1abc045e90d069816b801aa02d18db04af625e8ef452b0d871",
+    "verified_at_manifest_time": true,
     "note": "same exact BC + DAgger checkpoint as Experiments 1\u20132; not retrained for seeds 1/2/3; every seed's iteration-0 checkpoint must reproduce this parameter hash",
-    "historical_command": "python -m ml.bc --lobbies 150 --epochs 6 --dagger-rounds 2 --dagger-lobbies 80 --seed 0 --out ml/policy_bc.pt"
+    "historical_command": "python -m ml.bc --lobbies 150 --epochs 6 --dagger-rounds 2 --dagger-lobbies 80 --seed 0 --out ml/policy_bc.pt",
+    "reproduction_detail": "7,319 demonstrations + 2,729 + 2,691 DAgger states = 12,739 total; final imitation accuracy 82.4% \u2014 identical to the historical record",
+    "why_shared_across_seeds": "holding the BC warm start fixed is what makes the PPO training seed the only variable. Re-running BC per seed would confound BC randomness with PPO randomness, and the experiment could no longer attribute curve differences to PPO training stochasticity."
+  },
+  "reproduction_gate": {
+    "requirement": "every seed's iteration-0 checkpoint must carry the frozen warm start's parameter_sha256",
+    "expected": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+    "per_seed": {
+      "1": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+      "2": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+      "3": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    "passed": true,
+    "cross_experiment_determinism_check": {
+      "claim": "the iteration-0 checkpoint is the same weights in every seed and in Experiment 2, so its 1000-game DEV evaluation should reproduce Experiment 2's per-game placements exactly despite the different torch/numpy build",
+      "experiment_2_iter0_avg_placement": 6.554,
+      "experiment_3_iter0_avg_placement": 6.554,
+      "per_game_placements_identical": true
+    }
   },
   "training": {
     "episodes_per_iteration": 16,
@@ -98,7 +119,7 @@
           1005123
         ],
         "seed_scheme": "ml.seeds.ppo_episode_seed(1, k) = 1*1000003 + k",
-        "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 1 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_1/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_multiseed_v1/seed_1/checkpoints --diag-log results/ppo_multiseed_v1/seed_1/train_diag.jsonl",
+        "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 1 --shaping 1.0 --shaping-horizon 40 --eval-episodes 1 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_1/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_multiseed_v1/seed_1/checkpoints --diag-log results/ppo_multiseed_v1/seed_1/train_diag.jsonl",
         "checkpoints": {
           "training_seed": 1,
           "warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
@@ -140,7 +161,11 @@
               "parameter_sha256": "12d2bcaecdf212b0ba76f61a8cc1d67bd3b0f7293d6bdfeb05c7934a9c8ebac2"
             }
           ]
-        }
+        },
+        "iteration0_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+        "iteration0_matches_frozen_warm_start": true,
+        "drift_corpus_fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+        "drift_corpus_matches_frozen": true
       },
       {
         "training_seed": 2,
@@ -151,7 +176,7 @@
           2005126
         ],
         "seed_scheme": "ml.seeds.ppo_episode_seed(2, k) = 2*1000003 + k",
-        "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 2 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_2/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_multiseed_v1/seed_2/checkpoints --diag-log results/ppo_multiseed_v1/seed_2/train_diag.jsonl",
+        "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 2 --shaping 1.0 --shaping-horizon 40 --eval-episodes 1 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_2/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_multiseed_v1/seed_2/checkpoints --diag-log results/ppo_multiseed_v1/seed_2/train_diag.jsonl",
         "checkpoints": {
           "training_seed": 2,
           "warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
@@ -193,7 +218,11 @@
               "parameter_sha256": "20d6467b2a1cb9c0cb78981cc420f0be2a5935336f94f97438e640f9905f5389"
             }
           ]
-        }
+        },
+        "iteration0_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+        "iteration0_matches_frozen_warm_start": true,
+        "drift_corpus_fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+        "drift_corpus_matches_frozen": true
       },
       {
         "training_seed": 3,
@@ -204,7 +233,7 @@
           3005129
         ],
         "seed_scheme": "ml.seeds.ppo_episode_seed(3, k) = 3*1000003 + k",
-        "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 3 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_3/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_multiseed_v1/seed_3/checkpoints --diag-log results/ppo_multiseed_v1/seed_3/train_diag.jsonl",
+        "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 3 --shaping 1.0 --shaping-horizon 40 --eval-episodes 1 --from-bc ml/policy_bc.pt --out results/ppo_multiseed_v1/seed_3/final.pt --save-iters 0,10,20,40,80,120,160,240,320 --save-dir results/ppo_multiseed_v1/seed_3/checkpoints --diag-log results/ppo_multiseed_v1/seed_3/train_diag.jsonl",
         "checkpoints": {
           "training_seed": 3,
           "warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
@@ -246,7 +275,11 @@
               "parameter_sha256": "eeab8283d15bbf5238f6a3a811903618d3c27ec4b5935d082a71038300db3d96"
             }
           ]
-        }
+        },
+        "iteration0_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+        "iteration0_matches_frozen_warm_start": true,
+        "drift_corpus_fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+        "drift_corpus_matches_frozen": true
       }
     ],
     "seed_isolation": [
@@ -320,7 +353,51 @@
       "seed_base": 10590000,
       "states": 4440,
       "fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+      "verified_per_seed": {
+        "1": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+        "2": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+        "3": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e"
+      },
       "note": "frozen Experiment 1/2 corpus; not regenerated"
+    },
+    "action_categories": "ml.action_categories \u2014 the Experiment 2 mapping, unchanged",
+    "paired_bootstrap": "ml.analyze_benchmark.paired_diff \u2014 deterministic paired percentile bootstrap, 10000 resamples, bootstrap seed 0",
+    "non_termination": {
+      "decision_cap": 400,
+      "unscoreable_checkpoints": [
+        {
+          "training_seed": 1,
+          "iteration": 320,
+          "field": "greedy",
+          "games_attempted": 1000,
+          "games_completed": 995,
+          "games_non_terminating": 5,
+          "non_terminating_game_seeds": [
+            10550123,
+            10550352,
+            10550385,
+            10550539,
+            10550809
+          ],
+          "diagnostic": "results/ppo_multiseed_v1/seed_1/dev/iter320_vs_greedy.protocol_failure.json"
+        },
+        {
+          "training_seed": 1,
+          "iteration": 320,
+          "field": "greedy4_random3",
+          "games_attempted": 500,
+          "games_completed": 498,
+          "games_non_terminating": 2,
+          "non_terminating_game_seeds": [
+            10550123,
+            10550352
+          ],
+          "diagnostic": "results/ppo_multiseed_v1/seed_1/dev/iter320_vs_greedy4_random3.protocol_failure.json"
+        }
+      ],
+      "n_unscoreable": 2,
+      "primary_treatment": "an unscoreable checkpoint carries NO DEV placement: it is excluded from the headline tables and from every paired comparison, and no score is fabricated for it",
+      "supplement": "results/ppo_multiseed_v1/aggregate/restricted_supplement.json pairs it against the scored budgets on the lobbies it did finish; those rows are explicitly restricted and biased in the failing checkpoint's favour"
     }
   },
   "environment": {
@@ -335,7 +412,13 @@
   "software": {
     "python": "3.12.3",
     "torch": "2.13.0+cpu",
-    "numpy": "2.4.4"
+    "numpy": "2.5.2",
+    "experiment_2_recorded": {
+      "python": "3.11.15",
+      "torch": "2.13.0+cu130",
+      "numpy": "2.4.6"
+    },
+    "caveat": "Experiment 3 ran on a different build than Experiment 2 recorded (CPU-only torch, newer numpy and Python). Seed 0's numbers are reused from Experiment 2's artifacts and were NOT recomputed, so any build-dependent difference would sit between seed 0 and seeds 1\u20133 rather than inside them. The one direct check available is reassuring: the iteration-0 checkpoint \u2014 the same weights in all four seeds \u2014 reproduces Experiment 2's 1000 per-game DEV placements exactly on this build (see reproduction_gate)."
   },
   "artifacts": {
     "seed_0_experiment_2": "results/ppo_budget_v1",
@@ -351,8 +434,12 @@
     "experiment_3_branch": "claude/ppo-budget-multiseed-v1"
   },
   "limitations": [
-    "Four PPO training seeds total (one historical + three new). n=4 is small; cross-seed means are descriptive.",
+    "FOUR PPO TRAINING SEEDS TOTAL (one historical + three new). n=4 is a small sample for training variability; cross-seed means and intervals here are descriptive, not population estimates for PPO. No extra seed was added after seeing the results.",
+    "Package versions differ from Experiment 2's recorded environment (see software.caveat); seed 0 is reused, not recomputed.",
+    "Seed 1's 5,120-episode policy could not finish every DEV lobby (see evaluation.non_termination), so it has no DEV score at all: the 5,120-episode row covers three scoreable seeds.",
     "Checkpoint binaries are gitignored; fingerprints are stored.",
-    "DEV only. Benchmark v1 TEST was never run."
+    "The greedy4_random3 field is a relative comparison instrument only \u2014 the 4.5 lobby average is not a threshold for it.",
+    "Drift, agreement and KL are measured on one frozen 4,440-state corpus of greedy trajectories, so they describe behavior on expert-visited states, not on the states a drifted policy actually reaches.",
+    "DEV only. Benchmark v1 TEST was never run, and no checkpoint was tuned, selected, or deployed."
   ]
 }

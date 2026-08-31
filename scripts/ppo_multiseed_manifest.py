@@ -9,6 +9,7 @@ pointers to Experiment 2 for seed 0 (no copy, no overwrite).
 
 from __future__ import annotations
 
+import glob
 import os
 import subprocess
 import sys
@@ -66,33 +67,37 @@ def non_termination_record() -> dict:
     """Which checkpoints could not finish every fixed DEV lobby.
 
     ``ml.benchmark`` refuses to score an episode that has not terminated
-    within MAX_DECISIONS. Recording the stalls keeps a degenerate policy
-    visible instead of letting it vanish behind an aborted evaluation.
+    within MAX_DECISIONS, so such a checkpoint has no DEV score at all. The
+    failure is recorded here rather than being left as an aborted run.
     """
+    import json
     rows = []
-    for s in ALL_SEEDS:
-        for it in PRIMARY_ITERS:
-            for field in ("greedy", MIXED_FIELD):
-                blob = _dev_blob(s, it, field)
-                n = int(blob.get("games_non_terminating", 0))
-                if n:
-                    rows.append({
-                        "training_seed": s, "iteration": it, "field": field,
-                        "games_requested": blob.get("games_requested",
-                                                    blob["games"]),
-                        "games_scored": blob["games"],
-                        "games_non_terminating": n,
-                        "non_terminating_seeds":
-                            blob.get("non_terminating_seeds", [])})
+    for path in sorted(glob.glob(
+            f"{MULTI_DIR}/seed_*/dev/*.protocol_failure.json")):
+        with open(path, encoding="utf-8") as f:
+            blob = json.load(f)
+        rows.append({
+            "training_seed": blob["training_seed"],
+            "iteration": blob["ppo_iteration"],
+            "field": blob["field"],
+            "games_attempted": blob["games_attempted"],
+            "games_completed": blob["n_completed"],
+            "games_non_terminating": blob["n_non_terminating"],
+            "non_terminating_game_seeds": blob["non_terminating_game_seeds"],
+            "diagnostic": os.path.relpath(path)})
     return {
         "decision_cap": MAX_DECISIONS,
-        "affected_checkpoints": rows,
-        "n_affected": len(rows),
-        "consequence": ("an affected checkpoint's placement average excludes "
-                        "the lobbies it could not finish and is therefore "
-                        "optimistic; every paired comparison involving it is "
-                        "restricted to the lobbies both checkpoints "
-                        "finished, and says so in paired_results.json"),
+        "unscoreable_checkpoints": rows,
+        "n_unscoreable": len(rows),
+        "primary_treatment": ("an unscoreable checkpoint carries NO DEV "
+                              "placement: it is excluded from the headline "
+                              "tables and from every paired comparison, and "
+                              "no score is fabricated for it"),
+        "supplement": ("results/ppo_multiseed_v1/aggregate/"
+                       "restricted_supplement.json pairs it against the "
+                       "scored budgets on the lobbies it did finish; those "
+                       "rows are explicitly restricted and biased in the "
+                       "failing checkpoint's favour"),
     }
 
 
@@ -327,8 +332,8 @@ def main() -> int:
             "environment (see software.caveat); seed 0 is reused, not "
             "recomputed.",
             "Seed 1's 5,120-episode policy could not finish every DEV lobby "
-            "(see evaluation.non_termination); its average excludes those "
-            "lobbies and is optimistic.",
+            "(see evaluation.non_termination), so it has no DEV score at "
+            "all: the 5,120-episode row covers three scoreable seeds.",
             "Checkpoint binaries are gitignored; fingerprints are stored.",
             "The greedy4_random3 field is a relative comparison instrument "
             "only — the 4.5 lobby average is not a threshold for it.",
@@ -353,8 +358,8 @@ def main() -> int:
     print("Training seeds isolated from DEV/TEST:",
           all(r["isolated"] for r in isolation))
     nt = manifest["evaluation"]["non_termination"]
-    print(f"Checkpoints that could not finish every DEV lobby: "
-          f"{nt['n_affected']}")
+    print(f"Checkpoints left unscoreable by the DEV protocol: "
+          f"{nt['n_unscoreable']}")
     return 0 if gate["passed"] else 1
 
 
