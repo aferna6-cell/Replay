@@ -1,0 +1,881 @@
+{
+  "method": "deterministic paired percentile bootstrap, 10000 resamples, seed 0",
+  "note": "positive = first checkpoint worse; replication unit = training seed",
+  "within_seed": {
+    "0": {
+      "iter40-iter0": {
+        "a": "iter040",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.207,
+        "ci95": [
+          0.093,
+          0.322
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 40,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter80-iter0": {
+        "a": "iter080",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter080 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      },
+      "iter160-iter0": {
+        "a": "iter160",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": -0.119,
+        "ci95": [
+          -0.245,
+          0.008
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter0": {
+        "a": "iter320",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.052,
+        "ci95": [
+          -0.104,
+          0.21
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter80-iter40": {
+        "a": "iter080",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.436,
+        "ci95": [
+          -0.593,
+          -0.277
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter080 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 40,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      },
+      "iter160-iter40": {
+        "a": "iter160",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.326,
+        "ci95": [
+          -0.451,
+          -0.205
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter160 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 40,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      },
+      "iter320-iter40": {
+        "a": "iter320",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.155,
+        "ci95": [
+          -0.303,
+          0.0
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 40,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter160-iter80": {
+        "a": "iter160",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": 0.11,
+        "ci95": [
+          -0.044,
+          0.262
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 80,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter80": {
+        "a": "iter320",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter080 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 80,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      }
+    },
+    "1": {
+      "iter40-iter0": {
+        "a": "iter040",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.237,
+        "ci95": [
+          0.088,
+          0.387
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 40,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter80-iter0": {
+        "a": "iter080",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.534,
+        "ci95": [
+          0.436,
+          0.633
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter160-iter0": {
+        "a": "iter160",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.307,
+        "ci95": [
+          0.16,
+          0.453
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter320-iter0": {
+        "n": 995,
+        "mean_diff": 0.32964824120603015,
+        "ci95": [
+          0.18190954773869347,
+          0.4763819095477387
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "a": "iter320",
+        "b": "iter000",
+        "games_requested": 1000,
+        "games_paired": 995,
+        "games_dropped": 5,
+        "restricted": true,
+        "a_complete": false,
+        "b_complete": true,
+        "ci_excludes_zero": true,
+        "note": "paired on the 995 of 1000 DEV lobbies both checkpoints finished; the 5 dropped lobbies are ones a policy could not terminate, so this estimate is optimistic for that policy",
+        "verdict": "restricted to lobbies both checkpoints finished",
+        "iteration": 320,
+        "reference_iteration": 0,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter80-iter40": {
+        "a": "iter080",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": 0.297,
+        "ci95": [
+          0.174,
+          0.418
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter040 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 40,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter160-iter40": {
+        "a": "iter160",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": 0.07,
+        "ci95": [
+          -0.058,
+          0.196
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 40,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter40": {
+        "n": 995,
+        "mean_diff": 0.09949748743718594,
+        "ci95": [
+          -0.036180904522613064,
+          0.24020100502512562
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "a": "iter320",
+        "b": "iter040",
+        "games_requested": 1000,
+        "games_paired": 995,
+        "games_dropped": 5,
+        "restricted": true,
+        "a_complete": false,
+        "b_complete": true,
+        "ci_excludes_zero": false,
+        "note": "paired on the 995 of 1000 DEV lobbies both checkpoints finished; the 5 dropped lobbies are ones a policy could not terminate, so this estimate is optimistic for that policy",
+        "verdict": "restricted to lobbies both checkpoints finished",
+        "iteration": 320,
+        "reference_iteration": 40,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter160-iter80": {
+        "a": "iter160",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": -0.227,
+        "ci95": [
+          -0.34,
+          -0.11
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter160 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 80,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      },
+      "iter320-iter80": {
+        "n": 995,
+        "mean_diff": -0.207035175879397,
+        "ci95": [
+          -0.32964824120603015,
+          -0.08542713567839195
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "a": "iter320",
+        "b": "iter080",
+        "games_requested": 1000,
+        "games_paired": 995,
+        "games_dropped": 5,
+        "restricted": true,
+        "a_complete": false,
+        "b_complete": true,
+        "ci_excludes_zero": true,
+        "note": "paired on the 995 of 1000 DEV lobbies both checkpoints finished; the 5 dropped lobbies are ones a policy could not terminate, so this estimate is optimistic for that policy",
+        "verdict": "restricted to lobbies both checkpoints finished",
+        "iteration": 320,
+        "reference_iteration": 80,
+        "reading": "first better (CI excludes 0)"
+      }
+    },
+    "2": {
+      "iter40-iter0": {
+        "a": "iter040",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.006,
+        "ci95": [
+          -0.116,
+          0.133
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 40,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter80-iter0": {
+        "a": "iter080",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.015,
+        "ci95": [
+          -0.107,
+          0.141
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter160-iter0": {
+        "a": "iter160",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": -0.031,
+        "ci95": [
+          -0.186,
+          0.126
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter0": {
+        "a": "iter320",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.017,
+        "ci95": [
+          -0.109,
+          0.145
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter80-iter40": {
+        "a": "iter080",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": 0.009,
+        "ci95": [
+          -0.044,
+          0.061
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 40,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter160-iter40": {
+        "a": "iter160",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.037,
+        "ci95": [
+          -0.196,
+          0.124
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 40,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter40": {
+        "a": "iter320",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": 0.011,
+        "ci95": [
+          -0.142,
+          0.161
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 40,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter160-iter80": {
+        "a": "iter160",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": -0.046,
+        "ci95": [
+          -0.205,
+          0.116
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 80,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter80": {
+        "a": "iter320",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": 0.002,
+        "ci95": [
+          -0.148,
+          0.151
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 80,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      }
+    },
+    "3": {
+      "iter40-iter0": {
+        "a": "iter040",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.323,
+        "ci95": [
+          0.181,
+          0.47
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 40,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter80-iter0": {
+        "a": "iter080",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.52,
+        "ci95": [
+          0.375,
+          0.668
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter160-iter0": {
+        "a": "iter160",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.315,
+        "ci95": [
+          0.175,
+          0.46
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter000 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 0,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter320-iter0": {
+        "a": "iter320",
+        "b": "iter000",
+        "n": 1000,
+        "mean_diff": 0.137,
+        "ci95": [
+          -0.017,
+          0.295
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 0,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter80-iter40": {
+        "a": "iter080",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": 0.197,
+        "ci95": [
+          0.093,
+          0.301
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter040 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 80,
+        "reference_iteration": 40,
+        "ci_excludes_zero": true,
+        "reading": "first worse (CI excludes 0)"
+      },
+      "iter160-iter40": {
+        "a": "iter160",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.008,
+        "ci95": [
+          -0.113,
+          0.095
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 40,
+        "ci_excludes_zero": false,
+        "reading": "indistinguishable (CI includes 0)"
+      },
+      "iter320-iter40": {
+        "a": "iter320",
+        "b": "iter040",
+        "n": 1000,
+        "mean_diff": -0.186,
+        "ci95": [
+          -0.323,
+          -0.048
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter320 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 40,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      },
+      "iter160-iter80": {
+        "a": "iter160",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": -0.205,
+        "ci95": [
+          -0.287,
+          -0.123
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter160 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 160,
+        "reference_iteration": 80,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      },
+      "iter320-iter80": {
+        "a": "iter320",
+        "b": "iter080",
+        "n": 1000,
+        "mean_diff": -0.383,
+        "ci95": [
+          -0.5,
+          -0.265
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "iter320 places better",
+        "games_paired": 1000,
+        "games_dropped": 0,
+        "restricted": false,
+        "iteration": 320,
+        "reference_iteration": 80,
+        "ci_excludes_zero": true,
+        "reading": "first better (CI excludes 0)"
+      }
+    }
+  },
+  "question_a_iter80_minus_iter0": {
+    "comparison": "iter80 - iter0 (positive = iter80 worse)",
+    "per_seed": [
+      {
+        "training_seed": 0,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "ci_excludes_zero": true,
+        "direction": "improve"
+      },
+      {
+        "training_seed": 1,
+        "mean_diff": 0.534,
+        "ci95": [
+          0.436,
+          0.633
+        ],
+        "ci_excludes_zero": true,
+        "direction": "worsen"
+      },
+      {
+        "training_seed": 2,
+        "mean_diff": 0.015,
+        "ci95": [
+          -0.107,
+          0.141
+        ],
+        "ci_excludes_zero": false,
+        "direction": "worsen"
+      },
+      {
+        "training_seed": 3,
+        "mean_diff": 0.52,
+        "ci95": [
+          0.375,
+          0.668
+        ],
+        "ci_excludes_zero": true,
+        "direction": "worsen"
+      }
+    ],
+    "n_improve": 1,
+    "n_worsen": 3,
+    "n_ci_excludes_zero_improve": 1,
+    "n_ci_excludes_zero_worsen": 2,
+    "n_seeds": 4
+  },
+  "question_b_iter320_minus_iter80": {
+    "comparison": "iter320 - iter80 (positive = iter320 worse)",
+    "per_seed": [
+      {
+        "training_seed": 0,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "ci_excludes_zero": true,
+        "direction": "regress"
+      },
+      {
+        "training_seed": 1,
+        "mean_diff": -0.207035175879397,
+        "ci95": [
+          -0.32964824120603015,
+          -0.08542713567839195
+        ],
+        "ci_excludes_zero": true,
+        "direction": "continue_improving"
+      },
+      {
+        "training_seed": 2,
+        "mean_diff": 0.002,
+        "ci95": [
+          -0.148,
+          0.151
+        ],
+        "ci_excludes_zero": false,
+        "direction": "indistinguishable"
+      },
+      {
+        "training_seed": 3,
+        "mean_diff": -0.383,
+        "ci95": [
+          -0.5,
+          -0.265
+        ],
+        "ci_excludes_zero": true,
+        "direction": "continue_improving"
+      }
+    ],
+    "n_regress": 1,
+    "n_continue_improving": 2,
+    "n_indistinguishable": 1,
+    "n_seeds": 4
+  }
+}

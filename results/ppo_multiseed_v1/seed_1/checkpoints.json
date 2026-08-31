@@ -1,0 +1,42 @@
+{
+  "training_seed": 1,
+  "warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+  "iter0_matches_warm_start": true,
+  "checkpoints": [
+    {
+      "iteration": 0,
+      "file": "iter_000.pt",
+      "training_seed": 1,
+      "checkpoint_sha256": "50cdf96be3680fa07aa3806f10f07bac16a3021353cbe7f386c3db0c66ee7fce",
+      "parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+    },
+    {
+      "iteration": 40,
+      "file": "iter_040.pt",
+      "training_seed": 1,
+      "checkpoint_sha256": "58a27344620ebe740fafcb0a9b6a1f613e2e5a9b2912c69256adc924b2b13264",
+      "parameter_sha256": "cd4f1c40942c24f04c8623e854bdb9fa54c991a9e16b164db1173a178c2a3ee8"
+    },
+    {
+      "iteration": 80,
+      "file": "iter_080.pt",
+      "training_seed": 1,
+      "checkpoint_sha256": "0703977380a0d93ac1e33adb8ce4fca5ad279a7b63849b585e25a630631e27e0",
+      "parameter_sha256": "99b6216a4b14e86835f842a8b6e9ac8c629a4637bc49ee9fddecb8eecfb88b33"
+    },
+    {
+      "iteration": 160,
+      "file": "iter_160.pt",
+      "training_seed": 1,
+      "checkpoint_sha256": "d429a916102779484b19dbbf0df3741fee51a5a5219c24d04d4079a83ebc8ccc",
+      "parameter_sha256": "ed69d519cf6095a689cc0ab962e9711b01cb203490bc5827d18f5ac65fbc2df8"
+    },
+    {
+      "iteration": 320,
+      "file": "iter_320.pt",
+      "training_seed": 1,
+      "checkpoint_sha256": "4c82dd27b399d2480d3595d466a7705ea48cc462d0c462e8178423c3fbb8062d",
+      "parameter_sha256": "12d2bcaecdf212b0ba76f61a8cc1d67bd3b0f7293d6bdfeb05c7934a9c8ebac2"
+    }
+  ]
+}

@@ -1,0 +1,2008 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "evaluation_split": "dev",
+  "replication_unit": "training seed",
+  "n_training_seeds": 4,
+  "n_training_seeds_note": "n=4 is small; no strong population claims",
+  "warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b",
+  "corpus_fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+  "dev_eval_seeds": [
+    10550000,
+    10550999
+  ],
+  "cross_seed_summary": {
+    "replication_unit": "training seed (n=4); not 4000 independent games",
+    "by_iteration": {
+      "0": {
+        "iteration": 0,
+        "cumulative_episodes": 0,
+        "per_seed": {
+          "0": 6.554,
+          "1": 6.554,
+          "2": 6.554,
+          "3": 6.554
+        },
+        "n": 4,
+        "mean": 6.554,
+        "median": 6.554,
+        "min": 6.554,
+        "max": 6.554,
+        "std": 0.0,
+        "values": [
+          6.554,
+          6.554,
+          6.554,
+          6.554
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "40": {
+        "iteration": 40,
+        "cumulative_episodes": 640,
+        "per_seed": {
+          "0": 6.761,
+          "1": 6.791,
+          "2": 6.56,
+          "3": 6.877
+        },
+        "n": 4,
+        "mean": 6.74725,
+        "median": 6.776,
+        "min": 6.56,
+        "max": 6.877,
+        "std": 0.13416501034174314,
+        "values": [
+          6.761,
+          6.791,
+          6.56,
+          6.877
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "80": {
+        "iteration": 80,
+        "cumulative_episodes": 1280,
+        "per_seed": {
+          "0": 6.325,
+          "1": 7.088,
+          "2": 6.569,
+          "3": 7.074
+        },
+        "n": 4,
+        "mean": 6.764,
+        "median": 6.8215,
+        "min": 6.325,
+        "max": 7.088,
+        "std": 0.3793951326343903,
+        "values": [
+          6.325,
+          7.088,
+          6.569,
+          7.074
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "160": {
+        "iteration": 160,
+        "cumulative_episodes": 2560,
+        "per_seed": {
+          "0": 6.435,
+          "1": 6.861,
+          "2": 6.523,
+          "3": 6.869
+        },
+        "n": 4,
+        "mean": 6.672,
+        "median": 6.692,
+        "min": 6.435,
+        "max": 6.869,
+        "std": 0.22575798250929402,
+        "values": [
+          6.435,
+          6.861,
+          6.523,
+          6.869
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "320": {
+        "iteration": 320,
+        "cumulative_episodes": 5120,
+        "per_seed": {
+          "0": 6.606,
+          "1": 6.893467336683417,
+          "2": 6.571,
+          "3": 6.691
+        },
+        "n": 4,
+        "mean": 6.690366834170854,
+        "median": 6.6485,
+        "min": 6.571,
+        "max": 6.893467336683417,
+        "std": 0.1444719336385763,
+        "values": [
+          6.606,
+          6.893467336683417,
+          6.571,
+          6.691
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      }
+    },
+    "mixed_diagnostic_field": {
+      "field": "greedy4_random3",
+      "games": 500,
+      "note": "relative instrument only \u2014 the 4.5 lobby average is not a threshold for this field",
+      "by_iteration": {
+        "0": {
+          "iteration": 0,
+          "cumulative_episodes": 0,
+          "per_seed": {
+            "0": 4.37,
+            "1": 4.37,
+            "2": 4.37,
+            "3": 4.37
+          },
+          "n": 4,
+          "mean": 4.37,
+          "median": 4.37,
+          "min": 4.37,
+          "max": 4.37,
+          "std": 0.0,
+          "values": [
+            4.37,
+            4.37,
+            4.37,
+            4.37
+          ],
+          "note": "n=4 training seeds; descriptive only, not a population CI"
+        },
+        "40": {
+          "iteration": 40,
+          "cumulative_episodes": 640,
+          "per_seed": {
+            "0": 4.432,
+            "1": 4.606,
+            "2": 4.416,
+            "3": 4.776
+          },
+          "n": 4,
+          "mean": 4.5575,
+          "median": 4.519,
+          "min": 4.416,
+          "max": 4.776,
+          "std": 0.1691813622516772,
+          "values": [
+            4.432,
+            4.606,
+            4.416,
+            4.776
+          ],
+          "note": "n=4 training seeds; descriptive only, not a population CI"
+        },
+        "80": {
+          "iteration": 80,
+          "cumulative_episodes": 1280,
+          "per_seed": {
+            "0": 4.282,
+            "1": 4.866,
+            "2": 4.438,
+            "3": 4.728
+          },
+          "n": 4,
+          "mean": 4.5785,
+          "median": 4.583,
+          "min": 4.282,
+          "max": 4.866,
+          "std": 0.2662448747550519,
+          "values": [
+            4.282,
+            4.866,
+            4.438,
+            4.728
+          ],
+          "note": "n=4 training seeds; descriptive only, not a population CI"
+        },
+        "160": {
+          "iteration": 160,
+          "cumulative_episodes": 2560,
+          "per_seed": {
+            "0": 4.206,
+            "1": 4.67,
+            "2": 4.502,
+            "3": 4.68
+          },
+          "n": 4,
+          "mean": 4.5145,
+          "median": 4.586,
+          "min": 4.206,
+          "max": 4.68,
+          "std": 0.22128337789660843,
+          "values": [
+            4.206,
+            4.67,
+            4.502,
+            4.68
+          ],
+          "note": "n=4 training seeds; descriptive only, not a population CI"
+        },
+        "320": {
+          "iteration": 320,
+          "cumulative_episodes": 5120,
+          "per_seed": {
+            "0": 4.408,
+            "1": 4.748995983935743,
+            "2": 4.4,
+            "3": 4.448
+          },
+          "n": 4,
+          "mean": 4.501248995983936,
+          "median": 4.428000000000001,
+          "min": 4.4,
+          "max": 4.748995983935743,
+          "std": 0.1664940039483477,
+          "values": [
+            4.408,
+            4.748995983935743,
+            4.4,
+            4.448
+          ],
+          "note": "n=4 training seeds; descriptive only, not a population CI"
+        }
+      }
+    }
+  },
+  "evaluation_completeness": {
+    "by_seed": {
+      "0": {
+        "per_checkpoint": [
+          {
+            "iteration": 0,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 0,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          }
+        ],
+        "any_incomplete": false,
+        "n_incomplete": 0,
+        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
+      },
+      "1": {
+        "per_checkpoint": [
+          {
+            "iteration": 0,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 0,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 995,
+            "games_requested": 1000,
+            "complete": false,
+            "games_non_terminating": 5,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": [
+              10550123,
+              10550352,
+              10550385,
+              10550539,
+              10550809
+            ]
+          },
+          {
+            "iteration": 320,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 498,
+            "games_requested": 500,
+            "complete": false,
+            "games_non_terminating": 2,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": [
+              10550123,
+              10550352
+            ]
+          }
+        ],
+        "any_incomplete": true,
+        "n_incomplete": 2,
+        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
+      },
+      "2": {
+        "per_checkpoint": [
+          {
+            "iteration": 0,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 0,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          }
+        ],
+        "any_incomplete": false,
+        "n_incomplete": 0,
+        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
+      },
+      "3": {
+        "per_checkpoint": [
+          {
+            "iteration": 0,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 0,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 40,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 80,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 160,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy",
+            "base_seed": 10550000,
+            "games": 1000,
+            "games_requested": 1000,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550999
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          },
+          {
+            "iteration": 320,
+            "field": "greedy4_random3",
+            "base_seed": 10550000,
+            "games": 500,
+            "games_requested": 500,
+            "complete": true,
+            "games_non_terminating": 0,
+            "seed_range": [
+              10550000,
+              10550499
+            ],
+            "evaluation_split": "dev",
+            "non_terminating_seeds": []
+          }
+        ],
+        "any_incomplete": false,
+        "n_incomplete": 0,
+        "note": "a checkpoint that cannot finish a lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded; its placement average is then optimistic"
+      }
+    },
+    "n_seeds_with_an_incomplete_checkpoint": 1,
+    "note": "a checkpoint that cannot finish a DEV lobby within ml.benchmark.MAX_DECISIONS has that lobby excluded from its average and from every paired comparison involving it; such averages are optimistic"
+  },
+  "question_a_1280_episode_replication": {
+    "comparison": "iter80 - iter0 (positive = iter80 worse)",
+    "per_seed": [
+      {
+        "training_seed": 0,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "ci_excludes_zero": true,
+        "direction": "improve"
+      },
+      {
+        "training_seed": 1,
+        "mean_diff": 0.534,
+        "ci95": [
+          0.436,
+          0.633
+        ],
+        "ci_excludes_zero": true,
+        "direction": "worsen"
+      },
+      {
+        "training_seed": 2,
+        "mean_diff": 0.015,
+        "ci95": [
+          -0.107,
+          0.141
+        ],
+        "ci_excludes_zero": false,
+        "direction": "worsen"
+      },
+      {
+        "training_seed": 3,
+        "mean_diff": 0.52,
+        "ci95": [
+          0.375,
+          0.668
+        ],
+        "ci_excludes_zero": true,
+        "direction": "worsen"
+      }
+    ],
+    "n_improve": 1,
+    "n_worsen": 3,
+    "n_ci_excludes_zero_improve": 1,
+    "n_ci_excludes_zero_worsen": 2,
+    "n_seeds": 4
+  },
+  "question_b_late_regression": {
+    "comparison": "iter320 - iter80 (positive = iter320 worse)",
+    "per_seed": [
+      {
+        "training_seed": 0,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "ci_excludes_zero": true,
+        "direction": "regress"
+      },
+      {
+        "training_seed": 1,
+        "mean_diff": -0.207035175879397,
+        "ci95": [
+          -0.32964824120603015,
+          -0.08542713567839195
+        ],
+        "ci_excludes_zero": true,
+        "direction": "continue_improving"
+      },
+      {
+        "training_seed": 2,
+        "mean_diff": 0.002,
+        "ci95": [
+          -0.148,
+          0.151
+        ],
+        "ci_excludes_zero": false,
+        "direction": "indistinguishable"
+      },
+      {
+        "training_seed": 3,
+        "mean_diff": -0.383,
+        "ci95": [
+          -0.5,
+          -0.265
+        ],
+        "ci_excludes_zero": true,
+        "direction": "continue_improving"
+      }
+    ],
+    "n_regress": 1,
+    "n_continue_improving": 2,
+    "n_indistinguishable": 1,
+    "n_seeds": 4
+  },
+  "ushape": {
+    "per_seed": {
+      "0": {
+        "label": "U-like / transient improvement",
+        "mid_best_iteration": 80,
+        "mid_best_episodes": 1280,
+        "mid_gain_mean": true,
+        "late_regression_mean": true,
+        "significant_mid_gain": true,
+        "significant_late_regression": true,
+        "monotonic_improvement_sequence": false,
+        "monotonic_degradation_sequence": false,
+        "vs_iter0_all_cis_include_zero": false,
+        "placements": {
+          "0": 6.554,
+          "40": 6.761,
+          "80": 6.325,
+          "160": 6.435,
+          "320": 6.606
+        },
+        "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other."
+      },
+      "1": {
+        "label": "other",
+        "mid_best_iteration": 160,
+        "mid_best_episodes": 2560,
+        "mid_gain_mean": false,
+        "late_regression_mean": true,
+        "significant_mid_gain": false,
+        "significant_late_regression": false,
+        "monotonic_improvement_sequence": false,
+        "monotonic_degradation_sequence": false,
+        "vs_iter0_all_cis_include_zero": false,
+        "placements": {
+          "0": 6.554,
+          "40": 6.791,
+          "80": 7.088,
+          "160": 6.861,
+          "320": 6.893467336683417
+        },
+        "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other.",
+        "caveat": "at least one checkpoint of this training seed could not finish every DEV lobby; its placement average excludes those lobbies and is optimistic, so the shape label rests on a biased point"
+      },
+      "2": {
+        "label": "U-like / transient improvement",
+        "mid_best_iteration": 160,
+        "mid_best_episodes": 2560,
+        "mid_gain_mean": true,
+        "late_regression_mean": true,
+        "significant_mid_gain": false,
+        "significant_late_regression": false,
+        "monotonic_improvement_sequence": false,
+        "monotonic_degradation_sequence": false,
+        "vs_iter0_all_cis_include_zero": true,
+        "placements": {
+          "0": 6.554,
+          "40": 6.56,
+          "80": 6.569,
+          "160": 6.523,
+          "320": 6.571
+        },
+        "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other."
+      },
+      "3": {
+        "label": "other",
+        "mid_best_iteration": 160,
+        "mid_best_episodes": 2560,
+        "mid_gain_mean": false,
+        "late_regression_mean": false,
+        "significant_mid_gain": false,
+        "significant_late_regression": false,
+        "monotonic_improvement_sequence": false,
+        "monotonic_degradation_sequence": false,
+        "vs_iter0_all_cis_include_zero": false,
+        "placements": {
+          "0": 6.554,
+          "40": 6.877,
+          "80": 7.074,
+          "160": 6.869,
+          "320": 6.691
+        },
+        "rule": "U-like iff min(p80,p160) < p0 AND p320 > that mid-best; else monotonic if the five-point sequence is monotone and the endpoint differs from iter0; else flat if all vs-iter0 CIs include 0 (or |\u0394|<0.05 without CIs); else other."
+      }
+    },
+    "n_transient_improvement": 2,
+    "n_trajectories": 4,
+    "statement": "2 / 4 trajectories show transient improvement followed by regression"
+  },
+  "drift_replication": {
+    "iter320": {
+      "per_seed": [
+        {
+          "training_seed": 0,
+          "expert_agreement": 0.4259009063243866,
+          "warmstart_agreement": 0.407657653093338,
+          "kl_from_warmstart": 1.170961618423462,
+          "corpus_entropy": 0.7572892308235168
+        },
+        {
+          "training_seed": 1,
+          "expert_agreement": 0.41981983184814453,
+          "warmstart_agreement": 0.36418917775154114,
+          "kl_from_warmstart": 2.020977258682251,
+          "corpus_entropy": 1.073962926864624
+        },
+        {
+          "training_seed": 2,
+          "expert_agreement": 0.4283783733844757,
+          "warmstart_agreement": 0.4858108162879944,
+          "kl_from_warmstart": 1.254551649093628,
+          "corpus_entropy": 0.9903987646102905
+        },
+        {
+          "training_seed": 3,
+          "expert_agreement": 0.48220720887184143,
+          "warmstart_agreement": 0.44549548625946045,
+          "kl_from_warmstart": 1.3558900356292725,
+          "corpus_entropy": 0.9735341668128967
+        }
+      ],
+      "expert_agreement": {
+        "n": 4,
+        "mean": 0.43907658010721207,
+        "median": 0.42713963985443115,
+        "min": 0.41981983184814453,
+        "max": 0.48220720887184143,
+        "std": 0.028977712687852656,
+        "values": [
+          0.4259009063243866,
+          0.41981983184814453,
+          0.4283783733844757,
+          0.48220720887184143
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "warmstart_agreement": {
+        "n": 4,
+        "mean": 0.4257882833480835,
+        "median": 0.42657656967639923,
+        "min": 0.36418917775154114,
+        "max": 0.4858108162879944,
+        "std": 0.052007204215189076,
+        "values": [
+          0.407657653093338,
+          0.36418917775154114,
+          0.4858108162879944,
+          0.44549548625946045
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "kl_from_warmstart": {
+        "n": 4,
+        "mean": 1.4505951404571533,
+        "median": 1.3052208423614502,
+        "min": 1.170961618423462,
+        "max": 2.020977258682251,
+        "std": 0.38769952919856926,
+        "values": [
+          1.170961618423462,
+          2.020977258682251,
+          1.254551649093628,
+          1.3558900356292725
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "entropy": {
+        "n": 4,
+        "mean": 0.948796272277832,
+        "median": 0.9819664657115936,
+        "min": 0.7572892308235168,
+        "max": 1.073962926864624,
+        "std": 0.1350115663456707,
+        "values": [
+          0.7572892308235168,
+          1.073962926864624,
+          0.9903987646102905,
+          0.9735341668128967
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      }
+    },
+    "best_checkpoint_vs_later": [
+      {
+        "training_seed": 0,
+        "best_iteration": 80,
+        "later_iteration": 320,
+        "best_expert_agreement": 0.8092342615127563,
+        "later_expert_agreement": 0.4259009063243866,
+        "best_kl": 0.24876049160957336,
+        "later_kl": 1.170961618423462,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      },
+      {
+        "training_seed": 1,
+        "best_iteration": 0,
+        "later_iteration": 320,
+        "best_expert_agreement": 0.8452702760696411,
+        "later_expert_agreement": 0.41981983184814453,
+        "best_kl": 0.0,
+        "later_kl": 2.020977258682251,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      },
+      {
+        "training_seed": 2,
+        "best_iteration": 160,
+        "later_iteration": 320,
+        "best_expert_agreement": 0.5031531453132629,
+        "later_expert_agreement": 0.4283783733844757,
+        "best_kl": 1.0019497871398926,
+        "later_kl": 1.254551649093628,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      },
+      {
+        "training_seed": 3,
+        "best_iteration": 0,
+        "later_iteration": 320,
+        "best_expert_agreement": 0.8452702760696411,
+        "later_expert_agreement": 0.48220720887184143,
+        "best_kl": 0.0,
+        "later_kl": 1.3558900356292725,
+        "best_has_higher_expert_agreement": true,
+        "best_has_lower_kl": true
+      }
+    ],
+    "n_best_higher_expert_than_later": 4,
+    "n_best_lower_kl_than_later": 4,
+    "note": "descriptive only; no causal claim"
+  },
+  "category_replication": {
+    "per_seed": [
+      {
+        "training_seed": 0,
+        "expert_agreement": 0.42590090090090094,
+        "n_disagreements": 2549,
+        "disagreement_share_by_category": {
+          "buy": 0.7339003645200486,
+          "play": 0.4,
+          "sell": 1.0,
+          "roll": 0.7056213017751479,
+          "level": 0.25829383886255924,
+          "freeze": null,
+          "end": 0.5014634146341463
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2369556688897607,
+          "play": 0.11769321302471558,
+          "sell": 0.026677128285602196,
+          "roll": 0.3742644174185955,
+          "level": 0.04276186739897999,
+          "freeze": 0.0,
+          "end": 0.20164770498234602
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 935
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 251
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 227
+          },
+          {
+            "from": "end",
+            "to": "freeze",
+            "count": 153
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 110
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 107
+          },
+          {
+            "from": "play",
+            "to": "roll",
+            "count": 66
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 45
+          },
+          {
+            "from": "roll",
+            "to": "level",
+            "count": 19
+          },
+          {
+            "from": "sell",
+            "to": "roll",
+            "count": 17
+          }
+        ],
+        "freeze_count": 153,
+        "freeze_rate": 0.03445945945945946
+      },
+      {
+        "training_seed": 1,
+        "expert_agreement": 0.41981981981981986,
+        "n_disagreements": 2576,
+        "disagreement_share_by_category": {
+          "buy": 0.6767922235722965,
+          "play": 0.224,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.24881516587677724,
+          "freeze": null,
+          "end": 0.3180487804878049
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.21622670807453417,
+          "play": 0.06521739130434782,
+          "sell": 0.026397515527950312,
+          "roll": 0.5248447204968945,
+          "level": 0.04076086956521739,
+          "freeze": 0.0,
+          "end": 0.1265527950310559
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1352
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 192
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 135
+          },
+          {
+            "from": "end",
+            "to": "freeze",
+            "count": 134
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 105
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 68
+          },
+          {
+            "from": "play",
+            "to": "freeze",
+            "count": 33
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 3
+          }
+        ],
+        "freeze_count": 167,
+        "freeze_rate": 0.03761261261261261
+      },
+      {
+        "training_seed": 2,
+        "expert_agreement": 0.42837837837837833,
+        "n_disagreements": 2538,
+        "disagreement_share_by_category": {
+          "buy": 0.7460510328068044,
+          "play": 0.08933333333333333,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.3009478672985782,
+          "freeze": null,
+          "end": 0.3024390243902439
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.24192277383766744,
+          "play": 0.02639873916469661,
+          "sell": 0.026792750197005517,
+          "roll": 0.5327029156816391,
+          "level": 0.05003940110323089,
+          "freeze": 0.0,
+          "end": 0.12214342001576044
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1352
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 192
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 127
+          },
+          {
+            "from": "end",
+            "to": "sell",
+            "count": 118
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 68
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 67
+          }
+        ],
+        "freeze_count": 0,
+        "freeze_rate": 0.0
+      },
+      {
+        "training_seed": 3,
+        "expert_agreement": 0.4822072072072072,
+        "n_disagreements": 2299,
+        "disagreement_share_by_category": {
+          "buy": 0.7837181044957473,
+          "play": 0.0026666666666666666,
+          "sell": 1.0,
+          "roll": 0.9911242603550295,
+          "level": 0.1990521327014218,
+          "freeze": null,
+          "end": 0.15609756097560976
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2805567638103523,
+          "play": 0.0008699434536755111,
+          "sell": 0.02957807742496738,
+          "roll": 0.5828621139625925,
+          "level": 0.03653762505437146,
+          "freeze": 0.0,
+          "end": 0.06959547629404089
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 774
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 494
+          },
+          {
+            "from": "end",
+            "to": "freeze",
+            "count": 100
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 84
+          },
+          {
+            "from": "roll",
+            "to": "level",
+            "count": 72
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 60
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 44
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 44
+          },
+          {
+            "from": "buy",
+            "to": "end",
+            "count": 23
+          },
+          {
+            "from": "sell",
+            "to": "level",
+            "count": 16
+          }
+        ],
+        "freeze_count": 100,
+        "freeze_rate": 0.02252252252252252
+      }
+    ],
+    "freeze": {
+      "n": 4,
+      "mean": 105.0,
+      "median": 126.5,
+      "min": 0.0,
+      "max": 167.0,
+      "std": 75.71437556149206,
+      "values": [
+        153.0,
+        167.0,
+        0.0,
+        100.0
+      ],
+      "note": "n=4 training seeds; descriptive only, not a population CI"
+    },
+    "tempo_disagreement_share": {
+      "roll": {
+        "n": 4,
+        "mean": 0.9241863905325444,
+        "median": 0.9955621301775148,
+        "min": 0.7056213017751479,
+        "max": 1.0,
+        "std": 0.14577011948140392,
+        "values": [
+          0.7056213017751479,
+          1.0,
+          1.0,
+          0.9911242603550295
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "end": {
+        "n": 4,
+        "mean": 0.3195121951219512,
+        "median": 0.3102439024390244,
+        "min": 0.15609756097560976,
+        "max": 0.5014634146341463,
+        "std": 0.1415441317238586,
+        "values": [
+          0.5014634146341463,
+          0.3180487804878049,
+          0.3024390243902439,
+          0.15609756097560976
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "play": {
+        "n": 4,
+        "mean": 0.17900000000000002,
+        "median": 0.15666666666666668,
+        "min": 0.0026666666666666666,
+        "max": 0.4,
+        "std": 0.17320465308949368,
+        "values": [
+          0.4,
+          0.224,
+          0.08933333333333333,
+          0.0026666666666666666
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      },
+      "freeze": {
+        "n": 4,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "std": 0.0,
+        "values": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "note": "n=4 training seeds; descriptive only, not a population CI"
+      }
+    },
+    "categories": [
+      "buy",
+      "play",
+      "sell",
+      "roll",
+      "level",
+      "freeze",
+      "end"
+    ],
+    "note": "same action-category mapping as Experiment 2; not redefined"
+  },
+  "rl_signal_comparison": {
+    "per_seed": [
+      {
+        "training_seed": 0,
+        "iter80_minus_iter0": -0.229,
+        "improved_at_80": true,
+        "blocks": {
+          "iters_1_40": {
+            "adv_mean": 0.0050605384063002285,
+            "adv_std": 0.246806775710627,
+            "adv_mean_abs": 0.2047112281973797,
+            "adv_frac_positive": 0.509267185295117,
+            "adv_frac_negative": 0.49073281470488295,
+            "return_mean": -0.20380222871131345,
+            "return_std": 0.4329755707181651,
+            "value_pred_mean": -0.20886276697010095,
+            "value_pred_std": 0.3597586849511752,
+            "value_explained_variance": 0.6136292962863034,
+            "placement_std": 1.767219274368102,
+            "shaping_reward_sum": -0.10896874999999986,
+            "terminal_reward_sum": -5.885714285714286,
+            "entropy": 0.49319478555892904,
+            "approx_kl": 0.011315245792836019,
+            "clip_frac": 0.055561017352253356,
+            "grad_norm": 1.0797259846081337,
+            "pi_loss": -0.005953369337051602,
+            "v_loss": 0.05938268989945451
+          },
+          "iters_41_160": {
+            "adv_mean": 0.00014321797417585037,
+            "adv_std": 0.2345340544557158,
+            "adv_mean_abs": 0.1955180545399497,
+            "adv_frac_positive": 0.4914476220812086,
+            "adv_frac_negative": 0.5085523779187914,
+            "return_mean": -0.1546516450113248,
+            "return_std": 0.43293154473320455,
+            "value_pred_mean": -0.15479486287748415,
+            "value_pred_std": 0.36865495976361307,
+            "value_explained_variance": 0.6818426813313901,
+            "placement_std": 1.7923039774243879,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -4.585714285714285,
+            "entropy": 0.5628444671113458,
+            "approx_kl": 0.008154125818560311,
+            "clip_frac": 0.06770692408818933,
+            "grad_norm": 1.1441076561394665,
+            "pi_loss": -0.006439646689151838,
+            "v_loss": 0.05528820010464794
+          },
+          "iters_161_320": {
+            "adv_mean": -0.0030401205960977435,
+            "adv_std": 0.21695207680195513,
+            "adv_mean_abs": 0.17924802605853804,
+            "adv_frac_positive": 0.4963450757374528,
+            "adv_frac_negative": 0.5036549242625472,
+            "return_mean": -0.17301465160322457,
+            "return_std": 0.4030344794161547,
+            "value_pred_mean": -0.16997453095905316,
+            "value_pred_std": 0.34169457388701546,
+            "value_explained_variance": 0.6874538757949221,
+            "placement_std": 1.7085820378788172,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -4.680357142857143,
+            "entropy": 0.5749406246953489,
+            "approx_kl": 0.00729376752051086,
+            "clip_frac": 0.06997186265361961,
+            "grad_norm": 1.0411912606369393,
+            "pi_loss": -0.006796495875029033,
+            "v_loss": 0.04698565553660406
+          }
+        }
+      },
+      {
+        "training_seed": 1,
+        "iter80_minus_iter0": 0.534,
+        "improved_at_80": false,
+        "blocks": {
+          "iters_1_40": {
+            "adv_mean": 0.0038027161143649427,
+            "adv_std": 0.2349452338713909,
+            "adv_mean_abs": 0.1976932369417974,
+            "adv_frac_positive": 0.5041258728557657,
+            "adv_frac_negative": 0.4958741271442343,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.2168644563060781,
+            "return_std": 0.39812480717386556,
+            "value_pred_mean": -0.22066717247036471,
+            "value_pred_std": 0.3243323407119021,
+            "value_explained_variance": 0.6074507183124984,
+            "placement_mean": 5.75,
+            "placement_std": 1.6533437472419392,
+            "shaping_reward_sum": -0.10211160714285701,
+            "terminal_reward_sum": -5.714285714285714,
+            "entropy": 0.5602390195863942,
+            "approx_kl": 0.007687160544211717,
+            "clip_frac": 0.05139697379830371,
+            "grad_norm": 1.0382528213163218,
+            "pi_loss": -0.00491032807573788,
+            "v_loss": 0.05422724242089316,
+            "rollout_avg_placement": 5.75
+          },
+          "iters_41_160": {
+            "adv_mean": 0.006566357409065066,
+            "adv_std": 0.21740213824671525,
+            "adv_mean_abs": 0.18164768697457073,
+            "adv_frac_positive": 0.4998335031909297,
+            "adv_frac_negative": 0.5001664968090703,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.28634246378688033,
+            "return_std": 0.36291389003891383,
+            "value_pred_mean": -0.29290882102947374,
+            "value_pred_std": 0.29082063117962126,
+            "value_explained_variance": 0.6150252933340445,
+            "placement_mean": 5.779166666666667,
+            "placement_std": 1.5464838156289589,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -5.847619047619047,
+            "entropy": 0.7058512244839221,
+            "approx_kl": 0.005436228907767474,
+            "clip_frac": 0.05334524366173557,
+            "grad_norm": 0.8448447704185835,
+            "pi_loss": 3.488546854997433e-05,
+            "v_loss": 0.04757292025344921,
+            "rollout_avg_placement": 5.779166666666667
+          },
+          "iters_161_320": {
+            "adv_mean": -0.002847143392535359,
+            "adv_std": 0.2173092213887593,
+            "adv_mean_abs": 0.1789726962670514,
+            "adv_frac_positive": 0.48757584244989305,
+            "adv_frac_negative": 0.512424157550107,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.19586395056495365,
+            "return_std": 0.3982476683096806,
+            "value_pred_mean": -0.19301680714946012,
+            "value_pred_std": 0.33713087564907723,
+            "value_explained_variance": 0.6726069005595817,
+            "placement_mean": 5.534375,
+            "placement_std": 1.73114758563467,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -4.728571428571429,
+            "entropy": 0.6953411429893458,
+            "approx_kl": 0.00606408512086342,
+            "clip_frac": 0.05870061712481402,
+            "grad_norm": 0.9175866642990149,
+            "pi_loss": -0.004758897301014713,
+            "v_loss": 0.04679895157643259,
+            "rollout_avg_placement": 5.534375
+          }
+        }
+      },
+      {
+        "training_seed": 2,
+        "iter80_minus_iter0": 0.015,
+        "improved_at_80": false,
+        "blocks": {
+          "iters_1_40": {
+            "adv_mean": 0.0185094301247711,
+            "adv_std": 0.2341833742108664,
+            "adv_mean_abs": 0.2017889771459947,
+            "adv_frac_positive": 0.5421937477720232,
+            "adv_frac_negative": 0.4578062522279768,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.21537380289959115,
+            "return_std": 0.38576617025546733,
+            "value_pred_mean": -0.2338832328577602,
+            "value_pred_std": 0.3035794517681917,
+            "value_explained_variance": 0.5653301122741623,
+            "placement_mean": 5.7,
+            "placement_std": 1.6652345166107414,
+            "shaping_reward_sum": -0.06341517857142843,
+            "terminal_reward_sum": -5.485714285714286,
+            "entropy": 0.5591423792143663,
+            "approx_kl": 0.00987667499704609,
+            "clip_frac": 0.050118859996049044,
+            "grad_norm": 0.9158235504912833,
+            "pi_loss": -0.0069549841760211464,
+            "v_loss": 0.055418833129806444,
+            "rollout_avg_placement": 5.7
+          },
+          "iters_41_160": {
+            "adv_mean": 0.0010623476300060805,
+            "adv_std": 0.24581501417367227,
+            "adv_mean_abs": 0.20394132251165192,
+            "adv_frac_positive": 0.49441720393127353,
+            "adv_frac_negative": 0.5055827960687265,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.15700454325364313,
+            "return_std": 0.42859933918203913,
+            "value_pred_mean": -0.15806689078246,
+            "value_pred_std": 0.354551955367232,
+            "value_explained_variance": 0.6454504218673763,
+            "placement_mean": 5.525520833333333,
+            "placement_std": 1.7703951912591995,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -4.688095238095238,
+            "entropy": 0.5926115538252311,
+            "approx_kl": 0.008134124749888214,
+            "clip_frac": 0.06307393343546816,
+            "grad_norm": 1.0145731793147408,
+            "pi_loss": -0.0049379313695782105,
+            "v_loss": 0.060862878171620755,
+            "rollout_avg_placement": 5.525520833333333
+          },
+          "iters_161_320": {
+            "adv_mean": 0.002932110959291356,
+            "adv_std": 0.23267305432351273,
+            "adv_mean_abs": 0.19396058345744874,
+            "adv_frac_positive": 0.5019302693499814,
+            "adv_frac_negative": 0.4980697306500185,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.17760432170732274,
+            "return_std": 0.39696926550624717,
+            "value_pred_mean": -0.18053643255016125,
+            "value_pred_std": 0.32574711022936975,
+            "value_explained_variance": 0.6250467882744962,
+            "placement_mean": 5.49453125,
+            "placement_std": 1.6747938851376496,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -4.546428571428572,
+            "entropy": 0.5449234307957037,
+            "approx_kl": 0.00667997192924948,
+            "clip_frac": 0.055852691922458085,
+            "grad_norm": 0.9512381804641337,
+            "pi_loss": -0.005871462819265124,
+            "v_loss": 0.05484448564044821,
+            "rollout_avg_placement": 5.49453125
+          }
+        }
+      },
+      {
+        "training_seed": 3,
+        "iter80_minus_iter0": 0.52,
+        "improved_at_80": false,
+        "blocks": {
+          "iters_1_40": {
+            "adv_mean": 0.003505943637553477,
+            "adv_std": 0.24408204485714788,
+            "adv_mean_abs": 0.2048669674533512,
+            "adv_frac_positive": 0.5036872079667815,
+            "adv_frac_negative": 0.4963127920332185,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.19807593500845347,
+            "return_std": 0.41071234702726256,
+            "value_pred_mean": -0.20158187859925394,
+            "value_pred_std": 0.3382477596210198,
+            "value_explained_variance": 0.6138297143867134,
+            "placement_mean": 5.728125,
+            "placement_std": 1.718755970367372,
+            "shaping_reward_sum": -0.13738839285714272,
+            "terminal_reward_sum": -5.614285714285715,
+            "entropy": 0.5533762249300102,
+            "approx_kl": 0.012933792129751964,
+            "clip_frac": 0.06440844970347825,
+            "grad_norm": 1.2000230030467112,
+            "pi_loss": -0.002373433805231192,
+            "v_loss": 0.058951883487558615,
+            "rollout_avg_placement": 5.728125
+          },
+          "iters_41_160": {
+            "adv_mean": 3.217363260318479e-05,
+            "adv_std": 0.2080852617194104,
+            "adv_mean_abs": 0.1731106753181786,
+            "adv_frac_positive": 0.49585328304943344,
+            "adv_frac_negative": 0.5041467169505666,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.24804077742939817,
+            "return_std": 0.3535018851211211,
+            "value_pred_mean": -0.2480729508967547,
+            "value_pred_std": 0.28606623973430956,
+            "value_explained_variance": 0.6164269905056777,
+            "placement_mean": 5.728125,
+            "placement_std": 1.5355302799666501,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -5.614285714285714,
+            "entropy": 0.6080761469561063,
+            "approx_kl": 0.007170473564187082,
+            "clip_frac": 0.060695756820172794,
+            "grad_norm": 0.9013885986266864,
+            "pi_loss": -0.007923260220079303,
+            "v_loss": 0.04349175434326753,
+            "rollout_avg_placement": 5.728125
+          },
+          "iters_161_320": {
+            "adv_mean": -0.0021243264919873603,
+            "adv_std": 0.22167865669103984,
+            "adv_mean_abs": 0.18273383503378107,
+            "adv_frac_positive": 0.4896019292893243,
+            "adv_frac_negative": 0.5103980707106757,
+            "adv_frac_zero": 0.0,
+            "return_mean": -0.171869522758723,
+            "return_std": 0.4017300480507699,
+            "value_pred_mean": -0.16974519619119602,
+            "value_pred_std": 0.33799895406892577,
+            "value_explained_variance": 0.6686877527730968,
+            "placement_mean": 5.4859375,
+            "placement_std": 1.7321844099755757,
+            "shaping_reward_sum": 0.0,
+            "terminal_reward_sum": -4.507142857142857,
+            "entropy": 0.5924736638934701,
+            "approx_kl": 0.008235654142862465,
+            "clip_frac": 0.06357047299895688,
+            "grad_norm": 0.8888782414848295,
+            "pi_loss": -0.005102223440510443,
+            "v_loss": 0.048990759413306176,
+            "rollout_avg_placement": 5.4859375
+          }
+        }
+      }
+    ],
+    "n_improved_at_80": 1,
+    "n_not_improved_at_80": 3,
+    "block_contrast_improved_vs_not": {
+      "iters_1_40": {
+        "entropy": {
+          "improved": 0.49319478555892904,
+          "not_improved": 0.5575858745769235
+        },
+        "approx_kl": {
+          "improved": 0.011315245792836019,
+          "not_improved": 0.01016587589033659
+        },
+        "clip_frac": {
+          "improved": 0.055561017352253356,
+          "not_improved": 0.055308094499277004
+        },
+        "value_explained_variance": {
+          "improved": 0.6136292962863034,
+          "not_improved": 0.5955368483244581
+        },
+        "adv_mean_abs": {
+          "improved": 0.2047112281973797,
+          "not_improved": 0.2014497271803811
+        },
+        "grad_norm": {
+          "improved": 1.0797259846081337,
+          "not_improved": 1.0513664582847722
+        }
+      },
+      "iters_41_160": {
+        "entropy": {
+          "improved": 0.5628444671113458,
+          "not_improved": 0.6355129750884199
+        },
+        "approx_kl": {
+          "improved": 0.008154125818560311,
+          "not_improved": 0.00691360907394759
+        },
+        "clip_frac": {
+          "improved": 0.06770692408818933,
+          "not_improved": 0.05903831130579217
+        },
+        "value_explained_variance": {
+          "improved": 0.6818426813313901,
+          "not_improved": 0.6256342352356995
+        },
+        "adv_mean_abs": {
+          "improved": 0.1955180545399497,
+          "not_improved": 0.18623322826813374
+        },
+        "grad_norm": {
+          "improved": 1.1441076561394665,
+          "not_improved": 0.9202688494533369
+        }
+      },
+      "iters_161_320": {
+        "entropy": {
+          "improved": 0.5749406246953489,
+          "not_improved": 0.6109127458928398
+        },
+        "approx_kl": {
+          "improved": 0.00729376752051086,
+          "not_improved": 0.006993237064325122
+        },
+        "clip_frac": {
+          "improved": 0.06997186265361961,
+          "not_improved": 0.05937459401540966
+        },
+        "value_explained_variance": {
+          "improved": 0.6874538757949221,
+          "not_improved": 0.6554471472023916
+        },
+        "adv_mean_abs": {
+          "improved": 0.17924802605853804,
+          "not_improved": 0.18522237158609373
+        },
+        "grad_norm": {
+          "improved": 1.0411912606369393,
+          "not_improved": 0.9192343620826594
+        }
+      }
+    },
+    "note": "descriptive only; diagnostics were not used to alter training"
+  },
+  "exploratory_corr_iter80_gain_vs_iter320_expert": 0.4548412857402328,
+  "seed0_source": "results/ppo_budget_v1",
+  "outcome": {
+    "outcome": "B",
+    "outcome_text": "Outcome B \u2014 seed 0 was a lucky excursion: most new trajectories do not reproduce the improvement.",
+    "recommendation": "Recommend revisiting whether seed 0's iteration-80 gain was stochastic rather than algorithmic. Do not build an intervention around a non-replicated result.",
+    "n_transient": 2,
+    "n_new_seeds_iter80_improve": 0,
+    "n_new_seeds": 3,
+    "n_iter320_regress_vs_iter80": 1,
+    "shape_labels": [
+      "U-like / transient improvement",
+      "other",
+      "U-like / transient improvement",
+      "other"
+    ]
+  }
+}

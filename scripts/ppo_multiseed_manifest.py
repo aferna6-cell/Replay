@@ -47,20 +47,74 @@ def train_command(seed: int) -> str:
     return (
         f"python -m ml.train_ppo --iters {TRAINING_ITERS} --episodes "
         f"{EPISODES_PER_ITER} --seed {seed} --shaping 1.0 "
-        f"--shaping-horizon {SHAPING_HORIZON} --from-bc ml/policy_bc.pt "
+        f"--shaping-horizon {SHAPING_HORIZON} --eval-episodes 1 "
+        f"--from-bc ml/policy_bc.pt "
         f"--out {d}/final.pt --save-iters 0,10,20,40,80,120,160,240,320 "
         f"--save-dir {d}/checkpoints --diag-log {d}/train_diag.jsonl"
     )
 
 
+def _dev_blob(seed: int, iteration: int, field: str = "greedy"):
+    import json
+    path = os.path.join(seed_dir(seed), "dev",
+                        f"iter{iteration:03d}_vs_{field}.json")
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def non_termination_record() -> dict:
+    """Which checkpoints could not finish every fixed DEV lobby.
+
+    ``ml.benchmark`` refuses to score an episode that has not terminated
+    within MAX_DECISIONS. Recording the stalls keeps a degenerate policy
+    visible instead of letting it vanish behind an aborted evaluation.
+    """
+    rows = []
+    for s in ALL_SEEDS:
+        for it in PRIMARY_ITERS:
+            for field in ("greedy", MIXED_FIELD):
+                blob = _dev_blob(s, it, field)
+                n = int(blob.get("games_non_terminating", 0))
+                if n:
+                    rows.append({
+                        "training_seed": s, "iteration": it, "field": field,
+                        "games_requested": blob.get("games_requested",
+                                                    blob["games"]),
+                        "games_scored": blob["games"],
+                        "games_non_terminating": n,
+                        "non_terminating_seeds":
+                            blob.get("non_terminating_seeds", [])})
+    return {
+        "decision_cap": MAX_DECISIONS,
+        "affected_checkpoints": rows,
+        "n_affected": len(rows),
+        "consequence": ("an affected checkpoint's placement average excludes "
+                        "the lobbies it could not finish and is therefore "
+                        "optimistic; every paired comparison involving it is "
+                        "restricted to the lobbies both checkpoints "
+                        "finished, and says so in paired_results.json"),
+    }
+
+
 def main() -> int:
+    import json
     import numpy
     import torch
+    from ml.model_fingerprint import checkpoint_fingerprint
 
     isolation = training_seeds_isolated(ALL_SEEDS)
     if not all(r["isolated"] for r in isolation):
         print("ERROR: a planned PPO seed overlaps DEV/TEST", file=sys.stderr)
         return 1
+
+    warm = None
+    if os.path.isfile("ml/policy_bc.pt"):
+        warm = checkpoint_fingerprint("ml/policy_bc.pt")
+        if warm["parameter_sha256"] != WARM_START_PARAMETER_SHA256:
+            print(f"ERROR: ml/policy_bc.pt parameter hash "
+                  f"{warm['parameter_sha256']} is not the frozen Experiment 2 "
+                  f"warm start", file=sys.stderr)
+            return 1
 
     seed_records = []
     for s in ALL_SEEDS:
@@ -86,7 +140,22 @@ def main() -> int:
             rec["command"] = train_command(s)
             ckpt_meta = os.path.join(seed_dir(s), "checkpoints.json")
             if os.path.isfile(ckpt_meta):
-                rec["checkpoints"] = __import__("json").load(open(ckpt_meta))
+                with open(ckpt_meta, encoding="utf-8") as f:
+                    meta = json.load(f)
+                rec["checkpoints"] = meta
+                iter0 = next(c for c in meta["checkpoints"]
+                             if c["iteration"] == 0)
+                rec["iteration0_parameter_sha256"] = iter0["parameter_sha256"]
+                rec["iteration0_matches_frozen_warm_start"] = (
+                    iter0["parameter_sha256"] == WARM_START_PARAMETER_SHA256)
+            drift_path = os.path.join(seed_dir(s), "policy_drift.json")
+            if os.path.isfile(drift_path):
+                with open(drift_path, encoding="utf-8") as f:
+                    corpus = json.load(f)["corpus"]
+                rec["drift_corpus_fingerprint_sha256"] = \
+                    corpus["fingerprint_sha256"]
+                rec["drift_corpus_matches_frozen"] = (
+                    corpus["fingerprint_sha256"] == CORPUS_FINGERPRINT_SHA256)
         seed_records.append(rec)
 
     manifest = {
@@ -110,12 +179,49 @@ def main() -> int:
         "warm_start": {
             "file": "ml/policy_bc.pt",
             "parameter_sha256": WARM_START_PARAMETER_SHA256,
+            "verified_parameter_sha256": warm and warm["parameter_sha256"],
+            "verified_checkpoint_sha256": warm and warm["checkpoint_sha256"],
+            "verified_at_manifest_time": warm is not None,
             "note": ("same exact BC + DAgger checkpoint as Experiments 1–2; "
                      "not retrained for seeds 1/2/3; every seed's iteration-0 "
                      "checkpoint must reproduce this parameter hash"),
             "historical_command": (
                 "python -m ml.bc --lobbies 150 --epochs 6 --dagger-rounds 2 "
                 "--dagger-lobbies 80 --seed 0 --out ml/policy_bc.pt"),
+            "reproduction_detail": (
+                "7,319 demonstrations + 2,729 + 2,691 DAgger states = 12,739 "
+                "total; final imitation accuracy 82.4% — identical to the "
+                "historical record"),
+            "why_shared_across_seeds": (
+                "holding the BC warm start fixed is what makes the PPO "
+                "training seed the only variable. Re-running BC per seed "
+                "would confound BC randomness with PPO randomness, and the "
+                "experiment could no longer attribute curve differences to "
+                "PPO training stochasticity."),
+        },
+        "reproduction_gate": {
+            "requirement": ("every seed's iteration-0 checkpoint must carry "
+                            "the frozen warm start's parameter_sha256"),
+            "expected": WARM_START_PARAMETER_SHA256,
+            "per_seed": {str(r["training_seed"]):
+                         r.get("iteration0_parameter_sha256")
+                         for r in seed_records if r["training_seed"] != 0},
+            "passed": all(r.get("iteration0_matches_frozen_warm_start")
+                          for r in seed_records if r["training_seed"] != 0),
+            "cross_experiment_determinism_check": {
+                "claim": ("the iteration-0 checkpoint is the same weights in "
+                          "every seed and in Experiment 2, so its 1000-game "
+                          "DEV evaluation should reproduce Experiment 2's "
+                          "per-game placements exactly despite the different "
+                          "torch/numpy build"),
+                "experiment_2_iter0_avg_placement":
+                    _dev_blob(0, 0)["metrics"]["avg_placement"],
+                "experiment_3_iter0_avg_placement":
+                    _dev_blob(1, 0)["metrics"]["avg_placement"],
+                "per_game_placements_identical":
+                    _dev_blob(1, 0)["placements"]
+                    == _dev_blob(0, 0)["placements"],
+            },
         },
         "training": {
             "episodes_per_iteration": EPISODES_PER_ITER,
@@ -161,15 +267,40 @@ def main() -> int:
                 "lobbies": CORPUS_LOBBIES, "seed_base": CORPUS_SEED_BASE,
                 "states": CORPUS_STATES,
                 "fingerprint_sha256": CORPUS_FINGERPRINT_SHA256,
+                "verified_per_seed": {
+                    str(r["training_seed"]):
+                        r.get("drift_corpus_fingerprint_sha256")
+                    for r in seed_records if r["training_seed"] != 0},
                 "note": "frozen Experiment 1/2 corpus; not regenerated",
             },
+            "action_categories": ("ml.action_categories — the Experiment 2 "
+                                  "mapping, unchanged"),
+            "paired_bootstrap": ("ml.analyze_benchmark.paired_diff — "
+                                 "deterministic paired percentile bootstrap, "
+                                 "10000 resamples, bootstrap seed 0"),
+            "non_termination": non_termination_record(),
         },
         "environment": {"env": "hsbg_coach.bg_env.BGEnv", "n_players": 8,
                         "field_size": FIELD_SIZE, "agent_seat": 0,
                         "n_actions": N_ACTIONS, "max_turns": MAX_TURNS,
                         "max_decisions": MAX_DECISIONS},
-        "software": {"python": sys.version.split()[0],
-                     "torch": torch.__version__, "numpy": numpy.__version__},
+        "software": {
+            "python": sys.version.split()[0],
+            "torch": torch.__version__, "numpy": numpy.__version__,
+            "experiment_2_recorded": {"python": "3.11.15",
+                                      "torch": "2.13.0+cu130",
+                                      "numpy": "2.4.6"},
+            "caveat": (
+                "Experiment 3 ran on a different build than Experiment 2 "
+                "recorded (CPU-only torch, newer numpy and Python). Seed 0's "
+                "numbers are reused from Experiment 2's artifacts and were "
+                "NOT recomputed, so any build-dependent difference would sit "
+                "between seed 0 and seeds 1–3 rather than inside them. The "
+                "one direct check available is reassuring: the iteration-0 "
+                "checkpoint — the same weights in all four seeds — "
+                "reproduces Experiment 2's 1000 per-game DEV placements "
+                "exactly on this build (see reproduction_gate)."),
+        },
         "artifacts": {
             "seed_0_experiment_2": SEED0_DIR,
             "seed_1": f"{MULTI_DIR}/seed_1/",
@@ -187,19 +318,44 @@ def main() -> int:
             "experiment_3_branch": "claude/ppo-budget-multiseed-v1",
         },
         "limitations": [
-            "Four PPO training seeds total (one historical + three new). "
-            "n=4 is small; cross-seed means are descriptive.",
+            "FOUR PPO TRAINING SEEDS TOTAL (one historical + three new). "
+            "n=4 is a small sample for training variability; cross-seed "
+            "means and intervals here are descriptive, not population "
+            "estimates for PPO. No extra seed was added after seeing the "
+            "results.",
+            "Package versions differ from Experiment 2's recorded "
+            "environment (see software.caveat); seed 0 is reused, not "
+            "recomputed.",
+            "Seed 1's 5,120-episode policy could not finish every DEV lobby "
+            "(see evaluation.non_termination); its average excludes those "
+            "lobbies and is optimistic.",
             "Checkpoint binaries are gitignored; fingerprints are stored.",
-            "DEV only. Benchmark v1 TEST was never run.",
+            "The greedy4_random3 field is a relative comparison instrument "
+            "only — the 4.5 lobby average is not a threshold for it.",
+            "Drift, agreement and KL are measured on one frozen 4,440-state "
+            "corpus of greedy trajectories, so they describe behavior on "
+            "expert-visited states, not on the states a drifted policy "
+            "actually reaches.",
+            "DEV only. Benchmark v1 TEST was never run, and no checkpoint "
+            "was tuned, selected, or deployed.",
         ],
     }
-    # clean the dummy command assignment for seed 0
     write_json(os.path.join(MULTI_DIR, "manifest.json"), manifest)
+    gate = manifest["reproduction_gate"]
     print(f"Saved -> {MULTI_DIR}/manifest.json")
     print(f"Warm-start parameter_sha256: {WARM_START_PARAMETER_SHA256}")
+    print(f"  ml/policy_bc.pt verified: "
+          f"{manifest['warm_start']['verified_at_manifest_time']}")
+    print(f"Iteration-0 gate (all new seeds == frozen warm start): "
+          f"{gate['passed']}")
+    print(f"iter0 DEV placements reproduce Experiment 2 exactly: "
+          f"{gate['cross_experiment_determinism_check']['per_game_placements_identical']}")
     print("Training seeds isolated from DEV/TEST:",
           all(r["isolated"] for r in isolation))
-    return 0
+    nt = manifest["evaluation"]["non_termination"]
+    print(f"Checkpoints that could not finish every DEV lobby: "
+          f"{nt['n_affected']}")
+    return 0 if gate["passed"] else 1
 
 
 if __name__ == "__main__":
