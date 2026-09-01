@@ -17,6 +17,7 @@ import argparse
 import copy
 import os
 import random
+import sys
 from typing import List, Optional
 
 import numpy as np
@@ -198,6 +199,9 @@ def main(argv=None):
     p.add_argument("--anchor", default=None,
                    help="frozen anchor checkpoint for --kl-coef (defaults to "
                         "--from-bc when set)")
+    p.add_argument("--expected-warm-start-sha", default=None,
+                   help="hard-fail if warm-start parameter_sha256 differs "
+                        "(experiment contract gate)")
     a = p.parse_args(argv)
     horizon = a.shaping_horizon if a.shaping_horizon else a.iters
 
@@ -227,12 +231,30 @@ def main(argv=None):
     if os.path.isfile(a.from_bc):
         net = load_policy(a.from_bc)
         print(f"Warm-started from {a.from_bc}")
+        if a.expected_warm_start_sha:
+            from .experiment_contract import (ContractViolation,
+                                              verify_warm_start)
+            try:
+                actual = verify_warm_start(a.from_bc, a.expected_warm_start_sha)
+            except ContractViolation as exc:
+                print(f"CONTRACT GATE FAILED: {exc}", file=sys.stderr)
+                return 1
+            print(f"Warm-start contract OK: parameter_sha256={actual[:12]}…")
     else:
         net = PolicyNet(token_dim(emb))
         print("No BC checkpoint — starting from scratch "
               "(run `python -m ml.bc` first for a better start)")
     net.train()
     _snapshot(0)             # exact warm-start weights, before any PPO update
+    if a.expected_warm_start_sha and a.save_dir:
+        from .experiment_contract import ContractViolation, verify_warm_start
+        iter0 = os.path.join(a.save_dir, "iter_000.pt")
+        if os.path.isfile(iter0):
+            try:
+                verify_warm_start(iter0, a.expected_warm_start_sha)
+            except ContractViolation as exc:
+                print(f"CONTRACT GATE FAILED (iter_000): {exc}", file=sys.stderr)
+                return 1
     opt = torch.optim.AdamW(net.parameters(), lr=3e-4, weight_decay=1e-4)
     league: List = []
 
