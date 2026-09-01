@@ -53,10 +53,29 @@ pytest tests/test_composition_diagnostic.py
 python -m ml.fidelity_phase_2c --lobbies 200 --seed 0
 ```
 
-## Output
+## Results (200 greedy lobbies, seed 0)
 
-[`results/sim_fidelity_phase_2c/phase_2c_report.json`](../results/sim_fidelity_phase_2c/phase_2c_report.json)
-ends with exactly **one** recommended Phase 2D intervention.
+| Metric | Value |
+|---|---|
+| Sim final winner coverage | **0.009** |
+| Real final winner coverage | **0.766** |
+| Recruit events traced | 80,563 |
+
+### Failure classification (lobby × archetype, n=3,800)
+
+| Class | Count | Meaning |
+|---|---|---|
+| B_AVAILABLE_NOT_BOUGHT | 2,516 | Core offered + affordable; greedy bought stats instead |
+| A_IMPOSSIBLE | 1,185 | Core rarely offered enough to assemble |
+| C_BOUGHT_NOT_RETAINED | 99 | Bought core then sold/replaced |
+
+### Recommended Phase 2D (single intervention)
+
+**Build-aware recruit policy / evaluator** — available-but-not-bought dominates.
+Greedy frequently prefers slightly larger off-comp bodies when core pieces are in shop.
+
+See [`results/sim_fidelity_phase_2c/phase_2c_report.json`](../results/sim_fidelity_phase_2c/phase_2c_report.json)
+for per-archetype funnels, opportunity-loss patterns, and offer rates by tier.
 
 ## Frozen for Phase 2C
 

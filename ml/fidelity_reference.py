@@ -92,7 +92,8 @@ def build_simulator_v1_contract(*, evaluation_seed: int = 0,
 def git_working_tree_clean() -> bool:
     try:
         out = subprocess.check_output(
-            ["git", "status", "--porcelain"], stderr=subprocess.DEVNULL, text=True)
+            ["git", "status", "--porcelain", "--untracked-files=no"],
+            stderr=subprocess.DEVNULL, text=True)
         return out.strip() == ""
     except Exception:
         return False

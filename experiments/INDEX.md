@@ -26,7 +26,7 @@ tuning on the current simulator.
 |---|---|---|
 | 2A | [`sim_fidelity_benchmark_v1.md`](sim_fidelity_benchmark_v1.md) | Measurement baseline (merged) |
 | 2B | [`sim_fidelity_phase_2b.md`](sim_fidelity_phase_2b.md) | **Residual scaling — Simulator v1.1 merged** |
-| 2C | [`sim_fidelity_phase_2c.md`](sim_fidelity_phase_2c.md) | Composition assembly diagnostic (in progress) |
+| 2C | [`sim_fidelity_phase_2c.md`](sim_fidelity_phase_2c.md) | Composition assembly diagnostic |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
