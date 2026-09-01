@@ -1,14 +1,42 @@
 """Tests for residual end-of-turn scaling (Simulator v1.1)."""
 
-from hsbg_coach.bg_env import BGEnv, EnvMinion, greedy_policy
+import pytest
 
-from ml.fidelity_paired import (freeze_success_thresholds,
-                                paired_turn_comparison, per_lobby_turn_means)
+from hsbg_coach.bg_env import BGEnv, EnvMinion, VALID_SCALING_MODES, greedy_policy
+
+from ml.fidelity_paired import (freeze_success_thresholds, paired_turn_comparison,
+                                per_lobby_turn_means)
 from ml.fidelity_metrics import run_fidelity_rollouts
 
 
 def _player(env, idx=0):
     return env.players[idx]
+
+
+def test_scaling_mode_must_be_valid():
+    with pytest.raises(ValueError, match="scaling_mode"):
+        BGEnv(scaling_mode="raito")
+    for mode in VALID_SCALING_MODES:
+        BGEnv(scaling_mode=mode)
+
+
+def test_paired_comparison_uses_identical_lobby_set():
+    per_v1 = {
+        0: {14: 100.0, 15: 110.0},
+        1: {14: 200.0},
+        2: {14: 300.0, 15: 320.0},
+    }
+    per_v11 = {
+        0: {14: 90.0, 15: 95.0},
+        1: {14: 180.0, 16: 400.0},
+        2: {15: 300.0},
+    }
+    paired = paired_turn_comparison(per_v1, per_v11, turns=(14,))
+    row = paired["14"]
+    assert row["n_paired_lobbies"] == 2
+    assert row["v1_lobbies_improved_ratio"] == 2
+    assert row["unpaired_aggregate"]["n_v1_lobbies"] == 3
+    assert row["unpaired_aggregate"]["n_v1_1_lobbies"] == 2
 
 
 def test_residual_late_game_skips_when_board_exceeds_pace():

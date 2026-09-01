@@ -45,6 +45,7 @@ MAX_TURNS = 20
 SHOP_SLOTS = {1: 3, 2: 4, 3: 4, 4: 5, 5: 5, 6: 6}
 POOL_COPIES = {1: 15, 2: 15, 3: 13, 4: 11, 5: 9, 6: 6}
 UPGRADE_COST = {1: 5, 2: 7, 3: 8, 4: 9, 5: 10}
+VALID_SCALING_MODES = frozenset({"ratio", "residual"})
 N_LOBBY_TRIBES = 5
 
 TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
@@ -176,6 +177,10 @@ class BGEnv:
                  kb: Optional[Dict] = None, emb_names: Optional[set] = None,
                  combat_runs: int = 1,
                  scaling_mode: str = "residual"):
+        if scaling_mode not in VALID_SCALING_MODES:
+            raise ValueError(
+                f"scaling_mode must be one of {sorted(VALID_SCALING_MODES)}, "
+                f"got {scaling_mode!r}")
         self.n_players = n_players
         self.rng = random.Random(seed)
         self._kb = kb if kb is not None else cards_mod.load_kb()
@@ -412,8 +417,10 @@ class BGEnv:
     def _end_of_turn_scaling(self, p: PlayerState) -> None:
         if self.scaling_mode == "ratio":
             self._end_of_turn_scaling_ratio(p)
-        else:
+        elif self.scaling_mode == "residual":
             self._end_of_turn_scaling_residual(p)
+        else:                                          # pragma: no cover
+            raise ValueError(f"unknown scaling_mode: {self.scaling_mode!r}")
 
     def _scale_all(self) -> None:
         for p in self.players:

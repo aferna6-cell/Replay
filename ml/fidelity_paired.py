@@ -119,13 +119,17 @@ def paired_turn_comparison(per_lobby_v1: Dict[int, Dict[int, float]],
         real = reference_at_exact(scaling, t)
         if real is None:
             continue
-        shared = sorted(set(per_lobby_v1) & set(per_lobby_v11))
-        v1_ratios = [per_lobby_v1[l][t] / real for l in shared if t in per_lobby_v1[l]]
-        v11_ratios = [per_lobby_v11[l][t] / real for l in shared if t in per_lobby_v11[l]]
-        paired_delta = [
-            per_lobby_v11[l][t] - per_lobby_v1[l][t]
-            for l in shared if t in per_lobby_v1[l] and t in per_lobby_v11[l]
-        ]
+        paired_lobbies = sorted(
+            l for l in set(per_lobby_v1) & set(per_lobby_v11)
+            if t in per_lobby_v1[l] and t in per_lobby_v11[l])
+        v1_ratios = [per_lobby_v1[l][t] / real for l in paired_lobbies]
+        v11_ratios = [per_lobby_v11[l][t] / real for l in paired_lobbies]
+        paired_delta = [per_lobby_v11[l][t] - per_lobby_v1[l][t]
+                        for l in paired_lobbies]
+        unpaired_v1 = [per_lobby_v1[l][t] / real for l in sorted(per_lobby_v1)
+                       if t in per_lobby_v1[l]]
+        unpaired_v11 = [per_lobby_v11[l][t] / real for l in sorted(per_lobby_v11)
+                        if t in per_lobby_v11[l]]
         out[str(t)] = {
             "real_board_stats": real,
             "v1_mean_ratio": st.mean(v1_ratios) if v1_ratios else None,
@@ -133,9 +137,15 @@ def paired_turn_comparison(per_lobby_v1: Dict[int, Dict[int, float]],
             "paired_mean_delta_sim_stats": st.mean(paired_delta) if paired_delta else None,
             "paired_median_delta_sim_stats": (
                 st.median(paired_delta) if paired_delta else None),
-            "n_paired_lobbies": len(paired_delta),
+            "n_paired_lobbies": len(paired_lobbies),
             "v1_lobbies_improved_ratio": sum(
                 1 for a, b in zip(v1_ratios, v11_ratios) if b < a),
+            "unpaired_aggregate": {
+                "v1_mean_ratio": st.mean(unpaired_v1) if unpaired_v1 else None,
+                "v1_1_mean_ratio": st.mean(unpaired_v11) if unpaired_v11 else None,
+                "n_v1_lobbies": len(unpaired_v1),
+                "n_v1_1_lobbies": len(unpaired_v11),
+            },
         }
     return out
 
@@ -193,7 +203,8 @@ def evaluate_gates(thresholds: Dict, paired: Dict[str, Dict],
 
     results["game_length"] = {
         "value": lobby_v11.get("avg_game_length"),
-        "passed": lobby_v11.get("avg_game_length") is not None,
+        "monitored_only": True,
+        "note": ("Monitored for material shift; not a pre-specified acceptance gate."),
     }
 
     core = [
