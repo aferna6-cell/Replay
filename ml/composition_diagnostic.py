@@ -398,7 +398,16 @@ def _classify_winner_funnel(state: _WinnerFunnelState,
 def _funnel_summary(states: List[_WinnerFunnelState]) -> Dict:
     n = len(states)
     if n == 0:
-        return {}
+        return {
+            "n_lobby_archetype_states": 0,
+            "legally_buyable_exposures": 0,
+            "fulfilled_exposures": 0,
+            "rejected_exposures": 0,
+            "core_purchase_actions": 0,
+            "exposure_accounting_valid": True,
+            "rejection_rate": 0.0,
+            "fulfillment_rate": 0.0,
+        }
     legally = sum(s.legally_buyable_exposures for s in states)
     fulfilled = sum(s.fulfilled_exposures for s in states)
     rejected = sum(s.rejected_exposures for s in states)
