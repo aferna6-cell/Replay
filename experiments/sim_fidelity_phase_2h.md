@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2H — tempo-aware board management
 
-Date: 2026-09-01 · Status: **candidate policy + DEV calibration (2h_v2)** ·
+Date: 2026-09-01 · Status: **2h_v2 confirmation complete — `transition_utility_inadequate` (draft PR #23)** ·
 Artifacts: [`results/sim_fidelity_phase_2h/`](../results/sim_fidelity_phase_2h/)
 
 **Invalidated v1** (seeds 4000–4199): [`invalidated_v1/`](../results/sim_fidelity_phase_2h/invalidated_v1/) —
@@ -58,6 +58,25 @@ seeded_core_deploy_stress_greedy_policy
 tempo_board_greedy_policy   # Phase 2H candidate (2h_v2)
 ```
 
+## 2h_v2 confirmation (seeds 5000–5199, frozen λ=12)
+
+| Arm | Seeded fulfillment | 2+ core | Committed | Coverage |
+|---|---:|---:|---:|---:|
+| Greedy | 1/30 | 1 | 1 | 0.0079 |
+| Tempo (λ=12) | 0/30 | 0 | 0 | 0.0041 |
+| Oracle upper bound | 24/33 | 8 | 11 | 0.0111 |
+
+Macro regression: **pass** (treatment within macro gates vs greedy).
+
+Mechanism gates: **fail** — treatment does not beat greedy on seeded fulfillment,
+2+ assembly, committed states, or coverage. Decision:
+`transition_utility_inadequate`.
+
+Completed-action telemetry (treatment, fidelity run only): 427 slot sells, 486 core
+buys, 701 hand deploys — policy is active but does not translate into seeded
+composition progress under the 2c diagnostic.
+
 ## Frozen
 
 Simulator v1.1 unchanged. No BC/PPO/card-effect/shop/combat/scaling changes.
+Do not start Phase 2I until policy reformulation is scoped.
