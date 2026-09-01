@@ -1,11 +1,11 @@
-"""Simulator Fidelity Phase 2H — tempo-aware board management (methodology 2h_v2).
+"""Simulator Fidelity Phase 2H — tempo-aware board management (methodology 2h_v3).
 
     python -m ml.fidelity_phase_2h calibrate
     python -m ml.fidelity_phase_2h confirm --lambda-build 8
-    python -m ml.fidelity_phase_2h full
+    python -m ml.fidelity_phase_2h full   # calibration only; commit before confirm
 
-DEV calibration on seeds 3000–3499; frozen confirmation on 5000–5199.
-Seeds 4000–4199 (invalidated v1) preserved under invalidated_v1/.
+DEV calibration on seeds 3000–3499; frozen confirmation on 6000–6199.
+Invalidated: 4000–4199 (v1), 5000–5199 (v2) under invalidated_v1/ and invalidated_v2/.
 """
 
 from __future__ import annotations
@@ -28,6 +28,8 @@ from hsbg_coach.tempo_board_policy import (
     PHASE_2H_CONFIRM_SEED,
     PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES,
     PHASE_2H_INVALIDATED_V1_CONFIRM_SEED,
+    PHASE_2H_INVALIDATED_V2_CONFIRM_LOBBIES,
+    PHASE_2H_INVALIDATED_V2_CONFIRM_SEED,
     PHASE_2H_REPLICATION_LOBBIES,
     PHASE_2H_REPLICATION_SEED,
     PHASE_2H_SCREEN_LOBBIES,
@@ -58,6 +60,7 @@ from .phase_2h_decision import (evaluate_confirmation_acceptance,
 
 DEFAULT_DIR = "results/sim_fidelity_phase_2h"
 INVALIDATED_V1_DIR = "results/sim_fidelity_phase_2h/invalidated_v1"
+INVALIDATED_V2_DIR = "results/sim_fidelity_phase_2h/invalidated_v2"
 PHASE = "2H tempo-aware board management"
 
 
@@ -111,7 +114,15 @@ def compute_action_deviation_rate(base_traces: Dict, alt_traces: Dict) -> float:
 def run_traced_rollouts_policy_list(
         lobbies: int, seed: int, policies: Sequence[Callable],
         scaling_mode: str = "residual") -> Dict:
-    """Traced rollouts with per-seat policy list; one lobby ID per outer lobby."""
+    """Traced rollouts with per-seat policy list (one shared list — legacy)."""
+    return run_traced_rollouts_tempo(
+        lobbies, seed, policies[0].lambda_build, scaling_mode=scaling_mode)
+
+
+def run_traced_rollouts_tempo(
+        lobbies: int, seed: int, lambda_build: float,
+        scaling_mode: str = "residual") -> Dict:
+    """Traced rollouts with fresh policy instances per lobby."""
     all_events: List[Dict] = []
     all_turn_summaries: List[Dict] = []
     all_player_finals: List[Dict] = []
@@ -119,6 +130,7 @@ def run_traced_rollouts_policy_list(
 
     for lobby_i in range(lobbies):
         lobby_seed = seed + lobby_i
+        policies = policies_for_lobby(lambda_build, 8)
         env = BGEnv(seed=lobby_seed, scaling_mode=scaling_mode)
         tracer = RecruitTracer(lobby_id=lobby_i, seed=lobby_seed)
         env.play_scripted(list(policies), recruit_tracer=tracer)
@@ -152,8 +164,22 @@ def run_traced_rollouts_policy_list(
 def run_fidelity_rollouts_policy_list(
         lobbies: int, seed: int, policies: Sequence[Callable],
         scaling_mode: str = "residual") -> List[Dict]:
+    """Fidelity rollouts with one shared policy list (legacy)."""
+    return run_fidelity_rollouts_tempo(
+        lobbies, seed, policies[0].lambda_build,
+        scaling_mode=scaling_mode)[0]
+
+
+def run_fidelity_rollouts_tempo(
+        lobbies: int, seed: int, lambda_build: float,
+        scaling_mode: str = "residual"
+        ) -> tuple[List[Dict], List]:
+    """Fidelity rollouts with fresh policy instances per lobby."""
     rows: List[Dict] = []
+    all_policies = []
     for i in range(lobbies):
+        policies = policies_for_lobby(lambda_build, 8)
+        all_policies.extend(policies)
         env = BGEnv(seed=seed + i, scaling_mode=scaling_mode)
         recs = env.play_scripted(list(policies))
         game_length = max((r["turn"] for r in recs), default=0)
@@ -174,23 +200,21 @@ def run_fidelity_rollouts_policy_list(
                 "placement": r.get("placement"),
             })
         del env
-    return rows
+    return rows, all_policies
 
 
 def _run_tempo_arm(lobbies: int, seed: int, lambda_build: float,
                    label: str, *, greedy_baseline_traces: Optional[Dict] = None,
                    collect_policy_stats: bool = True) -> Dict:
     print(f"  [{label}] λ={lambda_build} fidelity rollouts…")
-    policies_fidelity = policies_for_lobby(lambda_build, 8)
-    rows = run_fidelity_rollouts_policy_list(
-        lobbies, seed, policies_fidelity, scaling_mode="residual")
+    rows, policies_fidelity = run_fidelity_rollouts_tempo(
+        lobbies, seed, lambda_build, scaling_mode="residual")
     policy_stats = (aggregate_policy_stats(policies_fidelity)
                     if collect_policy_stats else None)
 
     print(f"  [{label}] λ={lambda_build} composition traces…")
-    policies_trace = policies_for_lobby(lambda_build, 8)
-    traces = run_traced_rollouts_policy_list(
-        lobbies, seed, policies_trace, scaling_mode="residual")
+    traces = run_traced_rollouts_tempo(
+        lobbies, seed, lambda_build, scaling_mode="residual")
 
     diagnostic = aggregate_diagnostics(traces)
     lifecycle = analyze_core_lifecycles(traces)
@@ -272,6 +296,31 @@ def _calibration_row(greedy_arm: Dict, candidate_arm: Dict) -> Dict:
     }
 
 
+def _preserve_invalidated_v2_artifacts(out_dir: str) -> None:
+    """Archive invalidated v2 confirmation before overwriting."""
+    inv_dir = INVALIDATED_V2_DIR
+    os.makedirs(inv_dir, exist_ok=True)
+    note = {
+        "status": "invalidated",
+        "methodology_version": "2h_v2",
+        "reason": (
+            "Incorrect shop full-board compound transition (buy before sell); "
+            "cross-lobby policy state reuse; telemetry mislabeled core actions; "
+            "confirmation run with working_tree_clean=false."),
+        "confirmation_seeds": (
+            f"{PHASE_2H_INVALIDATED_V2_CONFIRM_SEED}–"
+            f"{PHASE_2H_INVALIDATED_V2_CONFIRM_SEED + PHASE_2H_INVALIDATED_V2_CONFIRM_LOBBIES - 1}"),
+        "do_not_use_for_decisions": True,
+    }
+    _write_json(os.path.join(inv_dir, "invalidated_note.json"), note)
+    for name in ("phase_2h_report.json", "contract.json"):
+        src = os.path.join(out_dir, name)
+        if os.path.isfile(src):
+            dst = os.path.join(inv_dir, name)
+            if not os.path.isfile(dst):
+                shutil.copy2(src, dst)
+
+
 def _preserve_invalidated_v1_artifacts(out_dir: str) -> None:
     """Move pre-v2 confirmation artifacts without deleting history."""
     inv_dir = INVALIDATED_V1_DIR
@@ -304,6 +353,7 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
         raise RuntimeError("Working tree is not clean. Commit Phase 2H first.")
 
     _preserve_invalidated_v1_artifacts(out_dir)
+    _preserve_invalidated_v2_artifacts(out_dir)
     t0 = time.time()
     print(f"Phase 2H {METHODOLOGY_VERSION} DEV calibration — screen then replication")
 
@@ -358,6 +408,8 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
         "frozen_policy_config_hash_sha256": _policy_hash(cfg),
         "invalidated_v1_note": (
             "Prior confirmation on seeds 4000–4199 invalidated; see invalidated_v1/"),
+        "invalidated_v2_note": (
+            "Prior confirmation on seeds 5000–5199 invalidated; see invalidated_v2/"),
     }
     _write_json(os.path.join(out_dir, "phase_2h_calibration.json"), result)
     return result
@@ -372,6 +424,7 @@ def run_confirmation(*, lambda_build: float,
         raise RuntimeError("Working tree is not clean. Commit Phase 2H first.")
 
     _preserve_invalidated_v1_artifacts(out_dir)
+    _preserve_invalidated_v2_artifacts(out_dir)
     t0 = time.time()
     seed = PHASE_2H_CONFIRM_SEED
     lobbies = PHASE_2H_CONFIRM_LOBBIES
@@ -437,6 +490,10 @@ def run_confirmation(*, lambda_build: float,
             f"seeds {PHASE_2H_INVALIDATED_V1_CONFIRM_SEED}–"
             f"{PHASE_2H_INVALIDATED_V1_CONFIRM_SEED + PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES - 1} "
             "preserved under invalidated_v1/ — do not use"),
+        "invalidated_v2_confirmation": (
+            f"seeds {PHASE_2H_INVALIDATED_V2_CONFIRM_SEED}–"
+            f"{PHASE_2H_INVALIDATED_V2_CONFIRM_SEED + PHASE_2H_INVALIDATED_V2_CONFIRM_LOBBIES - 1} "
+            "preserved under invalidated_v2/ — do not use"),
     }
     _write_json(os.path.join(out_dir, "phase_2h_report.json"), result)
     _write_json(os.path.join(out_dir, "contract.json"), contract)
@@ -472,11 +529,9 @@ def _confirm_arm(arm: Dict) -> Dict:
 
 def run_phase_2h_full(*, out_dir: str = DEFAULT_DIR,
                       require_clean_tree: bool = True) -> Dict:
-    cal = run_calibration(out_dir=out_dir, require_clean_tree=require_clean_tree)
-    lb = cal["replication"]["frozen_lambda_build"]
-    confirm = run_confirmation(
-        lambda_build=lb, out_dir=out_dir, require_clean_tree=False)
-    return {"calibration": cal, "confirmation": confirm}
+    """Run DEV calibration. Commit artifacts before ``confirm``."""
+    return {"calibration": run_calibration(
+        out_dir=out_dir, require_clean_tree=require_clean_tree)}
 
 
 def main(argv: Optional[list] = None) -> int:
@@ -519,10 +574,9 @@ def main(argv: Optional[list] = None) -> int:
                 out_dir=args.out_dir,
                 require_clean_tree=not args.allow_dirty_tree)
             lb = result["calibration"]["replication"]["frozen_lambda_build"]
-            dec = result["confirmation"]["decision"]
             print(f"\nFrozen λ_build = {lb}")
-            print(f"Decision: {dec['decision_branch']}")
-            print(f"  {dec['recommended_next_step']}")
+            print("Commit calibration artifacts, then run:")
+            print("  python -m ml.fidelity_phase_2h confirm")
     except (RuntimeError, AssertionError) as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1

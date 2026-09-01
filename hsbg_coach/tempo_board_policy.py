@@ -1,15 +1,18 @@
-"""Phase 2H tempo-aware board-management recruit policy (methodology 2h_v2).
+"""Phase 2H tempo-aware board-management recruit policy (methodology 2h_v3).
 
 Realistic candidate policy (not an oracle): when ``infer_target(board).have >= 1``,
 score buy and deploy transitions by raw stats plus build progress minus
-replacement cost. Compound sell→play / sell→buy transitions are latched.
+replacement cost. Compound transitions are latched:
+
+- hand full-board: SELL replacement → PLAY candidate
+- shop full-board: SELL replacement → BUY candidate → PLAY candidate
 
 Frozen λ_build candidates for DEV calibration: {4, 8, 12}.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 from .bg_env import (
@@ -30,7 +33,7 @@ from .bg_env import (
 )
 from .build_path import _tier_commit, board_names, infer_target
 
-METHODOLOGY_VERSION = "2h_v2"
+METHODOLOGY_VERSION = "2h_v3"
 POLICY_ID = "tempo_board_greedy_policy"
 LAMBDA_BUILD_CANDIDATES = (4, 8, 12)
 
@@ -38,12 +41,14 @@ PHASE_2H_SCREEN_SEED = 3000
 PHASE_2H_SCREEN_LOBBIES = 100
 PHASE_2H_REPLICATION_SEED = 3100
 PHASE_2H_REPLICATION_LOBBIES = 400
-PHASE_2H_CONFIRM_SEED = 5000
+PHASE_2H_CONFIRM_SEED = 6000
 PHASE_2H_CONFIRM_LOBBIES = 200
 
-# Invalidated v1 confirmation (trace lobby-ID collapse + incomplete transitions).
+# Invalidated confirmations (do not reuse for decisions).
 PHASE_2H_INVALIDATED_V1_CONFIRM_SEED = 4000
 PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES = 200
+PHASE_2H_INVALIDATED_V2_CONFIRM_SEED = 5000
+PHASE_2H_INVALIDATED_V2_CONFIRM_LOBBIES = 200
 
 
 def policy_config_fingerprint(lambda_build: float) -> Dict:
@@ -57,7 +62,7 @@ def policy_config_fingerprint(lambda_build: float) -> Dict:
             "candidate_value = raw_stats + lambda_build * candidate_build_gain; "
             "replacement_cost = repl_raw + lambda_build * repl_build_value; "
             "net = candidate_value - replacement_cost; commit only if net > 0; "
-            "compound sell→play/buy latched via pending intent"),
+            "hand full-board: sell→play; shop full-board: sell→buy→play"),
         "acquisition_gain": "missing core vs board+hand (shop buys)",
         "deployment_gain": "missing core vs board only (hand→board)",
         "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
@@ -73,6 +78,10 @@ def policy_config_fingerprint(lambda_build: float) -> Dict:
             f"seeds {PHASE_2H_INVALIDATED_V1_CONFIRM_SEED}–"
             f"{PHASE_2H_INVALIDATED_V1_CONFIRM_SEED + PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES - 1} "
             "(lobby-ID collapse + non-atomic transitions)"),
+        "invalidated_v2_confirmation": (
+            f"seeds {PHASE_2H_INVALIDATED_V2_CONFIRM_SEED}–"
+            f"{PHASE_2H_INVALIDATED_V2_CONFIRM_SEED + PHASE_2H_INVALIDATED_V2_CONFIRM_LOBBIES - 1} "
+            "(incorrect shop compound + cross-lobby state + dirty confirmation)"),
     }
 
 
@@ -136,6 +145,7 @@ def _net_transition(*, cand_raw: float, cand_gain: float,
 @dataclass
 class PendingTransition:
     source: str  # "hand" | "shop"
+    stage: str  # "buy" | "play"
     candidate_slot: int
     candidate_name: str
     replacement_slot: Optional[int]
@@ -146,82 +156,124 @@ class PendingTransition:
 
 @dataclass
 class TempoBoardPolicyStats:
-    transitions_planned: int = 0
-    transitions_completed: int = 0
-    core_buys_completed: int = 0
-    core_deploys_completed: int = 0
-    slot_sells_completed: int = 0
+    compound_transitions_planned: int = 0
+    compound_transitions_completed: int = 0
+    compound_transitions_abandoned: int = 0
+    replacement_sells: int = 0
+    tempo_selected_buys: int = 0
+    tempo_selected_deploys: int = 0
+    target_core_buys: int = 0
+    target_core_deploys: int = 0
     raw_stat_sacrifice_completed_sum: float = 0.0
     build_gain_completed_sum: float = 0.0
 
     def record_planned_sell(self, pending: PendingTransition) -> None:
-        self.transitions_planned += 1
-        self.slot_sells_completed += 1
+        self.compound_transitions_planned += 1
+        self.replacement_sells += 1
 
-    def record_completed(self, pending: PendingTransition) -> None:
-        self.transitions_completed += 1
-        self.raw_stat_sacrifice_completed_sum += pending.raw_sacrifice
-        self.build_gain_completed_sum += pending.build_gain
-        if pending.source == "hand":
-            self.core_deploys_completed += 1
-        else:
-            self.core_buys_completed += 1
+    def record_buy_step(self, build_gain: float) -> None:
+        self.tempo_selected_buys += 1
+        if build_gain > 0:
+            self.target_core_buys += 1
 
-    def record_direct_play(self, build_gain: float) -> None:
-        self.transitions_completed += 1
-        self.core_deploys_completed += 1
-        self.build_gain_completed_sum += build_gain
+    def record_play_step(self, build_gain: float, *, compound: bool,
+                         pending: Optional[PendingTransition] = None) -> None:
+        self.tempo_selected_deploys += 1
+        if build_gain > 0:
+            self.target_core_deploys += 1
+        if compound and pending is not None:
+            self.compound_transitions_completed += 1
+            self.raw_stat_sacrifice_completed_sum += pending.raw_sacrifice
+            self.build_gain_completed_sum += pending.build_gain
 
-    def record_direct_buy(self, build_gain: float) -> None:
-        self.transitions_completed += 1
-        self.core_buys_completed += 1
-        self.build_gain_completed_sum += build_gain
+    def record_abandoned(self) -> None:
+        self.compound_transitions_abandoned += 1
 
     def summary(self) -> Dict:
-        n = self.transitions_completed or 1
+        planned = self.compound_transitions_planned
+        completed = self.compound_transitions_completed
         return {
-            "transitions_planned": self.transitions_planned,
-            "transitions_completed": self.transitions_completed,
-            "core_buys_completed": self.core_buys_completed,
-            "core_deploys_completed": self.core_deploys_completed,
-            "slot_sells_completed": self.slot_sells_completed,
+            "compound_transitions_planned": planned,
+            "compound_transitions_completed": completed,
+            "compound_transitions_abandoned": self.compound_transitions_abandoned,
+            "compound_transitions_completion_rate": (
+                completed / planned if planned else None),
+            "replacement_sells": self.replacement_sells,
+            "tempo_selected_buys": self.tempo_selected_buys,
+            "tempo_selected_deploys": self.tempo_selected_deploys,
+            "target_core_buys": self.target_core_buys,
+            "target_core_deploys": self.target_core_deploys,
             "mean_raw_stat_sacrifice_completed": (
-                self.raw_stat_sacrifice_completed_sum / n),
-            "mean_build_gain_completed": self.build_gain_completed_sum / n,
+                self.raw_stat_sacrifice_completed_sum / completed
+                if completed else None),
+            "mean_build_gain_completed": (
+                self.build_gain_completed_sum / completed
+                if completed else None),
         }
 
 
 class TempoBoardGreedyPolicy:
-    """Per-seat policy — use ``policies_for_lobby(n)`` in play_scripted."""
+    """Per-seat policy — instantiate fresh per lobby via ``policies_for_lobby``."""
 
     def __init__(self, lambda_build: float):
         self.lambda_build = float(lambda_build)
         self.stats = TempoBoardPolicyStats()
         self.pending: Optional[PendingTransition] = None
 
+    @staticmethod
+    def _hand_slot_for_name(hand: List[Dict], name: str) -> Optional[int]:
+        for i, m in enumerate(hand):
+            if m.get("name") == name:
+                return i
+        return None
+
+    def _abandon_pending(self) -> None:
+        if self.pending is not None:
+            self.stats.record_abandoned()
+            self.pending = None
+
     def _try_complete_pending(self, obs: Dict, mask: List[bool]) -> Optional[int]:
         p = self.pending
         if p is None:
             return None
-        if p.source == "hand":
-            action = A_PLAY0 + p.candidate_slot
-            hand = obs.get("hand") or []
-            if (action < A_PLAY0 + N_PLAY and mask[action]
-                    and p.candidate_slot < len(hand)
-                    and hand[p.candidate_slot].get("name") == p.candidate_name):
-                self.pending = None
-                self.stats.record_completed(p)
-                return action
-        elif p.source == "shop":
+
+        hand = obs.get("hand") or []
+        shop = obs.get("shop") or []
+
+        if p.stage == "buy":
             action = A_BUY0 + p.candidate_slot
-            shop = obs.get("shop") or []
             if (action < A_BUY0 + N_BUY and mask[action]
                     and p.candidate_slot < len(shop)
                     and shop[p.candidate_slot].get("name") == p.candidate_name):
-                self.pending = None
-                self.stats.record_completed(p)
+                self.stats.record_buy_step(p.build_gain)
+                self.pending = PendingTransition(
+                    source=p.source, stage="play", candidate_slot=-1,
+                    candidate_name=p.candidate_name, replacement_slot=None,
+                    net_value=p.net_value, build_gain=p.build_gain,
+                    raw_sacrifice=p.raw_sacrifice)
                 return action
-        self.pending = None
+            self._abandon_pending()
+            return None
+
+        if p.stage == "play":
+            hi = (p.candidate_slot if p.candidate_slot >= 0
+                  else self._hand_slot_for_name(hand, p.candidate_name))
+            if hi is None:
+                self._abandon_pending()
+                return None
+            action = A_PLAY0 + hi
+            if (action < A_PLAY0 + N_PLAY and mask[action]
+                    and hi < len(hand)
+                    and hand[hi].get("name") == p.candidate_name):
+                completed = self.pending
+                self.pending = None
+                self.stats.record_play_step(
+                    p.build_gain, compound=True, pending=completed)
+                return action
+            self._abandon_pending()
+            return None
+
+        self._abandon_pending()
         return None
 
     def __call__(self, obs: Dict, mask: List[bool], rng) -> int:
@@ -281,7 +333,7 @@ class TempoBoardGreedyPolicy:
                         best_net = net
                         best_action = A_SELL0 + bi
                         best_pending = PendingTransition(
-                            source="hand", candidate_slot=hi,
+                            source="hand", stage="play", candidate_slot=hi,
                             candidate_name=hname, replacement_slot=bi,
                             net_value=net, build_gain=cand_gain,
                             raw_sacrifice=max(0.0, repl_raw - cand_raw))
@@ -314,9 +366,9 @@ class TempoBoardGreedyPolicy:
                         lambda_build=self.lambda_build)
                     if net > best_net:
                         best_net = net
-                        best_action = A_BUY0 + si
+                        best_action = A_SELL0 + bi
                         best_pending = PendingTransition(
-                            source="shop", candidate_slot=si,
+                            source="shop", stage="buy", candidate_slot=si,
                             candidate_name=sname, replacement_slot=bi,
                             net_value=net, build_gain=cand_gain,
                             raw_sacrifice=max(0.0, repl_raw - cand_raw))
@@ -328,9 +380,9 @@ class TempoBoardGreedyPolicy:
                 self.stats.record_planned_sell(best_pending)
                 return best_action
             if best_direct_kind == "play":
-                self.stats.record_direct_play(best_direct_gain)
+                self.stats.record_play_step(best_direct_gain, compound=False)
             elif best_direct_kind == "buy":
-                self.stats.record_direct_buy(best_direct_gain)
+                self.stats.record_buy_step(best_direct_gain)
             return best_action
 
         target = STANDARD_TAVERN_TIER.get(obs["turn"], 6.0)
@@ -351,11 +403,14 @@ def aggregate_policy_stats(policies: List[TempoBoardGreedyPolicy]) -> Dict:
     agg = TempoBoardPolicyStats()
     for p in policies:
         s = p.stats
-        agg.transitions_planned += s.transitions_planned
-        agg.transitions_completed += s.transitions_completed
-        agg.core_buys_completed += s.core_buys_completed
-        agg.core_deploys_completed += s.core_deploys_completed
-        agg.slot_sells_completed += s.slot_sells_completed
+        agg.compound_transitions_planned += s.compound_transitions_planned
+        agg.compound_transitions_completed += s.compound_transitions_completed
+        agg.compound_transitions_abandoned += s.compound_transitions_abandoned
+        agg.replacement_sells += s.replacement_sells
+        agg.tempo_selected_buys += s.tempo_selected_buys
+        agg.tempo_selected_deploys += s.tempo_selected_deploys
+        agg.target_core_buys += s.target_core_buys
+        agg.target_core_deploys += s.target_core_deploys
         agg.raw_stat_sacrifice_completed_sum += s.raw_stat_sacrifice_completed_sum
         agg.build_gain_completed_sum += s.build_gain_completed_sum
     return agg.summary()
