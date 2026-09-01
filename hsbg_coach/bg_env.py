@@ -666,6 +666,17 @@ def seeded_core_stress_greedy_policy(obs: Dict, mask: List[bool],
     return _greedy(obs, mask, rng, 0.0, buy_override=seeded_core_buy_override)
 
 
+def seeded_core_deploy_stress_greedy_policy(obs: Dict, mask: List[bool],
+                                            rng: random.Random) -> int:
+    """Phase 2G oracle — Phase 2E buy oracle + board-slot sell for hand cores."""
+    from .seeded_core_deploy_policy import seeded_core_deploy_sell_action
+    from .seeded_core_stress_policy import seeded_core_buy_override
+    sell = seeded_core_deploy_sell_action(obs, mask)
+    if sell is not None:
+        return sell
+    return _greedy(obs, mask, rng, 0.0, buy_override=seeded_core_buy_override)
+
+
 def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
             level_bias: float,
             buy_scorer: Optional[Callable[[Dict, int], float]] = None,
