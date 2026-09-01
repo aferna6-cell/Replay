@@ -505,18 +505,18 @@ anchoring stabilizes PPO, β=0.03 is the best fixed recipe, and scheduled
 relaxation after iter 160 does not beat the BC warm start reliably. See
 [`experiments/INDEX.md`](experiments/INDEX.md).
 
-**Active work: Simulator Fidelity Phase 2C** — composition realism (sim final
-winner coverage ~0.008 vs real ~0.766). Phase 2A baseline merged; Phase 2B
-accepted **Simulator v1.1** (residual end-of-turn scaling):
+**Active work: Simulator Fidelity Phase 2C** — composition assembly diagnostic
+(sim winner coverage ~0.009 vs real ~0.766). Phase 2B merged **Simulator v1.1**.
 
 ```bash
-python -m ml.fidelity_benchmark --lobbies 200      # v1.1 default (residual)
-python -m ml.fidelity_phase_2b --lobbies 200         # paired v1 vs v1.1 study
+python -m ml.fidelity_phase_2c --lobbies 200      # composition funnel diagnostic
+python -m ml.fidelity_phase_2b --lobbies 200      # paired scaling study (v1 vs v1.1)
+python -m ml.fidelity_benchmark --lobbies 200     # aggregate fidelity curves
 ```
 
-Artifacts: [`experiments/sim_fidelity_phase_2b.md`](experiments/sim_fidelity_phase_2b.md),
-[`results/sim_fidelity_v1_1/`](results/sim_fidelity_v1_1/),
-frozen v1 baseline [`results/sim_fidelity_v1/`](results/sim_fidelity_v1/).
+Artifacts: [`experiments/sim_fidelity_phase_2c.md`](experiments/sim_fidelity_phase_2c.md),
+[`results/sim_fidelity_phase_2c/`](results/sim_fidelity_phase_2c/),
+[`results/sim_fidelity_v1_1/`](results/sim_fidelity_v1_1/).
 
 Replay Benchmark v1 remains the historical agent-strength standard. **Replay
 Benchmark v2** will be defined only after the simulator is materially improved;

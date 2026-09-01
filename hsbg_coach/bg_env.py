@@ -555,16 +555,24 @@ class BGEnv:
         return self._done
 
     # -- scripted full-lobby playout (dataset generation) ------------------------------
-    def play_scripted(self, policies: Optional[Sequence[Callable]] = None
+    def play_scripted(self, policies: Optional[Sequence[Callable]] = None,
+                      recruit_tracer: Optional[object] = None
                       ) -> List[Dict]:
         """Play the whole lobby with scripted seats (seat 0 included).
 
         Returns one record per (seat, turn): the seat's end-of-recruit state
         (advisor snapshot shape) labeled with the final placement it led to.
+
+        Optional ``recruit_tracer`` receives observational callbacks; it must
+        not mutate env state (Phase 2C measurement-only tracing).
         """
         self.reset()
         policies = list(policies or [])
         records: List[Dict] = []
+        lobby_id = getattr(recruit_tracer, "lobby_id", 0)
+        if recruit_tracer is not None and hasattr(recruit_tracer, "begin_lobby"):
+            recruit_tracer.begin_lobby(
+                lobby_id, lobby_id, list(self.lobby_tribes))
         while not self._done:
             for seat in range(self.n_players):
                 p = self.players[seat]
@@ -572,10 +580,26 @@ class BGEnv:
                     continue
                 policy = (policies[seat] if seat < len(policies) else None
                           ) or greedy_policy
+                shop_generation = 0
+                if recruit_tracer is not None and hasattr(recruit_tracer, "begin_seat_recruit"):
+                    recruit_tracer.begin_seat_recruit(seat, self.turn, p)
                 for _ in range(40):
-                    a = policy(self.observe(seat), self.legal_mask(seat), self.rng)
-                    if self._apply(seat, a):
+                    obs = self.observe(seat)
+                    mask = self.legal_mask(seat)
+                    if recruit_tracer is not None and hasattr(recruit_tracer, "before_action"):
+                        recruit_tracer.before_action(
+                            seat, self.turn, shop_generation, obs, mask)
+                    a = policy(obs, mask, self.rng)
+                    ended = self._apply(seat, a)
+                    if recruit_tracer is not None and hasattr(recruit_tracer, "after_action"):
+                        recruit_tracer.after_action(
+                            seat, self.turn, shop_generation, a, ended, p)
+                    if a == A_ROLL:
+                        shop_generation += 1
+                    if ended:
                         break
+                if recruit_tracer is not None and hasattr(recruit_tracer, "end_seat_recruit"):
+                    recruit_tracer.end_seat_recruit(seat, self.turn, p)
                 records.append({"seat": seat, "turn": self.turn,
                                 "state": self.snapshot(seat)})
             self._scale_all()
@@ -587,6 +611,8 @@ class BGEnv:
                 self._start_turn()
         for r in records:
             r["placement"] = self.players[r["seat"]].placement
+        if recruit_tracer is not None and hasattr(recruit_tracer, "end_lobby"):
+            recruit_tracer.end_lobby(self.players)
         return records
 
 
