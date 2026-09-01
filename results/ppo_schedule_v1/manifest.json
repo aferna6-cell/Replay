@@ -1,0 +1,630 @@
+{
+  "experiment": "Replay Experiment 6 \u2014 Scheduled KL Anchoring",
+  "timestamp_utc": "2026-09-01T13:09:52.484538+00:00",
+  "question": "Can delayed relaxation of KL anchoring (\u03b2=0.03 through iter 160, then linear to \u03b2=0.01 by iter 320) preserve fixed-\u03b2=0.03 stability while reliably beating the BC warm start (~6.550)?",
+  "kl_schedule": "0.03@160,0.01@320",
+  "schedule_at_checkpoints": [
+    {
+      "iteration": 0,
+      "kl_coef": 0.03
+    },
+    {
+      "iteration": 40,
+      "kl_coef": 0.03
+    },
+    {
+      "iteration": 80,
+      "kl_coef": 0.03
+    },
+    {
+      "iteration": 160,
+      "kl_coef": 0.03
+    },
+    {
+      "iteration": 320,
+      "kl_coef": 0.01
+    }
+  ],
+  "contract": {
+    "contract_version": 1,
+    "expected_warm_start_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+    "warm_start_checkpoint_sha256": "340fd7e85720b01ea0790a889b68a05f19931ccc5179ebd448541ad6b6daf9ec",
+    "warm_start_path": "results/ppo_schedule_v1/warm_start.pt",
+    "code_commit": "95caab9feea5dbd43ac2175dc2bfcc697adf9074",
+    "runtime": {
+      "python_version": "3.12.3",
+      "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+      "torch_version": "2.13.0+cpu",
+      "numpy_version": "2.4.4",
+      "torch_device": "cpu",
+      "torch_cuda_available": false
+    },
+    "runtime_fingerprint_sha256": "b4907d0a1782dc0a66c1bb09a01712c7f97e66bf228e4112861f64874d1e52b0",
+    "ppo_recipe": {
+      "iterations": 320,
+      "episodes_per_iteration": 16,
+      "shaping_initial": 1.0,
+      "shaping_horizon": 40,
+      "optimizer": "AdamW",
+      "lr": 0.0003,
+      "weight_decay": 0.0001,
+      "gamma": 0.999,
+      "lam": 0.95,
+      "clip": 0.2,
+      "entropy_coef": 0.01,
+      "value_coef": 0.5,
+      "ppo_epochs": 4,
+      "minibatch": 256,
+      "grad_clip_norm": 1.0,
+      "league_every": 8,
+      "league_max": 5
+    },
+    "ppo_config_hash_sha256": "69218321dfaf64c3a95d559905f6e5d4952fa5cab3a84d4f6c43159945339030",
+    "environment": {
+      "env": "hsbg_coach.bg_env.BGEnv",
+      "n_players": 8,
+      "field_size": 7,
+      "agent_seat": 0,
+      "n_actions": 28,
+      "max_turns": 20,
+      "max_decisions": 400
+    },
+    "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+    "dev_seed_range": [
+      10550000,
+      10599999
+    ],
+    "primary_dev_eval": {
+      "field": "greedy",
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ]
+    },
+    "secondary_dev_eval": {
+      "field": "greedy4_random3",
+      "games": 500,
+      "seed_range": [
+        10550000,
+        10550499
+      ]
+    },
+    "primary_iterations": [
+      0,
+      40,
+      80,
+      160,
+      320
+    ],
+    "training_seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "kl_coef_values": [
+      0.03
+    ],
+    "single_variable_within_seed_pair": "kl_coef",
+    "parent_experiment": "ppo_dose_v1",
+    "parent_contract_path": "results/ppo_dose_v1/contract.json",
+    "experiment": "ppo_schedule_v1",
+    "question": "Can delayed relaxation of KL anchoring (\u03b2=0.03 through iter 160, then linear to \u03b2=0.01 by iter 320) preserve fixed-\u03b2=0.03 stability while reliably beating the BC warm start (~6.550)?",
+    "arms": {
+      "control": {
+        "label": "beta003",
+        "kl_mode": "fixed",
+        "kl_coef": 0.03,
+        "source": "results/ppo_dose_v1",
+        "reused": true
+      },
+      "treatment": {
+        "label": "beta_sched",
+        "kl_mode": "scheduled",
+        "kl_schedule": "0.03@160,0.01@320",
+        "schedule_table": [
+          {
+            "iteration": 0,
+            "kl_coef": 0.03
+          },
+          {
+            "iteration": 40,
+            "kl_coef": 0.03
+          },
+          {
+            "iteration": 80,
+            "kl_coef": 0.03
+          },
+          {
+            "iteration": 160,
+            "kl_coef": 0.03
+          },
+          {
+            "iteration": 320,
+            "kl_coef": 0.01
+          }
+        ]
+      }
+    },
+    "success_criteria": {
+      "bc_baseline": 6.55,
+      "max_mean_delta_vs_bc": -0.02,
+      "max_scheduled_cross_seed_mean": 6.53,
+      "min_seeds_beating_bc": 3,
+      "seed_beat_threshold": -0.01,
+      "max_worst_seed_delta_vs_bc": 0.05,
+      "max_std_ratio_vs_control": 1.5
+    },
+    "control_code_equivalence": {
+      "required_before_training": true,
+      "shadow_seed": 0,
+      "shadow_kl_coef": 0.03,
+      "checkpoints_compared": [
+        0,
+        40,
+        80,
+        160,
+        320
+      ],
+      "artifact": "results/ppo_schedule_v1/control_code_equivalence.json"
+    },
+    "hard_stop": "Last PPO experiment on current simulator. If schedule fails, pivot to Simulator Fidelity Phase 2."
+  },
+  "warm_start": {
+    "path": "results/ppo_schedule_v1/warm_start.pt",
+    "checkpoint_sha256": "340fd7e85720b01ea0790a889b68a05f19931ccc5179ebd448541ad6b6daf9ec",
+    "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+  },
+  "control_code_equivalence": {
+    "control_code_equivalence_passed": true,
+    "shadow_seed": 0,
+    "kl_coef": 0.03,
+    "reference_run": "results/ppo_dose_v1/beta003/seed_0",
+    "shadow_run": "results/ppo_schedule_v1/shadow_control_equiv/seed_0",
+    "checkpoints_compared": [
+      0,
+      40,
+      80,
+      160,
+      320
+    ],
+    "comparisons": [
+      {
+        "iteration": 0,
+        "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_000.pt",
+        "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_000.pt",
+        "reference_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+        "shadow_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+        "match": true
+      },
+      {
+        "iteration": 40,
+        "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_040.pt",
+        "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_040.pt",
+        "reference_parameter_sha256": "ee4a04c37f9f16d2eaaf84e44087bba07f99d7dace24b5ec518e2fb12a2b1c02",
+        "shadow_parameter_sha256": "ee4a04c37f9f16d2eaaf84e44087bba07f99d7dace24b5ec518e2fb12a2b1c02",
+        "match": true
+      },
+      {
+        "iteration": 80,
+        "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_080.pt",
+        "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_080.pt",
+        "reference_parameter_sha256": "6c057a2163ec10c97b07cf09839b00f616e2f5e07038512899ed8b1201d38b79",
+        "shadow_parameter_sha256": "6c057a2163ec10c97b07cf09839b00f616e2f5e07038512899ed8b1201d38b79",
+        "match": true
+      },
+      {
+        "iteration": 160,
+        "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_160.pt",
+        "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_160.pt",
+        "reference_parameter_sha256": "64cd2105db18bc510d923d96deb830e52ecae70a1fc957f819921469602fbd4a",
+        "shadow_parameter_sha256": "64cd2105db18bc510d923d96deb830e52ecae70a1fc957f819921469602fbd4a",
+        "match": true
+      },
+      {
+        "iteration": 320,
+        "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_320.pt",
+        "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_320.pt",
+        "reference_parameter_sha256": "67fd29f674e13402686500345cc79c7610e60805fe3dc48a60e22eba096f4cd4",
+        "shadow_parameter_sha256": "67fd29f674e13402686500345cc79c7610e60805fe3dc48a60e22eba096f4cd4",
+        "match": true
+      }
+    ],
+    "action_on_pass": "Reuse Experiment 5 four-seed \u03b2=0.03 control",
+    "action_on_fail": "STOP \u2014 retrain both control and treatment under current train_ppo.py"
+  },
+  "reproducibility_gates": {
+    "all_passed": true,
+    "per_seed": [
+      {
+        "seed": 0,
+        "success": true,
+        "stage": "train"
+      },
+      {
+        "seed": 1,
+        "success": true,
+        "stage": "train"
+      },
+      {
+        "seed": 2,
+        "success": true,
+        "stage": "train"
+      },
+      {
+        "seed": 3,
+        "success": true,
+        "stage": "train"
+      }
+    ],
+    "hash_gates": [
+      {
+        "seed": 0,
+        "success": true
+      },
+      {
+        "seed": 1,
+        "success": true
+      },
+      {
+        "seed": 2,
+        "success": true
+      },
+      {
+        "seed": 3,
+        "success": true
+      }
+    ],
+    "control_code_equivalence_passed": true,
+    "expected_warm_start_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+    "kl_schedule": "0.03@160,0.01@320"
+  },
+  "runs": [
+    {
+      "arm_label": "beta003",
+      "training_seed": 0,
+      "source_dir": "results/ppo_dose_v1",
+      "reused_from_dose_v1": true,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "d22406ad0f8b15f517f2e62625a493b5f8dd1a8a5a7be9fdc3b557acbc46bb96",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "4334219699ec7b823ebdfa537aec63e2c31e75f8c20c6cc3a76a0e0d47339be7",
+          "parameter_sha256": "ee4a04c37f9f16d2eaaf84e44087bba07f99d7dace24b5ec518e2fb12a2b1c02"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "defa4ad26e8e4b2e882c64d2e3d678e21d6d7b8f123be2cc64a36304e1d6e08b",
+          "parameter_sha256": "6c057a2163ec10c97b07cf09839b00f616e2f5e07038512899ed8b1201d38b79"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "124e69ac74fbb8199b836d3c27db937e9b663d280e7eaf7823dd4f3fabff3b2d",
+          "parameter_sha256": "64cd2105db18bc510d923d96deb830e52ecae70a1fc957f819921469602fbd4a"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "706396f09ae72cb78e721f7861f6626f491b99853331fa4f1b608e0e2aeb3dc8",
+          "parameter_sha256": "67fd29f674e13402686500345cc79c7610e60805fe3dc48a60e22eba096f4cd4"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 0,
+        "kl_coef": 0.03,
+        "kl_label": "beta003",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta003",
+      "training_seed": 1,
+      "source_dir": "results/ppo_dose_v1",
+      "reused_from_dose_v1": true,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "f6406cac4bf48cbebd9ca2bd04f404a7b8c5f8ed3014b4d54b1e16080b087c31",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "9f7beea6009b9a2f28efba8181f2596d7e2525b319c6f908f51dbfb4dd111994",
+          "parameter_sha256": "6f75ee8e29bf081922476a4b4112f580f18314a20e7f4ca92cd0dc146d0533ed"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "d04feec6d6134fff437c5816724105d6b9f8f576fc454cc4339b9190288fbc31",
+          "parameter_sha256": "b001d00bff1c258dc6a6bd5cbd8192a08cc13cd09434987e5d7fc765fab3c989"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "15ae8a58b9cb05c2e0d5d6f64904d470ae484de854aaeeb6d040a044e7f84df1",
+          "parameter_sha256": "8a2ecd586775f5efc2c86946c32d242d1b9fc1915b02b69e0bb9f0ae77b99a33"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "e26fe953ac481428cd39d385f37083d4387dcdcbd33adef8b7fe1c3c84483ccc",
+          "parameter_sha256": "9f2b9ec7fdc13e16a3a6422a1c0c1643ec01a75a489780ecefef69ad9d511e15"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 1,
+        "kl_coef": 0.03,
+        "kl_label": "beta003",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta003",
+      "training_seed": 2,
+      "source_dir": "results/ppo_dose_v1",
+      "reused_from_dose_v1": true,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "883274c2f0431c56402f197b55591b8a35bf0d972dfe44c4bf4a2c77d3533af9",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "ef7b2ab38d8b7c91edfe661f3f42b1d6457a82c7b64b468cbd51520de8611b53",
+          "parameter_sha256": "a545c4247bcaf305ca15018553054e665fe963393800b18a5237ae1e74e4f0b6"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "45743eafc59febc14296ee2e4984e0cb778c2f2ec78ab2e1dbc106a389b2f81e",
+          "parameter_sha256": "5be70aec81ab25ec58355d1c79a0e168a4c4dcb6fe978d3cf2721558e30539c1"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "3dce265c8e00733d44e089fa04e201009cc43f216b35337ee166eefb2822d32f",
+          "parameter_sha256": "6ce788a0942061ee061131f912276b124d045c7213c28eaa55cf6e33c07104c2"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "a2f587d1db97e0188553f2a6386ea7a5adcd84578e28203645748fe3817ae59f",
+          "parameter_sha256": "dd7f5228c8732df7128b2671e9349fbd215158b296d44e369eac2229f50996db"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 2,
+        "kl_coef": 0.03,
+        "kl_label": "beta003",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta003",
+      "training_seed": 3,
+      "source_dir": "results/ppo_dose_v1",
+      "reused_from_dose_v1": true,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "1defc8a8dc5cfac15bc7757183833a58cf552f84da683b77db12880c7c722ef8",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "f52e71a183221a43cc17faef165c86af31be5e5049ef8088fbf8a4749f8ebc4c",
+          "parameter_sha256": "648ed5240e66d8402a113b26e1eaa115b1db724942c8c679cc0581116d2e002e"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "53427301ee439e711fc6e799c41d7eaa486357d58f346d08516965ce6869ff8f",
+          "parameter_sha256": "4367bb86967faf4b5fb236341203142cc7c848be1e646c1b3ebcaedbda24e965"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "fb05be28cf9221784a79b8a2488f76e47772b5a96a46229db095c810ba4589e5",
+          "parameter_sha256": "12dc0275aac1ed7aa93601f31d5b7b93c0450505c6ba591ae90c5a70bac3314c"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "fd7d08c85f6c8977e01ed539c1dac42d80c8adf03365b54f615fce2ef499faae",
+          "parameter_sha256": "b370d32e9298a5f306af0065281227499885f2a719a58c592aeb1a813f92267f"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 3,
+        "kl_coef": 0.03,
+        "kl_label": "beta003",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta_sched",
+      "training_seed": 0,
+      "source_dir": "results/ppo_schedule_v1",
+      "reused_from_dose_v1": false,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "d22406ad0f8b15f517f2e62625a493b5f8dd1a8a5a7be9fdc3b557acbc46bb96",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "4334219699ec7b823ebdfa537aec63e2c31e75f8c20c6cc3a76a0e0d47339be7",
+          "parameter_sha256": "ee4a04c37f9f16d2eaaf84e44087bba07f99d7dace24b5ec518e2fb12a2b1c02"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "defa4ad26e8e4b2e882c64d2e3d678e21d6d7b8f123be2cc64a36304e1d6e08b",
+          "parameter_sha256": "6c057a2163ec10c97b07cf09839b00f616e2f5e07038512899ed8b1201d38b79"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "124e69ac74fbb8199b836d3c27db937e9b663d280e7eaf7823dd4f3fabff3b2d",
+          "parameter_sha256": "64cd2105db18bc510d923d96deb830e52ecae70a1fc957f819921469602fbd4a"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "3e68d6688b2719dad3247ef8d9727e8dbfd0cc8a58b7f7344a6e73d7a5c8998b",
+          "parameter_sha256": "65b549c93a7f846431337ddf47eb16ff9cab59b68bb1a15fc33e8e6f035cfd42"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 0,
+        "arm": "beta_sched",
+        "kl_mode": "scheduled",
+        "kl_schedule": "0.03@160,0.01@320",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta_sched",
+      "training_seed": 1,
+      "source_dir": "results/ppo_schedule_v1",
+      "reused_from_dose_v1": false,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "f6406cac4bf48cbebd9ca2bd04f404a7b8c5f8ed3014b4d54b1e16080b087c31",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "9f7beea6009b9a2f28efba8181f2596d7e2525b319c6f908f51dbfb4dd111994",
+          "parameter_sha256": "6f75ee8e29bf081922476a4b4112f580f18314a20e7f4ca92cd0dc146d0533ed"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "d04feec6d6134fff437c5816724105d6b9f8f576fc454cc4339b9190288fbc31",
+          "parameter_sha256": "b001d00bff1c258dc6a6bd5cbd8192a08cc13cd09434987e5d7fc765fab3c989"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "15ae8a58b9cb05c2e0d5d6f64904d470ae484de854aaeeb6d040a044e7f84df1",
+          "parameter_sha256": "8a2ecd586775f5efc2c86946c32d242d1b9fc1915b02b69e0bb9f0ae77b99a33"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "856f8e563ad21b2ddab65c77a572d34cbdc9218e027cb636d44924ada2d9fd39",
+          "parameter_sha256": "64b19f0bd31cdcee174e857e9769d912e841c8b69df3fe70bfc8e1d300ef2d87"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 1,
+        "arm": "beta_sched",
+        "kl_mode": "scheduled",
+        "kl_schedule": "0.03@160,0.01@320",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta_sched",
+      "training_seed": 2,
+      "source_dir": "results/ppo_schedule_v1",
+      "reused_from_dose_v1": false,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "883274c2f0431c56402f197b55591b8a35bf0d972dfe44c4bf4a2c77d3533af9",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "ef7b2ab38d8b7c91edfe661f3f42b1d6457a82c7b64b468cbd51520de8611b53",
+          "parameter_sha256": "a545c4247bcaf305ca15018553054e665fe963393800b18a5237ae1e74e4f0b6"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "45743eafc59febc14296ee2e4984e0cb778c2f2ec78ab2e1dbc106a389b2f81e",
+          "parameter_sha256": "5be70aec81ab25ec58355d1c79a0e168a4c4dcb6fe978d3cf2721558e30539c1"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "3dce265c8e00733d44e089fa04e201009cc43f216b35337ee166eefb2822d32f",
+          "parameter_sha256": "6ce788a0942061ee061131f912276b124d045c7213c28eaa55cf6e33c07104c2"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "5736098552d987cd799496faf4a4134ffbc2d80ab701970364e8eb5b1ec91c2c",
+          "parameter_sha256": "ffee6655ccb4994969011663fa6723ed3ac54d779ed52cce3996b41ccd5b471c"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 2,
+        "arm": "beta_sched",
+        "kl_mode": "scheduled",
+        "kl_schedule": "0.03@160,0.01@320",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    },
+    {
+      "arm_label": "beta_sched",
+      "training_seed": 3,
+      "source_dir": "results/ppo_schedule_v1",
+      "reused_from_dose_v1": false,
+      "checkpoints": [
+        {
+          "iteration": 0,
+          "checkpoint_sha256": "1defc8a8dc5cfac15bc7757183833a58cf552f84da683b77db12880c7c722ef8",
+          "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+        },
+        {
+          "iteration": 40,
+          "checkpoint_sha256": "f52e71a183221a43cc17faef165c86af31be5e5049ef8088fbf8a4749f8ebc4c",
+          "parameter_sha256": "648ed5240e66d8402a113b26e1eaa115b1db724942c8c679cc0581116d2e002e"
+        },
+        {
+          "iteration": 80,
+          "checkpoint_sha256": "53427301ee439e711fc6e799c41d7eaa486357d58f346d08516965ce6869ff8f",
+          "parameter_sha256": "4367bb86967faf4b5fb236341203142cc7c848be1e646c1b3ebcaedbda24e965"
+        },
+        {
+          "iteration": 160,
+          "checkpoint_sha256": "fb05be28cf9221784a79b8a2488f76e47772b5a96a46229db095c810ba4589e5",
+          "parameter_sha256": "12dc0275aac1ed7aa93601f31d5b7b93c0450505c6ba591ae90c5a70bac3314c"
+        },
+        {
+          "iteration": 320,
+          "checkpoint_sha256": "df2a695d2a9cb0fe79a55f1da40433da3ed39e093ec999c0f63b468c8c7f0abb",
+          "parameter_sha256": "e4bdb1694ad7e15a6ee067ae2d028faed97419ce83cd3c209e8f6bd2833fef1c"
+        }
+      ],
+      "run_meta": {
+        "training_seed": 3,
+        "arm": "beta_sched",
+        "kl_mode": "scheduled",
+        "kl_schedule": "0.03@160,0.01@320",
+        "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+      }
+    }
+  ],
+  "evaluation": {
+    "split": "dev",
+    "test_usage": "Benchmark v1 TEST was NOT run.",
+    "primary_field": {
+      "field": "greedy",
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy"
+    }
+  },
+  "success_criteria": {
+    "bc_baseline": 6.55,
+    "max_mean_delta_vs_bc": -0.02,
+    "max_scheduled_cross_seed_mean": 6.53,
+    "min_seeds_beating_bc": 3,
+    "seed_beat_threshold": -0.01,
+    "max_worst_seed_delta_vs_bc": 0.05,
+    "max_std_ratio_vs_control": 1.5
+  },
+  "hard_stop": "Last PPO experiment on current simulator. If schedule fails, pivot to Simulator Fidelity Phase 2.",
+  "artifacts": {
+    "contract": "results/ppo_schedule_v1/contract.json",
+    "report": "experiments/ppo_schedule_v1.md",
+    "control_source": "results/ppo_dose_v1/beta003/"
+  }
+}

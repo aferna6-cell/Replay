@@ -138,30 +138,37 @@ def load_existing_pass() -> bool:
     return data.get("control_code_equivalence_passed") is True
 
 
+def ensure_contract_and_warm_start() -> str:
+    os.makedirs(BASE_DIR, exist_ok=True)
+    if not os.path.isfile(WARM_START) and os.path.isfile(DOSE_WARM):
+        import shutil
+        shutil.copy2(DOSE_WARM, WARM_START)
+    if not os.path.isfile(WARM_START):
+        raise SystemExit(f"warm start missing: {WARM_START}")
+
+    if not os.path.isfile(CONTRACT_PATH):
+        from ml.experiment_contract import build_contract, save_contract
+        from ml.kl_schedule import EXPERIMENT_6_KL_SCHEDULE, schedule_table
+        contract = build_contract(WARM_START, kl_coef_values=[0.03])
+        contract["experiment"] = "ppo_schedule_v1"
+        contract["control_code_equivalence"] = {
+            "shadow_seed": SHADOW_SEED,
+            "shadow_kl_coef": KL_COEF,
+            "checkpoints_compared": list(CHECKPOINTS),
+        }
+        save_contract(CONTRACT_PATH, contract)
+
+    contract = load_contract(CONTRACT_PATH)
+    enforce_runtime_match(contract)
+    return contract["expected_warm_start_parameter_sha256"]
+
+
 def main() -> int:
     if "--force" not in sys.argv and load_existing_pass():
         print(f"Control equivalence already passed -> {EQUIV_PATH}")
         return 0
 
-    os.makedirs(BASE_DIR, exist_ok=True)
-    if not os.path.isfile(WARM_START) and os.path.isfile(DOSE_WARM):
-        import shutil
-        shutil.copy2(DOSE_WARM, WARM_START)
-
-    if not os.path.isfile(CONTRACT_PATH):
-        print("Contract missing — run train_schedule_ab contract setup first, "
-              "or ensure warm_start exists.", file=sys.stderr)
-        if not os.path.isfile(WARM_START):
-            return 1
-
-    contract = load_contract(CONTRACT_PATH) if os.path.isfile(CONTRACT_PATH) else None
-    if contract:
-        enforce_runtime_match(contract)
-        expected_sha = contract["expected_warm_start_parameter_sha256"]
-    else:
-        from ml.model_fingerprint import checkpoint_fingerprint
-        expected_sha = checkpoint_fingerprint(WARM_START)["parameter_sha256"]
-
+    expected_sha = ensure_contract_and_warm_start()
     verify_warm_start(WARM_START, expected_sha)
 
     rc = run_shadow_training(expected_sha)

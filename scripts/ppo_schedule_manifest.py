@@ -25,6 +25,7 @@ def main() -> int:
     equiv_path = os.path.join(SCHEDULE_DIR, "control_code_equivalence.json")
     equiv = (json.load(open(equiv_path))
              if os.path.isfile(equiv_path) else None)
+    gate_path = os.path.join(SCHEDULE_DIR, "gate_results.json")
     gate = json.load(open(gate_path)) if os.path.isfile(gate_path) else {}
 
     runs = []

@@ -1,0 +1,7 @@
+{
+  "training_seed": 0,
+  "kl_coef": 0.03,
+  "kl_mode": "fixed",
+  "purpose": "control_code_equivalence_shadow",
+  "reference": "results/ppo_dose_v1/beta003/seed_0"
+}

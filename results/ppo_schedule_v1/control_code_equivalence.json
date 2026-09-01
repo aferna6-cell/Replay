@@ -1,0 +1,58 @@
+{
+  "control_code_equivalence_passed": true,
+  "shadow_seed": 0,
+  "kl_coef": 0.03,
+  "reference_run": "results/ppo_dose_v1/beta003/seed_0",
+  "shadow_run": "results/ppo_schedule_v1/shadow_control_equiv/seed_0",
+  "checkpoints_compared": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "comparisons": [
+    {
+      "iteration": 0,
+      "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_000.pt",
+      "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_000.pt",
+      "reference_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+      "shadow_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+      "match": true
+    },
+    {
+      "iteration": 40,
+      "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_040.pt",
+      "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_040.pt",
+      "reference_parameter_sha256": "ee4a04c37f9f16d2eaaf84e44087bba07f99d7dace24b5ec518e2fb12a2b1c02",
+      "shadow_parameter_sha256": "ee4a04c37f9f16d2eaaf84e44087bba07f99d7dace24b5ec518e2fb12a2b1c02",
+      "match": true
+    },
+    {
+      "iteration": 80,
+      "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_080.pt",
+      "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_080.pt",
+      "reference_parameter_sha256": "6c057a2163ec10c97b07cf09839b00f616e2f5e07038512899ed8b1201d38b79",
+      "shadow_parameter_sha256": "6c057a2163ec10c97b07cf09839b00f616e2f5e07038512899ed8b1201d38b79",
+      "match": true
+    },
+    {
+      "iteration": 160,
+      "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_160.pt",
+      "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_160.pt",
+      "reference_parameter_sha256": "64cd2105db18bc510d923d96deb830e52ecae70a1fc957f819921469602fbd4a",
+      "shadow_parameter_sha256": "64cd2105db18bc510d923d96deb830e52ecae70a1fc957f819921469602fbd4a",
+      "match": true
+    },
+    {
+      "iteration": 320,
+      "reference_path": "results/ppo_dose_v1/beta003/seed_0/checkpoints/iter_320.pt",
+      "shadow_path": "results/ppo_schedule_v1/shadow_control_equiv/seed_0/checkpoints/iter_320.pt",
+      "reference_parameter_sha256": "67fd29f674e13402686500345cc79c7610e60805fe3dc48a60e22eba096f4cd4",
+      "shadow_parameter_sha256": "67fd29f674e13402686500345cc79c7610e60805fe3dc48a60e22eba096f4cd4",
+      "match": true
+    }
+  ],
+  "action_on_pass": "Reuse Experiment 5 four-seed \u03b2=0.03 control",
+  "action_on_fail": "STOP \u2014 retrain both control and treatment under current train_ppo.py"
+}
