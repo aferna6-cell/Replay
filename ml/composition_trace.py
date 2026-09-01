@@ -160,6 +160,7 @@ class RecruitTracer:
             "pre_shop": pre["pre_shop"],
             "legal_buy_slots": pre["legal_buy_slots"],
             "board_before": pre["pre_board"],
+            "hand_before": pre["pre_hand"],
             "board_after": post_board,
             "hand_after": post_hand,
             "target_before": pre["target_before"],

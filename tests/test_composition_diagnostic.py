@@ -24,7 +24,7 @@ def test_traced_rollouts_smoke():
     ev = traces["events"][0]
     for key in ("lobby", "seat", "turn", "action", "pre_shop",
                 "legal_buy_slots", "shop_generation", "board_before",
-                "target_before", "lobby_tribes"):
+                "hand_before", "target_before", "lobby_tribes"):
         assert key in ev
 
 
