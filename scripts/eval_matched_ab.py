@@ -77,7 +77,7 @@ def run_drift(kl_label: str, seed: int) -> dict:
 
 def main() -> int:
     contract = load_contract(CONTRACT_PATH)
-    enforce_runtime_match(contract)
+    enforce_runtime_match(contract, strict_commit=False)
 
     jobs = []
     for kl_label in KL_LABELS:

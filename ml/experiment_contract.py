@@ -160,8 +160,14 @@ def load_contract(path: str) -> Dict[str, Any]:
         return json.load(f)
 
 
-def enforce_runtime_match(contract: Mapping[str, Any]) -> None:
-    """Fail if the active process differs from the recorded runtime."""
+def enforce_runtime_match(contract: Mapping[str, Any],
+                          *,
+                          strict_commit: bool = True) -> None:
+    """Fail if the active process differs from the recorded runtime.
+
+    Set ``strict_commit=False`` for post-training analysis when orchestration
+    scripts changed but train_ppo and the recorded training commit are unchanged.
+    """
     current = runtime_fingerprint()
     recorded = contract["runtime"]
     for key in ("python_version", "torch_version", "numpy_version",
@@ -172,7 +178,7 @@ def enforce_runtime_match(contract: Mapping[str, Any]) -> None:
                 f"current={current[key]!r}")
     if _sha256_dict(current) != contract["runtime_fingerprint_sha256"]:
         raise ContractViolation("runtime fingerprint hash mismatch")
-    if git_commit() != contract.get("code_commit"):
+    if strict_commit and git_commit() != contract.get("code_commit"):
         raise ContractViolation(
             f"code commit mismatch: contract={contract.get('code_commit')!r} "
             f"current={git_commit()!r}")

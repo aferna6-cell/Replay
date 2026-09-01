@@ -139,7 +139,7 @@ def eval_iter0_gate(seed: int, kl_label: str) -> str:
     res = run_dev_benchmark(agent, "greedy", 1000, base_seed=DEV_SEED_START)
     from ml.dev_benchmark import dev_result_to_json
     from ml.benchmark import _write_json
-    _write_json(json_out, dev_result_to_json(res))
+    _write_json(dev_result_to_json(res), json_out)
     return json_out
 
 
@@ -186,7 +186,7 @@ def train_seed_pair(seed: int) -> dict:
 
 def run_gates_only() -> int:
     contract = load_contract(CONTRACT_PATH)
-    enforce_runtime_match(contract)
+    enforce_runtime_match(contract, strict_commit=False)
     expected_sha = contract["expected_warm_start_parameter_sha256"]
     verify_warm_start(WARM_START, expected_sha)
     results = []
@@ -216,6 +216,9 @@ def run_gates_only() -> int:
         json.dump({"all_passed": all_ok, "per_seed": per_seed,
                    "placement_gates": placement_results,
                    "expected_warm_start_parameter_sha256": expected_sha,
+                   "training_code_commit": contract.get("code_commit"),
+                   "analysis_code_commit": __import__("ml.experiment_contract",
+                                                      fromlist=["git_commit"]).git_commit(),
                    "mode": "gates_only"}, f, indent=2)
     print(f"Gates complete. all_passed={all_ok}")
     return 0 if all_ok else 1
