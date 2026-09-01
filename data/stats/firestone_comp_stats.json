@@ -1,40 +1,74 @@
 {
  "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
- "_fetched": "2026-06-26",
+ "_fetched": "2026-09-01",
  "_mmr": 10,
  "_period": "past-seven",
- "_heroDataPoints": 53756,
+ "_heroDataPoints": 58561,
  "comps": [
   {
-   "name": "Murloc Scam",
-   "archetype": "murloc_scam",
-   "tribe": "Murloc",
-   "averagePosition": 3.056,
-   "popularity": 0.022,
+   "name": "Elemental Cycle",
+   "archetype": "elemental_cycle",
+   "tribe": "Elemental",
+   "averagePosition": 3.3,
+   "popularity": 0.1136,
    "coreCards": [
-    "Bile Spitter",
-    "Leeroy the Reckless",
-    "Diremuck Forager",
-    "Expert Aviator",
-    "Heroic Underdog",
-    "Choral Mrrrglr"
+    "Unbound Tempest",
+    "Brann Bronzebeard",
+    "Unleashed Mana Surge",
+    "Moat Custodian",
+    "Wildfire Elemental",
+    "Tavern Tempest"
    ],
    "powerTurns": [],
    "tier": "S"
   },
   {
-   "name": "Undead Forsaken",
-   "archetype": "undead_forsaken",
-   "tribe": "Undead",
-   "averagePosition": 3.255,
-   "popularity": 0.0401,
+   "name": "Naga End Of Turn",
+   "archetype": "naga_end_of_turn",
+   "tribe": "Naga",
+   "averagePosition": 3.312,
+   "popularity": 0.1741,
    "coreCards": [
-    "Handless Forsaken",
-    "Deathly Striker",
-    "Forsaken Weaver",
-    "Eternal Summoner",
-    "Risen Rider",
-    "Dead Sea Ravager"
+    "Fauna Whisperer",
+    "Balinda Stonehearth",
+    "Gatekeeper Amalgam",
+    "Drakkari Enchanter",
+    "Felfire Conjurer",
+    "Torrential Ruiner"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Beast Beetle",
+   "archetype": "beast_beetle",
+   "tribe": "Beast",
+   "averagePosition": 3.529,
+   "popularity": 0.0195,
+   "coreCards": [
+    "Banana Slamma",
+    "Ravaging Scorpid",
+    "Turquoise Skitterer",
+    "Forest Rover",
+    "Buzzing Vermin",
+    "Headhunter Gryphon"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Dragon Evoker",
+   "archetype": "dragon_evoker",
+   "tribe": "Dragon",
+   "averagePosition": 3.548,
+   "popularity": 0.0469,
+   "coreCards": [
+    "Persistent Poet",
+    "Warpwing",
+    "Fire-forged Evoker",
+    "Crimson Vindicator",
+    "Brann Bronzebeard",
+    "Leeroy the Reckless"
    ],
    "powerTurns": [],
    "tier": "S"
@@ -43,423 +77,202 @@
    "name": "Murloc Handbuff",
    "archetype": "murloc_handbuff",
    "tribe": "Murloc",
-   "averagePosition": 3.305,
-   "popularity": 0.027,
-   "coreCards": [
-    "Choral Mrrrglr",
-    "Diremuck Forager",
-    "Futurefin",
-    "Brann Bronzebeard",
-    "Drakkari Enchanter",
-    "Costume Enthusiast"
-   ],
-   "powerTurns": [],
-   "tier": "S"
-  },
-  {
-   "name": "Mech Magnet",
-   "archetype": "mech_magnet",
-   "tribe": "Mech",
-   "averagePosition": 3.33,
-   "popularity": 0.0869,
-   "coreCards": [
-    "Ingenious Inventor",
-    "Titus Rivendare",
-    "Falling Sky Golem",
-    "Kangor's Apprentice",
-    "Polarizing Beatboxer",
-    "Deflect-o-Bot"
-   ],
-   "powerTurns": [],
-   "tier": "S"
-  },
-  {
-   "name": "Elemental Cycle",
-   "archetype": "elemental_cycle",
-   "tribe": "Elemental",
    "averagePosition": 3.564,
-   "popularity": 0.0096,
+   "popularity": 0.0745,
    "coreCards": [
-    "Unleashed Mana Surge",
-    "Brann Bronzebeard",
-    "Wildfire Elemental",
-    "Flaming Enforcer",
-    "Leyline Surfacer",
-    "Glowing Cinder"
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Bile Spitter",
+    "Expert Aviator",
+    "Costume Enthusiast",
+    "Brann Bronzebeard"
    ],
    "powerTurns": [],
    "tier": "S"
   },
   {
-   "name": "Demon Fodder",
-   "archetype": "demon_fodder",
+   "name": "Demon Boost Shop",
+   "archetype": "demon_boost_shop",
    "tribe": "Demon",
-   "averagePosition": 3.708,
-   "popularity": 0.0925,
+   "averagePosition": 3.664,
+   "popularity": 0.1087,
    "coreCards": [
-    "Twisted Wrathguard",
-    "Consummate Conqueror",
-    "Brann Bronzebeard",
-    "Ashen Corruptor",
-    "Soul Rewinder",
-    "Leeroy the Reckless"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Dragon Ring Bearer",
-   "archetype": "dragon_ring_bearer",
-   "tribe": "Dragon",
-   "averagePosition": 3.761,
-   "popularity": 0.1006,
-   "coreCards": [
-    "Ring Bearer",
-    "Persistent Poet",
-    "Charmwing",
-    "Fire-forged Evoker",
-    "Maelstrom Emergent",
-    "Brann Bronzebeard"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Naga Spellbuff",
-   "archetype": "naga_spellbuff",
-   "tribe": "Naga",
-   "averagePosition": 3.818,
-   "popularity": 0.0579,
-   "coreCards": [
-    "Ruthless Queensguard",
-    "Maelstrom Emergent",
-    "Titus Rivendare",
-    "Rylak Metalhead",
-    "Brann Bronzebeard",
-    "Monstrous Macaw"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Mech Shield",
-   "archetype": "mech_shield",
-   "tribe": "Mech",
-   "averagePosition": 3.896,
-   "popularity": 0.0271,
-   "coreCards": [
-    "Deflect-o-Bot",
-    "Ingenious Inventor",
-    "Titus Rivendare",
-    "Falling Sky Golem",
-    "Kangor's Apprentice",
-    "Scrap Scraper"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Beast Beetles",
-   "archetype": "beast_beetles",
-   "tribe": "Beast",
-   "averagePosition": 3.928,
-   "popularity": 0.0422,
-   "coreCards": [
-    "Silky Shimmermoth",
-    "Rylak Metalhead",
-    "Titus Rivendare",
-    "Monstrous Macaw",
-    "Felhorn",
-    "Brann Bronzebeard"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Elemental Shop Buff",
-   "archetype": "elemental_shop_buff",
-   "tribe": "Elemental",
-   "averagePosition": 3.934,
-   "popularity": 0.0623,
-   "coreCards": [
-    "Leyline Surfacer",
-    "Wildfire Elemental",
+    "Devilish Distractor",
+    "Felboar",
     "Balinda Stonehearth",
+    "Imp-lusionist",
     "Brann Bronzebeard",
-    "Flaming Enforcer",
-    "Rylak Metalhead"
+    "Twisted Wrathguard"
    ],
    "powerTurns": [],
    "tier": "A"
   },
   {
-   "name": "Pirate Bounty",
-   "archetype": "pirate_bounty",
+   "name": "Pirate Discover",
+   "archetype": "pirate_discover",
    "tribe": "Pirate",
-   "averagePosition": 3.942,
-   "popularity": 0.0957,
+   "averagePosition": 3.686,
+   "popularity": 0.1239,
    "coreCards": [
-    "Sky Admiral Rogers",
-    "Proud Privateer",
+    "Hooktusk, Master Marauder",
+    "Enterprising Escapee",
     "Blade Collector",
-    "Dead Sea Ravager",
-    "Brazen Buccaneer",
+    "Leeroy the Reckless",
+    "Sky Admiral Rogers",
     "Brann Bronzebeard"
    ],
    "powerTurns": [],
    "tier": "A"
-  },
-  {
-   "name": "Beast Goldrinn",
-   "archetype": "beast_goldrinn",
-   "tribe": "Beast",
-   "averagePosition": 3.955,
-   "popularity": 0.0134,
-   "coreCards": [
-    "Goldrinn, the Great Wolf",
-    "Titus Rivendare",
-    "Monstrous Macaw",
-    "Sewer Lord",
-    "Banana Slamma",
-    "Turquoise Skitterer"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Quilboar Deathrattle",
-   "archetype": "quilboar_deathrattle",
-   "tribe": "Quilboar",
-   "averagePosition": 3.955,
-   "popularity": 0.021,
-   "coreCards": [
-    "Three Lil' Quilboar",
-    "Titus Rivendare",
-    "Bristlebach",
-    "Earthsong Shaman",
-    "Geomagus Roogug",
-    "Vinespeaker"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Undead Overflow",
-   "archetype": "undead_overflow",
-   "tribe": "Undead",
-   "averagePosition": 3.962,
-   "popularity": 0.0113,
-   "coreCards": [
-    "Catacomb Crasher",
-    "Titus Rivendare",
-    "Cadaver Caretaker",
-    "Monstrous Macaw",
-    "Lava Lurker",
-    "Surf n' Surf"
-   ],
-   "powerTurns": [],
-   "tier": "A"
-  },
-  {
-   "name": "Naga Groundbreaker",
-   "archetype": "naga_groundbreaker",
-   "tribe": "Naga",
-   "averagePosition": 4.248,
-   "popularity": 0.0251,
-   "coreCards": [
-    "Groundbreaker",
-    "Seafloor Recruiter",
-    "Maelstrom Emergent",
-    "Sundered Matriarch",
-    "Ring Bearer",
-    "Balinda Stonehearth"
-   ],
-   "powerTurns": [],
-   "tier": "B"
   },
   {
    "name": "Undead Butcher",
    "archetype": "undead_butcher",
    "tribe": "Undead",
-   "averagePosition": 4.26,
-   "popularity": 0.0388,
+   "averagePosition": 3.722,
+   "popularity": 0.0418,
    "coreCards": [
     "Drustfallen Butcher",
+    "Snazzy Phantom",
     "Handless Forsaken",
-    "Deathly Striker",
-    "Eternal Summoner",
-    "Balinda Stonehearth",
-    "Friendly Geist"
+    "Mummifier",
+    "Dead Bellringer",
+    "Deathly Striker"
    ],
    "powerTurns": [],
-   "tier": "B"
+   "tier": "A"
   },
   {
    "name": "Beast Leviathan",
    "archetype": "beast_leviathan",
    "tribe": "Beast",
-   "averagePosition": 4.27,
-   "popularity": 0.0102,
+   "averagePosition": 3.82,
+   "popularity": 0.0247,
    "coreCards": [
-    "Lurking Leviathan",
-    "Sewer Lord",
     "Banana Slamma",
-    "Monstrous Macaw",
-    "Titus Rivendare",
-    "Spiked Savior"
+    "Ravaging Scorpid",
+    "Turquoise Skitterer",
+    "Sewer Lord",
+    "Lurking Leviathan",
+    "Leeroy the Reckless"
    ],
    "powerTurns": [],
-   "tier": "B"
-  },
-  {
-   "name": "Pirate End Of Turn",
-   "archetype": "pirate_end_of_turn",
-   "tribe": "Pirate",
-   "averagePosition": 4.287,
-   "popularity": 0.0548,
-   "coreCards": [
-    "Brazen Buccaneer",
-    "Blade Collector",
-    "Drakkari Enchanter",
-    "Dead Sea Ravager",
-    "Sky Admiral Rogers",
-    "Proud Privateer"
-   ],
-   "powerTurns": [],
-   "tier": "B"
-  },
-  {
-   "name": "Dragon Kalecgos",
-   "archetype": "dragon_kalecgos",
-   "tribe": "Dragon",
-   "averagePosition": 4.311,
-   "popularity": 0.0334,
-   "coreCards": [
-    "Kalecgos, Arcane Aspect",
-    "Brann Bronzebeard",
-    "Charmwing",
-    "Persistent Poet",
-    "Ring Bearer",
-    "Fire-forged Evoker"
-   ],
-   "powerTurns": [],
-   "tier": "C"
-  },
-  {
-   "name": "Quilboar Felboar",
-   "archetype": "quilboar_felboar",
-   "tribe": "Quilboar",
-   "averagePosition": 4.325,
-   "popularity": 0.0244,
-   "coreCards": [
-    "Felboar",
-    "Brann Bronzebeard",
-    "Leeroy the Reckless",
-    "Twisted Wrathguard",
-    "Rylak Metalhead",
-    "Razorfen Flapper"
-   ],
-   "powerTurns": [],
-   "tier": "C"
+   "tier": "A"
   },
   {
    "name": "Murloc Mrrglton",
    "archetype": "murloc_mrrglton",
    "tribe": "Murloc",
-   "averagePosition": 4.392,
-   "popularity": 0.0192,
+   "averagePosition": 3.841,
+   "popularity": 0.0105,
    "coreCards": [
-    "Cousin Errgl",
     "Brann Bronzebeard",
-    "Diremuck Forager",
-    "Choral Mrrrglr",
-    "Bile Spitter",
-    "Drakkari Enchanter"
+    "Cousin Errgl",
+    "Kelp Keeper",
+    "Papa Mrrglton",
+    "Mama Mrrglton",
+    "Bile Spitter"
    ],
    "powerTurns": [],
-   "tier": "C"
+   "tier": "A"
   },
   {
-   "name": "Demon Damage",
-   "archetype": "demon_damage",
-   "tribe": "Demon",
-   "averagePosition": 4.488,
-   "popularity": 0.0156,
+   "name": "Neutral Tea Set",
+   "archetype": "neutral_tea_set",
+   "tribe": null,
+   "averagePosition": 3.904,
+   "popularity": 0.0431,
    "coreCards": [
-    "Lord of the Ruins",
-    "Silent Enforcer",
-    "Titus Rivendare",
-    "Devout Hellcaller",
-    "Monstrous Macaw",
-    "Felhorn"
-   ],
-   "powerTurns": [],
-   "tier": "C"
-  },
-  {
-   "name": "Beast Self Damage",
-   "archetype": "beast_self_damage",
-   "tribe": "Beast",
-   "averagePosition": 4.556,
-   "popularity": 0.0086,
-   "coreCards": [
-    "Rabid Panther",
-    "Iridescent Skyblazer",
-    "Monstrous Macaw",
-    "Rylak Metalhead",
-    "Silky Shimmermoth",
-    "Brann Bronzebeard"
-   ],
-   "powerTurns": [],
-   "tier": "C"
-  },
-  {
-   "name": "Naga Deep Blue",
-   "archetype": "naga_deep_blue",
-   "tribe": "Naga",
-   "averagePosition": 4.638,
-   "popularity": 0.015,
-   "coreCards": [
-    "Deep Blue Crooner",
-    "Zesty Shaker",
+    "Gatekeeper Amalgam",
     "Balinda Stonehearth",
-    "Lava Lurker",
-    "Wrathscale Rogue",
-    "Leeroy the Reckless"
+    "Brann Bronzebeard",
+    "Fauna Whisperer",
+    "Felfire Conjurer",
+    "Warpwing"
    ],
    "powerTurns": [],
-   "tier": "D"
+   "tier": "A"
   },
   {
-   "name": "Mech Automaton",
-   "archetype": "mech_automaton",
-   "tribe": "Mech",
-   "averagePosition": 4.941,
-   "popularity": 0.0195,
+   "name": "Dragon Kalecgos",
+   "archetype": "dragon_kalecgos",
+   "tribe": "Dragon",
+   "averagePosition": 4.109,
+   "popularity": 0.0439,
    "coreCards": [
-    "Ancestral Automaton",
-    "Ingenious Inventor",
-    "Falling Sky Golem",
-    "Titus Rivendare",
-    "Kangor's Apprentice",
+    "Warpwing",
+    "Kalecgos, Arcane Aspect",
+    "Brann Bronzebeard",
+    "Persistent Poet",
+    "Bronze Timewalker",
+    "Crimson Vindicator"
+   ],
+   "powerTurns": [],
+   "tier": "B"
+  },
+  {
+   "name": "Mech Magnet",
+   "archetype": "mech_magnet",
+   "tribe": "Mech",
+   "averagePosition": 4.137,
+   "popularity": 0.0727,
+   "coreCards": [
+    "Drone Duplicator",
+    "Spark Snapper",
+    "Polarizing Beatboxer",
+    "Utility Drone",
+    "Glambot",
     "Scrap Scraper"
    ],
    "powerTurns": [],
-   "tier": "D"
+   "tier": "B"
   },
   {
-   "name": "Neutral Nalaa",
-   "archetype": "neutral_nalaa",
-   "tribe": null,
-   "averagePosition": 5.008,
-   "popularity": 0.012,
+   "name": "Naga Groundbreaker",
+   "archetype": "naga_groundbreaker",
+   "tribe": "Naga",
+   "averagePosition": 4.307,
+   "popularity": 0.0219,
    "coreCards": [
-    "Nalaa the Redeemer",
+    "Groundbreaker",
+    "Seafloor Recruiter",
     "Balinda Stonehearth",
-    "Nightmare Par-tea Guest",
-    "Ring Bearer",
-    "Brann Bronzebeard",
-    "Blade Collector"
+    "Cagey Conjurer",
+    "Glowscale",
+    "Leeroy the Reckless"
+   ],
+   "powerTurns": [],
+   "tier": "C"
+  },
+  {
+   "name": "Beast Lobster",
+   "archetype": "beast_lobster",
+   "tribe": "Beast",
+   "averagePosition": 4.345,
+   "popularity": 0.0428,
+   "coreCards": [
+    "Deathstrider",
+    "Titus Rivendare",
+    "Tasty Lobster",
+    "Headhunter Gryphon",
+    "Hoarding Hyena",
+    "Sin'dorei Straight Shot"
+   ],
+   "powerTurns": [],
+   "tier": "C"
+  },
+  {
+   "name": "Quilboar Choose One",
+   "archetype": "quilboar_choose_one",
+   "tribe": "Quilboar",
+   "averagePosition": 4.646,
+   "popularity": 0.0276,
+   "coreCards": [
+    "Turbo Hogrider",
+    "Bramble Tunneler",
+    "Gem Rat",
+    "Sanguine Refiner",
+    "Vigilant Bristlemane",
+    "Balinda Stonehearth"
    ],
    "powerTurns": [],
    "tier": "D"
