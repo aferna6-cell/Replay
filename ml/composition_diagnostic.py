@@ -568,6 +568,7 @@ def recommend_intervention(seeded_view: Dict, committed_view: Dict,
             "fulfilled_exposures": fulfilled,
             "rejected_exposures": rejected,
             "rejection_rate": funnel.get("rejection_rate", 0.0),
+            "exposure_accounting_valid": funnel.get("exposure_accounting_valid", False),
         }
 
     seeded_m = _metrics(primary)
@@ -591,7 +592,9 @@ def recommend_intervention(seeded_view: Dict, committed_view: Dict,
         f"{committed_m['legally_buyable_exposures']} exposures, "
         f"{committed_m['fulfilled_exposures']} fulfilled, "
         f"{committed_m['rejected_exposures']} rejected "
-        f"({committed_m['rejection_rate']:.1%}).",
+        f"({committed_m['rejection_rate']:.1%}). "
+        + ("No committed-tier exposures observed in this sample."
+           if committed_m['legally_buyable_exposures'] == 0 else ""),
         f"Exploratory broad view: {broad_m['legally_buyable_exposures']} exposures "
         f"({broad_m['rejection_rate']:.1%} rejection) — not used for sign-off.",
         "Prior 2,516-case headline and v2 broad 515/509 remain invalidated.",
