@@ -196,6 +196,11 @@ def main(argv=None):
     p.add_argument("--kl-coef", type=float, default=0.0,
                    help="KL(pi_anchor || pi_theta) penalty coefficient toward "
                         "the frozen anchor policy (0 = unconstrained PPO)")
+    p.add_argument("--kl-schedule", default=None,
+                   help='fixed KL schedule overriding --kl-coef. Format: '
+                        '"hold@end,final@end" e.g. "0.03@160,0.01@320" '
+                        'holds β=0.03 through iter 160, then linear to 0.01 '
+                        'by iter 320. Iteration is 1-based.')
     p.add_argument("--anchor", default=None,
                    help="frozen anchor checkpoint for --kl-coef (defaults to "
                         "--from-bc when set)")
@@ -258,17 +263,26 @@ def main(argv=None):
     opt = torch.optim.AdamW(net.parameters(), lr=3e-4, weight_decay=1e-4)
     league: List = []
 
+    kl_schedule_fn = None
+    if a.kl_schedule:
+        from .kl_schedule import parse_kl_schedule
+        kl_schedule_fn = parse_kl_schedule(a.kl_schedule)
+        print(f"KL schedule: {a.kl_schedule}")
+
     anchor_net: Optional[PolicyNet] = None
-    if a.kl_coef > 0:
+    if a.kl_coef > 0 or kl_schedule_fn is not None:
         anchor_path = a.anchor or a.from_bc
         if not os.path.isfile(anchor_path):
-            p.error(f"--kl-coef requires a frozen anchor checkpoint "
+            p.error(f"KL anchoring requires a frozen anchor checkpoint "
                     f"({anchor_path!r} not found)")
         anchor_net = load_policy(anchor_path)
         anchor_net.eval()
         for param in anchor_net.parameters():
             param.requires_grad_(False)
-        print(f"KL anchor: {anchor_path}  coef={a.kl_coef}")
+        if kl_schedule_fn is None:
+            print(f"KL anchor: {anchor_path}  coef={a.kl_coef}")
+        else:
+            print(f"KL anchor: {anchor_path}  schedule={a.kl_schedule}")
 
     def policy_step(arrays, legal):
         return net.act(arrays, legal, greedy=False)
@@ -311,12 +325,15 @@ def main(argv=None):
             [r for t in trajs for r in t["terminal_reward"]])
         adv = (adv - adv.mean()) / (adv.std() + 1e-6)
 
+        iter_kl = (kl_schedule_fn(it + 1) if kl_schedule_fn is not None
+                   else a.kl_coef)
         stats = _update(net, opt,
                         (toks, mask, zones, ctx, legal, acts, old_logp, adv, ret),
-                        anchor_net=anchor_net, kl_coef=a.kl_coef)
+                        anchor_net=anchor_net, kl_coef=iter_kl)
+        kl_note = (f"  kl={iter_kl:.4f}" if iter_kl > 0 else "")
         print(f"iter {it:3d}  avg placement {np.mean(placements):.2f}  "
               f"steps {toks.shape[0]:4d}  shaping {shaping:.2f}  "
-              f"league {len(league)}")
+              f"league {len(league)}{kl_note}")
         nb = max(1, stats["batches"])
         diag = {"iter": it + 1,
                 "rollout_avg_placement": float(np.mean(placements)),
@@ -328,9 +345,11 @@ def main(argv=None):
                 "clip_frac": stats["clip_frac"] / nb,
                 "grad_norm": stats["grad_norm"] / nb,
                 "minibatches": stats["batches"], **signal}
-        if a.kl_coef > 0:
+        if iter_kl > 0:
             diag["anchor_kl"] = stats["anchor_kl"] / nb
-            diag["kl_coef"] = a.kl_coef
+            diag["kl_coef"] = iter_kl
+        if kl_schedule_fn is not None:
+            diag["kl_schedule"] = a.kl_schedule
         _diag(diag)
         _snapshot(it + 1)
 
