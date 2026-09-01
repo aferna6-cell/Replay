@@ -1,0 +1,164 @@
+{
+  "experiment": "Replay Experiment 4 \u2014 PPO Policy Anchoring",
+  "timestamp_utc": "2026-09-01T00:12:37.056785+00:00",
+  "code_commit": "311e193b4a534a77fb549cfe73a23ffa6bb2673a",
+  "question": "Does KL anchoring to the frozen BC prior reduce unbounded policy drift while preserving or improving DEV placement vs unconstrained PPO at the same budget?",
+  "single_variable": "KL(pi_BC || pi_theta) penalty coefficient (beta=0.1; baseline beta=0 is Experiment 2)",
+  "unchanged": [
+    "architecture",
+    "learning rate",
+    "gamma",
+    "lambda",
+    "clip",
+    "entropy coefficient",
+    "value coefficient",
+    "optimizer",
+    "opponent league logic",
+    "reward function",
+    "training seed",
+    "training budget",
+    "shaping schedule"
+  ],
+  "training": {
+    "command": "python -m ml.train_ppo --iters 320 --episodes 16 --seed 0 --shaping 1.0 --shaping-horizon 40 --from-bc ml/policy_bc.pt --anchor ml/policy_bc.pt --kl-coef 0.1 --out results/ppo_anchor_v1/final.pt --save-iters 0,40,80,160,320 --save-dir results/ppo_anchor_v1/checkpoints --diag-log results/ppo_anchor_v1/train_diag.jsonl",
+    "training_seed": 0,
+    "episodes_per_iteration": 16,
+    "iterations": 320,
+    "total_episodes": 5120,
+    "warm_start": {
+      "file": "policy_bc.pt",
+      "checkpoint_sha256": "340fd7e85720b01ea0790a889b68a05f19931ccc5179ebd448541ad6b6daf9ec",
+      "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+    },
+    "anchor": {
+      "file": "policy_bc.pt",
+      "frozen": true,
+      "kl_definition": "mean over states of KL(pi_anchor || pi_theta) on legal-action-masked softmax distributions",
+      "kl_coef": 0.1,
+      "note": "beta=0.1 pre-specified before results; not tuned"
+    },
+    "hyperparameters": {
+      "lr": 0.0003,
+      "weight_decay": 0.0001,
+      "optimizer": "AdamW",
+      "gamma": 0.999,
+      "lam": 0.95,
+      "clip": 0.2,
+      "entropy": 0.01,
+      "value_coef": 0.5,
+      "ppo_epochs": 4,
+      "minibatch": 256,
+      "grad_clip_norm": 1.0,
+      "league_every": 8,
+      "league_max": 5
+    },
+    "shaping_schedule": {
+      "initial": 1.0,
+      "horizon_iterations": 40,
+      "formula": "shaping = 1.0 * max(0, 1 - it / (horizon * 0.7))",
+      "reaches_zero_at_iteration": 28
+    }
+  },
+  "baseline_comparison": {
+    "experiment": "Replay Experiment 2 \u2014 PPO Training-Budget Study",
+    "artifacts": "results/ppo_budget_v1",
+    "difference": "kl_coef=0 (unconstrained PPO); otherwise identical recipe",
+    "baseline_warm_start_parameter_sha256": "094417bdcaa7af6298c5239bbefdc8340b1579601ebb36c6380aea11246d473b"
+  },
+  "checkpoints": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "file": "iter_000.pt",
+      "checkpoint_sha256": "d22406ad0f8b15f517f2e62625a493b5f8dd1a8a5a7be9fdc3b557acbc46bb96",
+      "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "file": "iter_040.pt",
+      "checkpoint_sha256": "006d522c57c03b9939d1dc48d9bd8b81292f2122db27c7155abf6e644a3363dc",
+      "parameter_sha256": "ad0753fdcd32594487ec9b16d5291ec3e8d7d1d18cdb9b9562979605b2ccca74"
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "file": "iter_080.pt",
+      "checkpoint_sha256": "f2356698dc1a6a46cc9f2393b2c9631d5fa17f0f62bdfccbe7f95790a34cf226",
+      "parameter_sha256": "3a25703a2ff3c195c1dfa71698dedcdc0e9505c0086dad5bebfdb55586c440f0"
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "file": "iter_160.pt",
+      "checkpoint_sha256": "49ee29b136280377622af4ff2a8de8272ae592f3db18d2339e0e80f95fde216c",
+      "parameter_sha256": "6abfe596aa638fdc51f81890320254ae046cb7c5cee60323ade84df7f714fb3a"
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "file": "iter_320.pt",
+      "checkpoint_sha256": "2af3237ce836504795aadc7bcd3d53b99c80e20a817deb331399547033adec8c",
+      "parameter_sha256": "72fe17300a9e006affb833ade6dbbbfcb494e70f1fd47f161bebd5947e256362"
+    }
+  ],
+  "evaluation": {
+    "split": "dev",
+    "dev_interval": [
+      10550000,
+      10599999
+    ],
+    "test_interval_NOT_USED": [
+      10250000,
+      10299999
+    ],
+    "test_usage": "Benchmark v1 TEST was NOT run at any point.",
+    "primary_field": {
+      "name": "greedy",
+      "games": 1000,
+      "seed_range": [
+        10550000,
+        10550999
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=greedy, seat6=greedy, seat7=greedy"
+    },
+    "intermediate_diagnostic_field": {
+      "name": "greedy4_random3",
+      "games": 500,
+      "seed_range": [
+        10550000,
+        10550499
+      ],
+      "composition": "seat1=greedy, seat2=greedy, seat3=greedy, seat4=greedy, seat5=random, seat6=random, seat7=random"
+    },
+    "drift_corpus": {
+      "lobbies": 100,
+      "seed_base": 10590000
+    }
+  },
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "software": {
+    "python": "3.12.3",
+    "torch": "2.13.0+cpu",
+    "numpy": "2.4.4"
+  },
+  "artifacts": {
+    "learning_curve": "results/ppo_anchor_v1/learning_curve.json",
+    "paired_analysis": "results/ppo_anchor_v1/paired_analysis.json",
+    "baseline_comparison": "results/ppo_anchor_v1/baseline_comparison.json",
+    "policy_drift": "results/ppo_anchor_v1/policy_drift.json",
+    "action_category_drift": "results/ppo_anchor_v1/action_category_drift.json",
+    "rl_signal": "results/ppo_anchor_v1/rl_signal.json",
+    "train_diag": "results/ppo_anchor_v1/train_diag.jsonl",
+    "plots": "results/ppo_anchor_v1/plots/",
+    "report": "experiments/ppo_policy_anchoring_v1.md"
+  }
+}
