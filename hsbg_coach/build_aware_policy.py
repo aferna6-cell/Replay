@@ -2,17 +2,18 @@
 
 Frozen pre-specified buy valuation (not tuned on evaluation seeds 0–199):
 
-    buy_score = raw_stats + path_bonus_stats
+    buy_score = raw_stats - path_adj / BUILD_PATH_BUY_DIVISOR
     raw_stats = attack + health
-    path_bonus_stats = -path_adj / BUILD_PATH_BUY_DIVISOR
+    path_adj  = path_value(...)[0]   # bounded to ~±1.3 placement units
 
-``path_adj`` is the first return value of ``path_value()`` (negative = advances
-the inferred winning comp). ``BUILD_PATH_BUY_DIVISOR = 5.0`` matches the path
-term scale in ``draft.rank_discover`` (``padj / 5.0``).
+``BUILD_PATH_BUY_DIVISOR = 5.0`` reuses the numeric divisor from
+``draft.rank_discover`` (``padj / 5.0`` added to a lower-is-better equity
+ranking). It is **not** a calibrated mapping from placement adjustment to raw
+attack+health points. At most ``1.3 / 5 ≈ 0.26`` stat bonus — far below typical
++2–+5 raw-stat shop gaps. Phase 2D tests this exact frozen mapping as a
+**negative control** for whether draft-scale path signal moves greedy buys.
 
-Commitment and tempo tradeoffs come from ``path_value()`` itself: early tiers
-have near-zero commit weight, off-path penalties apply only once the board is
-seeded and tavern tier is high enough.
+Commitment/tempo still come from ``path_value()`` tier weighting internally.
 """
 
 from __future__ import annotations
@@ -29,6 +30,9 @@ POLICY_CONFIG_FINGERPRINT = {
     "policy_id": POLICY_ID,
     "buy_scoring": "raw_stats - path_adj / BUILD_PATH_BUY_DIVISOR",
     "build_path_buy_divisor": BUILD_PATH_BUY_DIVISOR,
+    "divisor_note": (
+        "Numeric reuse of draft.rank_discover divisor; NOT raw-stat calibration. "
+        "Max path bonus ~0.26 stats (1.3/5)."),
     "path_value_module": "hsbg_coach.build_path.path_value",
     "control_policy_id": "greedy_policy",
     "control_buy_scoring": "attack + health",

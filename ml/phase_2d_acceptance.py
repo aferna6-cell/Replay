@@ -103,18 +103,6 @@ def macro_regression_summary(control_curves: Dict, treatment_curves: Dict,
     }
 
 
-def placement_summary(rows) -> Dict:
-    placements = [r["placement"] for r in rows if r.get("placement")]
-    if not placements:
-        return {"mean_placement": None, "n": 0}
-    wins = sum(1 for p in placements if p == 1)
-    return {
-        "mean_placement": sum(placements) / len(placements),
-        "win_rate": wins / len(placements),
-        "n": len(placements),
-    }
-
-
 def evaluate_acceptance(control_mechanism: Dict, treatment_mechanism: Dict,
                         macro_delta: Dict,
                         thresholds: Optional[Dict] = None) -> Dict:
@@ -208,8 +196,10 @@ def _interpret(accept: bool, mech: bool, out: bool, macro: bool) -> str:
         return ("Mechanism improved but final coverage flat — next bottleneck "
                 "likely card-effect fidelity (pieces assemble but lack value).")
     if not mech:
-        return ("Build-aware buy valuation insufficient to convert seeded "
-                "opportunities — treatment does not meet mechanism thresholds.")
+        return ("path_value() mapped into raw-stat space as -path_adj/5 is "
+                "insufficient to convert seeded opportunities (max ~0.26 stat "
+                "bonus vs typical +2–5 gaps). This does not imply build-aware "
+                "recruiting broadly failed — only this frozen mapping.")
     if not macro:
         return ("Composition metrics may have moved but macro fidelity regressed "
                 "— reject treatment despite local comp gains.")

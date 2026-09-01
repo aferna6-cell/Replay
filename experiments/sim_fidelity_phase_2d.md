@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2D — build-aware recruit scoring
 
-Date: 2026-09-01 · Status: **controlled A/B** ·
+Date: 2026-09-01 · Status: **negative result (merged)** ·
 Artifacts: [`results/sim_fidelity_phase_2d/`](../results/sim_fidelity_phase_2d/)
 
 ## Research question
@@ -16,46 +16,42 @@ Artifacts: [`results/sim_fidelity_phase_2d/`](../results/sim_fidelity_phase_2d/)
 | Control | `greedy_policy` | `attack + health` |
 | Treatment | `build_aware_greedy_policy` | `raw_stats - path_adj / 5.0` |
 
-Frozen pre-specified buy score (not tuned on eval seeds 0–199):
+Frozen pre-specified buy score (not tuned on evaluation seeds 0–199):
 
 ```text
 buy_score = raw_stats - path_adj / BUILD_PATH_BUY_DIVISOR
-BUILD_PATH_BUY_DIVISOR = 5.0   # matches draft.rank_discover path term
+BUILD_PATH_BUY_DIVISOR = 5.0
 ```
 
-Everything else identical: leveling, rolling, selling, economy, RNG, Simulator v1.1
-residual scaling, shop/pool, combat, card effects.
+**Scale note:** divisor 5.0 is numeric reuse from `draft.rank_discover` (equity
+ranking, lower-is-better). It is **not** a raw-stat calibration. `path_value()`
+is bounded to ~±1.3 placement units, so max buy bonus ≈ **0.26 stats** — far
+below typical +2–+5 shop gaps. Phase 2D tests this exact mapping as a negative
+control, not “build-aware recruiting” in general.
 
 ## Design
 
 - Paired **200-lobby A/B**, seeds `0–199`
 - Phase 2C `2c_v3` tracing on both arms
 - Macro fidelity rollouts on both arms
-- Phase 2C control baseline: seeded **0/82** fulfilled (implementation `0781ddf`)
+- Control reproduces Phase 2C seeded **0/82** fulfilled
 
-## Primary metrics
+## Result (summary)
 
-**Mechanism (seeded current-target):**
+| Metric | Control | Treatment |
+|---|---:|---:|
+| Seeded fulfilled | 0/82 | 0/67 |
+| Final winner coverage | ~0.0085 | ~0.0090 |
+| Macro regression | — | passed |
 
-- legally_buyable_exposures, fulfilled_exposures, rejected_exposures, fulfillment_rate
-- 2+ / 4+ core assembly, mean max core pieces
+**Conclusion:** `path_value()` as `-path_adj/5` in raw-stat space is **insufficient**.
+Macro fidelity preserved. Does not implicate card effects (mechanism unchanged).
 
-**Outcome:**
+## Placement strength
 
-- sim final-winner composition coverage (real reference ~0.766)
-
-## Macro regression guards (treatment − control)
-
-- Board stats ratio at turns 10/14
-- Tavern tier error
-- Alive-player curve
-- Game length
-
-## Acceptance (pre-specified)
-
-**Mechanism win:** seeded fulfillment clearly above 0/82; 2+ core assembly material.
-
-**Outcome win:** coverage meaningfully above control (~0.009) without macro regression.
+**Not evaluated.** Homogeneous eight-seat lobbies (same policy every seat) are
+for simulator fidelity, not agent-vs-agent strength. Per-turn placement averaging
+over player-turn records is invalid.
 
 ## Commands
 

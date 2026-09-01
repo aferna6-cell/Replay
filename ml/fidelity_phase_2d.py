@@ -32,8 +32,7 @@ from .fidelity_reference import (FIDELITY_BENCHMARK_VERSION,
                                  build_simulator_v1_1_contract, git_commit,
                                  git_working_tree_clean, reference_fingerprints)
 from .phase_2d_acceptance import (composition_mechanism_summary,
-                                    evaluate_acceptance, macro_regression_summary,
-                                    placement_summary)
+                                    evaluate_acceptance, macro_regression_summary)
 
 DEFAULT_DIR = "results/sim_fidelity_phase_2d"
 PHASE = "2D build-aware recruit scoring"
@@ -92,7 +91,6 @@ def _run_arm(lobbies: int, seed: int, policy: Callable, label: str) -> Dict:
         "composition": aggregate_composition(rows),
         "headline": summarize_divergence(aggregate_turn_curves(rows)),
         "per_lobby_stats": per_lobby_turn_means(rows),
-        "placement": placement_summary(rows),
         "mechanism": composition_mechanism_summary(diagnostic),
     }
 
@@ -147,14 +145,12 @@ def run_phase_2d(*, lobbies: int = 200, seed: int = 0,
         "treatment": _arm_report(treatment, include_traces=False),
         "paired_macro_comparison": paired_stats,
         "macro_regression_delta_treatment_minus_control": macro_delta,
-        "placement_comparison": {
-            "control": control["placement"],
-            "treatment": treatment["placement"],
-            "delta_mean_placement": (
-                (treatment["placement"].get("mean_placement") or 0)
-                - (control["placement"].get("mean_placement") or 0)),
-            "note": "Secondary diagnostic — not an acceptance gate.",
-        },
+        "placement_strength_note": (
+            "Placement strength was not evaluated in Phase 2D. Homogeneous "
+            "full-lobby rollouts (all eight seats share one policy) are used "
+            "for simulator fidelity, not agent-vs-agent strength comparison. "
+            "A valid strength test would require a mixed field (e.g. treatment "
+            "seat vs seven control seats with seat rotation)."),
         "acceptance": acceptance,
     }
     _write_json(os.path.join(out_dir, "phase_2d_report.json"), result)
@@ -170,7 +166,6 @@ def _arm_report(arm: Dict, *, include_traces: bool) -> Dict:
         "headline_divergence": arm["headline"],
         "turn_curves": arm["turn_curves"],
         "lobby_dynamics": arm["lobby_dynamics"],
-        "placement": arm["placement"],
         "n_trace_events": len(arm["traces"]["events"]),
     }
     if include_traces:
