@@ -22,7 +22,9 @@ ITERS = [0, 40, 80, 160, 320]
 def main() -> int:
     contract = load_contract(CONTRACT_PATH)
     warm = json.load(open(os.path.join(SCHEDULE_DIR, "warm_start.json")))
-    gate_path = os.path.join(SCHEDULE_DIR, "gate_results.json")
+    equiv_path = os.path.join(SCHEDULE_DIR, "control_code_equivalence.json")
+    equiv = (json.load(open(equiv_path))
+             if os.path.isfile(equiv_path) else None)
     gate = json.load(open(gate_path)) if os.path.isfile(gate_path) else {}
 
     runs = []
@@ -56,6 +58,7 @@ def main() -> int:
         "schedule_at_checkpoints": schedule_table(EXPERIMENT_6_KL_SCHEDULE, tuple(ITERS)),
         "contract": contract,
         "warm_start": warm,
+        "control_code_equivalence": equiv,
         "reproducibility_gates": gate,
         "runs": runs,
         "evaluation": {

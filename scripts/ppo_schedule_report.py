@@ -27,6 +27,11 @@ SCHEDULE_LABEL = "beta_sched"
 SEEDS = [0, 1, 2, 3]
 ITERS = [0, 40, 80, 160, 320]
 BC_BASELINE = 6.550
+MAX_MEAN_DELTA_VS_BC = -0.02
+MAX_SCHEDULED_MEAN = BC_BASELINE + MAX_MEAN_DELTA_VS_BC  # 6.530
+SEED_BEAT_THRESHOLD = -0.01
+MAX_WORST_SEED_DELTA_VS_BC = 0.05
+MAX_STD_RATIO_VS_CONTROL = 1.5
 PAIRED_ITERS = [40, 80, 160, 320]
 
 
@@ -89,25 +94,31 @@ def evaluate_success(control_320: Dict, sched_320: Dict,
     """Apply pre-specified Experiment 6 success criteria."""
     ctrl = control_320["placement"]
     sched = sched_320["placement"]
+    mean_delta = sched["mean"] - BC_BASELINE
     seeds_beat = sum(
         1 for s in SEEDS
-        if per_seed[f"seed_{s}"]["scheduled"]["delta_vs_bc"] < -0.01)
-    worst_vs_bc = max(per_seed[f"seed_{s}"]["scheduled"]["delta_vs_bc"]
-                      for s in SEEDS)
+        if per_seed[f"seed_{s}"]["iter320_vs_bc"]["scheduled"]["delta_vs_bc"]
+        < SEED_BEAT_THRESHOLD)
+    worst_vs_bc = max(
+        per_seed[f"seed_{s}"]["iter320_vs_bc"]["scheduled"]["delta_vs_bc"]
+        for s in SEEDS)
     std_ratio = sched["std"] / max(ctrl["std"], 1e-9)
 
     checks = {
-        "mean_below_bc": sched["mean"] < BC_BASELINE,
-        "mean_improvement_vs_bc": BC_BASELINE - sched["mean"],
+        "mean_delta_vs_bc": mean_delta,
+        "mean_meaningfully_below_bc": mean_delta <= MAX_MEAN_DELTA_VS_BC,
+        "scheduled_mean_at_most": MAX_SCHEDULED_MEAN,
+        "scheduled_mean_actual": sched["mean"],
         "seeds_beating_bc_ge_3": seeds_beat >= 3,
         "seeds_beating_bc_count": seeds_beat,
-        "no_catastrophic_seed": worst_vs_bc <= 0.05,
-        "variance_near_control": std_ratio <= 1.5,
+        "no_catastrophic_seed": worst_vs_bc <= MAX_WORST_SEED_DELTA_VS_BC,
+        "worst_seed_delta_vs_bc": worst_vs_bc,
+        "variance_near_control": std_ratio <= MAX_STD_RATIO_VS_CONTROL,
         "std_ratio_vs_control": std_ratio,
         "scheduled_beats_control_mean": sched["mean"] < ctrl["mean"],
     }
-    checks["all_three_criteria"] = (
-        checks["mean_below_bc"]
+    checks["all_criteria_met"] = (
+        checks["mean_meaningfully_below_bc"]
         and checks["seeds_beating_bc_ge_3"]
         and checks["no_catastrophic_seed"]
         and checks["variance_near_control"]
@@ -189,7 +200,7 @@ def main() -> int:
     success = evaluate_success(cross["320"]["control"], cross["320"]["scheduled"],
                                per_seed)
 
-    if success["all_three_criteria"]:
+    if success["all_criteria_met"]:
         outcome = "SUCCESS"
         next_action = (
             "Freeze the scheduled PPO recipe. Replicate on additional seeds "

@@ -47,28 +47,37 @@ Same as Experiments 4b/5:
 - DEV seeds 10,550,000–10,550,999 (1000 games vs greedy)
 - TEST locked
 
+## Control code equivalence gate (required before training)
+
+Before scheduled runs, one shadow fixed β=0.03 seed-0 trajectory using the
+current `train_ppo.py` must match Experiment 5's β=0.03 seed-0 parameter
+SHA256 at iter 0, 40, 80, 160, and 320.
+
+```bash
+python scripts/shadow_control_equivalence.py
+```
+
+If all five hashes match: `control_code_equivalence_passed: true` — reuse the
+existing four-seed β=0.03 control.
+
+If any differ: **STOP** and retrain both control and treatment under current code.
+
 ## Success criteria (all required)
 
-The scheduled arm at iter 320 must satisfy **all three**:
+The scheduled arm at iter 320 must satisfy **all four**:
 
-1. **Mean placement meaningfully below BC 6.550**
+1. **Mean Δ vs BC ≤ −0.02** (cross-seed mean ≤ **6.530**)
 2. **≥3/4 training seeds beat BC** (Δ < −0.01 per seed)
-3. **No catastrophic seed** (worst Δ vs BC ≤ +0.05) **and** variance within
-   1.5× the fixed β=0.03 control
+3. **No catastrophic seed** (worst Δ vs BC ≤ +0.05)
+4. **Cross-seed std ≤ 1.5×** fixed β=0.03 control std
 
-A mean of 6.540→6.530 alone is **not sufficient**.
-
-## Hard stop
-
-| Outcome | Action |
-|---|---|
-| **SUCCESS** | Freeze training procedure; eventual TEST confirmation |
-| **FAIL** | STOP PPO tuning; pivot to Simulator Fidelity Phase 2 |
+A marginal mean like 6.549 does **not** pass criterion 1.
 
 ## Commands
 
 ```bash
 pytest tests/
+python scripts/shadow_control_equivalence.py
 python scripts/train_schedule_ab.py
 python scripts/eval_schedule_ab.py
 python scripts/ppo_schedule_report.py

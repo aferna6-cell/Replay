@@ -96,11 +96,19 @@ def prepare_warm_start_and_contract() -> dict:
     }
     contract["success_criteria"] = {
         "bc_baseline": 6.550,
-        "require_mean_below_bc": True,
+        "max_mean_delta_vs_bc": -0.02,
+        "max_scheduled_cross_seed_mean": 6.530,
         "min_seeds_beating_bc": 3,
         "seed_beat_threshold": -0.01,
-        "max_worst_vs_bc": 0.05,
+        "max_worst_seed_delta_vs_bc": 0.05,
         "max_std_ratio_vs_control": 1.5,
+    }
+    contract["control_code_equivalence"] = {
+        "required_before_training": True,
+        "shadow_seed": 0,
+        "shadow_kl_coef": 0.03,
+        "checkpoints_compared": list(CHECKPOINTS),
+        "artifact": os.path.join(BASE_DIR, "control_code_equivalence.json"),
     }
     contract["hard_stop"] = (
         "Last PPO experiment on current simulator. If schedule fails, "
@@ -206,9 +214,36 @@ def train_seed(seed: int) -> dict:
     return {"seed": seed, "success": True, "stage": "train"}
 
 
+def run_control_equivalence_gate() -> bool:
+    """Require shadow fixed-β seed-0 hashes to match Experiment 5 control."""
+    equiv_path = os.path.join(BASE_DIR, "control_code_equivalence.json")
+    if os.path.isfile(equiv_path):
+        data = json.load(open(equiv_path))
+        if data.get("control_code_equivalence_passed"):
+            print(f"Control code equivalence already passed -> {equiv_path}")
+            return True
+
+    print("Running shadow fixed β=0.03 seed-0 control-equivalence gate…")
+    res = subprocess.run(
+        [sys.executable, os.path.join(os.path.dirname(__file__),
+                                      "shadow_control_equivalence.py")],
+        env=single_thread_env())
+    if res.returncode != 0:
+        print("STOP: control code equivalence gate failed.", file=sys.stderr)
+        return False
+    return True
+
+
 def main() -> int:
     contract = prepare_warm_start_and_contract()
     enforce_runtime_match(contract)
+
+    if not run_control_equivalence_gate():
+        with open(os.path.join(BASE_DIR, "gate_results.json"), "w") as f:
+            json.dump({"all_passed": False,
+                       "stage": "control_code_equivalence_failed",
+                       "control_code_equivalence_passed": False}, f, indent=2)
+        return 1
 
     t0 = time.time()
     print(f"Training scheduled arm for seeds {SEEDS} "
@@ -242,9 +277,13 @@ def main() -> int:
                                  "error": str(exc)})
 
     all_ok = all(r["success"] for r in gate_results)
+    equiv = json.load(open(os.path.join(BASE_DIR,
+                                         "control_code_equivalence.json")))
     with open(os.path.join(BASE_DIR, "gate_results.json"), "w") as f:
         json.dump({"all_passed": all_ok, "per_seed": results,
                    "hash_gates": gate_results,
+                   "control_code_equivalence_passed":
+                   equiv.get("control_code_equivalence_passed"),
                    "expected_warm_start_parameter_sha256": expected_sha,
                    "kl_schedule": KL_SCHEDULE}, f, indent=2)
 
