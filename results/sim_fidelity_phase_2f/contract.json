@@ -1,0 +1,70 @@
+{
+  "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+  "simulator_version": "Simulator v1.1",
+  "scaling_mode": "residual",
+  "simulator_module": "hsbg_coach.bg_env.BGEnv",
+  "code_commit": "514c7855bec0f50619b315620774b718766012a2",
+  "runtime": {
+    "python_version": "3.12.3",
+    "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+    "torch_version": "2.13.0+cpu",
+    "numpy_version": "2.4.4",
+    "torch_device": "cpu",
+    "torch_cuda_available": false
+  },
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+  "reference_data_fingerprints": {
+    "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+    "firestone_final_boards": "3cf54f5ddef2ef1b2158f4acc9a7d0cd600c1914799b79f0e28ce4c0bac80801",
+    "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+    "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+    "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+    "bg_cards": "6abca24b83b620acb4237d4799842121295818c52ea6633cc0dca42e1908845f",
+    "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+  },
+  "reference_metadata": {
+    "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+    "_fetched": "2026-09-01",
+    "_mmr": 10,
+    "_period": "past-seven",
+    "_heroDataPoints": 58561,
+    "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+  },
+  "evaluation": {
+    "policy": "greedy",
+    "lobbies": 200,
+    "base_seed": 1000,
+    "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
+  },
+  "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+  "parent_simulator_version": "Simulator v1",
+  "working_tree_clean": true,
+  "phase": "2F post-purchase core lifecycle diagnosis",
+  "phase_2c_methodology_version": "2c_v3",
+  "phase_2f_methodology_version": "2f_v2",
+  "policy_config": {
+    "policy_id": "seeded_core_stress_greedy_policy",
+    "purpose": "Phase 2E oracle/stress test \u2014 not production policy",
+    "trigger": "infer_target(board).core_have >= 1",
+    "action": "among legally buyable shop slots, if any missing core of current target exists, buy max(raw_stats) matching core (overrides roll when legal mask permits buy); else raw-stat greedy",
+    "control_policy_id": "greedy_policy",
+    "evaluation_seed_base": 1000,
+    "evaluation_seed_range": "1000-1199"
+  },
+  "policy_config_hash_sha256": "b49ff00df9dbb4923f55c6ba14f9ad45fc9b9636c13cafd8e6415c8357926070",
+  "policy": {
+    "name": "hsbg_coach.bg_env.seeded_core_stress_greedy_policy",
+    "note": "Same oracle as Phase 2E treatment \u2014 measurement only"
+  },
+  "evaluation_note": "Lifecycle trace on seeds 1000\u20131199; Phase 2E oracle treatment."
+}

@@ -29,6 +29,7 @@ tuning on the current simulator.
 | 2C | [`sim_fidelity_phase_2c.md`](sim_fidelity_phase_2c.md) | Composition diagnostic **merged** |
 | 2D | [`sim_fidelity_phase_2d.md`](sim_fidelity_phase_2d.md) | Build-aware path/5 A/B **merged (negative)** |
 | 2E | [`sim_fidelity_phase_2e.md`](sim_fidelity_phase_2e.md) | Seeded-core conversion stress test |
+| 2F | [`sim_fidelity_phase_2f.md`](sim_fidelity_phase_2f.md) | Post-purchase core lifecycle diagnosis |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
