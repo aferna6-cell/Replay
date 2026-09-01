@@ -46,8 +46,10 @@ def run_phase_2c(*, lobbies: int = 200, seed: int = 0,
     result = {
         "benchmark": FIDELITY_BENCHMARK_VERSION,
         "phase": "2C composition assembly diagnostic",
+        "methodology_version": diagnostic["methodology_version"],
         "simulator_version": SIMULATOR_V1_1_VERSION,
         "measurement_only": True,
+        "invalidated_prior_results": diagnostic["invalidated_prior_results"],
         "code_commit": contract["code_commit"],
         "working_tree_clean": git_working_tree_clean(),
         "contract": contract,
@@ -85,15 +87,27 @@ def main(argv: Optional[list] = None) -> int:
         save_events=args.save_events)
 
     rec = result["recommended_phase_2d_intervention"]
-    print(f"\nSim final winner coverage mean: {result['sim_final_winner_coverage_mean']:.3f}")
+    print(f"\nMethodology: {result['methodology_version']}")
+    print(f"Sim final winner coverage mean: {result['sim_final_winner_coverage_mean']:.3f}")
     print(f"Real final winner coverage mean: {result['real_final_winner_coverage_mean']:.3f}")
     print(f"\nRecommended Phase 2D: {rec['phase_2d_title']}")
     print(f"  {rec['rationale']}")
 
-    totals = rec.get("classification_totals", {})
-    print(f"\nFailure classification totals (lobby × archetype):")
-    for k in sorted(totals):
-        print(f"  {k}: {totals[k]}")
+    cur = rec.get("classification_totals_current_target") or rec.get("classification_totals") or {}
+    print(f"\nFailure classification (current-target, eligible lobby×archetype):")
+    for k in sorted(cur):
+        print(f"  {k}: {cur[k]}")
+
+    funnel = rec.get("funnel_current_target") or {}
+    if funnel:
+        print(f"\nCurrent-target winner funnel:")
+        print(f"  legally buyable exposures: {funnel.get('legally_buyable_exposures', 0)}")
+        print(f"  purchased: {funnel.get('purchased', 0)}")
+        print(f"  rejected at shop exit: {funnel.get('rejected_at_shop_exit', 0)}")
+
+    inv = result.get("invalidated_prior_results") or {}
+    if inv.get("classification_totals"):
+        print(f"\nPrior headline INVALIDATED: B={inv['classification_totals'].get('B_AVAILABLE_NOT_BOUGHT')}")
 
     print(f"\nSaved -> {args.out_dir}/phase_2c_report.json")
     return 0

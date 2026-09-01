@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "36353d3fb808be0ee984c51e2e5614831c608592",
+  "code_commit": "4029b2ae7e6a4d734fe29adf8893f8514a56ed8c",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -48,5 +48,5 @@
   },
   "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
   "parent_simulator_version": "Simulator v1",
-  "working_tree_clean": true
+  "working_tree_clean": false
 }
