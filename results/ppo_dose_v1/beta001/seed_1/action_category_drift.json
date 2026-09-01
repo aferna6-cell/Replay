@@ -1,0 +1,1063 @@
+{
+  "corpus": {
+    "lobbies": 100,
+    "seed_base": 10590000,
+    "states": 4440,
+    "fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+    "source": "greedy seat-0 trajectories via ml.bc.collect",
+    "split": "dev (diagnostic sub-range; never TEST seeds)"
+  },
+  "reference": {
+    "checkpoint": "iter_000.pt",
+    "checkpoint_sha256": "f6406cac4bf48cbebd9ca2bd04f404a7b8c5f8ed3014b4d54b1e16080b087c31",
+    "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+  },
+  "categories": "action index -> decision category, derived from hsbg_coach.bg_env",
+  "checkpoints": [
+    {
+      "checkpoint": "iter_000.pt",
+      "vs_expert": {
+        "n_states": 4440,
+        "n_disagreements": 692,
+        "overall_agreement": 0.8441441441441442,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 814,
+            "level": 9
+          },
+          "play": {
+            "play": 745,
+            "roll": 5
+          },
+          "sell": {
+            "roll": 51,
+            "end": 8,
+            "level": 7,
+            "sell": 2
+          },
+          "roll": {
+            "level": 25,
+            "roll": 1324,
+            "sell": 3
+          },
+          "level": {
+            "level": 422
+          },
+          "freeze": {},
+          "end": {
+            "end": 1025
+          }
+        },
+        "reference_category_counts": {
+          "buy": 823,
+          "play": 750,
+          "sell": 68,
+          "roll": 1352,
+          "level": 422,
+          "freeze": 0,
+          "end": 1025
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.7205346294046172,
+          "play": 0.006666666666666667,
+          "sell": 0.9705882352941176,
+          "roll": 0.020710059171597635,
+          "level": 0.0,
+          "freeze": null,
+          "end": 0.0
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.8569364161849711,
+          "play": 0.0072254335260115606,
+          "sell": 0.0953757225433526,
+          "roll": 0.04046242774566474,
+          "level": 0.0,
+          "freeze": 0.0,
+          "end": 0.0
+        },
+        "top_transitions": [
+          {
+            "from": "sell",
+            "to": "roll",
+            "count": 51
+          },
+          {
+            "from": "roll",
+            "to": "level",
+            "count": 25
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 9
+          },
+          {
+            "from": "sell",
+            "to": "end",
+            "count": 8
+          },
+          {
+            "from": "sell",
+            "to": "level",
+            "count": 7
+          },
+          {
+            "from": "play",
+            "to": "roll",
+            "count": 5
+          },
+          {
+            "from": "roll",
+            "to": "sell",
+            "count": 3
+          }
+        ]
+      },
+      "vs_warmstart": {
+        "n_states": 4440,
+        "n_disagreements": 0,
+        "overall_agreement": 1.0,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 814
+          },
+          "play": {
+            "play": 745
+          },
+          "sell": {
+            "sell": 5
+          },
+          "roll": {
+            "roll": 1380
+          },
+          "level": {
+            "level": 463
+          },
+          "freeze": {},
+          "end": {
+            "end": 1033
+          }
+        },
+        "reference_category_counts": {
+          "buy": 814,
+          "play": 745,
+          "sell": 5,
+          "roll": 1380,
+          "level": 463,
+          "freeze": 0,
+          "end": 1033
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.0,
+          "play": 0.0,
+          "sell": 0.0,
+          "roll": 0.0,
+          "level": 0.0,
+          "freeze": null,
+          "end": 0.0
+        },
+        "contribution_to_total_drift": {
+          "buy": null,
+          "play": null,
+          "sell": null,
+          "roll": null,
+          "level": null,
+          "freeze": null,
+          "end": null
+        },
+        "top_transitions": []
+      }
+    },
+    {
+      "checkpoint": "iter_040.pt",
+      "vs_expert": {
+        "n_states": 4440,
+        "n_disagreements": 871,
+        "overall_agreement": 0.8038288288288289,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 758,
+            "end": 53,
+            "level": 6,
+            "roll": 6
+          },
+          "play": {
+            "play": 749,
+            "level": 1
+          },
+          "sell": {
+            "level": 20,
+            "roll": 39,
+            "end": 8,
+            "sell": 1
+          },
+          "roll": {
+            "level": 93,
+            "roll": 1253,
+            "end": 4,
+            "sell": 2
+          },
+          "level": {
+            "level": 392,
+            "buy": 30
+          },
+          "freeze": {},
+          "end": {
+            "end": 1021,
+            "sell": 4
+          }
+        },
+        "reference_category_counts": {
+          "buy": 823,
+          "play": 750,
+          "sell": 68,
+          "roll": 1352,
+          "level": 422,
+          "freeze": 0,
+          "end": 1025
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.8140947752126367,
+          "play": 0.0013333333333333333,
+          "sell": 0.9852941176470589,
+          "roll": 0.07322485207100592,
+          "level": 0.07109004739336493,
+          "freeze": null,
+          "end": 0.003902439024390244
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.7692307692307693,
+          "play": 0.001148105625717566,
+          "sell": 0.07692307692307693,
+          "roll": 0.11366245694603903,
+          "level": 0.03444316877152698,
+          "freeze": 0.0,
+          "end": 0.004592422502870264
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "level",
+            "count": 93
+          },
+          {
+            "from": "buy",
+            "to": "end",
+            "count": 53
+          },
+          {
+            "from": "sell",
+            "to": "roll",
+            "count": 39
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 30
+          },
+          {
+            "from": "sell",
+            "to": "level",
+            "count": 20
+          },
+          {
+            "from": "sell",
+            "to": "end",
+            "count": 8
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 6
+          },
+          {
+            "from": "buy",
+            "to": "roll",
+            "count": 6
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 4
+          },
+          {
+            "from": "end",
+            "to": "sell",
+            "count": 4
+          }
+        ]
+      },
+      "vs_warmstart": {
+        "n_states": 4440,
+        "n_disagreements": 877,
+        "overall_agreement": 0.8024774774774774,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 750,
+            "end": 53,
+            "level": 5,
+            "roll": 6
+          },
+          "play": {
+            "play": 744,
+            "level": 1
+          },
+          "sell": {
+            "end": 1,
+            "roll": 4
+          },
+          "roll": {
+            "roll": 1288,
+            "level": 81,
+            "play": 5,
+            "sell": 3,
+            "end": 3
+          },
+          "level": {
+            "level": 425,
+            "buy": 38
+          },
+          "freeze": {},
+          "end": {
+            "end": 1029,
+            "sell": 4
+          }
+        },
+        "reference_category_counts": {
+          "buy": 814,
+          "play": 745,
+          "sell": 5,
+          "roll": 1380,
+          "level": 463,
+          "freeze": 0,
+          "end": 1033
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.9054054054054054,
+          "play": 0.0013422818791946308,
+          "sell": 1.0,
+          "roll": 0.06666666666666667,
+          "level": 0.08207343412526998,
+          "freeze": null,
+          "end": 0.003872216844143272
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.8403648802736602,
+          "play": 0.0011402508551881414,
+          "sell": 0.005701254275940707,
+          "roll": 0.10490307867730901,
+          "level": 0.043329532497149374,
+          "freeze": 0.0,
+          "end": 0.004561003420752566
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "level",
+            "count": 81
+          },
+          {
+            "from": "buy",
+            "to": "end",
+            "count": 53
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 38
+          },
+          {
+            "from": "buy",
+            "to": "roll",
+            "count": 6
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 5
+          },
+          {
+            "from": "roll",
+            "to": "play",
+            "count": 5
+          },
+          {
+            "from": "sell",
+            "to": "roll",
+            "count": 4
+          },
+          {
+            "from": "end",
+            "to": "sell",
+            "count": 4
+          },
+          {
+            "from": "roll",
+            "to": "sell",
+            "count": 3
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 3
+          }
+        ]
+      }
+    },
+    {
+      "checkpoint": "iter_080.pt",
+      "vs_expert": {
+        "n_states": 4440,
+        "n_disagreements": 1900,
+        "overall_agreement": 0.572072072072072,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 823
+          },
+          "play": {
+            "play": 682,
+            "roll": 15,
+            "buy": 53
+          },
+          "sell": {
+            "buy": 52,
+            "roll": 16
+          },
+          "roll": {
+            "buy": 796,
+            "roll": 556
+          },
+          "level": {
+            "level": 315,
+            "buy": 93,
+            "roll": 14
+          },
+          "freeze": {},
+          "end": {
+            "end": 783,
+            "roll": 201,
+            "buy": 40,
+            "sell": 1
+          }
+        },
+        "reference_category_counts": {
+          "buy": 823,
+          "play": 750,
+          "sell": 68,
+          "roll": 1352,
+          "level": 422,
+          "freeze": 0,
+          "end": 1025
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.7521263669501823,
+          "play": 0.09066666666666667,
+          "sell": 1.0,
+          "roll": 0.5887573964497042,
+          "level": 0.25355450236966826,
+          "freeze": null,
+          "end": 0.23609756097560974
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.3257894736842105,
+          "play": 0.035789473684210524,
+          "sell": 0.035789473684210524,
+          "roll": 0.4189473684210526,
+          "level": 0.05631578947368421,
+          "freeze": 0.0,
+          "end": 0.12736842105263158
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 796
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 201
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 93
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 53
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 52
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 40
+          },
+          {
+            "from": "sell",
+            "to": "roll",
+            "count": 16
+          },
+          {
+            "from": "play",
+            "to": "roll",
+            "count": 15
+          },
+          {
+            "from": "level",
+            "to": "roll",
+            "count": 14
+          },
+          {
+            "from": "end",
+            "to": "sell",
+            "count": 1
+          }
+        ]
+      },
+      "vs_warmstart": {
+        "n_states": 4440,
+        "n_disagreements": 1995,
+        "overall_agreement": 0.5506756756756757,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 814
+          },
+          "play": {
+            "play": 682,
+            "roll": 12,
+            "buy": 51
+          },
+          "sell": {
+            "roll": 2,
+            "buy": 3
+          },
+          "roll": {
+            "buy": 813,
+            "roll": 567
+          },
+          "level": {
+            "level": 315,
+            "buy": 132,
+            "roll": 16
+          },
+          "freeze": {},
+          "end": {
+            "end": 783,
+            "roll": 205,
+            "buy": 44,
+            "sell": 1
+          }
+        },
+        "reference_category_counts": {
+          "buy": 814,
+          "play": 745,
+          "sell": 5,
+          "roll": 1380,
+          "level": 463,
+          "freeze": 0,
+          "end": 1033
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.8796068796068796,
+          "play": 0.08456375838926175,
+          "sell": 1.0,
+          "roll": 0.5891304347826087,
+          "level": 0.31965442764578833,
+          "freeze": null,
+          "end": 0.2420135527589545
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.35889724310776944,
+          "play": 0.031578947368421054,
+          "sell": 0.002506265664160401,
+          "roll": 0.4075187969924812,
+          "level": 0.07418546365914787,
+          "freeze": 0.0,
+          "end": 0.12531328320802004
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 813
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 205
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 132
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 51
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 44
+          },
+          {
+            "from": "level",
+            "to": "roll",
+            "count": 16
+          },
+          {
+            "from": "play",
+            "to": "roll",
+            "count": 12
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 3
+          },
+          {
+            "from": "sell",
+            "to": "roll",
+            "count": 2
+          },
+          {
+            "from": "end",
+            "to": "sell",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "checkpoint": "iter_160.pt",
+      "vs_expert": {
+        "n_states": 4440,
+        "n_disagreements": 2364,
+        "overall_agreement": 0.46756756756756757,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 823
+          },
+          "play": {
+            "play": 718,
+            "buy": 32
+          },
+          "sell": {
+            "buy": 64,
+            "end": 4
+          },
+          "roll": {
+            "buy": 1302,
+            "end": 50
+          },
+          "level": {
+            "level": 256,
+            "buy": 166
+          },
+          "freeze": {},
+          "end": {
+            "end": 882,
+            "roll": 89,
+            "buy": 54
+          }
+        },
+        "reference_category_counts": {
+          "buy": 823,
+          "play": 750,
+          "sell": 68,
+          "roll": 1352,
+          "level": 422,
+          "freeze": 0,
+          "end": 1025
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.732685297691373,
+          "play": 0.042666666666666665,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.3933649289099526,
+          "freeze": null,
+          "end": 0.13951219512195123
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2550761421319797,
+          "play": 0.01353637901861252,
+          "sell": 0.028764805414551606,
+          "roll": 0.571912013536379,
+          "level": 0.07021996615905245,
+          "freeze": 0.0,
+          "end": 0.06049069373942471
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1302
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 166
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 89
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 64
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 54
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 50
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 32
+          },
+          {
+            "from": "sell",
+            "to": "end",
+            "count": 4
+          }
+        ]
+      },
+      "vs_warmstart": {
+        "n_states": 4440,
+        "n_disagreements": 2446,
+        "overall_agreement": 0.44909909909909906,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 814
+          },
+          "play": {
+            "play": 717,
+            "buy": 28
+          },
+          "sell": {
+            "buy": 5
+          },
+          "roll": {
+            "buy": 1329,
+            "end": 50,
+            "play": 1
+          },
+          "level": {
+            "level": 256,
+            "buy": 207
+          },
+          "freeze": {},
+          "end": {
+            "end": 886,
+            "roll": 89,
+            "buy": 58
+          }
+        },
+        "reference_category_counts": {
+          "buy": 814,
+          "play": 745,
+          "sell": 5,
+          "roll": 1380,
+          "level": 463,
+          "freeze": 0,
+          "end": 1033
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.8341523341523341,
+          "play": 0.03758389261744966,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.4470842332613391,
+          "freeze": null,
+          "end": 0.14230396902226525
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2775960752248569,
+          "play": 0.011447260834014717,
+          "sell": 0.002044153720359771,
+          "roll": 0.5641864268192968,
+          "level": 0.08462796402289452,
+          "freeze": 0.0,
+          "end": 0.06009811937857727
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1329
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 207
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 89
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 58
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 50
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 28
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 5
+          },
+          {
+            "from": "roll",
+            "to": "play",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "checkpoint": "iter_320.pt",
+      "vs_expert": {
+        "n_states": 4440,
+        "n_disagreements": 2454,
+        "overall_agreement": 0.4472972972972973,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 803,
+            "level": 20
+          },
+          "play": {
+            "play": 750
+          },
+          "sell": {
+            "buy": 65,
+            "end": 3
+          },
+          "roll": {
+            "buy": 1201,
+            "end": 110,
+            "roll": 41
+          },
+          "level": {
+            "buy": 69,
+            "level": 345,
+            "roll": 8
+          },
+          "freeze": {},
+          "end": {
+            "freeze": 378,
+            "end": 588,
+            "buy": 59
+          }
+        },
+        "reference_category_counts": {
+          "buy": 823,
+          "play": 750,
+          "sell": 68,
+          "roll": 1352,
+          "level": 422,
+          "freeze": 0,
+          "end": 1025
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.6816524908869988,
+          "play": 0.0,
+          "sell": 1.0,
+          "roll": 0.9696745562130178,
+          "level": 0.18246445497630331,
+          "freeze": null,
+          "end": 0.42634146341463414
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.22860635696821516,
+          "play": 0.0,
+          "sell": 0.027709861450692746,
+          "roll": 0.5342298288508558,
+          "level": 0.03137734311328443,
+          "freeze": 0.0,
+          "end": 0.1780766096169519
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1201
+          },
+          {
+            "from": "end",
+            "to": "freeze",
+            "count": 378
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 110
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 69
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 65
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 59
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 20
+          },
+          {
+            "from": "level",
+            "to": "roll",
+            "count": 8
+          },
+          {
+            "from": "sell",
+            "to": "end",
+            "count": 3
+          }
+        ]
+      },
+      "vs_warmstart": {
+        "n_states": 4440,
+        "n_disagreements": 2393,
+        "overall_agreement": 0.46103603603603605,
+        "confusion_matrix": {
+          "buy": {
+            "buy": 796,
+            "level": 18
+          },
+          "play": {
+            "play": 745
+          },
+          "sell": {
+            "buy": 5
+          },
+          "roll": {
+            "buy": 1223,
+            "end": 111,
+            "roll": 41,
+            "play": 5
+          },
+          "level": {
+            "buy": 108,
+            "level": 347,
+            "roll": 8
+          },
+          "freeze": {},
+          "end": {
+            "freeze": 378,
+            "end": 590,
+            "buy": 65
+          }
+        },
+        "reference_category_counts": {
+          "buy": 814,
+          "play": 745,
+          "sell": 5,
+          "roll": 1380,
+          "level": 463,
+          "freeze": 0,
+          "end": 1033
+        },
+        "disagreement_share_by_category": {
+          "buy": 0.601965601965602,
+          "play": 0.0,
+          "sell": 1.0,
+          "roll": 0.9702898550724638,
+          "level": 0.2505399568034557,
+          "freeze": null,
+          "end": 0.42884801548886736
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.20476389469285416,
+          "play": 0.0,
+          "sell": 0.002089427496865859,
+          "roll": 0.559548683660677,
+          "level": 0.04847471792728792,
+          "freeze": 0.0,
+          "end": 0.1851232762223151
+        },
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1223
+          },
+          {
+            "from": "end",
+            "to": "freeze",
+            "count": 378
+          },
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 111
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 108
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 65
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 18
+          },
+          {
+            "from": "level",
+            "to": "roll",
+            "count": 8
+          },
+          {
+            "from": "sell",
+            "to": "buy",
+            "count": 5
+          },
+          {
+            "from": "roll",
+            "to": "play",
+            "count": 5
+          }
+        ]
+      }
+    }
+  ]
+}
