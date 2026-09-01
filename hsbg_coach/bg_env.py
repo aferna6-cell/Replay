@@ -648,8 +648,23 @@ def greedy_policy(obs: Dict, mask: List[bool], rng: random.Random) -> int:
     return _greedy(obs, mask, rng, 0.0)
 
 
+def build_aware_greedy_policy(obs: Dict, mask: List[bool],
+                              rng: random.Random) -> int:
+    """Greedy recruit policy with build-path buy valuation (Phase 2D treatment).
+
+    Identical to ``greedy_policy`` except legally buyable minions are ranked by
+    ``build_aware_buy_score`` instead of raw ``attack + health``.
+    """
+    from .build_aware_policy import build_aware_buy_score
+    return _greedy(obs, mask, rng, 0.0, buy_scorer=build_aware_buy_score)
+
+
 def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
-            level_bias: float) -> int:
+            level_bias: float,
+            buy_scorer: Optional[Callable[[Dict, int], float]] = None) -> int:
+    if buy_scorer is None:
+        from .build_aware_policy import raw_stat_buy_score
+        buy_scorer = raw_stat_buy_score
     if any(mask[A_PLAY0:A_PLAY0 + N_PLAY]):
         return A_PLAY0 + next(i for i in range(N_PLAY) if mask[A_PLAY0 + i])
     target = STANDARD_TAVERN_TIER.get(obs["turn"], 6.0) + level_bias
@@ -657,16 +672,11 @@ def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
         return A_LEVEL
     buys = [i for i in range(len(obs["shop"])) if mask[A_BUY0 + i]]
     if buys and len(obs["board"]) + len(obs["hand"]) < MAX_BOARD + 1:
-        def value(i):
-            m = obs["shop"][i]
-            return (m.get("attack") or 0) + (m.get("health") or 0)
-        return A_BUY0 + max(buys, key=value)
+        return A_BUY0 + max(buys, key=lambda i: buy_scorer(obs, i))
     # Board full: upgrade — sell the weakest if the best shop minion beats it.
     if buys and len(obs["board"]) >= MAX_BOARD:
-        best = max(buys, key=lambda i: (obs["shop"][i].get("attack") or 0)
-                   + (obs["shop"][i].get("health") or 0))
-        bval = ((obs["shop"][best].get("attack") or 0)
-                + (obs["shop"][best].get("health") or 0))
+        best = max(buys, key=lambda i: buy_scorer(obs, i))
+        bval = buy_scorer(obs, best)
         weakest = min(range(len(obs["board"])),
                       key=lambda i: (obs["board"][i].get("attack") or 0)
                       + (obs["board"][i].get("health") or 0))
