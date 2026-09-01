@@ -1,0 +1,76 @@
+{
+  "all_passed": true,
+  "per_seed": [
+    {
+      "seed": 0,
+      "success": true,
+      "stage": "train"
+    },
+    {
+      "seed": 1,
+      "success": true,
+      "stage": "train"
+    },
+    {
+      "seed": 2,
+      "success": true,
+      "stage": "train"
+    },
+    {
+      "seed": 3,
+      "success": true,
+      "stage": "train"
+    }
+  ],
+  "placement_spot_checks": [
+    {
+      "kl_label": "beta001",
+      "seed": 0,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta001",
+      "seed": 1,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta001",
+      "seed": 2,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta001",
+      "seed": 3,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta003",
+      "seed": 0,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta003",
+      "seed": 1,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta003",
+      "seed": 2,
+      "success": true,
+      "iter0_avg": 6.55
+    },
+    {
+      "kl_label": "beta003",
+      "seed": 3,
+      "success": true,
+      "iter0_avg": 6.55
+    }
+  ],
+  "expected_warm_start_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+}
