@@ -4,24 +4,25 @@
   "research_question": "Does adding existing build-path value to recruit decisions convert Phase 2C seeded composition opportunities into coherent boards without damaging Simulator v1.1 macro fidelity?",
   "simulator_version": "Simulator v1.1",
   "methodology_version": "2c_v3",
-  "implementation_commit": "d79206721420f8dccbf43bf65417abc09f873b24",
-  "code_commit": "d79206721420f8dccbf43bf65417abc09f873b24",
+  "implementation_commit": "7fc4985186efe5cd8286c36f55da810b39ac5937",
+  "code_commit": "7fc4985186efe5cd8286c36f55da810b39ac5937",
   "working_tree_clean": true,
   "policy_config": {
     "policy_id": "build_aware_greedy_policy",
     "buy_scoring": "raw_stats - path_adj / BUILD_PATH_BUY_DIVISOR",
     "build_path_buy_divisor": 5.0,
+    "divisor_note": "Numeric reuse of draft.rank_discover divisor; NOT raw-stat calibration. Max path bonus ~0.26 stats (1.3/5).",
     "path_value_module": "hsbg_coach.build_path.path_value",
     "control_policy_id": "greedy_policy",
     "control_buy_scoring": "attack + health"
   },
-  "policy_config_hash_sha256": "3da0bd1e1d4a68c077463830b282d63db739b8bebbc2128abb9326b24f5412fe",
+  "policy_config_hash_sha256": "b13933b7575853ba3793e359e1c42d6edf685911c677203418b54c1c21265ce6",
   "contract": {
     "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "d79206721420f8dccbf43bf65417abc09f873b24",
+    "code_commit": "7fc4985186efe5cd8286c36f55da810b39ac5937",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -73,11 +74,12 @@
       "policy_id": "build_aware_greedy_policy",
       "buy_scoring": "raw_stats - path_adj / BUILD_PATH_BUY_DIVISOR",
       "build_path_buy_divisor": 5.0,
+      "divisor_note": "Numeric reuse of draft.rank_discover divisor; NOT raw-stat calibration. Max path bonus ~0.26 stats (1.3/5).",
       "path_value_module": "hsbg_coach.build_path.path_value",
       "control_policy_id": "greedy_policy",
       "control_buy_scoring": "attack + health"
     },
-    "policy_config_hash_sha256": "3da0bd1e1d4a68c077463830b282d63db739b8bebbc2128abb9326b24f5412fe",
+    "policy_config_hash_sha256": "b13933b7575853ba3793e359e1c42d6edf685911c677203418b54c1c21265ce6",
     "arms": {
       "control": {
         "policy": "hsbg_coach.bg_env.greedy_policy",
@@ -91,7 +93,7 @@
     },
     "evaluation_note": "Paired A/B: identical lobby seeds, only recruit buy valuation differs."
   },
-  "runtime_seconds": 938.08,
+  "runtime_seconds": 941.26,
   "n_lobbies": 200,
   "evaluation_seed_base": 0,
   "real_final_winner_coverage_mean": 0.7658788248610255,
@@ -836,11 +838,6 @@
       },
       "n_lobbies": 200
     },
-    "placement": {
-      "mean_placement": 3.851551956815115,
-      "win_rate": 0.1771817363922627,
-      "n": 17784
-    },
     "n_trace_events": 80563
   },
   "treatment": {
@@ -1584,11 +1581,6 @@
       },
       "n_lobbies": 200
     },
-    "placement": {
-      "mean_placement": 3.8460025844148547,
-      "win_rate": 0.17770661273105232,
-      "n": 17799
-    },
     "n_trace_events": 80714
   },
   "paired_macro_comparison": {
@@ -1648,20 +1640,7 @@
     "control_avg_game_length": 15.755,
     "treatment_avg_game_length": 15.815
   },
-  "placement_comparison": {
-    "control": {
-      "mean_placement": 3.851551956815115,
-      "win_rate": 0.1771817363922627,
-      "n": 17784
-    },
-    "treatment": {
-      "mean_placement": 3.8460025844148547,
-      "win_rate": 0.17770661273105232,
-      "n": 17799
-    },
-    "delta_mean_placement": -0.005549372400260211,
-    "note": "Secondary diagnostic \u2014 not an acceptance gate."
-  },
+  "placement_strength_note": "Placement strength was not evaluated in Phase 2D. Homogeneous full-lobby rollouts (all eight seats share one policy) are used for simulator fidelity, not agent-vs-agent strength comparison. A valid strength test would require a mixed field (e.g. treatment seat vs seven control seats with seat rotation).",
   "acceptance": {
     "phase_2c_control_baseline": {
       "methodology_version": "2c_v3",
@@ -1739,6 +1718,6 @@
     "outcome_win": false,
     "macro_regression_ok": true,
     "accept_phase_2d_treatment": false,
-    "interpretation": "Build-aware buy valuation insufficient to convert seeded opportunities \u2014 treatment does not meet mechanism thresholds."
+    "interpretation": "path_value() mapped into raw-stat space as -path_adj/5 is insufficient to convert seeded opportunities (max ~0.26 stat bonus vs typical +2\u20135 gaps). This does not imply build-aware recruiting broadly failed \u2014 only this frozen mapping."
   }
 }

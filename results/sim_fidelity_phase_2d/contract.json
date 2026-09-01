@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "d79206721420f8dccbf43bf65417abc09f873b24",
+  "code_commit": "7fc4985186efe5cd8286c36f55da810b39ac5937",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -55,11 +55,12 @@
     "policy_id": "build_aware_greedy_policy",
     "buy_scoring": "raw_stats - path_adj / BUILD_PATH_BUY_DIVISOR",
     "build_path_buy_divisor": 5.0,
+    "divisor_note": "Numeric reuse of draft.rank_discover divisor; NOT raw-stat calibration. Max path bonus ~0.26 stats (1.3/5).",
     "path_value_module": "hsbg_coach.build_path.path_value",
     "control_policy_id": "greedy_policy",
     "control_buy_scoring": "attack + health"
   },
-  "policy_config_hash_sha256": "3da0bd1e1d4a68c077463830b282d63db739b8bebbc2128abb9326b24f5412fe",
+  "policy_config_hash_sha256": "b13933b7575853ba3793e359e1c42d6edf685911c677203418b54c1c21265ce6",
   "arms": {
     "control": {
       "policy": "hsbg_coach.bg_env.greedy_policy",
