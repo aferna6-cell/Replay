@@ -12,7 +12,9 @@ from ml.experiment_contract import (ContractViolation, build_contract,
                                     save_contract, verify_identical_placements,
                                     verify_matched_iter0_pair, verify_warm_start,
                                     runtime_fingerprint, ppo_recipe)
-from ml.model_fingerprint import checkpoint_fingerprint, checkpoint_parameter_sha256
+from ml.model_fingerprint import (checkpoint_fingerprint,
+                                    checkpoint_parameter_sha256,
+                                    parameter_sha256)
 from ml.policy_net import PolicyNet, save_policy
 from ml.tokens import token_dim
 from hsbg_coach.synergy import load_embeddings
@@ -50,7 +52,7 @@ def test_verify_warm_start_pass_and_fail(tmp_path):
 def test_verify_matched_iter0_pair(tmp_path):
     emb = load_embeddings()
     net = PolicyNet(token_dim(emb))
-    sha = checkpoint_parameter_sha256(net.state_dict())
+    sha = parameter_sha256(net.state_dict())
     a = str(tmp_path / "a.pt")
     b = str(tmp_path / "b.pt")
     save_policy(net, a, {"kind": "ppo", "iter": 0})
