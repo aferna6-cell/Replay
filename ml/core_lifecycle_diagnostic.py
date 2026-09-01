@@ -29,13 +29,14 @@ from ml.composition_diagnostic import (
     _lobby_tribes,
 )
 
-METHODOLOGY_VERSION = "2f_v1"
+METHODOLOGY_VERSION = "2f_v2"
 PRIMARY_VIEW = "seeded_current_target"
 
 FATE_LABELS = {
     "A_BOUGHT_STUCK_IN_HAND": "Purchased but never played.",
     "B_PLAYED_THEN_SOLD_SAME_TURN": "Reaches board, then removed before recruit ends (same turn).",
-    "C_PLAYED_THEN_SOLD_LATER": "Survives recruit turn, then gets replaced later.",
+    "C_PLAYED_NO_PERSISTENT_ASSEMBLY": (
+        "Played but never reached 2+ core assembly at end-of-recruit."),
     "D_TARGET_SWITCH": "Core survives, but infer_target changes before second-piece assembly.",
     "E_SEED_PIECE_LOST": "New core survives, but the original seeded core disappears.",
     "F_TRANSFORMED_TRIPLED": "Card identity changes through triple/discover mechanics.",
@@ -318,6 +319,7 @@ def _trace_lifecycle(purchase: FulfilledPurchase,
                     survived_2_turns = True
 
     inst_state = instances[0]
+    sold_after_play = sell_turn is not None and played_turn is not None
     fate = _classify_fate(
         played_turn=played_turn,
         sell_turn=sell_turn,
@@ -343,6 +345,8 @@ def _trace_lifecycle(purchase: FulfilledPurchase,
         "board_full_at_buy": purchase.board_full_at_buy,
         "hand_size_after_buy": purchase.hand_size_after_buy,
         "played_turn": played_turn,
+        "sold_after_play": sold_after_play,
+        "sold_same_turn": inst_state.sold_same_turn if sold_after_play else False,
         "both_cores_coexist_turn": both_cores_coexist_turn,
         "survived_recruit_end": survived_recruit_end,
         "survived_1_turn": survived_1_turn,
@@ -376,16 +380,13 @@ def _classify_fate(*, played_turn: Optional[int], sell_turn: Optional[int],
         return "F_TRANSFORMED_TRIPLED"
     if played_turn is not None and sell_turn is not None and sold_same_turn:
         return "B_PLAYED_THEN_SOLD_SAME_TURN"
-    if played_turn is not None and sell_turn is not None:
-        return "C_PLAYED_THEN_SOLD_LATER"
     if seed_cores_at_buy and seed_piece_lost:
         return "E_SEED_PIECE_LOST"
     if played_turn is None:
         return "A_BOUGHT_STUCK_IN_HAND"
     if target_switched:
         return "D_TARGET_SWITCH"
-    # Played, not sold, never assembled 2+ cores at recruit end — partial retention.
-    return "C_PLAYED_THEN_SOLD_LATER"
+    return "C_PLAYED_NO_PERSISTENT_ASSEMBLY"
 
 
 def analyze_core_lifecycles(traces: Dict,
@@ -410,6 +411,11 @@ def analyze_core_lifecycles(traces: Dict,
     fate_totals = Counter(r["fate"] for r in records)
     n = len(records)
     played = sum(1 for r in records if r["played_turn"] is not None)
+    sold_after_play = sum(1 for r in records if r.get("sold_after_play"))
+    stuck = [r for r in records if r["fate"] == "A_BOUGHT_STUCK_IN_HAND"]
+    board_full_at_purchase = sum(1 for r in records if r["board_full_at_buy"])
+    stuck_and_board_full = sum(1 for r in stuck if r["board_full_at_buy"])
+    persistent_two_core = fate_totals.get("H_TWO_CORE_PERSISTENT", 0)
     coexist = sum(1 for r in records if r["both_cores_coexist_turn"] is not None)
     end_survive = sum(1 for r in records if r["survived_recruit_end"])
     one_turn = sum(1 for r in records if r["survived_1_turn"])
@@ -422,6 +428,15 @@ def analyze_core_lifecycles(traces: Dict,
         "n_fulfilled_purchases": n,
         "fate_totals": dict(fate_totals),
         "fate_labels": FATE_LABELS,
+        "board_full_summary": {
+            "fulfilled_purchases": n,
+            "board_full_at_purchase": board_full_at_purchase,
+            "stuck_in_hand": len(stuck),
+            "stuck_in_hand_and_board_full": stuck_and_board_full,
+            "played": played,
+            "sold_after_play": sold_after_play,
+            "persistent_two_core": persistent_two_core,
+        },
         "funnel": {
             "fulfilled_purchases": n,
             "played": played,

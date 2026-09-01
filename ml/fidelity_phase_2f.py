@@ -120,6 +120,7 @@ def run_phase_2f(*, lobbies: int = 200, seed: int = DEFAULT_SEED,
             "fate_totals": lifecycle["fate_totals"],
             "funnel": lifecycle["funnel"],
             "fate_labels": lifecycle["fate_labels"],
+            "board_full_summary": lifecycle["board_full_summary"],
         },
         "lifecycle_purchases": lifecycle["purchases"],
         "decision": decision,
@@ -154,9 +155,13 @@ def main(argv: Optional[list] = None) -> int:
 
     lc = result["lifecycle"]
     dec = result["decision"]
+    bfs = lc.get("board_full_summary") or {}
     print(f"\nFulfilled seeded purchases: {lc['n_fulfilled_purchases']}")
     print(f"Latch parity with 2C fulfilled_exposures: "
           f"{result['lifecycle_latch_parity_ok']}")
+    print("Board-full summary:")
+    for k, v in bfs.items():
+        print(f"  {k}: {v}")
     print("Funnel:")
     for k, v in lc["funnel"].items():
         print(f"  {k}: {v}")

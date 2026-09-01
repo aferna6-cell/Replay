@@ -23,7 +23,7 @@ seeds **1000–1199**. No retention, triple, target, or card-effect changes.
 |---|---|
 | A | Purchased but never played |
 | B | Played then sold same recruit turn |
-| C | Played then sold later (or played without 2-core assembly) |
+| C | Played but no persistent 2+ core assembly (see `sold_after_play` flag) |
 | D | Core survives but infer_target changes before second-piece assembly |
 | E | New core survives but original seeded core disappears |
 | F | Transformed / tripled |

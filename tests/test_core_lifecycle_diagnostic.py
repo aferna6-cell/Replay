@@ -13,8 +13,17 @@ from hsbg_coach.bg_env import seeded_core_stress_greedy_policy
 
 
 def test_phase_2f_methodology_version():
-    assert METHODOLOGY_VERSION == "2f_v1"
+    assert METHODOLOGY_VERSION == "2f_v2"
     assert len(FATE_LABELS) == 8
+
+
+def test_classify_fate_played_never_sold_is_not_sold_later():
+    fate = _classify_fate(
+        played_turn=5, sell_turn=None, sold_same_turn=False, tripled=False,
+        had_two_core_action=False, had_two_core_recruit_end=False,
+        target_switched=False, seed_piece_lost=False, seed_cores_at_buy=True,
+    )
+    assert fate == "C_PLAYED_NO_PERSISTENT_ASSEMBLY"
 
 
 def test_classify_fate_priority():
@@ -68,13 +77,29 @@ def test_phase_2f_decision_empty_cohort():
 
 def test_phase_2f_decision_hand_stuck():
     n = 10
-    totals = {"A_BOUGHT_STUCK_IN_HAND": 6, "C_PLAYED_THEN_SOLD_LATER": 4}
+    totals = {"A_BOUGHT_STUCK_IN_HAND": 6, "C_PLAYED_NO_PERSISTENT_ASSEMBLY": 4}
     out = evaluate_phase_2f_decision({
         "n_fulfilled_purchases": n,
         "fate_totals": totals,
         "funnel": {},
+        "board_full_summary": {
+            "stuck_in_hand": 6,
+            "stuck_in_hand_and_board_full": 6,
+            "sold_after_play": 0,
+        },
     })
     assert out["decision_branch"] == "board_slot_play_policy"
+    assert "full board" in out["recommended_next_step"]
+
+
+def test_phase_2f_decision_sell_from_flags_not_fate_c():
+    out = evaluate_phase_2f_decision({
+        "n_fulfilled_purchases": 10,
+        "fate_totals": {"C_PLAYED_NO_PERSISTENT_ASSEMBLY": 10},
+        "funnel": {},
+        "board_full_summary": {"sold_after_play": 4, "stuck_in_hand": 0},
+    })
+    assert out["decision_branch"] == "retention_aware_sell_policy"
 
 
 def test_fidelity_phase_2f_runner_smoke(tmp_path):

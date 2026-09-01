@@ -11,6 +11,7 @@ DECISION_THRESHOLDS = {
     "dominant_fate_min_share": 0.35,
     "hand_stuck_min_share": 0.30,
     "sold_min_share": 0.30,
+    "board_full_stuck_min_share": 0.80,
     "seed_loss_min_share": 0.25,
     "target_switch_min_share": 0.25,
     "triple_min_share": 0.25,
@@ -30,11 +31,17 @@ def evaluate_phase_2f_decision(lifecycle: Dict,
     n = lifecycle.get("n_fulfilled_purchases", 0)
     totals = lifecycle.get("fate_totals") or {}
     funnel = lifecycle.get("funnel") or {}
+    board_full = lifecycle.get("board_full_summary") or {}
 
     shares = {f: _share(totals, f, n) for f in FATE_LABELS}
 
-    sold_share = shares["B_PLAYED_THEN_SOLD_SAME_TURN"] + shares["C_PLAYED_THEN_SOLD_LATER"]
+    sold_after_play = board_full.get("sold_after_play", 0)
+    sold_share = sold_after_play / n if n else 0.0
     hand_share = shares["A_BOUGHT_STUCK_IN_HAND"]
+    stuck_and_full = board_full.get("stuck_in_hand_and_board_full", 0)
+    stuck = board_full.get("stuck_in_hand", 0)
+    board_full_dominates_stuck = (
+        stuck > 0 and stuck_and_full / stuck >= th.get("board_full_stuck_min_share", 0.8))
 
     if n == 0:
         branch = "no_fulfilled_cohort"
@@ -45,15 +52,22 @@ def evaluate_phase_2f_decision(lifecycle: Dict,
     elif hand_share >= th["hand_stuck_min_share"]:
         branch = "board_slot_play_policy"
         intervention = "board_slot_play_policy"
-        next_step = (
-            "Most fulfilled cores never reach the board — prioritize play-order "
-            "and board-slot handling before retention or card-effect work.")
+        if board_full_dominates_stuck:
+            next_step = (
+                f"Most fulfilled cores never reach the board ({stuck_and_full}/{stuck} "
+                "stuck purchases occurred on a full board) — prioritize board-slot "
+                "creation and play deployment before retention or card-effect work.")
+        else:
+            next_step = (
+                "Most fulfilled cores never reach the board — prioritize play-order "
+                "and board-slot handling before retention or card-effect work.")
     elif sold_share >= th["sold_min_share"]:
         branch = "retention_aware_sell_policy"
         intervention = "retention_aware_sell_upgrade_policy"
         next_step = (
-            "Cores are played then sold — prioritize retention-aware sell/upgrade "
-            "policy before triple or card-effect fidelity.")
+            f"Cores are played then sold ({sold_after_play}/{n} sold_after_play) — "
+            "prioritize retention-aware sell/upgrade policy before triple or "
+            "card-effect fidelity.")
     elif shares["E_SEED_PIECE_LOST"] >= th["seed_loss_min_share"]:
         branch = "seed_retention_policy"
         intervention = "retention_policy_existing_cores"
@@ -99,6 +113,9 @@ def evaluate_phase_2f_decision(lifecycle: Dict,
         "n_fulfilled_purchases": n,
         "fate_shares": shares,
         "funnel": funnel,
+        "board_full_summary": board_full,
+        "sold_after_play_count": sold_after_play,
+        "sold_after_play_share": sold_share,
         "sold_fates_combined_share": sold_share,
         "decision_branch": branch,
         "recommended_intervention": intervention,
