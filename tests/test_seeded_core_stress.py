@@ -78,3 +78,15 @@ def test_phase_2e_smoke():
         require_clean_tree=False)
     assert result["decision"]["decision_branch"]
     assert result["evaluation_seed_base"] == 1000
+
+
+def test_phase_2e_decision_macro_guard_first():
+    from ml.phase_2e_decision import evaluate_phase_2e_decision
+    control = {"seeded_current_target": {"fulfilled_exposures": 0, "reached_2_core": 0},
+               "sim_final_winner_coverage_mean": 0.01}
+    treatment = {"seeded_current_target": {"fulfilled_exposures": 50, "reached_2_core": 10},
+                 "sim_final_winner_coverage_mean": 0.05}
+    bad_macro = {"turn_14_stats_ratio_delta": 1.0, "game_length_delta": 0.0}
+    out = evaluate_phase_2e_decision(control, treatment, bad_macro)
+    assert out["decision_branch"] == "macro_regression"
+    assert out["flags"]["macro_regression_ok"] is False

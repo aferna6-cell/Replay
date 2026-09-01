@@ -41,7 +41,11 @@ def evaluate_phase_2e_decision(control_mechanism: Dict, treatment_mechanism: Dic
         and abs(macro_delta.get("game_length_delta") or 0)
         <= th["macro_game_length_max_abs_delta"])
 
-    if fulfillment_up and assembly_up and coverage_up:
+    if not macro_ok:
+        branch = "macro_regression"
+        next_step = (
+            "Reject causal interpretation until macro fidelity is preserved.")
+    elif fulfillment_up and assembly_up and coverage_up:
         branch = "recruit_causal"
         next_step = (
             "Phase 2C hypothesis confirmed: forcing seeded conversion produces "
