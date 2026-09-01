@@ -143,15 +143,24 @@ def eval_iter0_gate(seed: int, kl_label: str) -> str:
     return json_out
 
 
-def verify_seed_pair(seed: int, expected_sha: str) -> None:
+def verify_seed_pair_hashes(seed: int, expected_sha: str) -> None:
     beta0_ckpt = os.path.join(run_dir("beta0", seed), "checkpoints", "iter_000.pt")
     beta01_ckpt = os.path.join(run_dir("beta01", seed), "checkpoints", "iter_000.pt")
     verify_matched_iter0_pair(beta0_ckpt, beta01_ckpt, expected_sha)
+    print(f"[HASH OK] seed {seed}: iter_000 parameter hashes match warm start")
+
+
+def verify_seed_pair_placements(seed: int) -> None:
     p0 = eval_iter0_gate(seed, "beta0")
     p1 = eval_iter0_gate(seed, "beta01")
     verify_identical_placements(p0, p1, label=f"seed {seed} iter0 greedy")
-    print(f"[GATE OK] seed {seed}: iter0 hashes match warm start; "
-          f"iter0 DEV placements identical ({len(json.load(open(p0))['placements'])} games)")
+    print(f"[GATE OK] seed {seed}: iter0 DEV placements identical "
+          f"({len(json.load(open(p0))['placements'])} games)")
+
+
+def verify_seed_pair(seed: int, expected_sha: str) -> None:
+    verify_seed_pair_hashes(seed, expected_sha)
+    verify_seed_pair_placements(seed)
 
 
 def train_seed_pair(seed: int) -> dict:
@@ -167,15 +176,54 @@ def train_seed_pair(seed: int) -> dict:
                     "returncode": rc}
 
     try:
-        verify_seed_pair(seed, expected_sha)
+        verify_seed_pair_hashes(seed, expected_sha)
     except ContractViolation as exc:
         print(f"[GATE FAILED] seed {seed}: {exc}", file=sys.stderr)
-        return {"seed": seed, "success": False, "stage": "gate", "error": str(exc)}
+        return {"seed": seed, "success": False, "stage": "gate_hash", "error": str(exc)}
 
-    return {"seed": seed, "success": True}
+    return {"seed": seed, "success": True, "stage": "train"}
+
+
+def run_gates_only() -> int:
+    contract = load_contract(CONTRACT_PATH)
+    enforce_runtime_match(contract)
+    expected_sha = contract["expected_warm_start_parameter_sha256"]
+    verify_warm_start(WARM_START, expected_sha)
+    results = []
+    for seed in SEEDS:
+        try:
+            verify_seed_pair_hashes(seed, expected_sha)
+            results.append({"seed": seed, "hash_ok": True})
+        except ContractViolation as exc:
+            results.append({"seed": seed, "hash_ok": False, "error": str(exc)})
+            print(f"[HASH FAIL] seed {seed}: {exc}", file=sys.stderr)
+            return 1
+    placement_results = []
+    for seed in SEEDS:
+        try:
+            verify_seed_pair_placements(seed)
+            placement_results.append({"seed": seed, "success": True})
+        except ContractViolation as exc:
+            placement_results.append({"seed": seed, "success": False,
+                                      "error": str(exc)})
+            print(f"[GATE FAIL] seed {seed}: {exc}", file=sys.stderr)
+    all_ok = all(r["success"] for r in placement_results)
+    gate_path = os.path.join(BASE_DIR, "gate_results.json")
+    per_seed = [{"seed": s, "success": placement_results[i]["success"],
+                 "hash_ok": True,
+                 **placement_results[i]} for i, s in enumerate(SEEDS)]
+    with open(gate_path, "w", encoding="utf-8") as f:
+        json.dump({"all_passed": all_ok, "per_seed": per_seed,
+                   "placement_gates": placement_results,
+                   "expected_warm_start_parameter_sha256": expected_sha,
+                   "mode": "gates_only"}, f, indent=2)
+    print(f"Gates complete. all_passed={all_ok}")
+    return 0 if all_ok else 1
 
 
 def main() -> int:
+    if "--gates-only" in sys.argv:
+        return run_gates_only()
     contract = prepare_warm_start_and_contract()
     enforce_runtime_match(contract)
 
@@ -195,6 +243,35 @@ def main() -> int:
                                 "stage": "exception", "error": str(exc)})
 
     results.sort(key=lambda r: r["seed"])
+    train_ok = all(r.get("success") for r in results)
+    if not train_ok:
+        gate_path = os.path.join(BASE_DIR, "gate_results.json")
+        with open(gate_path, "w", encoding="utf-8") as f:
+            json.dump({"all_passed": False, "per_seed": results,
+                       "expected_warm_start_parameter_sha256":
+                       contract["expected_warm_start_parameter_sha256"],
+                       "stage": "training"}, f, indent=2)
+        print("STOP: training failed.", file=sys.stderr)
+        return 1
+
+    expected_sha = contract["expected_warm_start_parameter_sha256"]
+    print("\nRunning sequential iter-0 placement gates (1000 DEV games per arm)…")
+    placement_results = []
+    for seed in SEEDS:
+        try:
+            verify_seed_pair_placements(seed)
+            placement_results.append({"seed": seed, "success": True})
+        except ContractViolation as exc:
+            print(f"[GATE FAILED] seed {seed}: {exc}", file=sys.stderr)
+            placement_results.append({"seed": seed, "success": False,
+                                      "error": str(exc)})
+
+    for r in results:
+        pr = next(x for x in placement_results if x["seed"] == r["seed"])
+        r["placement_gate"] = pr
+        if not pr.get("success"):
+            r["success"] = False
+
     all_ok = all(r.get("success") for r in results)
     elapsed = time.time() - t0
     print(f"\nTraining + gates finished in {elapsed:.1f}s. Success={all_ok}")
@@ -204,6 +281,7 @@ def main() -> int:
     gate_path = os.path.join(BASE_DIR, "gate_results.json")
     with open(gate_path, "w", encoding="utf-8") as f:
         json.dump({"all_passed": all_ok, "per_seed": results,
+                   "placement_gates": placement_results,
                    "expected_warm_start_parameter_sha256":
                    contract["expected_warm_start_parameter_sha256"]}, f, indent=2)
 

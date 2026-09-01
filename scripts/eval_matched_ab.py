@@ -114,11 +114,11 @@ def main() -> int:
 
     print(f"Total DEV eval jobs: {len(jobs)}")
     t0 = time.time()
-    with ProcessPoolExecutor(max_workers=4) as pool:
+    with ProcessPoolExecutor(max_workers=8) as pool:
         eval_results = list(pool.map(run_eval, jobs))
 
     drift_jobs = [(kl, s) for kl in KL_LABELS for s in SEEDS]
-    with ProcessPoolExecutor(max_workers=4) as pool:
+    with ProcessPoolExecutor(max_workers=8) as pool:
         drift_results = list(pool.starmap(run_drift, drift_jobs))
 
     all_ok = (all(r["success"] for r in eval_results)
