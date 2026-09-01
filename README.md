@@ -498,6 +498,27 @@ pace assumptions change materially, that's a new benchmark version
 one. v1 is single-process by design (reproducibility over speed); parallel
 execution is a documented future optimization.
 
+## Research status (2026-09-01)
+
+**PPO tuning on Simulator v1 is closed.** Experiments 4b–6 established that KL
+anchoring stabilizes PPO, β=0.03 is the best fixed recipe, and scheduled
+relaxation after iter 160 does not beat the BC warm start reliably. See
+[`experiments/INDEX.md`](experiments/INDEX.md).
+
+**Active work: Simulator Fidelity Phase 2A** — measure where Simulator v1
+diverges from real Battlegrounds *before* changing any mechanics:
+
+```bash
+python -m ml.fidelity_benchmark --lobbies 200
+```
+
+Artifacts: [`experiments/sim_fidelity_benchmark_v1.md`](experiments/sim_fidelity_benchmark_v1.md),
+[`results/sim_fidelity_v1/`](results/sim_fidelity_v1/).
+
+Replay Benchmark v1 remains the historical agent-strength standard. **Replay
+Benchmark v2** will be defined only after the simulator is materially improved;
+do not reuse TEST casually across simulator versions.
+
 ## Turn planning is beam search now
 
 `hsbg advise` plans the full turn by beam search over action *sequences*
