@@ -659,9 +659,18 @@ def build_aware_greedy_policy(obs: Dict, mask: List[bool],
     return _greedy(obs, mask, rng, 0.0, buy_scorer=build_aware_buy_score)
 
 
+def seeded_core_stress_greedy_policy(obs: Dict, mask: List[bool],
+                                     rng: random.Random) -> int:
+    """Phase 2E oracle/stress policy — force missing cores when seeded."""
+    from .seeded_core_stress_policy import seeded_core_buy_override
+    return _greedy(obs, mask, rng, 0.0, buy_override=seeded_core_buy_override)
+
+
 def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
             level_bias: float,
-            buy_scorer: Optional[Callable[[Dict, int], float]] = None) -> int:
+            buy_scorer: Optional[Callable[[Dict, int], float]] = None,
+            buy_override: Optional[Callable[[Dict, List[bool], List[int]],
+                                            Optional[int]]] = None) -> int:
     if buy_scorer is None:
         from .build_aware_policy import raw_stat_buy_score
         buy_scorer = raw_stat_buy_score
@@ -671,11 +680,20 @@ def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
     if mask[A_LEVEL] and obs["tavern_tier"] < target - 0.45:
         return A_LEVEL
     buys = [i for i in range(len(obs["shop"])) if mask[A_BUY0 + i]]
-    if buys and len(obs["board"]) + len(obs["hand"]) < MAX_BOARD + 1:
-        return A_BUY0 + max(buys, key=lambda i: buy_scorer(obs, i))
+    if buys:
+        if buy_override is not None:
+            pick = buy_override(obs, mask, buys)
+            if pick is not None:
+                return A_BUY0 + pick
+        if len(obs["board"]) + len(obs["hand"]) < MAX_BOARD + 1:
+            return A_BUY0 + max(buys, key=lambda i: buy_scorer(obs, i))
     # Board full: upgrade — sell the weakest if the best shop minion beats it.
     if buys and len(obs["board"]) >= MAX_BOARD:
-        best = max(buys, key=lambda i: buy_scorer(obs, i))
+        if buy_override is not None:
+            pick = buy_override(obs, mask, buys)
+            best = pick if pick is not None else max(buys, key=lambda i: buy_scorer(obs, i))
+        else:
+            best = max(buys, key=lambda i: buy_scorer(obs, i))
         bval = buy_scorer(obs, best)
         weakest = min(range(len(obs["board"])),
                       key=lambda i: (obs["board"][i].get("attack") or 0)
