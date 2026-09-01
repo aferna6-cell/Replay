@@ -1,0 +1,2766 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2C composition assembly diagnostic",
+  "simulator_version": "Simulator v1.1",
+  "measurement_only": true,
+  "code_commit": "36353d3fb808be0ee984c51e2e5614831c608592",
+  "working_tree_clean": true,
+  "contract": {
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version": "Simulator v1.1",
+    "scaling_mode": "residual",
+    "simulator_module": "hsbg_coach.bg_env.BGEnv",
+    "code_commit": "36353d3fb808be0ee984c51e2e5614831c608592",
+    "runtime": {
+      "python_version": "3.12.3",
+      "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+      "torch_version": "2.13.0+cpu",
+      "numpy_version": "2.4.4",
+      "torch_device": "cpu",
+      "torch_cuda_available": false
+    },
+    "environment": {
+      "env": "hsbg_coach.bg_env.BGEnv",
+      "n_players": 8,
+      "field_size": 7,
+      "agent_seat": 0,
+      "n_actions": 28,
+      "max_turns": 20,
+      "max_decisions": 400
+    },
+    "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+    "reference_data_fingerprints": {
+      "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "firestone_final_boards": "3cf54f5ddef2ef1b2158f4acc9a7d0cd600c1914799b79f0e28ce4c0bac80801",
+      "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+      "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+      "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+      "bg_cards": "6abca24b83b620acb4237d4799842121295818c52ea6633cc0dca42e1908845f",
+      "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+    },
+    "reference_metadata": {
+      "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+      "_fetched": "2026-09-01",
+      "_mmr": 10,
+      "_period": "past-seven",
+      "_heroDataPoints": 58561,
+      "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+    },
+    "evaluation": {
+      "policy": "greedy",
+      "lobbies": 200,
+      "base_seed": 0,
+      "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
+    },
+    "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+    "parent_simulator_version": "Simulator v1",
+    "working_tree_clean": true
+  },
+  "runtime_seconds": 134.52,
+  "n_lobbies": 200,
+  "n_events": 80563,
+  "real_final_winner_coverage_mean": 0.7658788248610255,
+  "sim_final_winner_coverage_mean": 0.00854456420206345,
+  "diagnostic": {
+    "n_lobbies": 200,
+    "n_archetypes": 19,
+    "n_events": 80563,
+    "sim_final_winner_coverage_mean": 0.00854456420206345,
+    "sim_final_winner_coverage_median": 0.0,
+    "by_archetype": {
+      "naga_end_of_turn": {
+        "name": "Naga End Of Turn",
+        "tribe": "Naga",
+        "board_count": 609,
+        "core_cards": [
+          "Fauna Whisperer",
+          "Balinda Stonehearth",
+          "Gatekeeper Amalgam",
+          "Drakkari Enchanter",
+          "Felfire Conjurer",
+          "Torrential Ruiner",
+          "Seafloor Recruiter",
+          "Tranquil Meditative",
+          "Groundbreaker",
+          "Warpwing",
+          "Leeroy the Reckless",
+          "Abyssal Bruiser"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "A_IMPOSSIBLE": 80,
+          "B_AVAILABLE_NOT_BOUGHT": 118,
+          "C_BOUGHT_NOT_RETAINED": 2
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 7.72,
+          "pct_lobbies_2plus_core_offered": 0.065,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "5": 738,
+            "6": 368,
+            "4": 438
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0013651877133105802,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.01,
+          "mean_final_core_pieces_winner": 0.01,
+          "mean_final_coverage_winner": 0.00047647890167575204,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Seafloor Recruiter",
+            "bought_instead": "Greenskeeper",
+            "count": 1,
+            "mean_stat_delta": 4,
+            "example": {
+              "turn": 7,
+              "seat": 2,
+              "core_offered": "Seafloor Recruiter",
+              "core_stats": 8,
+              "bought_instead": "Greenskeeper",
+              "bought_stats": 12,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Seafloor Recruiter",
+            "bought_instead": "Golem Archivist",
+            "count": 1,
+            "mean_stat_delta": 0,
+            "example": {
+              "turn": 7,
+              "seat": 2,
+              "core_offered": "Seafloor Recruiter",
+              "core_stats": 8,
+              "bought_instead": "Golem Archivist",
+              "bought_stats": 8,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Drakkari Enchanter",
+            "bought_instead": "Timewarped Nine Frogs",
+            "count": 1,
+            "mean_stat_delta": 18,
+            "example": {
+              "turn": 9,
+              "seat": 7,
+              "core_offered": "Drakkari Enchanter",
+              "core_stats": 6,
+              "bought_instead": "Timewarped Nine Frogs",
+              "bought_stats": 24,
+              "bought_tier": 5,
+              "core_tier": 5
+            }
+          },
+          {
+            "core_offered": "Tranquil Meditative",
+            "bought_instead": "Totally Normal Horse",
+            "count": 1,
+            "mean_stat_delta": 89,
+            "example": {
+              "turn": 11,
+              "seat": 4,
+              "core_offered": "Tranquil Meditative",
+              "core_stats": 11,
+              "bought_instead": "Totally Normal Horse",
+              "bought_stats": 100,
+              "bought_tier": 1,
+              "core_tier": 5
+            }
+          },
+          {
+            "core_offered": "Tranquil Meditative",
+            "bought_instead": "Timewarped Probius",
+            "count": 1,
+            "mean_stat_delta": 8,
+            "example": {
+              "turn": 11,
+              "seat": 4,
+              "core_offered": "Tranquil Meditative",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Probius",
+              "bought_stats": 19,
+              "bought_tier": 5,
+              "core_tier": 5
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1544,
+          "affordable": 1465,
+          "purchased": 2,
+          "played": 2,
+          "retained_2_turns": 2,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.00047647890167575204
+        }
+      },
+      "elemental_cycle": {
+        "name": "Elemental Cycle",
+        "tribe": "Elemental",
+        "board_count": 571,
+        "core_cards": [
+          "Unbound Tempest",
+          "Brann Bronzebeard",
+          "Unleashed Mana Surge",
+          "Moat Custodian",
+          "Wildfire Elemental",
+          "Tavern Tempest",
+          "Air Revenant",
+          "Leeroy the Reckless",
+          "Flaming Enforcer",
+          "Meteorite Crasher",
+          "Heroic Underdog",
+          "Kelp Keeper"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 9,
+          "B_AVAILABLE_NOT_BOUGHT": 143,
+          "A_IMPOSSIBLE": 48
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 11.515,
+          "pct_lobbies_2plus_core_offered": 0.11,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 996,
+            "5": 660,
+            "3": 607,
+            "6": 40
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.004364694471387003,
+          "play_rate_after_purchase": 0.7777777777777778,
+          "retention_rate_2plus_turns": 0.8888888888888888
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.03,
+          "mean_final_core_pieces_winner": 0.03,
+          "mean_final_coverage_winner": 0.0012841653489948047,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Wildfire Elemental",
+            "bought_instead": "Muckslinger",
+            "count": 1,
+            "mean_stat_delta": 1,
+            "example": {
+              "turn": 8,
+              "seat": 4,
+              "core_offered": "Wildfire Elemental",
+              "core_stats": 9,
+              "bought_instead": "Muckslinger",
+              "bought_stats": 10,
+              "bought_tier": 4,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2303,
+          "affordable": 2062,
+          "purchased": 9,
+          "played": 7,
+          "retained_2_turns": 8,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0012841653489948047
+        }
+      },
+      "pirate_discover": {
+        "name": "Pirate Discover",
+        "tribe": "Pirate",
+        "board_count": 568,
+        "core_cards": [
+          "Hooktusk, Master Marauder",
+          "Enterprising Escapee",
+          "Blade Collector",
+          "Leeroy the Reckless",
+          "Sky Admiral Rogers",
+          "Brann Bronzebeard",
+          "Proud Privateer",
+          "Clever Castaway",
+          "Heroic Underdog",
+          "Maritime Extortionist",
+          "Deadly Spore",
+          "Sin'dorei Straight Shot"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 8,
+          "B_AVAILABLE_NOT_BOUGHT": 159,
+          "A_IMPOSSIBLE": 33
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 13.34,
+          "pct_lobbies_2plus_core_offered": 0.155,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 1297,
+            "5": 609,
+            "3": 690,
+            "6": 72
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0033514872224549644,
+          "play_rate_after_purchase": 0.875,
+          "retention_rate_2plus_turns": 0.875
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.03,
+          "mean_final_core_pieces_winner": 0.025,
+          "mean_final_coverage_winner": 0.0006453588048003919,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Deadly Spore",
+            "bought_instead": "Timewarped Calligrapher",
+            "count": 1,
+            "mean_stat_delta": 24,
+            "example": {
+              "turn": 9,
+              "seat": 7,
+              "core_offered": "Deadly Spore",
+              "core_stats": 2,
+              "bought_instead": "Timewarped Calligrapher",
+              "bought_stats": 26,
+              "bought_tier": 5,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Deadly Spore",
+            "bought_instead": "Timewarped Guard",
+            "count": 1,
+            "mean_stat_delta": 13,
+            "example": {
+              "turn": 9,
+              "seat": 7,
+              "core_offered": "Deadly Spore",
+              "core_stats": 2,
+              "bought_instead": "Timewarped Guard",
+              "bought_stats": 15,
+              "bought_tier": 3,
+              "core_tier": 3
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2668,
+          "affordable": 2387,
+          "purchased": 8,
+          "played": 7,
+          "retained_2_turns": 7,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0006453588048003919
+        }
+      },
+      "demon_boost_shop": {
+        "name": "Demon Boost Shop",
+        "tribe": "Demon",
+        "board_count": 548,
+        "core_cards": [
+          "Devilish Distractor",
+          "Felboar",
+          "Balinda Stonehearth",
+          "Imp-lusionist",
+          "Brann Bronzebeard",
+          "Twisted Wrathguard",
+          "Leeroy the Reckless",
+          "Insatiable Ur'zul",
+          "Heroic Underdog",
+          "Titus Rivendare",
+          "Ashen Corruptor",
+          "Sin'dorei Straight Shot"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 8,
+          "B_AVAILABLE_NOT_BOUGHT": 158,
+          "A_IMPOSSIBLE": 34
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 12.43,
+          "pct_lobbies_2plus_core_offered": 0.125,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 1031,
+            "6": 200,
+            "5": 1255
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0034438226431338786,
+          "play_rate_after_purchase": 0.875,
+          "retention_rate_2plus_turns": 0.875
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.03,
+          "mean_final_core_pieces_winner": 0.025,
+          "mean_final_coverage_winner": 0.0005577360049576534,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Sin'dorei Straight Shot",
+            "bought_instead": "Ticket Collector",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 8,
+              "seat": 0,
+              "core_offered": "Sin'dorei Straight Shot",
+              "core_stats": 7,
+              "bought_instead": "Ticket Collector",
+              "bought_stats": 12,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Sin'dorei Straight Shot",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 7,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Sin'dorei Straight Shot",
+              "core_stats": 7,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2486,
+          "affordable": 2323,
+          "purchased": 8,
+          "played": 7,
+          "retained_2_turns": 7,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0005577360049576534
+        }
+      },
+      "murloc_handbuff": {
+        "name": "Murloc Handbuff",
+        "tribe": "Murloc",
+        "board_count": 326,
+        "core_cards": [
+          "Diremuck Forager",
+          "Choral Mrrrglr",
+          "Bile Spitter",
+          "Expert Aviator",
+          "Costume Enthusiast",
+          "Brann Bronzebeard",
+          "Shamanic Tidecaller",
+          "Leeroy the Reckless",
+          "Twilight Tidehunter",
+          "Balinda Stonehearth",
+          "Kelp Keeper",
+          "Captain Cookie"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "B_AVAILABLE_NOT_BOUGHT": 117,
+          "C_BOUGHT_NOT_RETAINED": 4,
+          "A_IMPOSSIBLE": 79
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 7.32,
+          "pct_lobbies_2plus_core_offered": 0.03,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "2": 347,
+            "4": 201,
+            "6": 200,
+            "5": 716
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0030721966205837174,
+          "play_rate_after_purchase": 0.75,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.015,
+          "mean_final_core_pieces_winner": 0.015,
+          "mean_final_coverage_winner": 0.001463667820069204,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Diremuck Forager",
+            "bought_instead": "Timewarped Nalaa",
+            "count": 2,
+            "mean_stat_delta": 13,
+            "example": {
+              "turn": 9,
+              "seat": 6,
+              "core_offered": "Diremuck Forager",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Nalaa",
+              "bought_stats": 24,
+              "bought_tier": 5,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Expert Aviator",
+            "bought_instead": "Harvest Golem",
+            "count": 1,
+            "mean_stat_delta": -2,
+            "example": {
+              "turn": 5,
+              "seat": 2,
+              "core_offered": "Expert Aviator",
+              "core_stats": 7,
+              "bought_instead": "Harvest Golem",
+              "bought_stats": 5,
+              "bought_tier": 2,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Expert Aviator",
+            "bought_instead": "Tea Master Theotar",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 3,
+              "seat": 6,
+              "core_offered": "Expert Aviator",
+              "core_stats": 7,
+              "bought_instead": "Tea Master Theotar",
+              "bought_stats": 12,
+              "bought_tier": 2,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Expert Aviator",
+            "bought_instead": "Timewarped Arm",
+            "count": 1,
+            "mean_stat_delta": 9,
+            "example": {
+              "turn": 8,
+              "seat": 5,
+              "core_offered": "Expert Aviator",
+              "core_stats": 7,
+              "bought_instead": "Timewarped Arm",
+              "bought_stats": 16,
+              "bought_tier": 3,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Expert Aviator",
+            "bought_instead": "Timewarped Kil'rek",
+            "count": 1,
+            "mean_stat_delta": 4,
+            "example": {
+              "turn": 8,
+              "seat": 3,
+              "core_offered": "Expert Aviator",
+              "core_stats": 7,
+              "bought_instead": "Timewarped Kil'rek",
+              "bought_stats": 11,
+              "bought_tier": 3,
+              "core_tier": 2
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1464,
+          "affordable": 1302,
+          "purchased": 4,
+          "played": 3,
+          "retained_2_turns": 4,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.001463667820069204
+        }
+      },
+      "mech_magnet": {
+        "name": "Mech Magnet",
+        "tribe": "Mech",
+        "board_count": 270,
+        "core_cards": [
+          "Drone Duplicator",
+          "Spark Snapper",
+          "Polarizing Beatboxer",
+          "Utility Drone",
+          "Glambot",
+          "Scrap Scraper",
+          "Deflect-o-Bot",
+          "Drakkari Enchanter",
+          "Balinda Stonehearth",
+          "Rescue Bot",
+          "Leeroy the Reckless",
+          "Titus Rivendare"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "A_IMPOSSIBLE": 79,
+          "B_AVAILABLE_NOT_BOUGHT": 121
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 7.72,
+          "pct_lobbies_2plus_core_offered": 0.06,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "3": 402,
+            "5": 908,
+            "6": 234
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0,
+          "play_rate_after_purchase": 0.0,
+          "retention_rate_2plus_turns": 0.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0,
+          "mean_final_core_pieces_winner": 0,
+          "mean_final_coverage_winner": 0.0,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Deflect-o-Bot",
+            "bought_instead": "Virmen Sensei",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 8,
+              "seat": 5,
+              "core_offered": "Deflect-o-Bot",
+              "core_stats": 5,
+              "bought_instead": "Virmen Sensei",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Utility Drone",
+            "bought_instead": "Totally Normal Horse",
+            "count": 1,
+            "mean_stat_delta": 90,
+            "example": {
+              "turn": 12,
+              "seat": 3,
+              "core_offered": "Utility Drone",
+              "core_stats": 10,
+              "bought_instead": "Totally Normal Horse",
+              "bought_stats": 100,
+              "bought_tier": 1,
+              "core_tier": 6
+            }
+          },
+          {
+            "core_offered": "Utility Drone",
+            "bought_instead": "Nightbane, Ignited",
+            "count": 1,
+            "mean_stat_delta": 14,
+            "example": {
+              "turn": 12,
+              "seat": 3,
+              "core_offered": "Utility Drone",
+              "core_stats": 10,
+              "bought_instead": "Nightbane, Ignited",
+              "bought_stats": 24,
+              "bought_tier": 6,
+              "core_tier": 6
+            }
+          },
+          {
+            "core_offered": "Drakkari Enchanter",
+            "bought_instead": "Timewarped Nine Frogs",
+            "count": 1,
+            "mean_stat_delta": 18,
+            "example": {
+              "turn": 9,
+              "seat": 7,
+              "core_offered": "Drakkari Enchanter",
+              "core_stats": 6,
+              "bought_instead": "Timewarped Nine Frogs",
+              "bought_stats": 24,
+              "bought_tier": 5,
+              "core_tier": 5
+            }
+          },
+          {
+            "core_offered": "Drakkari Enchanter",
+            "bought_instead": "Totally Normal Horse",
+            "count": 1,
+            "mean_stat_delta": 94,
+            "example": {
+              "turn": 11,
+              "seat": 5,
+              "core_offered": "Drakkari Enchanter",
+              "core_stats": 6,
+              "bought_instead": "Totally Normal Horse",
+              "bought_stats": 100,
+              "bought_tier": 1,
+              "core_tier": 5
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1544,
+          "affordable": 1442,
+          "purchased": 0,
+          "played": 0,
+          "retained_2_turns": 0,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0
+        }
+      },
+      "undead_butcher": {
+        "name": "Undead Butcher",
+        "tribe": "Undead",
+        "board_count": 215,
+        "core_cards": [
+          "Drustfallen Butcher",
+          "Snazzy Phantom",
+          "Handless Forsaken",
+          "Mummifier",
+          "Dead Bellringer",
+          "Deathly Striker",
+          "Friendly Geist",
+          "Barrier Banshee",
+          "Eternal Summoner",
+          "Risen Rider",
+          "Forsaken Weaver",
+          "Leeroy the Reckless"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "A_IMPOSSIBLE": 85,
+          "B_AVAILABLE_NOT_BOUGHT": 112,
+          "C_BOUGHT_NOT_RETAINED": 3
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 9.015,
+          "pct_lobbies_2plus_core_offered": 0.085,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "1": 501,
+            "3": 619,
+            "5": 350,
+            "4": 139,
+            "6": 194
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0020408163265306124,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.015,
+          "mean_final_core_pieces_winner": 0.015,
+          "mean_final_coverage_winner": 0.0018207094918504315,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Risen Rider",
+            "bought_instead": "Possessive Banshee",
+            "count": 1,
+            "mean_stat_delta": 6,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Risen Rider",
+              "core_stats": 3,
+              "bought_instead": "Possessive Banshee",
+              "bought_stats": 9,
+              "bought_tier": 4,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Risen Rider",
+            "bought_instead": "Crowd Favorite",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Risen Rider",
+              "core_stats": 3,
+              "bought_instead": "Crowd Favorite",
+              "bought_stats": 8,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Risen Rider",
+            "bought_instead": "Barrens Blacksmith",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Risen Rider",
+              "core_stats": 3,
+              "bought_instead": "Barrens Blacksmith",
+              "bought_stats": 8,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Risen Rider",
+            "bought_instead": "Sous Chef",
+            "count": 1,
+            "mean_stat_delta": 4,
+            "example": {
+              "turn": 1,
+              "seat": 3,
+              "core_offered": "Risen Rider",
+              "core_stats": 3,
+              "bought_instead": "Sous Chef",
+              "bought_stats": 7,
+              "bought_tier": 1,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Risen Rider",
+            "bought_instead": "Shield of the Legion",
+            "count": 1,
+            "mean_stat_delta": 7,
+            "example": {
+              "turn": 1,
+              "seat": 6,
+              "core_offered": "Risen Rider",
+              "core_stats": 3,
+              "bought_instead": "Shield of the Legion",
+              "bought_stats": 10,
+              "bought_tier": 1,
+              "core_tier": 1
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1803,
+          "affordable": 1470,
+          "purchased": 3,
+          "played": 3,
+          "retained_2_turns": 3,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0018207094918504315
+        }
+      },
+      "beast_lobster": {
+        "name": "Beast Lobster",
+        "tribe": "Beast",
+        "board_count": 205,
+        "core_cards": [
+          "Deathstrider",
+          "Titus Rivendare",
+          "Tasty Lobster",
+          "Headhunter Gryphon",
+          "Hoarding Hyena",
+          "Sin'dorei Straight Shot",
+          "Lurking Lionfish",
+          "Ravaging Scorpid",
+          "Wolf Pup",
+          "Leeroy the Reckless",
+          "Drakkari Enchanter",
+          "Fish of N'Zoth"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "B_AVAILABLE_NOT_BOUGHT": 139,
+          "C_BOUGHT_NOT_RETAINED": 3,
+          "A_IMPOSSIBLE": 58
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 8.985,
+          "pct_lobbies_2plus_core_offered": 0.05,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "1": 512,
+            "5": 786,
+            "4": 499
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0019280205655526992,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.015,
+          "mean_final_core_pieces_winner": 0.01,
+          "mean_final_coverage_winner": 0.00036050798852929123,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Fish of N'Zoth",
+            "bought_instead": "Akali, Rock Rhino",
+            "count": 2,
+            "mean_stat_delta": 8,
+            "example": {
+              "turn": 9,
+              "seat": 1,
+              "core_offered": "Fish of N'Zoth",
+              "core_stats": 4,
+              "bought_instead": "Akali, Rock Rhino",
+              "bought_stats": 12,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Sin'dorei Straight Shot",
+            "bought_instead": "Ticket Collector",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 8,
+              "seat": 0,
+              "core_offered": "Sin'dorei Straight Shot",
+              "core_stats": 7,
+              "bought_instead": "Ticket Collector",
+              "bought_stats": 12,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Sin'dorei Straight Shot",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 7,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Sin'dorei Straight Shot",
+              "core_stats": 7,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Sin'dorei Straight Shot",
+            "bought_instead": "Thorncaller",
+            "count": 1,
+            "mean_stat_delta": 0,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Sin'dorei Straight Shot",
+              "core_stats": 7,
+              "bought_instead": "Thorncaller",
+              "bought_stats": 7,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Fish of N'Zoth",
+            "bought_instead": "Ticking Abomination",
+            "count": 1,
+            "mean_stat_delta": 7,
+            "example": {
+              "turn": 1,
+              "seat": 1,
+              "core_offered": "Fish of N'Zoth",
+              "core_stats": 4,
+              "bought_instead": "Ticking Abomination",
+              "bought_stats": 11,
+              "bought_tier": 1,
+              "core_tier": 1
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1797,
+          "affordable": 1556,
+          "purchased": 3,
+          "played": 3,
+          "retained_2_turns": 3,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.00036050798852929123
+        }
+      },
+      "dragon_evoker": {
+        "name": "Dragon Evoker",
+        "tribe": "Dragon",
+        "board_count": 205,
+        "core_cards": [
+          "Persistent Poet",
+          "Warpwing",
+          "Fire-forged Evoker",
+          "Crimson Vindicator",
+          "Brann Bronzebeard",
+          "Leeroy the Reckless",
+          "Runic Arcanist",
+          "Felfire Conjurer",
+          "Amber Guardian",
+          "Bronze Timewalker",
+          "Thousandth Paper Drake",
+          "Heroic Underdog"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 6,
+          "B_AVAILABLE_NOT_BOUGHT": 142,
+          "A_IMPOSSIBLE": 52
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 11.525,
+          "pct_lobbies_2plus_core_offered": 0.12,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 757,
+            "2": 444,
+            "5": 621,
+            "6": 152,
+            "3": 331
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0029835902536051715,
+          "play_rate_after_purchase": 0.8333333333333334,
+          "retention_rate_2plus_turns": 0.8333333333333334
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.02,
+          "mean_final_core_pieces_winner": 0.015,
+          "mean_final_coverage_winner": 0.0003172205438066466,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Thousandth Paper Drake",
+            "bought_instead": "Imperial Defender",
+            "count": 1,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 4,
+              "core_offered": "Thousandth Paper Drake",
+              "core_stats": 5,
+              "bought_instead": "Imperial Defender",
+              "bought_stats": 7,
+              "bought_tier": 3,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2305,
+          "affordable": 2011,
+          "purchased": 6,
+          "played": 5,
+          "retained_2_turns": 5,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0003172205438066466
+        }
+      },
+      "neutral_tea_set": {
+        "name": "Neutral Tea Set",
+        "tribe": null,
+        "board_count": 174,
+        "core_cards": [
+          "Gatekeeper Amalgam",
+          "Balinda Stonehearth",
+          "Brann Bronzebeard",
+          "Fauna Whisperer",
+          "Felfire Conjurer",
+          "Warpwing",
+          "Tranquil Meditative",
+          "Leeroy the Reckless",
+          "Enterprising Escapee",
+          "Felboar",
+          "Captain Cookie",
+          "Heroic Underdog"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 5,
+          "B_AVAILABLE_NOT_BOUGHT": 134,
+          "A_IMPOSSIBLE": 61
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 8.855,
+          "pct_lobbies_2plus_core_offered": 0.06,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 532,
+            "5": 935,
+            "6": 304
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0029940119760479044,
+          "play_rate_after_purchase": 0.8,
+          "retention_rate_2plus_turns": 0.8
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.015,
+          "mean_final_core_pieces_winner": 0.015,
+          "mean_final_coverage_winner": 0.00038174176978753206,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Expert Technician",
+            "count": 1,
+            "mean_stat_delta": -5,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Expert Technician",
+              "bought_stats": 6,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1771,
+          "affordable": 1670,
+          "purchased": 5,
+          "played": 4,
+          "retained_2_turns": 4,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.00038174176978753206
+        }
+      },
+      "beast_leviathan": {
+        "name": "Beast Leviathan",
+        "tribe": "Beast",
+        "board_count": 122,
+        "core_cards": [
+          "Banana Slamma",
+          "Ravaging Scorpid",
+          "Turquoise Skitterer",
+          "Sewer Lord",
+          "Lurking Leviathan",
+          "Leeroy the Reckless",
+          "Headhunter Gryphon",
+          "Buzzing Vermin",
+          "Titus Rivendare",
+          "Forest Rover",
+          "Goldrinn, the Great Wolf",
+          "Fish of N'Zoth"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "B_AVAILABLE_NOT_BOUGHT": 122,
+          "A_IMPOSSIBLE": 77,
+          "C_BOUGHT_NOT_RETAINED": 1
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 13.045,
+          "pct_lobbies_2plus_core_offered": 0.2,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "1": 995,
+            "4": 272,
+            "5": 969,
+            "2": 331,
+            "6": 42
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0004701457451810061,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.005,
+          "mean_final_core_pieces_winner": 0.005,
+          "mean_final_coverage_winner": 0.0011262520382017236,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Fish of N'Zoth",
+            "bought_instead": "Akali, Rock Rhino",
+            "count": 2,
+            "mean_stat_delta": 8,
+            "example": {
+              "turn": 9,
+              "seat": 1,
+              "core_offered": "Fish of N'Zoth",
+              "core_stats": 4,
+              "bought_instead": "Akali, Rock Rhino",
+              "bought_stats": 12,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Banana Slamma",
+            "bought_instead": "Timewarped Zerus",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 8,
+              "seat": 0,
+              "core_offered": "Banana Slamma",
+              "core_stats": 9,
+              "bought_instead": "Timewarped Zerus",
+              "bought_stats": 12,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Buzzing Vermin",
+            "bought_instead": "Eagill",
+            "count": 1,
+            "mean_stat_delta": 6,
+            "example": {
+              "turn": 7,
+              "seat": 4,
+              "core_offered": "Buzzing Vermin",
+              "core_stats": 2,
+              "bought_instead": "Eagill",
+              "bought_stats": 8,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Buzzing Vermin",
+            "bought_instead": "Poetic Pen Pal",
+            "count": 1,
+            "mean_stat_delta": 4,
+            "example": {
+              "turn": 7,
+              "seat": 4,
+              "core_offered": "Buzzing Vermin",
+              "core_stats": 2,
+              "bought_instead": "Poetic Pen Pal",
+              "bought_stats": 6,
+              "bought_tier": 2,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Buzzing Vermin",
+            "bought_instead": "Spirit Raptor",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 4,
+              "core_offered": "Buzzing Vermin",
+              "core_stats": 2,
+              "bought_instead": "Spirit Raptor",
+              "bought_stats": 5,
+              "bought_tier": 1,
+              "core_tier": 1
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2609,
+          "affordable": 2127,
+          "purchased": 1,
+          "played": 1,
+          "retained_2_turns": 1,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0011262520382017236
+        }
+      },
+      "dragon_kalecgos": {
+        "name": "Dragon Kalecgos",
+        "tribe": "Dragon",
+        "board_count": 114,
+        "core_cards": [
+          "Warpwing",
+          "Kalecgos, Arcane Aspect",
+          "Brann Bronzebeard",
+          "Persistent Poet",
+          "Bronze Timewalker",
+          "Crimson Vindicator",
+          "Sky-hatch Runaway",
+          "Leeroy the Reckless",
+          "Amber Guardian",
+          "Fire-forged Evoker",
+          "Draconic Warden",
+          "Thousandth Paper Drake"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "A_IMPOSSIBLE": 81,
+          "B_AVAILABLE_NOT_BOUGHT": 118,
+          "C_BOUGHT_NOT_RETAINED": 1
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 9.815,
+          "pct_lobbies_2plus_core_offered": 0.085,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "2": 444,
+            "5": 811,
+            "4": 225,
+            "6": 152,
+            "3": 331
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0005787037037037037,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.005,
+          "mean_final_core_pieces_winner": 0,
+          "mean_final_coverage_winner": 0.0,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Thousandth Paper Drake",
+            "bought_instead": "Imperial Defender",
+            "count": 1,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 4,
+              "core_offered": "Thousandth Paper Drake",
+              "core_stats": 5,
+              "bought_instead": "Imperial Defender",
+              "bought_stats": 7,
+              "bought_tier": 3,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Thousandth Paper Drake",
+            "bought_instead": "Heroic Underdog",
+            "count": 1,
+            "mean_stat_delta": 6,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Thousandth Paper Drake",
+              "core_stats": 5,
+              "bought_instead": "Heroic Underdog",
+              "bought_stats": 11,
+              "bought_tier": 4,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Thousandth Paper Drake",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Thousandth Paper Drake",
+              "core_stats": 5,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Thousandth Paper Drake",
+            "bought_instead": "Expert Technician",
+            "count": 1,
+            "mean_stat_delta": 1,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Thousandth Paper Drake",
+              "core_stats": 5,
+              "bought_instead": "Expert Technician",
+              "bought_stats": 6,
+              "bought_tier": 4,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Amber Guardian",
+            "bought_instead": "Zippers",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Amber Guardian",
+              "core_stats": 5,
+              "bought_instead": "Zippers",
+              "bought_stats": 10,
+              "bought_tier": 4,
+              "core_tier": 3
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 1963,
+          "affordable": 1728,
+          "purchased": 1,
+          "played": 1,
+          "retained_2_turns": 1,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0
+        }
+      },
+      "beast_beetle": {
+        "name": "Beast Beetle",
+        "tribe": "Beast",
+        "board_count": 110,
+        "core_cards": [
+          "Banana Slamma",
+          "Ravaging Scorpid",
+          "Turquoise Skitterer",
+          "Forest Rover",
+          "Buzzing Vermin",
+          "Headhunter Gryphon",
+          "Leeroy the Reckless",
+          "Deathstrider",
+          "Titus Rivendare",
+          "Boom-in-a-Box",
+          "Sin'dorei Straight Shot",
+          "Sewer Lord"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "B_AVAILABLE_NOT_BOUGHT": 140,
+          "C_BOUGHT_NOT_RETAINED": 4,
+          "A_IMPOSSIBLE": 56
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 12.135,
+          "pct_lobbies_2plus_core_offered": 0.125,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 771,
+            "1": 483,
+            "2": 331,
+            "5": 842
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0019445794846864365,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.02,
+          "mean_final_core_pieces_winner": 0.015,
+          "mean_final_coverage_winner": 0.0011327701970976825,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Banana Slamma",
+            "bought_instead": "Timewarped Zerus",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 8,
+              "seat": 0,
+              "core_offered": "Banana Slamma",
+              "core_stats": 9,
+              "bought_instead": "Timewarped Zerus",
+              "bought_stats": 12,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Buzzing Vermin",
+            "bought_instead": "Eagill",
+            "count": 1,
+            "mean_stat_delta": 6,
+            "example": {
+              "turn": 7,
+              "seat": 4,
+              "core_offered": "Buzzing Vermin",
+              "core_stats": 2,
+              "bought_instead": "Eagill",
+              "bought_stats": 8,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Buzzing Vermin",
+            "bought_instead": "Poetic Pen Pal",
+            "count": 1,
+            "mean_stat_delta": 4,
+            "example": {
+              "turn": 7,
+              "seat": 4,
+              "core_offered": "Buzzing Vermin",
+              "core_stats": 2,
+              "bought_instead": "Poetic Pen Pal",
+              "bought_stats": 6,
+              "bought_tier": 2,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Buzzing Vermin",
+            "bought_instead": "Spirit Raptor",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 4,
+              "core_offered": "Buzzing Vermin",
+              "core_stats": 2,
+              "bought_instead": "Spirit Raptor",
+              "bought_stats": 5,
+              "bought_tier": 1,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Sin'dorei Straight Shot",
+            "bought_instead": "Ticket Collector",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 8,
+              "seat": 0,
+              "core_offered": "Sin'dorei Straight Shot",
+              "core_stats": 7,
+              "bought_instead": "Ticket Collector",
+              "bought_stats": 12,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2427,
+          "affordable": 2057,
+          "purchased": 4,
+          "played": 4,
+          "retained_2_turns": 4,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0011327701970976825
+        }
+      },
+      "naga_groundbreaker": {
+        "name": "Naga Groundbreaker",
+        "tribe": "Naga",
+        "board_count": 83,
+        "core_cards": [
+          "Groundbreaker",
+          "Seafloor Recruiter",
+          "Balinda Stonehearth",
+          "Cagey Conjurer",
+          "Glowscale",
+          "Leeroy the Reckless",
+          "Darkcrest Strategist",
+          "Torrential Ruiner",
+          "Abyssal Bruiser",
+          "Heroic Underdog",
+          "Brann Bronzebeard",
+          "Showy Cyclist"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 7,
+          "B_AVAILABLE_NOT_BOUGHT": 135,
+          "A_IMPOSSIBLE": 58
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 10.255,
+          "pct_lobbies_2plus_core_offered": 0.1,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 970,
+            "5": 865,
+            "6": 216
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.003668763102725367,
+          "play_rate_after_purchase": 0.8571428571428571,
+          "retention_rate_2plus_turns": 0.8571428571428571
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.025,
+          "mean_final_core_pieces_winner": 0.025,
+          "mean_final_coverage_winner": 0.002463753523962948,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Expert Technician",
+            "count": 1,
+            "mean_stat_delta": -5,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Expert Technician",
+              "bought_stats": 6,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2051,
+          "affordable": 1908,
+          "purchased": 7,
+          "played": 6,
+          "retained_2_turns": 6,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.002463753523962948
+        }
+      },
+      "quilboar_choose_one": {
+        "name": "Quilboar Choose One",
+        "tribe": "Quilboar",
+        "board_count": 78,
+        "core_cards": [
+          "Turbo Hogrider",
+          "Bramble Tunneler",
+          "Gem Rat",
+          "Sanguine Refiner",
+          "Vigilant Bristlemane",
+          "Balinda Stonehearth",
+          "Sanguine Champion",
+          "Felboar",
+          "Leeroy the Reckless",
+          "Heroic Underdog",
+          "Thorned Trailblazer",
+          "Razorfen Vineweaver"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 7,
+          "B_AVAILABLE_NOT_BOUGHT": 137,
+          "A_IMPOSSIBLE": 56
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 10.255,
+          "pct_lobbies_2plus_core_offered": 0.085,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 814,
+            "5": 620,
+            "6": 288,
+            "3": 329
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0036978341257263604,
+          "play_rate_after_purchase": 0.8571428571428571,
+          "retention_rate_2plus_turns": 0.8571428571428571
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.025,
+          "mean_final_core_pieces_winner": 0.025,
+          "mean_final_coverage_winner": 0.0012797551575606438,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Expert Technician",
+            "count": 1,
+            "mean_stat_delta": -5,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Expert Technician",
+              "bought_stats": 6,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2051,
+          "affordable": 1893,
+          "purchased": 7,
+          "played": 6,
+          "retained_2_turns": 6,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0012797551575606438
+        }
+      },
+      "murloc_mrrglton": {
+        "name": "Murloc Mrrglton",
+        "tribe": "Murloc",
+        "board_count": 61,
+        "core_cards": [
+          "Brann Bronzebeard",
+          "Cousin Errgl",
+          "Kelp Keeper",
+          "Papa Mrrglton",
+          "Mama Mrrglton",
+          "Bile Spitter",
+          "Drakkari Enchanter",
+          "Diremuck Forager",
+          "Primalfin Lookout",
+          "Expert Aviator",
+          "Leeroy the Reckless",
+          "Choral Mrrrglr"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "B_AVAILABLE_NOT_BOUGHT": 125,
+          "C_BOUGHT_NOT_RETAINED": 8,
+          "A_IMPOSSIBLE": 67
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 11.53,
+          "pct_lobbies_2plus_core_offered": 0.135,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "2": 347,
+            "4": 201,
+            "3": 599,
+            "6": 48,
+            "5": 1111
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0039662865642042635,
+          "play_rate_after_purchase": 0.875,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.035,
+          "mean_final_core_pieces_winner": 0.035,
+          "mean_final_coverage_winner": 0.002388018936635106,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Diremuck Forager",
+            "bought_instead": "Timewarped Nalaa",
+            "count": 2,
+            "mean_stat_delta": 13,
+            "example": {
+              "turn": 9,
+              "seat": 6,
+              "core_offered": "Diremuck Forager",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Nalaa",
+              "bought_stats": 24,
+              "bought_tier": 5,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Papa Mrrglton",
+            "bought_instead": "Merciless Mammoth",
+            "count": 2,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Papa Mrrglton",
+              "core_stats": 8,
+              "bought_instead": "Merciless Mammoth",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Expert Aviator",
+            "bought_instead": "Harvest Golem",
+            "count": 1,
+            "mean_stat_delta": -2,
+            "example": {
+              "turn": 5,
+              "seat": 2,
+              "core_offered": "Expert Aviator",
+              "core_stats": 7,
+              "bought_instead": "Harvest Golem",
+              "bought_stats": 5,
+              "bought_tier": 2,
+              "core_tier": 2
+            }
+          },
+          {
+            "core_offered": "Mama Mrrglton",
+            "bought_instead": "Wanderer Cho",
+            "count": 1,
+            "mean_stat_delta": -1,
+            "example": {
+              "turn": 5,
+              "seat": 5,
+              "core_offered": "Mama Mrrglton",
+              "core_stats": 8,
+              "bought_instead": "Wanderer Cho",
+              "bought_stats": 7,
+              "bought_tier": 2,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Expert Aviator",
+            "bought_instead": "Tea Master Theotar",
+            "count": 1,
+            "mean_stat_delta": 5,
+            "example": {
+              "turn": 3,
+              "seat": 6,
+              "core_offered": "Expert Aviator",
+              "core_stats": 7,
+              "bought_instead": "Tea Master Theotar",
+              "bought_stats": 12,
+              "bought_tier": 2,
+              "core_tier": 2
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2306,
+          "affordable": 2017,
+          "purchased": 8,
+          "played": 7,
+          "retained_2_turns": 8,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.002388018936635106
+        }
+      },
+      "mech_automaton": {
+        "name": "Mech Automaton",
+        "tribe": "Mech",
+        "board_count": 49,
+        "core_cards": [
+          "Falling Sky Golem",
+          "Titus Rivendare",
+          "Kangor's Apprentice",
+          "Polarizing Beatboxer",
+          "Scrap Scraper",
+          "Spark Snapper",
+          "Leeroy the Reckless",
+          "Ancestral Automaton",
+          "Utility Drone",
+          "Heroic Underdog",
+          "Drone Duplicator",
+          "Auto Assembler"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 12,
+          "B_AVAILABLE_NOT_BOUGHT": 148,
+          "A_IMPOSSIBLE": 40
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 12.13,
+          "pct_lobbies_2plus_core_offered": 0.12,
+          "pct_lobbies_4plus_core_obtainable": 0.005,
+          "core_offer_rate_by_tier": {
+            "4": 812,
+            "5": 968,
+            "6": 138,
+            "2": 508
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.00557361820715281,
+          "play_rate_after_purchase": 0.9166666666666666,
+          "retention_rate_2plus_turns": 0.9166666666666666
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.05,
+          "mean_final_core_pieces_winner": 0.05,
+          "mean_final_coverage_winner": 0.002683776115553263,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Expert Technician",
+            "count": 1,
+            "mean_stat_delta": -5,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Expert Technician",
+              "bought_stats": 6,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2426,
+          "affordable": 2153,
+          "purchased": 12,
+          "played": 11,
+          "retained_2_turns": 11,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.002683776115553263
+        }
+      },
+      "demon_self_damage": {
+        "name": "Demon Self Damage",
+        "tribe": "Demon",
+        "board_count": 42,
+        "core_cards": [
+          "Wrath Weaver",
+          "Ashen Corruptor",
+          "Tichondrius",
+          "Malchezaar, Prince of Dance",
+          "Soul Rewinder",
+          "Eredar Escapist",
+          "Twisted Wrathguard",
+          "Brann Bronzebeard",
+          "Soulkeeping Jailer",
+          "Imp-lusionist",
+          "Insatiable Ur'zul",
+          "Imposing Percussionist"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "B_AVAILABLE_NOT_BOUGHT": 107,
+          "A_IMPOSSIBLE": 90,
+          "C_BOUGHT_NOT_RETAINED": 3
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 12.125,
+          "pct_lobbies_2plus_core_offered": 0.185,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "1": 653,
+            "6": 48,
+            "2": 477,
+            "5": 665,
+            "3": 383,
+            "4": 199
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.0014947683109118087,
+          "play_rate_after_purchase": 1.0,
+          "retention_rate_2plus_turns": 1.0
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.015,
+          "mean_final_core_pieces_winner": 0.015,
+          "mean_final_coverage_winner": 0.0015877777777777778,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Malchezaar, Prince of Dance",
+            "bought_instead": "Outland Sunbeam",
+            "count": 2,
+            "mean_stat_delta": 7,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Malchezaar, Prince of Dance",
+              "core_stats": 3,
+              "bought_instead": "Outland Sunbeam",
+              "bought_stats": 10,
+              "bought_tier": 4,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Malchezaar, Prince of Dance",
+            "bought_instead": "Apostle of Galakrond",
+            "count": 2,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Malchezaar, Prince of Dance",
+              "core_stats": 3,
+              "bought_instead": "Apostle of Galakrond",
+              "bought_stats": 6,
+              "bought_tier": 2,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Wrath Weaver",
+            "bought_instead": "Devilsaur",
+            "count": 1,
+            "mean_stat_delta": 11,
+            "example": {
+              "turn": 3,
+              "seat": 2,
+              "core_offered": "Wrath Weaver",
+              "core_stats": 5,
+              "bought_instead": "Devilsaur",
+              "bought_stats": 16,
+              "bought_tier": 1,
+              "core_tier": 1
+            }
+          },
+          {
+            "core_offered": "Malchezaar, Prince of Dance",
+            "bought_instead": "Amalgam Explorer",
+            "count": 1,
+            "mean_stat_delta": 1,
+            "example": {
+              "turn": 7,
+              "seat": 1,
+              "core_offered": "Malchezaar, Prince of Dance",
+              "core_stats": 3,
+              "bought_instead": "Amalgam Explorer",
+              "bought_stats": 4,
+              "bought_tier": 2,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Wrath Weaver",
+            "bought_instead": "Tardy Traveler",
+            "count": 1,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 0,
+              "core_offered": "Wrath Weaver",
+              "core_stats": 5,
+              "bought_instead": "Tardy Traveler",
+              "bought_stats": 7,
+              "bought_tier": 3,
+              "core_tier": 1
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2425,
+          "affordable": 2007,
+          "purchased": 3,
+          "played": 3,
+          "retained_2_turns": 3,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.0015877777777777778
+        }
+      },
+      "elemental_boost": {
+        "name": "Elemental Boost",
+        "tribe": "Elemental",
+        "board_count": 15,
+        "core_cards": [
+          "Unleashed Mana Surge",
+          "Moat Custodian",
+          "Unbound Tempest",
+          "Tavern Tempest",
+          "Brann Bronzebeard",
+          "Glowing Cinder",
+          "Wildfire Elemental",
+          "Meteorite Crasher",
+          "Nightmare Par-tea Guest",
+          "Heroic Underdog",
+          "Leeroy the Reckless",
+          "Elemental of Surprise"
+        ],
+        "n_lobbies": 200,
+        "classification": {
+          "C_BOUGHT_NOT_RETAINED": 8,
+          "B_AVAILABLE_NOT_BOUGHT": 141,
+          "A_IMPOSSIBLE": 51
+        },
+        "availability": {
+          "mean_core_shop_appearances_per_lobby": 12.435,
+          "pct_lobbies_2plus_core_offered": 0.17,
+          "pct_lobbies_4plus_core_obtainable": 0.0,
+          "core_offer_rate_by_tier": {
+            "4": 737,
+            "5": 738,
+            "3": 914,
+            "6": 98
+          }
+        },
+        "conversion": {
+          "purchase_rate_when_offered_affordable": 0.003585835948005379,
+          "play_rate_after_purchase": 0.875,
+          "retention_rate_2plus_turns": 0.875
+        },
+        "assembly": {
+          "mean_max_core_pieces": 0.03,
+          "mean_final_core_pieces_winner": 0.03,
+          "mean_final_coverage_winner": 0.001319299708211755,
+          "median_turn_first_2_core": null,
+          "median_turn_first_4_core": null
+        },
+        "opportunity_loss_top": [
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Siegebreaker",
+            "count": 2,
+            "mean_stat_delta": 2,
+            "example": {
+              "turn": 8,
+              "seat": 2,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Siegebreaker",
+              "bought_stats": 13,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Timewarped Pagle",
+            "count": 1,
+            "mean_stat_delta": 3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Timewarped Pagle",
+              "bought_stats": 14,
+              "bought_tier": 3,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "Corrupted Bristler",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 0,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "Corrupted Bristler",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          },
+          {
+            "core_offered": "Wildfire Elemental",
+            "bought_instead": "Muckslinger",
+            "count": 1,
+            "mean_stat_delta": 1,
+            "example": {
+              "turn": 8,
+              "seat": 4,
+              "core_offered": "Wildfire Elemental",
+              "core_stats": 9,
+              "bought_instead": "Muckslinger",
+              "bought_stats": 10,
+              "bought_tier": 4,
+              "core_tier": 3
+            }
+          },
+          {
+            "core_offered": "Heroic Underdog",
+            "bought_instead": "En-Djinn Blazer",
+            "count": 1,
+            "mean_stat_delta": -3,
+            "example": {
+              "turn": 7,
+              "seat": 6,
+              "core_offered": "Heroic Underdog",
+              "core_stats": 11,
+              "bought_instead": "En-Djinn Blazer",
+              "bought_stats": 8,
+              "bought_tier": 4,
+              "core_tier": 4
+            }
+          }
+        ],
+        "funnel": {
+          "core_in_shop": 2487,
+          "affordable": 2231,
+          "purchased": 8,
+          "played": 7,
+          "retained_2_turns": 7,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "final_coverage_mean": 0.001319299708211755
+        }
+      }
+    },
+    "recommended_phase_2d_intervention": {
+      "intervention": "build_aware_recruit_policy",
+      "phase_2d_title": "Phase 2D = build-aware recruit policy / evaluator",
+      "rationale": "Available-but-not-bought dominates (2516 lobby-archetype cases vs impossible=1185, no-payoff=0). Greedy often prefers slightly larger off-comp bodies when core pieces are offered.",
+      "failure_mode_scores": {
+        "shop_pool_fidelity": 15.424999999999997,
+        "build_aware_policy": 18.280000000000005,
+        "card_effect_fidelity": 0.0,
+        "triple_discover_fidelity": 0.0
+      },
+      "classification_totals": {
+        "A_IMPOSSIBLE": 1185,
+        "B_AVAILABLE_NOT_BOUGHT": 2516,
+        "C_BOUGHT_NOT_RETAINED": 99
+      }
+    }
+  },
+  "recommended_phase_2d_intervention": {
+    "intervention": "build_aware_recruit_policy",
+    "phase_2d_title": "Phase 2D = build-aware recruit policy / evaluator",
+    "rationale": "Available-but-not-bought dominates (2516 lobby-archetype cases vs impossible=1185, no-payoff=0). Greedy often prefers slightly larger off-comp bodies when core pieces are offered.",
+    "failure_mode_scores": {
+      "shop_pool_fidelity": 15.424999999999997,
+      "build_aware_policy": 18.280000000000005,
+      "card_effect_fidelity": 0.0,
+      "triple_discover_fidelity": 0.0
+    },
+    "classification_totals": {
+      "A_IMPOSSIBLE": 1185,
+      "B_AVAILABLE_NOT_BOUGHT": 2516,
+      "C_BOUGHT_NOT_RETAINED": 99
+    }
+  }
+}
