@@ -1,0 +1,7 @@
+{
+  "training_seed": 0,
+  "arm": "beta_sched",
+  "kl_mode": "scheduled",
+  "kl_schedule": "0.03@160,0.01@320",
+  "warm_start_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c"
+}
