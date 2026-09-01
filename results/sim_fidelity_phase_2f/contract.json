@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "5cd385359804823738b64cef4f8ffe2b26d33677",
+  "code_commit": "514c7855bec0f50619b315620774b718766012a2",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -51,7 +51,7 @@
   "working_tree_clean": true,
   "phase": "2F post-purchase core lifecycle diagnosis",
   "phase_2c_methodology_version": "2c_v3",
-  "phase_2f_methodology_version": "2f_v1",
+  "phase_2f_methodology_version": "2f_v2",
   "policy_config": {
     "policy_id": "seeded_core_stress_greedy_policy",
     "purpose": "Phase 2E oracle/stress test \u2014 not production policy",
