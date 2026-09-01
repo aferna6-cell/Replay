@@ -4,8 +4,8 @@
   "research_question": "If we force conversion of seeded core opportunities (oracle stress), do coherent compositions emerge?",
   "simulator_version": "Simulator v1.1",
   "methodology_version": "2c_v3",
-  "implementation_commit": "533ba5bde89bf95d222a445f3429cd1a1b43d840",
-  "code_commit": "533ba5bde89bf95d222a445f3429cd1a1b43d840",
+  "implementation_commit": "b33e2642b237b665bd95fc5f73b55a392f0bf25b",
+  "code_commit": "b33e2642b237b665bd95fc5f73b55a392f0bf25b",
   "working_tree_clean": true,
   "policy_config": {
     "policy_id": "seeded_core_stress_greedy_policy",
@@ -22,7 +22,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "533ba5bde89bf95d222a445f3429cd1a1b43d840",
+    "code_commit": "b33e2642b237b665bd95fc5f73b55a392f0bf25b",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -92,7 +92,7 @@
     },
     "evaluation_note": "Fresh paired seeds 1000\u20131199; seeds 0\u2013199 reserved for Phase 2C/2D."
   },
-  "runtime_seconds": 539.93,
+  "runtime_seconds": 537.29,
   "n_lobbies": 200,
   "evaluation_seed_base": 1000,
   "real_final_winner_coverage_mean": 0.7658788248610255,
