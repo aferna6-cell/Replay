@@ -38,6 +38,8 @@ def run_eval(job: dict) -> dict:
         "--json-out", job["out_json"],
     ]
     os.makedirs(os.path.dirname(job["out_json"]), exist_ok=True)
+    if os.path.isfile(job["out_json"]):
+        return {"job": job, "success": True, "skipped": True}
     t0 = time.time()
     res = subprocess.run(cmd, capture_output=True, text=True,
                          env=single_thread_env())
@@ -73,6 +75,10 @@ def run_drift(kl_label: str, seed: int) -> dict:
     else:
         print(f"[drift ok] {kl_label} seed {seed} in {time.time() - t0:.1f}s")
     return {"kl_label": kl_label, "seed": seed, "success": ok}
+
+
+def _run_drift_job(args: tuple) -> dict:
+    return run_drift(*args)
 
 
 def main() -> int:
@@ -119,7 +125,7 @@ def main() -> int:
 
     drift_jobs = [(kl, s) for kl in KL_LABELS for s in SEEDS]
     with ProcessPoolExecutor(max_workers=8) as pool:
-        drift_results = list(pool.starmap(run_drift, drift_jobs))
+        drift_results = list(pool.map(_run_drift_job, drift_jobs))
 
     all_ok = (all(r["success"] for r in eval_results)
               and all(r["success"] for r in drift_results))

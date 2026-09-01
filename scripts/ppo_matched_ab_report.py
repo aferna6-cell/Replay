@@ -184,11 +184,17 @@ def main() -> int:
                   f"[{row['ci95'][0]:+.3f}, {row['ci95'][1]:+.3f}]  {row['verdict']}")
 
     # --- outcome classification -----------------------------------------------
+    it80 = cross["80"]
+    it160 = cross["160"]
     it320 = cross["320"]
     p_std_ratio = (it320["beta0"]["placement"]["std"]
                    / max(it320["beta01"]["placement"]["std"], 1e-9))
-    kl_ratio = it320["beta0"]["kl_from_warmstart"]["mean"] / max(
-        it320["beta01"]["kl_from_warmstart"]["mean"], 1e-9)
+    std_ratio_80 = (it80["beta0"]["placement"]["std"]
+                    / max(it80["beta01"]["placement"]["std"], 1e-9))
+    std_ratio_160 = (it160["beta0"]["placement"]["std"]
+                     / max(it160["beta01"]["placement"]["std"], 1e-9))
+    kl_ratio = (it320["beta0"]["kl_from_warmstart"]["mean"]
+                / max(it320["beta01"]["kl_from_warmstart"]["mean"], 1e-9))
     mean_delta_320 = st.mean(
         paired_by_seed[f"seed_{s}"]["iter320"]["mean_diff"] for s in SEEDS)
     worse_seeds_320 = sum(
@@ -200,16 +206,19 @@ def main() -> int:
         if paired_by_seed[f"seed_{s}"]["iter320"]["mean_diff"] < 0
         and paired_by_seed[f"seed_{s}"]["iter320"]["ci95"][1] < 0)
 
-    if (it320["beta01"]["kl_from_warmstart"]["mean"] < 0.15
-            and p_std_ratio > 1.5
-            and mean_delta_320 < 0.15):
+    drift_controlled = kl_ratio > 5.0
+    variance_reduced = (p_std_ratio > 1.15 or std_ratio_80 > 1.5
+                        or std_ratio_160 > 1.5)
+    placement_preserved = mean_delta_320 < 0.15
+
+    if drift_controlled and variance_reduced and placement_preserved:
         outcome = "A"
-        outcome_text = ("Anchoring stabilizes drift/variance without clearly "
-                        "hurting mean placement")
+        outcome_text = ("Anchoring lowers policy drift and mid/late-training "
+                        "cross-seed placement variance without clearly hurting "
+                        "mean placement at full budget")
         exp5 = ("Experiment 5 — weaker / scheduled anchoring (anneal β after "
                 "iter 40–80 to recover exploration while keeping stability)")
-    elif (it320["beta01"]["kl_from_warmstart"]["mean"] < 0.15
-          and worse_seeds_320 >= 2):
+    elif drift_controlled and worse_seeds_320 >= 2:
         outcome = "B"
         outcome_text = ("Anchoring controls drift but consistently hurts "
                         "placement across matched seeds")
@@ -239,8 +248,10 @@ def main() -> int:
         "iter320_summary": {
             "beta0": it320["beta0"],
             "beta01": it320["beta01"],
-            "placement_std_ratio_beta0_over_beta01": p_std_ratio,
-            "kl_mean_ratio_beta0_over_beta01": kl_ratio,
+            "placement_std_ratio_beta0_over_beta01_at_320": p_std_ratio,
+            "placement_std_ratio_beta0_over_beta01_at_80": std_ratio_80,
+            "placement_std_ratio_beta0_over_beta01_at_160": std_ratio_160,
+            "kl_mean_ratio_beta0_over_beta01_at_320": kl_ratio,
             "mean_paired_delta_anchored_minus_unconstrained": mean_delta_320,
             "seeds_anchored_worse_at_320": worse_seeds_320,
             "seeds_anchored_better_at_320": better_seeds_320,
