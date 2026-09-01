@@ -23,7 +23,8 @@ POLICY_CONFIG_FINGERPRINT = {
     "trigger": "infer_target(board).core_have >= 1",
     "action": (
         "among legally buyable shop slots, if any missing core of current "
-        "target exists, buy max(raw_stats) matching core; else raw-stat greedy"),
+        "target exists, buy max(raw_stats) matching core (overrides roll when "
+        "legal mask permits buy); else raw-stat greedy"),
     "control_policy_id": "greedy_policy",
     "evaluation_seed_base": PHASE_2E_EVAL_SEED_BASE,
     "evaluation_seed_range": "1000-1199",

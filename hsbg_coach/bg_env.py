@@ -680,12 +680,13 @@ def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
     if mask[A_LEVEL] and obs["tavern_tier"] < target - 0.45:
         return A_LEVEL
     buys = [i for i in range(len(obs["shop"])) if mask[A_BUY0 + i]]
-    if buys and len(obs["board"]) + len(obs["hand"]) < MAX_BOARD + 1:
+    if buys:
         if buy_override is not None:
             pick = buy_override(obs, mask, buys)
             if pick is not None:
                 return A_BUY0 + pick
-        return A_BUY0 + max(buys, key=lambda i: buy_scorer(obs, i))
+        if len(obs["board"]) + len(obs["hand"]) < MAX_BOARD + 1:
+            return A_BUY0 + max(buys, key=lambda i: buy_scorer(obs, i))
     # Board full: upgrade — sell the weakest if the best shop minion beats it.
     if buys and len(obs["board"]) >= MAX_BOARD:
         if buy_override is not None:
