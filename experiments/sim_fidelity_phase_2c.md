@@ -10,38 +10,44 @@ Artifacts: [`results/sim_fidelity_phase_2c/`](../results/sim_fidelity_phase_2c/)
 
 No sim mechanics, policies, card effects, shop, scaling, or combat changes.
 
-## Methodology v2 (`2c_v2`)
+## Methodology v3 (`2c_v3`)
 
-The first Phase 2C run (**invalidated**) counted opponent shop offers against
-the winner and reused a stale turn-start shop snapshot. v2 fixes:
+Building on v2 seat/shop fixes, v3 adds **target-confidence strata** and **exact
+exposure accounting**.
 
-1. **Live pre-action shop** — each event records `pre_shop` and `legal_buy_slots`
-   from the pre-action legal mask (not turn-start snapshot).
-2. **Shop generation deduplication** — exposure keyed by
-   `(lobby, seat, turn, shop_generation)`; rolls increment generation.
-3. **Separate scopes**
-   - `global_availability` — all eight seats (shop/pool starvation diagnosis)
-   - `winner_decision_funnel` — winner seat only
-4. **Legally buyable** — core counts only when its exact buy slot is legal
-   (gold **and** hand room), not merely `gold ≥ 3`.
-5. **Rejection at shop exit** — a core is “rejected” only if it was legally
-   buyable in a shop generation and never purchased before roll/end.
-6. **Archetype relevance**
-   - **current-target view** — cores for `infer_target(board_before)` at offer time
-   - **final-target hindsight view** — cores for winner’s eventual archetype (labeled hindsight)
-7. **Tribe eligibility** — ineligible archetypes excluded from decision denominators.
-8. **Trace equivalence** — traced rollouts match ordinary `play_scripted` for same seeds
-   (placements + final-board fingerprints).
+### Target views
 
-### Invalidated prior headline
-
-| Class | Prior count | Status |
+| View | Relevance rule | Use |
 |---|---|---|
-| B_AVAILABLE_NOT_BOUGHT | 2,516 | **Invalidated** (seat/shop scope bugs) |
-| A_IMPOSSIBLE | 1,185 | **Invalidated** |
-| C_BOUGHT_NOT_RETAINED | 99 | **Invalidated** |
+| `broad_current_target` | `infer_target` chose archetype | Exploratory only |
+| `seeded_current_target` | + `core_have >= 1` | **Primary causal diagnostic** |
+| `committed_current_target` | + `core_have >= 2` and tier ≥ 4 | Strong confirmation |
+| `final_target_hindsight` | Winner's eventual archetype | Labeled hindsight |
 
-Do **not** merge PR #18 or start Phase 2D until reviewing corrected v2 results.
+Thresholds align with `build_note()` (`have > 0`) and `path_value()` off-path
+penalty (`have >= 2` at tier 4+).
+
+### Exposure accounting
+
+Each legally-buyable exposure is **core name × shop generation**. Purchases
+**latch** to the active generation regardless of later `infer_target` changes.
+
+```text
+fulfilled_exposures + rejected_exposures == legally_buyable_exposures
+```
+
+### Invalidated prior headlines
+
+- v1: B=2,516 / A=1,185 / C=99 (seat/shop scope bugs)
+- v2 broad: 515 exposures / 6 fulfilled / 509 rejected (no commitment thresholds)
+
+### Reproducibility (Phase 2B standard)
+
+```text
+commit implementation → clean tree → run 200 lobbies → artifact-only commit
+```
+
+Report records `implementation_commit` and `working_tree_clean: true`.
 
 ## Corrected funnel (winner, relevant archetype)
 
@@ -73,7 +79,7 @@ python -m ml.fidelity_phase_2c --lobbies 200 --seed 0
 ```
 
 See [`results/sim_fidelity_phase_2c/phase_2c_report.json`](../results/sim_fidelity_phase_2c/phase_2c_report.json)
-for v2 per-archetype funnels, rejection patterns, and both relevance views.
+for v3 per-archetype funnels, rejection patterns, and all four relevance views.
 
 ## Frozen for Phase 2C
 

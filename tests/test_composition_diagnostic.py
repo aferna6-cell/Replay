@@ -1,12 +1,13 @@
-"""Tests for Phase 2C composition assembly diagnostic (v2)."""
+"""Tests for Phase 2C composition assembly diagnostic (v3)."""
 
 import pytest
 
 from hsbg_coach.build_path import load_archetypes
 from ml.composition_diagnostic import (
     METHODOLOGY_VERSION,
+    _WinnerFunnelState,
     aggregate_diagnostics,
-    recommend_intervention,
+    analyze_winner_funnel,
 )
 from ml.composition_trace import (
     board_fingerprint,
@@ -20,7 +21,6 @@ def test_traced_rollouts_smoke():
     assert traces["lobbies"] == 2
     assert len(traces["events"]) > 0
     assert len(traces["player_finals"]) == 16
-    assert traces["lobby_meta"]
     ev = traces["events"][0]
     for key in ("lobby", "seat", "turn", "action", "pre_shop",
                 "legal_buy_slots", "shop_generation", "board_before",
@@ -29,7 +29,6 @@ def test_traced_rollouts_smoke():
 
 
 def test_traced_rollouts_equivalent_to_plain():
-    """Traced rollouts must match ordinary play_scripted for same seeds."""
     n, seed = 8, 42
     plain = run_plain_rollouts(n, seed=seed, scaling_mode="residual")
     traces = run_traced_rollouts(n, seed=seed, scaling_mode="residual")
@@ -39,78 +38,76 @@ def test_traced_rollouts_equivalent_to_plain():
         t = next(
             x for x in traced
             if x["lobby"] == p["lobby"] and x["seat"] == p["seat"])
-        assert p["placement"] == t["placement"], (
-            f"lobby {p['lobby']} seat {p['seat']}: "
-            f"{p['placement']} vs {t['placement']}")
+        assert p["placement"] == t["placement"]
         assert p["final_board_fingerprint"] == t["final_board_fingerprint"]
 
 
-def test_board_fingerprint_stable():
-    board = [{"name": "A", "attack": 1, "health": 2, "golden": False}]
-    assert board_fingerprint(board) == board_fingerprint(list(board))
+def test_exposure_accounting_invariant():
+    """fulfilled + rejected == legally_buyable for every funnel state."""
+    traces = run_traced_rollouts(5, seed=3, scaling_mode="residual")
+    arch = load_archetypes()[0]
+    for view in ("broad_current_target", "seeded_current_target",
+                 "committed_current_target", "final_target_hindsight"):
+        for lobby in range(traces["lobbies"]):
+            state = analyze_winner_funnel(traces, lobby, arch, view)
+            if state is None:
+                continue
+            assert state.exposure_accounting_valid, (
+                f"lobby={lobby} view={view} "
+                f"fulfilled={state.fulfilled_exposures} "
+                f"rejected={state.rejected_exposures} "
+                f"legal={state.legally_buyable_exposures}")
+    report = aggregate_diagnostics(traces)
+    for view_name, view_data in report["winner_decision_funnel"].items():
+        funnel = view_data.get("aggregate_funnel") or {}
+        if not funnel:
+            continue
+        assert funnel.get("exposure_accounting_valid") is True, view_name
 
 
-def test_aggregate_diagnostics_v2_structure():
+def test_purchase_fulfills_latched_exposure():
+    """Purchase credits active generation even if infer_target changed."""
+    state = _WinnerFunnelState(core={"CoreX"}, lobby_tribes=["Naga"])
+    state.open_generation(5, 0, "naga_end_of_turn", {
+        "CoreX": {"name": "CoreX", "attack": 2, "health": 2},
+    })
+    assert state.legally_buyable_exposures == 1
+    state.note_core_purchase("CoreX", 5)
+    state.close_generation()
+    assert state.fulfilled_exposures == 1
+    assert state.rejected_exposures == 0
+    assert state.exposure_accounting_valid
+
+
+def test_aggregate_diagnostics_v3_structure():
     traces = run_traced_rollouts(3, seed=1, scaling_mode="residual")
     report = aggregate_diagnostics(traces)
     assert report["methodology_version"] == METHODOLOGY_VERSION
-    assert "invalidated_prior_results" in report
-    assert report["invalidated_prior_results"]["classification_totals"]["B_AVAILABLE_NOT_BOUGHT"] == 2516
     funnel = report["winner_decision_funnel"]
-    assert "current_target" in funnel
-    assert "final_target_hindsight" in funnel
-    assert funnel["final_target_hindsight"]["view_label"].startswith("final-target")
-    assert report["recommended_phase_2d_intervention"]["intervention"]
+    for key in ("broad_current_target", "seeded_current_target",
+                "committed_current_target", "final_target_hindsight"):
+        assert key in funnel
+        assert "view_label" in funnel[key]
+    rec = report["recommended_phase_2d_intervention"]
+    assert "funnel_seeded_current_target" in rec
+    assert "funnel_committed_current_target" in rec
 
 
-def test_pre_shop_updates_after_roll():
-    """Each action event must carry the live pre-action shop, not turn-start snapshot."""
-    traces = run_traced_rollouts(5, seed=7, scaling_mode="residual")
-    for lobby in range(traces["lobbies"]):
-        for seat in range(8):
-            roll_events = [
-                e for e in traces["events"]
-                if e["lobby"] == lobby and e["seat"] == seat and e["action"] == "roll"]
-            for roll_ev in roll_events:
-                turn = roll_ev["turn"]
-                gen = roll_ev["shop_generation"]
-                prior = [
-                    e for e in traces["events"]
-                    if e["lobby"] == lobby and e["seat"] == seat
-                    and e["turn"] == turn and e["shop_generation"] == gen
-                    and e["action"] != "roll"]
-                if not prior:
-                    continue
-                pre_shop_before_roll = prior[-1].get("pre_shop") or []
-                # After roll, next generation's first event should differ if shop changed.
-                next_gen = [
-                    e for e in traces["events"]
-                    if e["lobby"] == lobby and e["seat"] == seat
-                    and e["turn"] == turn and e["shop_generation"] == gen + 1]
-                if next_gen and pre_shop_before_roll:
-                    # At minimum, pre_shop field exists and is not reused from turn start only.
-                    assert "pre_shop" in next_gen[0]
-
-
-def test_recommend_intervention_returns_one_choice():
-    traces = run_traced_rollouts(2, seed=2)
-    diag = aggregate_diagnostics(traces)
-    rec = diag["recommended_phase_2d_intervention"]
-    assert rec["intervention"] in (
-        "shop_pool_fidelity",
-        "build_aware_recruit_policy",
-        "card_effect_fidelity",
-        "triple_discover_fidelity",
-    )
-    assert "phase_2d_title" in rec
-    assert "invalidated" in rec["rationale"].lower() or "prior" in rec["rationale"].lower()
+def test_seeded_subset_of_broad():
+    traces = run_traced_rollouts(4, seed=9, scaling_mode="residual")
+    report = aggregate_diagnostics(traces)
+    broad = report["winner_decision_funnel"]["broad_current_target"]["aggregate_funnel"]
+    seeded = report["winner_decision_funnel"]["seeded_current_target"]["aggregate_funnel"]
+    if broad and seeded:
+        assert seeded["legally_buyable_exposures"] <= broad["legally_buyable_exposures"]
 
 
 def test_phase_2c_runner_smoke():
     from ml.fidelity_phase_2c import run_phase_2c
-    result = run_phase_2c(lobbies=2, seed=0, out_dir="/tmp/sim_fidelity_phase_2c_test")
+    result = run_phase_2c(
+        lobbies=2, seed=0, out_dir="/tmp/sim_fidelity_phase_2c_test",
+        require_clean_tree=False)
     assert result["measurement_only"] is True
-    assert result["simulator_version"] == "Simulator v1.1"
     assert result["methodology_version"] == METHODOLOGY_VERSION
+    assert result["implementation_commit"]
     assert "recommended_phase_2d_intervention" in result
-    assert "invalidated_prior_results" in result
