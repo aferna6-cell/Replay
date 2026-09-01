@@ -1,7 +1,10 @@
 {
   "benchmark": "Replay Simulator Fidelity Benchmark v1",
   "phase": "2C composition assembly diagnostic",
-  "methodology_version": "2c_v2",
+  "methodology_version": "2c_v3",
+  "implementation_commit": "0781ddf76cfa1884fffee145ecb2b4f3cfe8b3c3",
+  "code_commit": "0781ddf76cfa1884fffee145ecb2b4f3cfe8b3c3",
+  "working_tree_clean": true,
   "simulator_version": "Simulator v1.1",
   "measurement_only": true,
   "invalidated_prior_results": {
@@ -13,14 +16,18 @@
     },
     "recommended_intervention": "build_aware_recruit_policy"
   },
-  "code_commit": "4029b2ae7e6a4d734fe29adf8893f8514a56ed8c",
-  "working_tree_clean": false,
+  "invalidated_v2_broad_current_target": {
+    "note": "v2 broad current-target lacked commitment thresholds; see v3 strata",
+    "legally_buyable_exposures": 515,
+    "fulfilled_exposures": 6,
+    "rejected_exposures": 509
+  },
   "contract": {
     "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "4029b2ae7e6a4d734fe29adf8893f8514a56ed8c",
+    "code_commit": "0781ddf76cfa1884fffee145ecb2b4f3cfe8b3c3",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -65,15 +72,15 @@
     },
     "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
     "parent_simulator_version": "Simulator v1",
-    "working_tree_clean": false
+    "working_tree_clean": true
   },
-  "runtime_seconds": 143.28,
+  "runtime_seconds": 167.2,
   "n_lobbies": 200,
   "n_events": 80563,
   "real_final_winner_coverage_mean": 0.7658788248610255,
   "sim_final_winner_coverage_mean": 0.00854456420206345,
   "diagnostic": {
-    "methodology_version": "2c_v2",
+    "methodology_version": "2c_v3",
     "invalidated_prior_results": {
       "note": "Invalidated by seat/shop opportunity-scope bugs in first Phase 2C run",
       "classification_totals": {
@@ -83,35 +90,44 @@
       },
       "recommended_intervention": "build_aware_recruit_policy"
     },
+    "invalidated_v2_broad_current_target": {
+      "note": "v2 broad current-target lacked commitment thresholds; see v3 strata",
+      "legally_buyable_exposures": 515,
+      "fulfilled_exposures": 6,
+      "rejected_exposures": 509
+    },
     "n_lobbies": 200,
     "n_archetypes": 19,
     "n_events": 80563,
     "sim_final_winner_coverage_mean": 0.00854456420206345,
     "sim_final_winner_coverage_median": 0.0,
     "winner_decision_funnel": {
-      "current_target": {
-        "view": "current_target",
-        "view_label": "current-target (infer_target at offer time)",
+      "broad_current_target": {
+        "view": "broad_current_target",
+        "view_label": "exploratory \u2014 infer_target chose this archetype (no commitment threshold)",
         "classification_totals": {
-          "B_AVAILABLE_NOT_BOUGHT": 130,
-          "A_IMPOSSIBLE": 85,
-          "C_BOUGHT_NOT_RETAINED": 6
+          "B_AVAILABLE_NOT_BOUGHT": 113,
+          "A_IMPOSSIBLE": 83,
+          "C_BOUGHT_NOT_RETAINED": 25
         },
         "n_lobby_archetype_ineligible": 1822,
         "aggregate_funnel": {
-          "n_lobbies_evaluated": 221,
+          "n_lobby_archetype_states": 221,
           "distinct_core_legally_available": 414,
           "shop_generations_with_buyable_core": 504,
           "legally_buyable_exposures": 515,
-          "purchased": 6,
-          "rejected_at_shop_exit": 509,
+          "fulfilled_exposures": 7,
+          "rejected_exposures": 508,
+          "core_purchase_actions": 25,
+          "exposure_accounting_valid": true,
+          "rejection_rate": 0.9864077669902913,
+          "fulfillment_rate": 0.013592233009708738,
           "played": 23,
-          "retained_2_turns": 6,
+          "retained_2_turns": 25,
           "reached_2_core": 0,
           "reached_4_core": 0,
           "pct_lobbies_2plus_distinct_core_available": 0.5339366515837104,
           "pct_lobbies_4plus_distinct_core_available": 0.19457013574660634,
-          "purchase_rate_when_legally_buyable": 0.011650485436893204,
           "mean_final_coverage_winner": 0.008103961662073422,
           "mean_max_core_pieces": 0.10407239819004525
         },
@@ -134,23 +150,27 @@
               "Abyssal Bruiser"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 46,
-              "A_IMPOSSIBLE": 53
+              "B_AVAILABLE_NOT_BOUGHT": 44,
+              "A_IMPOSSIBLE": 53,
+              "C_BOUGHT_NOT_RETAINED": 2
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 99,
+              "n_lobby_archetype_states": 99,
               "distinct_core_legally_available": 132,
               "shop_generations_with_buyable_core": 154,
               "legally_buyable_exposures": 158,
-              "purchased": 0,
-              "rejected_at_shop_exit": 158,
+              "fulfilled_exposures": 1,
+              "rejected_exposures": 157,
+              "core_purchase_actions": 2,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9936708860759493,
+              "fulfillment_rate": 0.006329113924050633,
               "played": 2,
-              "retained_2_turns": 0,
+              "retained_2_turns": 2,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.40404040404040403,
               "pct_lobbies_4plus_distinct_core_available": 0.13131313131313133,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.0009625836397489939,
               "mean_max_core_pieces": 0.020202020202020204
             },
@@ -174,7 +194,7 @@
               },
               {
                 "core_offered": "Seafloor Recruiter",
-                "count": 23,
+                "count": 22,
                 "example": {
                   "turn": 14,
                   "shop_generation": 7,
@@ -237,23 +257,26 @@
             ],
             "classification": {
               "A_IMPOSSIBLE": 2,
-              "B_AVAILABLE_NOT_BOUGHT": 13,
-              "C_BOUGHT_NOT_RETAINED": 2
+              "B_AVAILABLE_NOT_BOUGHT": 11,
+              "C_BOUGHT_NOT_RETAINED": 4
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 17,
+              "n_lobby_archetype_states": 17,
               "distinct_core_legally_available": 46,
               "shop_generations_with_buyable_core": 57,
               "legally_buyable_exposures": 59,
-              "purchased": 2,
-              "rejected_at_shop_exit": 57,
+              "fulfilled_exposures": 2,
+              "rejected_exposures": 57,
+              "core_purchase_actions": 4,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9661016949152542,
+              "fulfillment_rate": 0.03389830508474576,
               "played": 3,
-              "retained_2_turns": 2,
+              "retained_2_turns": 4,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.8235294117647058,
               "pct_lobbies_4plus_distinct_core_available": 0.29411764705882354,
-              "purchase_rate_when_legally_buyable": 0.03389830508474576,
               "mean_final_coverage_winner": 0.010908994273110194,
               "mean_max_core_pieces": 0.17647058823529413
             },
@@ -339,24 +362,27 @@
               "Sin'dorei Straight Shot"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 10,
-              "A_IMPOSSIBLE": 2,
-              "C_BOUGHT_NOT_RETAINED": 2
+              "C_BOUGHT_NOT_RETAINED": 5,
+              "B_AVAILABLE_NOT_BOUGHT": 8,
+              "A_IMPOSSIBLE": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 14,
+              "n_lobby_archetype_states": 14,
               "distinct_core_legally_available": 40,
               "shop_generations_with_buyable_core": 52,
               "legally_buyable_exposures": 52,
-              "purchased": 2,
-              "rejected_at_shop_exit": 50,
+              "fulfilled_exposures": 2,
+              "rejected_exposures": 50,
+              "core_purchase_actions": 5,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9615384615384616,
+              "fulfillment_rate": 0.038461538461538464,
               "played": 5,
-              "retained_2_turns": 2,
+              "retained_2_turns": 5,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6428571428571429,
               "pct_lobbies_4plus_distinct_core_available": 0.35714285714285715,
-              "purchase_rate_when_legally_buyable": 0.038461538461538464,
               "mean_final_coverage_winner": 0.00696266750638536,
               "mean_max_core_pieces": 0.35714285714285715
             },
@@ -446,19 +472,22 @@
               "A_IMPOSSIBLE": 5
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 14,
+              "n_lobby_archetype_states": 14,
               "distinct_core_legally_available": 26,
               "shop_generations_with_buyable_core": 33,
               "legally_buyable_exposures": 34,
-              "purchased": 0,
-              "rejected_at_shop_exit": 34,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 34,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 0,
               "retained_2_turns": 0,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6428571428571429,
               "pct_lobbies_4plus_distinct_core_available": 0.14285714285714285,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.0,
               "mean_max_core_pieces": 0
             },
@@ -544,23 +573,27 @@
               "Captain Cookie"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 13,
-              "A_IMPOSSIBLE": 2
+              "C_BOUGHT_NOT_RETAINED": 3,
+              "A_IMPOSSIBLE": 2,
+              "B_AVAILABLE_NOT_BOUGHT": 10
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 15,
+              "n_lobby_archetype_states": 15,
               "distinct_core_legally_available": 44,
               "shop_generations_with_buyable_core": 52,
               "legally_buyable_exposures": 52,
-              "purchased": 0,
-              "rejected_at_shop_exit": 52,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 52,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 3,
-              "retained_2_turns": 0,
+              "retained_2_turns": 3,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.8666666666666667,
               "pct_lobbies_4plus_distinct_core_available": 0.26666666666666666,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.019515570934256054,
               "mean_max_core_pieces": 0.2
             },
@@ -650,19 +683,22 @@
               "A_IMPOSSIBLE": 9
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 26,
+              "n_lobby_archetype_states": 26,
               "distinct_core_legally_available": 38,
               "shop_generations_with_buyable_core": 46,
               "legally_buyable_exposures": 47,
-              "purchased": 0,
-              "rejected_at_shop_exit": 47,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 47,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 0,
               "retained_2_turns": 0,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.46153846153846156,
               "pct_lobbies_4plus_distinct_core_available": 0.07692307692307693,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.0,
               "mean_max_core_pieces": 0
             },
@@ -748,23 +784,27 @@
               "Leeroy the Reckless"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 9,
-              "A_IMPOSSIBLE": 3
+              "B_AVAILABLE_NOT_BOUGHT": 6,
+              "A_IMPOSSIBLE": 3,
+              "C_BOUGHT_NOT_RETAINED": 3
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 12,
+              "n_lobby_archetype_states": 12,
               "distinct_core_legally_available": 30,
               "shop_generations_with_buyable_core": 35,
               "legally_buyable_exposures": 37,
-              "purchased": 0,
-              "rejected_at_shop_exit": 37,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 37,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 3,
-              "retained_2_turns": 0,
+              "retained_2_turns": 3,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6666666666666666,
               "pct_lobbies_4plus_distinct_core_available": 0.25,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.03034515819750719,
               "mean_max_core_pieces": 0.25
             },
@@ -850,7 +890,16 @@
               "Fish of N'Zoth"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 3.5681818181818183,
               "mean_shop_exposures_per_lobby": 7.386363636363637,
@@ -882,19 +931,22 @@
               "B_AVAILABLE_NOT_BOUGHT": 7
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 15,
+              "n_lobby_archetype_states": 15,
               "distinct_core_legally_available": 32,
               "shop_generations_with_buyable_core": 41,
               "legally_buyable_exposures": 41,
-              "purchased": 2,
-              "rejected_at_shop_exit": 39,
+              "fulfilled_exposures": 2,
+              "rejected_exposures": 39,
+              "core_purchase_actions": 2,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9512195121951219,
+              "fulfillment_rate": 0.04878048780487805,
               "played": 1,
               "retained_2_turns": 2,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.4666666666666667,
               "pct_lobbies_4plus_distinct_core_available": 0.3333333333333333,
-              "purchase_rate_when_legally_buyable": 0.04878048780487805,
               "mean_final_coverage_winner": 0.0,
               "mean_max_core_pieces": 0.06666666666666667
             },
@@ -980,7 +1032,16 @@
               "Heroic Underdog"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 4.23,
               "mean_shop_exposures_per_lobby": 7.075,
@@ -1007,23 +1068,26 @@
               "Fish of N'Zoth"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 1,
+              "C_BOUGHT_NOT_RETAINED": 1,
               "A_IMPOSSIBLE": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 2,
+              "n_lobby_archetype_states": 2,
               "distinct_core_legally_available": 3,
               "shop_generations_with_buyable_core": 5,
               "legally_buyable_exposures": 5,
-              "purchased": 0,
-              "rejected_at_shop_exit": 5,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 5,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 1,
-              "retained_2_turns": 0,
+              "retained_2_turns": 1,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.5,
               "pct_lobbies_4plus_distinct_core_available": 0.0,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.11262520382017237,
               "mean_max_core_pieces": 0.5
             },
@@ -1087,7 +1151,16 @@
               "Thousandth Paper Drake"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 6.01,
               "mean_shop_exposures_per_lobby": 11.4,
@@ -1114,7 +1187,16 @@
               "Sewer Lord"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 5.784090909090909,
               "mean_shop_exposures_per_lobby": 12.045454545454545,
@@ -1141,7 +1223,16 @@
               "Showy Cyclist"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 6.474747474747475,
               "mean_shop_exposures_per_lobby": 11.88888888888889,
@@ -1168,23 +1259,27 @@
               "Razorfen Vineweaver"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 2,
+              "B_AVAILABLE_NOT_BOUGHT": 1,
+              "C_BOUGHT_NOT_RETAINED": 1,
               "A_IMPOSSIBLE": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 3,
+              "n_lobby_archetype_states": 3,
               "distinct_core_legally_available": 9,
               "shop_generations_with_buyable_core": 13,
               "legally_buyable_exposures": 13,
-              "purchased": 0,
-              "rejected_at_shop_exit": 13,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 13,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 1,
-              "retained_2_turns": 0,
+              "retained_2_turns": 1,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6666666666666666,
               "pct_lobbies_4plus_distinct_core_available": 0.6666666666666666,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.010655180231240081,
               "mean_max_core_pieces": 0.3333333333333333
             },
@@ -1270,23 +1365,25 @@
               "Choral Mrrrglr"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 2,
-              "A_IMPOSSIBLE": 1
+              "C_BOUGHT_NOT_RETAINED": 3
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 3,
+              "n_lobby_archetype_states": 3,
               "distinct_core_legally_available": 7,
               "shop_generations_with_buyable_core": 8,
               "legally_buyable_exposures": 8,
-              "purchased": 0,
-              "rejected_at_shop_exit": 8,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 8,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 3,
-              "retained_2_turns": 0,
+              "retained_2_turns": 3,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6666666666666666,
               "pct_lobbies_4plus_distinct_core_available": 0.3333333333333333,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.1045156591405681,
               "mean_max_core_pieces": 1
             },
@@ -1372,7 +1469,16 @@
               "Auto Assembler"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 5.698275862068965,
               "mean_shop_exposures_per_lobby": 10.724137931034482,
@@ -1399,22 +1505,25 @@
               "Imposing Percussionist"
             ],
             "classification": {
-              "B_AVAILABLE_NOT_BOUGHT": 1
+              "C_BOUGHT_NOT_RETAINED": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 1,
+              "n_lobby_archetype_states": 1,
               "distinct_core_legally_available": 7,
               "shop_generations_with_buyable_core": 8,
               "legally_buyable_exposures": 9,
-              "purchased": 0,
-              "rejected_at_shop_exit": 9,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 9,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 1,
-              "retained_2_turns": 0,
+              "retained_2_turns": 1,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 1.0,
               "pct_lobbies_4plus_distinct_core_available": 1.0,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.18511111111111112,
               "mean_max_core_pieces": 1
             },
@@ -1500,7 +1609,2035 @@
               "Elemental of Surprise"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.819148936170213,
+              "mean_shop_exposures_per_lobby": 13.03191489361702,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9787234042553191
+            },
+            "top_rejections_at_shop_exit": []
+          }
+        }
+      },
+      "seeded_current_target": {
+        "view": "seeded_current_target",
+        "view_label": "primary causal \u2014 infer_target + core_have >= 1 (matches build_note threshold)",
+        "classification_totals": {
+          "C_BOUGHT_NOT_RETAINED": 23
+        },
+        "n_lobby_archetype_ineligible": 1822,
+        "aggregate_funnel": {
+          "n_lobby_archetype_states": 23,
+          "distinct_core_legally_available": 70,
+          "shop_generations_with_buyable_core": 81,
+          "legally_buyable_exposures": 82,
+          "fulfilled_exposures": 0,
+          "rejected_exposures": 82,
+          "core_purchase_actions": 23,
+          "exposure_accounting_valid": true,
+          "rejection_rate": 1.0,
+          "fulfillment_rate": 0.0,
+          "played": 23,
+          "retained_2_turns": 23,
+          "reached_2_core": 0,
+          "reached_4_core": 0,
+          "pct_lobbies_2plus_distinct_core_available": 0.8260869565217391,
+          "pct_lobbies_4plus_distinct_core_available": 0.34782608695652173,
+          "mean_final_coverage_winner": 0.07786850118774896,
+          "mean_max_core_pieces": 1
+        },
+        "by_archetype": {
+          "naga_end_of_turn": {
+            "name": "Naga End Of Turn",
+            "tribe": "Naga",
+            "core_cards": [
+              "Fauna Whisperer",
+              "Balinda Stonehearth",
+              "Gatekeeper Amalgam",
+              "Drakkari Enchanter",
+              "Felfire Conjurer",
+              "Torrential Ruiner",
+              "Seafloor Recruiter",
+              "Tranquil Meditative",
+              "Groundbreaker",
+              "Warpwing",
+              "Leeroy the Reckless",
+              "Abyssal Bruiser"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 2
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 2,
+              "distinct_core_legally_available": 8,
+              "shop_generations_with_buyable_core": 9,
+              "legally_buyable_exposures": 9,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 9,
+              "core_purchase_actions": 2,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 2,
+              "retained_2_turns": 2,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 0.5,
+              "mean_final_coverage_winner": 0.0476478901675752,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.373737373737374,
+              "mean_shop_exposures_per_lobby": 9.252525252525253,
+              "pct_lobbies_2plus_core_seen": 0.9797979797979798,
+              "pct_lobbies_4plus_core_seen": 0.8282828282828283
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Felfire Conjurer",
+                "count": 3,
+                "example": {
+                  "turn": 14,
+                  "shop_generation": 3,
+                  "core_offered": "Felfire Conjurer",
+                  "core_stats": 11,
+                  "target_at_offer": "naga_end_of_turn"
+                }
+              },
+              {
+                "core_offered": "Seafloor Recruiter",
+                "count": 1,
+                "example": {
+                  "turn": 12,
+                  "shop_generation": 6,
+                  "core_offered": "Seafloor Recruiter",
+                  "core_stats": 8,
+                  "target_at_offer": "naga_end_of_turn"
+                }
+              },
+              {
+                "core_offered": "Balinda Stonehearth",
+                "count": 1,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 4,
+                  "core_offered": "Balinda Stonehearth",
+                  "core_stats": 12,
+                  "target_at_offer": "naga_end_of_turn"
+                }
+              },
+              {
+                "core_offered": "Warpwing",
+                "count": 1,
+                "example": {
+                  "turn": 14,
+                  "shop_generation": 1,
+                  "core_offered": "Warpwing",
+                  "core_stats": 16,
+                  "target_at_offer": "naga_end_of_turn"
+                }
+              },
+              {
+                "core_offered": "Leeroy the Reckless",
+                "count": 1,
+                "example": {
+                  "turn": 14,
+                  "shop_generation": 6,
+                  "core_offered": "Leeroy the Reckless",
+                  "core_stats": 8,
+                  "target_at_offer": "naga_end_of_turn"
+                }
+              }
+            ]
+          },
+          "elemental_cycle": {
+            "name": "Elemental Cycle",
+            "tribe": "Elemental",
+            "core_cards": [
+              "Unbound Tempest",
+              "Brann Bronzebeard",
+              "Unleashed Mana Surge",
+              "Moat Custodian",
+              "Wildfire Elemental",
+              "Tavern Tempest",
+              "Air Revenant",
+              "Leeroy the Reckless",
+              "Flaming Enforcer",
+              "Meteorite Crasher",
+              "Heroic Underdog",
+              "Kelp Keeper"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 3
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 3,
+              "distinct_core_legally_available": 10,
+              "shop_generations_with_buyable_core": 12,
+              "legally_buyable_exposures": 12,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 12,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 3,
+              "retained_2_turns": 3,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 0.6666666666666666,
+              "mean_final_coverage_winner": 0.0618176342142911,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.25531914893617,
+              "mean_shop_exposures_per_lobby": 12.25531914893617,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.925531914893617
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Meteorite Crasher",
+                "count": 2,
+                "example": {
+                  "turn": 8,
+                  "shop_generation": 0,
+                  "core_offered": "Meteorite Crasher",
+                  "core_stats": 6,
+                  "target_at_offer": "elemental_cycle"
+                }
+              },
+              {
+                "core_offered": "Flaming Enforcer",
+                "count": 2,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 4,
+                  "core_offered": "Flaming Enforcer",
+                  "core_stats": 9,
+                  "target_at_offer": "elemental_cycle"
+                }
+              },
+              {
+                "core_offered": "Air Revenant",
+                "count": 2,
+                "example": {
+                  "turn": 16,
+                  "shop_generation": 6,
+                  "core_offered": "Air Revenant",
+                  "core_stats": 9,
+                  "target_at_offer": "elemental_cycle"
+                }
+              },
+              {
+                "core_offered": "Heroic Underdog",
+                "count": 2,
+                "example": {
+                  "turn": 19,
+                  "shop_generation": 1,
+                  "core_offered": "Heroic Underdog",
+                  "core_stats": 11,
+                  "target_at_offer": "elemental_cycle"
+                }
+              },
+              {
+                "core_offered": "Leeroy the Reckless",
+                "count": 2,
+                "example": {
+                  "turn": 12,
+                  "shop_generation": 5,
+                  "core_offered": "Leeroy the Reckless",
+                  "core_stats": 8,
+                  "target_at_offer": "elemental_cycle"
+                }
+              }
+            ]
+          },
+          "pirate_discover": {
+            "name": "Pirate Discover",
+            "tribe": "Pirate",
+            "core_cards": [
+              "Hooktusk, Master Marauder",
+              "Enterprising Escapee",
+              "Blade Collector",
+              "Leeroy the Reckless",
+              "Sky Admiral Rogers",
+              "Brann Bronzebeard",
+              "Proud Privateer",
+              "Clever Castaway",
+              "Heroic Underdog",
+              "Maritime Extortionist",
+              "Deadly Spore",
+              "Sin'dorei Straight Shot"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 5
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 5,
+              "distinct_core_legally_available": 12,
+              "shop_generations_with_buyable_core": 13,
+              "legally_buyable_exposures": 13,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 13,
+              "core_purchase_actions": 5,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 5,
+              "retained_2_turns": 5,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 0.6,
+              "pct_lobbies_4plus_distinct_core_available": 0.2,
+              "mean_final_coverage_winner": 0.01949546901787901,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.623762376237623,
+              "mean_shop_exposures_per_lobby": 10.841584158415841,
+              "pct_lobbies_2plus_core_seen": 0.9801980198019802,
+              "pct_lobbies_4plus_core_seen": 0.8910891089108911
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Sky Admiral Rogers",
+                "count": 2,
+                "example": {
+                  "turn": 12,
+                  "shop_generation": 7,
+                  "core_offered": "Sky Admiral Rogers",
+                  "core_stats": 9,
+                  "target_at_offer": "pirate_discover"
+                }
+              },
+              {
+                "core_offered": "Heroic Underdog",
+                "count": 2,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 6,
+                  "core_offered": "Heroic Underdog",
+                  "core_stats": 11,
+                  "target_at_offer": "pirate_discover"
+                }
+              },
+              {
+                "core_offered": "Deadly Spore",
+                "count": 2,
+                "example": {
+                  "turn": 15,
+                  "shop_generation": 6,
+                  "core_offered": "Deadly Spore",
+                  "core_stats": 2,
+                  "target_at_offer": "pirate_discover"
+                }
+              },
+              {
+                "core_offered": "Leeroy the Reckless",
+                "count": 2,
+                "example": {
+                  "turn": 11,
+                  "shop_generation": 2,
+                  "core_offered": "Leeroy the Reckless",
+                  "core_stats": 8,
+                  "target_at_offer": "pirate_discover"
+                }
+              },
+              {
+                "core_offered": "Brann Bronzebeard",
+                "count": 2,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 0,
+                  "core_offered": "Brann Bronzebeard",
+                  "core_stats": 6,
+                  "target_at_offer": "pirate_discover"
+                }
+              }
+            ]
+          },
+          "demon_boost_shop": {
+            "name": "Demon Boost Shop",
+            "tribe": "Demon",
+            "core_cards": [
+              "Devilish Distractor",
+              "Felboar",
+              "Balinda Stonehearth",
+              "Imp-lusionist",
+              "Brann Bronzebeard",
+              "Twisted Wrathguard",
+              "Leeroy the Reckless",
+              "Insatiable Ur'zul",
+              "Heroic Underdog",
+              "Titus Rivendare",
+              "Ashen Corruptor",
+              "Sin'dorei Straight Shot"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.372340425531915,
+              "mean_shop_exposures_per_lobby": 10.861702127659575,
+              "pct_lobbies_2plus_core_seen": 0.9893617021276596,
+              "pct_lobbies_4plus_core_seen": 0.9148936170212766
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "murloc_handbuff": {
+            "name": "Murloc Handbuff",
+            "tribe": "Murloc",
+            "core_cards": [
+              "Diremuck Forager",
+              "Choral Mrrrglr",
+              "Bile Spitter",
+              "Expert Aviator",
+              "Costume Enthusiast",
+              "Brann Bronzebeard",
+              "Shamanic Tidecaller",
+              "Leeroy the Reckless",
+              "Twilight Tidehunter",
+              "Balinda Stonehearth",
+              "Kelp Keeper",
+              "Captain Cookie"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 3
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 3,
+              "distinct_core_legally_available": 10,
+              "shop_generations_with_buyable_core": 12,
+              "legally_buyable_exposures": 12,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 12,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 3,
+              "retained_2_turns": 3,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 0.3333333333333333,
+              "mean_final_coverage_winner": 0.09757785467128027,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.111111111111111,
+              "mean_shop_exposures_per_lobby": 9.696969696969697,
+              "pct_lobbies_2plus_core_seen": 0.98989898989899,
+              "pct_lobbies_4plus_core_seen": 0.8484848484848485
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Expert Aviator",
+                "count": 5,
+                "example": {
+                  "turn": 11,
+                  "shop_generation": 6,
+                  "core_offered": "Expert Aviator",
+                  "core_stats": 7,
+                  "target_at_offer": "murloc_handbuff"
+                }
+              },
+              {
+                "core_offered": "Bile Spitter",
+                "count": 2,
+                "example": {
+                  "turn": 18,
+                  "shop_generation": 2,
+                  "core_offered": "Bile Spitter",
+                  "core_stats": 11,
+                  "target_at_offer": "murloc_handbuff"
+                }
+              },
+              {
+                "core_offered": "Leeroy the Reckless",
+                "count": 2,
+                "example": {
+                  "turn": 11,
+                  "shop_generation": 5,
+                  "core_offered": "Leeroy the Reckless",
+                  "core_stats": 8,
+                  "target_at_offer": "murloc_handbuff"
+                }
+              },
+              {
+                "core_offered": "Diremuck Forager",
+                "count": 2,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 2,
+                  "core_offered": "Diremuck Forager",
+                  "core_stats": 11,
+                  "target_at_offer": "murloc_handbuff"
+                }
+              },
+              {
+                "core_offered": "Costume Enthusiast",
+                "count": 1,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 5,
+                  "core_offered": "Costume Enthusiast",
+                  "core_stats": 9,
+                  "target_at_offer": "murloc_handbuff"
+                }
+              }
+            ]
+          },
+          "mech_magnet": {
+            "name": "Mech Magnet",
+            "tribe": "Mech",
+            "core_cards": [
+              "Drone Duplicator",
+              "Spark Snapper",
+              "Polarizing Beatboxer",
+              "Utility Drone",
+              "Glambot",
+              "Scrap Scraper",
+              "Deflect-o-Bot",
+              "Drakkari Enchanter",
+              "Balinda Stonehearth",
+              "Rescue Bot",
+              "Leeroy the Reckless",
+              "Titus Rivendare"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 4.163793103448276,
+              "mean_shop_exposures_per_lobby": 7.198275862068965,
+              "pct_lobbies_2plus_core_seen": 0.9224137931034483,
+              "pct_lobbies_4plus_core_seen": 0.6724137931034483
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "undead_butcher": {
+            "name": "Undead Butcher",
+            "tribe": "Undead",
+            "core_cards": [
+              "Drustfallen Butcher",
+              "Snazzy Phantom",
+              "Handless Forsaken",
+              "Mummifier",
+              "Dead Bellringer",
+              "Deathly Striker",
+              "Friendly Geist",
+              "Barrier Banshee",
+              "Eternal Summoner",
+              "Risen Rider",
+              "Forsaken Weaver",
+              "Leeroy the Reckless"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 3
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 3,
+              "distinct_core_legally_available": 8,
+              "shop_generations_with_buyable_core": 8,
+              "legally_buyable_exposures": 8,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 8,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 3,
+              "retained_2_turns": 3,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 0.0,
+              "mean_final_coverage_winner": 0.12138063279002877,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.08080808080808,
+              "mean_shop_exposures_per_lobby": 11.747474747474747,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9595959595959596
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Mummifier",
+                "count": 2,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 2,
+                  "core_offered": "Mummifier",
+                  "core_stats": 7,
+                  "target_at_offer": "undead_butcher"
+                }
+              },
+              {
+                "core_offered": "Drustfallen Butcher",
+                "count": 1,
+                "example": {
+                  "turn": 10,
+                  "shop_generation": 0,
+                  "core_offered": "Drustfallen Butcher",
+                  "core_stats": 9,
+                  "target_at_offer": "undead_butcher"
+                }
+              },
+              {
+                "core_offered": "Eternal Summoner",
+                "count": 1,
+                "example": {
+                  "turn": 15,
+                  "shop_generation": 1,
+                  "core_offered": "Eternal Summoner",
+                  "core_stats": 9,
+                  "target_at_offer": "undead_butcher"
+                }
+              },
+              {
+                "core_offered": "Risen Rider",
+                "count": 1,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 3,
+                  "core_offered": "Risen Rider",
+                  "core_stats": 3,
+                  "target_at_offer": "undead_butcher"
+                }
+              },
+              {
+                "core_offered": "Forsaken Weaver",
+                "count": 1,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 3,
+                  "core_offered": "Forsaken Weaver",
+                  "core_stats": 13,
+                  "target_at_offer": "undead_butcher"
+                }
+              }
+            ]
+          },
+          "beast_lobster": {
+            "name": "Beast Lobster",
+            "tribe": "Beast",
+            "core_cards": [
+              "Deathstrider",
+              "Titus Rivendare",
+              "Tasty Lobster",
+              "Headhunter Gryphon",
+              "Hoarding Hyena",
+              "Sin'dorei Straight Shot",
+              "Lurking Lionfish",
+              "Ravaging Scorpid",
+              "Wolf Pup",
+              "Leeroy the Reckless",
+              "Drakkari Enchanter",
+              "Fish of N'Zoth"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 3.5681818181818183,
+              "mean_shop_exposures_per_lobby": 7.386363636363637,
+              "pct_lobbies_2plus_core_seen": 0.9772727272727273,
+              "pct_lobbies_4plus_core_seen": 0.5340909090909091
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "dragon_evoker": {
+            "name": "Dragon Evoker",
+            "tribe": "Dragon",
+            "core_cards": [
+              "Persistent Poet",
+              "Warpwing",
+              "Fire-forged Evoker",
+              "Crimson Vindicator",
+              "Brann Bronzebeard",
+              "Leeroy the Reckless",
+              "Runic Arcanist",
+              "Felfire Conjurer",
+              "Amber Guardian",
+              "Bronze Timewalker",
+              "Thousandth Paper Drake",
+              "Heroic Underdog"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 1
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 1,
+              "distinct_core_legally_available": 1,
+              "shop_generations_with_buyable_core": 1,
+              "legally_buyable_exposures": 1,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 1,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 1,
+              "retained_2_turns": 1,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 0.0,
+              "pct_lobbies_4plus_distinct_core_available": 0.0,
+              "mean_final_coverage_winner": 0.0,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.11,
+              "mean_shop_exposures_per_lobby": 11.97,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.93
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Amber Guardian",
+                "count": 1,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 3,
+                  "core_offered": "Amber Guardian",
+                  "core_stats": 5,
+                  "target_at_offer": "dragon_evoker"
+                }
+              }
+            ]
+          },
+          "neutral_tea_set": {
+            "name": "Neutral Tea Set",
+            "tribe": null,
+            "core_cards": [
+              "Gatekeeper Amalgam",
+              "Balinda Stonehearth",
+              "Brann Bronzebeard",
+              "Fauna Whisperer",
+              "Felfire Conjurer",
+              "Warpwing",
+              "Tranquil Meditative",
+              "Leeroy the Reckless",
+              "Enterprising Escapee",
+              "Felboar",
+              "Captain Cookie",
+              "Heroic Underdog"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 4.23,
+              "mean_shop_exposures_per_lobby": 7.075,
+              "pct_lobbies_2plus_core_seen": 0.955,
+              "pct_lobbies_4plus_core_seen": 0.665
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "beast_leviathan": {
+            "name": "Beast Leviathan",
+            "tribe": "Beast",
+            "core_cards": [
+              "Banana Slamma",
+              "Ravaging Scorpid",
+              "Turquoise Skitterer",
+              "Sewer Lord",
+              "Lurking Leviathan",
+              "Leeroy the Reckless",
+              "Headhunter Gryphon",
+              "Buzzing Vermin",
+              "Titus Rivendare",
+              "Forest Rover",
+              "Goldrinn, the Great Wolf",
+              "Fish of N'Zoth"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 1
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 1,
+              "distinct_core_legally_available": 3,
+              "shop_generations_with_buyable_core": 5,
+              "legally_buyable_exposures": 5,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 5,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 1,
+              "retained_2_turns": 1,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 0.0,
+              "mean_final_coverage_winner": 0.22525040764034474,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.886363636363637,
+              "mean_shop_exposures_per_lobby": 14.931818181818182,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9659090909090909
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Fish of N'Zoth",
+                "count": 2,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 2,
+                  "core_offered": "Fish of N'Zoth",
+                  "core_stats": 4,
+                  "target_at_offer": "beast_leviathan"
+                }
+              },
+              {
+                "core_offered": "Banana Slamma",
+                "count": 2,
+                "example": {
+                  "turn": 11,
+                  "shop_generation": 3,
+                  "core_offered": "Banana Slamma",
+                  "core_stats": 9,
+                  "target_at_offer": "beast_leviathan"
+                }
+              },
+              {
+                "core_offered": "Goldrinn, the Great Wolf",
+                "count": 1,
+                "example": {
+                  "turn": 17,
+                  "shop_generation": 2,
+                  "core_offered": "Goldrinn, the Great Wolf",
+                  "core_stats": 16,
+                  "target_at_offer": "beast_leviathan"
+                }
+              }
+            ]
+          },
+          "dragon_kalecgos": {
+            "name": "Dragon Kalecgos",
+            "tribe": "Dragon",
+            "core_cards": [
+              "Warpwing",
+              "Kalecgos, Arcane Aspect",
+              "Brann Bronzebeard",
+              "Persistent Poet",
+              "Bronze Timewalker",
+              "Crimson Vindicator",
+              "Sky-hatch Runaway",
+              "Leeroy the Reckless",
+              "Amber Guardian",
+              "Fire-forged Evoker",
+              "Draconic Warden",
+              "Thousandth Paper Drake"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.01,
+              "mean_shop_exposures_per_lobby": 11.4,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.91
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "beast_beetle": {
+            "name": "Beast Beetle",
+            "tribe": "Beast",
+            "core_cards": [
+              "Banana Slamma",
+              "Ravaging Scorpid",
+              "Turquoise Skitterer",
+              "Forest Rover",
+              "Buzzing Vermin",
+              "Headhunter Gryphon",
+              "Leeroy the Reckless",
+              "Deathstrider",
+              "Titus Rivendare",
+              "Boom-in-a-Box",
+              "Sin'dorei Straight Shot",
+              "Sewer Lord"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.784090909090909,
+              "mean_shop_exposures_per_lobby": 12.045454545454545,
+              "pct_lobbies_2plus_core_seen": 0.9886363636363636,
+              "pct_lobbies_4plus_core_seen": 0.9318181818181818
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "naga_groundbreaker": {
+            "name": "Naga Groundbreaker",
+            "tribe": "Naga",
+            "core_cards": [
+              "Groundbreaker",
+              "Seafloor Recruiter",
+              "Balinda Stonehearth",
+              "Cagey Conjurer",
+              "Glowscale",
+              "Leeroy the Reckless",
+              "Darkcrest Strategist",
+              "Torrential Ruiner",
+              "Abyssal Bruiser",
+              "Heroic Underdog",
+              "Brann Bronzebeard",
+              "Showy Cyclist"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.474747474747475,
+              "mean_shop_exposures_per_lobby": 11.88888888888889,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.898989898989899
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "quilboar_choose_one": {
+            "name": "Quilboar Choose One",
+            "tribe": "Quilboar",
+            "core_cards": [
+              "Turbo Hogrider",
+              "Bramble Tunneler",
+              "Gem Rat",
+              "Sanguine Refiner",
+              "Vigilant Bristlemane",
+              "Balinda Stonehearth",
+              "Sanguine Champion",
+              "Felboar",
+              "Leeroy the Reckless",
+              "Heroic Underdog",
+              "Thorned Trailblazer",
+              "Razorfen Vineweaver"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 1
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 1,
+              "distinct_core_legally_available": 4,
+              "shop_generations_with_buyable_core": 5,
+              "legally_buyable_exposures": 5,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 5,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 1,
+              "retained_2_turns": 1,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 1.0,
+              "mean_final_coverage_winner": 0.03196554069372024,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.5181818181818185,
+              "mean_shop_exposures_per_lobby": 9.654545454545454,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.8818181818181818
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Thorned Trailblazer",
+                "count": 2,
+                "example": {
+                  "turn": 12,
+                  "shop_generation": 0,
+                  "core_offered": "Thorned Trailblazer",
+                  "core_stats": 9,
+                  "target_at_offer": "quilboar_choose_one"
+                }
+              },
+              {
+                "core_offered": "Felboar",
+                "count": 1,
+                "example": {
+                  "turn": 15,
+                  "shop_generation": 2,
+                  "core_offered": "Felboar",
+                  "core_stats": 8,
+                  "target_at_offer": "quilboar_choose_one"
+                }
+              },
+              {
+                "core_offered": "Leeroy the Reckless",
+                "count": 1,
+                "example": {
+                  "turn": 17,
+                  "shop_generation": 2,
+                  "core_offered": "Leeroy the Reckless",
+                  "core_stats": 8,
+                  "target_at_offer": "quilboar_choose_one"
+                }
+              },
+              {
+                "core_offered": "Gem Rat",
+                "count": 1,
+                "example": {
+                  "turn": 18,
+                  "shop_generation": 4,
+                  "core_offered": "Gem Rat",
+                  "core_stats": 8,
+                  "target_at_offer": "quilboar_choose_one"
+                }
+              }
+            ]
+          },
+          "murloc_mrrglton": {
+            "name": "Murloc Mrrglton",
+            "tribe": "Murloc",
+            "core_cards": [
+              "Brann Bronzebeard",
+              "Cousin Errgl",
+              "Kelp Keeper",
+              "Papa Mrrglton",
+              "Mama Mrrglton",
+              "Bile Spitter",
+              "Drakkari Enchanter",
+              "Diremuck Forager",
+              "Primalfin Lookout",
+              "Expert Aviator",
+              "Leeroy the Reckless",
+              "Choral Mrrrglr"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 3
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 3,
+              "distinct_core_legally_available": 7,
+              "shop_generations_with_buyable_core": 8,
+              "legally_buyable_exposures": 8,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 8,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 3,
+              "retained_2_turns": 3,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 0.6666666666666666,
+              "pct_lobbies_4plus_distinct_core_available": 0.3333333333333333,
+              "mean_final_coverage_winner": 0.1045156591405681,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 7.555555555555555,
+              "mean_shop_exposures_per_lobby": 15.202020202020202,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9797979797979798
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Choral Mrrrglr",
+                "count": 3,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 5,
+                  "core_offered": "Choral Mrrrglr",
+                  "core_stats": 12,
+                  "target_at_offer": "murloc_mrrglton"
+                }
+              },
+              {
+                "core_offered": "Mama Mrrglton",
+                "count": 1,
+                "example": {
+                  "turn": 12,
+                  "shop_generation": 5,
+                  "core_offered": "Mama Mrrglton",
+                  "core_stats": 8,
+                  "target_at_offer": "murloc_mrrglton"
+                }
+              },
+              {
+                "core_offered": "Cousin Errgl",
+                "count": 1,
+                "example": {
+                  "turn": 15,
+                  "shop_generation": 5,
+                  "core_offered": "Cousin Errgl",
+                  "core_stats": 10,
+                  "target_at_offer": "murloc_mrrglton"
+                }
+              },
+              {
+                "core_offered": "Leeroy the Reckless",
+                "count": 1,
+                "example": {
+                  "turn": 16,
+                  "shop_generation": 1,
+                  "core_offered": "Leeroy the Reckless",
+                  "core_stats": 8,
+                  "target_at_offer": "murloc_mrrglton"
+                }
+              },
+              {
+                "core_offered": "Brann Bronzebeard",
+                "count": 1,
+                "example": {
+                  "turn": 9,
+                  "shop_generation": 6,
+                  "core_offered": "Brann Bronzebeard",
+                  "core_stats": 6,
+                  "target_at_offer": "murloc_mrrglton"
+                }
+              }
+            ]
+          },
+          "mech_automaton": {
+            "name": "Mech Automaton",
+            "tribe": "Mech",
+            "core_cards": [
+              "Falling Sky Golem",
+              "Titus Rivendare",
+              "Kangor's Apprentice",
+              "Polarizing Beatboxer",
+              "Scrap Scraper",
+              "Spark Snapper",
+              "Leeroy the Reckless",
+              "Ancestral Automaton",
+              "Utility Drone",
+              "Heroic Underdog",
+              "Drone Duplicator",
+              "Auto Assembler"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.698275862068965,
+              "mean_shop_exposures_per_lobby": 10.724137931034482,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.853448275862069
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "demon_self_damage": {
+            "name": "Demon Self Damage",
+            "tribe": "Demon",
+            "core_cards": [
+              "Wrath Weaver",
+              "Ashen Corruptor",
+              "Tichondrius",
+              "Malchezaar, Prince of Dance",
+              "Soul Rewinder",
+              "Eredar Escapist",
+              "Twisted Wrathguard",
+              "Brann Bronzebeard",
+              "Soulkeeping Jailer",
+              "Imp-lusionist",
+              "Insatiable Ur'zul",
+              "Imposing Percussionist"
+            ],
+            "classification": {
+              "C_BOUGHT_NOT_RETAINED": 1
+            },
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 1,
+              "distinct_core_legally_available": 7,
+              "shop_generations_with_buyable_core": 8,
+              "legally_buyable_exposures": 9,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 9,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
+              "played": 1,
+              "retained_2_turns": 1,
+              "reached_2_core": 0,
+              "reached_4_core": 0,
+              "pct_lobbies_2plus_distinct_core_available": 1.0,
+              "pct_lobbies_4plus_distinct_core_available": 1.0,
+              "mean_final_coverage_winner": 0.18511111111111112,
+              "mean_max_core_pieces": 1
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.446808510638298,
+              "mean_shop_exposures_per_lobby": 14.702127659574469,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9574468085106383
+            },
+            "top_rejections_at_shop_exit": [
+              {
+                "core_offered": "Insatiable Ur'zul",
+                "count": 3,
+                "example": {
+                  "turn": 11,
+                  "shop_generation": 0,
+                  "core_offered": "Insatiable Ur'zul",
+                  "core_stats": 10,
+                  "target_at_offer": "demon_self_damage"
+                }
+              },
+              {
+                "core_offered": "Brann Bronzebeard",
+                "count": 1,
+                "example": {
+                  "turn": 11,
+                  "shop_generation": 6,
+                  "core_offered": "Brann Bronzebeard",
+                  "core_stats": 6,
+                  "target_at_offer": "demon_self_damage"
+                }
+              },
+              {
+                "core_offered": "Twisted Wrathguard",
+                "count": 1,
+                "example": {
+                  "turn": 12,
+                  "shop_generation": 2,
+                  "core_offered": "Twisted Wrathguard",
+                  "core_stats": 16,
+                  "target_at_offer": "demon_self_damage"
+                }
+              },
+              {
+                "core_offered": "Malchezaar, Prince of Dance",
+                "count": 1,
+                "example": {
+                  "turn": 13,
+                  "shop_generation": 6,
+                  "core_offered": "Malchezaar, Prince of Dance",
+                  "core_stats": 3,
+                  "target_at_offer": "demon_self_damage"
+                }
+              },
+              {
+                "core_offered": "Tichondrius",
+                "count": 1,
+                "example": {
+                  "turn": 14,
+                  "shop_generation": 6,
+                  "core_offered": "Tichondrius",
+                  "core_stats": 9,
+                  "target_at_offer": "demon_self_damage"
+                }
+              }
+            ]
+          },
+          "elemental_boost": {
+            "name": "Elemental Boost",
+            "tribe": "Elemental",
+            "core_cards": [
+              "Unleashed Mana Surge",
+              "Moat Custodian",
+              "Unbound Tempest",
+              "Tavern Tempest",
+              "Brann Bronzebeard",
+              "Glowing Cinder",
+              "Wildfire Elemental",
+              "Meteorite Crasher",
+              "Nightmare Par-tea Guest",
+              "Heroic Underdog",
+              "Leeroy the Reckless",
+              "Elemental of Surprise"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.819148936170213,
+              "mean_shop_exposures_per_lobby": 13.03191489361702,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9787234042553191
+            },
+            "top_rejections_at_shop_exit": []
+          }
+        }
+      },
+      "committed_current_target": {
+        "view": "committed_current_target",
+        "view_label": "strong confirmation \u2014 infer_target + core_have >= 2 and tavern tier >= 4 (matches path_value off-path threshold)",
+        "classification_totals": {},
+        "n_lobby_archetype_ineligible": 1822,
+        "aggregate_funnel": {
+          "n_lobby_archetype_states": 0,
+          "legally_buyable_exposures": 0,
+          "fulfilled_exposures": 0,
+          "rejected_exposures": 0,
+          "core_purchase_actions": 0,
+          "exposure_accounting_valid": true,
+          "rejection_rate": 0.0,
+          "fulfillment_rate": 0.0
+        },
+        "by_archetype": {
+          "naga_end_of_turn": {
+            "name": "Naga End Of Turn",
+            "tribe": "Naga",
+            "core_cards": [
+              "Fauna Whisperer",
+              "Balinda Stonehearth",
+              "Gatekeeper Amalgam",
+              "Drakkari Enchanter",
+              "Felfire Conjurer",
+              "Torrential Ruiner",
+              "Seafloor Recruiter",
+              "Tranquil Meditative",
+              "Groundbreaker",
+              "Warpwing",
+              "Leeroy the Reckless",
+              "Abyssal Bruiser"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.373737373737374,
+              "mean_shop_exposures_per_lobby": 9.252525252525253,
+              "pct_lobbies_2plus_core_seen": 0.9797979797979798,
+              "pct_lobbies_4plus_core_seen": 0.8282828282828283
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "elemental_cycle": {
+            "name": "Elemental Cycle",
+            "tribe": "Elemental",
+            "core_cards": [
+              "Unbound Tempest",
+              "Brann Bronzebeard",
+              "Unleashed Mana Surge",
+              "Moat Custodian",
+              "Wildfire Elemental",
+              "Tavern Tempest",
+              "Air Revenant",
+              "Leeroy the Reckless",
+              "Flaming Enforcer",
+              "Meteorite Crasher",
+              "Heroic Underdog",
+              "Kelp Keeper"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.25531914893617,
+              "mean_shop_exposures_per_lobby": 12.25531914893617,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.925531914893617
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "pirate_discover": {
+            "name": "Pirate Discover",
+            "tribe": "Pirate",
+            "core_cards": [
+              "Hooktusk, Master Marauder",
+              "Enterprising Escapee",
+              "Blade Collector",
+              "Leeroy the Reckless",
+              "Sky Admiral Rogers",
+              "Brann Bronzebeard",
+              "Proud Privateer",
+              "Clever Castaway",
+              "Heroic Underdog",
+              "Maritime Extortionist",
+              "Deadly Spore",
+              "Sin'dorei Straight Shot"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.623762376237623,
+              "mean_shop_exposures_per_lobby": 10.841584158415841,
+              "pct_lobbies_2plus_core_seen": 0.9801980198019802,
+              "pct_lobbies_4plus_core_seen": 0.8910891089108911
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "demon_boost_shop": {
+            "name": "Demon Boost Shop",
+            "tribe": "Demon",
+            "core_cards": [
+              "Devilish Distractor",
+              "Felboar",
+              "Balinda Stonehearth",
+              "Imp-lusionist",
+              "Brann Bronzebeard",
+              "Twisted Wrathguard",
+              "Leeroy the Reckless",
+              "Insatiable Ur'zul",
+              "Heroic Underdog",
+              "Titus Rivendare",
+              "Ashen Corruptor",
+              "Sin'dorei Straight Shot"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.372340425531915,
+              "mean_shop_exposures_per_lobby": 10.861702127659575,
+              "pct_lobbies_2plus_core_seen": 0.9893617021276596,
+              "pct_lobbies_4plus_core_seen": 0.9148936170212766
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "murloc_handbuff": {
+            "name": "Murloc Handbuff",
+            "tribe": "Murloc",
+            "core_cards": [
+              "Diremuck Forager",
+              "Choral Mrrrglr",
+              "Bile Spitter",
+              "Expert Aviator",
+              "Costume Enthusiast",
+              "Brann Bronzebeard",
+              "Shamanic Tidecaller",
+              "Leeroy the Reckless",
+              "Twilight Tidehunter",
+              "Balinda Stonehearth",
+              "Kelp Keeper",
+              "Captain Cookie"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.111111111111111,
+              "mean_shop_exposures_per_lobby": 9.696969696969697,
+              "pct_lobbies_2plus_core_seen": 0.98989898989899,
+              "pct_lobbies_4plus_core_seen": 0.8484848484848485
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "mech_magnet": {
+            "name": "Mech Magnet",
+            "tribe": "Mech",
+            "core_cards": [
+              "Drone Duplicator",
+              "Spark Snapper",
+              "Polarizing Beatboxer",
+              "Utility Drone",
+              "Glambot",
+              "Scrap Scraper",
+              "Deflect-o-Bot",
+              "Drakkari Enchanter",
+              "Balinda Stonehearth",
+              "Rescue Bot",
+              "Leeroy the Reckless",
+              "Titus Rivendare"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 4.163793103448276,
+              "mean_shop_exposures_per_lobby": 7.198275862068965,
+              "pct_lobbies_2plus_core_seen": 0.9224137931034483,
+              "pct_lobbies_4plus_core_seen": 0.6724137931034483
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "undead_butcher": {
+            "name": "Undead Butcher",
+            "tribe": "Undead",
+            "core_cards": [
+              "Drustfallen Butcher",
+              "Snazzy Phantom",
+              "Handless Forsaken",
+              "Mummifier",
+              "Dead Bellringer",
+              "Deathly Striker",
+              "Friendly Geist",
+              "Barrier Banshee",
+              "Eternal Summoner",
+              "Risen Rider",
+              "Forsaken Weaver",
+              "Leeroy the Reckless"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.08080808080808,
+              "mean_shop_exposures_per_lobby": 11.747474747474747,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9595959595959596
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "beast_lobster": {
+            "name": "Beast Lobster",
+            "tribe": "Beast",
+            "core_cards": [
+              "Deathstrider",
+              "Titus Rivendare",
+              "Tasty Lobster",
+              "Headhunter Gryphon",
+              "Hoarding Hyena",
+              "Sin'dorei Straight Shot",
+              "Lurking Lionfish",
+              "Ravaging Scorpid",
+              "Wolf Pup",
+              "Leeroy the Reckless",
+              "Drakkari Enchanter",
+              "Fish of N'Zoth"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 3.5681818181818183,
+              "mean_shop_exposures_per_lobby": 7.386363636363637,
+              "pct_lobbies_2plus_core_seen": 0.9772727272727273,
+              "pct_lobbies_4plus_core_seen": 0.5340909090909091
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "dragon_evoker": {
+            "name": "Dragon Evoker",
+            "tribe": "Dragon",
+            "core_cards": [
+              "Persistent Poet",
+              "Warpwing",
+              "Fire-forged Evoker",
+              "Crimson Vindicator",
+              "Brann Bronzebeard",
+              "Leeroy the Reckless",
+              "Runic Arcanist",
+              "Felfire Conjurer",
+              "Amber Guardian",
+              "Bronze Timewalker",
+              "Thousandth Paper Drake",
+              "Heroic Underdog"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.11,
+              "mean_shop_exposures_per_lobby": 11.97,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.93
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "neutral_tea_set": {
+            "name": "Neutral Tea Set",
+            "tribe": null,
+            "core_cards": [
+              "Gatekeeper Amalgam",
+              "Balinda Stonehearth",
+              "Brann Bronzebeard",
+              "Fauna Whisperer",
+              "Felfire Conjurer",
+              "Warpwing",
+              "Tranquil Meditative",
+              "Leeroy the Reckless",
+              "Enterprising Escapee",
+              "Felboar",
+              "Captain Cookie",
+              "Heroic Underdog"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 4.23,
+              "mean_shop_exposures_per_lobby": 7.075,
+              "pct_lobbies_2plus_core_seen": 0.955,
+              "pct_lobbies_4plus_core_seen": 0.665
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "beast_leviathan": {
+            "name": "Beast Leviathan",
+            "tribe": "Beast",
+            "core_cards": [
+              "Banana Slamma",
+              "Ravaging Scorpid",
+              "Turquoise Skitterer",
+              "Sewer Lord",
+              "Lurking Leviathan",
+              "Leeroy the Reckless",
+              "Headhunter Gryphon",
+              "Buzzing Vermin",
+              "Titus Rivendare",
+              "Forest Rover",
+              "Goldrinn, the Great Wolf",
+              "Fish of N'Zoth"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.886363636363637,
+              "mean_shop_exposures_per_lobby": 14.931818181818182,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9659090909090909
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "dragon_kalecgos": {
+            "name": "Dragon Kalecgos",
+            "tribe": "Dragon",
+            "core_cards": [
+              "Warpwing",
+              "Kalecgos, Arcane Aspect",
+              "Brann Bronzebeard",
+              "Persistent Poet",
+              "Bronze Timewalker",
+              "Crimson Vindicator",
+              "Sky-hatch Runaway",
+              "Leeroy the Reckless",
+              "Amber Guardian",
+              "Fire-forged Evoker",
+              "Draconic Warden",
+              "Thousandth Paper Drake"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.01,
+              "mean_shop_exposures_per_lobby": 11.4,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.91
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "beast_beetle": {
+            "name": "Beast Beetle",
+            "tribe": "Beast",
+            "core_cards": [
+              "Banana Slamma",
+              "Ravaging Scorpid",
+              "Turquoise Skitterer",
+              "Forest Rover",
+              "Buzzing Vermin",
+              "Headhunter Gryphon",
+              "Leeroy the Reckless",
+              "Deathstrider",
+              "Titus Rivendare",
+              "Boom-in-a-Box",
+              "Sin'dorei Straight Shot",
+              "Sewer Lord"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.784090909090909,
+              "mean_shop_exposures_per_lobby": 12.045454545454545,
+              "pct_lobbies_2plus_core_seen": 0.9886363636363636,
+              "pct_lobbies_4plus_core_seen": 0.9318181818181818
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "naga_groundbreaker": {
+            "name": "Naga Groundbreaker",
+            "tribe": "Naga",
+            "core_cards": [
+              "Groundbreaker",
+              "Seafloor Recruiter",
+              "Balinda Stonehearth",
+              "Cagey Conjurer",
+              "Glowscale",
+              "Leeroy the Reckless",
+              "Darkcrest Strategist",
+              "Torrential Ruiner",
+              "Abyssal Bruiser",
+              "Heroic Underdog",
+              "Brann Bronzebeard",
+              "Showy Cyclist"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.474747474747475,
+              "mean_shop_exposures_per_lobby": 11.88888888888889,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.898989898989899
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "quilboar_choose_one": {
+            "name": "Quilboar Choose One",
+            "tribe": "Quilboar",
+            "core_cards": [
+              "Turbo Hogrider",
+              "Bramble Tunneler",
+              "Gem Rat",
+              "Sanguine Refiner",
+              "Vigilant Bristlemane",
+              "Balinda Stonehearth",
+              "Sanguine Champion",
+              "Felboar",
+              "Leeroy the Reckless",
+              "Heroic Underdog",
+              "Thorned Trailblazer",
+              "Razorfen Vineweaver"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.5181818181818185,
+              "mean_shop_exposures_per_lobby": 9.654545454545454,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.8818181818181818
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "murloc_mrrglton": {
+            "name": "Murloc Mrrglton",
+            "tribe": "Murloc",
+            "core_cards": [
+              "Brann Bronzebeard",
+              "Cousin Errgl",
+              "Kelp Keeper",
+              "Papa Mrrglton",
+              "Mama Mrrglton",
+              "Bile Spitter",
+              "Drakkari Enchanter",
+              "Diremuck Forager",
+              "Primalfin Lookout",
+              "Expert Aviator",
+              "Leeroy the Reckless",
+              "Choral Mrrrglr"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 7.555555555555555,
+              "mean_shop_exposures_per_lobby": 15.202020202020202,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9797979797979798
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "mech_automaton": {
+            "name": "Mech Automaton",
+            "tribe": "Mech",
+            "core_cards": [
+              "Falling Sky Golem",
+              "Titus Rivendare",
+              "Kangor's Apprentice",
+              "Polarizing Beatboxer",
+              "Scrap Scraper",
+              "Spark Snapper",
+              "Leeroy the Reckless",
+              "Ancestral Automaton",
+              "Utility Drone",
+              "Heroic Underdog",
+              "Drone Duplicator",
+              "Auto Assembler"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 5.698275862068965,
+              "mean_shop_exposures_per_lobby": 10.724137931034482,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.853448275862069
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "demon_self_damage": {
+            "name": "Demon Self Damage",
+            "tribe": "Demon",
+            "core_cards": [
+              "Wrath Weaver",
+              "Ashen Corruptor",
+              "Tichondrius",
+              "Malchezaar, Prince of Dance",
+              "Soul Rewinder",
+              "Eredar Escapist",
+              "Twisted Wrathguard",
+              "Brann Bronzebeard",
+              "Soulkeeping Jailer",
+              "Imp-lusionist",
+              "Insatiable Ur'zul",
+              "Imposing Percussionist"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
+            "global_availability": {
+              "mean_distinct_cores_seen_per_lobby": 6.446808510638298,
+              "mean_shop_exposures_per_lobby": 14.702127659574469,
+              "pct_lobbies_2plus_core_seen": 1.0,
+              "pct_lobbies_4plus_core_seen": 0.9574468085106383
+            },
+            "top_rejections_at_shop_exit": []
+          },
+          "elemental_boost": {
+            "name": "Elemental Boost",
+            "tribe": "Elemental",
+            "core_cards": [
+              "Unleashed Mana Surge",
+              "Moat Custodian",
+              "Unbound Tempest",
+              "Tavern Tempest",
+              "Brann Bronzebeard",
+              "Glowing Cinder",
+              "Wildfire Elemental",
+              "Meteorite Crasher",
+              "Nightmare Par-tea Guest",
+              "Heroic Underdog",
+              "Leeroy the Reckless",
+              "Elemental of Surprise"
+            ],
+            "classification": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 6.819148936170213,
               "mean_shop_exposures_per_lobby": 13.03191489361702,
@@ -1513,7 +3650,7 @@
       },
       "final_target_hindsight": {
         "view": "final_target_hindsight",
-        "view_label": "final-target hindsight (winner eventual archetype)",
+        "view_label": "hindsight \u2014 cores for winner's eventual best-fit archetype",
         "classification_totals": {
           "B_AVAILABLE_NOT_BOUGHT": 112,
           "C_BOUGHT_NOT_RETAINED": 24,
@@ -1521,19 +3658,22 @@
         },
         "n_lobby_archetype_ineligible": 1822,
         "aggregate_funnel": {
-          "n_lobbies_evaluated": 147,
+          "n_lobby_archetype_states": 147,
           "distinct_core_legally_available": 419,
           "shop_generations_with_buyable_core": 521,
           "legally_buyable_exposures": 532,
-          "purchased": 24,
-          "rejected_at_shop_exit": 508,
+          "fulfilled_exposures": 24,
+          "rejected_exposures": 508,
+          "core_purchase_actions": 24,
+          "exposure_accounting_valid": true,
+          "rejection_rate": 0.9548872180451128,
+          "fulfillment_rate": 0.045112781954887216,
           "played": 22,
           "retained_2_turns": 24,
           "reached_2_core": 0,
           "reached_4_core": 0,
           "pct_lobbies_2plus_distinct_core_available": 0.8027210884353742,
           "pct_lobbies_4plus_distinct_core_available": 0.30612244897959184,
-          "purchase_rate_when_legally_buyable": 0.045112781954887216,
           "mean_final_coverage_winner": 0.011431640327838263,
           "mean_max_core_pieces": 0.14965986394557823
         },
@@ -1561,19 +3701,22 @@
               "A_IMPOSSIBLE": 2
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 48,
+              "n_lobby_archetype_states": 48,
               "distinct_core_legally_available": 132,
               "shop_generations_with_buyable_core": 155,
               "legally_buyable_exposures": 159,
-              "purchased": 2,
-              "rejected_at_shop_exit": 157,
+              "fulfilled_exposures": 2,
+              "rejected_exposures": 157,
+              "core_purchase_actions": 2,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9874213836477987,
+              "fulfillment_rate": 0.012578616352201259,
               "played": 2,
               "retained_2_turns": 2,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.8333333333333334,
               "pct_lobbies_4plus_distinct_core_available": 0.2708333333333333,
-              "purchase_rate_when_legally_buyable": 0.012578616352201259,
               "mean_final_coverage_winner": 0.0019853287569823,
               "mean_max_core_pieces": 0.041666666666666664
             },
@@ -1664,19 +3807,22 @@
               "C_BOUGHT_NOT_RETAINED": 4
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 17,
+              "n_lobby_archetype_states": 17,
               "distinct_core_legally_available": 48,
               "shop_generations_with_buyable_core": 59,
               "legally_buyable_exposures": 61,
-              "purchased": 4,
-              "rejected_at_shop_exit": 57,
+              "fulfilled_exposures": 4,
+              "rejected_exposures": 57,
+              "core_purchase_actions": 4,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9344262295081968,
+              "fulfillment_rate": 0.06557377049180328,
               "played": 3,
               "retained_2_turns": 4,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.8235294117647058,
               "pct_lobbies_4plus_distinct_core_available": 0.29411764705882354,
-              "purchase_rate_when_legally_buyable": 0.06557377049180328,
               "mean_final_coverage_winner": 0.010908994273110194,
               "mean_max_core_pieces": 0.17647058823529413
             },
@@ -1766,19 +3912,22 @@
               "B_AVAILABLE_NOT_BOUGHT": 8
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 13,
+              "n_lobby_archetype_states": 13,
               "distinct_core_legally_available": 42,
               "shop_generations_with_buyable_core": 55,
               "legally_buyable_exposures": 55,
-              "purchased": 5,
-              "rejected_at_shop_exit": 50,
+              "fulfilled_exposures": 5,
+              "rejected_exposures": 50,
+              "core_purchase_actions": 5,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9090909090909091,
+              "fulfillment_rate": 0.09090909090909091,
               "played": 5,
               "retained_2_turns": 5,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6923076923076923,
               "pct_lobbies_4plus_distinct_core_available": 0.38461538461538464,
-              "purchase_rate_when_legally_buyable": 0.09090909090909091,
               "mean_final_coverage_winner": 0.00749825731456885,
               "mean_max_core_pieces": 0.38461538461538464
             },
@@ -1868,19 +4017,22 @@
               "A_IMPOSSIBLE": 2
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 11,
+              "n_lobby_archetype_states": 11,
               "distinct_core_legally_available": 26,
               "shop_generations_with_buyable_core": 33,
               "legally_buyable_exposures": 34,
-              "purchased": 0,
-              "rejected_at_shop_exit": 34,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 34,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 0,
               "retained_2_turns": 0,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.8181818181818182,
               "pct_lobbies_4plus_distinct_core_available": 0.18181818181818182,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.0,
               "mean_max_core_pieces": 0
             },
@@ -1970,19 +4122,22 @@
               "B_AVAILABLE_NOT_BOUGHT": 10
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 13,
+              "n_lobby_archetype_states": 13,
               "distinct_core_legally_available": 44,
               "shop_generations_with_buyable_core": 55,
               "legally_buyable_exposures": 55,
-              "purchased": 3,
-              "rejected_at_shop_exit": 52,
+              "fulfilled_exposures": 3,
+              "rejected_exposures": 52,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9454545454545454,
+              "fulfillment_rate": 0.05454545454545454,
               "played": 3,
               "retained_2_turns": 3,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 1.0,
               "pct_lobbies_4plus_distinct_core_available": 0.3076923076923077,
-              "purchase_rate_when_legally_buyable": 0.05454545454545454,
               "mean_final_coverage_winner": 0.02251796646260314,
               "mean_max_core_pieces": 0.23076923076923078
             },
@@ -2072,19 +4227,22 @@
               "A_IMPOSSIBLE": 2
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 18,
+              "n_lobby_archetype_states": 18,
               "distinct_core_legally_available": 37,
               "shop_generations_with_buyable_core": 45,
               "legally_buyable_exposures": 46,
-              "purchased": 0,
-              "rejected_at_shop_exit": 46,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 46,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 1.0,
+              "fulfillment_rate": 0.0,
               "played": 0,
               "retained_2_turns": 0,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6666666666666666,
               "pct_lobbies_4plus_distinct_core_available": 0.1111111111111111,
-              "purchase_rate_when_legally_buyable": 0.0,
               "mean_final_coverage_winner": 0.0,
               "mean_max_core_pieces": 0
             },
@@ -2175,19 +4333,22 @@
               "C_BOUGHT_NOT_RETAINED": 3
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 11,
+              "n_lobby_archetype_states": 11,
               "distinct_core_legally_available": 31,
               "shop_generations_with_buyable_core": 39,
               "legally_buyable_exposures": 41,
-              "purchased": 3,
-              "rejected_at_shop_exit": 38,
+              "fulfilled_exposures": 3,
+              "rejected_exposures": 38,
+              "core_purchase_actions": 3,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.926829268292683,
+              "fulfillment_rate": 0.07317073170731707,
               "played": 3,
               "retained_2_turns": 3,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.7272727272727273,
               "pct_lobbies_4plus_distinct_core_available": 0.36363636363636365,
-              "purchase_rate_when_legally_buyable": 0.07317073170731707,
               "mean_final_coverage_winner": 0.03310380894273512,
               "mean_max_core_pieces": 0.2727272727272727
             },
@@ -2273,7 +4434,16 @@
               "Fish of N'Zoth"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 3.5681818181818183,
               "mean_shop_exposures_per_lobby": 7.386363636363637,
@@ -2304,19 +4474,22 @@
               "B_AVAILABLE_NOT_BOUGHT": 7
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 9,
+              "n_lobby_archetype_states": 9,
               "distinct_core_legally_available": 32,
               "shop_generations_with_buyable_core": 41,
               "legally_buyable_exposures": 41,
-              "purchased": 2,
-              "rejected_at_shop_exit": 39,
+              "fulfilled_exposures": 2,
+              "rejected_exposures": 39,
+              "core_purchase_actions": 2,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9512195121951219,
+              "fulfillment_rate": 0.04878048780487805,
               "played": 1,
               "retained_2_turns": 2,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.7777777777777778,
               "pct_lobbies_4plus_distinct_core_available": 0.5555555555555556,
-              "purchase_rate_when_legally_buyable": 0.04878048780487805,
               "mean_final_coverage_winner": 0.0,
               "mean_max_core_pieces": 0.1111111111111111
             },
@@ -2402,7 +4575,16 @@
               "Heroic Underdog"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 4.23,
               "mean_shop_exposures_per_lobby": 7.075,
@@ -2432,19 +4614,22 @@
               "C_BOUGHT_NOT_RETAINED": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 1,
+              "n_lobby_archetype_states": 1,
               "distinct_core_legally_available": 3,
               "shop_generations_with_buyable_core": 6,
               "legally_buyable_exposures": 6,
-              "purchased": 1,
-              "rejected_at_shop_exit": 5,
+              "fulfilled_exposures": 1,
+              "rejected_exposures": 5,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.8333333333333334,
+              "fulfillment_rate": 0.16666666666666666,
               "played": 1,
               "retained_2_turns": 1,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 1.0,
               "pct_lobbies_4plus_distinct_core_available": 0.0,
-              "purchase_rate_when_legally_buyable": 0.16666666666666666,
               "mean_final_coverage_winner": 0.22525040764034474,
               "mean_max_core_pieces": 1
             },
@@ -2508,7 +4693,16 @@
               "Thousandth Paper Drake"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 6.01,
               "mean_shop_exposures_per_lobby": 11.4,
@@ -2535,7 +4729,16 @@
               "Sewer Lord"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 5.784090909090909,
               "mean_shop_exposures_per_lobby": 12.045454545454545,
@@ -2562,7 +4765,16 @@
               "Showy Cyclist"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 6.474747474747475,
               "mean_shop_exposures_per_lobby": 11.88888888888889,
@@ -2594,19 +4806,22 @@
               "A_IMPOSSIBLE": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 3,
+              "n_lobby_archetype_states": 3,
               "distinct_core_legally_available": 9,
               "shop_generations_with_buyable_core": 14,
               "legally_buyable_exposures": 14,
-              "purchased": 1,
-              "rejected_at_shop_exit": 13,
+              "fulfilled_exposures": 1,
+              "rejected_exposures": 13,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9285714285714286,
+              "fulfillment_rate": 0.07142857142857142,
               "played": 1,
               "retained_2_turns": 1,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 0.6666666666666666,
               "pct_lobbies_4plus_distinct_core_available": 0.6666666666666666,
-              "purchase_rate_when_legally_buyable": 0.07142857142857142,
               "mean_final_coverage_winner": 0.010655180231240081,
               "mean_max_core_pieces": 0.3333333333333333
             },
@@ -2695,19 +4910,22 @@
               "C_BOUGHT_NOT_RETAINED": 2
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 2,
+              "n_lobby_archetype_states": 2,
               "distinct_core_legally_available": 8,
               "shop_generations_with_buyable_core": 10,
               "legally_buyable_exposures": 10,
-              "purchased": 2,
-              "rejected_at_shop_exit": 8,
+              "fulfilled_exposures": 2,
+              "rejected_exposures": 8,
+              "core_purchase_actions": 2,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.8,
+              "fulfillment_rate": 0.2,
               "played": 2,
               "retained_2_turns": 2,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 1.0,
               "pct_lobbies_4plus_distinct_core_available": 1.0,
-              "purchase_rate_when_legally_buyable": 0.2,
               "mean_final_coverage_winner": 0.10151128914785143,
               "mean_max_core_pieces": 1
             },
@@ -2793,7 +5011,16 @@
               "Auto Assembler"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 5.698275862068965,
               "mean_shop_exposures_per_lobby": 10.724137931034482,
@@ -2823,19 +5050,22 @@
               "C_BOUGHT_NOT_RETAINED": 1
             },
             "winner_decision_funnel": {
-              "n_lobbies_evaluated": 1,
+              "n_lobby_archetype_states": 1,
               "distinct_core_legally_available": 7,
               "shop_generations_with_buyable_core": 9,
               "legally_buyable_exposures": 10,
-              "purchased": 1,
-              "rejected_at_shop_exit": 9,
+              "fulfilled_exposures": 1,
+              "rejected_exposures": 9,
+              "core_purchase_actions": 1,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.9,
+              "fulfillment_rate": 0.1,
               "played": 1,
               "retained_2_turns": 1,
               "reached_2_core": 0,
               "reached_4_core": 0,
               "pct_lobbies_2plus_distinct_core_available": 1.0,
               "pct_lobbies_4plus_distinct_core_available": 1.0,
-              "purchase_rate_when_legally_buyable": 0.1,
               "mean_final_coverage_winner": 0.18511111111111112,
               "mean_max_core_pieces": 1
             },
@@ -2921,7 +5151,16 @@
               "Elemental of Surprise"
             ],
             "classification": {},
-            "winner_decision_funnel": {},
+            "winner_decision_funnel": {
+              "n_lobby_archetype_states": 0,
+              "legally_buyable_exposures": 0,
+              "fulfilled_exposures": 0,
+              "rejected_exposures": 0,
+              "core_purchase_actions": 0,
+              "exposure_accounting_valid": true,
+              "rejection_rate": 0.0,
+              "fulfillment_rate": 0.0
+            },
             "global_availability": {
               "mean_distinct_cores_seen_per_lobby": 6.819148936170213,
               "mean_shop_exposures_per_lobby": 13.03191489361702,
@@ -2936,100 +5175,84 @@
     "recommended_phase_2d_intervention": {
       "intervention": "build_aware_recruit_policy",
       "phase_2d_title": "Phase 2D = build-aware recruit policy / evaluator",
-      "rationale": "Corrected v2 funnel (current-target view): 515 legally-buyable exposures, 6 purchased, 509 rejected at shop exit. Classification (eligible lobby\u00d7archetype): B=130, A=85, D=0, C=6. Prior 2,516-case B_AVAILABLE_NOT_BOUGHT headline invalidated (see invalidated_prior_results). Most legally-buyable relevant cores are rejected at shop exit without purchase \u2014 build-aware recruiting is the strongest measured gap. Hindsight final-target mean coverage: 0.011 (labeled hindsight only).",
-      "classification_totals_current_target": {
-        "B_AVAILABLE_NOT_BOUGHT": 130,
-        "A_IMPOSSIBLE": 85,
-        "C_BOUGHT_NOT_RETAINED": 6
+      "rationale": "Primary causal view (seeded current-target): 82 exposures, 0 fulfilled, 82 rejected (100.0% rejection rate). Committed confirmation: 0 exposures, 0 fulfilled, 0 rejected (0.0%). No committed-tier exposures observed in this sample. Exploratory broad view: 515 exposures (98.6% rejection) \u2014 not used for sign-off. Prior 2,516-case headline and v2 broad 515/509 remain invalidated. Seeded/committed views show high rejection of legally-buyable cores from builds the winner was actually seeded into or committed to.",
+      "classification_totals_seeded": {
+        "C_BOUGHT_NOT_RETAINED": 23
       },
       "classification_totals_hindsight": {
         "B_AVAILABLE_NOT_BOUGHT": 112,
         "C_BOUGHT_NOT_RETAINED": 24,
         "A_IMPOSSIBLE": 11
       },
-      "funnel_current_target": {
-        "n_lobbies_evaluated": 221,
-        "distinct_core_legally_available": 414,
-        "shop_generations_with_buyable_core": 504,
-        "legally_buyable_exposures": 515,
-        "purchased": 6,
-        "rejected_at_shop_exit": 509,
-        "played": 23,
-        "retained_2_turns": 6,
-        "reached_2_core": 0,
-        "reached_4_core": 0,
-        "pct_lobbies_2plus_distinct_core_available": 0.5339366515837104,
-        "pct_lobbies_4plus_distinct_core_available": 0.19457013574660634,
-        "purchase_rate_when_legally_buyable": 0.011650485436893204,
-        "mean_final_coverage_winner": 0.008103961662073422,
-        "mean_max_core_pieces": 0.10407239819004525
+      "funnel_seeded_current_target": {
+        "legally_buyable_exposures": 82,
+        "fulfilled_exposures": 0,
+        "rejected_exposures": 82,
+        "rejection_rate": 1.0,
+        "exposure_accounting_valid": true
       },
-      "funnel_hindsight": {
-        "n_lobbies_evaluated": 147,
-        "distinct_core_legally_available": 419,
-        "shop_generations_with_buyable_core": 521,
+      "funnel_committed_current_target": {
+        "legally_buyable_exposures": 0,
+        "fulfilled_exposures": 0,
+        "rejected_exposures": 0,
+        "rejection_rate": 0.0,
+        "exposure_accounting_valid": true
+      },
+      "funnel_final_target_hindsight": {
         "legally_buyable_exposures": 532,
-        "purchased": 24,
-        "rejected_at_shop_exit": 508,
-        "played": 22,
-        "retained_2_turns": 24,
-        "reached_2_core": 0,
-        "reached_4_core": 0,
-        "pct_lobbies_2plus_distinct_core_available": 0.8027210884353742,
-        "pct_lobbies_4plus_distinct_core_available": 0.30612244897959184,
-        "purchase_rate_when_legally_buyable": 0.045112781954887216,
-        "mean_final_coverage_winner": 0.011431640327838263,
-        "mean_max_core_pieces": 0.14965986394557823
+        "fulfilled_exposures": 24,
+        "rejected_exposures": 508,
+        "rejection_rate": 0.9548872180451128,
+        "exposure_accounting_valid": true
+      },
+      "funnel_broad_current_target_exploratory": {
+        "legally_buyable_exposures": 515,
+        "fulfilled_exposures": 7,
+        "rejected_exposures": 508,
+        "rejection_rate": 0.9864077669902913,
+        "exposure_accounting_valid": true
       }
     }
   },
   "recommended_phase_2d_intervention": {
     "intervention": "build_aware_recruit_policy",
     "phase_2d_title": "Phase 2D = build-aware recruit policy / evaluator",
-    "rationale": "Corrected v2 funnel (current-target view): 515 legally-buyable exposures, 6 purchased, 509 rejected at shop exit. Classification (eligible lobby\u00d7archetype): B=130, A=85, D=0, C=6. Prior 2,516-case B_AVAILABLE_NOT_BOUGHT headline invalidated (see invalidated_prior_results). Most legally-buyable relevant cores are rejected at shop exit without purchase \u2014 build-aware recruiting is the strongest measured gap. Hindsight final-target mean coverage: 0.011 (labeled hindsight only).",
-    "classification_totals_current_target": {
-      "B_AVAILABLE_NOT_BOUGHT": 130,
-      "A_IMPOSSIBLE": 85,
-      "C_BOUGHT_NOT_RETAINED": 6
+    "rationale": "Primary causal view (seeded current-target): 82 exposures, 0 fulfilled, 82 rejected (100.0% rejection rate). Committed confirmation: 0 exposures, 0 fulfilled, 0 rejected (0.0%). No committed-tier exposures observed in this sample. Exploratory broad view: 515 exposures (98.6% rejection) \u2014 not used for sign-off. Prior 2,516-case headline and v2 broad 515/509 remain invalidated. Seeded/committed views show high rejection of legally-buyable cores from builds the winner was actually seeded into or committed to.",
+    "classification_totals_seeded": {
+      "C_BOUGHT_NOT_RETAINED": 23
     },
     "classification_totals_hindsight": {
       "B_AVAILABLE_NOT_BOUGHT": 112,
       "C_BOUGHT_NOT_RETAINED": 24,
       "A_IMPOSSIBLE": 11
     },
-    "funnel_current_target": {
-      "n_lobbies_evaluated": 221,
-      "distinct_core_legally_available": 414,
-      "shop_generations_with_buyable_core": 504,
-      "legally_buyable_exposures": 515,
-      "purchased": 6,
-      "rejected_at_shop_exit": 509,
-      "played": 23,
-      "retained_2_turns": 6,
-      "reached_2_core": 0,
-      "reached_4_core": 0,
-      "pct_lobbies_2plus_distinct_core_available": 0.5339366515837104,
-      "pct_lobbies_4plus_distinct_core_available": 0.19457013574660634,
-      "purchase_rate_when_legally_buyable": 0.011650485436893204,
-      "mean_final_coverage_winner": 0.008103961662073422,
-      "mean_max_core_pieces": 0.10407239819004525
+    "funnel_seeded_current_target": {
+      "legally_buyable_exposures": 82,
+      "fulfilled_exposures": 0,
+      "rejected_exposures": 82,
+      "rejection_rate": 1.0,
+      "exposure_accounting_valid": true
     },
-    "funnel_hindsight": {
-      "n_lobbies_evaluated": 147,
-      "distinct_core_legally_available": 419,
-      "shop_generations_with_buyable_core": 521,
+    "funnel_committed_current_target": {
+      "legally_buyable_exposures": 0,
+      "fulfilled_exposures": 0,
+      "rejected_exposures": 0,
+      "rejection_rate": 0.0,
+      "exposure_accounting_valid": true
+    },
+    "funnel_final_target_hindsight": {
       "legally_buyable_exposures": 532,
-      "purchased": 24,
-      "rejected_at_shop_exit": 508,
-      "played": 22,
-      "retained_2_turns": 24,
-      "reached_2_core": 0,
-      "reached_4_core": 0,
-      "pct_lobbies_2plus_distinct_core_available": 0.8027210884353742,
-      "pct_lobbies_4plus_distinct_core_available": 0.30612244897959184,
-      "purchase_rate_when_legally_buyable": 0.045112781954887216,
-      "mean_final_coverage_winner": 0.011431640327838263,
-      "mean_max_core_pieces": 0.14965986394557823
+      "fulfilled_exposures": 24,
+      "rejected_exposures": 508,
+      "rejection_rate": 0.9548872180451128,
+      "exposure_accounting_valid": true
+    },
+    "funnel_broad_current_target_exploratory": {
+      "legally_buyable_exposures": 515,
+      "fulfilled_exposures": 7,
+      "rejected_exposures": 508,
+      "rejection_rate": 0.9864077669902913,
+      "exposure_accounting_valid": true
     }
   }
 }
