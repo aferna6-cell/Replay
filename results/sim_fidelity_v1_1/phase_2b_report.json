@@ -9,7 +9,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "5b563412467d90a348c660fbb0004847af112177",
+    "code_commit": "0d349191e29a3c3b647100ed9985af1f9341eba0",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -53,10 +53,17 @@
       "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
     },
     "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
-    "parent_simulator_version": "Simulator v1"
+    "parent_simulator_version": "Simulator v1",
+    "working_tree_clean": true,
+    "success_thresholds_sha256": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+    "success_thresholds_path": "results/sim_fidelity_v1/success_thresholds.json"
   },
-  "runtime_seconds": 37.6,
-  "runtime_v1_1_rollouts_seconds": 15.62,
+  "code_commit": "0d349191e29a3c3b647100ed9985af1f9341eba0",
+  "working_tree_clean": true,
+  "success_thresholds_sha256": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+  "success_thresholds_frozen": true,
+  "runtime_seconds": 36.48,
+  "runtime_v1_1_rollouts_seconds": 15.78,
   "success_thresholds_path": "results/sim_fidelity_v1/success_thresholds.json",
   "success_thresholds": {
     "derived_from": "Simulator v1 per-lobby rollouts (ratio scaling)",
@@ -179,7 +186,13 @@
       "paired_mean_delta_sim_stats": -0.6879166666666697,
       "paired_median_delta_sim_stats": 0.0,
       "n_paired_lobbies": 200,
-      "v1_lobbies_improved_ratio": 8
+      "v1_lobbies_improved_ratio": 8,
+      "unpaired_aggregate": {
+        "v1_mean_ratio": 1.0330720992412954,
+        "v1_1_mean_ratio": 1.0326424467107436,
+        "n_v1_lobbies": 200,
+        "n_v1_1_lobbies": 200
+      }
     },
     "12": {
       "real_board_stats": 5347.0,
@@ -188,21 +201,33 @@
       "paired_mean_delta_sim_stats": -1864.7583756345177,
       "paired_median_delta_sim_stats": -938.833333333333,
       "n_paired_lobbies": 197,
-      "v1_lobbies_improved_ratio": 182
+      "v1_lobbies_improved_ratio": 182,
+      "unpaired_aggregate": {
+        "v1_mean_ratio": 1.395706322978839,
+        "v1_1_mean_ratio": 1.0469577956486504,
+        "n_v1_lobbies": 197,
+        "n_v1_1_lobbies": 197
+      }
     },
     "14": {
       "real_board_stats": 8293.4,
-      "v1_mean_ratio": 2.9051954805264666,
-      "v1_1_mean_ratio": 1.8737007981769598,
+      "v1_mean_ratio": 2.8743975718107335,
+      "v1_1_mean_ratio": 1.8433909580423677,
       "paired_mean_delta_sim_stats": -8550.550250626566,
       "paired_median_delta_sim_stats": -3736.0,
       "n_paired_lobbies": 133,
-      "v1_lobbies_improved_ratio": 113
+      "v1_lobbies_improved_ratio": 122,
+      "unpaired_aggregate": {
+        "v1_mean_ratio": 2.9051954805264666,
+        "v1_1_mean_ratio": 1.8737007981769598,
+        "n_v1_lobbies": 148,
+        "n_v1_1_lobbies": 167
+      }
     }
   },
   "gate_evaluation": {
     "turn_14_primary": {
-      "value": 1.8737007981769598,
+      "value": 1.8433909580423677,
       "max_allowed": 2.033,
       "passed": true
     },
@@ -226,7 +251,8 @@
     },
     "game_length": {
       "value": 15.755,
-      "passed": true
+      "monitored_only": true,
+      "note": "Monitored for material shift; not a pre-specified acceptance gate."
     },
     "accept_v1_1": true
   },

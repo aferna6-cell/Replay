@@ -46,18 +46,20 @@ Use `--freeze-thresholds` only for the one-time initial threshold generation.
 | Composition | Reported only — not optimized |
 | Game length | **Monitored only** — not a pre-specified acceptance gate |
 
-## Results (200 greedy lobbies, seed base 0)
+## Results (200 greedy lobbies, seed base 0, commit `0d34919`)
 
-See [`results/sim_fidelity_v1_1/phase_2b_report.json`](../results/sim_fidelity_v1_1/phase_2b_report.json)
-for the clean rerun with contract-matched `code_commit`.
+| Turn | v1 paired | v1.1 paired | n paired | Real stats |
+|---|---|---|---|---|
+| 10 | 1.03× | **1.00×** | 200 | 1,601 |
+| 12 | 1.40× | **1.05×** | 197 | 5,347 |
+| 14 | 2.87× | **1.84×** | 133 | 8,293 |
 
-Paired comparison uses only lobbies where **both** simulators reached the turn.
-Unpaired aggregate means are reported separately when survivor sets differ.
+Clean rerun contract: `code_commit=0d34919…`, `working_tree_clean=true`,
+`success_thresholds_sha256=a62e66d0…` (unchanged frozen gates).
 
-Composition (reported, not tuned): final winner coverage sim **~0.008** vs real **~0.766** — Phase 2C.
+Paired turn-14: mean stats −8,551/lobby; 122/133 lobbies improved ratio.
 
-Game length was monitored and showed no material observed shift, but was not a
-pre-specified acceptance gate.
+**Gate evaluation: ACCEPT Simulator v1.1** (all pre-specified acceptance gates passed).
 
 ## Next: Phase 2C (diagnosis before implementation)
 

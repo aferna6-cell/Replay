@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "5b563412467d90a348c660fbb0004847af112177",
+  "code_commit": "0d349191e29a3c3b647100ed9985af1f9341eba0",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -47,5 +47,8 @@
     "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
   },
   "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
-  "parent_simulator_version": "Simulator v1"
+  "parent_simulator_version": "Simulator v1",
+  "working_tree_clean": true,
+  "success_thresholds_sha256": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+  "success_thresholds_path": "results/sim_fidelity_v1/success_thresholds.json"
 }
