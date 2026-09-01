@@ -1,0 +1,513 @@
+{
+  "experiment": "Replay Experiment 4 \u2014 PPO Policy Anchoring",
+  "evaluation_split": "dev",
+  "kl_coef": 0.1,
+  "baseline_experiment": "Replay Experiment 2 \u2014 PPO Training-Budget Study",
+  "training_seed": 0,
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "curve": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "greedy_avg": 6.55,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.427,
+        "high": 6.665
+      },
+      "greedy_top4": 0.16,
+      "greedy_win": 0.031,
+      "mixed_avg": 4.356,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.226,
+        "high": 4.478
+      },
+      "expert_agreement": 0.8441441655158997,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart": 0.0,
+      "baseline_greedy_avg": 6.554,
+      "baseline_kl_from_warmstart": 0.0,
+      "baseline_expert_agreement": 0.8452702760696411,
+      "parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+      "expert_disagreement_by_category": {
+        "buy": 0.7205346294046172,
+        "play": 0.006666666666666667,
+        "sell": 0.9705882352941176,
+        "roll": 0.020710059171597635,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.0
+      }
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "greedy_avg": 6.608,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.489,
+        "high": 6.731
+      },
+      "greedy_top4": 0.138,
+      "greedy_win": 0.038,
+      "mixed_avg": 4.518,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.386,
+        "high": 4.65
+      },
+      "expert_agreement": 0.832207202911377,
+      "warmstart_agreement": 0.8558558821678162,
+      "kl_from_warmstart": 0.04750743508338928,
+      "baseline_greedy_avg": 6.761,
+      "baseline_kl_from_warmstart": 0.37138617038726807,
+      "baseline_expert_agreement": 0.7718468308448792,
+      "parameter_sha256": "ad0753fdcd32594487ec9b16d5291ec3e8d7d1d18cdb9b9562979605b2ccca74",
+      "expert_disagreement_by_category": {
+        "buy": 0.7533414337788579,
+        "play": 0.010666666666666666,
+        "sell": 0.9852941176470589,
+        "roll": 0.036242603550295856,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.000975609756097561
+      }
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "greedy_avg": 6.58,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.46,
+        "high": 6.697
+      },
+      "greedy_top4": 0.155,
+      "greedy_win": 0.026,
+      "mixed_avg": 4.484,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.354,
+        "high": 4.614
+      },
+      "expert_agreement": 0.8396396636962891,
+      "warmstart_agreement": 0.828153133392334,
+      "kl_from_warmstart": 0.03829829767346382,
+      "baseline_greedy_avg": 6.325,
+      "baseline_kl_from_warmstart": 0.24876049160957336,
+      "baseline_expert_agreement": 0.8092342615127563,
+      "parameter_sha256": "3a25703a2ff3c195c1dfa71698dedcdc0e9505c0086dad5bebfdb55586c440f0",
+      "expert_disagreement_by_category": {
+        "buy": 0.7569866342648846,
+        "play": 0.008,
+        "sell": 1.0,
+        "roll": 0.0,
+        "level": 0.035545023696682464,
+        "freeze": null,
+        "end": 0.0
+      }
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "greedy_avg": 6.584,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.461,
+        "high": 6.699
+      },
+      "greedy_top4": 0.15,
+      "greedy_win": 0.032,
+      "mixed_avg": 4.398,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.27,
+        "high": 4.516
+      },
+      "expert_agreement": 0.8527026772499084,
+      "warmstart_agreement": 0.8763513565063477,
+      "kl_from_warmstart": 0.052035581320524216,
+      "baseline_greedy_avg": 6.435,
+      "baseline_kl_from_warmstart": 0.483991414308548,
+      "baseline_expert_agreement": 0.7432432174682617,
+      "parameter_sha256": "6abfe596aa638fdc51f81890320254ae046cb7c5cee60323ade84df7f714fb3a",
+      "expert_disagreement_by_category": {
+        "buy": 0.6938031591737546,
+        "play": 0.008,
+        "sell": 0.9852941176470589,
+        "roll": 0.0073964497041420114,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.0
+      }
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "greedy_avg": 6.673,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.556,
+        "high": 6.785
+      },
+      "greedy_top4": 0.13,
+      "greedy_win": 0.03,
+      "mixed_avg": 4.336,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.216,
+        "high": 4.458
+      },
+      "expert_agreement": 0.832207202911377,
+      "warmstart_agreement": 0.8488738536834717,
+      "kl_from_warmstart": 0.04324198514223099,
+      "baseline_greedy_avg": 6.606,
+      "baseline_kl_from_warmstart": 1.170961618423462,
+      "baseline_expert_agreement": 0.4259009063243866,
+      "parameter_sha256": "72fe17300a9e006affb833ade6dbbbfcb494e70f1fd47f161bebd5947e256362",
+      "expert_disagreement_by_category": {
+        "buy": 0.7800729040097205,
+        "play": 0.008,
+        "sell": 0.9411764705882353,
+        "roll": 0.015532544378698224,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.011707317073170732
+      }
+    }
+  ],
+  "paired": {
+    "vs_iter0_greedy": [
+      {
+        "a": "Anchor_iter040",
+        "b": "Anchor_iter000",
+        "n": 1000,
+        "mean_diff": 0.058,
+        "ci95": [
+          -0.063,
+          0.178
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 40,
+        "reference_iteration": 0
+      },
+      {
+        "a": "Anchor_iter080",
+        "b": "Anchor_iter000",
+        "n": 1000,
+        "mean_diff": 0.03,
+        "ci95": [
+          -0.13,
+          0.192
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 80,
+        "reference_iteration": 0
+      },
+      {
+        "a": "Anchor_iter160",
+        "b": "Anchor_iter000",
+        "n": 1000,
+        "mean_diff": 0.034,
+        "ci95": [
+          -0.043,
+          0.112
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 160,
+        "reference_iteration": 0
+      },
+      {
+        "a": "Anchor_iter320",
+        "b": "Anchor_iter000",
+        "n": 1000,
+        "mean_diff": 0.123,
+        "ci95": [
+          -0.035,
+          0.281
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 320,
+        "reference_iteration": 0
+      }
+    ],
+    "vs_iter40_greedy": [
+      {
+        "a": "Anchor_iter080",
+        "b": "Anchor_iter040",
+        "n": 1000,
+        "mean_diff": -0.028,
+        "ci95": [
+          -0.188,
+          0.13
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 80,
+        "reference_iteration": 40
+      },
+      {
+        "a": "Anchor_iter160",
+        "b": "Anchor_iter040",
+        "n": 1000,
+        "mean_diff": -0.024,
+        "ci95": [
+          -0.144,
+          0.097
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 160,
+        "reference_iteration": 40
+      },
+      {
+        "a": "Anchor_iter320",
+        "b": "Anchor_iter040",
+        "n": 1000,
+        "mean_diff": 0.065,
+        "ci95": [
+          -0.086,
+          0.214
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 320,
+        "reference_iteration": 40
+      }
+    ],
+    "vs_iter0_mixed": [
+      {
+        "a": "Anchor_iter040",
+        "b": "Anchor_iter000",
+        "n": 500,
+        "mean_diff": 0.162,
+        "ci95": [
+          0.014,
+          0.304
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "Anchor_iter000 places better",
+        "iteration": 40,
+        "reference_iteration": 0
+      },
+      {
+        "a": "Anchor_iter080",
+        "b": "Anchor_iter000",
+        "n": 500,
+        "mean_diff": 0.128,
+        "ci95": [
+          -0.038,
+          0.29
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 80,
+        "reference_iteration": 0
+      },
+      {
+        "a": "Anchor_iter160",
+        "b": "Anchor_iter000",
+        "n": 500,
+        "mean_diff": 0.042,
+        "ci95": [
+          -0.062,
+          0.142
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 160,
+        "reference_iteration": 0
+      },
+      {
+        "a": "Anchor_iter320",
+        "b": "Anchor_iter000",
+        "n": 500,
+        "mean_diff": -0.02,
+        "ci95": [
+          -0.174,
+          0.13
+        ],
+        "method": "paired percentile bootstrap",
+        "resamples": 10000,
+        "bootstrap_seed": 0,
+        "verdict": "no clear difference (CI includes 0)",
+        "iteration": 320,
+        "reference_iteration": 0
+      }
+    ]
+  },
+  "vs_baseline_paired": [
+    {
+      "a": "Anchor_iter000",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": -0.004,
+      "ci95": [
+        -0.163,
+        0.158
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 0,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter040",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": -0.153,
+      "ci95": [
+        -0.312,
+        0.008
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter080",
+      "b": "iter080",
+      "n": 1000,
+      "mean_diff": 0.255,
+      "ci95": [
+        0.094,
+        0.41
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter080 places better",
+      "iteration": 80,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter160",
+      "b": "iter160",
+      "n": 1000,
+      "mean_diff": 0.149,
+      "ci95": [
+        -0.002,
+        0.306
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 160,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter320",
+      "b": "iter320",
+      "n": 1000,
+      "mean_diff": 0.067,
+      "ci95": [
+        -0.09,
+        0.223
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 320,
+      "field": "greedy"
+    }
+  ],
+  "rl_signal_blocks": {
+    "iters_1_40": {
+      "adv_mean_abs": 0.21269105669589627,
+      "adv_std": 0.25135691592872594,
+      "adv_frac_positive": 0.525518138210875,
+      "value_explained_variance": 0.5948059719619252,
+      "entropy": 0.4153130874309378,
+      "approx_kl": 0.008578660061364948,
+      "anchor_kl": 0.05030506313893686,
+      "clip_frac": 0.03487306344468379,
+      "grad_norm": 0.8274343691611041,
+      "pi_loss": -0.007943403885565203,
+      "v_loss": 0.06208495956995345
+    },
+    "iters_41_160": {
+      "adv_mean_abs": 0.1976427797309391,
+      "adv_std": 0.24019458956468603,
+      "adv_frac_positive": 0.5087880425063794,
+      "value_explained_variance": 0.698035262798167,
+      "entropy": 0.4332748312102113,
+      "approx_kl": 0.006584895896063851,
+      "anchor_kl": 0.057866119285851406,
+      "clip_frac": 0.034747314144139334,
+      "grad_norm": 0.8769503232143405,
+      "pi_loss": -0.006853299172714994,
+      "v_loss": 0.0575694685918279
+    },
+    "iters_161_320": {
+      "adv_mean_abs": 0.196854096866043,
+      "adv_std": 0.2374081258661321,
+      "adv_frac_positive": 0.5137569667272712,
+      "value_explained_variance": 0.7155948934817712,
+      "entropy": 0.45948996702851824,
+      "approx_kl": 0.0066785803266318075,
+      "anchor_kl": 0.052545024986915226,
+      "clip_frac": 0.035315150105695164,
+      "grad_norm": 0.8093516513084372,
+      "pi_loss": -0.004616863845680067,
+      "v_loss": 0.05603436036647812
+    }
+  }
+}
