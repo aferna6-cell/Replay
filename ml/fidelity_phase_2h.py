@@ -1,0 +1,500 @@
+"""Simulator Fidelity Phase 2H — tempo-aware board management.
+
+    python -m ml.fidelity_phase_2h calibrate
+    python -m ml.fidelity_phase_2h confirm --lambda-build 8
+
+DEV calibration on seeds 3000–3499; frozen confirmation on 4000–4199.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import sys
+import time
+from typing import Callable, Dict, List, Optional, Sequence
+
+from hsbg_coach.bg_env import BGEnv, greedy_policy, seeded_core_deploy_stress_greedy_policy
+from hsbg_coach.pace import board_stats
+from hsbg_coach.tempo_board_policy import (
+    LAMBDA_BUILD_CANDIDATES,
+    PHASE_2H_CONFIRM_LOBBIES,
+    PHASE_2H_CONFIRM_SEED,
+    PHASE_2H_REPLICATION_LOBBIES,
+    PHASE_2H_REPLICATION_SEED,
+    PHASE_2H_SCREEN_LOBBIES,
+    PHASE_2H_SCREEN_SEED,
+    TempoBoardPolicyStats,
+    aggregate_policy_stats,
+    policies_for_lobby,
+    policy_config_fingerprint,
+)
+
+from .composition_diagnostic import METHODOLOGY_VERSION, aggregate_diagnostics
+from .composition_trace import RecruitTracer, run_traced_rollouts
+from .core_lifecycle_diagnostic import (METHODOLOGY_VERSION as PHASE_2F_VERSION,
+                                        analyze_core_lifecycles)
+from .fidelity_metrics import (aggregate_composition, aggregate_lobby_dynamics,
+                               aggregate_turn_curves, real_composition_baseline,
+                               run_fidelity_rollouts, summarize_divergence)
+from .fidelity_paired import paired_turn_comparison, per_lobby_turn_means
+from .fidelity_reference import (FIDELITY_BENCHMARK_VERSION,
+                                 SIMULATOR_V1_1_VERSION,
+                                 build_simulator_v1_1_contract, git_commit,
+                                 git_working_tree_clean)
+from .phase_2d_acceptance import (composition_mechanism_summary,
+                                  macro_regression_summary)
+from .phase_2h_decision import (evaluate_confirmation_acceptance,
+                                evaluate_phase_2h_decision,
+                                rank_calibration_candidate)
+
+DEFAULT_DIR = "results/sim_fidelity_phase_2h"
+PHASE = "2H tempo-aware board management"
+
+
+def _write_json(path: str, data: Dict) -> None:
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+
+def _policy_hash(cfg: Dict) -> str:
+    return hashlib.sha256(json.dumps(cfg, sort_keys=True).encode()).hexdigest()
+
+
+def _winner_seat(traces: Dict, lobby: int) -> Optional[int]:
+    for p in traces.get("player_finals", []):
+        if p["lobby"] == lobby and p["placement"] == 1:
+            return p["seat"]
+    return None
+
+
+def compute_action_deviation_rate(base_traces: Dict, alt_traces: Dict) -> float:
+    """Fraction of winner-seat recruit actions that differ vs baseline."""
+    lobbies = base_traces["lobbies"]
+    total = 0
+    diff = 0
+    for lobby in range(lobbies):
+        seat = _winner_seat(base_traces, lobby)
+        if seat is None:
+            continue
+        base_ev = [e for e in base_traces["events"]
+                   if e["lobby"] == lobby and e["seat"] == seat]
+        alt_ev = [e for e in alt_traces["events"]
+                  if e["lobby"] == lobby and e["seat"] == seat]
+        n = min(len(base_ev), len(alt_ev))
+        for i in range(n):
+            total += 1
+            if base_ev[i]["action"] != alt_ev[i]["action"]:
+                diff += 1
+    return diff / total if total else 0.0
+
+
+def run_traced_rollouts_policy_list(
+        lobbies: int, seed: int, policies: Sequence[Callable],
+        scaling_mode: str = "residual") -> Dict:
+    """Like ``run_traced_rollouts`` but accepts per-seat policy list."""
+    all_events: List[Dict] = []
+    all_turn_summaries: List[Dict] = []
+    all_player_finals: List[Dict] = []
+    lobby_meta: List[Dict] = []
+
+    for lobby_i in range(lobbies):
+        lobby_seed = seed + lobby_i
+        env = BGEnv(seed=lobby_seed, scaling_mode=scaling_mode)
+        tracer = RecruitTracer(lobby_id=lobby_i, seed=lobby_seed)
+        env.play_scripted(list(policies), recruit_tracer=tracer)
+        game_length = env.turn
+        for pf in tracer.player_finals:
+            pf["game_length"] = game_length
+        all_events.extend(tracer.events)
+        all_turn_summaries.extend(tracer.turn_summaries)
+        all_player_finals.extend(tracer.player_finals)
+        lobby_meta.append({
+            "lobby": lobby_i,
+            "seed": lobby_seed,
+            "lobby_tribes": list(env.lobby_tribes),
+            "game_length": env.turn,
+        })
+        del env
+
+    return {
+        "lobbies": lobbies,
+        "seed": seed,
+        "scaling_mode": scaling_mode,
+        "events": all_events,
+        "turn_summaries": all_turn_summaries,
+        "player_finals": all_player_finals,
+        "lobby_meta": lobby_meta,
+    }
+
+
+def run_fidelity_rollouts_policy_list(
+        lobbies: int, seed: int, policies: Sequence[Callable],
+        scaling_mode: str = "residual") -> List[Dict]:
+    rows: List[Dict] = []
+    for i in range(lobbies):
+        env = BGEnv(seed=seed + i, scaling_mode=scaling_mode)
+        recs = env.play_scripted(list(policies))
+        game_length = max((r["turn"] for r in recs), default=0)
+        for r in recs:
+            s = r["state"]
+            rows.append({
+                "lobby": i,
+                "seed": seed + i,
+                "seat": r["seat"],
+                "turn": r["turn"],
+                "game_length": game_length,
+                "tavern_tier": float(s["tavern_tier"]),
+                "gold": float(s["gold"]),
+                "board_size": float(len(s["board"])),
+                "board_stats": float(board_stats(s)),
+                "board": s["board"],
+                "players_alive": float(s["players_alive"]),
+                "placement": r.get("placement"),
+            })
+        del env
+    return rows
+
+
+def _run_tempo_arm(lobbies: int, seed: int, lambda_build: float,
+                   label: str, *, greedy_baseline_traces: Optional[Dict] = None) -> Dict:
+    print(f"  [{label}] λ={lambda_build} fidelity rollouts…")
+    all_stats: List[Dict] = []
+    all_rows: List[Dict] = []
+    traces = {"lobbies": lobbies, "seed": seed, "events": [],
+              "turn_summaries": [], "player_finals": [], "lobby_meta": []}
+    for lobby_i in range(lobbies):
+        lobby_seed = seed + lobby_i
+        policies = policies_for_lobby(lambda_build, 8)
+        rows = run_fidelity_rollouts_policy_list(1, lobby_seed, policies)
+        for r in rows:
+            r["lobby"] = lobby_i
+            r["seed"] = lobby_seed
+        all_rows.extend(rows)
+        lobby_traces = run_traced_rollouts_policy_list(1, lobby_seed, policies)
+        for key in ("events", "turn_summaries", "player_finals", "lobby_meta"):
+            traces[key].extend(lobby_traces[key])
+        all_stats.append(aggregate_policy_stats(policies))
+    traces["lobbies"] = lobbies
+    traces["seed"] = seed
+    traces["scaling_mode"] = "residual"
+
+    combined = TempoBoardPolicyStats()
+    for s in all_stats:
+        combined.build_aware_buys += s["build_aware_buys"]
+        combined.build_aware_sells += s["build_aware_sells"]
+        n = max(1, s["positive_transitions"])
+        combined.raw_stat_sacrifice_sum += s["mean_raw_stat_sacrifice"] * n
+        combined.build_progress_gain_sum += s["mean_build_progress_gain"] * n
+        combined.transition_count += s["positive_transitions"]
+    policy_stats = combined.summary()
+
+    diagnostic = aggregate_diagnostics(traces)
+    lifecycle = analyze_core_lifecycles(traces)
+    deviation = None
+    if greedy_baseline_traces is not None:
+        deviation = compute_action_deviation_rate(greedy_baseline_traces, traces)
+
+    turn_curves = aggregate_turn_curves(all_rows)
+    return {
+        "label": label,
+        "lambda_build": lambda_build,
+        "rows": all_rows,
+        "traces": traces,
+        "diagnostic": diagnostic,
+        "lifecycle": lifecycle,
+        "policy_stats": policy_stats,
+        "action_deviation_rate_vs_greedy": deviation,
+        "turn_curves": turn_curves,
+        "lobby_dynamics": aggregate_lobby_dynamics(all_rows),
+        "composition": aggregate_composition(all_rows),
+        "headline": summarize_divergence(turn_curves),
+        "per_lobby_stats": per_lobby_turn_means(all_rows),
+        "mechanism": composition_mechanism_summary(diagnostic),
+    }
+
+
+def _run_single_policy_arm(lobbies: int, seed: int, policy: Callable,
+                           label: str) -> Dict:
+    print(f"  [{label}] fidelity rollouts…")
+    rows = run_fidelity_rollouts(lobbies, seed=seed, policy=policy,
+                                 scaling_mode="residual")
+    print(f"  [{label}] composition traces…")
+    traces = run_traced_rollouts(lobbies, seed=seed, policy=policy,
+                                 scaling_mode="residual")
+    diagnostic = aggregate_diagnostics(traces)
+    lifecycle = analyze_core_lifecycles(traces)
+    turn_curves = aggregate_turn_curves(rows)
+    return {
+        "label": label,
+        "rows": rows,
+        "traces": traces,
+        "diagnostic": diagnostic,
+        "lifecycle": lifecycle,
+        "turn_curves": turn_curves,
+        "lobby_dynamics": aggregate_lobby_dynamics(rows),
+        "composition": aggregate_composition(rows),
+        "headline": summarize_divergence(turn_curves),
+        "per_lobby_stats": per_lobby_turn_means(rows),
+        "mechanism": composition_mechanism_summary(diagnostic),
+    }
+
+
+def _macro_ok_vs_greedy(greedy_arm: Dict, candidate_arm: Dict) -> bool:
+    macro = macro_regression_summary(
+        greedy_arm["turn_curves"], candidate_arm["turn_curves"],
+        greedy_arm["lobby_dynamics"], candidate_arm["lobby_dynamics"],
+        greedy_arm["headline"], candidate_arm["headline"])
+    from .phase_2h_decision import _macro_ok, CONFIRMATION_THRESHOLDS
+    return _macro_ok(macro, CONFIRMATION_THRESHOLDS)
+
+
+def _calibration_row(greedy_arm: Dict, candidate_arm: Dict) -> Dict:
+    seeded = candidate_arm["mechanism"].get("seeded_current_target") or {}
+    committed = candidate_arm["mechanism"].get("committed_current_target") or {}
+    return {
+        "lambda_build": candidate_arm.get("lambda_build"),
+        "macro_ok": _macro_ok_vs_greedy(greedy_arm, candidate_arm),
+        "reached_2_core": seeded.get("reached_2_core", 0),
+        "committed_states": committed.get("n_lobby_archetype_states", 0),
+        "coverage_mean": candidate_arm["mechanism"].get(
+            "sim_final_winner_coverage_mean", 0.0),
+        "action_deviation_rate": candidate_arm.get(
+            "action_deviation_rate_vs_greedy"),
+        "fulfilled_exposures": seeded.get("fulfilled_exposures", 0),
+        "played_fulfilled": (candidate_arm["lifecycle"].get("funnel") or {}).get(
+            "played", 0),
+    }
+
+
+def run_calibration(*, out_dir: str = DEFAULT_DIR,
+                    require_clean_tree: bool = True) -> Dict:
+    impl_commit = git_commit()
+    tree_clean = git_working_tree_clean()
+    if require_clean_tree and not tree_clean:
+        raise RuntimeError("Working tree is not clean. Commit Phase 2H first.")
+
+    t0 = time.time()
+    print("Phase 2H DEV calibration — screen then replication")
+
+    print(f"Screen seeds {PHASE_2H_SCREEN_SEED}–"
+          f"{PHASE_2H_SCREEN_SEED + PHASE_2H_SCREEN_LOBBIES - 1}")
+    greedy_screen = _run_single_policy_arm(
+        PHASE_2H_SCREEN_LOBBIES, PHASE_2H_SCREEN_SEED, greedy_policy, "greedy")
+    screen_rows = []
+    for lb in LAMBDA_BUILD_CANDIDATES:
+        arm = _run_tempo_arm(
+            PHASE_2H_SCREEN_LOBBIES, PHASE_2H_SCREEN_SEED, lb,
+            f"tempo_lb{lb}", greedy_baseline_traces=greedy_screen["traces"])
+        row = _calibration_row(greedy_screen, arm)
+        row["phase"] = "screen"
+        screen_rows.append(row)
+    screen_rows.sort(key=rank_calibration_candidate)
+    top_two = [r["lambda_build"] for r in screen_rows[:2] if r["macro_ok"]]
+    if len(top_two) < 2:
+        top_two = [r["lambda_build"] for r in screen_rows[:2]]
+
+    print(f"Replication seeds {PHASE_2H_REPLICATION_SEED}–"
+          f"{PHASE_2H_REPLICATION_SEED + PHASE_2H_REPLICATION_LOBBIES - 1}")
+    print(f"  top-two λ from screen: {top_two}")
+    greedy_rep = _run_single_policy_arm(
+        PHASE_2H_REPLICATION_LOBBIES, PHASE_2H_REPLICATION_SEED,
+        greedy_policy, "greedy")
+    replication_rows = []
+    replication_arms = {}
+    for lb in top_two:
+        arm = _run_tempo_arm(
+            PHASE_2H_REPLICATION_LOBBIES, PHASE_2H_REPLICATION_SEED, lb,
+            f"tempo_lb{lb}", greedy_baseline_traces=greedy_rep["traces"])
+        replication_arms[lb] = arm
+        row = _calibration_row(greedy_rep, arm)
+        row["phase"] = "replication"
+        replication_rows.append(row)
+    replication_rows.sort(key=rank_calibration_candidate)
+    frozen_lambda = replication_rows[0]["lambda_build"]
+
+    cfg = policy_config_fingerprint(frozen_lambda)
+    result = {
+        "benchmark": FIDELITY_BENCHMARK_VERSION,
+        "phase": PHASE,
+        "implementation_commit": impl_commit,
+        "working_tree_clean": tree_clean,
+        "runtime_seconds": round(time.time() - t0, 2),
+        "screen": {"greedy": greedy_screen, "candidates": screen_rows},
+        "replication": {
+            "greedy": greedy_rep,
+            "candidates": replication_rows,
+            "frozen_lambda_build": frozen_lambda,
+        },
+        "frozen_policy_config": cfg,
+        "frozen_policy_config_hash_sha256": _policy_hash(cfg),
+    }
+    _write_json(os.path.join(out_dir, "phase_2h_calibration.json"), result)
+    return result
+
+
+def run_confirmation(*, lambda_build: float,
+                     out_dir: str = DEFAULT_DIR,
+                     require_clean_tree: bool = True) -> Dict:
+    impl_commit = git_commit()
+    tree_clean = git_working_tree_clean()
+    if require_clean_tree and not tree_clean:
+        raise RuntimeError("Working tree is not clean. Commit Phase 2H first.")
+
+    t0 = time.time()
+    seed = PHASE_2H_CONFIRM_SEED
+    lobbies = PHASE_2H_CONFIRM_LOBBIES
+    print(f"Phase 2H confirmation — {lobbies} lobbies, seeds {seed}–{seed + lobbies - 1}")
+    print(f"  frozen λ_build = {lambda_build}")
+
+    greedy = _run_single_policy_arm(lobbies, seed, greedy_policy, "greedy")
+    treatment = _run_tempo_arm(
+        lobbies, seed, lambda_build, "tempo_board",
+        greedy_baseline_traces=greedy["traces"])
+    oracle = _run_single_policy_arm(
+        lobbies, seed, seeded_core_deploy_stress_greedy_policy, "oracle")
+
+    macro_delta = macro_regression_summary(
+        greedy["turn_curves"], treatment["turn_curves"],
+        greedy["lobby_dynamics"], treatment["lobby_dynamics"],
+        greedy["headline"], treatment["headline"])
+    acceptance = evaluate_confirmation_acceptance(
+        greedy["mechanism"], treatment["mechanism"],
+        greedy["lifecycle"], treatment["lifecycle"],
+        macro_delta, oracle_mechanism=oracle["mechanism"])
+    decision = evaluate_phase_2h_decision(
+        greedy["mechanism"], treatment["mechanism"],
+        greedy["lifecycle"], treatment["lifecycle"],
+        macro_delta, acceptance)
+
+    cfg = policy_config_fingerprint(lambda_build)
+    contract = build_simulator_v1_1_contract(evaluation_seed=seed, lobbies=lobbies)
+    contract.update({
+        "phase": PHASE,
+        "phase_2c_methodology_version": METHODOLOGY_VERSION,
+        "phase_2f_methodology_version": PHASE_2F_VERSION,
+        "frozen_lambda_build": lambda_build,
+        "policy_config": cfg,
+        "policy_config_hash_sha256": _policy_hash(cfg),
+        "working_tree_clean": tree_clean,
+    })
+
+    result = {
+        "benchmark": FIDELITY_BENCHMARK_VERSION,
+        "phase": PHASE,
+        "simulator_version": SIMULATOR_V1_1_VERSION,
+        "implementation_commit": impl_commit,
+        "working_tree_clean": tree_clean,
+        "frozen_lambda_build": lambda_build,
+        "frozen_policy_config": cfg,
+        "runtime_seconds": round(time.time() - t0, 2),
+        "evaluation_seed_base": seed,
+        "n_lobbies": lobbies,
+        "real_final_winner_coverage_mean": real_composition_baseline()[
+            "real_final_winner_coverage_mean"],
+        "greedy": _confirm_arm(greedy),
+        "treatment": _confirm_arm(treatment),
+        "oracle_upper_bound": _confirm_arm(oracle),
+        "macro_regression_delta_treatment_minus_greedy": macro_delta,
+        "acceptance": acceptance,
+        "decision": decision,
+        "contract": contract,
+    }
+    _write_json(os.path.join(out_dir, "phase_2h_report.json"), result)
+    _write_json(os.path.join(out_dir, "contract.json"), contract)
+    return result
+
+
+def _confirm_arm(arm: Dict) -> Dict:
+    lc = arm["lifecycle"]
+    seeded = arm["mechanism"].get("seeded_current_target") or {}
+    committed = arm["mechanism"].get("committed_current_target") or {}
+    out = {
+        "label": arm["label"],
+        "mechanism": arm["mechanism"],
+        "lifecycle": {
+            "n_fulfilled_purchases": lc["n_fulfilled_purchases"],
+            "funnel": lc["funnel"],
+            "board_full_summary": lc.get("board_full_summary"),
+            "fate_totals": lc.get("fate_totals"),
+        },
+        "committed_states": committed.get("n_lobby_archetype_states", 0),
+        "seeded_reached_2_core": seeded.get("reached_2_core", 0),
+        "seeded_reached_4_core": seeded.get("reached_4_core", 0),
+        "headline_divergence": arm["headline"],
+    }
+    if "policy_stats" in arm:
+        out["policy_stats"] = arm["policy_stats"]
+        out["action_deviation_rate_vs_greedy"] = arm.get(
+            "action_deviation_rate_vs_greedy")
+    if "lambda_build" in arm:
+        out["lambda_build"] = arm["lambda_build"]
+    return out
+
+
+def run_phase_2h_full(*, out_dir: str = DEFAULT_DIR,
+                      require_clean_tree: bool = True) -> Dict:
+    cal = run_calibration(out_dir=out_dir, require_clean_tree=require_clean_tree)
+    lb = cal["replication"]["frozen_lambda_build"]
+    confirm = run_confirmation(
+        lambda_build=lb, out_dir=out_dir, require_clean_tree=False)
+    return {"calibration": cal, "confirmation": confirm}
+
+
+def main(argv: Optional[list] = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("command", choices=("calibrate", "confirm", "full"),
+                    default="full", nargs="?")
+    ap.add_argument("--lambda-build", type=float, default=None,
+                    help="Frozen λ for confirm-only run")
+    ap.add_argument("--out-dir", default=DEFAULT_DIR)
+    ap.add_argument("--allow-dirty-tree", action="store_true")
+    args = ap.parse_args(argv)
+
+    print(f"{FIDELITY_BENCHMARK_VERSION} — Phase 2H")
+    print(f"Implementation commit: {git_commit()}")
+    print(f"Working tree clean: {git_working_tree_clean()}")
+
+    try:
+        if args.command == "calibrate":
+            run_calibration(out_dir=args.out_dir,
+                            require_clean_tree=not args.allow_dirty_tree)
+        elif args.command == "confirm":
+            lb = args.lambda_build
+            if lb is None:
+                cal_path = os.path.join(args.out_dir, "phase_2h_calibration.json")
+                if os.path.isfile(cal_path):
+                    with open(cal_path, encoding="utf-8") as f:
+                        lb = json.load(f)["replication"]["frozen_lambda_build"]
+                else:
+                    print("ERROR: --lambda-build required or run calibrate first",
+                          file=sys.stderr)
+                    return 1
+            result = run_confirmation(
+                lambda_build=lb, out_dir=args.out_dir,
+                require_clean_tree=not args.allow_dirty_tree)
+            print(f"\nDecision: {result['decision']['decision_branch']}")
+            print(f"  {result['decision']['recommended_next_step']}")
+            print(f"  accept={result['acceptance']['flags']['accept_phase_2h_policy']}")
+        else:
+            result = run_phase_2h_full(
+                out_dir=args.out_dir,
+                require_clean_tree=not args.allow_dirty_tree)
+            lb = result["calibration"]["replication"]["frozen_lambda_build"]
+            dec = result["confirmation"]["decision"]
+            print(f"\nFrozen λ_build = {lb}")
+            print(f"Decision: {dec['decision_branch']}")
+            print(f"  {dec['recommended_next_step']}")
+    except RuntimeError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        return 1
+
+    print(f"\nSaved -> {args.out_dir}/")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
