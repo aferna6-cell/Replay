@@ -60,6 +60,10 @@ def evaluate_confirmation_acceptance(
     cov_delta = ((treatment_mechanism.get("sim_final_winner_coverage_mean") or 0)
                  - (greedy_mechanism.get("sim_final_winner_coverage_mean") or 0))
     played_delta = _played_rate(treatment_lifecycle) - _played_rate(greedy_lifecycle)
+    treat_fulfilled = treatment_lifecycle.get("n_fulfilled_purchases") or 0
+    meaningful_cohort = treat_fulfilled >= 5
+    played_up = (meaningful_cohort
+                 and played_delta >= th["played_rate_min_delta"])
     committed_delta = (_committed_states(treatment_mechanism)
                        - _committed_states(greedy_mechanism))
     macro_ok = _macro_ok(macro_delta, th)
@@ -67,7 +71,7 @@ def evaluate_confirmation_acceptance(
     mechanism_up = (
         reached_2_delta >= th["persistent_2_core_min_delta"]
         and committed_delta > 0
-        and played_delta >= th["played_rate_min_delta"])
+        and played_up)
     coverage_up = cov_delta >= th["coverage_improvement_min"]
     accept = macro_ok and mechanism_up and coverage_up
 
@@ -89,6 +93,8 @@ def evaluate_confirmation_acceptance(
             "final_winner_coverage": cov_delta,
             "played_rate": played_delta,
             "committed_states": committed_delta,
+            "treatment_fulfilled_purchases": treat_fulfilled,
+            "meaningful_fulfilled_cohort": meaningful_cohort,
         },
         "flags": {
             "macro_regression_ok": macro_ok,
@@ -121,12 +127,14 @@ def evaluate_phase_2h_decision(
         next_step = (
             "Coherent boards emerge but coverage stays flat — card-effect fidelity "
             "is the leading next intervention.")
-    elif deltas.get("played_rate", 0) >= CONFIRMATION_THRESHOLDS["played_rate_min_delta"] \
-            and not flags.get("mechanism_up"):
+    elif ((greedy_lifecycle.get("n_fulfilled_purchases") or 0) >= 5
+          or (treatment_lifecycle.get("n_fulfilled_purchases") or 0) >= 5) \
+            and deltas.get("played_rate", 0) >= CONFIRMATION_THRESHOLDS[
+                "played_rate_min_delta"] and not flags.get("mechanism_up"):
         branch = "retention_inadequate"
         next_step = (
-            "Buy/deploy improve but persistence collapses — retention/sell policy "
-            "still inadequate.")
+            "Buy/deploy improve but persistent 2+ core assembly does not — "
+            "retention/sell policy still inadequate.")
     elif not flags.get("mechanism_up"):
         branch = "transition_utility_inadequate"
         next_step = (

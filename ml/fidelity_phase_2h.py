@@ -72,23 +72,21 @@ def _winner_seat(traces: Dict, lobby: int) -> Optional[int]:
 
 
 def compute_action_deviation_rate(base_traces: Dict, alt_traces: Dict) -> float:
-    """Fraction of winner-seat recruit actions that differ vs baseline."""
+    """Fraction of recruit actions (all seats) that differ vs baseline."""
     lobbies = base_traces["lobbies"]
     total = 0
     diff = 0
     for lobby in range(lobbies):
-        seat = _winner_seat(base_traces, lobby)
-        if seat is None:
-            continue
-        base_ev = [e for e in base_traces["events"]
-                   if e["lobby"] == lobby and e["seat"] == seat]
-        alt_ev = [e for e in alt_traces["events"]
-                  if e["lobby"] == lobby and e["seat"] == seat]
-        n = min(len(base_ev), len(alt_ev))
-        for i in range(n):
-            total += 1
-            if base_ev[i]["action"] != alt_ev[i]["action"]:
-                diff += 1
+        for seat in range(8):
+            base_ev = [e for e in base_traces["events"]
+                       if e["lobby"] == lobby and e["seat"] == seat]
+            alt_ev = [e for e in alt_traces["events"]
+                      if e["lobby"] == lobby and e["seat"] == seat]
+            n = min(len(base_ev), len(alt_ev))
+            for i in range(n):
+                total += 1
+                if base_ev[i]["action"] != alt_ev[i]["action"]:
+                    diff += 1
     return diff / total if total else 0.0
 
 
@@ -323,9 +321,8 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
         "implementation_commit": impl_commit,
         "working_tree_clean": tree_clean,
         "runtime_seconds": round(time.time() - t0, 2),
-        "screen": {"greedy": greedy_screen, "candidates": screen_rows},
+        "screen": {"candidates": screen_rows},
         "replication": {
-            "greedy": greedy_rep,
             "candidates": replication_rows,
             "frozen_lambda_build": frozen_lambda,
         },
