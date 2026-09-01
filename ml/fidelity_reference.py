@@ -8,7 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from hsbg_coach.pace import FIRESTONE_PACE
 
@@ -53,13 +53,27 @@ def reference_fingerprints() -> Dict[str, str]:
     return out
 
 
+def reference_at_exact(curve: Dict[int, float], turn: int) -> Optional[float]:
+    """Return a reference curve value only when that turn is explicitly measured."""
+    if not curve:
+        return None
+    return curve.get(turn)
+
+
 def load_reference_metadata() -> Dict[str, Any]:
     """Firestone fetch metadata from pace file (shared envelope)."""
     if not os.path.isfile(FIRESTONE_PACE):
         return {}
     data = json.load(open(FIRESTONE_PACE, encoding="utf-8"))
-    return {k: data[k] for k in ("_source", "_fetched", "_mmr", "_period",
-                                 "_heroDataPoints") if k in data}
+    meta = {k: data[k] for k in ("_source", "_fetched", "_mmr", "_period",
+                                  "_heroDataPoints") if k in data}
+    fetched = meta.get("_fetched", "unknown")
+    mmr = meta.get("_mmr", "?")
+    period = meta.get("_period", "?")
+    meta["reference_label"] = (
+        f"Firestone {fetched} reference distribution "
+        f"(top-{mmr}% MMR, {period})")
+    return meta
 
 
 def build_simulator_v1_contract(*, evaluation_seed: int = 0,

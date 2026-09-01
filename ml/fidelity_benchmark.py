@@ -42,9 +42,14 @@ def run_benchmark(*, lobbies: int = 200, seed: int = 0) -> Dict:
     headline = summarize_divergence(turn_curves)
 
     # Strip board payloads from stored rows count only
+    ref_label = contract.get("reference_metadata", {}).get(
+        "reference_label", "Firestone reference distribution")
     result = {
         "benchmark": FIDELITY_BENCHMARK_VERSION,
-        "question": "Where does Simulator v1 diverge from real Battlegrounds?",
+        "question": (
+            f"Where does Simulator v1 diverge from the frozen "
+            f"{ref_label}?"),
+        "reference_label": ref_label,
         "contract": contract,
         "runtime_seconds": round(time.time() - t0, 2),
         "headline_divergence": headline,
@@ -68,22 +73,22 @@ def run_benchmark(*, lobbies: int = 200, seed: int = 0) -> Dict:
 
 def print_table(turn_curves: Dict[str, Dict]) -> None:
     print(f"\n{'Turn':>4} {'Real stats':>11} {'Sim stats':>11} {'Ratio':>8} "
-          f"{'Rel err':>9} {'Real tier':>10} {'Sim tier':>9}")
+          f"{'Ref':>12} {'Real tier':>10} {'Sim tier':>9}")
     for t in sorted(int(k) for k in turn_curves):
         row = turn_curves[str(t)]
         rs = row.get("real_board_stats")
         ss = row.get("sim_board_stats")
         ratio = row.get("stats_ratio_sim_over_real")
-        rel = row.get("stats_relative_error")
+        ref = row.get("real_board_stats_status", "—")
         rt = row.get("real_tavern_tier")
         stier = row.get("sim_tavern_tier")
-        rs_s = f"{rs:.0f}" if rs is not None else "—"
+        rs_s = f"{rs:.0f}" if rs is not None else "N/A"
         ss_s = f"{ss:.0f}" if ss is not None else "—"
-        ratio_s = f"{ratio:.2f}×" if ratio is not None else "—"
-        rel_s = f"{100 * rel:+.0f}%" if rel is not None else "—"
-        rt_s = f"{rt:.2f}" if rt is not None else "—"
+        ratio_s = f"{ratio:.2f}×" if ratio is not None else "N/A"
+        rt_s = f"{rt:.2f}" if rt is not None else "N/A"
         st_s = f"{stier:.2f}" if stier is not None else "—"
-        print(f"{t:>4} {rs_s:>11} {ss_s:>11} {ratio_s:>8} {rel_s:>9} {rt_s:>10} {st_s:>9}")
+        print(f"{t:>4} {rs_s:>11} {ss_s:>11} {ratio_s:>8} {ref:>12} "
+              f"{rt_s:>10} {st_s:>9}")
 
 
 def main(argv: Optional[list] = None) -> int:
@@ -103,10 +108,19 @@ def main(argv: Optional[list] = None) -> int:
     print_table(result["turn_curves"])
 
     comp = result["composition"]
-    print(f"\nComposition (turns 8–14, build_path coverage):")
-    print(f"  Sim mean:  {comp['sim_coverage_mean_turns_8_14']:.3f}")
-    print(f"  Real mean: {comp['real_coverage_mean']:.3f}  "
-          f"(n={comp['n_boards']} example boards)")
+    mid = comp["sim_midgame_to_final_winner_coverage"]
+    final = comp["final_winner_coverage"]
+    print(f"\nComposition — midgame diagnostic (turns 8–14 vs real final winners):")
+    print(f"  Sim midgame mean: {mid['sim_mean']:.3f}  (n={mid['sim_n']})")
+    print(f"  Real final mean:  {mid['real_final_winner_mean']:.3f}  "
+          f"(n={mid['real_n']})")
+    print(f"  Note: {mid['note']}")
+    print(f"\nComposition — final winner coverage (apples-to-apples):")
+    print(f"  Real final winner mean: {final['real_mean']:.3f}  (n={final['real_n']})")
+    print(f"  Sim final winner mean:  {final['sim_mean']:.3f}  (n={final['sim_n']})")
+    ratio = final.get("ratio_sim_over_real")
+    if ratio is not None:
+        print(f"  Ratio sim/real: {ratio:.3f}×")
 
     ld = result["lobby_dynamics"]
     print(f"\nLobby dynamics:")

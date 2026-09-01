@@ -2,7 +2,7 @@
   "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
   "simulator_version": "Simulator v1",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "e78612f183342daee8648e3fa74b7e7df36133ac",
+  "code_commit": "54e8271ed5de8cc1936e0257de6ea9cf79989fbd",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -23,20 +23,21 @@
   },
   "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
   "reference_data_fingerprints": {
-    "firestone_pace": "62fdb90ae1fa7251f61055ab5a2bec2459201870909fdce21783dc8e97fd1bc8",
-    "firestone_final_boards": "bcc1b59d9be089a365fcaf8af1300bceac479bc5b1c459e33060706907d250cf",
-    "firestone_hero_stats": "4535239dbddc985b08e4996df7e56f966b480d6d2f5b1b2fd5dc71a1ff95fa74",
-    "firestone_comp_stats": "806f5dbc13af224a7f05e85191081d02b519981e6896d94168115f027d327974",
-    "firestone_card_stats": "f1a4cb5675e35431ba9ebad179d97e29c9b5b121b612552b29d3d25e3ff27e47",
+    "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+    "firestone_final_boards": "3cf54f5ddef2ef1b2158f4acc9a7d0cd600c1914799b79f0e28ce4c0bac80801",
+    "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+    "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+    "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
     "bg_cards": "6abca24b83b620acb4237d4799842121295818c52ea6633cc0dca42e1908845f",
     "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
   },
   "reference_metadata": {
     "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
-    "_fetched": "2026-06-26",
+    "_fetched": "2026-09-01",
     "_mmr": 10,
     "_period": "past-seven",
-    "_heroDataPoints": 53756
+    "_heroDataPoints": 58561,
+    "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
   },
   "evaluation": {
     "policy": "greedy",

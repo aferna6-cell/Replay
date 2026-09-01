@@ -105,10 +105,11 @@ def test_low_tier_minion_not_bought_late_game():
     kb, scorer = cards.load_kb(), get_scorer()
     board = [{"name": f"G{i}", "card_id": f"g{i}", "attack": 34, "health": 38}
              for i in range(6)]
-    shop = [{"name": "Ominous Seer", "card_id": "BG31_330", "attack": 10, "health": 10}]
+    shop = [{"name": "Weak Filler", "card_id": "test_filler_t1",
+             "attack": 10, "health": 10, "tier": 1}]
     snap = _snap(shop=shop, board=board, gold=7, tavern_tier=6)
     top = rank_actions(snap, kb=kb, scorer=scorer)[0][0]
-    assert not top.action.describe().startswith("Buy Ominous Seer")
+    assert not top.action.describe().startswith("Buy Weak Filler")
 
 
 def test_targeted_spell_recommends_best_minion():
@@ -893,11 +894,11 @@ def test_build_path_changes_buy_ranking_toward_the_comp():
     board = [{"name": "Ingenious Inventor", "card_id": "i", "attack": 4, "health": 4},
              {"name": "Deflect-o-Bot", "card_id": "d", "attack": 3, "health": 3}]
     shop = [{"name": "Titus Rivendare", "card_id": "t", "attack": 5, "health": 5},
-            {"name": "Murloc Tidehunter", "card_id": "m", "attack": 5, "health": 5}]
+            {"name": "Murloc Scout", "card_id": "m", "attack": 5, "health": 5}]
     snap = _snap(shop=shop, board=board, tavern_tier=4, gold=6)
     recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
     titus = next(r for r in recs if "Titus" in r.action.describe())
-    murloc = next(r for r in recs if "Tidehunter" in r.action.describe())
+    murloc = next(r for r in recs if "Scout" in r.action.describe())
     # Same stats, but the on-comp Mech piece should finish ahead of the off-comp one.
     assert titus.placement < murloc.placement
 
