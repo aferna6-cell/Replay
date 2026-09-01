@@ -1,0 +1,74 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2H tempo-aware board management",
+  "implementation_commit": "375a91378ff3462cd6f1c8a9b1327f46715f6403",
+  "working_tree_clean": true,
+  "runtime_seconds": 941.01,
+  "screen": {
+    "candidates": [
+      {
+        "lambda_build": 12,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.011800018601620261,
+        "action_deviation_rate": 0.3854,
+        "phase": "screen"
+      },
+      {
+        "lambda_build": 8,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.011800018601620261,
+        "action_deviation_rate": 0.4167,
+        "phase": "screen"
+      },
+      {
+        "lambda_build": 4,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.01137921583942777,
+        "action_deviation_rate": 0.4167,
+        "phase": "screen"
+      }
+    ]
+  },
+  "replication": {
+    "candidates": [
+      {
+        "lambda_build": 12,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.008408439206415163,
+        "action_deviation_rate": 0.0,
+        "phase": "replication"
+      },
+      {
+        "lambda_build": 8,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.007489702388179586,
+        "action_deviation_rate": 0.0,
+        "phase": "replication"
+      }
+    ],
+    "frozen_lambda_build": 12
+  },
+  "frozen_policy_config": {
+    "policy_id": "tempo_board_greedy_policy",
+    "purpose": "Phase 2H realistic tempo-aware board-management candidate",
+    "lambda_build": 12,
+    "seeded_trigger": "infer_target(board).core_have >= 1",
+    "transition_model": "candidate_value = raw_stats + lambda_build * candidate_build_gain; replacement_cost = repl_raw + lambda_build * repl_build_value; net = candidate_value - replacement_cost; commit only if net > 0",
+    "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
+    "control_policy_id": "greedy_policy",
+    "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "calibration_screen": "seeds 3000\u20133099",
+    "calibration_replication": "seeds 3100\u20133499",
+    "confirmation": "seeds 4000\u20134199"
+  }
+}

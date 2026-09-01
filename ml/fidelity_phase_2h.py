@@ -1,9 +1,11 @@
-"""Simulator Fidelity Phase 2H — tempo-aware board management.
+"""Simulator Fidelity Phase 2H — tempo-aware board management (methodology 2h_v2).
 
     python -m ml.fidelity_phase_2h calibrate
     python -m ml.fidelity_phase_2h confirm --lambda-build 8
+    python -m ml.fidelity_phase_2h full
 
-DEV calibration on seeds 3000–3499; frozen confirmation on 4000–4199.
+DEV calibration on seeds 3000–3499; frozen confirmation on 5000–5199.
+Seeds 4000–4199 (invalidated v1) preserved under invalidated_v1/.
 """
 
 from __future__ import annotations
@@ -12,6 +14,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import sys
 import time
 from typing import Callable, Dict, List, Optional, Sequence
@@ -20,26 +23,29 @@ from hsbg_coach.bg_env import BGEnv, greedy_policy, seeded_core_deploy_stress_gr
 from hsbg_coach.pace import board_stats
 from hsbg_coach.tempo_board_policy import (
     LAMBDA_BUILD_CANDIDATES,
+    METHODOLOGY_VERSION,
     PHASE_2H_CONFIRM_LOBBIES,
     PHASE_2H_CONFIRM_SEED,
+    PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES,
+    PHASE_2H_INVALIDATED_V1_CONFIRM_SEED,
     PHASE_2H_REPLICATION_LOBBIES,
     PHASE_2H_REPLICATION_SEED,
     PHASE_2H_SCREEN_LOBBIES,
     PHASE_2H_SCREEN_SEED,
-    TempoBoardPolicyStats,
     aggregate_policy_stats,
     policies_for_lobby,
     policy_config_fingerprint,
 )
 
-from .composition_diagnostic import METHODOLOGY_VERSION, aggregate_diagnostics
+from .composition_diagnostic import (METHODOLOGY_VERSION as PHASE_2C_VERSION,
+                                     aggregate_diagnostics)
 from .composition_trace import RecruitTracer, run_traced_rollouts
 from .core_lifecycle_diagnostic import (METHODOLOGY_VERSION as PHASE_2F_VERSION,
                                         analyze_core_lifecycles)
 from .fidelity_metrics import (aggregate_composition, aggregate_lobby_dynamics,
                                aggregate_turn_curves, real_composition_baseline,
                                run_fidelity_rollouts, summarize_divergence)
-from .fidelity_paired import paired_turn_comparison, per_lobby_turn_means
+from .fidelity_paired import per_lobby_turn_means
 from .fidelity_reference import (FIDELITY_BENCHMARK_VERSION,
                                  SIMULATOR_V1_1_VERSION,
                                  build_simulator_v1_1_contract, git_commit,
@@ -51,6 +57,7 @@ from .phase_2h_decision import (evaluate_confirmation_acceptance,
                                 rank_calibration_candidate)
 
 DEFAULT_DIR = "results/sim_fidelity_phase_2h"
+INVALIDATED_V1_DIR = "results/sim_fidelity_phase_2h/invalidated_v1"
 PHASE = "2H tempo-aware board management"
 
 
@@ -64,11 +71,22 @@ def _policy_hash(cfg: Dict) -> str:
     return hashlib.sha256(json.dumps(cfg, sort_keys=True).encode()).hexdigest()
 
 
-def _winner_seat(traces: Dict, lobby: int) -> Optional[int]:
-    for p in traces.get("player_finals", []):
-        if p["lobby"] == lobby and p["placement"] == 1:
-            return p["seat"]
-    return None
+def assert_trace_lobby_integrity(traces: Dict, lobbies: int) -> None:
+    """Ensure every lobby 0..lobbies-1 appears in trace aggregates."""
+    expected = set(range(lobbies))
+    event_lobbies = {e["lobby"] for e in traces.get("events", [])}
+    final_lobbies = {p["lobby"] for p in traces.get("player_finals", [])}
+    turn_lobbies = {t["lobby"] for t in traces.get("turn_summaries", [])}
+    meta_lobbies = {m["lobby"] for m in traces.get("lobby_meta", [])}
+    assert event_lobbies == expected, (
+        f"event lobby IDs {sorted(event_lobbies)} != {sorted(expected)}")
+    assert final_lobbies == expected, (
+        f"player_final lobby IDs {sorted(final_lobbies)} != {sorted(expected)}")
+    assert turn_lobbies == expected, (
+        f"turn_summary lobby IDs {sorted(turn_lobbies)} != {sorted(expected)}")
+    assert meta_lobbies == expected, (
+        f"lobby_meta IDs {sorted(meta_lobbies)} != {sorted(expected)}")
+    assert traces.get("lobbies") == lobbies
 
 
 def compute_action_deviation_rate(base_traces: Dict, alt_traces: Dict) -> float:
@@ -93,7 +111,7 @@ def compute_action_deviation_rate(base_traces: Dict, alt_traces: Dict) -> float:
 def run_traced_rollouts_policy_list(
         lobbies: int, seed: int, policies: Sequence[Callable],
         scaling_mode: str = "residual") -> Dict:
-    """Like ``run_traced_rollouts`` but accepts per-seat policy list."""
+    """Traced rollouts with per-seat policy list; one lobby ID per outer lobby."""
     all_events: List[Dict] = []
     all_turn_summaries: List[Dict] = []
     all_player_finals: List[Dict] = []
@@ -118,7 +136,7 @@ def run_traced_rollouts_policy_list(
         })
         del env
 
-    return {
+    traces = {
         "lobbies": lobbies,
         "seed": seed,
         "scaling_mode": scaling_mode,
@@ -127,6 +145,8 @@ def run_traced_rollouts_policy_list(
         "player_finals": all_player_finals,
         "lobby_meta": lobby_meta,
     }
+    assert_trace_lobby_integrity(traces, lobbies)
+    return traces
 
 
 def run_fidelity_rollouts_policy_list(
@@ -158,37 +178,19 @@ def run_fidelity_rollouts_policy_list(
 
 
 def _run_tempo_arm(lobbies: int, seed: int, lambda_build: float,
-                   label: str, *, greedy_baseline_traces: Optional[Dict] = None) -> Dict:
+                   label: str, *, greedy_baseline_traces: Optional[Dict] = None,
+                   collect_policy_stats: bool = True) -> Dict:
     print(f"  [{label}] λ={lambda_build} fidelity rollouts…")
-    all_stats: List[Dict] = []
-    all_rows: List[Dict] = []
-    traces = {"lobbies": lobbies, "seed": seed, "events": [],
-              "turn_summaries": [], "player_finals": [], "lobby_meta": []}
-    for lobby_i in range(lobbies):
-        lobby_seed = seed + lobby_i
-        policies = policies_for_lobby(lambda_build, 8)
-        rows = run_fidelity_rollouts_policy_list(1, lobby_seed, policies)
-        for r in rows:
-            r["lobby"] = lobby_i
-            r["seed"] = lobby_seed
-        all_rows.extend(rows)
-        lobby_traces = run_traced_rollouts_policy_list(1, lobby_seed, policies)
-        for key in ("events", "turn_summaries", "player_finals", "lobby_meta"):
-            traces[key].extend(lobby_traces[key])
-        all_stats.append(aggregate_policy_stats(policies))
-    traces["lobbies"] = lobbies
-    traces["seed"] = seed
-    traces["scaling_mode"] = "residual"
+    policies_fidelity = policies_for_lobby(lambda_build, 8)
+    rows = run_fidelity_rollouts_policy_list(
+        lobbies, seed, policies_fidelity, scaling_mode="residual")
+    policy_stats = (aggregate_policy_stats(policies_fidelity)
+                    if collect_policy_stats else None)
 
-    combined = TempoBoardPolicyStats()
-    for s in all_stats:
-        combined.build_aware_buys += s["build_aware_buys"]
-        combined.build_aware_sells += s["build_aware_sells"]
-        n = max(1, s["positive_transitions"])
-        combined.raw_stat_sacrifice_sum += s["mean_raw_stat_sacrifice"] * n
-        combined.build_progress_gain_sum += s["mean_build_progress_gain"] * n
-        combined.transition_count += s["positive_transitions"]
-    policy_stats = combined.summary()
+    print(f"  [{label}] λ={lambda_build} composition traces…")
+    policies_trace = policies_for_lobby(lambda_build, 8)
+    traces = run_traced_rollouts_policy_list(
+        lobbies, seed, policies_trace, scaling_mode="residual")
 
     diagnostic = aggregate_diagnostics(traces)
     lifecycle = analyze_core_lifecycles(traces)
@@ -196,21 +198,22 @@ def _run_tempo_arm(lobbies: int, seed: int, lambda_build: float,
     if greedy_baseline_traces is not None:
         deviation = compute_action_deviation_rate(greedy_baseline_traces, traces)
 
-    turn_curves = aggregate_turn_curves(all_rows)
+    turn_curves = aggregate_turn_curves(rows)
     return {
         "label": label,
         "lambda_build": lambda_build,
-        "rows": all_rows,
+        "methodology_version": METHODOLOGY_VERSION,
+        "rows": rows,
         "traces": traces,
         "diagnostic": diagnostic,
         "lifecycle": lifecycle,
         "policy_stats": policy_stats,
         "action_deviation_rate_vs_greedy": deviation,
         "turn_curves": turn_curves,
-        "lobby_dynamics": aggregate_lobby_dynamics(all_rows),
-        "composition": aggregate_composition(all_rows),
+        "lobby_dynamics": aggregate_lobby_dynamics(rows),
+        "composition": aggregate_composition(rows),
         "headline": summarize_divergence(turn_curves),
-        "per_lobby_stats": per_lobby_turn_means(all_rows),
+        "per_lobby_stats": per_lobby_turn_means(rows),
         "mechanism": composition_mechanism_summary(diagnostic),
     }
 
@@ -223,6 +226,7 @@ def _run_single_policy_arm(lobbies: int, seed: int, policy: Callable,
     print(f"  [{label}] composition traces…")
     traces = run_traced_rollouts(lobbies, seed=seed, policy=policy,
                                  scaling_mode="residual")
+    assert_trace_lobby_integrity(traces, lobbies)
     diagnostic = aggregate_diagnostics(traces)
     lifecycle = analyze_core_lifecycles(traces)
     turn_curves = aggregate_turn_curves(rows)
@@ -268,6 +272,30 @@ def _calibration_row(greedy_arm: Dict, candidate_arm: Dict) -> Dict:
     }
 
 
+def _preserve_invalidated_v1_artifacts(out_dir: str) -> None:
+    """Move pre-v2 confirmation artifacts without deleting history."""
+    inv_dir = INVALIDATED_V1_DIR
+    os.makedirs(inv_dir, exist_ok=True)
+    note = {
+        "status": "invalidated",
+        "methodology_version": "2h_v1",
+        "reason": (
+            "Treatment trace lobby-ID collapse (all lobbies recorded as lobby=0) "
+            "and incomplete compound sell→play/buy transition semantics."),
+        "confirmation_seeds": (
+            f"{PHASE_2H_INVALIDATED_V1_CONFIRM_SEED}–"
+            f"{PHASE_2H_INVALIDATED_V1_CONFIRM_SEED + PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES - 1}"),
+        "do_not_use_for_decisions": True,
+    }
+    _write_json(os.path.join(inv_dir, "invalidated_note.json"), note)
+    for name in ("phase_2h_report.json", "contract.json", "phase_2h_calibration.json"):
+        src = os.path.join(out_dir, name)
+        if os.path.isfile(src):
+            dst = os.path.join(inv_dir, name)
+            if not os.path.isfile(dst):
+                shutil.copy2(src, dst)
+
+
 def run_calibration(*, out_dir: str = DEFAULT_DIR,
                     require_clean_tree: bool = True) -> Dict:
     impl_commit = git_commit()
@@ -275,8 +303,9 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
     if require_clean_tree and not tree_clean:
         raise RuntimeError("Working tree is not clean. Commit Phase 2H first.")
 
+    _preserve_invalidated_v1_artifacts(out_dir)
     t0 = time.time()
-    print("Phase 2H DEV calibration — screen then replication")
+    print(f"Phase 2H {METHODOLOGY_VERSION} DEV calibration — screen then replication")
 
     print(f"Screen seeds {PHASE_2H_SCREEN_SEED}–"
           f"{PHASE_2H_SCREEN_SEED + PHASE_2H_SCREEN_LOBBIES - 1}")
@@ -302,12 +331,10 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
         PHASE_2H_REPLICATION_LOBBIES, PHASE_2H_REPLICATION_SEED,
         greedy_policy, "greedy")
     replication_rows = []
-    replication_arms = {}
     for lb in top_two:
         arm = _run_tempo_arm(
             PHASE_2H_REPLICATION_LOBBIES, PHASE_2H_REPLICATION_SEED, lb,
             f"tempo_lb{lb}", greedy_baseline_traces=greedy_rep["traces"])
-        replication_arms[lb] = arm
         row = _calibration_row(greedy_rep, arm)
         row["phase"] = "replication"
         replication_rows.append(row)
@@ -318,6 +345,7 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
     result = {
         "benchmark": FIDELITY_BENCHMARK_VERSION,
         "phase": PHASE,
+        "methodology_version": METHODOLOGY_VERSION,
         "implementation_commit": impl_commit,
         "working_tree_clean": tree_clean,
         "runtime_seconds": round(time.time() - t0, 2),
@@ -328,6 +356,8 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
         },
         "frozen_policy_config": cfg,
         "frozen_policy_config_hash_sha256": _policy_hash(cfg),
+        "invalidated_v1_note": (
+            "Prior confirmation on seeds 4000–4199 invalidated; see invalidated_v1/"),
     }
     _write_json(os.path.join(out_dir, "phase_2h_calibration.json"), result)
     return result
@@ -341,10 +371,12 @@ def run_confirmation(*, lambda_build: float,
     if require_clean_tree and not tree_clean:
         raise RuntimeError("Working tree is not clean. Commit Phase 2H first.")
 
+    _preserve_invalidated_v1_artifacts(out_dir)
     t0 = time.time()
     seed = PHASE_2H_CONFIRM_SEED
     lobbies = PHASE_2H_CONFIRM_LOBBIES
-    print(f"Phase 2H confirmation — {lobbies} lobbies, seeds {seed}–{seed + lobbies - 1}")
+    print(f"Phase 2H {METHODOLOGY_VERSION} confirmation — {lobbies} lobbies, "
+          f"seeds {seed}–{seed + lobbies - 1}")
     print(f"  frozen λ_build = {lambda_build}")
 
     greedy = _run_single_policy_arm(lobbies, seed, greedy_policy, "greedy")
@@ -371,7 +403,8 @@ def run_confirmation(*, lambda_build: float,
     contract = build_simulator_v1_1_contract(evaluation_seed=seed, lobbies=lobbies)
     contract.update({
         "phase": PHASE,
-        "phase_2c_methodology_version": METHODOLOGY_VERSION,
+        "phase_2h_methodology_version": METHODOLOGY_VERSION,
+        "phase_2c_methodology_version": PHASE_2C_VERSION,
         "phase_2f_methodology_version": PHASE_2F_VERSION,
         "frozen_lambda_build": lambda_build,
         "policy_config": cfg,
@@ -382,6 +415,7 @@ def run_confirmation(*, lambda_build: float,
     result = {
         "benchmark": FIDELITY_BENCHMARK_VERSION,
         "phase": PHASE,
+        "methodology_version": METHODOLOGY_VERSION,
         "simulator_version": SIMULATOR_V1_1_VERSION,
         "implementation_commit": impl_commit,
         "working_tree_clean": tree_clean,
@@ -399,6 +433,10 @@ def run_confirmation(*, lambda_build: float,
         "acceptance": acceptance,
         "decision": decision,
         "contract": contract,
+        "invalidated_v1_confirmation": (
+            f"seeds {PHASE_2H_INVALIDATED_V1_CONFIRM_SEED}–"
+            f"{PHASE_2H_INVALIDATED_V1_CONFIRM_SEED + PHASE_2H_INVALIDATED_V1_CONFIRM_LOBBIES - 1} "
+            "preserved under invalidated_v1/ — do not use"),
     }
     _write_json(os.path.join(out_dir, "phase_2h_report.json"), result)
     _write_json(os.path.join(out_dir, "contract.json"), contract)
@@ -423,7 +461,7 @@ def _confirm_arm(arm: Dict) -> Dict:
         "seeded_reached_4_core": seeded.get("reached_4_core", 0),
         "headline_divergence": arm["headline"],
     }
-    if "policy_stats" in arm:
+    if arm.get("policy_stats") is not None:
         out["policy_stats"] = arm["policy_stats"]
         out["action_deviation_rate_vs_greedy"] = arm.get(
             "action_deviation_rate_vs_greedy")
@@ -451,7 +489,7 @@ def main(argv: Optional[list] = None) -> int:
     ap.add_argument("--allow-dirty-tree", action="store_true")
     args = ap.parse_args(argv)
 
-    print(f"{FIDELITY_BENCHMARK_VERSION} — Phase 2H")
+    print(f"{FIDELITY_BENCHMARK_VERSION} — Phase 2H {METHODOLOGY_VERSION}")
     print(f"Implementation commit: {git_commit()}")
     print(f"Working tree clean: {git_working_tree_clean()}")
 
@@ -485,7 +523,7 @@ def main(argv: Optional[list] = None) -> int:
             print(f"\nFrozen λ_build = {lb}")
             print(f"Decision: {dec['decision_branch']}")
             print(f"  {dec['recommended_next_step']}")
-    except RuntimeError as e:
+    except (RuntimeError, AssertionError) as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 1
 
