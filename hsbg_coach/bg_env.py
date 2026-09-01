@@ -45,6 +45,7 @@ MAX_TURNS = 20
 SHOP_SLOTS = {1: 3, 2: 4, 3: 4, 4: 5, 5: 5, 6: 6}
 POOL_COPIES = {1: 15, 2: 15, 3: 13, 4: 11, 5: 9, 6: 6}
 UPGRADE_COST = {1: 5, 2: 7, 3: 8, 4: 9, 5: 10}
+VALID_SCALING_MODES = frozenset({"ratio", "residual"})
 N_LOBBY_TRIBES = 5
 
 TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
@@ -174,13 +175,19 @@ class BGEnv:
     def __init__(self, n_players: int = 8, seed: Optional[int] = None,
                  opponent_policies: Optional[Sequence[Callable]] = None,
                  kb: Optional[Dict] = None, emb_names: Optional[set] = None,
-                 combat_runs: int = 1):
+                 combat_runs: int = 1,
+                 scaling_mode: str = "residual"):
+        if scaling_mode not in VALID_SCALING_MODES:
+            raise ValueError(
+                f"scaling_mode must be one of {sorted(VALID_SCALING_MODES)}, "
+                f"got {scaling_mode!r}")
         self.n_players = n_players
         self.rng = random.Random(seed)
         self._kb = kb if kb is not None else cards_mod.load_kb()
         self._emb_names = emb_names
         self.opponent_policies = list(opponent_policies or [])
         self.combat_runs = combat_runs
+        self.scaling_mode = scaling_mode
         self.turn = 0
         self.players: List[PlayerState] = []
         self.lobby_tribes: List[str] = []
@@ -345,26 +352,75 @@ class BGEnv:
     # the measured `scaling` pace curve, ~1.5-2x per turn late). The Phase 0 card
     # pool models combat keywords but not the buff long tail, so boards would only
     # grow by bought stats and the whole lobby's damage/elimination dynamics would
-    # be wrong. Bridge the gap abstractly: at end of recruit, each board scales by
-    # the real curve's growth ratio, discounted by tier deficit and by having spent
-    # the turn leveling — the same tuned growth model as ml/econ_env.py, applied to
-    # real card boards. Buffs land on the minions you own, matching real play.
-    def _end_of_turn_scaling(self, p: PlayerState) -> None:
+    # be wrong. Bridge the gap abstractly at end of recruit.
+    #
+    # Simulator v1 (`ratio`): multiply the whole board by the real turn-to-turn
+    # growth ratio — tends to double-count recruit purchases that already moved stats.
+    #
+    # Simulator v1.1 (`residual`, default): apply only the missing budget between
+    # the Firestone target for this turn and stats already produced by recruit.
+    def _scaling_growth_factor(self, p: PlayerState) -> float:
+        exp_tier = STANDARD_TAVERN_TIER.get(self.turn, 6.0)
+        deficit = max(0.0, exp_tier - p.tier)
+        factor = max(0.3, 0.98 + 0.035 * p.tier - 0.32 * deficit)
+        if p.turns_since_level == 0:
+            factor *= 0.6
+        factor *= self.rng.uniform(0.88, 1.14)
+        return factor
+
+    def _end_of_turn_scaling_ratio(self, p: PlayerState) -> None:
         if not p.board:
             return
         prev = _curve_at(self._scaling, max(1, self.turn - 1)) or 1.0
         cur = _curve_at(self._scaling, self.turn) or prev
         ratio = (cur / prev) if prev else 1.0
-        exp_tier = STANDARD_TAVERN_TIER.get(self.turn, 6.0)
-        deficit = max(0.0, exp_tier - p.tier)
-        g = ratio * max(0.3, 0.98 + 0.035 * p.tier - 0.32 * deficit)
-        if p.turns_since_level == 0:              # leveling sacrifices the turn
-            g *= 0.6
-        g *= self.rng.uniform(0.88, 1.14)
-        g = max(1.0, g)                            # buffs never shrink a board
+        g = ratio * self._scaling_growth_factor(p)
+        g = max(1.0, g)
         for m in p.board:
             m.attack = max(1, round(m.attack * g))
             m.health = max(1, round(m.health * g))
+
+    def _end_of_turn_scaling_residual(self, p: PlayerState) -> None:
+        """Apply only unexplained abstract growth once boards exceed the pace curve.
+
+        Before turn 10, behave like ratio scaling (recruit growth has not yet
+        compounded enough to double-count). From turn 10 onward, subtract any
+        board stats already above the Firestone pace target from the ratio-mode
+        abstract buff budget instead of multiplying the full board again.
+        """
+        if not p.board:
+            return
+        current = p.strength()
+        prev = _curve_at(self._scaling, max(1, self.turn - 1)) or 1.0
+        cur = _curve_at(self._scaling, self.turn) or prev
+        ratio = (cur / prev) if prev else 1.0
+        factor = self._scaling_growth_factor(p)
+        ratio_g = max(1.0, ratio * factor)
+        ratio_add = current * (ratio_g - 1)
+        if self.turn >= 10:
+            pace_target = cur * factor
+            over = max(0.0, current - pace_target)
+            residual_add = max(0.0, ratio_add - over)
+        else:
+            residual_add = ratio_add
+        if residual_add <= 0:
+            return
+        for m in p.board:
+            share = (m.attack + m.health) / current
+            add = residual_add * share
+            total = m.attack + m.health
+            if total <= 0:
+                continue
+            m.attack = max(1, round(m.attack + add * m.attack / total))
+            m.health = max(1, round(m.health + add * m.health / total))
+
+    def _end_of_turn_scaling(self, p: PlayerState) -> None:
+        if self.scaling_mode == "ratio":
+            self._end_of_turn_scaling_ratio(p)
+        elif self.scaling_mode == "residual":
+            self._end_of_turn_scaling_residual(p)
+        else:                                          # pragma: no cover
+            raise ValueError(f"unknown scaling_mode: {self.scaling_mode!r}")
 
     def _scale_all(self) -> None:
         for p in self.players:

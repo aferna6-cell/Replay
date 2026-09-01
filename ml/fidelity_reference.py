@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import subprocess
 from typing import Any, Dict, Optional
 
 from hsbg_coach.pace import FIRESTONE_PACE
@@ -21,6 +22,7 @@ def _sha256_dict(data: Dict[str, Any]) -> str:
 
 FIDELITY_BENCHMARK_VERSION = "Replay Simulator Fidelity Benchmark v1"
 SIMULATOR_VERSION = "Simulator v1"
+SIMULATOR_V1_1_VERSION = "Simulator v1.1"
 
 _ROOT = os.path.join(os.path.dirname(__file__), "..")
 _DATA_STATS = os.path.join(_ROOT, "data", "stats")
@@ -79,11 +81,55 @@ def load_reference_metadata() -> Dict[str, Any]:
 def build_simulator_v1_contract(*, evaluation_seed: int = 0,
                                 lobbies: int = 200) -> Dict[str, Any]:
     """Immutable Simulator v1 snapshot for fidelity baselines."""
+    return _build_simulator_contract(
+        simulator_version=SIMULATOR_VERSION,
+        scaling_mode="ratio",
+        evaluation_seed=evaluation_seed,
+        lobbies=lobbies,
+    )
+
+
+def git_working_tree_clean() -> bool:
+    try:
+        out = subprocess.check_output(
+            ["git", "status", "--porcelain"], stderr=subprocess.DEVNULL, text=True)
+        return out.strip() == ""
+    except Exception:
+        return False
+
+
+def build_simulator_v1_1_contract(*, evaluation_seed: int = 0,
+                                  lobbies: int = 200,
+                                  success_thresholds_sha256: Optional[str] = None,
+                                  success_thresholds_path: Optional[str] = None
+                                  ) -> Dict[str, Any]:
+    """Simulator v1.1 — residual end-of-turn scaling only."""
+    contract = _build_simulator_contract(
+        simulator_version=SIMULATOR_V1_1_VERSION,
+        scaling_mode="residual",
+        evaluation_seed=evaluation_seed,
+        lobbies=lobbies,
+        parent_version=SIMULATOR_VERSION,
+    )
+    contract["working_tree_clean"] = git_working_tree_clean()
+    if success_thresholds_sha256:
+        contract["success_thresholds_sha256"] = success_thresholds_sha256
+    if success_thresholds_path:
+        contract["success_thresholds_path"] = success_thresholds_path
+    return contract
+
+
+def _build_simulator_contract(*, simulator_version: str, scaling_mode: str,
+                              evaluation_seed: int, lobbies: int,
+                              parent_version: Optional[str] = None
+                              ) -> Dict[str, Any]:
+    """Shared contract builder for fidelity simulator snapshots."""
     env = env_config()
     refs = reference_fingerprints()
-    return {
+    contract: Dict[str, Any] = {
         "fidelity_benchmark_version": FIDELITY_BENCHMARK_VERSION,
-        "simulator_version": SIMULATOR_VERSION,
+        "simulator_version": simulator_version,
+        "scaling_mode": scaling_mode,
         "simulator_module": "hsbg_coach.bg_env.BGEnv",
         "code_commit": git_commit(),
         "runtime": runtime_fingerprint(),
@@ -104,3 +150,6 @@ def build_simulator_v1_contract(*, evaluation_seed: int = 0,
             "Phase 2B+ should not rewrite combat unless spot-checks regress."
         ),
     }
+    if parent_version:
+        contract["parent_simulator_version"] = parent_version
+    return contract
