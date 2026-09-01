@@ -17,7 +17,7 @@ import argparse
 import copy
 import os
 import random
-from typing import List
+from typing import List, Optional
 
 import numpy as np
 import torch
@@ -25,6 +25,7 @@ import torch.nn.functional as F
 
 from hsbg_coach.synergy import load_embeddings
 from . import seeds
+from .policy_drift import masked_kl
 from .policy_net import PolicyNet, save_policy, load_policy, as_env_policy
 from .rl_common import rollout, mixed_field, evaluate_policy, kb_byname
 from .tokens import token_dim
@@ -107,13 +108,19 @@ def _gae(rewards: List[float], values: List[float]) -> np.ndarray:
     return adv
 
 
-def _update(net, opt, batch) -> dict:
+def _update(net, opt, batch, anchor_net=None, kl_coef: float = 0.0) -> dict:
     """One PPO update pass. The extra stats (approx KL, clip fraction, grad
     norm) are pure observations on tensors the optimization already computes
-    — no additional RNG draws, no change to gradients or step order."""
+    — no additional RNG draws, no change to gradients or step order.
+
+    When ``anchor_net`` is set and ``kl_coef > 0``, adds
+    ``kl_coef * mean KL(pi_anchor || pi_theta)`` over legal actions to the
+    loss (same masked-KL definition as ``ml.policy_drift``).
+    """
     toks, mask, zones, ctx, legal, acts, old_logp, adv, ret = batch
     stats = {"pi": 0.0, "v": 0.0, "ent": 0.0, "approx_kl": 0.0,
-             "clip_frac": 0.0, "grad_norm": 0.0, "batches": 0}
+             "clip_frac": 0.0, "grad_norm": 0.0, "anchor_kl": 0.0,
+             "batches": 0}
     n = toks.shape[0]
     for _ in range(PPO_EPOCHS):
         perm = torch.randperm(n)
@@ -130,6 +137,15 @@ def _update(net, opt, batch) -> dict:
             v_loss = F.mse_loss(value, ret[ix])
             ent = dist.entropy().mean()
             loss = pi_loss + VALUE_COEF * v_loss - ENTROPY * ent
+            if anchor_net is not None and kl_coef > 0:
+                with torch.no_grad():
+                    anchor_logits, _ = anchor_net(toks[ix], mask[ix],
+                                                  zones[ix], ctx[ix])
+                    anchor_logits = PolicyNet.masked_logits(anchor_logits,
+                                                            legal[ix])
+                anchor_kl = masked_kl(anchor_logits, logits, legal[ix]).mean()
+                loss = loss + kl_coef * anchor_kl
+                stats["anchor_kl"] += float(anchor_kl.item())
             opt.zero_grad()
             loss.backward()
             grad_norm = torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
@@ -176,6 +192,12 @@ def main(argv=None):
                         "--shaping-horizon 40 reproduces the 40-iteration "
                         "schedule for iterations 1-40 and holds shaping at 0 "
                         "afterwards, so training budget is the only variable.")
+    p.add_argument("--kl-coef", type=float, default=0.0,
+                   help="KL(pi_anchor || pi_theta) penalty coefficient toward "
+                        "the frozen anchor policy (0 = unconstrained PPO)")
+    p.add_argument("--anchor", default=None,
+                   help="frozen anchor checkpoint for --kl-coef (defaults to "
+                        "--from-bc when set)")
     a = p.parse_args(argv)
     horizon = a.shaping_horizon if a.shaping_horizon else a.iters
 
@@ -213,6 +235,18 @@ def main(argv=None):
     _snapshot(0)             # exact warm-start weights, before any PPO update
     opt = torch.optim.AdamW(net.parameters(), lr=3e-4, weight_decay=1e-4)
     league: List = []
+
+    anchor_net: Optional[PolicyNet] = None
+    if a.kl_coef > 0:
+        anchor_path = a.anchor or a.from_bc
+        if not os.path.isfile(anchor_path):
+            p.error(f"--kl-coef requires a frozen anchor checkpoint "
+                    f"({anchor_path!r} not found)")
+        anchor_net = load_policy(anchor_path)
+        anchor_net.eval()
+        for param in anchor_net.parameters():
+            param.requires_grad_(False)
+        print(f"KL anchor: {anchor_path}  coef={a.kl_coef}")
 
     def policy_step(arrays, legal):
         return net.act(arrays, legal, greedy=False)
@@ -256,21 +290,26 @@ def main(argv=None):
         adv = (adv - adv.mean()) / (adv.std() + 1e-6)
 
         stats = _update(net, opt,
-                        (toks, mask, zones, ctx, legal, acts, old_logp, adv, ret))
+                        (toks, mask, zones, ctx, legal, acts, old_logp, adv, ret),
+                        anchor_net=anchor_net, kl_coef=a.kl_coef)
         print(f"iter {it:3d}  avg placement {np.mean(placements):.2f}  "
               f"steps {toks.shape[0]:4d}  shaping {shaping:.2f}  "
               f"league {len(league)}")
         nb = max(1, stats["batches"])
-        _diag({"iter": it + 1,
-               "rollout_avg_placement": float(np.mean(placements)),
-               "steps": int(toks.shape[0]), "shaping": float(shaping),
-               "league_size": len(league),
-               "pi_loss": stats["pi"] / nb, "v_loss": stats["v"] / nb,
-               "entropy": stats["ent"] / nb,
-               "approx_kl": stats["approx_kl"] / nb,
-               "clip_frac": stats["clip_frac"] / nb,
-               "grad_norm": stats["grad_norm"] / nb,
-               "minibatches": stats["batches"], **signal})
+        diag = {"iter": it + 1,
+                "rollout_avg_placement": float(np.mean(placements)),
+                "steps": int(toks.shape[0]), "shaping": float(shaping),
+                "league_size": len(league),
+                "pi_loss": stats["pi"] / nb, "v_loss": stats["v"] / nb,
+                "entropy": stats["ent"] / nb,
+                "approx_kl": stats["approx_kl"] / nb,
+                "clip_frac": stats["clip_frac"] / nb,
+                "grad_norm": stats["grad_norm"] / nb,
+                "minibatches": stats["batches"], **signal}
+        if a.kl_coef > 0:
+            diag["anchor_kl"] = stats["anchor_kl"] / nb
+            diag["kl_coef"] = a.kl_coef
+        _diag(diag)
         _snapshot(it + 1)
 
         if (it + 1) % LEAGUE_EVERY == 0:
