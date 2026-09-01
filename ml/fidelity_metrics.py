@@ -16,11 +16,12 @@ PRIMARY_TURNS = tuple(range(1, 17))
 
 
 def run_fidelity_rollouts(lobbies: int, seed: int = 0,
-                          policy: Callable = greedy_policy) -> List[Dict]:
+                          policy: Callable = greedy_policy,
+                          scaling_mode: str = "residual") -> List[Dict]:
     """Play greedy lobbies via ``BGEnv.play_scripted`` and collect snapshots."""
     rows: List[Dict] = []
     for i in range(lobbies):
-        env = BGEnv(seed=seed + i)
+        env = BGEnv(seed=seed + i, scaling_mode=scaling_mode)
         recs = env.play_scripted([policy] * env.n_players)
         game_length = max((r["turn"] for r in recs), default=0)
         for r in recs:

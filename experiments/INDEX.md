@@ -24,8 +24,8 @@ tuning on the current simulator.
 
 | Phase | Report | Status |
 |---|---|---|
-| 2A | [`sim_fidelity_benchmark_v1.md`](sim_fidelity_benchmark_v1.md) | Measurement baseline (no sim changes) |
-| 2B | — | Late-game scaling correction (not started) |
+| 2A | [`sim_fidelity_benchmark_v1.md`](sim_fidelity_benchmark_v1.md) | Measurement baseline (merged) |
+| 2B | [`sim_fidelity_phase_2b.md`](sim_fidelity_phase_2b.md) | **Residual scaling — Simulator v1.1 accepted** |
 | 2C | — | Composition realism (not started) |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all

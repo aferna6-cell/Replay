@@ -1,0 +1,113 @@
+{
+  "derived_from": "Simulator v1 per-lobby rollouts (ratio scaling)",
+  "measured_turns_only": true,
+  "turns": {
+    "10": {
+      "real_board_stats": 1601.1,
+      "baseline_ratio": 1.0330720992412954,
+      "bootstrap": {
+        "turn": 10,
+        "mean_ratio": 1.0333247846978715,
+        "p2_5": 0.9797518670199952,
+        "p50": 1.033906161240338,
+        "p97_5": 1.092236379155997,
+        "std": 0.02859395359648312,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    },
+    "12": {
+      "real_board_stats": 5347.0,
+      "baseline_ratio": 1.395706322978839,
+      "bootstrap": {
+        "turn": 12,
+        "mean_ratio": 1.3951754678737454,
+        "p2_5": 1.3007809619828883,
+        "p50": 1.393930467948609,
+        "p97_5": 1.4953306670886621,
+        "std": 0.04942174673841461,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    },
+    "14": {
+      "real_board_stats": 8293.4,
+      "baseline_ratio": 2.905195480526467,
+      "bootstrap": {
+        "turn": 14,
+        "mean_ratio": 2.9042765772646213,
+        "p2_5": 2.6744594056985225,
+        "p50": 2.903911709294501,
+        "p97_5": 3.145180255508535,
+        "std": 0.11918544267618542,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    },
+    "8": {
+      "real_board_stats": 306.6,
+      "baseline_ratio": 1.2649292159786287,
+      "bootstrap": {
+        "turn": 8,
+        "mean_ratio": 1.2646225977794086,
+        "p2_5": 1.2165731292517006,
+        "p50": 1.2641819844376105,
+        "p97_5": 1.314865401640108,
+        "std": 0.024982770968604094,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    },
+    "9": {
+      "real_board_stats": 721.6,
+      "baseline_ratio": 0.819294070385915,
+      "bootstrap": {
+        "turn": 9,
+        "mean_ratio": 0.8194190559957699,
+        "p2_5": 0.7808325991843522,
+        "p50": 0.81937969360416,
+        "p97_5": 0.8561113860732763,
+        "std": 0.018593972017971208,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    },
+    "11": {
+      "real_board_stats": 3182.1,
+      "baseline_ratio": 0.906416225583285,
+      "bootstrap": {
+        "turn": 11,
+        "mean_ratio": 0.9064077565840767,
+        "p2_5": 0.8528568884579066,
+        "p50": 0.905510597972887,
+        "p97_5": 0.9617048714460802,
+        "std": 0.027792779155921904,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    },
+    "13": {
+      "real_board_stats": 7138.7,
+      "baseline_ratio": 2.1578938889802286,
+      "bootstrap": {
+        "turn": 13,
+        "mean_ratio": 2.158476863896617,
+        "p2_5": 2.009219037301015,
+        "p50": 2.156768038998697,
+        "p97_5": 2.3122338405140272,
+        "std": 0.07735756583086345,
+        "n_lobbies": 200,
+        "n_bootstrap": 2000
+      }
+    }
+  },
+  "gates": {
+    "turn_14_primary_max_ratio": 2.033,
+    "turn_12_secondary_max_ratio": 1.37,
+    "turn_10_regression_band": 0.057,
+    "turn_10_center_ratio": 1.033,
+    "tier_alive_game_length": {
+      "note": "Report only; no numeric gate frozen here."
+    }
+  }
+}
