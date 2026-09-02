@@ -273,3 +273,21 @@ def test_pool_conservation_invariant():
     env.step(A_END)
     if not env.done:
         env.assert_pool_conservation()
+
+
+def test_finalize_returns_survivor_holdings():
+    """Phase 2N-D: end-of-lobby survivors return holdings for conservation."""
+    from hsbg_coach.bg_env import PHASE_2N_DEATH_RETURN
+    assert PHASE_2N_DEATH_RETURN
+    env = make_env(seed=11)
+    env.assert_pool_conservation()
+    # Mark all but seat 0 dead (already returned), then finalize.
+    for p in env.players[1:]:
+        env._return_player_holdings_to_pool(p)
+        p.alive = False
+        p.placement = 8
+    env._finalize()
+    env.assert_pool_conservation()
+    assert env.done
+    assert all(not p.alive for p in env.players)
+    assert env.pool_conservation_snapshot()["balanced"] is True

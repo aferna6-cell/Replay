@@ -199,6 +199,7 @@ def run_phase_2n(*, seed: int = PHASE_2N_SEED,
 
     traces = run_board_opp_with_pool_audit(lobbies, seed, prior)
     analysis = analyze_shop_pool_audit(traces)
+    analysis.setdefault("active_pool_precision_recall", active_pool)
     decision = evaluate_phase_2n_decision(analysis)
 
     contract = build_simulator_v1_1_contract(evaluation_seed=seed, lobbies=lobbies)

@@ -930,6 +930,7 @@ def analyze_shop_pool_audit(traces: Dict) -> Dict:
             k: v for k, v in catalogue.items() if k != "rows"
         },
         "catalogue_rows": catalogue["rows"],
+        "active_pool_precision_recall": active_pool,
         "pool_contract": contract,
         "rule_mismatches": rules,
         "pool_conservation": conservation,

@@ -642,6 +642,14 @@ class BGEnv:
                            key=lambda p: (-p.hp, -p.strength()))
         for i, p in enumerate(survivors):
             p.placement = i + 1
+            # End-of-lobby: return remaining holdings so the shared pool
+            # conservation invariant closes (Phase 2N-B/D).
+            if PHASE_2N_DEATH_RETURN:
+                p.last_board = [
+                    EnvMinion(m.card_id, m.name, m.tier, m.attack, m.health,
+                              list(m.tribes), list(m.keywords), m.golden)
+                    for m in p.board]
+                self._return_player_holdings_to_pool(p)
             p.alive = False
         self._done = True
 
