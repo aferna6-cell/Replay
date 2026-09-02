@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "a235549dfd1f73bb055680ff5ab9357e57875f25",
+  "code_commit": "1422b205e1debd4826d74e7bf91a6800411381bc",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -71,13 +71,14 @@
       "fit_lobbies": 300,
       "n_cells": 18,
       "global_p_survive_1": 0.9890604074152393,
-      "global_p_survive_2": 0.9757806442517798
+      "global_p_survive_2": 0.9757806442517798,
+      "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
     },
     "acquisition_gain": "missing core vs board+hand (shop buys)",
     "deployment_gain": "missing core vs board only (hand\u2192board)",
     "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
     "control_policy_id": "greedy_policy",
-    "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
     "persistence_fit": "seeds 7000\u20137299",
     "calibration_screen": "seeds 7300\u20137399",
     "calibration_replication": "seeds 7400\u20137799",
@@ -88,5 +89,6 @@
       2.0
     ]
   },
-  "policy_config_hash_sha256": "53d00dce75d5e59b104d39011a9253d590d7b7e7aada24035911431f7b5f9cf0"
+  "policy_config_hash_sha256": "9c226520ddd412bb9a57c5e56e67cc0389e041a6802d9636e76617e00e11b7b6",
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
 }

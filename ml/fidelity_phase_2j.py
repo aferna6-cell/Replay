@@ -357,8 +357,10 @@ def tier_band_breakdown_from_traces(traces: Dict) -> Dict:
                 tier = int(ts.get("tavern_tier") or 1)
                 band = report_tier_band(tier)
                 tgt = ts.get("target") or {}
-                if (first_2_band is None and count >= 2
-                        and tgt.get("archetype_key") == arch.key):
+                # Match funnel semantics: 2-core is board count of this arch's
+                # cores for a seeded-view lobby-archetype state (no live-target
+                # filter at the moment of assembly).
+                if first_2_band is None and count >= 2:
                     first_2_band = band
                 if (first_committed_band is None
                         and _target_meets_view_threshold(

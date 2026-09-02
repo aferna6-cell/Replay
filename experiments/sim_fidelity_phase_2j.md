@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2J — board-relative opportunity-cost policy
 
-Date: 2026-09-02 · Status: **ACCEPT (2j_v1, α=0.5)** ·
+Date: 2026-09-02 · Status: **scientifically ACCEPT (2j_v1, α=0.5); PR cleanup** ·
 Artifacts: [`results/sim_fidelity_phase_2j/`](../results/sim_fidelity_phase_2j/)
 
 ## Research question
@@ -32,8 +32,17 @@ Commit iff `transition_score > 0`. Free-slot `opportunity_cost = 0`.
 ### Persistence prior
 
 Fitted from raw greedy DEV `7000–7299`. Features: tier band, board raw-stat
-tertile, target-core vs non-core. Identity matching uses `(name, golden)` (not
-scaled ATK/HP). Horizon weights 50/50 over 1- and 2-turn survival.
+tertile, target-core vs non-core. Identity matching uses `(name, golden)`.
+
+**Canonical fingerprint:** `prior_hash_sha256` over the full cell table (not just
+fit seeds / globals). Clean-tree refit reproduced the identical hash
+`9b31c93a…`; confirmation `8000–8199` remains valid.
+
+Note: global P(survive 1/2) ≈ 0.989 / 0.976 — the prior is nearly flat. Do **not**
+claim the persistence prior alone solved assembly. The causal story is
+**board-relative normalization** of replacement cost (mean relative tempo loss
+≈ 5.6% of board strength vs hundreds of absolute stats). Persistence discounting
+was included but not independently ablated.
 
 ### Frozen α
 
@@ -43,10 +52,10 @@ scaled ATK/HP). Horizon weights 50/50 over 1- and 2-turn survival.
 
 | Stage | Seeds | Result |
 |---|---|---|
-| Fit prior | 7000–7299 | 18 cells; weak slots cheaper |
-| Screen | 7300–7399 | All α macro-ok; 13× 2-core, 23 fulfilled vs greedy 0 |
+| Fit prior | 7000–7299 | 18 cells; hash `9b31c93a…` |
+| Screen | 7300–7399 | All α macro-ok |
 | Replication | 7400–7799 | Freeze **α=0.5** |
-| Confirm | 8000–8199 | **ACCEPT** |
+| Confirm | 8000–8199 | **ACCEPT** (preserved after identical prior refit) |
 
 ## Confirmation (seeds 8000–8199, clean tree)
 
@@ -54,7 +63,10 @@ scaled ATK/HP). Horizon weights 50/50 over 1- and 2-turn survival.
 |---|---:|---:|---:|---:|
 | Raw greedy | 0 | 0 | 0 | 0.0057 |
 | Phase 2J α=0.5 | **20** | **14** | **34/34** | **0.0199** |
-| Phase 2E+2G oracle | 10 | 11 | 33/33 | 0.0103 |
+| Phase 2E+2G stress reference | 10 | 11 | 33/33 | 0.0103 |
+
+The 2E+2G policy is a **causal stress-test reference**, not an upper bound
+(2J beats it on persistent 2+, committed, and coverage).
 
 Deltas vs greedy (all gates pass):
 
@@ -68,6 +80,17 @@ Deltas vs greedy (all gates pass):
 
 **Decision:** `accept_board_management_policy`
 
+Tier-band breakdown (confirm treatment, reconciles to 41/34/20):
+
+| Tier band | Seeded exposures | Fulfilled | Persistent 2+ | Committed |
+| --------- | ---------------: | --------: | ------------: | --------: |
+| ≤4        |                0 |         0 |             0 |         0 |
+| 5         |                9 |         7 |             5 |         3 |
+| 6         |               32 |        27 |            15 |        11 |
+
+Most assembly still occurs at tier 6, but tier 5 is no longer empty — the
+policy is not exclusively a late-game patch.
+
 ## Commands
 
 ```bash
@@ -76,6 +99,12 @@ python -m ml.fidelity_phase_2j fit-prior
 python -m ml.fidelity_phase_2j calibrate
 python -m ml.fidelity_phase_2j confirm --alpha 0.5
 ```
+
+## Next
+
+Phase 2K — post-assembly residual composition-gap diagnostic (measurement-only).
+Coverage remains ~0.02 vs real ~0.77; ask why coherent 2+ boards still fail to
+resemble real winners before touching card effects.
 
 ## Frozen
 

@@ -3,7 +3,7 @@
   "phase": "2J board-relative opportunity-cost policy",
   "methodology_version": "2j_v1",
   "simulator_version": "Simulator v1.1",
-  "implementation_commit": "a235549dfd1f73bb055680ff5ab9357e57875f25",
+  "implementation_commit": "1422b205e1debd4826d74e7bf91a6800411381bc",
   "working_tree_clean": true,
   "frozen_alpha": 0.5,
   "frozen_policy_config": {
@@ -23,13 +23,14 @@
       "fit_lobbies": 300,
       "n_cells": 18,
       "global_p_survive_1": 0.9890604074152393,
-      "global_p_survive_2": 0.9757806442517798
+      "global_p_survive_2": 0.9757806442517798,
+      "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
     },
     "acquisition_gain": "missing core vs board+hand (shop buys)",
     "deployment_gain": "missing core vs board only (hand\u2192board)",
     "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
     "control_policy_id": "greedy_policy",
-    "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
     "persistence_fit": "seeds 7000\u20137299",
     "calibration_screen": "seeds 7300\u20137399",
     "calibration_replication": "seeds 7400\u20137799",
@@ -40,7 +41,7 @@
       2.0
     ]
   },
-  "runtime_seconds": 1005.03,
+  "runtime_seconds": 988.39,
   "evaluation_seed_base": 8000,
   "n_lobbies": 200,
   "real_final_winner_coverage_mean": 0.7658788248610255,
@@ -251,9 +252,27 @@
       "tier_error_turn_16": null
     },
     "tier_breakdown": {
-      "tier_le4": {},
-      "tier_5": {},
-      "tier_6": {}
+      "tier_le4": {
+        "seeded_exposures": 0,
+        "fulfilled": 0,
+        "rejected": 0,
+        "reached_2_core_states": 0,
+        "committed_states": 0
+      },
+      "tier_5": {
+        "seeded_exposures": 9,
+        "fulfilled": 7,
+        "rejected": 2,
+        "reached_2_core_states": 5,
+        "committed_states": 3
+      },
+      "tier_6": {
+        "seeded_exposures": 32,
+        "fulfilled": 27,
+        "rejected": 5,
+        "reached_2_core_states": 15,
+        "committed_states": 11
+      }
     },
     "policy_stats": {
       "compound_transitions_planned": 54,
@@ -276,7 +295,7 @@
     "action_deviation_rate_vs_greedy": 0.07924502402196294,
     "alpha": 0.5
   },
-  "oracle_upper_bound": {
+  "oracle_stress_reference": {
     "label": "oracle",
     "mechanism": {
       "methodology_version": "2c_v3",
@@ -434,9 +453,10 @@
       "board_sacrifice_ok": true,
       "accept_phase_2j_policy": true
     },
-    "oracle_recovery_fractions": {
-      "persistent_2_core_lift_recovered_fraction": 2.0,
-      "coverage_lift_recovered_fraction": 3.0469206169987784
+    "relative_to_oracle_reference": {
+      "persistent_2_core_lift_relative_to_oracle_reference": 2.0,
+      "coverage_lift_relative_to_oracle_reference": 3.0469206169987784,
+      "note": "Phase 2E+2G is a causal stress-test reference, not an upper bound; ratios may exceed 1.0."
     }
   },
   "decision": {
@@ -479,9 +499,10 @@
         "board_sacrifice_ok": true,
         "accept_phase_2j_policy": true
       },
-      "oracle_recovery_fractions": {
-        "persistent_2_core_lift_recovered_fraction": 2.0,
-        "coverage_lift_recovered_fraction": 3.0469206169987784
+      "relative_to_oracle_reference": {
+        "persistent_2_core_lift_relative_to_oracle_reference": 2.0,
+        "coverage_lift_relative_to_oracle_reference": 3.0469206169987784,
+        "note": "Phase 2E+2G is a causal stress-test reference, not an upper bound; ratios may exceed 1.0."
       }
     }
   },
@@ -490,7 +511,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "a235549dfd1f73bb055680ff5ab9357e57875f25",
+    "code_commit": "1422b205e1debd4826d74e7bf91a6800411381bc",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -558,13 +579,14 @@
         "fit_lobbies": 300,
         "n_cells": 18,
         "global_p_survive_1": 0.9890604074152393,
-        "global_p_survive_2": 0.9757806442517798
+        "global_p_survive_2": 0.9757806442517798,
+        "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
       },
       "acquisition_gain": "missing core vs board+hand (shop buys)",
       "deployment_gain": "missing core vs board only (hand\u2192board)",
       "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
       "control_policy_id": "greedy_policy",
-      "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+      "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
       "persistence_fit": "seeds 7000\u20137299",
       "calibration_screen": "seeds 7300\u20137399",
       "calibration_replication": "seeds 7400\u20137799",
@@ -575,6 +597,9 @@
         2.0
       ]
     },
-    "policy_config_hash_sha256": "53d00dce75d5e59b104d39011a9253d590d7b7e7aada24035911431f7b5f9cf0"
-  }
+    "policy_config_hash_sha256": "9c226520ddd412bb9a57c5e56e67cc0389e041a6802d9636e76617e00e11b7b6",
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
+  },
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+  "tier_breakdown_note": "Regenerated from treatment traces on 8000\u20138199 after fixing tier attribution; policy/prior unchanged (identical prior hash)."
 }
