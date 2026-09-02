@@ -1,4 +1,4 @@
-"""Tests for Phase 2L availability decomposition."""
+"""Tests for Phase 2L availability decomposition (2l_v2)."""
 
 from ml.availability_decomposition import (
     FROZEN_ALPHA,
@@ -6,17 +6,22 @@ from ml.availability_decomposition import (
     METHODOLOGY_VERSION,
     PHASE_2L_SEED,
     SUBFATE_CODES,
-    card_in_lobby_pool,
+    catalogue_exclusion_reason,
     card_tier,
-    expected_raw_appearances,
+    exact_catalogue_names,
+    expected_raw_one_deal,
+    p_zero_one_deal,
+    slot_draw_probability,
+    tribe_eligible,
 )
+from hsbg_coach.bg_env import build_pool
 from ml.fidelity_phase_2k import load_frozen_prior
 from ml.fidelity_phase_2l import assert_seed_range_allowed
 from ml.phase_2l_decision import evaluate_phase_2l_decision
 
 
 def test_methodology_and_frozen():
-    assert METHODOLOGY_VERSION == "2l_v1"
+    assert METHODOLOGY_VERSION == "2l_v2"
     assert FROZEN_ALPHA == 0.5
     assert PHASE_2L_SEED == 10200
     prior = load_frozen_prior()
@@ -34,56 +39,95 @@ def test_rejects_reserved_seeds():
 
 
 def test_card_tier_lookup():
-    # Alleycat is a known T1 beast
     t = card_tier("Alleycat")
     assert t == 1
 
 
-def test_lobby_pool_tribe_filter():
-    # A Murloc-only card should not be in a Beast-only lobby.
-    # Use a clearly tribal card if present.
-    assert card_in_lobby_pool("Alleycat", ["Beast", "Murloc", "Mech",
-                                           "Demon", "Pirate"]) is True
+def test_exact_catalogue_matches_build_pool():
+    tribes = ["Beast", "Murloc", "Mech", "Demon", "Pirate"]
+    names = exact_catalogue_names(tuple(tribes))
+    pool_names = {m.name for m in build_pool(lobby_tribes=tribes)}
+    assert names == pool_names
+    assert "Alleycat" in names
 
 
-def test_expected_raw_nonnegative():
-    e = expected_raw_appearances(
-        card_name="Alleycat", tavern_tier=1, n_shop_slots=3,
-        lobby_tribes=["Beast", "Murloc", "Mech", "Demon", "Pirate"])
-    assert e >= 0.0
+def test_tribe_eligible_filter():
+    assert tribe_eligible("Alleycat", ["Beast", "Murloc", "Mech",
+                                       "Demon", "Pirate"]) is True
+
+
+def test_catalogue_exclusion_reasons():
+    tribes = ["Beast", "Murloc", "Mech", "Demon", "Pirate"]
+    cat = set(exact_catalogue_names(tuple(tribes)))
+    assert catalogue_exclusion_reason("Alleycat", tribes, cat) is None
+    assert catalogue_exclusion_reason(
+        "__not_a_real_card__", tribes, cat) == "MISSING_KB_OR_TIER_OR_STATS"
+
+
+def test_slot_draw_and_p_zero():
+    tribes = ["Beast", "Murloc", "Mech", "Demon", "Pirate"]
+    catalogue = list(build_pool(lobby_tribes=tribes))
+    p = slot_draw_probability("Alleycat", tavern_tier=1, catalogue=catalogue)
+    assert 0.0 < p <= 1.0
+    assert expected_raw_one_deal(p, 3) == 3 * p
+    pz = p_zero_one_deal(p, 3)
+    assert 0.0 <= pz <= 1.0
 
 
 def test_decision_zero_raw_dominates():
     analysis = {
         "n_states": 50,
         "subfate_share_of_never_legal": {
-            "A1_NOT_IN_LOBBY_POOL": 0.05,
+            "A1_NOT_IN_EXACT_CATALOGUE": 0.05,
             "A2_NEVER_TIER_ELIGIBLE": 0.05,
             "A3_TIER_ELIGIBLE_ZERO_RAW": 0.7,
             "A4_RAW_BUT_ZERO_LEGAL": 0.15,
             "A5_OTHER": 0.05,
         },
         "headlines": {
-            "pct_never_legal_mass_tier_eligible_zero_raw": 0.7,
-            "pct_never_legal_mass_raw_but_zero_legal": 0.15,
+            "pct_exact_catalogue_tier_eligible_zero_raw": 0.7,
+            "pct_raw_but_never_legal": 0.15,
+        },
+        "sampler_calibration_unconditioned": {
+            "observed_zero_offer_rate": 0.8,
+            "expected_zero_offer_rate": 0.6,
         },
     }
     d = evaluate_phase_2l_decision(analysis)
     assert d["decision_branch"] == "a3_tier_eligible_zero_raw"
-    assert "shop/pool generation" in d["recommended_next_step"]
+    assert "shop/pool" in d["recommended_next_step"]
+
+
+def test_decision_catalogue_dominates():
+    analysis = {
+        "n_states": 50,
+        "subfate_share_of_never_legal": {
+            "A1_NOT_IN_EXACT_CATALOGUE": 0.7,
+            "A2_NEVER_TIER_ELIGIBLE": 0.05,
+            "A3_TIER_ELIGIBLE_ZERO_RAW": 0.2,
+            "A4_RAW_BUT_ZERO_LEGAL": 0.05,
+            "A5_OTHER": 0.0,
+        },
+        "headlines": {},
+        "sampler_calibration_unconditioned": {},
+    }
+    d = evaluate_phase_2l_decision(analysis)
+    assert d["decision_branch"] == "a1_not_in_exact_catalogue"
+    assert "catalogue" in d["recommended_next_step"].lower()
 
 
 def test_decision_raw_illegal_dominates_no_pool_touch():
     analysis = {
         "n_states": 50,
         "subfate_share_of_never_legal": {
-            "A1_NOT_IN_LOBBY_POOL": 0.0,
+            "A1_NOT_IN_EXACT_CATALOGUE": 0.0,
             "A2_NEVER_TIER_ELIGIBLE": 0.0,
             "A3_TIER_ELIGIBLE_ZERO_RAW": 0.2,
             "A4_RAW_BUT_ZERO_LEGAL": 0.75,
             "A5_OTHER": 0.05,
         },
         "headlines": {},
+        "sampler_calibration_unconditioned": {},
     }
     d = evaluate_phase_2l_decision(analysis)
     assert d["decision_branch"] == "a4_raw_but_zero_legal"
@@ -91,5 +135,6 @@ def test_decision_raw_illegal_dominates_no_pool_touch():
 
 
 def test_subfate_codes_complete():
+    assert "A1_NOT_IN_EXACT_CATALOGUE" in SUBFATE_CODES
     assert "A3_TIER_ELIGIBLE_ZERO_RAW" in SUBFATE_CODES
     assert "A4_RAW_BUT_ZERO_LEGAL" in SUBFATE_CODES

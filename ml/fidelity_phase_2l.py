@@ -139,7 +139,10 @@ def run_phase_2l(*, seed: int = PHASE_2L_SEED,
             "subfate_share_of_never_legal": (
                 analysis["subfate_share_of_never_legal"]),
             "subfate_card_counts": analysis["subfate_card_counts"],
+            "a1_exclusion_breakdown": analysis["a1_exclusion_breakdown"],
             "headlines": analysis["headlines"],
+            "sampler_calibration_unconditioned": (
+                analysis["sampler_calibration_unconditioned"]),
             "sampler_diagnostic": analysis["sampler_diagnostic"],
             "dominant_subfate": analysis["dominant_subfate"],
             "dominant_share": analysis["dominant_share"],
@@ -177,13 +180,18 @@ def main(argv: Optional[list] = None) -> int:
     a = result["analysis"]
     d = result["decision"]
     h = a.get("headlines") or {}
+    cal = a.get("sampler_calibration_unconditioned") or {}
     print(f"\nPost-assembly states: {a['n_states']}")
     print(f"Never-legal missing mass share of total missing: "
           f"{a.get('never_legal_share_of_total_missing')}")
-    print(f"Headline zero-raw (tier-eligible): "
-          f"{h.get('pct_never_legal_mass_tier_eligible_zero_raw')}")
-    print(f"Headline raw-but-illegal: "
-          f"{h.get('pct_never_legal_mass_raw_but_zero_legal')}")
+    print(f"Headline not-in-exact-catalogue: "
+          f"{h.get('pct_not_in_exact_simulator_catalogue')}")
+    print(f"Headline exact-catalogue + tier-eligible zero-raw: "
+          f"{h.get('pct_exact_catalogue_tier_eligible_zero_raw')}")
+    print(f"Headline raw-but-never-legal: "
+          f"{h.get('pct_raw_but_never_legal')}")
+    print(f"Unconditioned sampler: observed_zero={cal.get('observed_zero_offer_rate')} "
+          f"vs expected_zero={cal.get('expected_zero_offer_rate')}")
     print(f"Dominant subfate: {a.get('dominant_subfate')} "
           f"({a.get('dominant_share')})")
     print(f"Decision: {d['decision_branch']}")
