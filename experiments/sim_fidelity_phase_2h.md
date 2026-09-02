@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2H — tempo-aware board management
 
-Date: 2026-09-01 · Status: **2h_v3 implementation (draft PR #23)** ·
+Date: 2026-09-02 · Status: **2h_v3 confirmation complete — `transition_utility_inadequate` (draft PR #23)** ·
 Artifacts: [`results/sim_fidelity_phase_2h/`](../results/sim_fidelity_phase_2h/)
 
 **Invalidated runs (do not use for decisions):**

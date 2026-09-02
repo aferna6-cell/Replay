@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "da18ca97c479fd8802003f96bbff145bc34cdb0d",
+  "code_commit": "af92f0d33323a23c1b91bf810dc970f4202fcdec",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -43,24 +43,24 @@
   "evaluation": {
     "policy": "greedy",
     "lobbies": 200,
-    "base_seed": 6000,
+    "base_seed": 5000,
     "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
   },
   "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
   "parent_simulator_version": "Simulator v1",
-  "working_tree_clean": true,
+  "working_tree_clean": false,
   "phase": "2H tempo-aware board management",
-  "phase_2h_methodology_version": "2h_v3",
+  "phase_2h_methodology_version": "2h_v2",
   "phase_2c_methodology_version": "2c_v3",
   "phase_2f_methodology_version": "2f_v2",
   "frozen_lambda_build": 12,
   "policy_config": {
     "policy_id": "tempo_board_greedy_policy",
-    "methodology_version": "2h_v3",
+    "methodology_version": "2h_v2",
     "purpose": "Phase 2H realistic tempo-aware board-management candidate",
     "lambda_build": 12,
     "seeded_trigger": "infer_target(board).core_have >= 1",
-    "transition_model": "candidate_value = raw_stats + lambda_build * candidate_build_gain; replacement_cost = repl_raw + lambda_build * repl_build_value; net = candidate_value - replacement_cost; commit only if net > 0; hand full-board: sell\u2192play; shop full-board: sell\u2192buy\u2192play",
+    "transition_model": "candidate_value = raw_stats + lambda_build * candidate_build_gain; replacement_cost = repl_raw + lambda_build * repl_build_value; net = candidate_value - replacement_cost; commit only if net > 0; compound sell\u2192play/buy latched via pending intent",
     "acquisition_gain": "missing core vs board+hand (shop buys)",
     "deployment_gain": "missing core vs board only (hand\u2192board)",
     "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
@@ -68,9 +68,8 @@
     "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
     "calibration_screen": "seeds 3000\u20133099",
     "calibration_replication": "seeds 3100\u20133499",
-    "confirmation": "seeds 6000\u20136199",
-    "invalidated_v1_confirmation": "seeds 4000\u20134199 (lobby-ID collapse + non-atomic transitions)",
-    "invalidated_v2_confirmation": "seeds 5000\u20135199 (incorrect shop compound + cross-lobby state + dirty confirmation)"
+    "confirmation": "seeds 5000\u20135199",
+    "invalidated_v1_confirmation": "seeds 4000\u20134199 (lobby-ID collapse + non-atomic transitions)"
   },
-  "policy_config_hash_sha256": "ce2a3922241f7781f087f9c1914981b895098e648d426a7866fc4c2b50876b2a"
+  "policy_config_hash_sha256": "f3fa4ddbb1b2703e535faca7fb24a7aa486905fe12ce635fd0d224e75bfa9a74"
 }
