@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "045b891c7e4a5b41c3e6370ba4d42b370e6247ed",
+  "code_commit": "7628cb729be607720cffddb80bda86d4c4d2ff6a",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -25,7 +25,7 @@
   "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
   "reference_data_fingerprints": {
     "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
-    "firestone_final_boards": "0663c6e9da95a55f77ed0aaea2922cdd9d25c2be00a0d76956f0e4f508ee22d5",
+    "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
     "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
     "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
     "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
@@ -43,14 +43,14 @@
   "evaluation": {
     "policy": "greedy",
     "lobbies": 500,
-    "base_seed": 11000,
+    "base_seed": 11700,
     "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
   },
   "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
   "parent_simulator_version": "Simulator v1",
   "working_tree_clean": true,
   "phase": "2N shop/pool fidelity interventions",
-  "phase_2n_methodology_version": "2n_v1",
+  "phase_2n_methodology_version": "2n_v2",
   "phase_2j_methodology_version": "2j_v1",
   "frozen_alpha": 0.5,
   "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
@@ -64,5 +64,5 @@
     "5": 9,
     "6": 7
   },
-  "note": "Combined measurement after 2N-A/B/C. No _draw rewrite; no buy/economy; no card effects; no BC/DAgger/PPO."
+  "note": "2n_v2 measurement after 2N-A/B/C/D (active Tavern-pool manifest). No _draw rewrite; no buy/economy; no card effects; no BC/DAgger/PPO. Confirm seeds 11500\u201311699 reserved."
 }

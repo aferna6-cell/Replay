@@ -37,7 +37,7 @@ tuning on the current simulator.
 | 2K | [`sim_fidelity_phase_2k.md`](sim_fidelity_phase_2k.md) | Post-assembly gap (**merged**; 92% never-available) |
 | 2L | [`sim_fidelity_phase_2l.md`](sim_fidelity_phase_2l.md) | Availability decomp (`2l_v2`: **63% A3** → approve; Phase 2M pool audit) |
 | 2M | [`sim_fidelity_phase_2m.md`](sim_fidelity_phase_2m.md) | Shop/pool audit (`2m_v2`: multi-mismatch; mild draw undershoot) |
-| 2N | [`sim_fidelity_phase_2n.md`](sim_fidelity_phase_2n.md) | Shop/pool fixes (**HOLD `2n_v2`**; active Tavern-pool; remasure 11700–12199; confirm 11500 reserved) |
+| 2N | [`sim_fidelity_phase_2n.md`](sim_fidelity_phase_2n.md) | Shop/pool + active Tavern-pool (**accept v1.x candidate `2n_v2`**; confirm 11500 reserved) |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.

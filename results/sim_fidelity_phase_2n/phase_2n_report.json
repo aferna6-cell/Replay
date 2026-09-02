@@ -1,25 +1,58 @@
 {
   "benchmark": "Replay Simulator Fidelity Benchmark v1",
   "phase": "2N shop/pool fidelity interventions",
-  "methodology_version": "2n_v1",
+  "methodology_version": "2n_v2",
   "simulator_version": "Simulator v1.1",
-  "implementation_commit": "045b891c7e4a5b41c3e6370ba4d42b370e6247ed",
+  "implementation_commit": "7628cb729be607720cffddb80bda86d4c4d2ff6a",
   "working_tree_clean": true,
-  "runtime_seconds": 541.78,
-  "evaluation_seed_base": 11000,
+  "runtime_seconds": 496.86,
+  "evaluation_seed_base": 11700,
   "n_lobbies": 500,
   "static_catalogue": {
-    "n_core_slots": 226,
-    "n_unique_cores": 121,
+    "n_core_slots": 224,
+    "n_unique_cores": 120,
     "status_counts": {
-      "IN_EXACT_CATALOGUE": 226
+      "IN_EXACT_CATALOGUE": 224
     },
     "status_share": {
       "IN_EXACT_CATALOGUE": 1.0
     },
     "n_missing_from_kb": 0,
-    "n_in_exact_catalogue": 226,
+    "n_in_exact_catalogue": 224,
     "missing_from_kb_names": []
+  },
+  "static_active_pool": {
+    "lobby_tribes": [
+      "Beast",
+      "Mech",
+      "Murloc",
+      "Dragon",
+      "Demon",
+      "Elemental",
+      "Pirate",
+      "Naga",
+      "Undead",
+      "Quilboar"
+    ],
+    "n_active_manifest_solo": 235,
+    "n_expected_lobby_catalogue": 235,
+    "n_build_pool": 235,
+    "active_pool_recall": 1.0,
+    "active_pool_precision": 1.0,
+    "n_false_negatives": 0,
+    "n_false_positives": 0,
+    "false_negative_ids": [],
+    "false_positive_ids": [],
+    "token_cards_in_build_pool": 0,
+    "token_card_ids": [],
+    "duos_only_in_solo_build_pool": 0,
+    "duos_only_ids": [],
+    "out_of_scope_t7_in_build_pool": 0,
+    "t7_ids": [],
+    "removed_or_generated_only_in_build_pool": 0,
+    "not_in_active_ids": [],
+    "foraging_bat_in_build_pool": false,
+    "gates_pass": true
   },
   "static_rule_mismatches": {
     "n_documented_checks": 5,
@@ -115,19 +148,52 @@
   },
   "analysis": {
     "methodology_version": "2m_v2",
-    "n_states_phase_2l": 56,
+    "n_states_phase_2l": 137,
     "catalogue_synchronization": {
-      "n_core_slots": 226,
-      "n_unique_cores": 121,
+      "n_core_slots": 224,
+      "n_unique_cores": 120,
       "status_counts": {
-        "IN_EXACT_CATALOGUE": 226
+        "IN_EXACT_CATALOGUE": 224
       },
       "status_share": {
         "IN_EXACT_CATALOGUE": 1.0
       },
       "n_missing_from_kb": 0,
-      "n_in_exact_catalogue": 226,
+      "n_in_exact_catalogue": 224,
       "missing_from_kb_names": []
+    },
+    "active_pool_precision_recall": {
+      "lobby_tribes": [
+        "Beast",
+        "Mech",
+        "Murloc",
+        "Dragon",
+        "Demon",
+        "Elemental",
+        "Pirate",
+        "Naga",
+        "Undead",
+        "Quilboar"
+      ],
+      "n_active_manifest_solo": 235,
+      "n_expected_lobby_catalogue": 235,
+      "n_build_pool": 235,
+      "active_pool_recall": 1.0,
+      "active_pool_precision": 1.0,
+      "n_false_negatives": 0,
+      "n_false_positives": 0,
+      "false_negative_ids": [],
+      "false_positive_ids": [],
+      "token_cards_in_build_pool": 0,
+      "token_card_ids": [],
+      "duos_only_in_solo_build_pool": 0,
+      "duos_only_ids": [],
+      "out_of_scope_t7_in_build_pool": 0,
+      "t7_ids": [],
+      "removed_or_generated_only_in_build_pool": 0,
+      "not_in_active_ids": [],
+      "foraging_bat_in_build_pool": false,
+      "gates_pass": true
     },
     "pool_contract": {
       "simulator": {
@@ -147,6 +213,7 @@
           "5": 5,
           "6": 6
         },
+        "active_tavern_pool_manifest": "data/cards/active_tavern_pool.json (Phase 2N-D; build_pool \u2229 isBattlegroundsPoolMinion solo T1\u20136)",
         "draw": "weighted by remaining live copies among catalogue minions with tier <= tavern and pool > 0; without replacement within deal",
         "freeze": "frozen shop skips full return+redraw; incomplete shops top up to SHOP_SLOTS[tier] (Phase 2N-B)",
         "roll": "unfreeze; return shop copies; redraw SHOP_SLOTS[tier]",
@@ -285,22 +352,26 @@
     },
     "pool_conservation": {
       "n_lobbies": 500,
-      "note": "Elimination does not return copies; final pool + alive holdings is expected below initial pool total.",
-      "lobby_final_pool_mean": 8748.008,
-      "lobby_initial_pool_mean": 8762.652
+      "note": "Invariant: pool copies + live board/hand/shop holdings + 3\u00d7 golden holdings == initialized shared-pool copies (requires Phase 2N-B death-return).",
+      "lobby_final_pool_mean": 1504.134,
+      "lobby_initial_pool_mean": 1504.134,
+      "n_lobbies_balanced": 500,
+      "n_lobbies_unbalanced": 0,
+      "conservation_ok": true,
+      "mean_delta": 0.0
     },
     "phase_2l_headlines": {
-      "pct_not_in_exact_simulator_catalogue": 0.005723889229823704,
-      "pct_exact_catalogue_tier_eligible_zero_raw": 0.9922653961261793,
-      "pct_raw_but_never_legal": 0.0020107146439970144,
+      "pct_not_in_exact_simulator_catalogue": 0.0052518756164294505,
+      "pct_exact_catalogue_tier_eligible_zero_raw": 0.9922173183777944,
+      "pct_raw_but_never_legal": 0.0025308060057763608,
       "pct_never_tier_eligible": 0.0,
-      "not_in_exact_catalogue_mass": 0.22941660189472024,
-      "tier_eligible_zero_raw_mass": 39.77053821567367,
-      "raw_but_zero_legal_mass": 0.08059053948882147
+      "not_in_exact_catalogue_mass": 0.2575107296137339,
+      "tier_eligible_zero_raw_mass": 48.65054396786295,
+      "raw_but_zero_legal_mass": 0.12409084842366522
     },
     "phase_2l_a1_exclusion": {
       "mass": {
-        "TRIBE_EXCLUDED": 0.22941660189472024
+        "TRIBE_EXCLUDED": 0.2575107296137339
       },
       "share_of_a1": {
         "MISSING_KB_OR_TIER_OR_STATS": 0.0,
@@ -308,232 +379,225 @@
         "BUILD_POOL_EXCLUDED": 0.0
       },
       "card_counts": {
-        "TRIBE_EXCLUDED": 10
+        "TRIBE_EXCLUDED": 12
       },
       "kb_says_tribe_ok_but_build_pool_excludes_mass": 0.0
     },
     "live_calibration": {
       "methodology_version": "2m_v2",
       "post_assembly_deal_boundary": "turn > entry_turn",
-      "n_entry_turn_deals_excluded_from_calib": 290,
+      "n_entry_turn_deals_excluded_from_calib": 457,
       "primary_deal_level": {
         "cohort": "deal-level: exact-catalogue cores \u00d7 post-assembly deals (turn > entry_turn); NOT conditioned on missing-final",
-        "n_deal_card_observations": 18373,
-        "n_lobbies": 52,
-        "sum_expected_raw": 122.53738278744942,
-        "sum_observed_raw": 93.0,
-        "sum_expected_hit_probability": 122.21484395714398,
-        "sum_observed_hit_deals": 93.0,
-        "raw_ratio_obs_over_exp": 0.7589520673973893,
-        "hit_ratio_obs_over_exp": 0.7609550279556181,
+        "n_deal_card_observations": 48620,
+        "n_lobbies": 131,
+        "sum_expected_raw": 1834.2561320217271,
+        "sum_observed_raw": 1781.0,
+        "sum_expected_hit_probability": 1807.268909533873,
+        "sum_observed_hit_deals": 1757.0,
+        "raw_ratio_obs_over_exp": 0.9709658149197364,
+        "hit_ratio_obs_over_exp": 0.9721851522655595,
         "lobby_clustered": {
           "raw_obs_minus_exp": {
-            "n_lobbies": 52,
-            "mean": -0.5680265920663339,
+            "n_lobbies": 131,
+            "mean": -0.40653535894447695,
             "ci95": [
-              -0.8984757468744965,
-              -0.24681893229482066
+              -1.0214694209807615,
+              0.17102094916580937
             ]
           },
           "hit_obs_minus_exp": {
-            "n_lobbies": 52,
-            "mean": -0.5618239222527661,
+            "n_lobbies": 131,
+            "mean": -0.38373213384635624,
             "ci95": [
-              -0.8918890277507633,
-              -0.24041927878299058
+              -1.00231310873124,
+              0.1844755589757937
             ]
           },
           "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
         },
         "by_card_tier": {
           "1": {
-            "n": 368,
-            "sum_expected_raw": 3.7052258214450515,
-            "sum_observed_raw": 2.0,
-            "sum_expected_hit_probability": 3.690711816192945,
-            "sum_observed_hit_deals": 2.0
+            "n": 272,
+            "sum_expected_raw": 16.14916180678289,
+            "sum_observed_raw": 13.0,
+            "sum_expected_hit_probability": 15.78157254562598,
+            "sum_observed_hit_deals": 13.0
           },
           "2": {
-            "n": 729,
-            "sum_expected_raw": 7.361635380733078,
-            "sum_observed_raw": 4.0,
-            "sum_expected_hit_probability": 7.332775185008844,
-            "sum_observed_hit_deals": 4.0
+            "n": 2448,
+            "sum_expected_raw": 137.78353794178506,
+            "sum_observed_raw": 129.0,
+            "sum_expected_hit_probability": 134.80962457344444,
+            "sum_observed_hit_deals": 128.0
           },
           "3": {
-            "n": 2143,
-            "sum_expected_raw": 18.57310276958728,
-            "sum_observed_raw": 14.0,
-            "sum_expected_hit_probability": 18.511280907328583,
-            "sum_observed_hit_deals": 14.0
+            "n": 5584,
+            "sum_expected_raw": 273.7015654616612,
+            "sum_observed_raw": 277.0,
+            "sum_expected_hit_probability": 268.60961794272447,
+            "sum_observed_hit_deals": 271.0
           },
           "4": {
-            "n": 4685,
-            "sum_expected_raw": 34.56702937920319,
-            "sum_observed_raw": 34.0,
-            "sum_expected_hit_probability": 34.470566512454226,
-            "sum_observed_hit_deals": 34.0
+            "n": 12995,
+            "sum_expected_raw": 544.9883520631482,
+            "sum_observed_raw": 535.0,
+            "sum_expected_hit_probability": 536.4207736174392,
+            "sum_observed_hit_deals": 527.0
           },
           "5": {
-            "n": 6454,
-            "sum_expected_raw": 39.25499829410638,
-            "sum_observed_raw": 23.0,
-            "sum_expected_hit_probability": 39.16667573000961,
-            "sum_observed_hit_deals": 23.0
+            "n": 18083,
+            "sum_expected_raw": 610.7318444811955,
+            "sum_observed_raw": 605.0,
+            "sum_expected_hit_probability": 603.1706537150603,
+            "sum_observed_hit_deals": 597.0
           },
           "6": {
-            "n": 3994,
-            "sum_expected_raw": 19.07539114237444,
-            "sum_observed_raw": 16.0,
-            "sum_expected_hit_probability": 19.042833806149776,
-            "sum_observed_hit_deals": 16.0
+            "n": 9238,
+            "sum_expected_raw": 250.90167026715426,
+            "sum_observed_raw": 222.0,
+            "sum_expected_hit_probability": 248.4766671395786,
+            "sum_observed_hit_deals": 221.0
           }
         }
       },
       "missing_final_deal_level": {
         "cohort": "deal-level missing-final subset (selection-biased; secondary)",
-        "n_deal_card_observations": 13093,
-        "n_lobbies": 52,
-        "sum_expected_raw": 85.91112880705866,
-        "sum_observed_raw": 6.0,
-        "sum_expected_hit_probability": 85.68904996273767,
-        "sum_observed_hit_deals": 6.0,
-        "raw_ratio_obs_over_exp": 0.06983961313644182,
-        "hit_ratio_obs_over_exp": 0.0700206152665846,
+        "n_deal_card_observations": 25936,
+        "n_lobbies": 131,
+        "sum_expected_raw": 1007.6975730657143,
+        "sum_observed_raw": 679.0,
+        "sum_expected_hit_probability": 992.4569176508563,
+        "sum_observed_hit_deals": 672.0,
+        "raw_ratio_obs_over_exp": 0.6738132730976825,
+        "hit_ratio_obs_over_exp": 0.6771074774617146,
         "lobby_clustered": {
           "raw_obs_minus_exp": {
-            "n_lobbies": 52,
-            "mean": -1.5367524770588195,
+            "n_lobbies": 131,
+            "mean": -2.5091417791275896,
             "ci95": [
-              -1.7990722550544864,
-              -1.3025119457808747
+              -2.960532403491397,
+              -2.0606321320766203
             ]
           },
           "hit_obs_minus_exp": {
-            "n_lobbies": 52,
-            "mean": -1.5324817300526463,
+            "n_lobbies": 131,
+            "mean": -2.4462360126019616,
             "ci95": [
-              -1.7938788628740545,
-              -1.2987829896710616
+              -2.8922739345962825,
+              -2.007748139264714
             ]
           },
           "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
         },
         "by_card_tier": {
           "1": {
-            "n": 190,
-            "sum_expected_raw": 1.9554048868646228,
-            "sum_observed_raw": 1.0,
-            "sum_expected_hit_probability": 1.9475754222616297,
-            "sum_observed_hit_deals": 1.0
+            "n": 204,
+            "sum_expected_raw": 12.247211263316645,
+            "sum_observed_raw": 11.0,
+            "sum_expected_hit_probability": 11.965508822967307,
+            "sum_observed_hit_deals": 11.0
           },
           "2": {
-            "n": 423,
-            "sum_expected_raw": 4.431136542225915,
-            "sum_observed_raw": 1.0,
-            "sum_expected_hit_probability": 4.413124469862294,
-            "sum_observed_hit_deals": 1.0
+            "n": 1039,
+            "sum_expected_raw": 60.64996479806888,
+            "sum_observed_raw": 53.0,
+            "sum_expected_hit_probability": 59.29062037282796,
+            "sum_observed_hit_deals": 52.0
           },
           "3": {
-            "n": 978,
-            "sum_expected_raw": 8.87058662252065,
-            "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 8.83964212848587,
-            "sum_observed_hit_deals": 0.0
+            "n": 2588,
+            "sum_expected_raw": 130.70178164009602,
+            "sum_observed_raw": 103.0,
+            "sum_expected_hit_probability": 128.19182282340694,
+            "sum_observed_hit_deals": 102.0
           },
           "4": {
-            "n": 2885,
-            "sum_expected_raw": 21.847628158859536,
-            "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 21.78499477423758,
-            "sum_observed_hit_deals": 0.0
+            "n": 8539,
+            "sum_expected_raw": 365.2396684985252,
+            "sum_observed_raw": 321.0,
+            "sum_expected_hit_probability": 359.37576630888844,
+            "sum_observed_hit_deals": 316.0
           },
           "5": {
-            "n": 5270,
-            "sum_expected_raw": 32.56766465719029,
-            "sum_observed_raw": 3.0,
-            "sum_expected_hit_probability": 32.49317153260667,
-            "sum_observed_hit_deals": 3.0
+            "n": 8123,
+            "sum_expected_raw": 285.8746322225406,
+            "sum_observed_raw": 136.0,
+            "sum_expected_hit_probability": 282.17892063320124,
+            "sum_observed_hit_deals": 136.0
           },
           "6": {
-            "n": 3347,
-            "sum_expected_raw": 16.238707939397642,
-            "sum_observed_raw": 1.0,
-            "sum_expected_hit_probability": 16.210541635283636,
-            "sum_observed_hit_deals": 1.0
+            "n": 5443,
+            "sum_expected_raw": 152.98431464316695,
+            "sum_observed_raw": 55.0,
+            "sum_expected_hit_probability": 151.45427868956443,
+            "sum_observed_hit_deals": 55.0
           }
         }
       },
       "a3_deal_level": {
         "cohort": "deal-level A3 zero-raw windows (observed hits near 0 by definition)",
-        "n_deal_card_observations": 12711,
-        "n_lobbies": 52,
-        "sum_expected_raw": 83.13644345510309,
+        "n_deal_card_observations": 13593,
+        "n_lobbies": 127,
+        "sum_expected_raw": 493.12284570683016,
         "sum_observed_raw": 0.0,
-        "sum_expected_hit_probability": 82.92279826632455,
+        "sum_expected_hit_probability": 486.22428094666986,
         "sum_observed_hit_deals": 0.0,
         "raw_ratio_obs_over_exp": 0.0,
         "hit_ratio_obs_over_exp": 0.0,
         "lobby_clustered": {
           "raw_obs_minus_exp": {
-            "n_lobbies": 52,
-            "mean": -1.5987777587519814,
+            "n_lobbies": 127,
+            "mean": -3.882857052809686,
             "ci95": [
-              -1.8668224400283202,
-              -1.3592854240041026
+              -4.192440138534079,
+              -3.5824214381231307
             ]
           },
           "hit_obs_minus_exp": {
-            "n_lobbies": 52,
-            "mean": -1.5946691974293183,
+            "n_lobbies": 127,
+            "mean": -3.8285376452493707,
             "ci95": [
-              -1.8620620050909207,
-              -1.3557685677144433
+              -4.134310222616512,
+              -3.5321760621104015
             ]
           },
           "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
         },
         "by_card_tier": {
-          "1": {
-            "n": 129,
-            "sum_expected_raw": 1.3108250804966814,
-            "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 1.3056383904881788,
-            "sum_observed_hit_deals": 0.0
-          },
           "2": {
-            "n": 362,
-            "sum_expected_raw": 3.78585010530798,
+            "n": 280,
+            "sum_expected_raw": 16.371787248282818,
             "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 3.7704866158844803,
+            "sum_expected_hit_probability": 16.003585401889147,
             "sum_observed_hit_deals": 0.0
           },
           "3": {
-            "n": 978,
-            "sum_expected_raw": 8.87058662252065,
+            "n": 962,
+            "sum_expected_raw": 48.920657899523135,
             "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 8.83964212848587,
+            "sum_expected_hit_probability": 47.975347582099296,
             "sum_observed_hit_deals": 0.0
           },
           "4": {
-            "n": 2885,
-            "sum_expected_raw": 21.847628158859536,
+            "n": 2856,
+            "sum_expected_raw": 122.5965087919038,
             "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 21.78499477423758,
+            "sum_expected_hit_probability": 120.62216194161972,
             "sum_observed_hit_deals": 0.0
           },
           "5": {
-            "n": 5109,
-            "sum_expected_raw": 31.57239973940208,
+            "n": 5290,
+            "sum_expected_raw": 186.89917659160142,
             "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 31.500184903135622,
+            "sum_expected_hit_probability": 184.4734921977987,
             "sum_observed_hit_deals": 0.0
           },
           "6": {
-            "n": 3248,
-            "sum_expected_raw": 15.749153748516164,
+            "n": 4205,
+            "sum_expected_raw": 118.33471517551902,
             "sum_observed_raw": 0.0,
-            "sum_expected_hit_probability": 15.72185145409282,
+            "sum_expected_hit_probability": 117.14969382326302,
             "sum_observed_hit_deals": 0.0
           }
         }
@@ -542,50 +606,50 @@
         "unconditioned": {
           "cohort": "descriptive card-windows (adaptive P_zero demoted)",
           "role": "descriptive_secondary",
-          "n_card_windows": 638,
-          "sum_expected_raw_live": 122.53738278744942,
-          "sum_observed_raw": 93.0,
-          "observed_zero_offer_rate": 0.8699059561128527,
-          "adaptive_product_expected_zero_rate": 0.8313856497694361,
+          "n_card_windows": 1609,
+          "sum_expected_raw_live": 1834.2561320217271,
+          "sum_observed_raw": 1781.0,
+          "observed_zero_offer_rate": 0.3716594157862026,
+          "adaptive_product_expected_zero_rate": 0.36447748876233027,
           "note": "observed_zero_offer_rate is descriptive. adaptive_product_expected_zero_rate is demoted \u2014 not a clean ex-ante P(zero) under adaptive pool trajectories."
         },
         "a3_zero_raw": {
           "cohort": "descriptive A3 card-windows (observed zero \u2248 1 by definition)",
           "role": "descriptive_secondary",
-          "n_card_windows": 455,
-          "sum_expected_raw_live": 83.13644345510309,
+          "n_card_windows": 526,
+          "sum_expected_raw_live": 493.1228457068302,
           "sum_observed_raw": 0.0,
           "observed_zero_offer_rate": 1.0,
-          "adaptive_product_expected_zero_rate": 0.8383755959057619,
+          "adaptive_product_expected_zero_rate": 0.42624581671630535,
           "note": "observed_zero_offer_rate is descriptive. adaptive_product_expected_zero_rate is demoted \u2014 not a clean ex-ante P(zero) under adaptive pool trajectories."
         }
       },
-      "sum_expected_raw": 122.53738278744942,
-      "sum_observed_raw": 93.0,
-      "sum_expected_hit_probability": 122.21484395714398,
-      "sum_observed_hit_deals": 93.0,
-      "raw_ratio_obs_over_exp": 0.7589520673973893,
-      "hit_ratio_obs_over_exp": 0.7609550279556181,
+      "sum_expected_raw": 1834.2561320217271,
+      "sum_observed_raw": 1781.0,
+      "sum_expected_hit_probability": 1807.268909533873,
+      "sum_observed_hit_deals": 1757.0,
+      "raw_ratio_obs_over_exp": 0.9709658149197364,
+      "hit_ratio_obs_over_exp": 0.9721851522655595,
       "lobby_clustered": {
         "raw_obs_minus_exp": {
-          "n_lobbies": 52,
-          "mean": -0.5680265920663339,
+          "n_lobbies": 131,
+          "mean": -0.40653535894447695,
           "ci95": [
-            -0.8984757468744965,
-            -0.24681893229482066
+            -1.0214694209807615,
+            0.17102094916580937
           ]
         },
         "hit_obs_minus_exp": {
-          "n_lobbies": 52,
-          "mean": -0.5618239222527661,
+          "n_lobbies": 131,
+          "mean": -0.38373213384635624,
           "ci95": [
-            -0.8918890277507633,
-            -0.24041927878299058
+            -1.00231310873124,
+            0.1844755589757937
           ]
         },
         "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
       },
-      "n_deal_card_observations": 18373,
+      "n_deal_card_observations": 48620,
       "note": "2m_v2 primary = deal-level \u03a3E(raw)/\u03a3P(hit) vs observed, with lobby-clustered bootstrap. Entry-turn deals excluded. Adaptive whole-window product(P_zero) is descriptive only."
     },
     "headlines": {
@@ -593,18 +657,18 @@
       "pct_cores_in_exact_catalogue": 1.0,
       "n_demonstrated_rule_mismatches": 2,
       "n_phase_2n_actionable_mismatches": 0,
-      "live_sum_expected_raw": 122.53738278744942,
-      "live_sum_observed_raw": 93.0,
-      "live_sum_expected_hit_probability": 122.21484395714398,
-      "live_sum_observed_hit_deals": 93.0,
-      "live_raw_ratio_obs_over_exp": 0.7589520673973893,
-      "live_hit_ratio_obs_over_exp": 0.7609550279556181,
-      "live_n_deal_card_observations": 18373,
+      "live_sum_expected_raw": 1834.2561320217271,
+      "live_sum_observed_raw": 1781.0,
+      "live_sum_expected_hit_probability": 1807.268909533873,
+      "live_sum_observed_hit_deals": 1757.0,
+      "live_raw_ratio_obs_over_exp": 0.9709658149197364,
+      "live_hit_ratio_obs_over_exp": 0.9721851522655595,
+      "live_n_deal_card_observations": 48620,
       "a3_descriptive_observed_zero_rate": 1.0,
-      "a3_descriptive_adaptive_expected_zero_rate": 0.8383755959057619,
-      "phase_2l_a3_share": 0.9922653961261793,
-      "phase_2l_a1_share": 0.005723889229823704,
-      "phase_2l_a4_share": 0.0020107146439970144
+      "a3_descriptive_adaptive_expected_zero_rate": 0.42624581671630535,
+      "phase_2l_a3_share": 0.9922173183777944,
+      "phase_2l_a1_share": 0.0052518756164294505,
+      "phase_2l_a4_share": 0.0025308060057763608
     },
     "reserved_seeds": {
       "diagnostic_dev": "10200\u201310699",
@@ -615,36 +679,41 @@
   },
   "decision": {
     "decision_branch": "accept_simulator_v1_x_candidate",
-    "recommended_next_step": "Freeze Simulator v1.x candidate; run confirmation on 11500\u201311699.",
+    "recommended_next_step": "Freeze Simulator v1.x candidate; run confirmation ONCE on 11500\u201311699.",
     "catalogue_clean": true,
+    "active_pool_recall": 1.0,
+    "active_pool_precision": 1.0,
+    "active_pool_gates_pass": true,
     "lifecycle_copy_clean": true,
-    "deal_level_raw_ratio": 0.7589520673973893,
+    "pool_conservation_ok": true,
+    "deal_level_raw_ratio": 0.9709658149197364,
     "lobby_raw_ci95": [
-      -0.8984757468744965,
-      -0.24681893229482066
+      -1.0214694209807615,
+      0.17102094916580937
     ],
     "phase_2n_flags": {
       "death_return": true,
       "freeze_topup": true,
-      "pool_copies_t6": 7
+      "pool_copies_t6": 7,
+      "active_tavern_pool_filter": true
     },
     "headlines": {
       "pct_cores_missing_from_kb": null,
       "pct_cores_in_exact_catalogue": 1.0,
       "n_demonstrated_rule_mismatches": 2,
       "n_phase_2n_actionable_mismatches": 0,
-      "live_sum_expected_raw": 122.53738278744942,
-      "live_sum_observed_raw": 93.0,
-      "live_sum_expected_hit_probability": 122.21484395714398,
-      "live_sum_observed_hit_deals": 93.0,
-      "live_raw_ratio_obs_over_exp": 0.7589520673973893,
-      "live_hit_ratio_obs_over_exp": 0.7609550279556181,
-      "live_n_deal_card_observations": 18373,
+      "live_sum_expected_raw": 1834.2561320217271,
+      "live_sum_observed_raw": 1781.0,
+      "live_sum_expected_hit_probability": 1807.268909533873,
+      "live_sum_observed_hit_deals": 1757.0,
+      "live_raw_ratio_obs_over_exp": 0.9709658149197364,
+      "live_hit_ratio_obs_over_exp": 0.9721851522655595,
+      "live_n_deal_card_observations": 48620,
       "a3_descriptive_observed_zero_rate": 1.0,
-      "a3_descriptive_adaptive_expected_zero_rate": 0.8383755959057619,
-      "phase_2l_a3_share": 0.9922653961261793,
-      "phase_2l_a1_share": 0.005723889229823704,
-      "phase_2l_a4_share": 0.0020107146439970144
+      "a3_descriptive_adaptive_expected_zero_rate": 0.42624581671630535,
+      "phase_2l_a3_share": 0.9922173183777944,
+      "phase_2l_a1_share": 0.0052518756164294505,
+      "phase_2l_a4_share": 0.0025308060057763608
     }
   },
   "contract": {
@@ -652,7 +721,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "045b891c7e4a5b41c3e6370ba4d42b370e6247ed",
+    "code_commit": "7628cb729be607720cffddb80bda86d4c4d2ff6a",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -674,7 +743,7 @@
     "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
     "reference_data_fingerprints": {
       "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
-      "firestone_final_boards": "0663c6e9da95a55f77ed0aaea2922cdd9d25c2be00a0d76956f0e4f508ee22d5",
+      "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
       "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
       "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
       "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
@@ -692,14 +761,14 @@
     "evaluation": {
       "policy": "greedy",
       "lobbies": 500,
-      "base_seed": 11000,
+      "base_seed": 11700,
       "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
     },
     "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
     "parent_simulator_version": "Simulator v1",
     "working_tree_clean": true,
     "phase": "2N shop/pool fidelity interventions",
-    "phase_2n_methodology_version": "2n_v1",
+    "phase_2n_methodology_version": "2n_v2",
     "phase_2j_methodology_version": "2j_v1",
     "frozen_alpha": 0.5,
     "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
@@ -713,7 +782,7 @@
       "5": 9,
       "6": 7
     },
-    "note": "Combined measurement after 2N-A/B/C. No _draw rewrite; no buy/economy; no card effects; no BC/DAgger/PPO."
+    "note": "2n_v2 measurement after 2N-A/B/C/D (active Tavern-pool manifest). No _draw rewrite; no buy/economy; no card effects; no BC/DAgger/PPO. Confirm seeds 11500\u201311699 reserved."
   },
   "phase_2m_baseline_deal_level": {
     "note": "2m_v2 DEV 10200\u201310699 primary deal-level",
