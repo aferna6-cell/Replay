@@ -196,6 +196,10 @@ class BGEnv:
         self._done = True
         self._scaling = load_pace().get("scaling", {})
         self._agent_actions = 0
+        # Optional observational hook: (env, player, meta_dict) -> None.
+        # Must not mutate env. Used by Phase 2M shop/pool audit only.
+        self.pool_deal_hook: Optional[Callable] = None
+        self._deal_reason: str = "unknown"
 
     MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
 
@@ -213,6 +217,7 @@ class BGEnv:
         self._agent_actions = 0
         for p in self.players:
             p.gold = gold_at(self.turn)
+            self._deal_reason = "reset"
             self._deal_shop(p)
         return self.observe(0)
 
@@ -237,16 +242,53 @@ class BGEnv:
         self._pool[m.name] = self._pool.get(m.name, 0) + (3 if m.golden else 1)
 
     def _deal_shop(self, p: PlayerState) -> None:
+        """Deal shop slots. Optional ``pool_deal_hook`` is observational only."""
         if p.frozen:
+            if self.pool_deal_hook is not None:
+                self.pool_deal_hook(self, p, {
+                    "reason": self._deal_reason,
+                    "frozen_skip": True,
+                    "tavern_tier": p.tier,
+                    "n_slots": 0,
+                    "dealt_names": [m.name for m in p.shop],
+                    "card_remaining": {},
+                    "eligible_total_copies": 0,
+                })
             p.frozen = False
             return
         for m in p.shop:
             self._return_to_pool(m)
         p.shop = []
-        for _ in range(SHOP_SLOTS[p.tier]):
+        # Snapshot *after* return-to-pool, *before* draws (exact live draw state).
+        pre_draw_remaining: Dict[str, int] = {}
+        eligible = self._names_at_or_below(p.tier)
+        eligible_total = sum(self._pool[n] for n in eligible)
+        n_slots = int(SHOP_SLOTS[p.tier])
+        track = getattr(self, "_pool_audit_track_names", None)
+        if track is not None:
+            pre_draw_remaining = {n: int(self._pool.get(n, 0)) for n in track
+                                  if n in self._catalogue}
+        elif self.pool_deal_hook is not None:
+            # Default: snapshot all catalogue remaining counts (heavy; prefer track).
+            pre_draw_remaining = {n: int(c) for n, c in self._pool.items()}
+
+        dealt_names: List[str] = []
+        for _ in range(n_slots):
             m = self._draw(p.tier)
             if m is not None:
                 p.shop.append(m)
+                dealt_names.append(m.name)
+
+        if self.pool_deal_hook is not None:
+            self.pool_deal_hook(self, p, {
+                "reason": self._deal_reason,
+                "frozen_skip": False,
+                "tavern_tier": p.tier,
+                "n_slots": n_slots,
+                "dealt_names": dealt_names,
+                "card_remaining": pre_draw_remaining,
+                "eligible_total_copies": int(eligible_total),
+            })
 
     # -- observation / mask ------------------------------------------------------
     def observe(self, seat: int) -> Dict:
@@ -317,6 +359,7 @@ class BGEnv:
         elif action == A_ROLL:
             p.gold -= ROLL_COST
             p.frozen = False
+            self._deal_reason = "roll"
             self._deal_shop(p)
         elif action == A_LEVEL:
             p.gold -= p.level_cost()
@@ -501,6 +544,7 @@ class BGEnv:
                 continue
             p.gold = gold_at(self.turn)
             p.turns_since_level += 1
+            self._deal_reason = "start_turn"
             self._deal_shop(p)
 
     def _scripted_seat(self, seat: int) -> None:
