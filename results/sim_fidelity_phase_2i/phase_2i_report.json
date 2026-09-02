@@ -1,0 +1,4920 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2I seeded opportunity decision-margin diagnostic",
+  "methodology_version": "2i_v2",
+  "simulator_version": "Simulator v1.1",
+  "implementation_commit": "b457a701574651f9a2302efc57a0560dfe505780",
+  "working_tree_clean": true,
+  "runtime_seconds": 948.19,
+  "evaluation_seed_base": 3000,
+  "n_lobbies": 500,
+  "frozen_lambda_build": 12.0,
+  "analysis": {
+    "funnel": {
+      "seeded_legally_buyable_exposures": 159,
+      "fulfilled": 2,
+      "rejected": 157,
+      "raw_rejection_rate": 0.9874213836477987,
+      "composition_progress_failures": 157,
+      "composition_progress_failure_rate": 1.0,
+      "by_primary_cause": {
+        "A_REPLACEMENT_COST_DOMINATES": 137,
+        "F_ECONOMY_LEGALITY_LOSS": 20
+      },
+      "composition_progress_by_cause": {
+        "A_REPLACEMENT_COST_DOMINATES": 137,
+        "F_ECONOMY_LEGALITY_LOSS": 20
+      },
+      "by_close_reason": {
+        "roll": 134,
+        "end": 19,
+        "first_loss_of_buyability": 4
+      }
+    },
+    "reconciliation_2c_v3": {
+      "tracked_exposures": 159,
+      "phase_2c_legally_buyable_exposures": 159,
+      "phase_2c_fulfilled": 2,
+      "phase_2c_rejected": 157,
+      "counts_match": true
+    },
+    "headline_metrics": {
+      "mean_chosen_minus_core_raw_gap": -8.598540145985401,
+      "mean_core_raw_advantage": 8.598540145985401,
+      "median_chosen_minus_core_raw_gap": -9.0,
+      "mean_lambda_build_bonus": 5.1484072992700725,
+      "mean_replacement_raw_stat_cost": 295.7664233576642,
+      "mean_core_vs_chosen_margin": -284.7184335766423,
+      "median_core_vs_chosen_margin": -191.9842,
+      "pct_core_transitions_net_positive": 0.0,
+      "pct_core_ranked_first_with_build": 0.37579617834394907,
+      "pct_core_ranked_second_with_build": 0.21656050955414013,
+      "pct_core_ranked_third_plus_with_build": 0.2802547770700637,
+      "pct_core_ranked_first_without_build": 0.08280254777070063,
+      "pct_core_ranked_second_without_build": 0.12738853503184713,
+      "pct_core_ranked_third_plus_without_build": 0.6624203821656051,
+      "pct_rejected_despite_positive_core_net": 0.0,
+      "pct_exposures_lost_board_full_only": 0.8726114649681529
+    },
+    "break_even_lambda": {
+      "median": 343.46463132070335,
+      "p25": 64.60576512674743,
+      "p75": 1403.7122297991864,
+      "pct_helpful_higher_lambda_le_24": 0.012738853503184714,
+      "pct_helpful_higher_lambda_gt_24": 0.6751592356687898,
+      "pct_helpful_lower_lambda_only": 0.18471337579617833,
+      "pct_no_lambda_effect": 0.0,
+      "pct_no_finite_helpful_higher_lambda": 0.0,
+      "bucket_counts": {
+        "helpful_higher_lambda_gt_24": 106,
+        "helpful_lower_lambda_only": 29,
+        "helpful_higher_lambda_le_24": 2
+      }
+    },
+    "breakdown_by_tier": {
+      "5": {
+        "A_REPLACEMENT_COST_DOMINATES": 13,
+        "F_ECONOMY_LEGALITY_LOSS": 3
+      },
+      "6": {
+        "F_ECONOMY_LEGALITY_LOSS": 16,
+        "A_REPLACEMENT_COST_DOMINATES": 124
+      },
+      "3": {
+        "F_ECONOMY_LEGALITY_LOSS": 1
+      }
+    },
+    "breakdown_by_core_have": {
+      "1": {
+        "A_REPLACEMENT_COST_DOMINATES": 136,
+        "F_ECONOMY_LEGALITY_LOSS": 19
+      },
+      "2": {
+        "A_REPLACEMENT_COST_DOMINATES": 1,
+        "F_ECONOMY_LEGALITY_LOSS": 1
+      }
+    },
+    "breakdown_by_board_full": {
+      "true": {
+        "A_REPLACEMENT_COST_DOMINATES": 137,
+        "F_ECONOMY_LEGALITY_LOSS": 19
+      },
+      "false": {
+        "F_ECONOMY_LEGALITY_LOSS": 1
+      }
+    },
+    "breakdown_by_archetype": {
+      "elemental_cycle": {
+        "A_REPLACEMENT_COST_DOMINATES": 36,
+        "F_ECONOMY_LEGALITY_LOSS": 6
+      },
+      "murloc_mrrglton": {
+        "A_REPLACEMENT_COST_DOMINATES": 21,
+        "F_ECONOMY_LEGALITY_LOSS": 6
+      },
+      "murloc_handbuff": {
+        "A_REPLACEMENT_COST_DOMINATES": 14
+      },
+      "beast_leviathan": {
+        "A_REPLACEMENT_COST_DOMINATES": 8,
+        "F_ECONOMY_LEGALITY_LOSS": 3
+      },
+      "dragon_kalecgos": {
+        "A_REPLACEMENT_COST_DOMINATES": 5
+      },
+      "dragon_evoker": {
+        "A_REPLACEMENT_COST_DOMINATES": 8
+      },
+      "quilboar_choose_one": {
+        "A_REPLACEMENT_COST_DOMINATES": 20,
+        "F_ECONOMY_LEGALITY_LOSS": 4
+      },
+      "mech_magnet": {
+        "A_REPLACEMENT_COST_DOMINATES": 1
+      },
+      "pirate_discover": {
+        "A_REPLACEMENT_COST_DOMINATES": 21,
+        "F_ECONOMY_LEGALITY_LOSS": 1
+      },
+      "demon_self_damage": {
+        "A_REPLACEMENT_COST_DOMINATES": 1
+      },
+      "undead_butcher": {
+        "A_REPLACEMENT_COST_DOMINATES": 2
+      }
+    },
+    "breakdown_by_core_frequency_quartile": {
+      "q1_lowest": {
+        "A_REPLACEMENT_COST_DOMINATES": 39,
+        "F_ECONOMY_LEGALITY_LOSS": 7
+      },
+      "q3": {
+        "F_ECONOMY_LEGALITY_LOSS": 12,
+        "A_REPLACEMENT_COST_DOMINATES": 29
+      },
+      "q4_highest": {
+        "A_REPLACEMENT_COST_DOMINATES": 36,
+        "F_ECONOMY_LEGALITY_LOSS": 1
+      },
+      "q2": {
+        "A_REPLACEMENT_COST_DOMINATES": 33
+      }
+    }
+  },
+  "decision": {
+    "decision_branch": "a_replacement_cost_dominates",
+    "recommended_next_step": "Phase 2J: multi-turn / board-slot opportunity-cost model",
+    "dominant_cause": "A_REPLACEMENT_COST_DOMINATES",
+    "dominant_fraction": 0.8726,
+    "composition_progress_failures": 157,
+    "rejected_exposures": 157
+  },
+  "contract": {
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version": "Simulator v1.1",
+    "scaling_mode": "residual",
+    "simulator_module": "hsbg_coach.bg_env.BGEnv",
+    "code_commit": "b457a701574651f9a2302efc57a0560dfe505780",
+    "runtime": {
+      "python_version": "3.12.3",
+      "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+      "torch_version": "2.13.0+cpu",
+      "numpy_version": "2.4.4",
+      "torch_device": "cpu",
+      "torch_cuda_available": false
+    },
+    "environment": {
+      "env": "hsbg_coach.bg_env.BGEnv",
+      "n_players": 8,
+      "field_size": 7,
+      "agent_seat": 0,
+      "n_actions": 28,
+      "max_turns": 20,
+      "max_decisions": 400
+    },
+    "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+    "reference_data_fingerprints": {
+      "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "firestone_final_boards": "3cf54f5ddef2ef1b2158f4acc9a7d0cd600c1914799b79f0e28ce4c0bac80801",
+      "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+      "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+      "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+      "bg_cards": "6abca24b83b620acb4237d4799842121295818c52ea6633cc0dca42e1908845f",
+      "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+    },
+    "reference_metadata": {
+      "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+      "_fetched": "2026-09-01",
+      "_mmr": 10,
+      "_period": "past-seven",
+      "_heroDataPoints": 58561,
+      "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+    },
+    "evaluation": {
+      "policy": "greedy",
+      "lobbies": 500,
+      "base_seed": 3000,
+      "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
+    },
+    "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+    "parent_simulator_version": "Simulator v1",
+    "working_tree_clean": true,
+    "phase": "2I seeded opportunity decision-margin diagnostic",
+    "phase_2i_methodology_version": "2i_v2",
+    "phase_2h_methodology_version": "2h_v3",
+    "frozen_lambda_build": 12.0,
+    "policy_config": {
+      "policy_id": "tempo_board_greedy_policy",
+      "methodology_version": "2h_v3",
+      "purpose": "Phase 2H realistic tempo-aware board-management candidate",
+      "lambda_build": 12.0,
+      "seeded_trigger": "infer_target(board).core_have >= 1",
+      "transition_model": "candidate_value = raw_stats + lambda_build * candidate_build_gain; replacement_cost = repl_raw + lambda_build * repl_build_value; net = candidate_value - replacement_cost; commit only if net > 0; hand full-board: sell\u2192play; shop full-board: sell\u2192buy\u2192play",
+      "acquisition_gain": "missing core vs board+hand (shop buys)",
+      "deployment_gain": "missing core vs board only (hand\u2192board)",
+      "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
+      "control_policy_id": "greedy_policy",
+      "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+      "calibration_screen": "seeds 3000\u20133099",
+      "calibration_replication": "seeds 3100\u20133499",
+      "confirmation": "seeds 6000\u20136199",
+      "invalidated_v1_confirmation": "seeds 4000\u20134199 (lobby-ID collapse + non-atomic transitions)",
+      "invalidated_v2_confirmation": "seeds 5000\u20135199 (incorrect shop compound + cross-lobby state + dirty confirmation)"
+    },
+    "measurement_only": true,
+    "note": "Observational audit; no policy behavior changes."
+  },
+  "rejected_exposure_records": [
+    {
+      "lobby": 7,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Flaming Enforcer",
+      "turn": 9,
+      "shop_generation": 3,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.126,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          7,
+          "elemental_cycle",
+          "Flaming Enforcer",
+          9,
+          3
+        ],
+        "core_net": -13.2612,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -13.2612,
+        "core_free_slot_value": 10.7388,
+        "core_replacement_value": -13.2612
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 7,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Wildfire Elemental",
+      "turn": 11,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.363,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          7,
+          "elemental_cycle",
+          "Wildfire Elemental",
+          11,
+          1
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 7,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 15,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          7,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          15,
+          5
+        ],
+        "core_net": -885.032,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -885.032,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -885.032
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 26,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Choral Mrrrglr",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.115,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          26,
+          "murloc_mrrglton",
+          "Choral Mrrrglr",
+          11,
+          5
+        ],
+        "core_net": -64.4234,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -64.4234,
+        "core_free_slot_value": 13.587,
+        "core_replacement_value": -64.4234
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 26,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 13,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          26,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          13,
+          2
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 30,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Bile Spitter",
+      "turn": 12,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.644,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          30,
+          "murloc_handbuff",
+          "Bile Spitter",
+          12,
+          5
+        ],
+        "core_net": -186.9502,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -186.9502,
+        "core_free_slot_value": 19.8872,
+        "core_replacement_value": -186.9502
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 30,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Bile Spitter",
+      "turn": 14,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.644,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          30,
+          "murloc_handbuff",
+          "Bile Spitter",
+          14,
+          4
+        ],
+        "core_net": -605.9502,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -605.9502,
+        "core_free_slot_value": 19.8872,
+        "core_replacement_value": -605.9502
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 32,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Sewer Lord",
+      "turn": 13,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          32,
+          "beast_leviathan",
+          "Sewer Lord",
+          13,
+          5
+        ],
+        "core_net": -164.9896,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -164.9896,
+        "core_free_slot_value": 17.010399999999997,
+        "core_replacement_value": -164.9896
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 32,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Forest Rover",
+      "turn": 13,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.098,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          32,
+          "beast_leviathan",
+          "Forest Rover",
+          13,
+          7
+        ],
+        "core_net": -178.6476,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -178.6476,
+        "core_free_slot_value": 3.3524,
+        "core_replacement_value": -178.6476
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 32,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Turquoise Skitterer",
+      "turn": 14,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.639,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          32,
+          "beast_leviathan",
+          "Turquoise Skitterer",
+          14,
+          2
+        ],
+        "core_net": -163.1818,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -163.1818,
+        "core_free_slot_value": 18.8182,
+        "core_replacement_value": -163.1818
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 11,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          11,
+          1
+        ],
+        "core_net": -46.0226,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -46.0226,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -46.0226
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Tavern Tempest",
+      "turn": 13,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.359,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Tavern Tempest",
+          13,
+          7
+        ],
+        "core_net": -345.0458,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -345.0458,
+        "core_free_slot_value": 8.9542,
+        "core_replacement_value": -345.0458
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Air Revenant",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.247,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Air Revenant",
+          14,
+          0
+        ],
+        "core_net": -437.5914,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -437.5914,
+        "core_free_slot_value": 12.4086,
+        "core_replacement_value": -437.5914
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Wildfire Elemental",
+      "turn": 14,
+      "shop_generation": 3,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.363,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Wildfire Elemental",
+          14,
+          3
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 14,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Heroic Underdog",
+          14,
+          4
+        ],
+        "core_net": -437.689,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -437.689,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -437.689
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Leeroy the Reckless",
+      "turn": 14,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.242,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Leeroy the Reckless",
+          14,
+          5
+        ],
+        "core_net": -438.6604,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -438.6604,
+        "core_free_slot_value": 11.3396,
+        "core_replacement_value": -438.6604
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 16,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Heroic Underdog",
+          16,
+          5
+        ],
+        "core_net": -466.689,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -466.689,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -466.689
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 42,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Brann Bronzebeard",
+      "turn": 17,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.788,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          42,
+          "elemental_cycle",
+          "Brann Bronzebeard",
+          17,
+          4
+        ],
+        "core_net": -462.1256,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -462.1256,
+        "core_free_slot_value": 16.8744,
+        "core_replacement_value": -462.1256
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 44,
+      "archetype_key": "dragon_kalecgos",
+      "core_name": "Warpwing",
+      "turn": 11,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.798,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          44,
+          "dragon_kalecgos",
+          "Warpwing",
+          11,
+          2
+        ],
+        "core_net": -48.39280000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -48.39280000000001,
+        "core_free_slot_value": 27.0124,
+        "core_replacement_value": -48.39280000000001
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 44,
+      "archetype_key": "dragon_kalecgos",
+      "core_name": "Draconic Warden",
+      "turn": 11,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.184,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          44,
+          "dragon_kalecgos",
+          "Draconic Warden",
+          11,
+          7
+        ],
+        "core_net": -61.86600000000001,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -61.86600000000001,
+        "core_free_slot_value": 13.5392,
+        "core_replacement_value": -61.86600000000001
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 44,
+      "archetype_key": "dragon_kalecgos",
+      "core_name": "Brann Bronzebeard",
+      "turn": 11,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.746,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          44,
+          "dragon_kalecgos",
+          "Brann Bronzebeard",
+          11,
+          7
+        ],
+        "core_net": -59.11040000000001,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -59.11040000000001,
+        "core_free_slot_value": 16.2948,
+        "core_replacement_value": -59.11040000000001
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 44,
+      "archetype_key": "dragon_kalecgos",
+      "core_name": "Thousandth Paper Drake",
+      "turn": 15,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.149,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          44,
+          "dragon_kalecgos",
+          "Thousandth Paper Drake",
+          15,
+          7
+        ],
+        "core_net": -569.349,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -569.349,
+        "core_free_slot_value": 7.0562,
+        "core_replacement_value": -569.349
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 44,
+      "archetype_key": "dragon_kalecgos",
+      "core_name": "Warpwing",
+      "turn": 18,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.798,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          44,
+          "dragon_kalecgos",
+          "Warpwing",
+          18,
+          1
+        ],
+        "core_net": -606.3928000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -606.3928000000001,
+        "core_free_slot_value": 27.0124,
+        "core_replacement_value": -606.3928000000001
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 66,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Felfire Conjurer",
+      "turn": 9,
+      "shop_generation": 4,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.234,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          66,
+          "dragon_evoker",
+          "Felfire Conjurer",
+          9,
+          4
+        ],
+        "core_net": -3.4617999999999984,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -3.4617999999999984,
+        "core_free_slot_value": 14.2292,
+        "core_replacement_value": -3.4617999999999984
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 66,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Brann Bronzebeard",
+      "turn": 13,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.327,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          66,
+          "dragon_evoker",
+          "Brann Bronzebeard",
+          13,
+          2
+        ],
+        "core_net": -250.17839999999998,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -250.17839999999998,
+        "core_free_slot_value": 10.512599999999999,
+        "core_replacement_value": -250.17839999999998
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 66,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Persistent Poet",
+      "turn": 13,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.849,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          66,
+          "dragon_evoker",
+          "Persistent Poet",
+          13,
+          4
+        ],
+        "core_net": -243.97479999999996,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -243.97479999999996,
+        "core_free_slot_value": 16.7162,
+        "core_replacement_value": -243.97479999999996
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 77,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Meteorite Crasher",
+      "turn": 10,
+      "shop_generation": 0,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.107,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "first_loss_of_buyability",
+      "decomposition": {
+        "exposure_key": [
+          77,
+          "elemental_cycle",
+          "Meteorite Crasher",
+          10,
+          0
+        ],
+        "core_net": -38.5234,
+        "chosen_type": "level",
+        "chosen_net": 0.0,
+        "decision_margin": -38.5234,
+        "core_free_slot_value": 7.4765999999999995,
+        "core_replacement_value": -38.5234
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 77,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          77,
+          "elemental_cycle",
+          "Heroic Underdog",
+          14,
+          0
+        ],
+        "core_net": -518.689,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -518.689,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -518.689
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 77,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Flaming Enforcer",
+      "turn": 14,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.126,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          77,
+          "elemental_cycle",
+          "Flaming Enforcer",
+          14,
+          2
+        ],
+        "core_net": -520.2612,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -520.2612,
+        "core_free_slot_value": 10.7388,
+        "core_replacement_value": -520.2612
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 77,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Wildfire Elemental",
+      "turn": 14,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.363,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          77,
+          "elemental_cycle",
+          "Wildfire Elemental",
+          14,
+          6
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 92,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 9,
+      "shop_generation": 2,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          92,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          9,
+          2
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 92,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Expert Aviator",
+      "turn": 11,
+      "shop_generation": 3,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          92,
+          "murloc_mrrglton",
+          "Expert Aviator",
+          11,
+          3
+        ],
+        "core_net": -72.1922,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -72.1922,
+        "core_free_slot_value": 8.8078,
+        "core_replacement_value": -72.1922
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 92,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 11,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          92,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          11,
+          6
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 92,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Expert Aviator",
+      "turn": 15,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          92,
+          "murloc_mrrglton",
+          "Expert Aviator",
+          15,
+          1
+        ],
+        "core_net": -562.1922,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -562.1922,
+        "core_free_slot_value": 8.8078,
+        "core_replacement_value": -562.1922
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 92,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Leeroy the Reckless",
+      "turn": 18,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          92,
+          "murloc_mrrglton",
+          "Leeroy the Reckless",
+          18,
+          1
+        ],
+        "core_net": -682.1922,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -682.1922,
+        "core_free_slot_value": 9.8078,
+        "core_replacement_value": -682.1922
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 92,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Brann Bronzebeard",
+      "turn": 19,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.967,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          92,
+          "murloc_mrrglton",
+          "Brann Bronzebeard",
+          19,
+          0
+        ],
+        "core_net": -672.6554,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -672.6554,
+        "core_free_slot_value": 19.3446,
+        "core_replacement_value": -672.6554
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 105,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Expert Aviator",
+      "turn": 11,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          105,
+          "murloc_mrrglton",
+          "Expert Aviator",
+          11,
+          2
+        ],
+        "core_net": -65.1922,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -65.1922,
+        "core_free_slot_value": 8.8078,
+        "core_replacement_value": -65.1922
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 105,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 13,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          105,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          13,
+          1
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 105,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Brann Bronzebeard",
+      "turn": 13,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.967,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          105,
+          "murloc_mrrglton",
+          "Brann Bronzebeard",
+          13,
+          1
+        ],
+        "core_net": -342.6658,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -342.6658,
+        "core_free_slot_value": 19.3446,
+        "core_replacement_value": -342.6658
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 105,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Expert Aviator",
+      "turn": 13,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          105,
+          "murloc_mrrglton",
+          "Expert Aviator",
+          13,
+          1
+        ],
+        "core_net": -353.2026,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -353.2026,
+        "core_free_slot_value": 8.8078,
+        "core_replacement_value": -353.2026
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 105,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Cousin Errgl",
+      "turn": 19,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.869,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          105,
+          "murloc_mrrglton",
+          "Cousin Errgl",
+          19,
+          4
+        ],
+        "core_net": -675.0182,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -675.0182,
+        "core_free_slot_value": 21.9922,
+        "core_replacement_value": -675.0182
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 114,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Thorned Trailblazer",
+      "turn": 9,
+      "shop_generation": 4,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          114,
+          "quilboar_choose_one",
+          "Thorned Trailblazer",
+          9,
+          4
+        ],
+        "core_net": -9.0542,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -9.0542,
+        "core_free_slot_value": 10.9458,
+        "core_replacement_value": -9.0542
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 114,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Razorfen Vineweaver",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          114,
+          "quilboar_choose_one",
+          "Razorfen Vineweaver",
+          14,
+          0
+        ],
+        "core_net": -581.0542,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -581.0542,
+        "core_free_slot_value": 11.9458,
+        "core_replacement_value": -581.0542
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 114,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Felboar",
+      "turn": 18,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.218,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          114,
+          "quilboar_choose_one",
+          "Felboar",
+          18,
+          5
+        ],
+        "core_net": -581.9916,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -581.9916,
+        "core_free_slot_value": 11.0084,
+        "core_replacement_value": -581.9916
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 114,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Gem Rat",
+      "turn": 18,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.526,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          114,
+          "quilboar_choose_one",
+          "Gem Rat",
+          18,
+          7
+        ],
+        "core_net": null,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 114,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Turbo Hogrider",
+      "turn": 19,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.923,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          114,
+          "quilboar_choose_one",
+          "Turbo Hogrider",
+          19,
+          4
+        ],
+        "core_net": -568.2626,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -568.2626,
+        "core_free_slot_value": 24.7374,
+        "core_replacement_value": -568.2626
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 114,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Heroic Underdog",
+      "turn": 19,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.154,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          114,
+          "quilboar_choose_one",
+          "Heroic Underdog",
+          19,
+          7
+        ],
+        "core_net": -579.8748,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -579.8748,
+        "core_free_slot_value": 13.1252,
+        "core_replacement_value": -579.8748
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 118,
+      "archetype_key": "mech_magnet",
+      "core_name": "Balinda Stonehearth",
+      "turn": 16,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.181,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          118,
+          "mech_magnet",
+          "Balinda Stonehearth",
+          16,
+          6
+        ],
+        "core_net": -773.5022,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -773.5022,
+        "core_free_slot_value": 14.4978,
+        "core_replacement_value": -773.5022
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 121,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Amber Guardian",
+      "turn": 9,
+      "shop_generation": 1,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.195,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          121,
+          "dragon_evoker",
+          "Amber Guardian",
+          9,
+          1
+        ],
+        "core_net": -13.309000000000001,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -13.309000000000001,
+        "core_free_slot_value": 7.691,
+        "core_replacement_value": -13.309000000000001
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 121,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Fire-forged Evoker",
+      "turn": 13,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.688,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          121,
+          "dragon_evoker",
+          "Fire-forged Evoker",
+          13,
+          4
+        ],
+        "core_net": -203.22179999999997,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -203.22179999999997,
+        "core_free_slot_value": 22.4944,
+        "core_replacement_value": -203.22179999999997
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 121,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Thousandth Paper Drake",
+      "turn": 14,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.112,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          121,
+          "dragon_evoker",
+          "Thousandth Paper Drake",
+          14,
+          1
+        ],
+        "core_net": -322.17060000000004,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -322.17060000000004,
+        "core_free_slot_value": 6.5456,
+        "core_replacement_value": -322.17060000000004
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 121,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Amber Guardian",
+      "turn": 15,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.195,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          121,
+          "dragon_evoker",
+          "Amber Guardian",
+          15,
+          4
+        ],
+        "core_net": -343.02520000000004,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -343.02520000000004,
+        "core_free_slot_value": 7.691,
+        "core_replacement_value": -343.02520000000004
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 155,
+      "archetype_key": "pirate_discover",
+      "core_name": "Blade Collector",
+      "turn": 11,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.586,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          155,
+          "pirate_discover",
+          "Blade Collector",
+          11,
+          6
+        ],
+        "core_net": -55.314400000000006,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -55.314400000000006,
+        "core_free_slot_value": 13.0868,
+        "core_replacement_value": -55.314400000000006
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 166,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Gem Rat",
+      "turn": 13,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.526,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          166,
+          "quilboar_choose_one",
+          "Gem Rat",
+          13,
+          0
+        ],
+        "core_net": -286.7412,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -286.7412,
+        "core_free_slot_value": 15.2588,
+        "core_replacement_value": -286.7412
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 166,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Razorfen Vineweaver",
+      "turn": 14,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          166,
+          "quilboar_choose_one",
+          "Razorfen Vineweaver",
+          14,
+          6
+        ],
+        "core_net": -290.0542,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -290.0542,
+        "core_free_slot_value": 11.9458,
+        "core_replacement_value": -290.0542
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 167,
+      "archetype_key": "demon_self_damage",
+      "core_name": "Tichondrius",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.524,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          167,
+          "demon_self_damage",
+          "Tichondrius",
+          12,
+          6
+        ],
+        "core_net": -220.7688,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -220.7688,
+        "core_free_slot_value": 16.2312,
+        "core_replacement_value": -220.7688
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 180,
+      "archetype_key": "pirate_discover",
+      "core_name": "Deadly Spore",
+      "turn": 12,
+      "shop_generation": 3,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          180,
+          "pirate_discover",
+          "Deadly Spore",
+          12,
+          3
+        ],
+        "core_net": -231.94480000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -231.94480000000001,
+        "core_free_slot_value": 3.0212,
+        "core_replacement_value": -231.94480000000001
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 180,
+      "archetype_key": "pirate_discover",
+      "core_name": "Deadly Spore",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          180,
+          "pirate_discover",
+          "Deadly Spore",
+          12,
+          6
+        ],
+        "core_net": -231.94480000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -231.94480000000001,
+        "core_free_slot_value": 3.0212,
+        "core_replacement_value": -231.94480000000001
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 180,
+      "archetype_key": "pirate_discover",
+      "core_name": "Deadly Spore",
+      "turn": 13,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          180,
+          "pirate_discover",
+          "Deadly Spore",
+          13,
+          6
+        ],
+        "core_net": -518.9448,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -518.9448,
+        "core_free_slot_value": 3.0212,
+        "core_replacement_value": -518.9448
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 180,
+      "archetype_key": "pirate_discover",
+      "core_name": "Blade Collector",
+      "turn": 14,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.586,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          180,
+          "pirate_discover",
+          "Blade Collector",
+          14,
+          2
+        ],
+        "core_net": -778.8792,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -778.8792,
+        "core_free_slot_value": 13.0868,
+        "core_replacement_value": -778.8792
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Air Revenant",
+      "turn": 11,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.247,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Air Revenant",
+          11,
+          1
+        ],
+        "core_net": -44.5914,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -44.5914,
+        "core_free_slot_value": 12.4086,
+        "core_replacement_value": -44.5914
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Air Revenant",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.247,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Air Revenant",
+          11,
+          5
+        ],
+        "core_net": -44.5914,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -44.5914,
+        "core_free_slot_value": 12.4086,
+        "core_replacement_value": -44.5914
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Tavern Tempest",
+      "turn": 12,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.359,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Tavern Tempest",
+          12,
+          0
+        ],
+        "core_net": -126.0458,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -126.0458,
+        "core_free_slot_value": 8.9542,
+        "core_replacement_value": -126.0458
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Air Revenant",
+      "turn": 12,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.247,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Air Revenant",
+          12,
+          2
+        ],
+        "core_net": -122.5914,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -122.5914,
+        "core_free_slot_value": 12.4086,
+        "core_replacement_value": -122.5914
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 12,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          12,
+          7
+        ],
+        "core_net": -114.0226,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -114.0226,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -114.0226
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Wildfire Elemental",
+      "turn": 14,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.363,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Wildfire Elemental",
+          14,
+          6
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 194,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Leeroy the Reckless",
+      "turn": 15,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.242,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          194,
+          "elemental_cycle",
+          "Leeroy the Reckless",
+          15,
+          4
+        ],
+        "core_net": -231.6604,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -231.6604,
+        "core_free_slot_value": 11.3396,
+        "core_replacement_value": -231.6604
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 199,
+      "archetype_key": "pirate_discover",
+      "core_name": "Heroic Underdog",
+      "turn": 10,
+      "shop_generation": 0,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.129,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "first_loss_of_buyability",
+      "decomposition": {
+        "exposure_key": [
+          199,
+          "pirate_discover",
+          "Heroic Underdog",
+          10,
+          0
+        ],
+        "core_net": -33.1858,
+        "chosen_type": "level",
+        "chosen_net": 0.0,
+        "decision_margin": -33.1858,
+        "core_free_slot_value": 12.7802,
+        "core_replacement_value": -33.1858
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 199,
+      "archetype_key": "pirate_discover",
+      "core_name": "Deadly Spore",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          199,
+          "pirate_discover",
+          "Deadly Spore",
+          12,
+          6
+        ],
+        "core_net": -171.94480000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -171.94480000000001,
+        "core_free_slot_value": 3.0212,
+        "core_replacement_value": -171.94480000000001
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 199,
+      "archetype_key": "pirate_discover",
+      "core_name": "Proud Privateer",
+      "turn": 14,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.174,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          199,
+          "pirate_discover",
+          "Proud Privateer",
+          14,
+          2
+        ],
+        "core_net": -639.5648,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -639.5648,
+        "core_free_slot_value": 18.4012,
+        "core_replacement_value": -639.5648
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 235,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Expert Aviator",
+      "turn": 9,
+      "shop_generation": 3,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.423,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          235,
+          "murloc_handbuff",
+          "Expert Aviator",
+          9,
+          3
+        ],
+        "core_net": -4.162600000000001,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -4.162600000000001,
+        "core_free_slot_value": 12.837399999999999,
+        "core_replacement_value": -4.162600000000001
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 235,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Diremuck Forager",
+      "turn": 11,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.702,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          235,
+          "murloc_handbuff",
+          "Diremuck Forager",
+          11,
+          7
+        ],
+        "core_net": -20.1996,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -20.1996,
+        "core_free_slot_value": 20.6876,
+        "core_replacement_value": -20.1996
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 235,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Choral Mrrrglr",
+      "turn": 12,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.669,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          235,
+          "murloc_handbuff",
+          "Choral Mrrrglr",
+          12,
+          4
+        ],
+        "core_net": -55.65500000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -55.65500000000001,
+        "core_free_slot_value": 21.2322,
+        "core_replacement_value": -55.65500000000001
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Thorned Trailblazer",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Thorned Trailblazer",
+          11,
+          5
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Felboar",
+      "turn": 11,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.218,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Felboar",
+          11,
+          6
+        ],
+        "core_net": -68.9916,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -68.9916,
+        "core_free_slot_value": 11.0084,
+        "core_replacement_value": -68.9916
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Felboar",
+      "turn": 12,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.218,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Felboar",
+          12,
+          5
+        ],
+        "core_net": -176.9916,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -176.9916,
+        "core_free_slot_value": 11.0084,
+        "core_replacement_value": -176.9916
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Razorfen Vineweaver",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Razorfen Vineweaver",
+          12,
+          6
+        ],
+        "core_net": -176.0542,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -176.0542,
+        "core_free_slot_value": 11.9458,
+        "core_replacement_value": -176.0542
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Gem Rat",
+      "turn": 12,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.526,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Gem Rat",
+          12,
+          7
+        ],
+        "core_net": -172.7412,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -172.7412,
+        "core_free_slot_value": 15.2588,
+        "core_replacement_value": -172.7412
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Thorned Trailblazer",
+      "turn": 13,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Thorned Trailblazer",
+          13,
+          2
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Heroic Underdog",
+      "turn": 17,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.154,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Heroic Underdog",
+          17,
+          1
+        ],
+        "core_net": -682.8748,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -682.8748,
+        "core_free_slot_value": 13.1252,
+        "core_replacement_value": -682.8748
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 240,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Gem Rat",
+      "turn": 18,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.526,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          240,
+          "quilboar_choose_one",
+          "Gem Rat",
+          18,
+          4
+        ],
+        "core_net": -680.7412,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -680.7412,
+        "core_free_slot_value": 15.2588,
+        "core_replacement_value": -680.7412
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 249,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Meteorite Crasher",
+      "turn": 9,
+      "shop_generation": 3,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.107,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          249,
+          "elemental_cycle",
+          "Meteorite Crasher",
+          9,
+          3
+        ],
+        "core_net": -15.262200000000002,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -15.262200000000002,
+        "core_free_slot_value": 7.4765999999999995,
+        "core_replacement_value": -15.262200000000002
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 249,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Wildfire Elemental",
+      "turn": 11,
+      "shop_generation": 3,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.363,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          249,
+          "elemental_cycle",
+          "Wildfire Elemental",
+          11,
+          3
+        ],
+        "core_net": -70.7294,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -70.7294,
+        "core_free_slot_value": 14.0094,
+        "core_replacement_value": -70.7294
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 249,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Flaming Enforcer",
+      "turn": 12,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.126,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          249,
+          "elemental_cycle",
+          "Flaming Enforcer",
+          12,
+          0
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 262,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Drakkari Enchanter",
+      "turn": 9,
+      "shop_generation": 2,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.492,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          262,
+          "murloc_mrrglton",
+          "Drakkari Enchanter",
+          9,
+          2
+        ],
+        "core_net": -1.2104,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -1.2104,
+        "core_free_slot_value": 12.7896,
+        "core_replacement_value": -1.2104
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 262,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Papa Mrrglton",
+      "turn": 11,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.607,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          262,
+          "murloc_mrrglton",
+          "Papa Mrrglton",
+          11,
+          2
+        ],
+        "core_net": -48.623400000000004,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -48.623400000000004,
+        "core_free_slot_value": 16.3766,
+        "core_replacement_value": -48.623400000000004
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 262,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Brann Bronzebeard",
+      "turn": 11,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.967,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          262,
+          "murloc_mrrglton",
+          "Brann Bronzebeard",
+          11,
+          6
+        ],
+        "core_net": -45.6554,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -45.6554,
+        "core_free_slot_value": 19.3446,
+        "core_replacement_value": -45.6554
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 262,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Bile Spitter",
+      "turn": 12,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.492,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          262,
+          "murloc_mrrglton",
+          "Bile Spitter",
+          12,
+          4
+        ],
+        "core_net": -136.2104,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -136.2104,
+        "core_free_slot_value": 17.7896,
+        "core_replacement_value": -136.2104
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 262,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Bile Spitter",
+      "turn": 14,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.492,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          262,
+          "murloc_mrrglton",
+          "Bile Spitter",
+          14,
+          4
+        ],
+        "core_net": -413.2104,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -413.2104,
+        "core_free_slot_value": 17.7896,
+        "core_replacement_value": -413.2104
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 275,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Leeroy the Reckless",
+      "turn": 12,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.291,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          275,
+          "murloc_handbuff",
+          "Leeroy the Reckless",
+          12,
+          5
+        ],
+        "core_net": -191.9842,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -191.9842,
+        "core_free_slot_value": 12.015799999999999,
+        "core_replacement_value": -191.9842
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 275,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Expert Aviator",
+      "turn": 13,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.423,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          275,
+          "murloc_handbuff",
+          "Expert Aviator",
+          13,
+          0
+        ],
+        "core_net": -401.1626,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -401.1626,
+        "core_free_slot_value": 12.837399999999999,
+        "core_replacement_value": -401.1626
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 284,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 11,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          284,
+          "elemental_cycle",
+          "Heroic Underdog",
+          11,
+          1
+        ],
+        "core_net": -21.689,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -21.689,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -21.689
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 284,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Tavern Tempest",
+      "turn": 13,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.359,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          284,
+          "elemental_cycle",
+          "Tavern Tempest",
+          13,
+          0
+        ],
+        "core_net": -114.0458,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -114.0458,
+        "core_free_slot_value": 8.9542,
+        "core_replacement_value": -114.0458
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 284,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 13,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          284,
+          "elemental_cycle",
+          "Heroic Underdog",
+          13,
+          5
+        ],
+        "core_net": -110.689,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -110.689,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -110.689
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 284,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Brann Bronzebeard",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.788,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          284,
+          "elemental_cycle",
+          "Brann Bronzebeard",
+          14,
+          0
+        ],
+        "core_net": -133.1256,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -133.1256,
+        "core_free_slot_value": 16.8744,
+        "core_replacement_value": -133.1256
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 284,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 14,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          284,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          14,
+          6
+        ],
+        "core_net": -129.0226,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -129.0226,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -129.0226
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 293,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Fish of N'Zoth",
+      "turn": 7,
+      "shop_generation": 0,
+      "tier": 3,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": false,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "first_loss_of_buyability",
+      "decomposition": {
+        "exposure_key": [
+          293,
+          "beast_leviathan",
+          "Fish of N'Zoth",
+          7,
+          0
+        ],
+        "core_net": null,
+        "chosen_type": "level",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 293,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Lurking Leviathan",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.418,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          293,
+          "beast_leviathan",
+          "Lurking Leviathan",
+          11,
+          5
+        ],
+        "core_net": -26.2528,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -26.2528,
+        "core_free_slot_value": 16.7684,
+        "core_replacement_value": -26.2528
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 293,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Banana Slamma",
+      "turn": 13,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.967,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          293,
+          "beast_leviathan",
+          "Banana Slamma",
+          13,
+          5
+        ],
+        "core_net": -146.6766,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -146.6766,
+        "core_free_slot_value": 22.3446,
+        "core_replacement_value": -146.6766
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 293,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Fish of N'Zoth",
+      "turn": 15,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          293,
+          "beast_leviathan",
+          "Fish of N'Zoth",
+          15,
+          1
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 309,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Balinda Stonehearth",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.169,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          309,
+          "murloc_handbuff",
+          "Balinda Stonehearth",
+          12,
+          6
+        ],
+        "core_net": -85.3554,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -85.3554,
+        "core_free_slot_value": 14.3322,
+        "core_replacement_value": -85.3554
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 309,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Expert Aviator",
+      "turn": 13,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.423,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          309,
+          "murloc_handbuff",
+          "Expert Aviator",
+          13,
+          1
+        ],
+        "core_net": -160.8502,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -160.8502,
+        "core_free_slot_value": 12.837399999999999,
+        "core_replacement_value": -160.8502
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 309,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Balinda Stonehearth",
+      "turn": 17,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.169,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          309,
+          "murloc_handbuff",
+          "Balinda Stonehearth",
+          17,
+          1
+        ],
+        "core_net": -333.3554,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -333.3554,
+        "core_free_slot_value": 14.3322,
+        "core_replacement_value": -333.3554
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 309,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Leeroy the Reckless",
+      "turn": 17,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.291,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          309,
+          "murloc_handbuff",
+          "Leeroy the Reckless",
+          17,
+          1
+        ],
+        "core_net": -335.67179999999996,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -335.67179999999996,
+        "core_free_slot_value": 12.015799999999999,
+        "core_replacement_value": -335.67179999999996
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 337,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Brann Bronzebeard",
+      "turn": 12,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.319,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          337,
+          "murloc_handbuff",
+          "Brann Bronzebeard",
+          12,
+          7
+        ],
+        "core_net": -121.5978,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -121.5978,
+        "core_free_slot_value": 10.4022,
+        "core_replacement_value": -121.5978
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 359,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Choral Mrrrglr",
+      "turn": 11,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.669,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          359,
+          "murloc_handbuff",
+          "Choral Mrrrglr",
+          11,
+          7
+        ],
+        "core_net": -73.7678,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -73.7678,
+        "core_free_slot_value": 21.2322,
+        "core_replacement_value": -73.7678
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 359,
+      "archetype_key": "murloc_handbuff",
+      "core_name": "Expert Aviator",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.423,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          359,
+          "murloc_handbuff",
+          "Expert Aviator",
+          14,
+          0
+        ],
+        "core_net": -600.1626,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -600.1626,
+        "core_free_slot_value": 12.837399999999999,
+        "core_replacement_value": -600.1626
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 386,
+      "archetype_key": "dragon_evoker",
+      "core_name": "Warpwing",
+      "turn": 13,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.824,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          386,
+          "dragon_evoker",
+          "Warpwing",
+          13,
+          7
+        ],
+        "core_net": -271.345,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -271.345,
+        "core_free_slot_value": 27.371199999999998,
+        "core_replacement_value": -271.345
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 397,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Razorfen Vineweaver",
+      "turn": 9,
+      "shop_generation": 2,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          397,
+          "quilboar_choose_one",
+          "Razorfen Vineweaver",
+          9,
+          2
+        ],
+        "core_net": -11.0542,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -11.0542,
+        "core_free_slot_value": 11.9458,
+        "core_replacement_value": -11.0542
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 397,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Heroic Underdog",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.154,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          397,
+          "quilboar_choose_one",
+          "Heroic Underdog",
+          14,
+          0
+        ],
+        "core_net": -682.8748,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -682.8748,
+        "core_free_slot_value": 13.1252,
+        "core_replacement_value": -682.8748
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 397,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Leeroy the Reckless",
+      "turn": 14,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.192,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          397,
+          "quilboar_choose_one",
+          "Leeroy the Reckless",
+          14,
+          4
+        ],
+        "core_net": -685.3504,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -685.3504,
+        "core_free_slot_value": 10.6496,
+        "core_replacement_value": -685.3504
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 403,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Tavern Tempest",
+      "turn": 11,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.359,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          403,
+          "elemental_cycle",
+          "Tavern Tempest",
+          11,
+          0
+        ],
+        "core_net": -57.0458,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -57.0458,
+        "core_free_slot_value": 8.9542,
+        "core_replacement_value": -57.0458
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 403,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 12,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          403,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          12,
+          1
+        ],
+        "core_net": -149.0226,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -149.0226,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -149.0226
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 403,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Wildfire Elemental",
+      "turn": 13,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.363,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          403,
+          "elemental_cycle",
+          "Wildfire Elemental",
+          13,
+          7
+        ],
+        "core_net": -335.9906,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -335.9906,
+        "core_free_slot_value": 14.0094,
+        "core_replacement_value": -335.9906
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 403,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Flaming Enforcer",
+      "turn": 14,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.126,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          403,
+          "elemental_cycle",
+          "Flaming Enforcer",
+          14,
+          5
+        ],
+        "core_net": -545.2612,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -545.2612,
+        "core_free_slot_value": 10.7388,
+        "core_replacement_value": -545.2612
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 403,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 15,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          403,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          15,
+          5
+        ],
+        "core_net": -697.0226,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -697.0226,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -697.0226
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 403,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Brann Bronzebeard",
+      "turn": 16,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.788,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          403,
+          "elemental_cycle",
+          "Brann Bronzebeard",
+          16,
+          5
+        ],
+        "core_net": -701.1256,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -701.1256,
+        "core_free_slot_value": 16.8744,
+        "core_replacement_value": -701.1256
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 409,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Banana Slamma",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.967,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          409,
+          "beast_leviathan",
+          "Banana Slamma",
+          11,
+          5
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 409,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Sewer Lord",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          409,
+          "beast_leviathan",
+          "Sewer Lord",
+          11,
+          5
+        ],
+        "core_net": -124.33420000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -124.33420000000001,
+        "core_free_slot_value": 17.010399999999997,
+        "core_replacement_value": -124.33420000000001
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 411,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 12,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          411,
+          "elemental_cycle",
+          "Heroic Underdog",
+          12,
+          0
+        ],
+        "core_net": -86.64320000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -86.64320000000001,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -86.64320000000001
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 411,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Tavern Tempest",
+      "turn": 12,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.359,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          411,
+          "elemental_cycle",
+          "Tavern Tempest",
+          12,
+          4
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 411,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Unleashed Mana Surge",
+      "turn": 12,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.723,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          411,
+          "elemental_cycle",
+          "Unleashed Mana Surge",
+          12,
+          4
+        ],
+        "core_net": -77.9768,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -77.9768,
+        "core_free_slot_value": 20.9774,
+        "core_replacement_value": -77.9768
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 411,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Heroic Underdog",
+      "turn": 15,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.095,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          411,
+          "elemental_cycle",
+          "Heroic Underdog",
+          15,
+          1
+        ],
+        "core_net": -346.64320000000004,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -346.64320000000004,
+        "core_free_slot_value": 12.311,
+        "core_replacement_value": -346.64320000000004
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 411,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Brann Bronzebeard",
+      "turn": 15,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.788,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          411,
+          "elemental_cycle",
+          "Brann Bronzebeard",
+          15,
+          2
+        ],
+        "core_net": -342.07980000000003,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -342.07980000000003,
+        "core_free_slot_value": 16.8744,
+        "core_replacement_value": -342.07980000000003
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 411,
+      "archetype_key": "elemental_cycle",
+      "core_name": "Flaming Enforcer",
+      "turn": 16,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.126,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          411,
+          "elemental_cycle",
+          "Flaming Enforcer",
+          16,
+          7
+        ],
+        "core_net": -348.2154,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -348.2154,
+        "core_free_slot_value": 10.7388,
+        "core_replacement_value": -348.2154
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 413,
+      "archetype_key": "pirate_discover",
+      "core_name": "Brann Bronzebeard",
+      "turn": 13,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.195,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          413,
+          "pirate_discover",
+          "Brann Bronzebeard",
+          13,
+          1
+        ],
+        "core_net": -329.309,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -329.309,
+        "core_free_slot_value": 8.690999999999999,
+        "core_replacement_value": -329.309
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 413,
+      "archetype_key": "pirate_discover",
+      "core_name": "Blade Collector",
+      "turn": 13,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.586,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          413,
+          "pirate_discover",
+          "Blade Collector",
+          13,
+          5
+        ],
+        "core_net": -324.9132,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -324.9132,
+        "core_free_slot_value": 13.0868,
+        "core_replacement_value": -324.9132
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 413,
+      "archetype_key": "pirate_discover",
+      "core_name": "Blade Collector",
+      "turn": 14,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.586,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          413,
+          "pirate_discover",
+          "Blade Collector",
+          14,
+          5
+        ],
+        "core_net": -582.9132,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -582.9132,
+        "core_free_slot_value": 13.0868,
+        "core_replacement_value": -582.9132
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 413,
+      "archetype_key": "pirate_discover",
+      "core_name": "Heroic Underdog",
+      "turn": 15,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.129,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          413,
+          "pirate_discover",
+          "Heroic Underdog",
+          15,
+          0
+        ],
+        "core_net": -616.2198,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -616.2198,
+        "core_free_slot_value": 12.7802,
+        "core_replacement_value": -616.2198
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 417,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Bile Spitter",
+      "turn": 9,
+      "shop_generation": 4,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.492,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          417,
+          "murloc_mrrglton",
+          "Bile Spitter",
+          9,
+          4
+        ],
+        "core_net": -11.2104,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -11.2104,
+        "core_free_slot_value": 17.7896,
+        "core_replacement_value": -11.2104
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 417,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 9,
+      "shop_generation": 4,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          417,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          9,
+          4
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 417,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Expert Aviator",
+      "turn": 11,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          417,
+          "murloc_mrrglton",
+          "Expert Aviator",
+          11,
+          7
+        ],
+        "core_net": -115.2026,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -115.2026,
+        "core_free_slot_value": 8.8078,
+        "core_replacement_value": -115.2026
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 417,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 15,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          417,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          15,
+          0
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 422,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Gem Rat",
+      "turn": 11,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.526,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          422,
+          "quilboar_choose_one",
+          "Gem Rat",
+          11,
+          5
+        ],
+        "core_net": -98.74119999999999,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -98.74119999999999,
+        "core_free_slot_value": 15.2588,
+        "core_replacement_value": -98.74119999999999
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 422,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Leeroy the Reckless",
+      "turn": 11,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.192,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          422,
+          "quilboar_choose_one",
+          "Leeroy the Reckless",
+          11,
+          6
+        ],
+        "core_net": -103.35040000000001,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -103.35040000000001,
+        "core_free_slot_value": 10.6496,
+        "core_replacement_value": -103.35040000000001
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 422,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Heroic Underdog",
+      "turn": 12,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.154,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          422,
+          "quilboar_choose_one",
+          "Heroic Underdog",
+          12,
+          4
+        ],
+        "core_net": -232.8748,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -232.8748,
+        "core_free_slot_value": 13.1252,
+        "core_replacement_value": -232.8748
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 422,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Turbo Hogrider",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.923,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          422,
+          "quilboar_choose_one",
+          "Turbo Hogrider",
+          12,
+          6
+        ],
+        "core_net": -221.2626,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -221.2626,
+        "core_free_slot_value": 24.7374,
+        "core_replacement_value": -221.2626
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 422,
+      "archetype_key": "quilboar_choose_one",
+      "core_name": "Thorned Trailblazer",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.141,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          422,
+          "quilboar_choose_one",
+          "Thorned Trailblazer",
+          14,
+          0
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 445,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Lurking Leviathan",
+      "turn": 12,
+      "shop_generation": 7,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.418,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "end",
+      "decomposition": {
+        "exposure_key": [
+          445,
+          "beast_leviathan",
+          "Lurking Leviathan",
+          12,
+          7
+        ],
+        "core_net": -80.5762,
+        "chosen_type": "end",
+        "chosen_net": 0.0,
+        "decision_margin": -80.5762,
+        "core_free_slot_value": 16.7684,
+        "core_replacement_value": -80.5762
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 445,
+      "archetype_key": "beast_leviathan",
+      "core_name": "Titus Rivendare",
+      "turn": 13,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.123,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          445,
+          "beast_leviathan",
+          "Titus Rivendare",
+          13,
+          4
+        ],
+        "core_net": -164.64720000000003,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -164.64720000000003,
+        "core_free_slot_value": 9.6974,
+        "core_replacement_value": -164.64720000000003
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Proud Privateer",
+      "turn": 12,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.174,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Proud Privateer",
+          12,
+          1
+        ],
+        "core_net": -157.68560000000002,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -157.68560000000002,
+        "core_free_slot_value": 18.4012,
+        "core_replacement_value": -157.68560000000002
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Deadly Spore",
+      "turn": 12,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.074,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Deadly Spore",
+          12,
+          2
+        ],
+        "core_net": -173.06560000000002,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -173.06560000000002,
+        "core_free_slot_value": 3.0212,
+        "core_replacement_value": -173.06560000000002
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Sky Admiral Rogers",
+      "turn": 12,
+      "shop_generation": 3,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.336,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Sky Admiral Rogers",
+          12,
+          3
+        ],
+        "core_net": -162.45000000000002,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -162.45000000000002,
+        "core_free_slot_value": 13.636800000000001,
+        "core_replacement_value": -162.45000000000002
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Sin'dorei Straight Shot",
+      "turn": 12,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.07,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Sin'dorei Straight Shot",
+          12,
+          6
+        ],
+        "core_net": -168.1208,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -168.1208,
+        "core_free_slot_value": 7.966,
+        "core_replacement_value": -168.1208
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Sin'dorei Straight Shot",
+      "turn": 14,
+      "shop_generation": 5,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.07,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Sin'dorei Straight Shot",
+          14,
+          5
+        ],
+        "core_net": -499.1208,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -499.1208,
+        "core_free_slot_value": 7.966,
+        "core_replacement_value": -499.1208
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Sky Admiral Rogers",
+      "turn": 15,
+      "shop_generation": 1,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.336,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Sky Admiral Rogers",
+          15,
+          1
+        ],
+        "core_net": -493.45,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -493.45,
+        "core_free_slot_value": 13.636800000000001,
+        "core_replacement_value": -493.45
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 451,
+      "archetype_key": "pirate_discover",
+      "core_name": "Sky Admiral Rogers",
+      "turn": 18,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.336,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          451,
+          "pirate_discover",
+          "Sky Admiral Rogers",
+          18,
+          2
+        ],
+        "core_net": -493.45,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -493.45,
+        "core_free_slot_value": 13.636800000000001,
+        "core_replacement_value": -493.45
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 467,
+      "archetype_key": "undead_butcher",
+      "core_name": "Friendly Geist",
+      "turn": 14,
+      "shop_generation": 3,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.27,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          467,
+          "undead_butcher",
+          "Friendly Geist",
+          14,
+          3
+        ],
+        "core_net": -659.0094,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -659.0094,
+        "core_free_slot_value": 12.725999999999999,
+        "core_replacement_value": -659.0094
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 467,
+      "archetype_key": "undead_butcher",
+      "core_name": "Handless Forsaken",
+      "turn": 16,
+      "shop_generation": 2,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.856,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          467,
+          "undead_butcher",
+          "Handless Forsaken",
+          16,
+          2
+        ],
+        "core_net": -656.9226,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -656.9226,
+        "core_free_slot_value": 14.8128,
+        "core_replacement_value": -656.9226
+      },
+      "core_frequency_quartile": "q4_highest"
+    },
+    {
+      "lobby": 474,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Bile Spitter",
+      "turn": 10,
+      "shop_generation": 0,
+      "tier": 5,
+      "core_have": 1,
+      "core_frequency": 0.492,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "first_loss_of_buyability",
+      "decomposition": {
+        "exposure_key": [
+          474,
+          "murloc_mrrglton",
+          "Bile Spitter",
+          10,
+          0
+        ],
+        "core_net": -28.2104,
+        "chosen_type": "level",
+        "chosen_net": 0.0,
+        "decision_margin": -28.2104,
+        "core_free_slot_value": 17.7896,
+        "core_replacement_value": -28.2104
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 474,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Expert Aviator",
+      "turn": 11,
+      "shop_generation": 6,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          474,
+          "murloc_mrrglton",
+          "Expert Aviator",
+          11,
+          6
+        ],
+        "core_net": -67.1922,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -67.1922,
+        "core_free_slot_value": 8.8078,
+        "core_replacement_value": -67.1922
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 474,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Mama Mrrglton",
+      "turn": 13,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.508,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          474,
+          "murloc_mrrglton",
+          "Mama Mrrglton",
+          13,
+          0
+        ],
+        "core_net": -389.9896,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -389.9896,
+        "core_free_slot_value": 15.010399999999999,
+        "core_replacement_value": -389.9896
+      },
+      "core_frequency_quartile": "q3"
+    },
+    {
+      "lobby": 474,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Primalfin Lookout",
+      "turn": 14,
+      "shop_generation": 0,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.164,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          474,
+          "murloc_mrrglton",
+          "Primalfin Lookout",
+          14,
+          0
+        ],
+        "core_net": -660.7368,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -660.7368,
+        "core_free_slot_value": 7.263199999999999,
+        "core_replacement_value": -660.7368
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 474,
+      "archetype_key": "murloc_mrrglton",
+      "core_name": "Leeroy the Reckless",
+      "turn": 16,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.131,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          474,
+          "murloc_mrrglton",
+          "Leeroy the Reckless",
+          16,
+          4
+        ],
+        "core_net": -811.1922,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -811.1922,
+        "core_free_slot_value": 9.8078,
+        "core_replacement_value": -811.1922
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 481,
+      "archetype_key": "pirate_discover",
+      "core_name": "Brann Bronzebeard",
+      "turn": 9,
+      "shop_generation": 0,
+      "tier": 5,
+      "core_have": 2,
+      "core_frequency": 0.195,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          481,
+          "pirate_discover",
+          "Brann Bronzebeard",
+          9,
+          0
+        ],
+        "core_net": -13.275000000000002,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -13.275000000000002,
+        "core_free_slot_value": 8.690999999999999,
+        "core_replacement_value": -13.275000000000002
+      },
+      "core_frequency_quartile": "q2"
+    },
+    {
+      "lobby": 481,
+      "archetype_key": "pirate_discover",
+      "core_name": "Sin'dorei Straight Shot",
+      "turn": 9,
+      "shop_generation": 5,
+      "tier": 5,
+      "core_have": 2,
+      "core_frequency": 0.07,
+      "board_full_at_open": true,
+      "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          481,
+          "pirate_discover",
+          "Sin'dorei Straight Shot",
+          9,
+          5
+        ],
+        "core_net": null,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": null
+      },
+      "core_frequency_quartile": "q1_lowest"
+    },
+    {
+      "lobby": 481,
+      "archetype_key": "pirate_discover",
+      "core_name": "Proud Privateer",
+      "turn": 12,
+      "shop_generation": 4,
+      "tier": 6,
+      "core_have": 1,
+      "core_frequency": 0.174,
+      "board_full_at_open": true,
+      "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
+      "composition_progress_failure": true,
+      "close_reason": "roll",
+      "decomposition": {
+        "exposure_key": [
+          481,
+          "pirate_discover",
+          "Proud Privateer",
+          12,
+          4
+        ],
+        "core_net": -114.5988,
+        "chosen_type": "roll",
+        "chosen_net": 0.0,
+        "decision_margin": -114.5988,
+        "core_free_slot_value": 18.4012,
+        "core_replacement_value": -114.5988
+      },
+      "core_frequency_quartile": "q2"
+    }
+  ]
+}
