@@ -224,36 +224,152 @@ def _run_board_opp_arm(lobbies: int, seed: int, alpha: float,
         "headline": summarize_divergence(turn_curves),
         "per_lobby_stats": per_lobby_turn_means(rows),
         "mechanism": composition_mechanism_summary(diagnostic),
-        "tier_breakdown": _tier_mechanism_breakdown(diagnostic),
+        "tier_breakdown": tier_band_breakdown_from_traces(traces),
     }
 
 
-def _tier_mechanism_breakdown(diagnostic: Dict) -> Dict:
-    """Split seeded funnel outcomes by tavern tier bands."""
-    funnel = ((diagnostic.get("winner_decision_funnel") or {})
-              .get("seeded_current_target") or {})
-    # Prefer per-exposure records if present; else return empty.
-    records = funnel.get("exposure_records") or diagnostic.get(
-        "seeded_exposure_records") or []
-    bands = {"tier_le4": {}, "tier_5": {}, "tier_6": {}}
-    if not records:
-        # Fall back to aggregate_diagnostics tier keys if available.
-        by_tier = funnel.get("by_tier") or {}
-        for t, v in by_tier.items():
-            ti = int(t)
-            key = "tier_le4" if ti <= 4 else ("tier_5" if ti == 5 else "tier_6")
-            bands[key] = v
-        return bands
-    from collections import Counter
-    for band in bands:
-        bands[band] = {"fulfilled": 0, "rejected": 0}
-    for r in records:
-        ti = int(r.get("tier") or r.get("tavern_tier") or 0)
-        key = "tier_le4" if ti <= 4 else ("tier_5" if ti == 5 else "tier_6")
-        if r.get("fulfilled"):
-            bands[key]["fulfilled"] += 1
-        else:
-            bands[key]["rejected"] += 1
+def tier_band_breakdown_from_traces(traces: Dict) -> Dict:
+    """Seeded exposures / fulfillment / 2+ progress by tavern-tier band.
+
+    Exposure counts use tavern tier at shop-generation open.
+    Progress (reached 2+) uses tavern tier at the turn of first 2-core board.
+    Committed states are those that ever meet committed_current_target, attributed
+    to the tier at first committed observation.
+    """
+    from hsbg_coach.build_path import load_archetypes
+    from hsbg_coach.persistence_prior import report_tier_band
+    from .composition_diagnostic import (
+        _archetype_eligible,
+        _core_set,
+        _is_relevant_at_offer,
+        _legally_buyable_cores,
+        _lobby_tribes,
+        _max_core_count,
+        _target_meets_view_threshold,
+        _winner_for_lobby,
+    )
+
+    bands = {
+        "tier_le4": {
+            "seeded_exposures": 0, "fulfilled": 0, "rejected": 0,
+            "reached_2_core_states": 0, "committed_states": 0,
+        },
+        "tier_5": {
+            "seeded_exposures": 0, "fulfilled": 0, "rejected": 0,
+            "reached_2_core_states": 0, "committed_states": 0,
+        },
+        "tier_6": {
+            "seeded_exposures": 0, "fulfilled": 0, "rejected": 0,
+            "reached_2_core_states": 0, "committed_states": 0,
+        },
+    }
+    view = "seeded_current_target"
+    archetypes = load_archetypes()
+    lobbies = traces["lobbies"]
+
+    for lobby in range(lobbies):
+        winner = _winner_for_lobby(traces, lobby)
+        if winner is None:
+            continue
+        winner_seat = winner["seat"]
+        final_target_key = (winner.get("target") or {}).get("archetype_key")
+        lobby_tribes = _lobby_tribes(traces, lobby)
+
+        for arch in archetypes:
+            if not _archetype_eligible(arch, lobby_tribes):
+                continue
+            # seeded_current_target eligibility: arch must appear as seeded target
+            seeded_keys = set()
+            for ev in traces["events"]:
+                if ev["lobby"] != lobby or ev["seat"] != winner_seat:
+                    continue
+                tb = ev.get("target_before")
+                if tb and _target_meets_view_threshold(
+                        tb, view, ev.get("tavern_tier")):
+                    seeded_keys.add(tb.get("archetype_key"))
+            if arch.key not in seeded_keys:
+                continue
+
+            core = _core_set(arch)
+            # Per-generation exposure latch: name -> tier band at open
+            active_gen = None
+            active_exposures: Dict[str, str] = {}
+            fulfilled_in_gen: set = set()
+            prev_gen = None
+
+            def close_gen():
+                nonlocal active_gen, active_exposures, fulfilled_in_gen
+                for name, band in active_exposures.items():
+                    if name not in fulfilled_in_gen:
+                        bands[band]["rejected"] += 1
+                active_gen = None
+                active_exposures = {}
+                fulfilled_in_gen = set()
+
+            for ev in traces["events"]:
+                if ev["lobby"] != lobby or ev["seat"] != winner_seat:
+                    continue
+                turn = ev["turn"]
+                shop_gen = ev.get("shop_generation", 0)
+                gen_key = (turn, shop_gen)
+                if prev_gen is not None and gen_key != prev_gen:
+                    close_gen()
+                prev_gen = gen_key
+
+                pre_shop = ev.get("pre_shop") or []
+                legal = ev.get("legal_buy_slots") or []
+                buyable = _legally_buyable_cores(pre_shop, legal, core)
+                target_before = ev.get("target_before")
+                tier = int(ev.get("tavern_tier") or 1)
+                if buyable and _is_relevant_at_offer(
+                        arch, view, target_before, final_target_key, tier):
+                    band = report_tier_band(tier)
+                    if active_gen != gen_key:
+                        close_gen()
+                        active_gen = gen_key
+                    for name in buyable:
+                        if name not in active_exposures:
+                            active_exposures[name] = band
+                            bands[band]["seeded_exposures"] += 1
+
+                if ev["action"] == "buy" and ev.get("card"):
+                    bought = ev["card"]["name"]
+                    if bought in active_exposures and bought not in fulfilled_in_gen:
+                        band = active_exposures[bought]
+                        bands[band]["fulfilled"] += 1
+                        fulfilled_in_gen.add(bought)
+
+                if ev["action"] in ("roll", "end"):
+                    close_gen()
+                    if ev["action"] == "end":
+                        prev_gen = None
+
+            close_gen()
+
+            # Progress: first 2-core and committed attribution by tier
+            first_2_band = None
+            first_committed_band = None
+            for ts in traces["turn_summaries"]:
+                if ts["lobby"] != lobby or ts["seat"] != winner_seat:
+                    continue
+                board = ts.get("board_after_recruit") or []
+                count = _max_core_count(board, core)
+                tier = int(ts.get("tavern_tier") or 1)
+                band = report_tier_band(tier)
+                tgt = ts.get("target") or {}
+                if (first_2_band is None and count >= 2
+                        and tgt.get("archetype_key") == arch.key):
+                    first_2_band = band
+                if (first_committed_band is None
+                        and _target_meets_view_threshold(
+                            tgt, "committed_current_target", tier)
+                        and tgt.get("archetype_key") == arch.key):
+                    first_committed_band = band
+            if first_2_band is not None:
+                bands[first_2_band]["reached_2_core_states"] += 1
+            if first_committed_band is not None:
+                bands[first_committed_band]["committed_states"] += 1
+
     return bands
 
 
@@ -324,6 +440,7 @@ def run_fit_prior(*, out_dir: str = DEFAULT_DIR,
     path = _prior_path(out_dir)
     os.makedirs(out_dir, exist_ok=True)
     prior.save(path)
+    prior_hash = prior.content_hash_sha256()
     result = {
         "benchmark": FIDELITY_BENCHMARK_VERSION,
         "phase": PHASE,
@@ -334,8 +451,10 @@ def run_fit_prior(*, out_dir: str = DEFAULT_DIR,
         "fit_seed_base": seed,
         "fit_lobbies": lobbies,
         "prior_path": path,
+        "prior_hash_sha256": prior_hash,
         "prior_summary": {
             "n_cells": len(prior.cells),
+            "prior_hash_sha256": prior_hash,
             "global_p_survive_1": prior.global_p_survive_1,
             "global_p_survive_2": prior.global_p_survive_2,
             "collapsed_from": prior.collapsed_from,
@@ -420,6 +539,7 @@ def run_calibration(*, out_dir: str = DEFAULT_DIR,
         },
         "frozen_policy_config": cfg,
         "frozen_policy_config_hash_sha256": _policy_hash(cfg),
+        "prior_hash_sha256": prior.content_hash_sha256(),
     }
     _write_json(os.path.join(out_dir, "phase_2j_calibration.json"), result)
     return result
@@ -471,6 +591,7 @@ def run_confirmation(*, alpha: float, out_dir: str = DEFAULT_DIR,
         "frozen_alpha": alpha,
         "policy_config": cfg,
         "policy_config_hash_sha256": _policy_hash(cfg),
+        "prior_hash_sha256": prior.content_hash_sha256(),
         "working_tree_clean": tree_clean,
     })
 
@@ -490,11 +611,12 @@ def run_confirmation(*, alpha: float, out_dir: str = DEFAULT_DIR,
             "real_final_winner_coverage_mean"],
         "greedy": _confirm_arm(greedy),
         "treatment": _confirm_arm(treatment),
-        "oracle_upper_bound": _confirm_arm(oracle),
+        "oracle_stress_reference": _confirm_arm(oracle),
         "macro_regression_delta_treatment_minus_greedy": macro_delta,
         "acceptance": acceptance,
         "decision": decision,
         "contract": contract,
+        "prior_hash_sha256": prior.content_hash_sha256(),
     }
     _write_json(os.path.join(out_dir, "phase_2j_report.json"), result)
     _write_json(os.path.join(out_dir, "contract.json"), contract)

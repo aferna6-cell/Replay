@@ -70,10 +70,13 @@ def evaluate_confirmation_acceptance(
     oracle_cov_lift = ((oracle_mechanism or {}).get("sim_final_winner_coverage_mean") or 0) - (
         greedy_mechanism.get("sim_final_winner_coverage_mean") or 0)
     recovery = {
-        "persistent_2_core_lift_recovered_fraction": (
+        "persistent_2_core_lift_relative_to_oracle_reference": (
             reached_2_delta / oracle_2core_lift if oracle_2core_lift else None),
-        "coverage_lift_recovered_fraction": (
+        "coverage_lift_relative_to_oracle_reference": (
             cov_delta / oracle_cov_lift if oracle_cov_lift else None),
+        "note": (
+            "Phase 2E+2G is a causal stress-test reference, not an upper bound; "
+            "ratios may exceed 1.0."),
     }
 
     return {
@@ -104,7 +107,7 @@ def evaluate_confirmation_acceptance(
             "board_sacrifice_ok": board_sacrifice_ok,
             "accept_phase_2j_policy": accept,
         },
-        "oracle_recovery_fractions": recovery,
+        "relative_to_oracle_reference": recovery,
     }
 
 

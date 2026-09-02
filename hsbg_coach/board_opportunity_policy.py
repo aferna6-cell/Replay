@@ -111,12 +111,13 @@ def policy_config_fingerprint(alpha: float, prior: PersistencePrior) -> Dict:
             "n_cells": len(prior.cells),
             "global_p_survive_1": prior.global_p_survive_1,
             "global_p_survive_2": prior.global_p_survive_2,
+            "prior_hash_sha256": prior.content_hash_sha256(),
         },
         "acquisition_gain": "missing core vs board+hand (shop buys)",
         "deployment_gain": "missing core vs board only (hand→board)",
         "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
         "control_policy_id": "greedy_policy",
-        "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+        "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
         "persistence_fit": f"seeds {PHASE_2J_FIT_SEED}–"
                            f"{PHASE_2J_FIT_SEED + PHASE_2J_FIT_LOBBIES - 1}",
         "calibration_screen": f"seeds {PHASE_2J_SCREEN_SEED}–"

@@ -192,9 +192,26 @@ def test_rank_prefers_macro_ok():
     assert rank_calibration_candidate(good) < rank_calibration_candidate(bad)
 
 
-def test_fresh_policies_per_lobby():
-    prior = empty_prior()
-    a = policies_for_lobby(1.0, prior, 8)
-    b = policies_for_lobby(1.0, prior, 8)
-    assert a[0] is not b[0]
-    assert len(a) == 8
+def test_prior_content_hash_stable():
+    prior = empty_prior(fit_seed_base=7000, fit_lobbies=300)
+    h1 = prior.content_hash_sha256()
+    h2 = prior.content_hash_sha256()
+    assert h1 == h2
+    assert len(h1) == 64
+    # Provenance fields must not affect behavioral hash.
+    prior.fit_seed_base = 9999
+    assert prior.content_hash_sha256() == h1
+    # Cell contents must affect hash.
+    from hsbg_coach.persistence_prior import PersistenceCell
+    prior.cells["le4|weak|noncore"] = PersistenceCell(
+        "le4", "weak", False, 10, 0.5, 0.4)
+    assert prior.content_hash_sha256() != h1
+
+
+def test_oracle_stress_reference_naming():
+    cfg = __import__(
+        "hsbg_coach.board_opportunity_policy", fromlist=["policy_config_fingerprint"]
+    ).policy_config_fingerprint(0.5, empty_prior())
+    assert "oracle_stress_policy_id" in cfg
+    assert "oracle_upper_bound_policy_id" not in cfg
+

@@ -7,6 +7,7 @@ No card-name memorization.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import asdict, dataclass
 from typing import Dict, List, Optional, Tuple
@@ -29,6 +30,15 @@ def tier_band(tier: int) -> TierBand:
     if tier == 5:
         return "5"
     return "6plus"
+
+
+def report_tier_band(tier: int) -> str:
+    """Reporting bands for Phase 2J outcomes (≤4 / 5 / 6)."""
+    if tier <= 4:
+        return "tier_le4"
+    if tier == 5:
+        return "tier_5"
+    return "tier_6"
 
 
 def raw_stats(m: Dict) -> float:
@@ -109,7 +119,6 @@ class PersistencePrior:
         cell = self.cells.get(key)
         if cell is not None:
             return cell.persistence_weight
-        # Coarser fallbacks: drop core flag, then rank, then global.
         for rb in (rank, "mid"):
             for core in (is_core, False):
                 k = feature_key(tier, rb, core)
@@ -134,10 +143,41 @@ class PersistencePrior:
             },
         }
 
+    def canonical_dict(self) -> Dict:
+        """Behavioral prior contents only (stable key order) for hashing."""
+        return {
+            "methodology_version": self.methodology_version,
+            "survival_horizon": self.survival_horizon,
+            "weight_1": self.weight_1,
+            "weight_2": self.weight_2,
+            "global_p_survive_1": self.global_p_survive_1,
+            "global_p_survive_2": self.global_p_survive_2,
+            "cells": {
+                k: {
+                    "tier_band": v.tier_band,
+                    "rank_band": v.rank_band,
+                    "is_core": v.is_core,
+                    "n": v.n,
+                    "p_survive_1": v.p_survive_1,
+                    "p_survive_2": v.p_survive_2,
+                }
+                for k, v in sorted(self.cells.items())
+            },
+        }
+
+    def content_hash_sha256(self) -> str:
+        payload = json.dumps(
+            self.canonical_dict(), sort_keys=True, separators=(",", ":")
+        ).encode()
+        return hashlib.sha256(payload).hexdigest()
+
     @classmethod
     def from_dict(cls, d: Dict) -> "PersistencePrior":
         cells = {
-            k: PersistenceCell(**v) for k, v in (d.get("cells") or {}).items()
+            k: PersistenceCell(**{kk: vv for kk, vv in v.items()
+                                  if kk in ("tier_band", "rank_band", "is_core",
+                                            "n", "p_survive_1", "p_survive_2")})
+            for k, v in (d.get("cells") or {}).items()
         }
         return cls(
             methodology_version=d.get("methodology_version", METHODOLOGY_VERSION),
@@ -153,8 +193,10 @@ class PersistencePrior:
         )
 
     def save(self, path: str) -> None:
+        d = self.to_dict()
+        d["prior_hash_sha256"] = self.content_hash_sha256()
         with open(path, "w", encoding="utf-8") as f:
-            json.dump(self.to_dict(), f, indent=2)
+            json.dump(d, f, indent=2)
 
     @classmethod
     def load(cls, path: str) -> "PersistencePrior":
