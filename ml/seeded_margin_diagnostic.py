@@ -117,12 +117,6 @@ def classify_rejection(
         decomp["target_at_decisive"] = snap.target_archetype
         return "G_TARGET_CHANGED", decomp
 
-    if chosen and chosen.action_type in ("roll", "level", "end", "greedy_buy"):
-        if chosen.action_type in ("roll", "level", "end"):
-            if cs and (cs.core_net_value or 0) > 0:
-                decomp["note"] = "positive_core_but_economy_action"
-            return "F_ECONOMY_LEGALITY_LOSS", decomp
-
     if cs and cs.board_full:
         free_v = cs.core_free_slot_value or 0.0
         repl_v = cs.core_actual_replacement_value
@@ -150,7 +144,14 @@ def classify_rejection(
     if cs and (cs.core_net_value or 0) <= 0:
         if cs.board_full and (cs.core_free_slot_value or 0) > 0:
             return "A_REPLACEMENT_COST_DOMINATES", decomp
-        return "B_RAW_STAT_COMPETITOR_DOMINATES", decomp
+        if chosen and chosen.action_type in ("roll", "level", "end", "greedy_buy"):
+            return "B_RAW_STAT_COMPETITOR_DOMINATES", decomp
+
+    if chosen and chosen.action_type in ("roll", "level", "end"):
+        if cs and (cs.core_net_value or 0) > 0:
+            decomp["note"] = "positive_core_at_shop_exit"
+            return "B_RAW_STAT_COMPETITOR_DOMINATES", decomp
+        return "F_ECONOMY_LEGALITY_LOSS", decomp
 
     return "H_OTHER", decomp
 
