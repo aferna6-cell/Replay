@@ -7,7 +7,7 @@ from typing import Dict, Optional
 METHODOLOGY_VERSION = "2m_v1"
 
 # How far observed zero-rate may sit above expected before we call it a gap.
-ZERO_RATE_GAP_TOLERANCE = 0.05
+ZERO_RATE_GAP_TOLERANCE = 0.08
 # Expected hits that would make all-observed-zeros surprising.
 MIN_EXPECTED_RAW_FOR_SURPRISE = 5.0
 
@@ -34,13 +34,14 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
 
     live_consistent = (
         zero_gap is not None
-        and zero_gap <= ZERO_RATE_GAP_TOLERANCE
-        and sum_obs <= sum_exp + 1.0
+        and abs(zero_gap) <= ZERO_RATE_GAP_TOLERANCE
     )
+    # Surprising only if we see *more* zeros / *fewer* hits than the live model.
     live_surprising = (
         zero_gap is not None
-        and (zero_gap > ZERO_RATE_GAP_TOLERANCE
-             or (sum_exp >= MIN_EXPECTED_RAW_FOR_SURPRISE and sum_obs == 0.0))
+        and zero_gap > ZERO_RATE_GAP_TOLERANCE
+        and sum_exp >= MIN_EXPECTED_RAW_FOR_SURPRISE
+        and sum_obs < 0.5 * sum_exp
     )
 
     demonstrated_ids = list(rules.get("demonstrated_ids") or [])

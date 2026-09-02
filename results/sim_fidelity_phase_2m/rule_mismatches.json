@@ -1,0 +1,89 @@
+{
+  "n_documented_checks": 6,
+  "n_demonstrated_mismatches": 5,
+  "mismatches": [
+    {
+      "id": "pool_copies_tier_6",
+      "area": "per_tier_copy_counts",
+      "simulator": 6,
+      "reference": 7,
+      "mismatch": true,
+      "note": "Tier 6 copy count differs"
+    },
+    {
+      "id": "shop_slots_vs_classic_minion",
+      "area": "shop_slot_counts",
+      "simulator": {
+        "1": 3,
+        "2": 4,
+        "3": 4,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "reference": {
+        "1": 3,
+        "2": 4,
+        "3": 4,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "mismatch": false,
+      "note": "Matches classic minion-only table. Modern taverns also offer spells with larger card counts \u2014 sim has no tavern spells."
+    },
+    {
+      "id": "shop_slots_vs_spell_era",
+      "area": "shop_slot_counts",
+      "simulator": {
+        "1": 3,
+        "2": 4,
+        "3": 4,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "reference": {
+        "1": 4,
+        "2": 5,
+        "3": 5,
+        "4": 6,
+        "5": 6,
+        "6": 7
+      },
+      "mismatch": true,
+      "note": "Spell-era sizes differ; relevant only if 2N adds spells."
+    },
+    {
+      "id": "elimination_no_return_to_pool",
+      "area": "pool_lifecycle_accounting",
+      "simulator": "no return of board/hand/shop on death",
+      "reference": "eliminated players' minions expected to return to pool",
+      "mismatch": true,
+      "note": "Concrete accounting divergence"
+    },
+    {
+      "id": "freeze_no_topup",
+      "area": "freeze_return_to_pool",
+      "simulator": "frozen shop kept as-is; no top-up",
+      "reference": "incomplete freeze / tier-up tops up new slots",
+      "mismatch": true,
+      "note": "Documented behavioral mismatch"
+    },
+    {
+      "id": "no_tier_7",
+      "area": "catalogue",
+      "simulator": "MAX_TIER=6; no T7",
+      "reference": "T7 exists in some modes (5 copies)",
+      "mismatch": true,
+      "note": "Out of scope unless lobby mode requires T7"
+    }
+  ],
+  "demonstrated_ids": [
+    "pool_copies_tier_6",
+    "shop_slots_vs_spell_era",
+    "elimination_no_return_to_pool",
+    "freeze_no_topup",
+    "no_tier_7"
+  ]
+}
