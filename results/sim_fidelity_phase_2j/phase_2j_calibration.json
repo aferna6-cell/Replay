@@ -138,13 +138,14 @@
       "fit_lobbies": 300,
       "n_cells": 18,
       "global_p_survive_1": 0.9890604074152393,
-      "global_p_survive_2": 0.9757806442517798
+      "global_p_survive_2": 0.9757806442517798,
+      "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
     },
     "acquisition_gain": "missing core vs board+hand (shop buys)",
     "deployment_gain": "missing core vs board only (hand\u2192board)",
     "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
     "control_policy_id": "greedy_policy",
-    "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
     "persistence_fit": "seeds 7000\u20137299",
     "calibration_screen": "seeds 7300\u20137399",
     "calibration_replication": "seeds 7400\u20137799",
@@ -155,5 +156,11 @@
       2.0
     ]
   },
-  "frozen_policy_config_hash_sha256": "53d00dce75d5e59b104d39011a9253d590d7b7e7aada24035911431f7b5f9cf0"
+  "frozen_policy_config_hash_sha256": "9c226520ddd412bb9a57c5e56e67cc0389e041a6802d9636e76617e00e11b7b6",
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+  "prior_reproducibility": {
+    "clean_refit_identical": true,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "note": "Clean-tree prior refit on 7000\u20137299 reproduced identical behavioral prior; confirmation 8000\u20138199 remains valid."
+  }
 }
