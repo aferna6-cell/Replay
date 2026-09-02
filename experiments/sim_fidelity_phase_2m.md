@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2M — shop/pool rules audit
 
-Date: 2026-09-02 · Status: **`2m_v2` methodology cleanup (re-run pending)** ·
+Date: 2026-09-02 · Status: **`2m_v2` complete — multiple substantial mismatches** ·
 Artifacts: [`results/sim_fidelity_phase_2m/`](../results/sim_fidelity_phase_2m/)
 
 ## Research question
@@ -9,43 +9,64 @@ Artifacts: [`results/sim_fidelity_phase_2m/`](../results/sim_fidelity_phase_2m/)
 > incorrect live-pool accounting, or expected scarcity under a correctly
 > implemented finite shared pool?
 
-## Methodology `2m_v2` (vs `2m_v1`)
+## Verdict
 
-1. **Post-assembly deal boundary:** `turn > entry_turn` (not `>=`). Entry is
-   end-of-recruit with first 2+ cores; entry-turn shops are pre-assembly and
-   positively selected.
-2. **Primary calibration is deal-level:** for each eligible deal, compare
-   `E[raw | pre-deal pool]` and `P(hit | pre-deal pool)` to observed count/hit.
-   Aggregate `ΣE(raw)` vs `Σobs(raw)` and `ΣP(hit)` vs `Σobs(hits)`.
-3. **Lobby-clustered bootstrap** on per-lobby `(obs − exp)` so correlated
-   card×deal rows don't masquerade as independent samples.
-4. **Adaptive whole-window `product(P_zero)` demoted** to descriptive only
-   (later pool state adapts after hits).
-5. Rule mismatches split into **Phase 2N-actionable** vs **contextual**
-   (`shop_slots_vs_spell_era`, `no_tier_7`).
+**`multiple_substantial_mismatches`** — scoped Phase 2N fixes, not a bundled
+shop rewrite:
 
-## Already-valid findings (independent of live calib)
+1. Catalogue/KB sync (classify missing cores vs current active pool first)
+2. Lifecycle (death return; freeze top-up)
+3. T6 copy count (6 → 7)
+4. Re-measure deal-level live calib on reserved intervention seeds
 
-| Finding | Phase 2N? |
-|---|---|
-| 24.6% core slots missing from KB | **Yes** — classify vs current active pool first |
-| Death does not return copies to pool | **Yes** |
-| Freeze does not top up incomplete shops | **Yes** |
-| T6 copies 6 vs current BG **7** | **Yes** |
-| Spell-era shop sizes / Tier 7 | Contextual / out of scope |
+**`_draw()` is not the primary defect.** After correcting the post-assembly
+boundary and using deal-level calibration, observed hits are a **mild
+undershoot** (~80% of exact pre-deal expectation; lobby CI for obs−exp just
+excludes 0). That is not a substantial undershoot warranting a draw-path
+rewrite before the known catalogue/lifecycle/copy fixes.
+
+Contextual (not Phase 2N bugs): spell-era shop sizes, Tier 7.
+
+## Methodology `2m_v2`
+
+1. Post-assembly deals: **`turn > entry_turn`** (249 entry-turn deals excluded)
+2. Primary: deal-level `ΣE(raw)` / `ΣP(hit)` vs observed + lobby bootstrap
+3. Adaptive window `product(P_zero)` demoted to descriptive
+4. Actionable vs contextual mismatch split
+
+## DEV results (10200–10699, 44 states)
+
+### Catalogue
+
+| Status | Share |
+|---|---:|
+| IN_EXACT_CATALOGUE | 74.1% |
+| MISSING_FROM_KB | **24.6%** |
+| MISSING_OR_INVALID_TIER | 1.3% |
+
+### Deal-level live calibration (primary)
+
+| Metric | Value |
+|---|---:|
+| Deal×card observations | 10,925 |
+| Σ expected raw | ≈74.9 |
+| Σ observed raw | **60** |
+| ratio obs/exp | **0.801** |
+| Σ P(hit) | ≈74.7 |
+| Σ observed hit deals | **60** |
+| Lobby mean(obs−exp) | ≈−0.39 |
+| Lobby CI95 | [≈−0.79, ≈−0.003] |
+
+### Actionable mismatches
+
+- `pool_copies_tier_6` (6 vs 7)
+- `elimination_no_return_to_pool`
+- `freeze_no_topup`
 
 ## Frozen
 
-- Policy: Phase 2J α=0.5, prior `9b31c93a…`
-- Diagnostic DEV: **10200–10699** (reuse; no reserved burn)
-- Reserved: intervention **11000–11499**, confirm **11500–11699**
-- No buy-legality/economy, card effects, BC/DAgger/PPO; no sim patches in 2M
-
-## Decision gate after re-run
-
-`multiple_substantial_mismatches` is still expected from catalogue + lifecycle +
-T6. Separately: if deal-level observed ≈ expected → `_draw()` not implicated;
-if observed substantially undershoots → add scoped draw-path investigation.
+Phase 2J α=0.5. DEV 10200–10699. Reserved 11000–11499 / 11500–11699 unused.
+No buy-legality/economy, card effects, BC/DAgger/PPO; no sim patches in 2M.
 
 ## Commands
 

@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "fd9076cf1e057907027fa8b5c98ce68204dd8823",
+  "code_commit": "563e5aff4e149ef3fe292d617a60c915e8ba28e1",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -50,7 +50,7 @@
   "parent_simulator_version": "Simulator v1",
   "working_tree_clean": true,
   "phase": "2M shop/pool rules audit",
-  "phase_2m_methodology_version": "2m_v1",
+  "phase_2m_methodology_version": "2m_v2",
   "phase_2j_methodology_version": "2j_v1",
   "frozen_alpha": 0.5,
   "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",

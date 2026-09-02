@@ -1,6 +1,8 @@
 {
   "n_documented_checks": 6,
   "n_demonstrated_mismatches": 5,
+  "n_phase_2n_actionable": 3,
+  "n_contextual_out_of_scope": 2,
   "mismatches": [
     {
       "id": "pool_copies_tier_6",
@@ -8,6 +10,7 @@
       "simulator": 6,
       "reference": 7,
       "mismatch": true,
+      "phase_2n_actionable": true,
       "note": "Tier 6 copy count differs"
     },
     {
@@ -30,6 +33,7 @@
         "6": 6
       },
       "mismatch": false,
+      "phase_2n_actionable": false,
       "note": "Matches classic minion-only table. Modern taverns also offer spells with larger card counts \u2014 sim has no tavern spells."
     },
     {
@@ -52,7 +56,9 @@
         "6": 7
       },
       "mismatch": true,
-      "note": "Spell-era sizes differ; relevant only if 2N adds spells."
+      "phase_2n_actionable": false,
+      "severity": "contextual",
+      "note": "Spell-era tavern card counts differ. Contextual/out-of-scope until the simulator models tavern spells."
     },
     {
       "id": "elimination_no_return_to_pool",
@@ -60,6 +66,7 @@
       "simulator": "no return of board/hand/shop on death",
       "reference": "eliminated players' minions expected to return to pool",
       "mismatch": true,
+      "phase_2n_actionable": true,
       "note": "Concrete accounting divergence"
     },
     {
@@ -68,6 +75,7 @@
       "simulator": "frozen shop kept as-is; no top-up",
       "reference": "incomplete freeze / tier-up tops up new slots",
       "mismatch": true,
+      "phase_2n_actionable": true,
       "note": "Documented behavioral mismatch"
     },
     {
@@ -76,7 +84,9 @@
       "simulator": "MAX_TIER=6; no T7",
       "reference": "T7 exists in some modes (5 copies)",
       "mismatch": true,
-      "note": "Out of scope unless lobby mode requires T7"
+      "phase_2n_actionable": false,
+      "severity": "contextual",
+      "note": "Contextual/out-of-scope for a deliberate standard Tier-6 simulator; do not add T7 solely to match a global table."
     }
   ],
   "demonstrated_ids": [
@@ -84,6 +94,15 @@
     "shop_slots_vs_spell_era",
     "elimination_no_return_to_pool",
     "freeze_no_topup",
+    "no_tier_7"
+  ],
+  "phase_2n_actionable_ids": [
+    "pool_copies_tier_6",
+    "elimination_no_return_to_pool",
+    "freeze_no_topup"
+  ],
+  "contextual_ids": [
+    "shop_slots_vs_spell_era",
     "no_tier_7"
   ]
 }

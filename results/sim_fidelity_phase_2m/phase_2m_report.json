@@ -1,17 +1,17 @@
 {
   "benchmark": "Replay Simulator Fidelity Benchmark v1",
   "phase": "2M shop/pool rules audit",
-  "methodology_version": "2m_v1",
+  "methodology_version": "2m_v2",
   "simulator_version": "Simulator v1.1",
-  "implementation_commit": "fd9076cf1e057907027fa8b5c98ce68204dd8823",
+  "implementation_commit": "563e5aff4e149ef3fe292d617a60c915e8ba28e1",
   "working_tree_clean": true,
-  "runtime_seconds": 529.46,
+  "runtime_seconds": 535.81,
   "evaluation_seed_base": 10200,
   "n_lobbies": 500,
   "frozen_alpha": 0.5,
   "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
   "analysis": {
-    "methodology_version": "2m_v1",
+    "methodology_version": "2m_v2",
     "n_states_phase_2l": 44,
     "catalogue_synchronization": {
       "n_core_slots": 228,
@@ -132,6 +132,8 @@
     "rule_mismatches": {
       "n_documented_checks": 6,
       "n_demonstrated_mismatches": 5,
+      "n_phase_2n_actionable": 3,
+      "n_contextual_out_of_scope": 2,
       "mismatches": [
         {
           "id": "pool_copies_tier_6",
@@ -139,6 +141,7 @@
           "simulator": 6,
           "reference": 7,
           "mismatch": true,
+          "phase_2n_actionable": true,
           "note": "Tier 6 copy count differs"
         },
         {
@@ -161,6 +164,7 @@
             "6": 6
           },
           "mismatch": false,
+          "phase_2n_actionable": false,
           "note": "Matches classic minion-only table. Modern taverns also offer spells with larger card counts \u2014 sim has no tavern spells."
         },
         {
@@ -183,7 +187,9 @@
             "6": 7
           },
           "mismatch": true,
-          "note": "Spell-era sizes differ; relevant only if 2N adds spells."
+          "phase_2n_actionable": false,
+          "severity": "contextual",
+          "note": "Spell-era tavern card counts differ. Contextual/out-of-scope until the simulator models tavern spells."
         },
         {
           "id": "elimination_no_return_to_pool",
@@ -191,6 +197,7 @@
           "simulator": "no return of board/hand/shop on death",
           "reference": "eliminated players' minions expected to return to pool",
           "mismatch": true,
+          "phase_2n_actionable": true,
           "note": "Concrete accounting divergence"
         },
         {
@@ -199,6 +206,7 @@
           "simulator": "frozen shop kept as-is; no top-up",
           "reference": "incomplete freeze / tier-up tops up new slots",
           "mismatch": true,
+          "phase_2n_actionable": true,
           "note": "Documented behavioral mismatch"
         },
         {
@@ -207,7 +215,9 @@
           "simulator": "MAX_TIER=6; no T7",
           "reference": "T7 exists in some modes (5 copies)",
           "mismatch": true,
-          "note": "Out of scope unless lobby mode requires T7"
+          "phase_2n_actionable": false,
+          "severity": "contextual",
+          "note": "Contextual/out-of-scope for a deliberate standard Tier-6 simulator; do not add T7 solely to match a global table."
         }
       ],
       "demonstrated_ids": [
@@ -215,6 +225,15 @@
         "shop_slots_vs_spell_era",
         "elimination_no_return_to_pool",
         "freeze_no_topup",
+        "no_tier_7"
+      ],
+      "phase_2n_actionable_ids": [
+        "pool_copies_tier_6",
+        "elimination_no_return_to_pool",
+        "freeze_no_topup"
+      ],
+      "contextual_ids": [
+        "shop_slots_vs_spell_era",
         "no_tier_7"
       ]
     },
@@ -248,2260 +267,295 @@
       "kb_says_tribe_ok_but_build_pool_excludes_mass": 0.0
     },
     "live_calibration": {
-      "primary_unconditioned": {
-        "cohort": "all exact-catalogue cores on post-assembly states with \u22651 tier-eligible live deal (NOT conditioned on missing-final)",
-        "n_card_windows": 385,
-        "sum_expected_raw_live": 89.25779267199502,
-        "sum_observed_raw": 111.0,
-        "expected_windows_with_ge1": 77.24288077947473,
-        "observed_windows_with_ge1": 98,
-        "observed_zero_offer_rate": 0.7454545454545455,
-        "expected_zero_offer_rate": 0.7993691408325332,
-        "log_prob_all_observed_zeros": -89.3398477563011,
+      "methodology_version": "2m_v2",
+      "post_assembly_deal_boundary": "turn > entry_turn",
+      "n_entry_turn_deals_excluded_from_calib": 249,
+      "primary_deal_level": {
+        "cohort": "deal-level: exact-catalogue cores \u00d7 post-assembly deals (turn > entry_turn); NOT conditioned on missing-final",
+        "n_deal_card_observations": 10925,
+        "n_lobbies": 38,
+        "sum_expected_raw": 74.86883120790482,
+        "sum_observed_raw": 60.0,
+        "sum_expected_hit_probability": 74.66285348723291,
+        "sum_observed_hit_deals": 60.0,
+        "raw_ratio_obs_over_exp": 0.801401585038569,
+        "hit_ratio_obs_over_exp": 0.8036124685518454,
+        "lobby_clustered": {
+          "raw_obs_minus_exp": {
+            "n_lobbies": 38,
+            "mean": -0.39128503178697005,
+            "ci95": [
+              -0.7877893938653454,
+              -0.003354411025189358
+            ]
+          },
+          "hit_obs_minus_exp": {
+            "n_lobbies": 38,
+            "mean": -0.3858645654534967,
+            "ci95": [
+              -0.7818921714516074,
+              0.0022571285648799585
+            ]
+          },
+          "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+        },
         "by_card_tier": {
           "1": {
-            "n": 7,
-            "sum_expected_raw": 3.040632397154168,
-            "sum_observed_raw": 3,
-            "observed_zero_rate": 0.7142857142857143,
-            "expected_zero_rate": 0.6522241647324997,
-            "mean_remaining": 14.421223827327646
+            "n": 254,
+            "sum_expected_raw": 2.6332572951492974,
+            "sum_observed_raw": 3.0,
+            "sum_expected_hit_probability": 2.6226645349697435,
+            "sum_observed_hit_deals": 3.0
           },
           "2": {
-            "n": 20,
-            "sum_expected_raw": 6.959341592691019,
-            "sum_observed_raw": 9,
-            "observed_zero_rate": 0.65,
-            "expected_zero_rate": 0.7183984717595878,
-            "mean_remaining": 14.331930518208901
+            "n": 561,
+            "sum_expected_raw": 5.747002701159885,
+            "sum_observed_raw": 4.0,
+            "sum_expected_hit_probability": 5.724154589287066,
+            "sum_observed_hit_deals": 4.0
           },
           "3": {
-            "n": 47,
-            "sum_expected_raw": 15.374151459630482,
-            "sum_observed_raw": 19,
-            "observed_zero_rate": 0.6808510638297872,
-            "expected_zero_rate": 0.7260187086834649,
-            "mean_remaining": 12.482987626804643
+            "n": 1443,
+            "sum_expected_raw": 13.062616235471717,
+            "sum_observed_raw": 9.0,
+            "sum_expected_hit_probability": 13.017184445151688,
+            "sum_observed_hit_deals": 9.0
           },
           "4": {
-            "n": 80,
-            "sum_expected_raw": 20.73244195808455,
-            "sum_observed_raw": 28,
-            "observed_zero_rate": 0.675,
-            "expected_zero_rate": 0.7768094665653089,
-            "mean_remaining": 10.477063996900085
+            "n": 2268,
+            "sum_expected_raw": 17.415187629036478,
+            "sum_observed_raw": 18.0,
+            "sum_expected_hit_probability": 17.36456201974504,
+            "sum_observed_hit_deals": 18.0
           },
           "5": {
-            "n": 155,
-            "sum_expected_raw": 32.49661454031685,
-            "sum_observed_raw": 43,
-            "observed_zero_rate": 0.7483870967741936,
-            "expected_zero_rate": 0.8151288596084292,
-            "mean_remaining": 8.78837597425977
+            "n": 4261,
+            "sum_expected_raw": 26.93225969918303,
+            "sum_observed_raw": 22.0,
+            "sum_expected_hit_probability": 26.8691923792754,
+            "sum_observed_hit_deals": 22.0
           },
           "6": {
-            "n": 76,
-            "sum_expected_raw": 10.654610724117953,
-            "sum_observed_raw": 9,
-            "observed_zero_rate": 0.881578947368421,
-            "expected_zero_rate": 0.8711969836783148,
-            "mean_remaining": 5.8964930287896395
+            "n": 2138,
+            "sum_expected_raw": 9.078507647904413,
+            "sum_observed_raw": 4.0,
+            "sum_expected_hit_probability": 9.065095518803968,
+            "sum_observed_hit_deals": 4.0
           }
-        },
-        "by_archetype": {
-          "demon_boost_shop": {
-            "n": 10,
-            "sum_expected_raw": 0.3728043971800693,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.9,
-            "expected_zero_rate": 0.9633991661015047,
-            "mean_remaining": 8.666666666666668
-          },
-          "demon_self_damage": {
-            "n": 9,
-            "sum_expected_raw": 2.640595084094408,
-            "sum_observed_raw": 3,
-            "observed_zero_rate": 0.6666666666666666,
-            "expected_zero_rate": 0.7476791097595452,
-            "mean_remaining": 10.213888888888889
-          },
-          "dragon_evoker": {
-            "n": 18,
-            "sum_expected_raw": 4.592786474608578,
-            "sum_observed_raw": 5,
-            "observed_zero_rate": 0.7222222222222222,
-            "expected_zero_rate": 0.7782106776258656,
-            "mean_remaining": 9.572272880783519
-          },
-          "elemental_cycle": {
-            "n": 90,
-            "sum_expected_raw": 23.550197078316977,
-            "sum_observed_raw": 29,
-            "observed_zero_rate": 0.7222222222222222,
-            "expected_zero_rate": 0.7749054929777514,
-            "mean_remaining": 9.869115627498237
-          },
-          "murloc_handbuff": {
-            "n": 112,
-            "sum_expected_raw": 23.763535771471442,
-            "sum_observed_raw": 30,
-            "observed_zero_rate": 0.7678571428571429,
-            "expected_zero_rate": 0.8172793260175117,
-            "mean_remaining": 8.939658520133959
-          },
-          "murloc_mrrglton": {
-            "n": 33,
-            "sum_expected_raw": 7.146507469352714,
-            "sum_observed_raw": 10,
-            "observed_zero_rate": 0.7272727272727273,
-            "expected_zero_rate": 0.8092308628697092,
-            "mean_remaining": 9.83815836940837
-          },
-          "naga_groundbreaker": {
-            "n": 10,
-            "sum_expected_raw": 2.3015443504788267,
-            "sum_observed_raw": 3,
-            "observed_zero_rate": 0.8,
-            "expected_zero_rate": 0.7951442163763202,
-            "mean_remaining": 8.741666666666667
-          },
-          "pirate_discover": {
-            "n": 40,
-            "sum_expected_raw": 8.692153277326051,
-            "sum_observed_raw": 11,
-            "observed_zero_rate": 0.75,
-            "expected_zero_rate": 0.8072054549757745,
-            "mean_remaining": 9.510002205002205
-          },
-          "quilboar_choose_one": {
-            "n": 9,
-            "sum_expected_raw": 0.8432505950357022,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.7777777777777778,
-            "expected_zero_rate": 0.9107550063643737,
-            "mean_remaining": 8.61111111111111
-          },
-          "undead_butcher": {
-            "n": 54,
-            "sum_expected_raw": 15.354418174130256,
-            "sum_observed_raw": 17,
-            "observed_zero_rate": 0.7222222222222222,
-            "expected_zero_rate": 0.7586735295865901,
-            "mean_remaining": 9.489884097365332
-          }
-        },
-        "by_entry_turn": {
-          "11": {
-            "n": 109,
-            "sum_expected_raw": 28.362917615810016,
-            "sum_observed_raw": 32,
-            "observed_zero_rate": 0.7431192660550459,
-            "expected_zero_rate": 0.7752768488332872,
-            "mean_remaining": 9.403040893950479
-          },
-          "12": {
-            "n": 61,
-            "sum_expected_raw": 14.497803152141914,
-            "sum_observed_raw": 16,
-            "observed_zero_rate": 0.7540983606557377,
-            "expected_zero_rate": 0.7948149369684736,
-            "mean_remaining": 9.62846914450507
-          },
-          "13": {
-            "n": 42,
-            "sum_expected_raw": 9.602165460043194,
-            "sum_observed_raw": 14,
-            "observed_zero_rate": 0.7142857142857143,
-            "expected_zero_rate": 0.8017972231884285,
-            "mean_remaining": 9.406680904770887
-          },
-          "14": {
-            "n": 54,
-            "sum_expected_raw": 8.60310362144507,
-            "sum_observed_raw": 10,
-            "observed_zero_rate": 0.8148148148148148,
-            "expected_zero_rate": 0.8585394079311007,
-            "mean_remaining": 9.221580510102523
-          },
-          "15": {
-            "n": 17,
-            "sum_expected_raw": 1.8189737044684613,
-            "sum_observed_raw": 4,
-            "observed_zero_rate": 0.7647058823529411,
-            "expected_zero_rate": 0.9014056726062903,
-            "mean_remaining": 9.20497737556561
-          },
-          "16": {
-            "n": 9,
-            "sum_expected_raw": 0.4988253719655443,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.8888888888888888,
-            "expected_zero_rate": 0.9460913865289405,
-            "mean_remaining": 10.11111111111111
-          },
-          "7": {
-            "n": 18,
-            "sum_expected_raw": 5.475891588949086,
-            "sum_observed_raw": 6,
-            "observed_zero_rate": 0.7222222222222222,
-            "expected_zero_rate": 0.7415367487767498,
-            "mean_remaining": 9.698842592592593
-          },
-          "9": {
-            "n": 75,
-            "sum_expected_raw": 20.398112157171738,
-            "sum_observed_raw": 28,
-            "observed_zero_rate": 0.6933333333333334,
-            "expected_zero_rate": 0.7672698633250364,
-            "mean_remaining": 9.272088782839552
-          }
-        },
-        "most_surprising_zeros": [
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.7087198220434514,
-            "p_zero_live": 0.491858860723795,
-            "mean_remaining": 14.985074626865671,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.09757785467128027
-          },
-          {
-            "lobby": 92,
-            "seat": 6,
-            "archetype_key": "murloc_handbuff",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 13,
-            "n_deals": 62,
-            "expected_raw_live": 0.6467315716272604,
-            "p_zero_live": 0.5233618379987411,
-            "mean_remaining": 15.0,
-            "mean_eligible_total": 8628.0,
-            "weight": 0.09757785467128027
-          },
-          {
-            "lobby": 97,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 62,
-            "expected_raw_live": 0.5747453428791721,
-            "p_zero_live": 0.5625018242612342,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8414.161290322581,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.5667411243117048,
-            "p_zero_live": 0.5670483890348982,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Risen Rider",
-            "card_tier": 1,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.5573860158314685,
-            "p_zero_live": 0.5723305852936518,
-            "mean_remaining": 14.981132075471699,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.02857142857142857
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Wildfire Elemental",
-            "card_tier": 3,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.4919824272780337,
-            "p_zero_live": 0.6110691808353005,
-            "mean_remaining": 11.901960784313726,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.08199683758753107
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.48367635218694527,
-            "p_zero_live": 0.6161983864115229,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Handless Forsaken",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.48297435148494455,
-            "p_zero_live": 0.6166318710308767,
-            "mean_remaining": 12.981132075471699,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.1641418983700863
-          },
-          {
-            "lobby": 81,
-            "seat": 0,
-            "archetype_key": "murloc_mrrglton",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 11,
-            "n_deals": 48,
-            "expected_raw_live": 0.47692724262093955,
-            "p_zero_live": 0.6203599832378758,
-            "mean_remaining": 14.916666666666666,
-            "mean_eligible_total": 9007.666666666666,
-            "weight": 0.023852876911871816
-          },
-          {
-            "lobby": 92,
-            "seat": 6,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 13,
-            "n_deals": 62,
-            "expected_raw_live": 0.4742698191933244,
-            "p_zero_live": 0.6220653920526169,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 8628.0,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.47289990824402034,
-            "p_zero_live": 0.62292968409151,
-            "mean_remaining": 10.0,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 342,
-            "seat": 3,
-            "archetype_key": "dragon_evoker",
-            "card": "Thousandth Paper Drake",
-            "card_tier": 2,
-            "entry_turn": 12,
-            "n_deals": 47,
-            "expected_raw_live": 0.4670531172364837,
-            "p_zero_live": 0.6265173966602601,
-            "mean_remaining": 14.0,
-            "mean_eligible_total": 8453.0,
-            "weight": 0.024169184290030215
-          },
-          {
-            "lobby": 330,
-            "seat": 1,
-            "archetype_key": "elemental_cycle",
-            "card": "Wildfire Elemental",
-            "card_tier": 3,
-            "entry_turn": 7,
-            "n_deals": 48,
-            "expected_raw_live": 0.4665331072623793,
-            "p_zero_live": 0.6268345069781713,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 7719.479166666667,
-            "weight": 0.08199683758753107
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Costume Enthusiast",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.4636972835277579,
-            "p_zero_live": 0.6286977333571631,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.08835063437139562
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Leeroy the Reckless",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.4636972835277579,
-            "p_zero_live": 0.6286977333571631,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.0671280276816609
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Tavern Tempest",
-            "card_tier": 4,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.453888229152656,
-            "p_zero_live": 0.6348421904493915,
-            "mean_remaining": 10.980392156862745,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.08109329116783374
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Heroic Underdog",
-            "card_tier": 4,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.450646190739476,
-            "p_zero_live": 0.6369073458026736,
-            "mean_remaining": 10.901960784313726,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.021459227467811162
-          },
-          {
-            "lobby": 369,
-            "seat": 2,
-            "archetype_key": "undead_butcher",
-            "card": "Risen Rider",
-            "card_tier": 1,
-            "entry_turn": 7,
-            "n_deals": 40,
-            "expected_raw_live": 0.43977705909613296,
-            "p_zero_live": 0.6438192844079041,
-            "mean_remaining": 14.8,
-            "mean_eligible_total": 7718.225,
-            "weight": 0.02857142857142857
-          },
-          {
-            "lobby": 342,
-            "seat": 3,
-            "archetype_key": "dragon_evoker",
-            "card": "Amber Guardian",
-            "card_tier": 3,
-            "entry_turn": 12,
-            "n_deals": 47,
-            "expected_raw_live": 0.43369218029102075,
-            "p_zero_live": 0.6478121395948437,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8453.0,
-            "weight": 0.042080276219249035
-          },
-          {
-            "lobby": 396,
-            "seat": 7,
-            "archetype_key": "demon_self_damage",
-            "card": "Soul Rewinder",
-            "card_tier": 2,
-            "entry_turn": 12,
-            "n_deals": 40,
-            "expected_raw_live": 0.43088358631714624,
-            "p_zero_live": 0.6495989785106048,
-            "mean_remaining": 15.0,
-            "mean_eligible_total": 8354.925,
-            "weight": 0.09533333333333333
-          },
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Leeroy the Reckless",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.42560991741961923,
-            "p_zero_live": 0.6531398566715566,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.0671280276816609
-          },
-          {
-            "lobby": 21,
-            "seat": 3,
-            "archetype_key": "elemental_cycle",
-            "card": "Heroic Underdog",
-            "card_tier": 4,
-            "entry_turn": 14,
-            "n_deals": 53,
-            "expected_raw_live": 0.4204717883991238,
-            "p_zero_live": 0.6564711087551638,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 8319.22641509434,
-            "weight": 0.021459227467811162
-          },
-          {
-            "lobby": 81,
-            "seat": 0,
-            "archetype_key": "murloc_mrrglton",
-            "card": "Mama Mrrglton",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 48,
-            "expected_raw_live": 0.41564593814293854,
-            "p_zero_live": 0.6596395476802946,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 9007.666666666666,
-            "weight": 0.09249817916970139
-          },
-          {
-            "lobby": 398,
-            "seat": 7,
-            "archetype_key": "elemental_cycle",
-            "card": "Meteorite Crasher",
-            "card_tier": 3,
-            "entry_turn": 9,
-            "n_deals": 46,
-            "expected_raw_live": 0.4129868599042493,
-            "p_zero_live": 0.6613831840985279,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8492.478260869566,
-            "weight": 0.024169866726903095
-          },
-          {
-            "lobby": 330,
-            "seat": 1,
-            "archetype_key": "elemental_cycle",
-            "card": "Meteorite Crasher",
-            "card_tier": 3,
-            "entry_turn": 7,
-            "n_deals": 48,
-            "expected_raw_live": 0.40249131744885625,
-            "p_zero_live": 0.6683714062166434,
-            "mean_remaining": 11.229166666666666,
-            "mean_eligible_total": 7719.479166666667,
-            "weight": 0.024169866726903095
-          }
-        ]
+        }
       },
-      "missing_final_biased": {
-        "cohort": "missing-final \u2229 exact catalogue \u2229 tier-eligible deals (selection-biased: policy buys offered cores)",
-        "n_card_windows": 256,
-        "sum_expected_raw_live": 56.166050567253784,
-        "sum_observed_raw": 3.0,
-        "expected_windows_with_ge1": 48.8448181519218,
-        "observed_windows_with_ge1": 3,
-        "observed_zero_offer_rate": 0.98828125,
-        "expected_zero_offer_rate": 0.8091999290940555,
-        "log_prob_all_observed_zeros": -56.21675988412512,
+      "missing_final_deal_level": {
+        "cohort": "deal-level missing-final subset (selection-biased; secondary)",
+        "n_deal_card_observations": 7056,
+        "n_lobbies": 38,
+        "sum_expected_raw": 46.93832625152513,
+        "sum_observed_raw": 0.0,
+        "sum_expected_hit_probability": 46.81267246617252,
+        "sum_observed_hit_deals": 0.0,
+        "raw_ratio_obs_over_exp": 0.0,
+        "hit_ratio_obs_over_exp": 0.0,
+        "lobby_clustered": {
+          "raw_obs_minus_exp": {
+            "n_lobbies": 38,
+            "mean": -1.2352191118822413,
+            "ci95": [
+              -1.422745276839605,
+              -1.0499410973098673
+            ]
+          },
+          "hit_obs_minus_exp": {
+            "n_lobbies": 38,
+            "mean": -1.2319124333203302,
+            "ci95": [
+              -1.4189510704595594,
+              -1.0471233608354458
+            ]
+          },
+          "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+        },
         "by_card_tier": {
           "1": {
-            "n": 4,
-            "sum_expected_raw": 1.575993954165777,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.678426432953078,
-            "mean_remaining": 14.695283018867926
+            "n": 128,
+            "sum_expected_raw": 1.3555654053528432,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 1.349997643883437,
+            "sum_observed_hit_deals": 0.0
           },
           "2": {
-            "n": 10,
-            "sum_expected_raw": 3.521359429732106,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7185599111046377,
-            "mean_remaining": 14.690174129353233
+            "n": 280,
+            "sum_expected_raw": 2.9202818075007038,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 2.9084520699111485,
+            "sum_observed_hit_deals": 0.0
           },
           "3": {
-            "n": 25,
-            "sum_expected_raw": 7.602015446996528,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7442453275775363,
-            "mean_remaining": 12.919328616352201
+            "n": 668,
+            "sum_expected_raw": 6.2821277276158325,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 6.259410882657589,
+            "sum_observed_hit_deals": 0.0
           },
           "4": {
-            "n": 37,
-            "sum_expected_raw": 10.103452743540851,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.972972972972973,
-            "expected_zero_rate": 0.7674753511619561,
-            "mean_remaining": 10.875808479310097
+            "n": 1072,
+            "sum_expected_raw": 8.565805968824588,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 8.53984945807972,
+            "sum_observed_hit_deals": 0.0
           },
           "5": {
-            "n": 114,
-            "sum_expected_raw": 23.971709375140886,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.9824561403508771,
-            "expected_zero_rate": 0.8146717903172256,
-            "mean_remaining": 8.947904077690717
+            "n": 3055,
+            "sum_expected_raw": 19.767839253883384,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 19.720409727755097,
+            "sum_observed_hit_deals": 0.0
           },
           "6": {
-            "n": 66,
-            "sum_expected_raw": 9.391519617677636,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.8694026019185607,
-            "mean_remaining": 5.99445210043682
+            "n": 1853,
+            "sum_expected_raw": 8.046706088347785,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 8.034552683885535,
+            "sum_observed_hit_deals": 0.0
           }
-        },
-        "by_archetype": {
-          "demon_boost_shop": {
-            "n": 8,
-            "sum_expected_raw": 0.3011112438762098,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9630585409128943,
-            "mean_remaining": 8.75
-          },
-          "demon_self_damage": {
-            "n": 5,
-            "sum_expected_raw": 1.4362786210571556,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7528148020994676,
-            "mean_remaining": 10.0
-          },
-          "dragon_evoker": {
-            "n": 13,
-            "sum_expected_raw": 3.182836370706212,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.9230769230769231,
-            "expected_zero_rate": 0.7857896156513184,
-            "mean_remaining": 9.052899228431142
-          },
-          "elemental_cycle": {
-            "n": 58,
-            "sum_expected_raw": 14.786786471434816,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7801060850916259,
-            "mean_remaining": 9.740948084041591
-          },
-          "murloc_handbuff": {
-            "n": 74,
-            "sum_expected_raw": 14.67996060114115,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.82849713144409,
-            "mean_remaining": 8.68396294579048
-          },
-          "murloc_mrrglton": {
-            "n": 24,
-            "sum_expected_raw": 4.860254060130953,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.9166666666666666,
-            "expected_zero_rate": 0.8206639810649873,
-            "mean_remaining": 9.566840277777777
-          },
-          "naga_groundbreaker": {
-            "n": 7,
-            "sum_expected_raw": 1.685020284000968,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7865618747953972,
-            "mean_remaining": 9.142857142857142
-          },
-          "pirate_discover": {
-            "n": 25,
-            "sum_expected_raw": 5.153977442448599,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.815789893595574,
-            "mean_remaining": 9.175307125307125
-          },
-          "quilboar_choose_one": {
-            "n": 7,
-            "sum_expected_raw": 0.6419585175110507,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9126252122031299,
-            "mean_remaining": 8.428571428571429
-          },
-          "undead_butcher": {
-            "n": 35,
-            "sum_expected_raw": 9.437866954946669,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7694697528627105,
-            "mean_remaining": 9.128660696171348
-          }
-        },
-        "by_entry_turn": {
-          "11": {
-            "n": 74,
-            "sum_expected_raw": 18.24236176503081,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.972972972972973,
-            "expected_zero_rate": 0.7854657290901257,
-            "mean_remaining": 9.03581981571461
-          },
-          "12": {
-            "n": 41,
-            "sum_expected_raw": 9.14794528564154,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.975609756097561,
-            "expected_zero_rate": 0.8055544500190991,
-            "mean_remaining": 9.205516272650495
-          },
-          "13": {
-            "n": 26,
-            "sum_expected_raw": 6.134832102897664,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7982489763794074,
-            "mean_remaining": 9.523897885739991
-          },
-          "14": {
-            "n": 38,
-            "sum_expected_raw": 5.430868358017194,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.8719384933255009,
-            "mean_remaining": 8.811072492552135
-          },
-          "15": {
-            "n": 11,
-            "sum_expected_raw": 1.1038536632272464,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9074882643631693,
-            "mean_remaining": 9.727272727272727
-          },
-          "16": {
-            "n": 7,
-            "sum_expected_raw": 0.3946750195771339,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9451991634682619,
-            "mean_remaining": 10.285714285714286
-          },
-          "7": {
-            "n": 12,
-            "sum_expected_raw": 3.36809161730715,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7600186624252193,
-            "mean_remaining": 9.15
-          },
-          "9": {
-            "n": 47,
-            "sum_expected_raw": 12.343422755555043,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7743800066173806,
-            "mean_remaining": 9.137169632129407
-          }
-        },
-        "most_surprising_zeros": [
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.7087198220434514,
-            "p_zero_live": 0.491858860723795,
-            "mean_remaining": 14.985074626865671,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.09757785467128027
-          },
-          {
-            "lobby": 92,
-            "seat": 6,
-            "archetype_key": "murloc_handbuff",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 13,
-            "n_deals": 62,
-            "expected_raw_live": 0.6467315716272604,
-            "p_zero_live": 0.5233618379987411,
-            "mean_remaining": 15.0,
-            "mean_eligible_total": 8628.0,
-            "weight": 0.09757785467128027
-          },
-          {
-            "lobby": 97,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 62,
-            "expected_raw_live": 0.5747453428791721,
-            "p_zero_live": 0.5625018242612342,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8414.161290322581,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.5667411243117048,
-            "p_zero_live": 0.5670483890348982,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Risen Rider",
-            "card_tier": 1,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.5573860158314685,
-            "p_zero_live": 0.5723305852936518,
-            "mean_remaining": 14.981132075471699,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.02857142857142857
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.48367635218694527,
-            "p_zero_live": 0.6161983864115229,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Handless Forsaken",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.48297435148494455,
-            "p_zero_live": 0.6166318710308767,
-            "mean_remaining": 12.981132075471699,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.1641418983700863
-          },
-          {
-            "lobby": 81,
-            "seat": 0,
-            "archetype_key": "murloc_mrrglton",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 11,
-            "n_deals": 48,
-            "expected_raw_live": 0.47692724262093955,
-            "p_zero_live": 0.6203599832378758,
-            "mean_remaining": 14.916666666666666,
-            "mean_eligible_total": 9007.666666666666,
-            "weight": 0.023852876911871816
-          },
-          {
-            "lobby": 92,
-            "seat": 6,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 13,
-            "n_deals": 62,
-            "expected_raw_live": 0.4742698191933244,
-            "p_zero_live": 0.6220653920526169,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 8628.0,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 330,
-            "seat": 1,
-            "archetype_key": "elemental_cycle",
-            "card": "Wildfire Elemental",
-            "card_tier": 3,
-            "entry_turn": 7,
-            "n_deals": 48,
-            "expected_raw_live": 0.4665331072623793,
-            "p_zero_live": 0.6268345069781713,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 7719.479166666667,
-            "weight": 0.08199683758753107
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Costume Enthusiast",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.4636972835277579,
-            "p_zero_live": 0.6286977333571631,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.08835063437139562
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Leeroy the Reckless",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.4636972835277579,
-            "p_zero_live": 0.6286977333571631,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.0671280276816609
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Tavern Tempest",
-            "card_tier": 4,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.453888229152656,
-            "p_zero_live": 0.6348421904493915,
-            "mean_remaining": 10.980392156862745,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.08109329116783374
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Heroic Underdog",
-            "card_tier": 4,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.450646190739476,
-            "p_zero_live": 0.6369073458026736,
-            "mean_remaining": 10.901960784313726,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.021459227467811162
-          },
-          {
-            "lobby": 369,
-            "seat": 2,
-            "archetype_key": "undead_butcher",
-            "card": "Risen Rider",
-            "card_tier": 1,
-            "entry_turn": 7,
-            "n_deals": 40,
-            "expected_raw_live": 0.43977705909613296,
-            "p_zero_live": 0.6438192844079041,
-            "mean_remaining": 14.8,
-            "mean_eligible_total": 7718.225,
-            "weight": 0.02857142857142857
-          },
-          {
-            "lobby": 342,
-            "seat": 3,
-            "archetype_key": "dragon_evoker",
-            "card": "Amber Guardian",
-            "card_tier": 3,
-            "entry_turn": 12,
-            "n_deals": 47,
-            "expected_raw_live": 0.43369218029102075,
-            "p_zero_live": 0.6478121395948437,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8453.0,
-            "weight": 0.042080276219249035
-          },
-          {
-            "lobby": 396,
-            "seat": 7,
-            "archetype_key": "demon_self_damage",
-            "card": "Soul Rewinder",
-            "card_tier": 2,
-            "entry_turn": 12,
-            "n_deals": 40,
-            "expected_raw_live": 0.43088358631714624,
-            "p_zero_live": 0.6495989785106048,
-            "mean_remaining": 15.0,
-            "mean_eligible_total": 8354.925,
-            "weight": 0.09533333333333333
-          },
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Leeroy the Reckless",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.42560991741961923,
-            "p_zero_live": 0.6531398566715566,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.0671280276816609
-          },
-          {
-            "lobby": 21,
-            "seat": 3,
-            "archetype_key": "elemental_cycle",
-            "card": "Heroic Underdog",
-            "card_tier": 4,
-            "entry_turn": 14,
-            "n_deals": 53,
-            "expected_raw_live": 0.4204717883991238,
-            "p_zero_live": 0.6564711087551638,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 8319.22641509434,
-            "weight": 0.021459227467811162
-          },
-          {
-            "lobby": 81,
-            "seat": 0,
-            "archetype_key": "murloc_mrrglton",
-            "card": "Mama Mrrglton",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 48,
-            "expected_raw_live": 0.41564593814293854,
-            "p_zero_live": 0.6596395476802946,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 9007.666666666666,
-            "weight": 0.09249817916970139
-          },
-          {
-            "lobby": 398,
-            "seat": 7,
-            "archetype_key": "elemental_cycle",
-            "card": "Meteorite Crasher",
-            "card_tier": 3,
-            "entry_turn": 9,
-            "n_deals": 46,
-            "expected_raw_live": 0.4129868599042493,
-            "p_zero_live": 0.6613831840985279,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8492.478260869566,
-            "weight": 0.024169866726903095
-          },
-          {
-            "lobby": 21,
-            "seat": 3,
-            "archetype_key": "elemental_cycle",
-            "card": "Flaming Enforcer",
-            "card_tier": 4,
-            "entry_turn": 14,
-            "n_deals": 53,
-            "expected_raw_live": 0.39883509251296806,
-            "p_zero_live": 0.6708524687879951,
-            "mean_remaining": 10.433962264150944,
-            "mean_eligible_total": 8319.22641509434,
-            "weight": 0.02846171222046533
-          },
-          {
-            "lobby": 151,
-            "seat": 7,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 42,
-            "expected_raw_live": 0.3983889794261236,
-            "p_zero_live": 0.671107742723633,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8223.119047619048,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 97,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Drustfallen Butcher",
-            "card_tier": 5,
-            "entry_turn": 11,
-            "n_deals": 62,
-            "expected_raw_live": 0.39790062199327314,
-            "p_zero_live": 0.6715062350092134,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 8414.161290322581,
-            "weight": 0.17756471716203262
-          },
-          {
-            "lobby": 330,
-            "seat": 1,
-            "archetype_key": "elemental_cycle",
-            "card": "Flaming Enforcer",
-            "card_tier": 4,
-            "entry_turn": 7,
-            "n_deals": 48,
-            "expected_raw_live": 0.3947587830681669,
-            "p_zero_live": 0.6735696281609719,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 7719.479166666667,
-            "weight": 0.02846171222046533
-          }
-        ]
+        }
       },
-      "a3_zero_raw": {
-        "cohort": "Phase 2L A3 (tier-eligible zero-raw) \u2014 observed zero rate \u2261 1; compare to expected_zero_offer_rate under live pool",
-        "n_card_windows": 256,
-        "sum_expected_raw_live": 56.166050567253784,
-        "sum_observed_raw": 3.0,
-        "expected_windows_with_ge1": 48.8448181519218,
-        "observed_windows_with_ge1": 3,
-        "observed_zero_offer_rate": 0.98828125,
-        "expected_zero_offer_rate": 0.8091999290940555,
-        "log_prob_all_observed_zeros": -56.21675988412512,
+      "a3_deal_level": {
+        "cohort": "deal-level A3 zero-raw windows (observed hits near 0 by definition)",
+        "n_deal_card_observations": 7056,
+        "n_lobbies": 38,
+        "sum_expected_raw": 46.93832625152513,
+        "sum_observed_raw": 0.0,
+        "sum_expected_hit_probability": 46.81267246617252,
+        "sum_observed_hit_deals": 0.0,
+        "raw_ratio_obs_over_exp": 0.0,
+        "hit_ratio_obs_over_exp": 0.0,
+        "lobby_clustered": {
+          "raw_obs_minus_exp": {
+            "n_lobbies": 38,
+            "mean": -1.2352191118822413,
+            "ci95": [
+              -1.422745276839605,
+              -1.0499410973098673
+            ]
+          },
+          "hit_obs_minus_exp": {
+            "n_lobbies": 38,
+            "mean": -1.2319124333203302,
+            "ci95": [
+              -1.4189510704595594,
+              -1.0471233608354458
+            ]
+          },
+          "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+        },
         "by_card_tier": {
           "1": {
-            "n": 4,
-            "sum_expected_raw": 1.575993954165777,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.678426432953078,
-            "mean_remaining": 14.695283018867926
+            "n": 128,
+            "sum_expected_raw": 1.3555654053528432,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 1.349997643883437,
+            "sum_observed_hit_deals": 0.0
           },
           "2": {
-            "n": 10,
-            "sum_expected_raw": 3.521359429732106,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7185599111046377,
-            "mean_remaining": 14.690174129353233
+            "n": 280,
+            "sum_expected_raw": 2.9202818075007038,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 2.9084520699111485,
+            "sum_observed_hit_deals": 0.0
           },
           "3": {
-            "n": 25,
-            "sum_expected_raw": 7.602015446996528,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7442453275775363,
-            "mean_remaining": 12.919328616352201
+            "n": 668,
+            "sum_expected_raw": 6.2821277276158325,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 6.259410882657589,
+            "sum_observed_hit_deals": 0.0
           },
           "4": {
-            "n": 37,
-            "sum_expected_raw": 10.103452743540851,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.972972972972973,
-            "expected_zero_rate": 0.7674753511619561,
-            "mean_remaining": 10.875808479310097
+            "n": 1072,
+            "sum_expected_raw": 8.565805968824588,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 8.53984945807972,
+            "sum_observed_hit_deals": 0.0
           },
           "5": {
-            "n": 114,
-            "sum_expected_raw": 23.971709375140886,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.9824561403508771,
-            "expected_zero_rate": 0.8146717903172256,
-            "mean_remaining": 8.947904077690717
+            "n": 3055,
+            "sum_expected_raw": 19.767839253883384,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 19.720409727755097,
+            "sum_observed_hit_deals": 0.0
           },
           "6": {
-            "n": 66,
-            "sum_expected_raw": 9.391519617677636,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.8694026019185607,
-            "mean_remaining": 5.99445210043682
+            "n": 1853,
+            "sum_expected_raw": 8.046706088347785,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 8.034552683885535,
+            "sum_observed_hit_deals": 0.0
           }
-        },
-        "by_archetype": {
-          "demon_boost_shop": {
-            "n": 8,
-            "sum_expected_raw": 0.3011112438762098,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9630585409128943,
-            "mean_remaining": 8.75
-          },
-          "demon_self_damage": {
-            "n": 5,
-            "sum_expected_raw": 1.4362786210571556,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7528148020994676,
-            "mean_remaining": 10.0
-          },
-          "dragon_evoker": {
-            "n": 13,
-            "sum_expected_raw": 3.182836370706212,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.9230769230769231,
-            "expected_zero_rate": 0.7857896156513184,
-            "mean_remaining": 9.052899228431142
-          },
-          "elemental_cycle": {
-            "n": 58,
-            "sum_expected_raw": 14.786786471434816,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7801060850916259,
-            "mean_remaining": 9.740948084041591
-          },
-          "murloc_handbuff": {
-            "n": 74,
-            "sum_expected_raw": 14.67996060114115,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.82849713144409,
-            "mean_remaining": 8.68396294579048
-          },
-          "murloc_mrrglton": {
-            "n": 24,
-            "sum_expected_raw": 4.860254060130953,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.9166666666666666,
-            "expected_zero_rate": 0.8206639810649873,
-            "mean_remaining": 9.566840277777777
-          },
-          "naga_groundbreaker": {
-            "n": 7,
-            "sum_expected_raw": 1.685020284000968,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7865618747953972,
-            "mean_remaining": 9.142857142857142
-          },
-          "pirate_discover": {
-            "n": 25,
-            "sum_expected_raw": 5.153977442448599,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.815789893595574,
-            "mean_remaining": 9.175307125307125
-          },
-          "quilboar_choose_one": {
-            "n": 7,
-            "sum_expected_raw": 0.6419585175110507,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9126252122031299,
-            "mean_remaining": 8.428571428571429
-          },
-          "undead_butcher": {
-            "n": 35,
-            "sum_expected_raw": 9.437866954946669,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7694697528627105,
-            "mean_remaining": 9.128660696171348
-          }
-        },
-        "by_entry_turn": {
-          "11": {
-            "n": 74,
-            "sum_expected_raw": 18.24236176503081,
-            "sum_observed_raw": 2,
-            "observed_zero_rate": 0.972972972972973,
-            "expected_zero_rate": 0.7854657290901257,
-            "mean_remaining": 9.03581981571461
-          },
-          "12": {
-            "n": 41,
-            "sum_expected_raw": 9.14794528564154,
-            "sum_observed_raw": 1,
-            "observed_zero_rate": 0.975609756097561,
-            "expected_zero_rate": 0.8055544500190991,
-            "mean_remaining": 9.205516272650495
-          },
-          "13": {
-            "n": 26,
-            "sum_expected_raw": 6.134832102897664,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7982489763794074,
-            "mean_remaining": 9.523897885739991
-          },
-          "14": {
-            "n": 38,
-            "sum_expected_raw": 5.430868358017194,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.8719384933255009,
-            "mean_remaining": 8.811072492552135
-          },
-          "15": {
-            "n": 11,
-            "sum_expected_raw": 1.1038536632272464,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9074882643631693,
-            "mean_remaining": 9.727272727272727
-          },
-          "16": {
-            "n": 7,
-            "sum_expected_raw": 0.3946750195771339,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.9451991634682619,
-            "mean_remaining": 10.285714285714286
-          },
-          "7": {
-            "n": 12,
-            "sum_expected_raw": 3.36809161730715,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7600186624252193,
-            "mean_remaining": 9.15
-          },
-          "9": {
-            "n": 47,
-            "sum_expected_raw": 12.343422755555043,
-            "sum_observed_raw": 0,
-            "observed_zero_rate": 1.0,
-            "expected_zero_rate": 0.7743800066173806,
-            "mean_remaining": 9.137169632129407
-          }
-        },
-        "most_surprising_zeros": [
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.7087198220434514,
-            "p_zero_live": 0.491858860723795,
-            "mean_remaining": 14.985074626865671,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.09757785467128027
-          },
-          {
-            "lobby": 92,
-            "seat": 6,
-            "archetype_key": "murloc_handbuff",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 13,
-            "n_deals": 62,
-            "expected_raw_live": 0.6467315716272604,
-            "p_zero_live": 0.5233618379987411,
-            "mean_remaining": 15.0,
-            "mean_eligible_total": 8628.0,
-            "weight": 0.09757785467128027
-          },
-          {
-            "lobby": 97,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 62,
-            "expected_raw_live": 0.5747453428791721,
-            "p_zero_live": 0.5625018242612342,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8414.161290322581,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.5667411243117048,
-            "p_zero_live": 0.5670483890348982,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Risen Rider",
-            "card_tier": 1,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.5573860158314685,
-            "p_zero_live": 0.5723305852936518,
-            "mean_remaining": 14.981132075471699,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.02857142857142857
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.48367635218694527,
-            "p_zero_live": 0.6161983864115229,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 301,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Handless Forsaken",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 53,
-            "expected_raw_live": 0.48297435148494455,
-            "p_zero_live": 0.6166318710308767,
-            "mean_remaining": 12.981132075471699,
-            "mean_eligible_total": 8547.037735849057,
-            "weight": 0.1641418983700863
-          },
-          {
-            "lobby": 81,
-            "seat": 0,
-            "archetype_key": "murloc_mrrglton",
-            "card": "Expert Aviator",
-            "card_tier": 2,
-            "entry_turn": 11,
-            "n_deals": 48,
-            "expected_raw_live": 0.47692724262093955,
-            "p_zero_live": 0.6203599832378758,
-            "mean_remaining": 14.916666666666666,
-            "mean_eligible_total": 9007.666666666666,
-            "weight": 0.023852876911871816
-          },
-          {
-            "lobby": 92,
-            "seat": 6,
-            "archetype_key": "murloc_handbuff",
-            "card": "Diremuck Forager",
-            "card_tier": 4,
-            "entry_turn": 13,
-            "n_deals": 62,
-            "expected_raw_live": 0.4742698191933244,
-            "p_zero_live": 0.6220653920526169,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 8628.0,
-            "weight": 0.16193771626297576
-          },
-          {
-            "lobby": 330,
-            "seat": 1,
-            "archetype_key": "elemental_cycle",
-            "card": "Wildfire Elemental",
-            "card_tier": 3,
-            "entry_turn": 7,
-            "n_deals": 48,
-            "expected_raw_live": 0.4665331072623793,
-            "p_zero_live": 0.6268345069781713,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 7719.479166666667,
-            "weight": 0.08199683758753107
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Costume Enthusiast",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.4636972835277579,
-            "p_zero_live": 0.6286977333571631,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.08835063437139562
-          },
-          {
-            "lobby": 40,
-            "seat": 0,
-            "archetype_key": "murloc_handbuff",
-            "card": "Leeroy the Reckless",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 69,
-            "expected_raw_live": 0.4636972835277579,
-            "p_zero_live": 0.6286977333571631,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 7934.768115942029,
-            "weight": 0.0671280276816609
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Tavern Tempest",
-            "card_tier": 4,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.453888229152656,
-            "p_zero_live": 0.6348421904493915,
-            "mean_remaining": 10.980392156862745,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.08109329116783374
-          },
-          {
-            "lobby": 427,
-            "seat": 2,
-            "archetype_key": "elemental_cycle",
-            "card": "Heroic Underdog",
-            "card_tier": 4,
-            "entry_turn": 12,
-            "n_deals": 51,
-            "expected_raw_live": 0.450646190739476,
-            "p_zero_live": 0.6369073458026736,
-            "mean_remaining": 10.901960784313726,
-            "mean_eligible_total": 7402.705882352941,
-            "weight": 0.021459227467811162
-          },
-          {
-            "lobby": 369,
-            "seat": 2,
-            "archetype_key": "undead_butcher",
-            "card": "Risen Rider",
-            "card_tier": 1,
-            "entry_turn": 7,
-            "n_deals": 40,
-            "expected_raw_live": 0.43977705909613296,
-            "p_zero_live": 0.6438192844079041,
-            "mean_remaining": 14.8,
-            "mean_eligible_total": 7718.225,
-            "weight": 0.02857142857142857
-          },
-          {
-            "lobby": 342,
-            "seat": 3,
-            "archetype_key": "dragon_evoker",
-            "card": "Amber Guardian",
-            "card_tier": 3,
-            "entry_turn": 12,
-            "n_deals": 47,
-            "expected_raw_live": 0.43369218029102075,
-            "p_zero_live": 0.6478121395948437,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8453.0,
-            "weight": 0.042080276219249035
-          },
-          {
-            "lobby": 396,
-            "seat": 7,
-            "archetype_key": "demon_self_damage",
-            "card": "Soul Rewinder",
-            "card_tier": 2,
-            "entry_turn": 12,
-            "n_deals": 40,
-            "expected_raw_live": 0.43088358631714624,
-            "p_zero_live": 0.6495989785106048,
-            "mean_remaining": 15.0,
-            "mean_eligible_total": 8354.925,
-            "weight": 0.09533333333333333
-          },
-          {
-            "lobby": 211,
-            "seat": 5,
-            "archetype_key": "murloc_handbuff",
-            "card": "Leeroy the Reckless",
-            "card_tier": 5,
-            "entry_turn": 9,
-            "n_deals": 67,
-            "expected_raw_live": 0.42560991741961923,
-            "p_zero_live": 0.6531398566715566,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 8369.283582089553,
-            "weight": 0.0671280276816609
-          },
-          {
-            "lobby": 21,
-            "seat": 3,
-            "archetype_key": "elemental_cycle",
-            "card": "Heroic Underdog",
-            "card_tier": 4,
-            "entry_turn": 14,
-            "n_deals": 53,
-            "expected_raw_live": 0.4204717883991238,
-            "p_zero_live": 0.6564711087551638,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 8319.22641509434,
-            "weight": 0.021459227467811162
-          },
-          {
-            "lobby": 81,
-            "seat": 0,
-            "archetype_key": "murloc_mrrglton",
-            "card": "Mama Mrrglton",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 48,
-            "expected_raw_live": 0.41564593814293854,
-            "p_zero_live": 0.6596395476802946,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 9007.666666666666,
-            "weight": 0.09249817916970139
-          },
-          {
-            "lobby": 398,
-            "seat": 7,
-            "archetype_key": "elemental_cycle",
-            "card": "Meteorite Crasher",
-            "card_tier": 3,
-            "entry_turn": 9,
-            "n_deals": 46,
-            "expected_raw_live": 0.4129868599042493,
-            "p_zero_live": 0.6613831840985279,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8492.478260869566,
-            "weight": 0.024169866726903095
-          },
-          {
-            "lobby": 21,
-            "seat": 3,
-            "archetype_key": "elemental_cycle",
-            "card": "Flaming Enforcer",
-            "card_tier": 4,
-            "entry_turn": 14,
-            "n_deals": 53,
-            "expected_raw_live": 0.39883509251296806,
-            "p_zero_live": 0.6708524687879951,
-            "mean_remaining": 10.433962264150944,
-            "mean_eligible_total": 8319.22641509434,
-            "weight": 0.02846171222046533
-          },
-          {
-            "lobby": 151,
-            "seat": 7,
-            "archetype_key": "undead_butcher",
-            "card": "Mummifier",
-            "card_tier": 3,
-            "entry_turn": 11,
-            "n_deals": 42,
-            "expected_raw_live": 0.3983889794261236,
-            "p_zero_live": 0.671107742723633,
-            "mean_remaining": 13.0,
-            "mean_eligible_total": 8223.119047619048,
-            "weight": 0.12138063279002877
-          },
-          {
-            "lobby": 97,
-            "seat": 1,
-            "archetype_key": "undead_butcher",
-            "card": "Drustfallen Butcher",
-            "card_tier": 5,
-            "entry_turn": 11,
-            "n_deals": 62,
-            "expected_raw_live": 0.39790062199327314,
-            "p_zero_live": 0.6715062350092134,
-            "mean_remaining": 9.0,
-            "mean_eligible_total": 8414.161290322581,
-            "weight": 0.17756471716203262
-          },
-          {
-            "lobby": 330,
-            "seat": 1,
-            "archetype_key": "elemental_cycle",
-            "card": "Flaming Enforcer",
-            "card_tier": 4,
-            "entry_turn": 7,
-            "n_deals": 48,
-            "expected_raw_live": 0.3947587830681669,
-            "p_zero_live": 0.6735696281609719,
-            "mean_remaining": 11.0,
-            "mean_eligible_total": 7719.479166666667,
-            "weight": 0.02846171222046533
-          }
-        ]
-      },
-      "cohort": "all exact-catalogue cores on post-assembly states with \u22651 tier-eligible live deal (NOT conditioned on missing-final)",
-      "n_card_windows": 385,
-      "sum_expected_raw_live": 89.25779267199502,
-      "sum_observed_raw": 111.0,
-      "expected_windows_with_ge1": 77.24288077947473,
-      "observed_windows_with_ge1": 98,
-      "observed_zero_offer_rate": 0.7454545454545455,
-      "expected_zero_offer_rate": 0.7993691408325332,
-      "log_prob_all_observed_zeros": -89.3398477563011,
-      "by_card_tier": {
-        "1": {
-          "n": 7,
-          "sum_expected_raw": 3.040632397154168,
-          "sum_observed_raw": 3,
-          "observed_zero_rate": 0.7142857142857143,
-          "expected_zero_rate": 0.6522241647324997,
-          "mean_remaining": 14.421223827327646
-        },
-        "2": {
-          "n": 20,
-          "sum_expected_raw": 6.959341592691019,
-          "sum_observed_raw": 9,
-          "observed_zero_rate": 0.65,
-          "expected_zero_rate": 0.7183984717595878,
-          "mean_remaining": 14.331930518208901
-        },
-        "3": {
-          "n": 47,
-          "sum_expected_raw": 15.374151459630482,
-          "sum_observed_raw": 19,
-          "observed_zero_rate": 0.6808510638297872,
-          "expected_zero_rate": 0.7260187086834649,
-          "mean_remaining": 12.482987626804643
-        },
-        "4": {
-          "n": 80,
-          "sum_expected_raw": 20.73244195808455,
-          "sum_observed_raw": 28,
-          "observed_zero_rate": 0.675,
-          "expected_zero_rate": 0.7768094665653089,
-          "mean_remaining": 10.477063996900085
-        },
-        "5": {
-          "n": 155,
-          "sum_expected_raw": 32.49661454031685,
-          "sum_observed_raw": 43,
-          "observed_zero_rate": 0.7483870967741936,
-          "expected_zero_rate": 0.8151288596084292,
-          "mean_remaining": 8.78837597425977
-        },
-        "6": {
-          "n": 76,
-          "sum_expected_raw": 10.654610724117953,
-          "sum_observed_raw": 9,
-          "observed_zero_rate": 0.881578947368421,
-          "expected_zero_rate": 0.8711969836783148,
-          "mean_remaining": 5.8964930287896395
         }
       },
-      "by_archetype": {
-        "demon_boost_shop": {
-          "n": 10,
-          "sum_expected_raw": 0.3728043971800693,
-          "sum_observed_raw": 1,
-          "observed_zero_rate": 0.9,
-          "expected_zero_rate": 0.9633991661015047,
-          "mean_remaining": 8.666666666666668
+      "descriptive_card_windows": {
+        "unconditioned": {
+          "cohort": "descriptive card-windows (adaptive P_zero demoted)",
+          "role": "descriptive_secondary",
+          "n_card_windows": 350,
+          "sum_expected_raw_live": 74.86883120790482,
+          "sum_observed_raw": 60.0,
+          "observed_zero_offer_rate": 0.8428571428571429,
+          "adaptive_product_expected_zero_rate": 0.8125813303235261,
+          "note": "observed_zero_offer_rate is descriptive. adaptive_product_expected_zero_rate is demoted \u2014 not a clean ex-ante P(zero) under adaptive pool trajectories."
         },
-        "demon_self_damage": {
-          "n": 9,
-          "sum_expected_raw": 2.640595084094408,
-          "sum_observed_raw": 3,
-          "observed_zero_rate": 0.6666666666666666,
-          "expected_zero_rate": 0.7476791097595452,
-          "mean_remaining": 10.213888888888889
-        },
-        "dragon_evoker": {
-          "n": 18,
-          "sum_expected_raw": 4.592786474608578,
-          "sum_observed_raw": 5,
-          "observed_zero_rate": 0.7222222222222222,
-          "expected_zero_rate": 0.7782106776258656,
-          "mean_remaining": 9.572272880783519
-        },
-        "elemental_cycle": {
-          "n": 90,
-          "sum_expected_raw": 23.550197078316977,
-          "sum_observed_raw": 29,
-          "observed_zero_rate": 0.7222222222222222,
-          "expected_zero_rate": 0.7749054929777514,
-          "mean_remaining": 9.869115627498237
-        },
-        "murloc_handbuff": {
-          "n": 112,
-          "sum_expected_raw": 23.763535771471442,
-          "sum_observed_raw": 30,
-          "observed_zero_rate": 0.7678571428571429,
-          "expected_zero_rate": 0.8172793260175117,
-          "mean_remaining": 8.939658520133959
-        },
-        "murloc_mrrglton": {
-          "n": 33,
-          "sum_expected_raw": 7.146507469352714,
-          "sum_observed_raw": 10,
-          "observed_zero_rate": 0.7272727272727273,
-          "expected_zero_rate": 0.8092308628697092,
-          "mean_remaining": 9.83815836940837
-        },
-        "naga_groundbreaker": {
-          "n": 10,
-          "sum_expected_raw": 2.3015443504788267,
-          "sum_observed_raw": 3,
-          "observed_zero_rate": 0.8,
-          "expected_zero_rate": 0.7951442163763202,
-          "mean_remaining": 8.741666666666667
-        },
-        "pirate_discover": {
-          "n": 40,
-          "sum_expected_raw": 8.692153277326051,
-          "sum_observed_raw": 11,
-          "observed_zero_rate": 0.75,
-          "expected_zero_rate": 0.8072054549757745,
-          "mean_remaining": 9.510002205002205
-        },
-        "quilboar_choose_one": {
-          "n": 9,
-          "sum_expected_raw": 0.8432505950357022,
-          "sum_observed_raw": 2,
-          "observed_zero_rate": 0.7777777777777778,
-          "expected_zero_rate": 0.9107550063643737,
-          "mean_remaining": 8.61111111111111
-        },
-        "undead_butcher": {
-          "n": 54,
-          "sum_expected_raw": 15.354418174130256,
-          "sum_observed_raw": 17,
-          "observed_zero_rate": 0.7222222222222222,
-          "expected_zero_rate": 0.7586735295865901,
-          "mean_remaining": 9.489884097365332
+        "a3_zero_raw": {
+          "cohort": "descriptive A3 card-windows (observed zero \u2248 1 by definition)",
+          "role": "descriptive_secondary",
+          "n_card_windows": 229,
+          "sum_expected_raw_live": 46.93832625152513,
+          "sum_observed_raw": 0.0,
+          "observed_zero_offer_rate": 1.0,
+          "adaptive_product_expected_zero_rate": 0.8197415746678299,
+          "note": "observed_zero_offer_rate is descriptive. adaptive_product_expected_zero_rate is demoted \u2014 not a clean ex-ante P(zero) under adaptive pool trajectories."
         }
       },
-      "by_entry_turn": {
-        "11": {
-          "n": 109,
-          "sum_expected_raw": 28.362917615810016,
-          "sum_observed_raw": 32,
-          "observed_zero_rate": 0.7431192660550459,
-          "expected_zero_rate": 0.7752768488332872,
-          "mean_remaining": 9.403040893950479
+      "sum_expected_raw": 74.86883120790482,
+      "sum_observed_raw": 60.0,
+      "sum_expected_hit_probability": 74.66285348723291,
+      "sum_observed_hit_deals": 60.0,
+      "raw_ratio_obs_over_exp": 0.801401585038569,
+      "hit_ratio_obs_over_exp": 0.8036124685518454,
+      "lobby_clustered": {
+        "raw_obs_minus_exp": {
+          "n_lobbies": 38,
+          "mean": -0.39128503178697005,
+          "ci95": [
+            -0.7877893938653454,
+            -0.003354411025189358
+          ]
         },
-        "12": {
-          "n": 61,
-          "sum_expected_raw": 14.497803152141914,
-          "sum_observed_raw": 16,
-          "observed_zero_rate": 0.7540983606557377,
-          "expected_zero_rate": 0.7948149369684736,
-          "mean_remaining": 9.62846914450507
+        "hit_obs_minus_exp": {
+          "n_lobbies": 38,
+          "mean": -0.3858645654534967,
+          "ci95": [
+            -0.7818921714516074,
+            0.0022571285648799585
+          ]
         },
-        "13": {
-          "n": 42,
-          "sum_expected_raw": 9.602165460043194,
-          "sum_observed_raw": 14,
-          "observed_zero_rate": 0.7142857142857143,
-          "expected_zero_rate": 0.8017972231884285,
-          "mean_remaining": 9.406680904770887
-        },
-        "14": {
-          "n": 54,
-          "sum_expected_raw": 8.60310362144507,
-          "sum_observed_raw": 10,
-          "observed_zero_rate": 0.8148148148148148,
-          "expected_zero_rate": 0.8585394079311007,
-          "mean_remaining": 9.221580510102523
-        },
-        "15": {
-          "n": 17,
-          "sum_expected_raw": 1.8189737044684613,
-          "sum_observed_raw": 4,
-          "observed_zero_rate": 0.7647058823529411,
-          "expected_zero_rate": 0.9014056726062903,
-          "mean_remaining": 9.20497737556561
-        },
-        "16": {
-          "n": 9,
-          "sum_expected_raw": 0.4988253719655443,
-          "sum_observed_raw": 1,
-          "observed_zero_rate": 0.8888888888888888,
-          "expected_zero_rate": 0.9460913865289405,
-          "mean_remaining": 10.11111111111111
-        },
-        "7": {
-          "n": 18,
-          "sum_expected_raw": 5.475891588949086,
-          "sum_observed_raw": 6,
-          "observed_zero_rate": 0.7222222222222222,
-          "expected_zero_rate": 0.7415367487767498,
-          "mean_remaining": 9.698842592592593
-        },
-        "9": {
-          "n": 75,
-          "sum_expected_raw": 20.398112157171738,
-          "sum_observed_raw": 28,
-          "observed_zero_rate": 0.6933333333333334,
-          "expected_zero_rate": 0.7672698633250364,
-          "mean_remaining": 9.272088782839552
-        }
+        "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
       },
-      "most_surprising_zeros": [
-        {
-          "lobby": 211,
-          "seat": 5,
-          "archetype_key": "murloc_handbuff",
-          "card": "Expert Aviator",
-          "card_tier": 2,
-          "entry_turn": 9,
-          "n_deals": 67,
-          "expected_raw_live": 0.7087198220434514,
-          "p_zero_live": 0.491858860723795,
-          "mean_remaining": 14.985074626865671,
-          "mean_eligible_total": 8369.283582089553,
-          "weight": 0.09757785467128027
-        },
-        {
-          "lobby": 92,
-          "seat": 6,
-          "archetype_key": "murloc_handbuff",
-          "card": "Expert Aviator",
-          "card_tier": 2,
-          "entry_turn": 13,
-          "n_deals": 62,
-          "expected_raw_live": 0.6467315716272604,
-          "p_zero_live": 0.5233618379987411,
-          "mean_remaining": 15.0,
-          "mean_eligible_total": 8628.0,
-          "weight": 0.09757785467128027
-        },
-        {
-          "lobby": 97,
-          "seat": 1,
-          "archetype_key": "undead_butcher",
-          "card": "Mummifier",
-          "card_tier": 3,
-          "entry_turn": 11,
-          "n_deals": 62,
-          "expected_raw_live": 0.5747453428791721,
-          "p_zero_live": 0.5625018242612342,
-          "mean_remaining": 13.0,
-          "mean_eligible_total": 8414.161290322581,
-          "weight": 0.12138063279002877
-        },
-        {
-          "lobby": 40,
-          "seat": 0,
-          "archetype_key": "murloc_handbuff",
-          "card": "Diremuck Forager",
-          "card_tier": 4,
-          "entry_turn": 9,
-          "n_deals": 69,
-          "expected_raw_live": 0.5667411243117048,
-          "p_zero_live": 0.5670483890348982,
-          "mean_remaining": 11.0,
-          "mean_eligible_total": 7934.768115942029,
-          "weight": 0.16193771626297576
-        },
-        {
-          "lobby": 301,
-          "seat": 1,
-          "archetype_key": "undead_butcher",
-          "card": "Risen Rider",
-          "card_tier": 1,
-          "entry_turn": 11,
-          "n_deals": 53,
-          "expected_raw_live": 0.5573860158314685,
-          "p_zero_live": 0.5723305852936518,
-          "mean_remaining": 14.981132075471699,
-          "mean_eligible_total": 8547.037735849057,
-          "weight": 0.02857142857142857
-        },
-        {
-          "lobby": 427,
-          "seat": 2,
-          "archetype_key": "elemental_cycle",
-          "card": "Wildfire Elemental",
-          "card_tier": 3,
-          "entry_turn": 12,
-          "n_deals": 51,
-          "expected_raw_live": 0.4919824272780337,
-          "p_zero_live": 0.6110691808353005,
-          "mean_remaining": 11.901960784313726,
-          "mean_eligible_total": 7402.705882352941,
-          "weight": 0.08199683758753107
-        },
-        {
-          "lobby": 301,
-          "seat": 1,
-          "archetype_key": "undead_butcher",
-          "card": "Mummifier",
-          "card_tier": 3,
-          "entry_turn": 11,
-          "n_deals": 53,
-          "expected_raw_live": 0.48367635218694527,
-          "p_zero_live": 0.6161983864115229,
-          "mean_remaining": 13.0,
-          "mean_eligible_total": 8547.037735849057,
-          "weight": 0.12138063279002877
-        },
-        {
-          "lobby": 301,
-          "seat": 1,
-          "archetype_key": "undead_butcher",
-          "card": "Handless Forsaken",
-          "card_tier": 3,
-          "entry_turn": 11,
-          "n_deals": 53,
-          "expected_raw_live": 0.48297435148494455,
-          "p_zero_live": 0.6166318710308767,
-          "mean_remaining": 12.981132075471699,
-          "mean_eligible_total": 8547.037735849057,
-          "weight": 0.1641418983700863
-        },
-        {
-          "lobby": 81,
-          "seat": 0,
-          "archetype_key": "murloc_mrrglton",
-          "card": "Expert Aviator",
-          "card_tier": 2,
-          "entry_turn": 11,
-          "n_deals": 48,
-          "expected_raw_live": 0.47692724262093955,
-          "p_zero_live": 0.6203599832378758,
-          "mean_remaining": 14.916666666666666,
-          "mean_eligible_total": 9007.666666666666,
-          "weight": 0.023852876911871816
-        },
-        {
-          "lobby": 92,
-          "seat": 6,
-          "archetype_key": "murloc_handbuff",
-          "card": "Diremuck Forager",
-          "card_tier": 4,
-          "entry_turn": 13,
-          "n_deals": 62,
-          "expected_raw_live": 0.4742698191933244,
-          "p_zero_live": 0.6220653920526169,
-          "mean_remaining": 11.0,
-          "mean_eligible_total": 8628.0,
-          "weight": 0.16193771626297576
-        },
-        {
-          "lobby": 211,
-          "seat": 5,
-          "archetype_key": "murloc_handbuff",
-          "card": "Diremuck Forager",
-          "card_tier": 4,
-          "entry_turn": 9,
-          "n_deals": 67,
-          "expected_raw_live": 0.47289990824402034,
-          "p_zero_live": 0.62292968409151,
-          "mean_remaining": 10.0,
-          "mean_eligible_total": 8369.283582089553,
-          "weight": 0.16193771626297576
-        },
-        {
-          "lobby": 342,
-          "seat": 3,
-          "archetype_key": "dragon_evoker",
-          "card": "Thousandth Paper Drake",
-          "card_tier": 2,
-          "entry_turn": 12,
-          "n_deals": 47,
-          "expected_raw_live": 0.4670531172364837,
-          "p_zero_live": 0.6265173966602601,
-          "mean_remaining": 14.0,
-          "mean_eligible_total": 8453.0,
-          "weight": 0.024169184290030215
-        },
-        {
-          "lobby": 330,
-          "seat": 1,
-          "archetype_key": "elemental_cycle",
-          "card": "Wildfire Elemental",
-          "card_tier": 3,
-          "entry_turn": 7,
-          "n_deals": 48,
-          "expected_raw_live": 0.4665331072623793,
-          "p_zero_live": 0.6268345069781713,
-          "mean_remaining": 13.0,
-          "mean_eligible_total": 7719.479166666667,
-          "weight": 0.08199683758753107
-        },
-        {
-          "lobby": 40,
-          "seat": 0,
-          "archetype_key": "murloc_handbuff",
-          "card": "Costume Enthusiast",
-          "card_tier": 5,
-          "entry_turn": 9,
-          "n_deals": 69,
-          "expected_raw_live": 0.4636972835277579,
-          "p_zero_live": 0.6286977333571631,
-          "mean_remaining": 9.0,
-          "mean_eligible_total": 7934.768115942029,
-          "weight": 0.08835063437139562
-        },
-        {
-          "lobby": 40,
-          "seat": 0,
-          "archetype_key": "murloc_handbuff",
-          "card": "Leeroy the Reckless",
-          "card_tier": 5,
-          "entry_turn": 9,
-          "n_deals": 69,
-          "expected_raw_live": 0.4636972835277579,
-          "p_zero_live": 0.6286977333571631,
-          "mean_remaining": 9.0,
-          "mean_eligible_total": 7934.768115942029,
-          "weight": 0.0671280276816609
-        },
-        {
-          "lobby": 427,
-          "seat": 2,
-          "archetype_key": "elemental_cycle",
-          "card": "Tavern Tempest",
-          "card_tier": 4,
-          "entry_turn": 12,
-          "n_deals": 51,
-          "expected_raw_live": 0.453888229152656,
-          "p_zero_live": 0.6348421904493915,
-          "mean_remaining": 10.980392156862745,
-          "mean_eligible_total": 7402.705882352941,
-          "weight": 0.08109329116783374
-        },
-        {
-          "lobby": 427,
-          "seat": 2,
-          "archetype_key": "elemental_cycle",
-          "card": "Heroic Underdog",
-          "card_tier": 4,
-          "entry_turn": 12,
-          "n_deals": 51,
-          "expected_raw_live": 0.450646190739476,
-          "p_zero_live": 0.6369073458026736,
-          "mean_remaining": 10.901960784313726,
-          "mean_eligible_total": 7402.705882352941,
-          "weight": 0.021459227467811162
-        },
-        {
-          "lobby": 369,
-          "seat": 2,
-          "archetype_key": "undead_butcher",
-          "card": "Risen Rider",
-          "card_tier": 1,
-          "entry_turn": 7,
-          "n_deals": 40,
-          "expected_raw_live": 0.43977705909613296,
-          "p_zero_live": 0.6438192844079041,
-          "mean_remaining": 14.8,
-          "mean_eligible_total": 7718.225,
-          "weight": 0.02857142857142857
-        },
-        {
-          "lobby": 342,
-          "seat": 3,
-          "archetype_key": "dragon_evoker",
-          "card": "Amber Guardian",
-          "card_tier": 3,
-          "entry_turn": 12,
-          "n_deals": 47,
-          "expected_raw_live": 0.43369218029102075,
-          "p_zero_live": 0.6478121395948437,
-          "mean_remaining": 13.0,
-          "mean_eligible_total": 8453.0,
-          "weight": 0.042080276219249035
-        },
-        {
-          "lobby": 396,
-          "seat": 7,
-          "archetype_key": "demon_self_damage",
-          "card": "Soul Rewinder",
-          "card_tier": 2,
-          "entry_turn": 12,
-          "n_deals": 40,
-          "expected_raw_live": 0.43088358631714624,
-          "p_zero_live": 0.6495989785106048,
-          "mean_remaining": 15.0,
-          "mean_eligible_total": 8354.925,
-          "weight": 0.09533333333333333
-        },
-        {
-          "lobby": 211,
-          "seat": 5,
-          "archetype_key": "murloc_handbuff",
-          "card": "Leeroy the Reckless",
-          "card_tier": 5,
-          "entry_turn": 9,
-          "n_deals": 67,
-          "expected_raw_live": 0.42560991741961923,
-          "p_zero_live": 0.6531398566715566,
-          "mean_remaining": 9.0,
-          "mean_eligible_total": 8369.283582089553,
-          "weight": 0.0671280276816609
-        },
-        {
-          "lobby": 21,
-          "seat": 3,
-          "archetype_key": "elemental_cycle",
-          "card": "Heroic Underdog",
-          "card_tier": 4,
-          "entry_turn": 14,
-          "n_deals": 53,
-          "expected_raw_live": 0.4204717883991238,
-          "p_zero_live": 0.6564711087551638,
-          "mean_remaining": 11.0,
-          "mean_eligible_total": 8319.22641509434,
-          "weight": 0.021459227467811162
-        },
-        {
-          "lobby": 81,
-          "seat": 0,
-          "archetype_key": "murloc_mrrglton",
-          "card": "Mama Mrrglton",
-          "card_tier": 3,
-          "entry_turn": 11,
-          "n_deals": 48,
-          "expected_raw_live": 0.41564593814293854,
-          "p_zero_live": 0.6596395476802946,
-          "mean_remaining": 13.0,
-          "mean_eligible_total": 9007.666666666666,
-          "weight": 0.09249817916970139
-        },
-        {
-          "lobby": 398,
-          "seat": 7,
-          "archetype_key": "elemental_cycle",
-          "card": "Meteorite Crasher",
-          "card_tier": 3,
-          "entry_turn": 9,
-          "n_deals": 46,
-          "expected_raw_live": 0.4129868599042493,
-          "p_zero_live": 0.6613831840985279,
-          "mean_remaining": 13.0,
-          "mean_eligible_total": 8492.478260869566,
-          "weight": 0.024169866726903095
-        },
-        {
-          "lobby": 330,
-          "seat": 1,
-          "archetype_key": "elemental_cycle",
-          "card": "Meteorite Crasher",
-          "card_tier": 3,
-          "entry_turn": 7,
-          "n_deals": 48,
-          "expected_raw_live": 0.40249131744885625,
-          "p_zero_live": 0.6683714062166434,
-          "mean_remaining": 11.229166666666666,
-          "mean_eligible_total": 7719.479166666667,
-          "weight": 0.024169866726903095
-        }
-      ],
-      "note": "Primary calibration is primary_unconditioned. missing_final_biased matches the 2L-style cohort but understates hits because bought cores leave the missing-final set. a3_zero_raw compares live P_zero to the definitionally-zero A3 cohort."
+      "n_deal_card_observations": 10925,
+      "note": "2m_v2 primary = deal-level \u03a3E(raw)/\u03a3P(hit) vs observed, with lobby-clustered bootstrap. Entry-turn deals excluded. Adaptive whole-window product(P_zero) is descriptive only."
     },
     "headlines": {
       "pct_cores_missing_from_kb": 0.24561403508771928,
       "pct_cores_in_exact_catalogue": 0.7412280701754386,
       "n_demonstrated_rule_mismatches": 5,
-      "live_observed_zero_offer_rate": 0.7454545454545455,
-      "live_expected_zero_offer_rate": 0.7993691408325332,
-      "live_sum_expected_raw": 89.25779267199502,
-      "live_sum_observed_raw": 111.0,
-      "a3_observed_zero_offer_rate": 0.98828125,
-      "a3_expected_zero_offer_rate": 0.8091999290940555,
+      "n_phase_2n_actionable_mismatches": 3,
+      "live_sum_expected_raw": 74.86883120790482,
+      "live_sum_observed_raw": 60.0,
+      "live_sum_expected_hit_probability": 74.66285348723291,
+      "live_sum_observed_hit_deals": 60.0,
+      "live_raw_ratio_obs_over_exp": 0.801401585038569,
+      "live_hit_ratio_obs_over_exp": 0.8036124685518454,
+      "live_n_deal_card_observations": 10925,
+      "a3_descriptive_observed_zero_rate": 1.0,
+      "a3_descriptive_adaptive_expected_zero_rate": 0.8197415746678299,
       "phase_2l_a3_share": 0.6279175991670971,
       "phase_2l_a1_share": 0.3720824008329017,
       "phase_2l_a4_share": 0.0
@@ -2515,7 +569,7 @@
   },
   "decision": {
     "decision_branch": "multiple_substantial_mismatches",
-    "recommended_next_step": "Phase 2N: fix independently in scoped interventions \u2014 do not bundle into one 'better shops' patch. Order by mass impact: catalogue/KB sync (A1), then lifecycle accounting (death return / freeze top-up), then copy counts, then re-measure live calib.",
+    "recommended_next_step": "Phase 2N: fix independently in scoped interventions \u2014 do not bundle into one 'better shops' patch. Order by mass impact: catalogue/KB sync (A1; classify missing cores against current active pool before adding), then lifecycle accounting (death return / freeze top-up), then T6 copy counts, then re-measure deal-level live calib. Contextual/out-of-scope (not 2N bugs): ['shop_slots_vs_spell_era', 'no_tier_7'].",
     "substantial_areas": [
       "catalogue_kb",
       "copy_counts",
@@ -2528,10 +582,26 @@
       "freeze_no_topup",
       "no_tier_7"
     ],
+    "phase_2n_actionable_ids": [
+      "pool_copies_tier_6",
+      "elimination_no_return_to_pool",
+      "freeze_no_topup"
+    ],
+    "contextual_ids": [
+      "shop_slots_vs_spell_era",
+      "no_tier_7"
+    ],
     "n_demonstrated_rule_mismatches": 5,
-    "zero_rate_gap": -0.053914595377987706,
-    "live_consistent": true,
+    "n_phase_2n_actionable_mismatches": 3,
+    "raw_ratio_obs_over_exp": 0.801401585038569,
+    "hit_ratio_obs_over_exp": 0.8036124685518454,
+    "live_consistent": false,
     "live_surprising": false,
+    "lobby_raw_mean_obs_minus_exp": -0.39128503178697005,
+    "lobby_raw_ci95": [
+      -0.7877893938653454,
+      -0.003354411025189358
+    ],
     "phase_2l_a1_share": 0.3720824008329017,
     "phase_2l_a3_share": 0.6279175991670971,
     "pct_cores_missing_from_kb": 0.24561403508771928,
@@ -2539,22 +609,29 @@
       "pct_cores_missing_from_kb": 0.24561403508771928,
       "pct_cores_in_exact_catalogue": 0.7412280701754386,
       "n_demonstrated_rule_mismatches": 5,
-      "live_observed_zero_offer_rate": 0.7454545454545455,
-      "live_expected_zero_offer_rate": 0.7993691408325332,
-      "live_sum_expected_raw": 89.25779267199502,
-      "live_sum_observed_raw": 111.0,
-      "a3_observed_zero_offer_rate": 0.98828125,
-      "a3_expected_zero_offer_rate": 0.8091999290940555,
+      "n_phase_2n_actionable_mismatches": 3,
+      "live_sum_expected_raw": 74.86883120790482,
+      "live_sum_observed_raw": 60.0,
+      "live_sum_expected_hit_probability": 74.66285348723291,
+      "live_sum_observed_hit_deals": 60.0,
+      "live_raw_ratio_obs_over_exp": 0.801401585038569,
+      "live_hit_ratio_obs_over_exp": 0.8036124685518454,
+      "live_n_deal_card_observations": 10925,
+      "a3_descriptive_observed_zero_rate": 1.0,
+      "a3_descriptive_adaptive_expected_zero_rate": 0.8197415746678299,
       "phase_2l_a3_share": 0.6279175991670971,
       "phase_2l_a1_share": 0.3720824008329017,
       "phase_2l_a4_share": 0.0
     },
     "live_calibration_summary": {
-      "n_card_windows": 385,
-      "observed_zero_offer_rate": 0.7454545454545455,
-      "expected_zero_offer_rate": 0.7993691408325332,
-      "sum_expected_raw_live": 89.25779267199502,
-      "sum_observed_raw": 111.0
+      "n_deal_card_observations": 10925,
+      "sum_expected_raw": 74.86883120790482,
+      "sum_observed_raw": 60.0,
+      "sum_expected_hit_probability": 74.66285348723291,
+      "sum_observed_hit_deals": 60.0,
+      "raw_ratio_obs_over_exp": 0.801401585038569,
+      "hit_ratio_obs_over_exp": 0.8036124685518454,
+      "post_assembly_deal_boundary": "turn > entry_turn"
     }
   },
   "contract": {
@@ -2562,7 +639,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "fd9076cf1e057907027fa8b5c98ce68204dd8823",
+    "code_commit": "563e5aff4e149ef3fe292d617a60c915e8ba28e1",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -2609,7 +686,7 @@
     "parent_simulator_version": "Simulator v1",
     "working_tree_clean": true,
     "phase": "2M shop/pool rules audit",
-    "phase_2m_methodology_version": "2m_v1",
+    "phase_2m_methodology_version": "2m_v2",
     "phase_2j_methodology_version": "2j_v1",
     "frozen_alpha": 0.5,
     "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
