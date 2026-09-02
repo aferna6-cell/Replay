@@ -36,6 +36,12 @@ def raw_stats(m: Dict) -> float:
 
 
 def minion_key(m: Dict) -> Tuple:
+    """Identity for survival matching across turns (stats scale; names do not)."""
+    return (m.get("name"), bool(m.get("golden")))
+
+
+def minion_feature_key_parts(m: Dict) -> Tuple:
+    """Optional richer identity; survival matching uses ``minion_key`` only."""
     return (
         m.get("name"),
         int(m.get("attack") or 0),
