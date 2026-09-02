@@ -1,0 +1,7 @@
+{
+  "status": "invalidated",
+  "methodology_version": "2h_v1",
+  "reason": "Treatment trace lobby-ID collapse (all lobbies recorded as lobby=0) and incomplete compound sell\u2192play/buy transition semantics.",
+  "confirmation_seeds": "4000\u20134199",
+  "do_not_use_for_decisions": true
+}

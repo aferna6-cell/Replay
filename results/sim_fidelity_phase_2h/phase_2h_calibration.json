@@ -1,0 +1,93 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2H tempo-aware board management",
+  "methodology_version": "2h_v3",
+  "implementation_commit": "d4008bb321c8be3aff4e36d4f4f338995474b76a",
+  "working_tree_clean": true,
+  "runtime_seconds": 2695.87,
+  "screen": {
+    "candidates": [
+      {
+        "lambda_build": 12,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.010824240054907458,
+        "action_deviation_rate": 0.0614115490375802,
+        "fulfilled_exposures": 0,
+        "played_fulfilled": 0,
+        "phase": "screen"
+      },
+      {
+        "lambda_build": 8,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.010824240054907458,
+        "action_deviation_rate": 0.061592834403496464,
+        "fulfilled_exposures": 0,
+        "played_fulfilled": 0,
+        "phase": "screen"
+      },
+      {
+        "lambda_build": 4,
+        "macro_ok": true,
+        "reached_2_core": 0,
+        "committed_states": 0,
+        "coverage_mean": 0.010403437292714968,
+        "action_deviation_rate": 0.06184593807314705,
+        "fulfilled_exposures": 0,
+        "played_fulfilled": 0,
+        "phase": "screen"
+      }
+    ]
+  },
+  "replication": {
+    "candidates": [
+      {
+        "lambda_build": 12,
+        "macro_ok": true,
+        "reached_2_core": 1,
+        "committed_states": 1,
+        "coverage_mean": 0.008184901476174393,
+        "action_deviation_rate": 0.06132257736501373,
+        "fulfilled_exposures": 2,
+        "played_fulfilled": 1,
+        "phase": "replication"
+      },
+      {
+        "lambda_build": 8,
+        "macro_ok": true,
+        "reached_2_core": 1,
+        "committed_states": 1,
+        "coverage_mean": 0.007186250806204514,
+        "action_deviation_rate": 0.061139931509171665,
+        "fulfilled_exposures": 2,
+        "played_fulfilled": 1,
+        "phase": "replication"
+      }
+    ],
+    "frozen_lambda_build": 12
+  },
+  "frozen_policy_config": {
+    "policy_id": "tempo_board_greedy_policy",
+    "methodology_version": "2h_v3",
+    "purpose": "Phase 2H realistic tempo-aware board-management candidate",
+    "lambda_build": 12,
+    "seeded_trigger": "infer_target(board).core_have >= 1",
+    "transition_model": "candidate_value = raw_stats + lambda_build * candidate_build_gain; replacement_cost = repl_raw + lambda_build * repl_build_value; net = candidate_value - replacement_cost; commit only if net > 0; hand full-board: sell\u2192play; shop full-board: sell\u2192buy\u2192play",
+    "acquisition_gain": "missing core vs board+hand (shop buys)",
+    "deployment_gain": "missing core vs board only (hand\u2192board)",
+    "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
+    "control_policy_id": "greedy_policy",
+    "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "calibration_screen": "seeds 3000\u20133099",
+    "calibration_replication": "seeds 3100\u20133499",
+    "confirmation": "seeds 6000\u20136199",
+    "invalidated_v1_confirmation": "seeds 4000\u20134199 (lobby-ID collapse + non-atomic transitions)",
+    "invalidated_v2_confirmation": "seeds 5000\u20135199 (incorrect shop compound + cross-lobby state + dirty confirmation)"
+  },
+  "frozen_policy_config_hash_sha256": "ce2a3922241f7781f087f9c1914981b895098e648d426a7866fc4c2b50876b2a",
+  "invalidated_v1_note": "Prior confirmation on seeds 4000\u20134199 invalidated; see invalidated_v1/",
+  "invalidated_v2_note": "Prior confirmation on seeds 5000\u20135199 invalidated; see invalidated_v2/"
+}
