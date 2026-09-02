@@ -1,0 +1,159 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2J board-relative opportunity-cost policy",
+  "methodology_version": "2j_v1",
+  "implementation_commit": "115abbfbc5df5861cab99a47f70eb25cf40456d2",
+  "working_tree_clean": true,
+  "runtime_seconds": 2642.72,
+  "screen": {
+    "greedy_reached_2_core": 0,
+    "greedy_fulfilled": 0,
+    "candidates": [
+      {
+        "alpha": 0.5,
+        "macro_ok": true,
+        "board_sacrifice_ok": true,
+        "reached_2_core": 13,
+        "committed_states": 13,
+        "fulfilled_exposures": 23,
+        "coverage_mean": 0.027077454269594382,
+        "action_deviation_rate": 0.08215385484645592,
+        "played_fulfilled": 23,
+        "mean_relative_tempo_loss": 0.04284432474043734,
+        "p95_relative_tempo_loss": 0.07786633966891478,
+        "replacement_transitions": 30,
+        "mean_persistence_weight": 0.9584884826860331,
+        "tier_breakdown": {
+          "tier_le4": {},
+          "tier_5": {},
+          "tier_6": {}
+        },
+        "phase": "screen"
+      },
+      {
+        "alpha": 1.0,
+        "macro_ok": true,
+        "board_sacrifice_ok": true,
+        "reached_2_core": 13,
+        "committed_states": 13,
+        "fulfilled_exposures": 23,
+        "coverage_mean": 0.027077454269594382,
+        "action_deviation_rate": 0.08215385484645592,
+        "played_fulfilled": 23,
+        "mean_relative_tempo_loss": 0.03952236854383108,
+        "p95_relative_tempo_loss": 0.07233074448889935,
+        "replacement_transitions": 29,
+        "mean_persistence_weight": 0.9570570510545171,
+        "tier_breakdown": {
+          "tier_le4": {},
+          "tier_5": {},
+          "tier_6": {}
+        },
+        "phase": "screen"
+      },
+      {
+        "alpha": 2.0,
+        "macro_ok": true,
+        "board_sacrifice_ok": true,
+        "reached_2_core": 13,
+        "committed_states": 13,
+        "fulfilled_exposures": 23,
+        "coverage_mean": 0.02695281380938345,
+        "action_deviation_rate": 0.08215385484645592,
+        "played_fulfilled": 23,
+        "mean_relative_tempo_loss": 0.03307161056281596,
+        "p95_relative_tempo_loss": 0.058725497976351085,
+        "replacement_transitions": 29,
+        "mean_persistence_weight": 0.9553360657697341,
+        "tier_breakdown": {
+          "tier_le4": {},
+          "tier_5": {},
+          "tier_6": {}
+        },
+        "phase": "screen"
+      }
+    ]
+  },
+  "replication": {
+    "candidates": [
+      {
+        "alpha": 0.5,
+        "macro_ok": true,
+        "board_sacrifice_ok": true,
+        "reached_2_core": 29,
+        "committed_states": 20,
+        "fulfilled_exposures": 51,
+        "coverage_mean": 0.017300127160000005,
+        "action_deviation_rate": 0.0734670535066674,
+        "played_fulfilled": 51,
+        "mean_relative_tempo_loss": 0.05543299260208427,
+        "p95_relative_tempo_loss": 0.12078398364696687,
+        "replacement_transitions": 122,
+        "mean_persistence_weight": 0.9574667144422176,
+        "tier_breakdown": {
+          "tier_le4": {},
+          "tier_5": {},
+          "tier_6": {}
+        },
+        "phase": "replication"
+      },
+      {
+        "alpha": 1.0,
+        "macro_ok": true,
+        "board_sacrifice_ok": true,
+        "reached_2_core": 29,
+        "committed_states": 20,
+        "fulfilled_exposures": 50,
+        "coverage_mean": 0.017309468496024178,
+        "action_deviation_rate": 0.07346870467477407,
+        "played_fulfilled": 50,
+        "mean_relative_tempo_loss": 0.052376870192134974,
+        "p95_relative_tempo_loss": 0.11120519333897827,
+        "replacement_transitions": 119,
+        "mean_persistence_weight": 0.9562822542088123,
+        "tier_breakdown": {
+          "tier_le4": {},
+          "tier_5": {},
+          "tier_6": {}
+        },
+        "phase": "replication"
+      }
+    ],
+    "frozen_alpha": 0.5
+  },
+  "frozen_policy_config": {
+    "policy_id": "board_opportunity_cost_policy",
+    "methodology_version": "2j_v1",
+    "purpose": "Phase 2J board-relative multi-turn opportunity-cost policy",
+    "alpha": 0.5,
+    "lambda_build": null,
+    "seeded_trigger": "infer_target(board).core_have >= 1",
+    "transition_model": "raw_loss=max(0,repl_raw-cand_raw); relative_tempo_loss=raw_loss/max(board_total_raw,1); opportunity_cost=relative_tempo_loss*persistence_weight; build_delta=cand_build-repl_build; score=build_delta-alpha*opportunity_cost; commit iff score>0; free-slot opportunity_cost=0; hand full-board: sell\u2192play; shop full-board: sell\u2192buy\u2192play",
+    "persistence_prior": {
+      "methodology_version": "2j_v1",
+      "survival_horizon": 2,
+      "weight_1": 0.5,
+      "weight_2": 0.5,
+      "fit_seed_base": 7000,
+      "fit_lobbies": 300,
+      "n_cells": 18,
+      "global_p_survive_1": 0.9890604074152393,
+      "global_p_survive_2": 0.9757806442517798
+    },
+    "acquisition_gain": "missing core vs board+hand (shop buys)",
+    "deployment_gain": "missing core vs board only (hand\u2192board)",
+    "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
+    "control_policy_id": "greedy_policy",
+    "oracle_upper_bound_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "persistence_fit": "seeds 7000\u20137299",
+    "calibration_screen": "seeds 7300\u20137399",
+    "calibration_replication": "seeds 7400\u20137799",
+    "confirmation": "seeds 8000\u20138199",
+    "alpha_candidates": [
+      0.5,
+      1.0,
+      2.0
+    ]
+  },
+  "frozen_policy_config_hash_sha256": "53d00dce75d5e59b104d39011a9253d590d7b7e7aada24035911431f7b5f9cf0"
+}
