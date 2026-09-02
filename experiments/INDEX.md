@@ -33,7 +33,8 @@ tuning on the current simulator.
 | 2G | [`sim_fidelity_phase_2g.md`](sim_fidelity_phase_2g.md) | Seeded-core deployment board-slot stress test **merged** |
 | 2H | [`sim_fidelity_phase_2h.md`](sim_fidelity_phase_2h.md) | Tempo board policy **merged (negative, 2h_v3)** |
 | 2I | [`sim_fidelity_phase_2i.md`](sim_fidelity_phase_2i.md) | Seeded opportunity decision-margin diagnostic (**merged 2i_v2**) |
-| 2J | [`sim_fidelity_phase_2j.md`](sim_fidelity_phase_2j.md) | Board-relative opportunity-cost policy (**ACCEPT α=0.5**) |
+| 2J | [`sim_fidelity_phase_2j.md`](sim_fidelity_phase_2j.md) | Board-relative opportunity-cost policy (**merged ACCEPT α=0.5**) |
+| 2K | [`sim_fidelity_phase_2k.md`](sim_fidelity_phase_2k.md) | Post-assembly gap (**92% never-available → pool fidelity**) |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
