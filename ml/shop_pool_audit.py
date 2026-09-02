@@ -9,7 +9,6 @@ Does **not** change pool/shop behavior — only observational hooks + analysis.
 
 from __future__ import annotations
 
-import math
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Set, Tuple
@@ -32,7 +31,7 @@ from ml.availability_decomposition import (
 )
 from ml.composition_trace import RecruitTracer
 
-METHODOLOGY_VERSION = "2m_v1"
+METHODOLOGY_VERSION = "2m_v2"
 
 # Reuse Phase 2L diagnostic DEV for continuity (measurement only).
 PHASE_2L_SEED = 10200
@@ -81,6 +80,26 @@ def p_zero_live_deal(card_remaining: int, eligible_total: int,
         rem_other -= 1.0
         rem_total -= 1.0
     return float(p)
+
+
+def p_hit_live_deal(card_remaining: int, eligible_total: int,
+                    n_slots: int) -> float:
+    """P(card appears ≥1 time in a without-replacement deal)."""
+    return 1.0 - p_zero_live_deal(card_remaining, eligible_total, n_slots)
+
+
+def is_post_assembly_deal(deal_turn: int, entry_turn: int) -> bool:
+    """True iff the deal occurs strictly after the first-2 cohort entry turn.
+
+    Phase 2L entry is the *end* of the first recruit turn that finishes with
+    2+ cores. Shops on the entry turn itself are pre-assembly (and positively
+    selected — they may be the shop that offered the assembling core).
+    """
+    return int(deal_turn) > int(entry_turn)
+
+
+def filter_post_assembly_deals(deals: List[Dict], entry_turn: int) -> List[Dict]:
+    return [d for d in deals if is_post_assembly_deal(d.get("turn", -1), entry_turn)]
 
 
 def expected_raw_live_deal(card_remaining: int, eligible_total: int,
@@ -193,7 +212,7 @@ def audit_pool_contract() -> Dict:
 
 
 def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
-    """Enumerate demonstrated simulator↔rules mismatches (document only)."""
+    """Enumerate simulator↔rules diffs; separate actionable vs contextual."""
     contract = contract or audit_pool_contract()
     sim_copies = contract["simulator"]["POOL_COPIES"]
     ref_copies = contract["reference_current_bg"]["POOL_COPIES"]
@@ -208,6 +227,7 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
                 "simulator": s,
                 "reference": r,
                 "mismatch": True,
+                "phase_2n_actionable": True,
                 "note": f"Tier {tier} copy count differs",
             })
 
@@ -220,6 +240,7 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
         "simulator": dict(sim_slots),
         "reference": dict(ref_classic),
         "mismatch": sim_slots != ref_classic,
+        "phase_2n_actionable": False,
         "note": (
             "Matches classic minion-only table. Modern taverns also offer "
             "spells with larger card counts — sim has no tavern spells."),
@@ -230,7 +251,11 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
         "simulator": dict(sim_slots),
         "reference": dict(ref_spells),
         "mismatch": sim_slots != ref_spells,
-        "note": "Spell-era sizes differ; relevant only if 2N adds spells.",
+        "phase_2n_actionable": False,
+        "severity": "contextual",
+        "note": (
+            "Spell-era tavern card counts differ. Contextual/out-of-scope "
+            "until the simulator models tavern spells."),
     })
     mismatches.append({
         "id": "elimination_no_return_to_pool",
@@ -238,6 +263,7 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
         "simulator": "no return of board/hand/shop on death",
         "reference": "eliminated players' minions expected to return to pool",
         "mismatch": True,
+        "phase_2n_actionable": True,
         "note": "Concrete accounting divergence",
     })
     mismatches.append({
@@ -246,6 +272,7 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
         "simulator": "frozen shop kept as-is; no top-up",
         "reference": "incomplete freeze / tier-up tops up new slots",
         "mismatch": True,
+        "phase_2n_actionable": True,
         "note": "Documented behavioral mismatch",
     })
     mismatches.append({
@@ -254,15 +281,25 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
         "simulator": "MAX_TIER=6; no T7",
         "reference": "T7 exists in some modes (5 copies)",
         "mismatch": True,
-        "note": "Out of scope unless lobby mode requires T7",
+        "phase_2n_actionable": False,
+        "severity": "contextual",
+        "note": (
+            "Contextual/out-of-scope for a deliberate standard Tier-6 "
+            "simulator; do not add T7 solely to match a global table."),
     })
 
     demonstrated = [m for m in mismatches if m["mismatch"]]
+    actionable = [m for m in demonstrated if m.get("phase_2n_actionable")]
+    contextual = [m for m in demonstrated if not m.get("phase_2n_actionable")]
     return {
         "n_documented_checks": len(mismatches),
         "n_demonstrated_mismatches": len(demonstrated),
+        "n_phase_2n_actionable": len(actionable),
+        "n_contextual_out_of_scope": len(contextual),
         "mismatches": mismatches,
         "demonstrated_ids": [m["id"] for m in demonstrated],
+        "phase_2n_actionable_ids": [m["id"] for m in actionable],
+        "contextual_ids": [m["id"] for m in contextual],
     }
 
 
@@ -346,6 +383,28 @@ def run_board_opp_with_pool_audit(
 
 
 @dataclass
+class DealObservation:
+    """One (card × deal) conditional prediction under the exact pre-deal pool."""
+    lobby: int
+    seat: int
+    archetype_key: str
+    card: str
+    card_tier: int
+    entry_turn: int
+    deal_turn: int
+    deal_reason: str
+    expected_raw: float
+    p_hit: float
+    observed_raw: int
+    observed_hit: int
+    card_remaining: int
+    eligible_total: int
+    n_slots: int
+    present_final: bool
+    subfate: Optional[str]
+
+
+@dataclass
 class CardWindowLive:
     lobby: int
     seat: int
@@ -357,7 +416,7 @@ class CardWindowLive:
     n_tier_eligible_deals: int = 0
     n_raw_appearances: int = 0
     expected_raw_live: float = 0.0
-    p_zero_live: float = 1.0
+    p_zero_live: float = 1.0  # descriptive only — adaptive product
     mean_remaining_at_deal: float = 0.0
     mean_eligible_total: float = 0.0
     remaining_sum: float = 0.0
@@ -365,7 +424,7 @@ class CardWindowLive:
 
 
 def _iter_post_assembly_states(traces: Dict):
-    """Yield (rec, deals_on_or_after_entry) for each 2L post-assembly state."""
+    """Yield (rec, deals_strictly_after_entry) for each 2L post-assembly state."""
     deals_by_ls: Dict[Tuple[int, int], List[Dict]] = defaultdict(list)
     for d in traces.get("deal_events") or []:
         if d.get("frozen_skip"):
@@ -376,13 +435,48 @@ def _iter_post_assembly_states(traces: Dict):
     for rec in avail["state_records"]:
         lobby, seat = rec["lobby"], rec["seat"]
         entry = int(rec["entry_turn"])
-        deals = [d for d in deals_by_ls.get((lobby, seat), [])
-                 if int(d["turn"]) >= entry]
+        deals = filter_post_assembly_deals(
+            deals_by_ls.get((lobby, seat), []), entry)
         yield rec, deals, avail
+
+
+def _collect_deal_observations(
+        rec: Dict, name: str, c: Dict, deals: List[Dict]
+) -> List[DealObservation]:
+    if not c.get("in_exact_catalogue"):
+        return []
+    ct = c.get("card_tier")
+    if ct is None:
+        return []
+    out: List[DealObservation] = []
+    for d in deals:
+        tavern = int(d["tavern_tier"])
+        if tavern < int(ct):
+            continue
+        rem = int((d.get("card_remaining") or {}).get(name, 0))
+        tot = int(d.get("eligible_total_copies") or 0)
+        n_slots = int(d.get("n_slots") or 0)
+        dealt = d.get("dealt_names") or []
+        obs_raw = sum(1 for x in dealt if x == name)
+        out.append(DealObservation(
+            lobby=rec["lobby"], seat=rec["seat"],
+            archetype_key=rec["archetype_key"], card=name,
+            card_tier=int(ct), entry_turn=int(rec["entry_turn"]),
+            deal_turn=int(d["turn"]), deal_reason=str(d.get("reason") or ""),
+            expected_raw=expected_raw_live_deal(rem, tot, n_slots),
+            p_hit=p_hit_live_deal(rem, tot, n_slots),
+            observed_raw=int(obs_raw),
+            observed_hit=1 if obs_raw >= 1 else 0,
+            card_remaining=rem, eligible_total=tot, n_slots=n_slots,
+            present_final=bool(c.get("present_final")),
+            subfate=c.get("subfate"),
+        ))
+    return out
 
 
 def _window_from_deals(rec: Dict, name: str, c: Dict, deals: List[Dict]
                        ) -> Optional[CardWindowLive]:
+    """Descriptive card-window aggregate (adaptive P_zero is secondary only)."""
     if not c.get("in_exact_catalogue"):
         return None
     ct = c.get("card_tier")
@@ -415,135 +509,225 @@ def _window_from_deals(rec: Dict, name: str, c: Dict, deals: List[Dict]
     return w
 
 
-def _summarize_windows(windows: List[CardWindowLive], cohort: str) -> Dict:
+def _lobby_bootstrap_ci(
+        lobby_deltas: List[float], n_boot: int = 2000, seed: int = 2
+) -> Dict:
+    """Percentile bootstrap CI for the mean of per-lobby deltas."""
+    import random
+    if not lobby_deltas:
+        return {"n_lobbies": 0, "mean": None, "ci95": [None, None]}
+    rng = random.Random(seed)
+    n = len(lobby_deltas)
+    means = []
+    for _ in range(n_boot):
+        sample = [lobby_deltas[rng.randrange(n)] for _ in range(n)]
+        means.append(sum(sample) / n)
+    means.sort()
+    lo = means[int(0.025 * n_boot)]
+    hi = means[min(n_boot - 1, int(0.975 * n_boot))]
+    return {
+        "n_lobbies": n,
+        "mean": sum(lobby_deltas) / n,
+        "ci95": [lo, hi],
+    }
+
+
+def _summarize_deal_level(obs: List[DealObservation], cohort: str) -> Dict:
+    """Primary calibration: per-deal conditional E[raw]/P(hit) vs observed."""
+    n = len(obs)
+    if n == 0:
+        return {
+            "cohort": cohort,
+            "n_deal_card_observations": 0,
+            "sum_expected_raw": 0.0,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 0.0,
+            "sum_observed_hit_deals": 0,
+            "raw_ratio_obs_over_exp": None,
+            "hit_ratio_obs_over_exp": None,
+            "lobby_clustered": {},
+            "by_card_tier": {},
+        }
+
+    sum_exp_raw = sum(o.expected_raw for o in obs)
+    sum_obs_raw = float(sum(o.observed_raw for o in obs))
+    sum_exp_hit = sum(o.p_hit for o in obs)
+    sum_obs_hit = float(sum(o.observed_hit for o in obs))
+
+    # Per-lobby aggregates for clustered inference
+    by_lobby: Dict[int, Dict[str, float]] = defaultdict(
+        lambda: {"exp_raw": 0.0, "obs_raw": 0.0, "exp_hit": 0.0, "obs_hit": 0.0})
+    for o in obs:
+        b = by_lobby[o.lobby]
+        b["exp_raw"] += o.expected_raw
+        b["obs_raw"] += o.observed_raw
+        b["exp_hit"] += o.p_hit
+        b["obs_hit"] += o.observed_hit
+
+    raw_deltas = [b["obs_raw"] - b["exp_raw"] for b in by_lobby.values()]
+    hit_deltas = [b["obs_hit"] - b["exp_hit"] for b in by_lobby.values()]
+
+    def _tier_bucket():
+        groups: Dict[str, List[DealObservation]] = defaultdict(list)
+        for o in obs:
+            groups[str(o.card_tier)].append(o)
+        out = {}
+        for k, xs in sorted(groups.items()):
+            er = sum(x.expected_raw for x in xs)
+            or_ = float(sum(x.observed_raw for x in xs))
+            eh = sum(x.p_hit for x in xs)
+            oh = float(sum(x.observed_hit for x in xs))
+            out[k] = {
+                "n": len(xs),
+                "sum_expected_raw": er,
+                "sum_observed_raw": or_,
+                "sum_expected_hit_probability": eh,
+                "sum_observed_hit_deals": oh,
+            }
+        return out
+
+    return {
+        "cohort": cohort,
+        "n_deal_card_observations": n,
+        "n_lobbies": len(by_lobby),
+        "sum_expected_raw": sum_exp_raw,
+        "sum_observed_raw": sum_obs_raw,
+        "sum_expected_hit_probability": sum_exp_hit,
+        "sum_observed_hit_deals": sum_obs_hit,
+        "raw_ratio_obs_over_exp": (
+            sum_obs_raw / sum_exp_raw if sum_exp_raw > 1e-12 else None),
+        "hit_ratio_obs_over_exp": (
+            sum_obs_hit / sum_exp_hit if sum_exp_hit > 1e-12 else None),
+        "lobby_clustered": {
+            "raw_obs_minus_exp": _lobby_bootstrap_ci(raw_deltas),
+            "hit_obs_minus_exp": _lobby_bootstrap_ci(hit_deltas),
+            "note": (
+                "Bootstrap mean(obs−exp) across lobbies; CI accounts for "
+                "within-lobby correlation of card×deal observations."),
+        },
+        "by_card_tier": _tier_bucket(),
+    }
+
+
+def _summarize_windows_descriptive(windows: List[CardWindowLive],
+                                   cohort: str) -> Dict:
+    """Secondary/descriptive card-window metrics (adaptive P_zero not primary)."""
     n = len(windows)
     if n == 0:
         return {
             "cohort": cohort,
+            "role": "descriptive_secondary",
             "n_card_windows": 0,
             "sum_expected_raw_live": 0.0,
             "sum_observed_raw": 0.0,
-            "expected_windows_with_ge1": 0.0,
-            "observed_windows_with_ge1": 0,
             "observed_zero_offer_rate": None,
-            "expected_zero_offer_rate": None,
-            "log_prob_all_observed_zeros": None,
-            "by_card_tier": {},
-            "by_archetype": {},
-            "by_entry_turn": {},
-            "most_surprising_zeros": [],
+            "adaptive_product_expected_zero_rate": None,
+            "note": (
+                "Adaptive product(P_zero) along the realized trajectory is "
+                "not an ex-ante zero probability when hits change later pool "
+                "state; deal-level calibration is primary."),
         }
 
-    sum_exp = sum(w.expected_raw_live for w in windows)
-    sum_obs = float(sum(w.n_raw_appearances for w in windows))
-    exp_ge1 = sum(1.0 - w.p_zero_live for w in windows)
-    obs_ge1 = sum(1 for w in windows if w.n_raw_appearances >= 1)
     zero_obs = sum(1 for w in windows if w.n_raw_appearances == 0)
-    mean_p_zero = sum(w.p_zero_live for w in windows) / n
-    log_p = sum(math.log(max(w.p_zero_live, 1e-300)) for w in windows)
-
-    def _bucket(key_fn):
-        groups: Dict[str, List[CardWindowLive]] = defaultdict(list)
-        for w in windows:
-            groups[str(key_fn(w))].append(w)
-        out = {}
-        for k, ws in sorted(groups.items()):
-            nn = len(ws)
-            out[k] = {
-                "n": nn,
-                "sum_expected_raw": sum(x.expected_raw_live for x in ws),
-                "sum_observed_raw": sum(x.n_raw_appearances for x in ws),
-                "observed_zero_rate": sum(
-                    1 for x in ws if x.n_raw_appearances == 0) / nn,
-                "expected_zero_rate": sum(x.p_zero_live for x in ws) / nn,
-                "mean_remaining": sum(x.mean_remaining_at_deal for x in ws) / nn,
-            }
-        return out
-
-    surprising = sorted(
-        [w for w in windows if w.n_raw_appearances == 0],
-        key=lambda w: w.p_zero_live)[:25]
-
     return {
         "cohort": cohort,
+        "role": "descriptive_secondary",
         "n_card_windows": n,
-        "sum_expected_raw_live": sum_exp,
-        "sum_observed_raw": sum_obs,
-        "expected_windows_with_ge1": exp_ge1,
-        "observed_windows_with_ge1": obs_ge1,
+        "sum_expected_raw_live": sum(w.expected_raw_live for w in windows),
+        "sum_observed_raw": float(sum(w.n_raw_appearances for w in windows)),
         "observed_zero_offer_rate": zero_obs / n,
-        "expected_zero_offer_rate": mean_p_zero,
-        "log_prob_all_observed_zeros": log_p,
-        "by_card_tier": _bucket(lambda w: w.card_tier),
-        "by_archetype": _bucket(lambda w: w.archetype_key),
-        "by_entry_turn": _bucket(lambda w: w.entry_turn),
-        "most_surprising_zeros": [
-            {
-                "lobby": w.lobby, "seat": w.seat,
-                "archetype_key": w.archetype_key, "card": w.card,
-                "card_tier": w.card_tier, "entry_turn": w.entry_turn,
-                "n_deals": w.n_tier_eligible_deals,
-                "expected_raw_live": w.expected_raw_live,
-                "p_zero_live": w.p_zero_live,
-                "mean_remaining": w.mean_remaining_at_deal,
-                "mean_eligible_total": w.mean_eligible_total,
-                "weight": w.weight,
-            }
-            for w in surprising
-        ],
+        "adaptive_product_expected_zero_rate": (
+            sum(w.p_zero_live for w in windows) / n),
+        "note": (
+            "observed_zero_offer_rate is descriptive. "
+            "adaptive_product_expected_zero_rate is demoted — not a clean "
+            "ex-ante P(zero) under adaptive pool trajectories."),
     }
 
 
 def calibrate_live_pool(traces: Dict) -> Dict:
-    """Live-pool calibration with explicit cohort definitions.
+    """2m_v2 live-pool calibration.
 
-    * ``unconditioned``: all exact-catalogue cores on post-assembly states
-      with ≥1 tier-eligible deal (includes cards that end present_final).
-      This is the valid sampler check — not biased by buy/keep selection.
-    * ``missing_final``: subset with present_final=False (selection-biased;
-      reported for continuity with 2L only).
-    * ``a3_zero_raw``: Phase 2L A3 windows — observed zero rate is 1 by
-      definition; compare to mean live ``P_zero``.
+    Primary: deal-level conditional predictions (exact pre-deal pool state).
+    Post-assembly deals use ``turn > entry_turn`` only.
     """
-    uncond: List[CardWindowLive] = []
-    missing: List[CardWindowLive] = []
-    a3: List[CardWindowLive] = []
+    uncond_obs: List[DealObservation] = []
+    missing_obs: List[DealObservation] = []
+    a3_obs: List[DealObservation] = []
+    uncond_win: List[CardWindowLive] = []
+    a3_win: List[CardWindowLive] = []
+    n_entry_turn_deals_excluded = 0
+
+    # Count excluded entry-turn deals for integrity reporting
+    deals_by_ls: Dict[Tuple[int, int], List[Dict]] = defaultdict(list)
+    for d in traces.get("deal_events") or []:
+        if d.get("frozen_skip"):
+            continue
+        deals_by_ls[(d["lobby"], d["seat"])].append(d)
 
     for rec, deals, _avail in _iter_post_assembly_states(traces):
+        entry = int(rec["entry_turn"])
+        all_deals = deals_by_ls.get((rec["lobby"], rec["seat"]), [])
+        n_entry_turn_deals_excluded += sum(
+            1 for d in all_deals if int(d["turn"]) == entry)
+
         for name, c in (rec.get("cards") or {}).items():
+            obs = _collect_deal_observations(rec, name, c, deals)
+            if not obs:
+                continue
+            uncond_obs.extend(obs)
+            if not c.get("present_final"):
+                missing_obs.extend(obs)
+            if c.get("subfate") == "A3_TIER_ELIGIBLE_ZERO_RAW":
+                a3_obs.extend(obs)
+
             w = _window_from_deals(rec, name, c, deals)
             if w is None:
                 continue
-            uncond.append(w)
-            if not c.get("present_final"):
-                missing.append(w)
+            uncond_win.append(w)
             if c.get("subfate") == "A3_TIER_ELIGIBLE_ZERO_RAW":
-                a3.append(w)
+                a3_win.append(w)
 
-    uncond_s = _summarize_windows(
-        uncond,
-        "all exact-catalogue cores on post-assembly states with ≥1 "
-        "tier-eligible live deal (NOT conditioned on missing-final)")
-    missing_s = _summarize_windows(
-        missing,
-        "missing-final ∩ exact catalogue ∩ tier-eligible deals "
-        "(selection-biased: policy buys offered cores)")
-    a3_s = _summarize_windows(
-        a3,
-        "Phase 2L A3 (tier-eligible zero-raw) — observed zero rate ≡ 1; "
-        "compare to expected_zero_offer_rate under live pool")
+    primary = _summarize_deal_level(
+        uncond_obs,
+        "deal-level: exact-catalogue cores × post-assembly deals "
+        "(turn > entry_turn); NOT conditioned on missing-final")
+    missing_deal = _summarize_deal_level(
+        missing_obs,
+        "deal-level missing-final subset (selection-biased; secondary)")
+    a3_deal = _summarize_deal_level(
+        a3_obs,
+        "deal-level A3 zero-raw windows (observed hits near 0 by definition)")
 
     return {
-        "primary_unconditioned": uncond_s,
-        "missing_final_biased": missing_s,
-        "a3_zero_raw": a3_s,
-        # Backward-compatible top-level aliases = primary unconditioned
-        **{k: v for k, v in uncond_s.items()},
+        "methodology_version": METHODOLOGY_VERSION,
+        "post_assembly_deal_boundary": "turn > entry_turn",
+        "n_entry_turn_deals_excluded_from_calib": n_entry_turn_deals_excluded,
+        "primary_deal_level": primary,
+        "missing_final_deal_level": missing_deal,
+        "a3_deal_level": a3_deal,
+        "descriptive_card_windows": {
+            "unconditioned": _summarize_windows_descriptive(
+                uncond_win,
+                "descriptive card-windows (adaptive P_zero demoted)"),
+            "a3_zero_raw": _summarize_windows_descriptive(
+                a3_win,
+                "descriptive A3 card-windows (observed zero ≈ 1 by definition)"),
+        },
+        # Convenience aliases for headlines / decision
+        "sum_expected_raw": primary.get("sum_expected_raw"),
+        "sum_observed_raw": primary.get("sum_observed_raw"),
+        "sum_expected_hit_probability": primary.get(
+            "sum_expected_hit_probability"),
+        "sum_observed_hit_deals": primary.get("sum_observed_hit_deals"),
+        "raw_ratio_obs_over_exp": primary.get("raw_ratio_obs_over_exp"),
+        "hit_ratio_obs_over_exp": primary.get("hit_ratio_obs_over_exp"),
+        "lobby_clustered": primary.get("lobby_clustered"),
+        "n_deal_card_observations": primary.get("n_deal_card_observations"),
         "note": (
-            "Primary calibration is primary_unconditioned. missing_final_biased "
-            "matches the 2L-style cohort but understates hits because bought "
-            "cores leave the missing-final set. a3_zero_raw compares live "
-            "P_zero to the definitionally-zero A3 cohort."),
+            "2m_v2 primary = deal-level ΣE(raw)/ΣP(hit) vs observed, with "
+            "lobby-clustered bootstrap. Entry-turn deals excluded. Adaptive "
+            "whole-window product(P_zero) is descriptive only."),
     }
 
 
@@ -553,8 +737,9 @@ def analyze_shop_pool_audit(traces: Dict) -> Dict:
     rules = audit_rule_mismatches(contract)
     avail = analyze_availability_decomposition(traces)
     live = calibrate_live_pool(traces)
-    primary = live.get("primary_unconditioned") or live
-    a3_live = live.get("a3_zero_raw") or {}
+    primary = live.get("primary_deal_level") or {}
+    a3_desc = (live.get("descriptive_card_windows") or {}).get(
+        "a3_zero_raw") or {}
 
     conservation = {
         "n_lobbies": traces["lobbies"],
@@ -575,13 +760,22 @@ def analyze_shop_pool_audit(traces: Dict) -> Dict:
         "pct_cores_in_exact_catalogue": (
             catalogue["status_share"].get("IN_EXACT_CATALOGUE")),
         "n_demonstrated_rule_mismatches": rules["n_demonstrated_mismatches"],
-        # Primary = unconditioned (not missing-final-biased)
-        "live_observed_zero_offer_rate": primary.get("observed_zero_offer_rate"),
-        "live_expected_zero_offer_rate": primary.get("expected_zero_offer_rate"),
-        "live_sum_expected_raw": primary.get("sum_expected_raw_live"),
+        "n_phase_2n_actionable_mismatches": rules["n_phase_2n_actionable"],
+        # Primary deal-level
+        "live_sum_expected_raw": primary.get("sum_expected_raw"),
         "live_sum_observed_raw": primary.get("sum_observed_raw"),
-        "a3_observed_zero_offer_rate": a3_live.get("observed_zero_offer_rate"),
-        "a3_expected_zero_offer_rate": a3_live.get("expected_zero_offer_rate"),
+        "live_sum_expected_hit_probability": primary.get(
+            "sum_expected_hit_probability"),
+        "live_sum_observed_hit_deals": primary.get("sum_observed_hit_deals"),
+        "live_raw_ratio_obs_over_exp": primary.get("raw_ratio_obs_over_exp"),
+        "live_hit_ratio_obs_over_exp": primary.get("hit_ratio_obs_over_exp"),
+        "live_n_deal_card_observations": primary.get(
+            "n_deal_card_observations"),
+        # Descriptive only
+        "a3_descriptive_observed_zero_rate": a3_desc.get(
+            "observed_zero_offer_rate"),
+        "a3_descriptive_adaptive_expected_zero_rate": a3_desc.get(
+            "adaptive_product_expected_zero_rate"),
         "phase_2l_a3_share": (avail.get("headlines") or {}).get(
             "pct_exact_catalogue_tier_eligible_zero_raw"),
         "phase_2l_a1_share": (avail.get("headlines") or {}).get(

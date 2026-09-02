@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2M — shop/pool rules audit
 
-Date: 2026-09-02 · Status: **`2m_v1` complete — multiple substantial mismatches** ·
+Date: 2026-09-02 · Status: **`2m_v2` methodology cleanup (re-run pending)** ·
 Artifacts: [`results/sim_fidelity_phase_2m/`](../results/sim_fidelity_phase_2m/)
 
 ## Research question
@@ -9,97 +9,43 @@ Artifacts: [`results/sim_fidelity_phase_2m/`](../results/sim_fidelity_phase_2m/)
 > incorrect live-pool accounting, or expected scarcity under a correctly
 > implemented finite shared pool?
 
-## Verdict
+## Methodology `2m_v2` (vs `2m_v1`)
 
-**Multiple substantial mismatches** — do **not** ship a bundled “better shops”
-rewrite. Phase 2N should fix independently, ordered by mass impact:
+1. **Post-assembly deal boundary:** `turn > entry_turn` (not `>=`). Entry is
+   end-of-recruit with first 2+ cores; entry-turn shops are pre-assembly and
+   positively selected.
+2. **Primary calibration is deal-level:** for each eligible deal, compare
+   `E[raw | pre-deal pool]` and `P(hit | pre-deal pool)` to observed count/hit.
+   Aggregate `ΣE(raw)` vs `Σobs(raw)` and `ΣP(hit)` vs `Σobs(hits)`.
+3. **Lobby-clustered bootstrap** on per-lobby `(obs − exp)` so correlated
+   card×deal rows don't masquerade as independent samples.
+4. **Adaptive whole-window `product(P_zero)` demoted** to descriptive only
+   (later pool state adapts after hits).
+5. Rule mismatches split into **Phase 2N-actionable** vs **contextual**
+   (`shop_slots_vs_spell_era`, `no_tier_7`).
 
-1. **Catalogue/KB sync** (explains Phase 2L’s 37% A1 mass)
-2. **Lifecycle accounting** (death return; freeze top-up)
-3. **Copy counts** (T6: sim 6 vs ref 7)
-4. Re-measure live calibration
+## Already-valid findings (independent of live calib)
 
-**Live draw itself is not the smoking gun.** On the unconditioned post-assembly
-cohort, observed zero-offer rate **0.745** vs live expected **0.799**, and
-observed raw appearances **111** vs expected **≈89**. Scarcity among *missing*
-cores is largely the buy/keep selection effect plus rare-card base rates in a
-large shared pool — not a defective `_draw()`.
-
-## Scope delivered
-
-| Output | Result |
+| Finding | Phase 2N? |
 |---|---|
-| Catalogue sync | **24.6%** of core slots `MISSING_FROM_KB` (56/228); 74.1% in exact catalogue |
-| Pool contract | Documented (see `rule_mismatches.json`) |
-| Lifecycle | Death = no return; freeze = no top-up; buy/sell/roll/triple as coded |
-| Live probability | Pre-deal remaining + eligible total → exact without-replacement `P_zero` |
-| Calibration | Unconditioned primary + A3-specific + missing-final (biased) sidecar |
-| Rule comparison | **5** demonstrated mismatches (document only — no patches) |
+| 24.6% core slots missing from KB | **Yes** — classify vs current active pool first |
+| Death does not return copies to pool | **Yes** |
+| Freeze does not top up incomplete shops | **Yes** |
+| T6 copies 6 vs current BG **7** | **Yes** |
+| Spell-era shop sizes / Tier 7 | Contextual / out of scope |
 
 ## Frozen
 
 - Policy: Phase 2J α=0.5, prior `9b31c93a…`
-- Diagnostic DEV: **10200–10699** (reuse 2L)
-- Reserved (not consumed): intervention **11000–11499**, confirm **11500–11699**
-- No buy-legality/economy, card effects, BC/DAgger/PPO
+- Diagnostic DEV: **10200–10699** (reuse; no reserved burn)
+- Reserved: intervention **11000–11499**, confirm **11500–11699**
+- No buy-legality/economy, card effects, BC/DAgger/PPO; no sim patches in 2M
 
-## DEV results (10200–10699, 44 post-assembly states)
+## Decision gate after re-run
 
-### Catalogue synchronization
-
-| Status | Core slots | Share |
-|---|---:|---:|
-| IN_EXACT_CATALOGUE | 169 | 74.1% |
-| **MISSING_FROM_KB** | **56** | **24.6%** |
-| MISSING_OR_INVALID_TIER | 3 | 1.3% |
-
-This directly attacks Phase 2L’s A1 mass (37.2% never-legal missing = exact-
-catalogue absent, almost entirely missing KB/tier/stats).
-
-### Demonstrated rule mismatches (no fixes in 2M)
-
-| ID | Area |
-|---|---|
-| `pool_copies_tier_6` | sim **6** vs current BG **7** |
-| `elimination_no_return_to_pool` | dead players’ cards stay out |
-| `freeze_no_topup` | incomplete freeze not topped up |
-| `shop_slots_vs_spell_era` | sim matches classic minion sizes; spell-era larger |
-| `no_tier_7` | sim MAX_TIER=6 |
-
-### Live calibration (primary = unconditioned)
-
-Cohort: all exact-catalogue cores on post-assembly states with ≥1 tier-eligible
-deal (**not** conditioned on missing-final).
-
-| Metric | Value |
-|---|---:|
-| Card-windows | 385 |
-| Expected zero-offer rate | **0.799** |
-| Observed zero-offer rate | **0.745** |
-| Sum expected raw | ≈89.3 |
-| Sum observed raw | **111** |
-| Expected windows ≥1 hit | ≈77 |
-| Observed windows ≥1 hit | (see report) |
-
-**A3 cohort** (definitionally zero-raw): observed zero ≡ 1.0 vs live expected
-zero ≈ **0.809**. That gap is mostly selection into the zero-raw bucket, not
-proof `_draw()` under-samples once you uncondition.
-
-### Phase 2L continuity
-
-```text
-A3 exact-catalogue + tier-eligible zero raw: 62.8%
-A1 not in exact catalogue:                   37.2%
-A4 raw but never legal:                       0.0%
-```
-
-## Decision → Phase 2N
-
-`multiple_substantial_mismatches`
-
-Scoped interventions only — do not bundle into one generation patch. After
-catalogue sync + lifecycle/copy fixes, re-run live calib on reserved
-intervention seeds **11000–11499**.
+`multiple_substantial_mismatches` is still expected from catalogue + lifecycle +
+T6. Separately: if deal-level observed ≈ expected → `_draw()` not implicated;
+if observed substantially undershoots → add scoped draw-path investigation.
 
 ## Commands
 

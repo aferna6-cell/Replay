@@ -1,14 +1,15 @@
-"""Phase 2M decision tree — route from shop/pool audit findings."""
+"""Phase 2M decision tree — route from shop/pool audit findings (2m_v2)."""
 
 from __future__ import annotations
 
 from typing import Dict, Optional
 
-METHODOLOGY_VERSION = "2m_v1"
+METHODOLOGY_VERSION = "2m_v2"
 
-# How far observed zero-rate may sit above expected before we call it a gap.
-ZERO_RATE_GAP_TOLERANCE = 0.08
-# Expected hits that would make all-observed-zeros surprising.
+# Deal-level: observed/expected ratio band for "consistent".
+RAW_RATIO_LO = 0.70
+RAW_RATIO_HI = 1.30
+# Lobby-clustered mean(obs−exp) CI containing 0 → consistent signal.
 MIN_EXPECTED_RAW_FOR_SURPRISE = 5.0
 
 
@@ -17,65 +18,91 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
     rules = analysis.get("rule_mismatches") or {}
     live = analysis.get("live_calibration") or {}
     catalogue = analysis.get("catalogue_synchronization") or {}
+    primary = live.get("primary_deal_level") or live
 
-    obs_z = headlines.get("live_observed_zero_offer_rate")
-    exp_z = headlines.get("live_expected_zero_offer_rate")
-    sum_exp = float(headlines.get("live_sum_expected_raw") or 0.0)
-    sum_obs = float(headlines.get("live_sum_observed_raw") or 0.0)
+    sum_exp = float(headlines.get("live_sum_expected_raw")
+                    or primary.get("sum_expected_raw") or 0.0)
+    sum_obs = float(headlines.get("live_sum_observed_raw")
+                    or primary.get("sum_observed_raw") or 0.0)
+    sum_exp_hit = float(headlines.get("live_sum_expected_hit_probability")
+                        or primary.get("sum_expected_hit_probability") or 0.0)
+    sum_obs_hit = float(headlines.get("live_sum_observed_hit_deals")
+                        or primary.get("sum_observed_hit_deals") or 0.0)
+    raw_ratio = headlines.get("live_raw_ratio_obs_over_exp")
+    if raw_ratio is None and sum_exp > 1e-12:
+        raw_ratio = sum_obs / sum_exp
+    hit_ratio = headlines.get("live_hit_ratio_obs_over_exp")
+    if hit_ratio is None and sum_exp_hit > 1e-12:
+        hit_ratio = sum_obs_hit / sum_exp_hit
+
     a1 = float(headlines.get("phase_2l_a1_share") or 0.0)
     a3 = float(headlines.get("phase_2l_a3_share") or 0.0)
-    n_mismatch = int(rules.get("n_demonstrated_mismatches") or 0)
     pct_missing_kb = float(catalogue.get("status_share", {}).get(
         "MISSING_FROM_KB") or 0.0)
 
-    zero_gap: Optional[float] = None
-    if obs_z is not None and exp_z is not None:
-        zero_gap = float(obs_z) - float(exp_z)
+    actionable_ids = list(rules.get("phase_2n_actionable_ids")
+                          or rules.get("demonstrated_ids") or [])
+    demonstrated_ids = list(rules.get("demonstrated_ids") or [])
+    contextual_ids = list(rules.get("contextual_ids") or [])
+
+    # Lobby-clustered CI for raw obs−exp
+    clustered = (primary.get("lobby_clustered") or {})
+    raw_ci = (clustered.get("raw_obs_minus_exp") or {}).get("ci95") or [None, None]
+    raw_mean = (clustered.get("raw_obs_minus_exp") or {}).get("mean")
+    ci_contains_zero = (
+        raw_ci[0] is not None and raw_ci[1] is not None
+        and raw_ci[0] <= 0.0 <= raw_ci[1])
 
     live_consistent = (
-        zero_gap is not None
-        and abs(zero_gap) <= ZERO_RATE_GAP_TOLERANCE
+        raw_ratio is not None
+        and RAW_RATIO_LO <= float(raw_ratio) <= RAW_RATIO_HI
+        and (ci_contains_zero or abs(float(raw_ratio) - 1.0) <= 0.15)
     )
-    # Surprising only if we see *more* zeros / *fewer* hits than the live model.
+    # Undershoot: substantially fewer hits than deal-level expectation
     live_surprising = (
-        zero_gap is not None
-        and zero_gap > ZERO_RATE_GAP_TOLERANCE
-        and sum_exp >= MIN_EXPECTED_RAW_FOR_SURPRISE
-        and sum_obs < 0.5 * sum_exp
+        sum_exp >= MIN_EXPECTED_RAW_FOR_SURPRISE
+        and raw_ratio is not None
+        and float(raw_ratio) < RAW_RATIO_LO
+        and (raw_mean is not None and raw_mean < 0)
+        and (raw_ci[1] is not None and raw_ci[1] < 0)
     )
 
-    demonstrated_ids = list(rules.get("demonstrated_ids") or [])
-    accounting_ids = [i for i in demonstrated_ids
+    accounting_ids = [i for i in actionable_ids
                       if "elimination" in i or "freeze" in i]
-    copy_ids = [i for i in demonstrated_ids if i.startswith("pool_copies")]
-    slot_ids = [i for i in demonstrated_ids
-                if i.startswith("shop_slots") and "spell_era" in i]
+    copy_ids = [i for i in actionable_ids if i.startswith("pool_copies")]
 
     base = {
-        "n_demonstrated_rule_mismatches": n_mismatch,
-        "zero_rate_gap": zero_gap,
+        "n_demonstrated_rule_mismatches": rules.get("n_demonstrated_mismatches"),
+        "n_phase_2n_actionable_mismatches": rules.get("n_phase_2n_actionable"),
+        "raw_ratio_obs_over_exp": raw_ratio,
+        "hit_ratio_obs_over_exp": hit_ratio,
         "live_consistent": live_consistent,
         "live_surprising": live_surprising,
+        "lobby_raw_mean_obs_minus_exp": raw_mean,
+        "lobby_raw_ci95": raw_ci,
         "phase_2l_a1_share": a1,
         "phase_2l_a3_share": a3,
         "pct_cores_missing_from_kb": pct_missing_kb,
         "headlines": headlines,
         "live_calibration_summary": {
-            "n_card_windows": live.get("n_card_windows"),
-            "observed_zero_offer_rate": obs_z,
-            "expected_zero_offer_rate": exp_z,
-            "sum_expected_raw_live": sum_exp,
+            "n_deal_card_observations": primary.get("n_deal_card_observations"),
+            "sum_expected_raw": sum_exp,
             "sum_observed_raw": sum_obs,
+            "sum_expected_hit_probability": sum_exp_hit,
+            "sum_observed_hit_deals": sum_obs_hit,
+            "raw_ratio_obs_over_exp": raw_ratio,
+            "hit_ratio_obs_over_exp": hit_ratio,
+            "post_assembly_deal_boundary": live.get(
+                "post_assembly_deal_boundary"),
         },
     }
 
-    # Decision tree (priority order from Phase 2M brief).
     substantial_areas = set()
     if pct_missing_kb >= 0.15 or a1 >= 0.25:
         substantial_areas.add("catalogue_kb")
     if accounting_ids:
         substantial_areas.add("live_pool_accounting")
-    if copy_ids or (slot_ids and False):  # spell-era slots alone ≠ gen rewrite
+    if copy_ids:
         substantial_areas.add("copy_counts")
     if live_surprising and not live_consistent:
         substantial_areas.add("live_draw_discrepancy")
@@ -86,11 +113,15 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
             "recommended_next_step": (
                 "Phase 2N: fix independently in scoped interventions — "
                 "do not bundle into one 'better shops' patch. Order by "
-                "mass impact: catalogue/KB sync (A1), then lifecycle "
-                "accounting (death return / freeze top-up), then copy "
-                "counts, then re-measure live calib."),
+                "mass impact: catalogue/KB sync (A1; classify missing cores "
+                "against current active pool before adding), then lifecycle "
+                "accounting (death return / freeze top-up), then T6 copy "
+                "counts, then re-measure deal-level live calib. "
+                f"Contextual/out-of-scope (not 2N bugs): {contextual_ids}."),
             "substantial_areas": sorted(substantial_areas),
             "demonstrated_mismatch_ids": demonstrated_ids,
+            "phase_2n_actionable_ids": actionable_ids,
+            "contextual_ids": contextual_ids,
             **base,
         }
 
@@ -98,9 +129,11 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
         return {
             "decision_branch": "catalogue_kb_mismatch_dominates",
             "recommended_next_step": (
-                "Phase 2N: synchronize card/core data (KB + archetype cores) "
-                "before rewriting shop generation."),
+                "Phase 2N: synchronize card/core data — classify each missing "
+                "entry (active missing / outdated / rename / token / bad "
+                "mapping) before KB add or core removal."),
             "demonstrated_mismatch_ids": demonstrated_ids,
+            "phase_2n_actionable_ids": actionable_ids,
             **base,
         }
 
@@ -109,8 +142,9 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
             "decision_branch": "live_pool_accounting_bug",
             "recommended_next_step": (
                 "Phase 2N: fix shared-pool lifecycle (elimination return, "
-                "freeze top-up) then re-run live calibration."),
+                "freeze top-up) then re-run deal-level live calibration."),
             "demonstrated_mismatch_ids": demonstrated_ids,
+            "phase_2n_actionable_ids": actionable_ids,
             **base,
         }
 
@@ -121,19 +155,23 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
                 "Phase 2N: fix generation model / copy counts to match "
                 "current Battlegrounds rules, then re-measure."),
             "demonstrated_mismatch_ids": demonstrated_ids,
+            "phase_2n_actionable_ids": actionable_ids,
             **base,
         }
 
     if live_consistent:
+        draw_note = (
+            "Deal-level live calibration is consistent with exact pre-deal "
+            "pool expectation — `_draw()` is not implicated. "
+            if live_consistent else "")
         return {
             "decision_branch": "scarcity_consistent_with_live_expectation",
             "recommended_next_step": (
-                "Shop generation is not clearly broken under the live pool "
-                "model. Investigate roll/opportunity horizon and core-set "
-                "assumptions. Still document rule mismatches "
-                f"({', '.join(demonstrated_ids)}) for scoped 2N follow-ups "
-                "without a bundled generation rewrite."),
+                f"{draw_note}"
+                "Still apply scoped 2N fixes for actionable mismatches "
+                f"({actionable_ids}) without a bundled generation rewrite."),
             "demonstrated_mismatch_ids": demonstrated_ids,
+            "phase_2n_actionable_ids": actionable_ids,
             **base,
         }
 
@@ -141,18 +179,20 @@ def evaluate_phase_2m_decision(analysis: Dict) -> Dict:
         return {
             "decision_branch": "shop_draw_probabilities_rules_mismatch",
             "recommended_next_step": (
-                "Phase 2N: live observed zeros exceed exact live-pool "
-                "expectation — investigate draw path / pool accounting "
-                "before a broad generation rewrite."),
+                "Phase 2N: deal-level observed hits substantially undershoot "
+                "exact live-pool expectation — investigate draw path before "
+                "declaring generation healthy."),
             "demonstrated_mismatch_ids": demonstrated_ids,
+            "phase_2n_actionable_ids": actionable_ids,
             **base,
         }
 
     return {
         "decision_branch": "inconclusive_expand_or_inspect",
         "recommended_next_step": (
-            "Inspect live calibration breakdowns and rule-mismatch list; "
+            "Inspect deal-level calibration and actionable mismatch list; "
             "do not implement Phase 2N from a weak story."),
         "demonstrated_mismatch_ids": demonstrated_ids,
+        "phase_2n_actionable_ids": actionable_ids,
         **base,
     }

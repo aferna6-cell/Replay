@@ -153,17 +153,27 @@ def main(argv: Optional[list] = None) -> int:
     d = result["decision"]
     h = a.get("headlines") or {}
     live = a.get("live_calibration") or {}
+    primary = live.get("primary_deal_level") or {}
     print(f"\nPost-assembly states (2L lens): {a.get('n_states_phase_2l')}")
     print(f"Cores missing from KB: {h.get('pct_cores_missing_from_kb')}")
-    print(f"Demonstrated rule mismatches: "
-          f"{h.get('n_demonstrated_rule_mismatches')}")
-    print(f"Live calib windows: {live.get('n_card_windows')}")
-    print(f"Live zero-offer observed={h.get('live_observed_zero_offer_rate')} "
-          f"vs expected={h.get('live_expected_zero_offer_rate')}")
-    print(f"Live raw expected={h.get('live_sum_expected_raw')} "
-          f"observed={h.get('live_sum_observed_raw')}")
-    print(f"A3 cohort zero-offer observed={h.get('a3_observed_zero_offer_rate')} "
-          f"vs expected={h.get('a3_expected_zero_offer_rate')}")
+    print(f"Actionable rule mismatches: "
+          f"{h.get('n_phase_2n_actionable_mismatches')} "
+          f"(documented {h.get('n_demonstrated_rule_mismatches')})")
+    print(f"Post-assembly deal boundary: "
+          f"{live.get('post_assembly_deal_boundary')}")
+    print(f"Entry-turn deals excluded: "
+          f"{live.get('n_entry_turn_deals_excluded_from_calib')}")
+    print(f"Deal-level obs: {primary.get('n_deal_card_observations')}")
+    print(f"Deal-level raw expected={h.get('live_sum_expected_raw')} "
+          f"observed={h.get('live_sum_observed_raw')} "
+          f"ratio={h.get('live_raw_ratio_obs_over_exp')}")
+    print(f"Deal-level hit ΣP={h.get('live_sum_expected_hit_probability')} "
+          f"observed={h.get('live_sum_observed_hit_deals')} "
+          f"ratio={h.get('live_hit_ratio_obs_over_exp')}")
+    clustered = primary.get("lobby_clustered") or {}
+    raw_ci = (clustered.get("raw_obs_minus_exp") or {})
+    print(f"Lobby-clustered raw obs−exp mean={raw_ci.get('mean')} "
+          f"ci95={raw_ci.get('ci95')}")
     print(f"Decision: {d['decision_branch']}")
     print(f"  {d['recommended_next_step']}")
     print(f"\nSaved -> {args.out_dir}/")
