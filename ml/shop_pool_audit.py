@@ -364,7 +364,8 @@ class CardWindowLive:
     eligible_sum: float = 0.0
 
 
-def _post_assembly_eligible_windows(traces: Dict) -> List[CardWindowLive]:
+def _iter_post_assembly_states(traces: Dict):
+    """Yield (rec, deals_on_or_after_entry) for each 2L post-assembly state."""
     deals_by_ls: Dict[Tuple[int, int], List[Dict]] = defaultdict(list)
     for d in traces.get("deal_events") or []:
         if d.get("frozen_skip"):
@@ -372,54 +373,53 @@ def _post_assembly_eligible_windows(traces: Dict) -> List[CardWindowLive]:
         deals_by_ls[(d["lobby"], d["seat"])].append(d)
 
     avail = analyze_availability_decomposition(traces)
-    windows: List[CardWindowLive] = []
-
     for rec in avail["state_records"]:
         lobby, seat = rec["lobby"], rec["seat"]
         entry = int(rec["entry_turn"])
         deals = [d for d in deals_by_ls.get((lobby, seat), [])
                  if int(d["turn"]) >= entry]
-
-        for name, c in (rec.get("cards") or {}).items():
-            if c.get("present_final"):
-                continue
-            if not c.get("in_exact_catalogue"):
-                continue
-            ct = c.get("card_tier")
-            if ct is None:
-                continue
-            w = CardWindowLive(
-                lobby=lobby, seat=seat, archetype_key=rec["archetype_key"],
-                card=name, weight=float(c["weight"]), card_tier=ct,
-                entry_turn=entry,
-            )
-            for d in deals:
-                tavern = int(d["tavern_tier"])
-                if tavern < int(ct):
-                    continue
-                rem = int((d.get("card_remaining") or {}).get(name, 0))
-                tot = int(d.get("eligible_total_copies") or 0)
-                n_slots = int(d.get("n_slots") or 0)
-                w.n_tier_eligible_deals += 1
-                w.remaining_sum += rem
-                w.eligible_sum += tot
-                w.expected_raw_live += expected_raw_live_deal(rem, tot, n_slots)
-                w.p_zero_live *= p_zero_live_deal(rem, tot, n_slots)
-                dealt = d.get("dealt_names") or []
-                w.n_raw_appearances += sum(1 for x in dealt if x == name)
-            if w.n_tier_eligible_deals == 0:
-                continue
-            w.mean_remaining_at_deal = w.remaining_sum / w.n_tier_eligible_deals
-            w.mean_eligible_total = w.eligible_sum / w.n_tier_eligible_deals
-            windows.append(w)
-    return windows
+        yield rec, deals, avail
 
 
-def calibrate_live_pool(traces: Dict) -> Dict:
-    windows = _post_assembly_eligible_windows(traces)
+def _window_from_deals(rec: Dict, name: str, c: Dict, deals: List[Dict]
+                       ) -> Optional[CardWindowLive]:
+    if not c.get("in_exact_catalogue"):
+        return None
+    ct = c.get("card_tier")
+    if ct is None:
+        return None
+    w = CardWindowLive(
+        lobby=rec["lobby"], seat=rec["seat"],
+        archetype_key=rec["archetype_key"],
+        card=name, weight=float(c["weight"]), card_tier=ct,
+        entry_turn=int(rec["entry_turn"]),
+    )
+    for d in deals:
+        tavern = int(d["tavern_tier"])
+        if tavern < int(ct):
+            continue
+        rem = int((d.get("card_remaining") or {}).get(name, 0))
+        tot = int(d.get("eligible_total_copies") or 0)
+        n_slots = int(d.get("n_slots") or 0)
+        w.n_tier_eligible_deals += 1
+        w.remaining_sum += rem
+        w.eligible_sum += tot
+        w.expected_raw_live += expected_raw_live_deal(rem, tot, n_slots)
+        w.p_zero_live *= p_zero_live_deal(rem, tot, n_slots)
+        dealt = d.get("dealt_names") or []
+        w.n_raw_appearances += sum(1 for x in dealt if x == name)
+    if w.n_tier_eligible_deals == 0:
+        return None
+    w.mean_remaining_at_deal = w.remaining_sum / w.n_tier_eligible_deals
+    w.mean_eligible_total = w.eligible_sum / w.n_tier_eligible_deals
+    return w
+
+
+def _summarize_windows(windows: List[CardWindowLive], cohort: str) -> Dict:
     n = len(windows)
     if n == 0:
         return {
+            "cohort": cohort,
             "n_card_windows": 0,
             "sum_expected_raw_live": 0.0,
             "sum_observed_raw": 0.0,
@@ -465,9 +465,7 @@ def calibrate_live_pool(traces: Dict) -> Dict:
         key=lambda w: w.p_zero_live)[:25]
 
     return {
-        "cohort": (
-            "missing-final cores in exact catalogue with ≥1 post-assembly "
-            "tier-eligible live shop deal"),
+        "cohort": cohort,
         "n_card_windows": n,
         "sum_expected_raw_live": sum_exp,
         "sum_observed_raw": sum_obs,
@@ -496,12 +494,67 @@ def calibrate_live_pool(traces: Dict) -> Dict:
     }
 
 
+def calibrate_live_pool(traces: Dict) -> Dict:
+    """Live-pool calibration with explicit cohort definitions.
+
+    * ``unconditioned``: all exact-catalogue cores on post-assembly states
+      with ≥1 tier-eligible deal (includes cards that end present_final).
+      This is the valid sampler check — not biased by buy/keep selection.
+    * ``missing_final``: subset with present_final=False (selection-biased;
+      reported for continuity with 2L only).
+    * ``a3_zero_raw``: Phase 2L A3 windows — observed zero rate is 1 by
+      definition; compare to mean live ``P_zero``.
+    """
+    uncond: List[CardWindowLive] = []
+    missing: List[CardWindowLive] = []
+    a3: List[CardWindowLive] = []
+
+    for rec, deals, _avail in _iter_post_assembly_states(traces):
+        for name, c in (rec.get("cards") or {}).items():
+            w = _window_from_deals(rec, name, c, deals)
+            if w is None:
+                continue
+            uncond.append(w)
+            if not c.get("present_final"):
+                missing.append(w)
+            if c.get("subfate") == "A3_TIER_ELIGIBLE_ZERO_RAW":
+                a3.append(w)
+
+    uncond_s = _summarize_windows(
+        uncond,
+        "all exact-catalogue cores on post-assembly states with ≥1 "
+        "tier-eligible live deal (NOT conditioned on missing-final)")
+    missing_s = _summarize_windows(
+        missing,
+        "missing-final ∩ exact catalogue ∩ tier-eligible deals "
+        "(selection-biased: policy buys offered cores)")
+    a3_s = _summarize_windows(
+        a3,
+        "Phase 2L A3 (tier-eligible zero-raw) — observed zero rate ≡ 1; "
+        "compare to expected_zero_offer_rate under live pool")
+
+    return {
+        "primary_unconditioned": uncond_s,
+        "missing_final_biased": missing_s,
+        "a3_zero_raw": a3_s,
+        # Backward-compatible top-level aliases = primary unconditioned
+        **{k: v for k, v in uncond_s.items()},
+        "note": (
+            "Primary calibration is primary_unconditioned. missing_final_biased "
+            "matches the 2L-style cohort but understates hits because bought "
+            "cores leave the missing-final set. a3_zero_raw compares live "
+            "P_zero to the definitionally-zero A3 cohort."),
+    }
+
+
 def analyze_shop_pool_audit(traces: Dict) -> Dict:
     catalogue = audit_catalogue_synchronization()
     contract = audit_pool_contract()
     rules = audit_rule_mismatches(contract)
     avail = analyze_availability_decomposition(traces)
     live = calibrate_live_pool(traces)
+    primary = live.get("primary_unconditioned") or live
+    a3_live = live.get("a3_zero_raw") or {}
 
     conservation = {
         "n_lobbies": traces["lobbies"],
@@ -522,10 +575,13 @@ def analyze_shop_pool_audit(traces: Dict) -> Dict:
         "pct_cores_in_exact_catalogue": (
             catalogue["status_share"].get("IN_EXACT_CATALOGUE")),
         "n_demonstrated_rule_mismatches": rules["n_demonstrated_mismatches"],
-        "live_observed_zero_offer_rate": live.get("observed_zero_offer_rate"),
-        "live_expected_zero_offer_rate": live.get("expected_zero_offer_rate"),
-        "live_sum_expected_raw": live.get("sum_expected_raw_live"),
-        "live_sum_observed_raw": live.get("sum_observed_raw"),
+        # Primary = unconditioned (not missing-final-biased)
+        "live_observed_zero_offer_rate": primary.get("observed_zero_offer_rate"),
+        "live_expected_zero_offer_rate": primary.get("expected_zero_offer_rate"),
+        "live_sum_expected_raw": primary.get("sum_expected_raw_live"),
+        "live_sum_observed_raw": primary.get("sum_observed_raw"),
+        "a3_observed_zero_offer_rate": a3_live.get("observed_zero_offer_rate"),
+        "a3_expected_zero_offer_rate": a3_live.get("expected_zero_offer_rate"),
         "phase_2l_a3_share": (avail.get("headlines") or {}).get(
             "pct_exact_catalogue_tier_eligible_zero_raw"),
         "phase_2l_a1_share": (avail.get("headlines") or {}).get(

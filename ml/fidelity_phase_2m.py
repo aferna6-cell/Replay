@@ -162,6 +162,8 @@ def main(argv: Optional[list] = None) -> int:
           f"vs expected={h.get('live_expected_zero_offer_rate')}")
     print(f"Live raw expected={h.get('live_sum_expected_raw')} "
           f"observed={h.get('live_sum_observed_raw')}")
+    print(f"A3 cohort zero-offer observed={h.get('a3_observed_zero_offer_rate')} "
+          f"vs expected={h.get('a3_expected_zero_offer_rate')}")
     print(f"Decision: {d['decision_branch']}")
     print(f"  {d['recommended_next_step']}")
     print(f"\nSaved -> {args.out_dir}/")
