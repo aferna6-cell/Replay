@@ -32,6 +32,7 @@ from .bg_env import (
     _greedy,
 )
 from .build_path import _tier_commit, board_names, infer_target
+from .tempo_margin_audit import TempoMarginAuditCollector
 
 METHODOLOGY_VERSION = "2h_v3"
 POLICY_ID = "tempo_board_greedy_policy"
@@ -215,10 +216,35 @@ class TempoBoardPolicyStats:
 class TempoBoardGreedyPolicy:
     """Per-seat policy — instantiate fresh per lobby via ``policies_for_lobby``."""
 
-    def __init__(self, lambda_build: float):
+    def __init__(self, lambda_build: float,
+                 audit: Optional[TempoMarginAuditCollector] = None):
         self.lambda_build = float(lambda_build)
         self.stats = TempoBoardPolicyStats()
         self.pending: Optional[PendingTransition] = None
+        self.audit = audit
+        self._audit_ctx: Optional[Dict] = None
+        self.last_audit_index: Optional[int] = None
+        self._audit_compound_stage: Optional[str] = None
+
+    def set_audit_context(self, *, lobby: int, seat: int, turn: int,
+                          shop_generation: int) -> None:
+        self._audit_ctx = {
+            "lobby": lobby,
+            "seat": seat,
+            "turn": turn,
+            "shop_generation": shop_generation,
+        }
+
+    def _record_audit(self, obs: Dict, mask: List[bool], action: int) -> None:
+        if self.audit is None or self._audit_ctx is None:
+            return
+        from .tempo_board_audit_hook import build_audit_snapshot
+        snap = build_audit_snapshot(
+            self, obs, mask, action, ctx=self._audit_ctx,
+            pending=self.pending,
+            compound_stage=self._audit_compound_stage)
+        self.last_audit_index = self.audit.record(snap)
+        self._audit_compound_stage = None
 
     @staticmethod
     def _hand_slot_for_name(hand: List[Dict], name: str) -> Optional[int]:
@@ -246,6 +272,7 @@ class TempoBoardGreedyPolicy:
                     and p.candidate_slot < len(shop)
                     and shop[p.candidate_slot].get("name") == p.candidate_name):
                 self.stats.record_buy_step(p.build_gain)
+                self._audit_compound_stage = "buy"
                 self.pending = PendingTransition(
                     source=p.source, stage="play", candidate_slot=-1,
                     candidate_name=p.candidate_name, replacement_slot=None,
@@ -265,6 +292,7 @@ class TempoBoardGreedyPolicy:
             if (action < A_PLAY0 + N_PLAY and mask[action]
                     and hi < len(hand)
                     and hand[hi].get("name") == p.candidate_name):
+                self._audit_compound_stage = "play"
                 completed = self.pending
                 self.pending = None
                 self.stats.record_play_step(
@@ -279,11 +307,14 @@ class TempoBoardGreedyPolicy:
     def __call__(self, obs: Dict, mask: List[bool], rng) -> int:
         complete = self._try_complete_pending(obs, mask)
         if complete is not None:
+            self._record_audit(obs, mask, complete)
             return complete
 
         fit = infer_target(obs.get("board") or [])
         if fit is None or fit.have < 1:
-            return _greedy(obs, mask, rng, 0.0)
+            action = _greedy(obs, mask, rng, 0.0)
+            self._record_audit(obs, mask, action)
+            return action
 
         tier = int(obs.get("tavern_tier") or 1)
         held = _held_names(obs)
@@ -378,25 +409,34 @@ class TempoBoardGreedyPolicy:
             if best_pending is not None:
                 self.pending = best_pending
                 self.stats.record_planned_sell(best_pending)
+                self._record_audit(obs, mask, best_action)
                 return best_action
             if best_direct_kind == "play":
                 self.stats.record_play_step(best_direct_gain, compound=False)
             elif best_direct_kind == "buy":
                 self.stats.record_buy_step(best_direct_gain)
+            self._record_audit(obs, mask, best_action)
             return best_action
 
         target = STANDARD_TAVERN_TIER.get(obs["turn"], 6.0)
         if mask[A_LEVEL] and tier < target - 0.45:
+            self._record_audit(obs, mask, A_LEVEL)
             return A_LEVEL
         if buy_slots and len(board) + len(hand) < MAX_BOARD + 1:
-            return A_BUY0 + max(buy_slots, key=lambda i: _raw_stats(shop[i]))
+            action = A_BUY0 + max(buy_slots, key=lambda i: _raw_stats(shop[i]))
+            self._record_audit(obs, mask, action)
+            return action
         if mask[A_ROLL] and obs["gold"] >= BUY_COST + ROLL_COST:
+            self._record_audit(obs, mask, A_ROLL)
             return A_ROLL
+        self._record_audit(obs, mask, A_END)
         return A_END
 
 
-def policies_for_lobby(lambda_build: float, n: int = 8) -> List[TempoBoardGreedyPolicy]:
-    return [TempoBoardGreedyPolicy(lambda_build) for _ in range(n)]
+def policies_for_lobby(lambda_build: float, n: int = 8,
+                       audit: Optional[TempoMarginAuditCollector] = None
+                       ) -> List[TempoBoardGreedyPolicy]:
+    return [TempoBoardGreedyPolicy(lambda_build, audit=audit) for _ in range(n)]
 
 
 def aggregate_policy_stats(policies: List[TempoBoardGreedyPolicy]) -> Dict:
