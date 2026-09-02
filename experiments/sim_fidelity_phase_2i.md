@@ -52,6 +52,28 @@ python -m ml.fidelity_phase_2i
 Dominant cause (>50% of composition-progress failures) routes to Phase 2J branch.
 Mixed/sample-insufficient → expand diagnostic before implementing fixes.
 
+## DEV results (seeds 3000–3499, λ=12, clean tree)
+
+```text
+N seeded legally-buyable exposures: 159
+├─ fulfilled: 2
+└─ rejected: 157
+   ├─ A replacement cost dominates: 137 (87%)
+   └─ F economy/legality loss: 20 (13%)
+```
+
+2c_v3 reconciliation: **pass** (159 = 159 exposures).
+
+Headline metrics:
+
+- **87%** of rejections lost only because board was full (replacement cost)
+- **0%** core full-board transition net > 0 at λ=12
+- **68%** break-even λ > 24; **18%** would need λ ≤ 12
+- Mean replacement raw-stat cost: **296** vs mean λ×build bonus: **5.1**
+
+**Recommended Phase 2J branch:** multi-turn / board-slot opportunity-cost model
+(replacement cost dominates >50% of composition-progress failures).
+
 ## Frozen
 
 No card effects, BC, PPO, DAgger, or λ sweeps in this phase.
