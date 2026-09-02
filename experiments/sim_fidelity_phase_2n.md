@@ -1,38 +1,58 @@
 # Simulator Fidelity Phase 2N — shop/pool fidelity interventions
 
-Date: 2026-09-02 · Status: **interventions applied; measurement pending/in PR** ·
+Date: 2026-09-02 · Status: **`2n_v1` measure complete — accept Simulator v1.x candidate** ·
 Artifacts: [`results/sim_fidelity_phase_2n/`](../results/sim_fidelity_phase_2n/)
 
-## Scope
+## Verdict
 
-Sequential, independently attributable fixes from Phase 2M actionable list.
-**No** `_draw()` rewrite, buy/economy changes, card effects, or BC/DAgger/PPO.
+**`accept_simulator_v1_x_candidate`**
 
-| Step | Change | Commit theme |
+All three Phase 2M actionable mismatches are cleared. Deal-level live calib on
+intervention seeds **11000–11499** is within the acceptance band (obs/exp ≈
+**0.759**). Mild undershoot remains (lobby CI excludes 0) but is not a
+substantial `_draw()` defect. Next: freeze Simulator v1.x candidate and confirm
+on **11500–11699**.
+
+## Interventions (independent commits / toggles)
+
+| Step | Change | Result |
 |---|---|---|
-| **2N-A** | Refresh `bg_cards.json`; classify 59 problematic cores; remove T7 Polarizing Beatboxer from mech cores | catalogue sync |
-| **2N-B** | `PHASE_2N_DEATH_RETURN` + `PHASE_2N_FREEZE_TOPUP` | lifecycle |
-| **2N-C** | `POOL_COPIES[6] = 7` | copy counts |
-| **Measure** | Deal-level live calib on **11000–11499** (once, combined) | measurement |
-| **Confirm** | **11500–11699** reserved after freeze | not consumed yet |
+| **2N-A** | HearthstoneJSON KB refresh; classify cores; remove T7 Polarizing Beatboxer | **226/226** cores in exact catalogue |
+| **2N-B** | `PHASE_2N_DEATH_RETURN` + `PHASE_2N_FREEZE_TOPUP` | actionable lifecycle mismatches cleared |
+| **2N-C** | `POOL_COPIES[6] = 7` | matches current BG |
 
-## 2N-A classification (do not invent cards)
+No `_draw()` rewrite, buy/economy, card effects, or BC/DAgger/PPO.
 
-| Class | Count | Action taken |
+## 2N-A classification
+
+| Class | Count | Action |
 |---|---:|---|
-| ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH | 38 unique | KB refresh from HearthstoneJSON |
-| TIER_REFRESH_FIXED | 1 (Sanguine Champion) | same refresh (7→6) |
-| TIER_OUT_OF_SIM_SCOPE | 2 slots (Polarizing Beatboxer T7) | removed from archetype cores |
+| ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH | 38 | KB refresh only |
+| TIER_REFRESH_FIXED | 1 (Sanguine Champion) | KB refresh |
+| TIER_OUT_OF_SIM_SCOPE | 2 (Polarizing Beatboxer) | removed from cores |
 
-Post-2N-A catalogue audit: **226/226** core slots `IN_EXACT_CATALOGUE`.
+## Measurement (11000–11499, 500 lobbies)
+
+| Metric | 2M DEV (10200) | 2N intervention |
+|---|---:|---:|
+| Deal×card obs | 10,925 | 18,373 |
+| Σ expected raw | ≈74.9 | ≈122.5 |
+| Σ observed raw | 60 | **93** |
+| obs/exp ratio | 0.801 | **0.759** |
+| Actionable mismatches | 3 | **0** |
+| A1 never-legal share | 37.2% | **0.6%** |
+| A3 zero-raw share | 62.8% | **99.2%** of remaining never-legal |
+
+Catalogue sync removed nearly all A1 mass; remaining scarcity is still mostly
+tier-eligible zero-raw under the finite shared pool — consistent with 2M’s
+conclusion that `_draw()` is not catastrophically wrong.
 
 ## Seeds
 
 | Role | Range | Status |
 |---|---|---|
-| Intervention measure | **11000–11499** | consume once after A/B/C |
+| Intervention measure | **11000–11499** | **consumed** |
 | Confirmation | **11500–11699** | reserved |
-| Prior DEV | 10200–10699 | do not reuse for 2N measure |
 
 ## Commands
 

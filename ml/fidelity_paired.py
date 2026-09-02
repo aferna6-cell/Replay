@@ -54,8 +54,18 @@ def bootstrap_ratio_ci(per_lobby: Dict[int, Dict[int, float]], turn: int,
     samples: List[float] = []
     for _ in range(n_samples):
         draw = [rng.choice(lobby_ids) for _ in lobby_ids]
-        mean_sim = st.mean(per_lobby[i][turn] for i in draw if turn in per_lobby[i])
-        samples.append(mean_sim / real_stats)
+        vals = [per_lobby[i][turn] for i in draw if turn in per_lobby[i]]
+        if not vals:
+            continue
+        samples.append(st.mean(vals) / real_stats)
+    if not samples:
+        return {
+            "turn": turn,
+            "mean_ratio": None,
+            "n_lobbies": len(lobby_ids),
+            "n_bootstrap": 0,
+            "note": f"no lobbies reached turn {turn}",
+        }
     samples.sort()
     n = len(samples)
     return {
@@ -66,7 +76,7 @@ def bootstrap_ratio_ci(per_lobby: Dict[int, Dict[int, float]], turn: int,
         "p97_5": samples[min(n - 1, int(0.975 * n))],
         "std": st.pstdev(samples),
         "n_lobbies": len(lobby_ids),
-        "n_bootstrap": n_samples,
+        "n_bootstrap": len(samples),
     }
 
 
@@ -89,20 +99,26 @@ def freeze_success_thresholds(per_lobby_v1: Dict[int, Dict[int, float]],
     b12 = turn_stats["12"]["bootstrap"]
     b14 = turn_stats["14"]["bootstrap"]
 
+    def _gate(boot: Dict, *, frac: float, std_mult: float) -> Optional[float]:
+        mean = boot.get("mean_ratio")
+        std = boot.get("std")
+        if mean is None or std is None:
+            return None
+        return round(min(mean - std_mult * std, mean * frac), 3)
+
     return {
         "derived_from": "Simulator v1 per-lobby rollouts (ratio scaling)",
         "measured_turns_only": True,
         "turns": turn_stats,
         "gates": {
-            "turn_14_primary_max_ratio": round(
-                min(b14["mean_ratio"] - b14["std"],
-                    b14["mean_ratio"] * 0.70), 3),
-            "turn_12_secondary_max_ratio": round(
-                min(b12["mean_ratio"] - 0.5 * b12["std"],
-                    b12["mean_ratio"]), 3),
-            "turn_10_regression_band": round(
-                max(0.05, 2.0 * b10["std"]), 3),
-            "turn_10_center_ratio": round(b10["mean_ratio"], 3),
+            "turn_14_primary_max_ratio": _gate(b14, frac=0.70, std_mult=1.0),
+            "turn_12_secondary_max_ratio": _gate(b12, frac=1.0, std_mult=0.5),
+            "turn_10_regression_band": (
+                None if b10.get("std") is None
+                else round(max(0.05, 2.0 * b10["std"]), 3)),
+            "turn_10_center_ratio": (
+                None if b10.get("mean_ratio") is None
+                else round(b10["mean_ratio"], 3)),
             "tier_alive_game_length": {
                 "note": "Report only; no numeric gate frozen here.",
             },
