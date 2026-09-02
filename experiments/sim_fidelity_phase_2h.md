@@ -62,6 +62,20 @@ seeded_core_deploy_stress_greedy_policy
 tempo_board_greedy_policy   # Phase 2H candidate (2h_v3)
 ```
 
+## 2h_v3 confirmation (seeds 6000–6199, frozen λ=12, clean tree)
+
+| Arm | Seeded fulfillment | 2+ core | Committed | Coverage |
+|---|---:|---:|---:|---:|
+| Greedy | 0/35 | 0 | 0 | 0.0062 |
+| Tempo (λ=12) | 0/35 | 0 | 0 | 0.0061 |
+| Oracle | 30/33 | 14 | 11 | 0.0111 |
+
+Macro regression: **pass**. Mechanism gates: **fail** (no lift vs greedy).
+Decision: `transition_utility_inadequate`.
+
+Compound transition integrity: **176/176 completed** (100% completion rate).
+Target-core actions: 1 buy, 1 deploy (vs 575 tempo-selected buys, 577 deploys).
+
 ## Frozen
 
 Simulator v1.1 unchanged. No BC/PPO/card-effect/shop/combat/scaling changes.
