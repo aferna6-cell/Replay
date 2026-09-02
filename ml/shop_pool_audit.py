@@ -120,6 +120,113 @@ def all_archetype_core_names(
     return out
 
 
+
+def audit_active_pool_precision_recall(
+        lobby_tribes: Optional[List[str]] = None) -> Dict:
+    """Precision/recall of build_pool vs frozen active Tavern-pool manifest.
+
+    Gates required by Phase 2N-D:
+      active-pool recall = 100%
+      active-pool precision = 100%
+      token / removed / generated-only / Duos-only / T7 in build_pool = 0
+    """
+    from hsbg_coach.active_tavern_pool import (
+        load_active_tavern_pool, active_tavern_card_ids)
+    from hsbg_coach.bg_env import MAX_TIER, N_LOBBY_TRIBES
+
+    manifest = load_active_tavern_pool()
+    active_ids = active_tavern_card_ids()
+    kb = cards_mod.load_kb()
+    by_id = {ck.card_id: ck for ck in kb.values()}
+
+    tribes = list(lobby_tribes) if lobby_tribes is not None else list(TRIBES)
+
+    def in_lobby(ck) -> bool:
+        trs = ck.tribes or []
+        return (not trs) or ("All" in trs) or any(t in set(tribes) for t in trs)
+
+    expected_ids = set()
+    for cid in active_ids:
+        ck = by_id.get(cid)
+        if ck is None:
+            continue
+        if ck.tier is None or not (1 <= int(ck.tier) <= MAX_TIER):
+            continue
+        if ck.attack is None or ck.health is None:
+            continue
+        if "_SKIN_" in ck.card_id:
+            continue
+        if in_lobby(ck):
+            expected_ids.add(cid)
+
+    catalogue = build_pool(lobby_tribes=tribes)
+    got_ids = {m.card_id for m in catalogue}
+    got_names = {m.name for m in catalogue}
+
+    false_neg = sorted(expected_ids - got_ids)
+    false_pos = sorted(got_ids - expected_ids)
+
+    # Known pollution classes from the frozen manifest / KB.
+    token_examples = {
+        e["card_id"] for e in (manifest.get("known_non_pool_examples") or [])
+        if e.get("reason") == "token_not_tavern_pool"
+    }
+    duos_ids = {e["card_id"] for e in (manifest.get("excluded_duos_exclusive") or [])}
+    t7_ids = {e["card_id"] for e in (manifest.get("excluded_tier7") or [])}
+
+    tokens_in_pool = sorted(got_ids & token_examples)
+    # Token heuristic: KB card with techLevel but not in active manifest and
+    # id ends with 't' (common HSJSON token suffix) that slipped in.
+    tokenish = sorted(
+        m.card_id for m in catalogue
+        if m.card_id not in active_ids and (
+            m.card_id.endswith("t") or m.card_id in token_examples)
+    )
+    duos_in_pool = sorted(got_ids & duos_ids)
+    t7_in_pool = sorted(
+        m.card_id for m in catalogue
+        if m.tier is not None and int(m.tier) > MAX_TIER or m.card_id in t7_ids
+    )
+    # Generated-only / removed: in catalogue but not in active manifest.
+    not_in_active = sorted(got_ids - active_ids)
+
+    n_exp = len(expected_ids)
+    n_got = len(got_ids)
+    recall = (1.0 if n_exp == 0 else (n_exp - len(false_neg)) / n_exp)
+    precision = (1.0 if n_got == 0 else (n_got - len(false_pos)) / n_got)
+
+    return {
+        "lobby_tribes": tribes,
+        "n_active_manifest_solo": len(active_ids),
+        "n_expected_lobby_catalogue": n_exp,
+        "n_build_pool": n_got,
+        "active_pool_recall": recall,
+        "active_pool_precision": precision,
+        "n_false_negatives": len(false_neg),
+        "n_false_positives": len(false_pos),
+        "false_negative_ids": false_neg[:50],
+        "false_positive_ids": false_pos[:50],
+        "token_cards_in_build_pool": len(tokens_in_pool) + len(
+            [i for i in tokenish if i not in tokens_in_pool]),
+        "token_card_ids": sorted(set(tokens_in_pool) | set(tokenish))[:50],
+        "duos_only_in_solo_build_pool": len(duos_in_pool),
+        "duos_only_ids": duos_in_pool[:50],
+        "out_of_scope_t7_in_build_pool": len(t7_in_pool),
+        "t7_ids": t7_in_pool[:50],
+        "removed_or_generated_only_in_build_pool": len(not_in_active),
+        "not_in_active_ids": not_in_active[:50],
+        "foraging_bat_in_build_pool": "Foraging Bat" in got_names,
+        "gates_pass": (
+            recall == 1.0 and precision == 1.0
+            and len(tokens_in_pool) == 0 and len(tokenish) == 0
+            and len(duos_in_pool) == 0
+            and len(t7_in_pool) == 0
+            and len(not_in_active) == 0
+            and "Foraging Bat" not in got_names
+        ),
+    }
+
+
 def audit_catalogue_synchronization(
         archetypes: Optional[List[Archetype]] = None) -> Dict:
     """Every archetype core → KB / tier / stats / full build_pool membership."""
@@ -179,6 +286,9 @@ def audit_pool_contract() -> Dict:
         "simulator": {
             "POOL_COPIES": dict(POOL_COPIES),
             "SHOP_SLOTS": dict(SHOP_SLOTS),
+            "active_tavern_pool_manifest": (
+                "data/cards/active_tavern_pool.json "
+                "(Phase 2N-D; build_pool ∩ isBattlegroundsPoolMinion solo T1–6)"),
             "draw": (
                 "weighted by remaining live copies among catalogue minions "
                 "with tier <= tavern and pool > 0; without replacement within deal"),
@@ -322,6 +432,9 @@ class PoolDealTracer(RecruitTracer):
         self.deal_events: List[Dict] = []
 
     def on_deal(self, env: BGEnv, player, meta: Dict) -> None:
+        newly = meta.get("newly_dealt_names")
+        if newly is None:
+            newly = meta.get("dealt_names") or []
         self.deal_events.append({
             "lobby": self.lobby_id,
             "seed": self.seed,
@@ -329,9 +442,12 @@ class PoolDealTracer(RecruitTracer):
             "turn": env.turn,
             "reason": meta["reason"],
             "frozen_skip": meta["frozen_skip"],
+            "freeze_topup": bool(meta.get("freeze_topup")),
             "tavern_tier": meta["tavern_tier"],
             "n_slots": meta["n_slots"],
-            "dealt_names": list(meta["dealt_names"]),
+            "dealt_names": list(newly),
+            "kept_names": list(meta.get("kept_names") or []),
+            "newly_dealt_names": list(newly),
             "eligible_total_copies": meta["eligible_total_copies"],
             "card_remaining": dict(meta["card_remaining"]),
             "alive_players": sum(1 for q in env.players if q.alive),
@@ -367,6 +483,7 @@ def run_board_opp_with_pool_audit(
         all_turn_summaries.extend(tracer.turn_summaries)
         all_player_finals.extend(tracer.player_finals)
         all_deals.extend(tracer.deal_events)
+        cons = env.pool_conservation_snapshot()
         lobby_meta.append({
             "lobby": lobby_i,
             "seed": lobby_seed,
@@ -374,8 +491,10 @@ def run_board_opp_with_pool_audit(
             "game_length": env.turn,
             "final_pool_total": int(sum(env._pool.values())),
             "initial_pool_total_expected": int(
-                sum(POOL_COPIES[m.tier] for m in env._catalogue.values())),
+                getattr(env, "_pool_initial_total",
+                        sum(POOL_COPIES[m.tier] for m in env._catalogue.values()))),
             "catalogue_size": len(env._catalogue),
+            "pool_conservation": cons,
         })
         del env
 
@@ -743,6 +862,7 @@ def calibrate_live_pool(traces: Dict) -> Dict:
 
 def analyze_shop_pool_audit(traces: Dict) -> Dict:
     catalogue = audit_catalogue_synchronization()
+    active_pool = audit_active_pool_precision_recall(list(TRIBES))
     contract = audit_pool_contract()
     rules = audit_rule_mismatches(contract)
     avail = analyze_availability_decomposition(traces)
@@ -751,17 +871,26 @@ def analyze_shop_pool_audit(traces: Dict) -> Dict:
     a3_desc = (live.get("descriptive_card_windows") or {}).get(
         "a3_zero_raw") or {}
 
+    cons_rows = [m.get("pool_conservation") or {} for m in traces["lobby_meta"]]
+    n_bal = sum(1 for c in cons_rows if c.get("balanced"))
     conservation = {
         "n_lobbies": traces["lobbies"],
         "note": (
-            "Elimination does not return copies; final pool + alive holdings "
-            "is expected below initial pool total."),
+            "Invariant: pool copies + live board/hand/shop holdings "
+            "+ 3× golden holdings == initialized shared-pool copies "
+            "(requires Phase 2N-B death-return)."),
         "lobby_final_pool_mean": (
             sum(m["final_pool_total"] for m in traces["lobby_meta"])
             / max(len(traces["lobby_meta"]), 1)),
         "lobby_initial_pool_mean": (
             sum(m["initial_pool_total_expected"] for m in traces["lobby_meta"])
             / max(len(traces["lobby_meta"]), 1)),
+        "n_lobbies_balanced": n_bal,
+        "n_lobbies_unbalanced": traces["lobbies"] - n_bal,
+        "conservation_ok": n_bal == traces["lobbies"] and traces["lobbies"] > 0,
+        "mean_delta": (
+            sum(float(c.get("delta") or 0) for c in cons_rows)
+            / max(len(cons_rows), 1)),
     }
 
     headlines = {

@@ -1,62 +1,49 @@
 # Simulator Fidelity Phase 2N — shop/pool fidelity interventions
 
-Date: 2026-09-02 · Status: **`2n_v1` measure complete — accept Simulator v1.x candidate** ·
+Date: 2026-09-02 · Status: **`2n_v2` HOLD — active Tavern-pool filter added; remasure 11700–12199** ·
 Artifacts: [`results/sim_fidelity_phase_2n/`](../results/sim_fidelity_phase_2n/)
 
 ## Verdict
 
-**`accept_simulator_v1_x_candidate`**
+**HOLD Simulator v1.x** — do **not** consume confirmation seeds **11500–11699**.
 
-All three Phase 2M actionable mismatches are cleared. Deal-level live calib on
-intervention seeds **11000–11499** is within the acceptance band (obs/exp ≈
-**0.759**). Mild undershoot remains (lobby CI excludes 0) but is not a
-substantial `_draw()` defect. Next: freeze Simulator v1.x candidate and confirm
-on **11500–11699**.
+`2n_v1` cleared Phase 2M actionable lifecycle/copy mismatches, but acceptance was
+**withdrawn**: `build_pool()` admitted the historical KB (≈1,306 BG minions) as
+Bob's Tavern, producing false-positive catalogues (e.g. token **Foraging Bat**).
+Average initial shared pool ≈8,763 copies implied ≥585 distinct shop minions in a
+five-tribe lobby vs ≈261 current BG minions.
 
-## Interventions (independent commits / toggles)
+## Interventions
 
-| Step | Change | Result |
+| Step | Change | Status |
 |---|---|---|
-| **2N-A** | HearthstoneJSON KB refresh; classify cores; remove T7 Polarizing Beatboxer | **226/226** cores in exact catalogue |
-| **2N-B** | `PHASE_2N_DEATH_RETURN` + `PHASE_2N_FREEZE_TOPUP` | actionable lifecycle mismatches cleared |
-| **2N-C** | `POOL_COPIES[6] = 7` | matches current BG |
+| **2N-A** | HearthstoneJSON KB refresh; classify cores; remove T7 Polarizing Beatboxer | kept |
+| **2N-B** | `PHASE_2N_DEATH_RETURN` + `PHASE_2N_FREEZE_TOPUP` | kept |
+| **2N-C** | `POOL_COPIES[6] = 7` | kept |
+| **2N-D** | Frozen `data/cards/active_tavern_pool.json`; `build_pool` ∩ active manifest | **new (`2n_v2`)** |
 
-No `_draw()` rewrite, buy/economy, card effects, or BC/DAgger/PPO.
+Also in `2n_v2`: freeze audit splits `kept_names` / `newly_dealt_names`; pool
+conservation invariant `pool + live holdings + 3×golden == initialized`.
 
-## 2N-A classification
+Acceptance now requires **recall and precision**:
 
-| Class | Count | Action |
-|---|---:|---|
-| ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH | 38 | KB refresh only |
-| TIER_REFRESH_FIXED | 1 (Sanguine Champion) | KB refresh |
-| TIER_OUT_OF_SIM_SCOPE | 2 (Polarizing Beatboxer) | removed from cores |
-
-## Measurement (11000–11499, 500 lobbies)
-
-| Metric | 2M DEV (10200) | 2N intervention |
-|---|---:|---:|
-| Deal×card obs | 10,925 | 18,373 |
-| Σ expected raw | ≈74.9 | ≈122.5 |
-| Σ observed raw | 60 | **93** |
-| obs/exp ratio | 0.801 | **0.759** |
-| Actionable mismatches | 3 | **0** |
-| A1 never-legal share | 37.2% | **0.6%** |
-| A3 zero-raw share | 62.8% | **99.2%** of remaining never-legal |
-
-Catalogue sync removed nearly all A1 mass; remaining scarcity is still mostly
-tier-eligible zero-raw under the finite shared pool — consistent with 2M’s
-conclusion that `_draw()` is not catastrophically wrong.
+```text
+active-pool recall = 100%
+active-pool precision = 100%
+token / removed / generated-only / Duos-only / T7 in build_pool = 0
+```
 
 ## Seeds
 
 | Role | Range | Status |
 |---|---|---|
-| Intervention measure | **11000–11499** | **consumed** |
-| Confirmation | **11500–11699** | reserved |
+| 2n_v1 combined measure | **11000–11499** | consumed (informed 2N-D; do not reuse) |
+| Confirmation | **11500–11699** | **reserved — do not touch** |
+| 2n_v2 remasure DEV | **11700–12199** | active |
 
 ## Commands
 
 ```bash
 pytest tests/test_phase_2n.py tests/test_bg_env.py tests/test_shop_pool_audit.py
-python -m ml.fidelity_phase_2n
+python -m ml.fidelity_phase_2n   # defaults to 11700–12199
 ```

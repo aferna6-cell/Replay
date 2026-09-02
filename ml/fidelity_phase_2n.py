@@ -2,13 +2,15 @@
 
     python -m ml.fidelity_phase_2n
 
-Implements / measures the three Phase 2M actionable fixes:
+Implements / measures Phase 2M actionable fixes plus 2N-D:
   2N-A catalogue/KB sync (data refresh + T7 core hygiene)
   2N-B death return + freeze top-up
   2N-C T6 copies 6→7
+  2N-D current active Tavern-pool manifest ∩ build_pool (precision+recall)
 
-Measurement consumes reserved intervention seeds **11000–11499** once on the
-completed 2N simulator. Confirmation **11500–11699** reserved for freeze.
+2n_v1 measured 11000–11499 (HOLD — false-positive catalogue). 2n_v2 remasures
+on fresh DEV **11700–12199**. Confirmation **11500–11699** reserved until
+active-pool gates pass and Simulator v1.x is frozen.
 """
 
 from __future__ import annotations
@@ -41,22 +43,25 @@ from .fidelity_reference import (
 from .shop_pool_audit import (
     FROZEN_ALPHA,
     analyze_shop_pool_audit,
+    audit_active_pool_precision_recall,
     audit_catalogue_synchronization,
     audit_rule_mismatches,
     run_board_opp_with_pool_audit,
 )
 
-METHODOLOGY_VERSION = "2n_v1"
-PHASE_2N_SEED = 11000
-PHASE_2N_LOBBIES = 500
+METHODOLOGY_VERSION = "2n_v2"
+# Fresh DEV after 2N-D active-pool intervention (11000–11499 already informed 2N-D).
+PHASE_2N_SEED = 11700
+PHASE_2N_LOBBIES = 500  # 11700–12199
 PHASE_2N_CONFIRM_SEED = 11500
-PHASE_2N_CONFIRM_LOBBIES = 200
+PHASE_2N_CONFIRM_LOBBIES = 200  # reserved — do not consume until v1.x freeze
 
 FORBIDDEN_RANGES = (
     (8000, 8199),
     (9000, 9999),
     (10000, 10199),
     (10200, 10699),  # Phase 2L/2M diagnostic DEV
+    (11000, 11499),  # Phase 2N 2n_v1 combined measure (consumed)
     (11500, 11699),  # confirmation — not for intervention measure
 )
 
@@ -81,9 +86,11 @@ def assert_seed_range_allowed(seed: int, lobbies: int) -> None:
 
 def evaluate_phase_2n_decision(analysis: Dict) -> Dict:
     cat = analysis.get("catalogue_synchronization") or {}
+    active = analysis.get("active_pool_precision_recall") or {}
     rules = analysis.get("rule_mismatches") or {}
     live = analysis.get("live_calibration") or {}
     primary = live.get("primary_deal_level") or {}
+    cons = analysis.get("pool_conservation") or {}
     headlines = analysis.get("headlines") or {}
 
     missing = int(cat.get("n_missing_from_kb") or 0)
@@ -94,41 +101,73 @@ def evaluate_phase_2n_decision(analysis: Dict) -> Dict:
     clustered = (primary.get("lobby_clustered") or {}).get(
         "raw_obs_minus_exp") or {}
 
-    catalogue_clean = missing == 0 and invalid == 0
+    # Recall-only catalogue sync is insufficient after 2N-D; require precision too.
+    active_recall = active.get("active_pool_recall")
+    active_precision = active.get("active_pool_precision")
+    active_gates = bool(active.get("gates_pass"))
+    catalogue_clean = (
+        missing == 0 and invalid == 0
+        and active_gates
+        and active_recall == 1.0
+        and active_precision == 1.0
+    )
     lifecycle_copy_clean = len(actionable) == 0
+    conservation_ok = bool(cons.get("conservation_ok", True))
     draw_ok = (
         raw_ratio is not None
         and 0.70 <= float(raw_ratio) <= 1.30
     )
 
-    if catalogue_clean and lifecycle_copy_clean and draw_ok:
+    if catalogue_clean and lifecycle_copy_clean and conservation_ok and draw_ok:
         branch = "accept_simulator_v1_x_candidate"
         next_step = (
-            "Freeze Simulator v1.x candidate; run confirmation on "
+            "Freeze Simulator v1.x candidate; run confirmation ONCE on "
             f"{PHASE_2N_CONFIRM_SEED}–"
-            f"{PHASE_2N_CONFIRM_SEED + PHASE_2N_CONFIRM_LOBBIES - 1}.")
+            f"{PHASE_2N_CONFIRM_SEED + PHASE_2N_CONFIRM_LOBBIES - 1}."
+        )
+    elif not catalogue_clean:
+        branch = "active_pool_precision_incomplete"
+        next_step = (
+            "Active Tavern-pool precision/recall gates failed — "
+            f"recall={active_recall}, precision={active_precision}, "
+            f"gates_pass={active_gates}, missing_kb={missing}, "
+            f"invalid_tier={invalid}."
+        )
+    elif not conservation_ok:
+        branch = "pool_conservation_broken"
+        next_step = (
+            "Pool conservation invariant failed after death-return; "
+            "inspect pool_conservation before acceptance."
+        )
     elif catalogue_clean and lifecycle_copy_clean:
         branch = "interventions_applied_draw_residual"
         next_step = (
-            "Catalogue/lifecycle/T6 applied; deal-level calib still off — "
-            "inspect residual before confirmation.")
+            "Active-pool/lifecycle/T6 applied; deal-level calib still off — "
+            "inspect residual before confirmation."
+        )
     else:
         branch = "interventions_incomplete"
         next_step = (
             f"Remaining actionable mismatches: {actionable}; "
-            f"missing_kb={missing}, invalid_tier={invalid}.")
+            f"missing_kb={missing}, invalid_tier={invalid}."
+        )
 
     return {
         "decision_branch": branch,
         "recommended_next_step": next_step,
         "catalogue_clean": catalogue_clean,
+        "active_pool_recall": active_recall,
+        "active_pool_precision": active_precision,
+        "active_pool_gates_pass": active_gates,
         "lifecycle_copy_clean": lifecycle_copy_clean,
+        "pool_conservation_ok": conservation_ok,
         "deal_level_raw_ratio": raw_ratio,
         "lobby_raw_ci95": clustered.get("ci95"),
         "phase_2n_flags": {
             "death_return": PHASE_2N_DEATH_RETURN,
             "freeze_topup": PHASE_2N_FREEZE_TOPUP,
             "pool_copies_t6": POOL_COPIES[6],
+            "active_tavern_pool_filter": True,
         },
         "headlines": headlines,
     }
@@ -155,6 +194,7 @@ def run_phase_2n(*, seed: int = PHASE_2N_SEED,
 
     # Static audits first
     catalogue = audit_catalogue_synchronization()
+    active_pool = audit_active_pool_precision_recall()
     rules = audit_rule_mismatches()
 
     traces = run_board_opp_with_pool_audit(lobbies, seed, prior)
@@ -172,8 +212,9 @@ def run_phase_2n(*, seed: int = PHASE_2N_SEED,
         "phase_2n_freeze_topup": PHASE_2N_FREEZE_TOPUP,
         "pool_copies": dict(POOL_COPIES),
         "note": (
-            "Combined measurement after 2N-A/B/C. No _draw rewrite; "
-            "no buy/economy; no card effects; no BC/DAgger/PPO."),
+            "2n_v2 measurement after 2N-A/B/C/D (active Tavern-pool "
+            "manifest). No _draw rewrite; no buy/economy; no card effects; "
+            "no BC/DAgger/PPO. Confirm seeds 11500–11699 reserved."),
     })
 
     analysis_slim = {
@@ -192,6 +233,7 @@ def run_phase_2n(*, seed: int = PHASE_2N_SEED,
         "static_catalogue": {
             k: v for k, v in catalogue.items() if k != "rows"
         },
+        "static_active_pool": active_pool,
         "static_rule_mismatches": rules,
         "analysis": analysis_slim,
         "decision": decision,
@@ -230,7 +272,12 @@ def main(argv: Optional[list] = None) -> int:
     d = result["decision"]
     live = (result["analysis"].get("live_calibration") or {}).get(
         "primary_deal_level") or {}
-    print(f"\nCatalogue missing_kb: "
+    ap = result.get("static_active_pool") or {}
+    print(f"\nActive-pool recall={ap.get('active_pool_recall')} "
+          f"precision={ap.get('active_pool_precision')} "
+          f"gates={ap.get('gates_pass')} "
+          f"n_build_pool={ap.get('n_build_pool')}")
+    print(f"Catalogue missing_kb: "
           f"{result['static_catalogue'].get('n_missing_from_kb')}")
     print(f"Actionable mismatches: "
           f"{result['static_rule_mismatches'].get('phase_2n_actionable_ids')}")

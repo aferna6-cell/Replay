@@ -236,3 +236,40 @@ def test_board_cap_respected_all_game():
     env = BGEnv(seed=42)
     for rec in env.play_scripted([greedy_policy] * 8):
         assert len(rec["state"]["board"]) <= MAX_BOARD
+
+
+def test_freeze_hook_separates_kept_and_newly_dealt():
+    """Phase 2N-D: freeze audit reports kept vs newly dealt separately."""
+    from hsbg_coach.bg_env import PHASE_2N_FREEZE_TOPUP, SHOP_SLOTS
+    assert PHASE_2N_FREEZE_TOPUP
+    env = make_env(seed=5)
+    events = []
+    env.pool_deal_hook = lambda e, p, meta: events.append(meta)
+    p = env.players[0]
+    kept = [m.name for m in p.shop[:1]]
+    # Buy-path: return discarded shop slots before truncating.
+    for m in p.shop[1:]:
+        env._return_to_pool(m)
+    p.shop = p.shop[:1]
+    p.frozen = True
+    env._deal_reason = "start_turn"
+    env._deal_shop(p)
+    assert events
+    meta = events[-1]
+    assert meta.get("freeze_topup") is True
+    assert meta["kept_names"] == kept
+    assert meta["n_slots"] == len(meta["newly_dealt_names"])
+    assert meta["dealt_names"] == meta["newly_dealt_names"]
+    assert len(p.shop) == SHOP_SLOTS[p.tier]
+
+
+def test_pool_conservation_invariant():
+    """Phase 2N-D: pool + live holdings + 3×golden == initialized copies."""
+    env = make_env(seed=3)
+    env.assert_pool_conservation()
+    if env.legal_mask(0)[A_BUY0]:
+        env.step(A_BUY0)
+        env.assert_pool_conservation()
+    env.step(A_END)
+    if not env.done:
+        env.assert_pool_conservation()
