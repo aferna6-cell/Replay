@@ -1,29 +1,32 @@
-"""Tests for Phase 2I seeded margin diagnostic (2i_v1)."""
+"""Tests for Phase 2I seeded margin diagnostic (2i_v2)."""
 
 import random
 
 from hsbg_coach.bg_env import BGEnv
-from hsbg_coach.tempo_board_policy import policies_for_lobby
+from hsbg_coach.tempo_board_audit_hook import _decode_chosen
+from hsbg_coach.tempo_board_policy import PendingTransition, policies_for_lobby
 from hsbg_coach.tempo_margin_audit import (
+    ScoredTransition,
     TempoMarginAuditCollector,
     break_even_lambda,
-    break_even_lambda_bucket,
+    directional_break_even_bucket,
 )
+from ml.composition_diagnostic import aggregate_diagnostics
 from ml.composition_trace import board_fingerprint
 from ml.fidelity_phase_2i import (
     FROZEN_LAMBDA,
     PHASE_2I_SEED,
-    MarginAuditTracer,
     run_margin_audit_rollouts,
 )
 from ml.seeded_margin_diagnostic import (
     FAILURE_CODES,
     METHODOLOGY_VERSION,
+    TrackedExposure,
+    _close_exposure,
     analyze_margin_exposures,
     classify_rejection,
     is_composition_progress_failure,
 )
-from ml.composition_diagnostic import aggregate_diagnostics
 
 
 def _finals_fingerprint(lobbies: int, seed: int, *, with_audit: bool):
@@ -104,28 +107,106 @@ def test_exposure_counts_reconcile_with_2c_v3():
     assert rec["counts_match"] is True
 
 
-def test_decisive_rejection_at_generation_close():
-    from ml.seeded_margin_diagnostic import TrackedExposure
+def test_decisive_rejection_at_first_loss_of_buyability():
     exp = TrackedExposure(
         lobby=0, archetype_key="k", core_name="c", turn=3,
         shop_generation=1, core_have=1, tier=4, board_full_at_open=False,
-        target_at_open="k")
-    exp.close_reason = "roll"
-    exp.decisive_event_index = 10
+        target_at_open="k", last_pre_buyable=True)
+    exp.decision_audit_indices.append(7)
+    _close_exposure(
+        exp,
+        reason="first_loss_of_buyability",
+        audit_idx=exp.decision_audit_indices[-1],
+        event_idx=10,
+    )
+    assert exp.closed
+    assert exp.close_reason == "first_loss_of_buyability"
+    assert exp.decisive_audit_index == 7
     code, _ = classify_rejection(exp, None)
     assert code in FAILURE_CODES
 
 
-def test_break_even_lambda_synthetic():
+def test_directional_break_even_lambda_synthetic():
+    current_lambda = 12.0
+    core_slope = 1.0
+    chosen_slope = 2.0
     lam = break_even_lambda(
         core_raw=10.0, core_build=1.0, repl_raw=5.0, repl_build=0.0,
-        chosen_raw=15.0, chosen_build=0.0)
+        chosen_raw=15.0, chosen_build=2.0)
     assert lam is not None
-    assert abs(lam - 10.0) < 1e-9
-    assert break_even_lambda_bucket(lam) == "lambda_le_12"
+    assert lam < current_lambda
+    bucket = directional_break_even_bucket(
+        lam,
+        current_lambda=current_lambda,
+        core_slope=core_slope,
+        chosen_slope=chosen_slope,
+    )
+    assert bucket == "helpful_lower_lambda_only"
+
+    lam_high = break_even_lambda(
+        core_raw=10.0, core_build=0.5, repl_raw=5.0, repl_build=0.0,
+        chosen_raw=15.0, chosen_build=0.0)
+    assert lam_high is not None
+    assert lam_high > current_lambda
+    assert directional_break_even_bucket(
+        lam_high,
+        current_lambda=current_lambda,
+        core_slope=0.5,
+        chosen_slope=0.0,
+    ) == "helpful_higher_lambda_le_24"
+
     assert break_even_lambda(
         core_raw=1.0, core_build=1.0, repl_raw=0.0, repl_build=0.0,
         chosen_raw=2.0, chosen_build=1.0) is None
+    assert directional_break_even_bucket(
+        None, current_lambda=current_lambda,
+        core_slope=1.0, chosen_slope=1.0) == "no_lambda_effect"
+
+
+def test_compound_sell_decodes_from_pending_not_first_transition():
+    from hsbg_coach.bg_env import A_SELL0
+
+    sell_action = A_SELL0 + 2
+    transitions = [
+        ScoredTransition(
+            action_type="shop_sell_buy", candidate_name="CoreA",
+            candidate_slot=0, raw_component=5.0, build_gain=1.0,
+            build_component=12.0, replacement_name="Weak", replacement_slot=2,
+            replacement_raw=100.0, replacement_build_value=0.0,
+            replacement_component=0.0, net_value=-95.0, is_target_core=True,
+            action_id=sell_action),
+        ScoredTransition(
+            action_type="hand_sell_play", candidate_name="HandMinion",
+            candidate_slot=0, raw_component=20.0, build_gain=0.0,
+            build_component=0.0, replacement_name="Weak", replacement_slot=2,
+            replacement_raw=100.0, replacement_build_value=0.0,
+            replacement_component=0.0, net_value=-80.0, is_target_core=False,
+            action_id=sell_action),
+    ]
+    pending = PendingTransition(
+        source="hand",
+        stage="play",
+        candidate_name="HandMinion",
+        candidate_slot=0,
+        replacement_slot=2,
+        net_value=-42.0,
+        build_gain=0.5,
+        raw_sacrifice=100.0,
+    )
+    obs = {
+        "board": [{"name": "Weak", "attack": 50, "health": 50}],
+        "hand": [{"name": "HandMinion", "attack": 10, "health": 10}],
+        "shop": [],
+        "tavern_tier": 4,
+    }
+    mask = [False] * 200
+    mask[sell_action] = True
+    chosen = _decode_chosen(
+        sell_action, obs, mask, transitions, pending, None,
+        fit=None, tier=4, lambda_build=12.0)
+    assert chosen.candidate_name == "HandMinion"
+    assert chosen.net_value == -42.0
+    assert chosen.action_type == "hand_sell_play"
 
 
 def test_alternate_core_not_composition_failure():
@@ -154,4 +235,19 @@ def test_fresh_policy_instances_per_lobby():
 
 
 def test_methodology_version():
-    assert METHODOLOGY_VERSION == "2i_v1"
+    assert METHODOLOGY_VERSION == "2i_v2"
+
+
+def test_report_includes_rank_and_quartile_breakdowns():
+    out = run_margin_audit_rollouts(4, PHASE_2I_SEED + 60, FROZEN_LAMBDA)
+    analysis = analyze_margin_exposures(
+        out["traces"], out["audit"], out["audit_event_links"])
+    hm = analysis["headline_metrics"]
+    assert "pct_core_ranked_first_with_build" in hm
+    assert "pct_core_ranked_first_without_build" in hm
+    assert "mean_chosen_minus_core_raw_gap" in hm
+    assert "mean_core_raw_advantage" in hm
+    assert "breakdown_by_core_frequency_quartile" in analysis
+    be = analysis["break_even_lambda"]
+    assert "pct_helpful_lower_lambda_only" in be
+    assert "pct_helpful_higher_lambda_le_24" in be

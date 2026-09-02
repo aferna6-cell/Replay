@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2I — seeded opportunity decision-margin diagnostic
 
-Date: 2026-09-02 · Status: **measurement-only (2i_v1)** ·
+Date: 2026-09-02 · Status: **measurement-only (2i_v2)** ·
 Artifacts: [`results/sim_fidelity_phase_2i/`](../results/sim_fidelity_phase_2i/)
 
 ## Research question
@@ -9,13 +9,25 @@ Artifacts: [`results/sim_fidelity_phase_2i/`](../results/sim_fidelity_phase_2i/)
 > seeded core opportunity despite the Phase 2E/2G oracle proving those opportunities
 > can produce assembly?
 
-## Methodology
+## Methodology (2i_v2)
 
 - **Exposure unit:** 2c_v3 — core name × shop generation × seeded current target
 - **Policy:** Phase 2H v3 `TempoBoardGreedyPolicy`, λ_build = 12 (frozen)
 - **Seeds:** DEV **3000–3499** (500 lobbies) — not held-out 6000–6199
 - **Simulator:** v1.1 residual scaling
 - **No policy behavior changes** — observational audit hook only
+
+### 2i_v2 corrections (vs 2i_v1)
+
+1. **Compound chosen-transition attribution** — decode initial compound sell from
+   `policy.pending` (candidate, replacement slot, net/build), not first matching
+   sell `action_id`.
+2. **Directional break-even λ buckets** — distinguish higher-λ vs lower-λ help;
+   do not treat λ≤12 ties as “needs λ≤12” when lowering λ is required.
+3. **Decisive rejection** — close exposure on **first loss of buyability** within
+   a shop generation, not at generation change / roll / end.
+4. **Reporting** — rank with/without build, core-frequency quartiles, renamed raw-gap
+   metrics (`mean_chosen_minus_core_raw_gap`, `mean_core_raw_advantage`).
 
 ## Instrumentation
 
@@ -54,25 +66,7 @@ Mixed/sample-insufficient → expand diagnostic before implementing fixes.
 
 ## DEV results (seeds 3000–3499, λ=12, clean tree)
 
-```text
-N seeded legally-buyable exposures: 159
-├─ fulfilled: 2
-└─ rejected: 157
-   ├─ A replacement cost dominates: 137 (87%)
-   └─ F economy/legality loss: 20 (13%)
-```
-
-2c_v3 reconciliation: **pass** (159 = 159 exposures).
-
-Headline metrics:
-
-- **87%** of rejections lost only because board was full (replacement cost)
-- **0%** core full-board transition net > 0 at λ=12
-- **68%** break-even λ > 24; **18%** would need λ ≤ 12
-- Mean replacement raw-stat cost: **296** vs mean λ×build bonus: **5.1**
-
-**Recommended Phase 2J branch:** multi-turn / board-slot opportunity-cost model
-(replacement cost dominates >50% of composition-progress failures).
+See `results/sim_fidelity_phase_2i/phase_2i_report.json` for latest 2i_v2 run.
 
 ## Frozen
 

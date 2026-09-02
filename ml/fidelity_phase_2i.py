@@ -168,6 +168,8 @@ def run_phase_2i(*, lobbies: int = PHASE_2I_LOBBIES,
             "breakdown_by_core_have": analysis["breakdown_by_core_have"],
             "breakdown_by_board_full": analysis["breakdown_by_board_full"],
             "breakdown_by_archetype": analysis["breakdown_by_archetype"],
+            "breakdown_by_core_frequency_quartile": (
+                analysis["breakdown_by_core_frequency_quartile"]),
         },
         "decision": decision,
         "contract": contract,

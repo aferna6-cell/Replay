@@ -6,7 +6,7 @@ Records policy scores without participating in action selection.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 
 @dataclass
@@ -110,11 +110,22 @@ def break_even_lambda(*, core_raw: float, core_build: float,
     return (chosen_intercept - core_intercept) / denom
 
 
-def break_even_lambda_bucket(lam: Optional[float]) -> str:
-    if lam is None:
-        return "no_finite_helpful_lambda"
-    if lam <= 12:
-        return "lambda_le_12"
-    if lam <= 24:
-        return "12_lt_lambda_le_24"
-    return "lambda_gt_24"
+def directional_break_even_bucket(
+        lam: Optional[float], *,
+        current_lambda: float,
+        core_slope: float,
+        chosen_slope: float) -> str:
+    """Directional bucket for rejected exposures at ``current_lambda``.
+
+    Answers whether a higher-λ sweep could help (not whether lowering λ would).
+    """
+    if abs(core_slope - chosen_slope) < 1e-12:
+        return "no_lambda_effect"
+    if core_slope > chosen_slope:
+        if lam is None:
+            return "no_finite_helpful_higher_lambda"
+        if lam > current_lambda:
+            return ("helpful_higher_lambda_le_24" if lam <= 24
+                    else "helpful_higher_lambda_gt_24")
+        return "no_finite_helpful_higher_lambda"
+    return "helpful_lower_lambda_only"

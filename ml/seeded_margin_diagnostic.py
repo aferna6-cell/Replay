@@ -1,4 +1,4 @@
-"""Phase 2I seeded opportunity decision-margin diagnostic (2i_v1).
+"""Phase 2I seeded opportunity decision-margin diagnostic (2i_v2).
 
 Measurement-only audit of why frozen Phase 2H λ=12 rejects seeded core exposures.
 Uses 2c_v3 exposure units: core name × shop generation × seeded current target.
@@ -16,7 +16,7 @@ from hsbg_coach.tempo_margin_audit import (
     DecisionSnapshot,
     TempoMarginAuditCollector,
     break_even_lambda,
-    break_even_lambda_bucket,
+    directional_break_even_bucket,
 )
 
 from .composition_diagnostic import (
@@ -31,7 +31,7 @@ from .composition_diagnostic import (
     aggregate_diagnostics,
 )
 
-METHODOLOGY_VERSION = "2i_v1"
+METHODOLOGY_VERSION = "2i_v2"
 VIEW = "seeded_current_target"
 
 FAILURE_CODES = (
@@ -58,6 +58,9 @@ class TrackedExposure:
     board_full_at_open: bool
     target_at_open: Optional[str]
     fulfilled: bool = False
+    closed: bool = False
+    last_pre_buyable: bool = True
+    core_frequency: float = 0.0
     decision_audit_indices: List[int] = field(default_factory=list)
     decisive_audit_index: Optional[int] = None
     decisive_event_index: Optional[int] = None
@@ -243,22 +246,45 @@ def analyze_margin_exposures(
                                 tier=int(tier or 1),
                                 board_full_at_open=len(board) >= 7,
                                 target_at_open=(target_before or {}).get(
-                                    "archetype_key"))
+                                    "archetype_key"),
+                                core_frequency=float(arch.core.get(name, 0.0)),
+                                last_pre_buyable=True,
+                            )
                             ag.cores[name] = exp
                             exposures.append(exp)
 
                 ag = active.get(akey)
                 if ag is not None:
                     for exp in ag.cores.values():
-                        if not exp.fulfilled and _core_still_buyable(ev, exp.core_name):
-                            if audit_idx is not None:
-                                exp.decision_audit_indices.append(audit_idx)
+                        if exp.fulfilled or exp.closed:
+                            continue
+                        now_buyable = _core_still_buyable(ev, exp.core_name)
+                        if exp.last_pre_buyable and not now_buyable:
+                            audit_for_loss = (exp.decision_audit_indices[-1]
+                                              if exp.decision_audit_indices
+                                              else audit_idx)
+                            _close_exposure(
+                                exp,
+                                reason="first_loss_of_buyability",
+                                audit_idx=audit_for_loss,
+                                event_idx=link_idx,
+                            )
+                        elif now_buyable and audit_idx is not None:
+                            exp.decision_audit_indices.append(audit_idx)
+                        exp.last_pre_buyable = now_buyable
 
                 if ev["action"] == "buy" and ev.get("card"):
                     bought = ev["card"]["name"]
                     ag = active.get(akey)
                     if ag is not None and bought in ag.cores:
-                        ag.cores[bought].fulfilled = True
+                        exp = ag.cores[bought]
+                        exp.fulfilled = True
+                        _close_exposure(
+                            exp,
+                            reason="fulfilled",
+                            audit_idx=audit_idx,
+                            event_idx=link_idx,
+                        )
 
                 if ev["action"] in ("roll", "end"):
                     _close_active_gen(active.get(akey), exposures,
@@ -280,21 +306,48 @@ def analyze_margin_exposures(
     return _summarize_exposures(exposures, audit, traces)
 
 
+def _close_exposure(
+        exp: TrackedExposure,
+        *,
+        reason: str,
+        audit_idx: Optional[int],
+        event_idx: int) -> None:
+    if exp.closed:
+        return
+    exp.closed = True
+    exp.close_reason = reason
+    exp.decisive_event_index = event_idx
+    if audit_idx is not None:
+        exp.decisive_audit_index = audit_idx
+    elif exp.decision_audit_indices:
+        exp.decisive_audit_index = exp.decision_audit_indices[-1]
+
+
 def _close_active_gen(ag: Optional[_ActiveGen], exposures: List[TrackedExposure],
                       links: List[Optional[int]], event_idx: int,
                       reason: str) -> None:
     if ag is None:
         return
     for exp in ag.cores.values():
-        if exp.fulfilled:
+        if exp.fulfilled or exp.closed:
             continue
-        exp.close_reason = reason
-        exp.decisive_event_index = event_idx
-        if exp.decision_audit_indices:
-            exp.decisive_audit_index = exp.decision_audit_indices[-1]
-        elif event_idx < len(links):
-            exp.decisive_audit_index = links[event_idx]
+        audit_idx = (exp.decision_audit_indices[-1]
+                     if exp.decision_audit_indices
+                     else (links[event_idx] if event_idx < len(links) else None))
+        _close_exposure(exp, reason=reason, audit_idx=audit_idx, event_idx=event_idx)
     ag.cores.clear()
+
+
+def _frequency_quartile(freq: float, boundaries: List[float]) -> str:
+    if not boundaries:
+        return "q_unknown"
+    if freq <= boundaries[0]:
+        return "q1_lowest"
+    if freq <= boundaries[1]:
+        return "q2"
+    if freq <= boundaries[2]:
+        return "q3"
+    return "q4_highest"
 
 
 def _summarize_exposures(exposures: List[TrackedExposure],
@@ -310,15 +363,19 @@ def _summarize_exposures(exposures: List[TrackedExposure],
     break_even_buckets = Counter()
 
     margins: List[float] = []
-    raw_disadvs: List[float] = []
+    raw_gaps: List[float] = []
     build_bonuses: List[float] = []
     repl_costs: List[float] = []
     core_net_positive = 0
-    core_ranked_first = 0
-    core_ranked_second = 0
-    core_ranked_third_plus = 0
+    core_ranked_first_with_build = 0
+    core_ranked_second_with_build = 0
+    core_ranked_third_plus_with_build = 0
+    core_ranked_first_no_build = 0
+    core_ranked_second_no_build = 0
+    core_ranked_third_plus_no_build = 0
     rejected_despite_positive = 0
     lost_board_full_only = 0
+    rejected_frequencies: List[float] = []
 
     for exp in rejected:
         snap = (audit.snapshots[exp.decisive_audit_index]
@@ -335,9 +392,13 @@ def _summarize_exposures(exposures: List[TrackedExposure],
         margin = decomp.get("decision_margin")
         if margin is not None:
             margins.append(margin)
+        freq = exp.core_frequency
+        if cs and cs.core_frequency:
+            freq = cs.core_frequency
+        rejected_frequencies.append(freq)
         if cs:
             if cs.candidate_raw and chosen:
-                raw_disadvs.append(chosen.raw_component - cs.candidate_raw)
+                raw_gaps.append(chosen.raw_component - cs.candidate_raw)
             build_bonuses.append(cs.build_component)
             if cs.replacement_raw:
                 repl_costs.append(cs.replacement_raw)
@@ -347,16 +408,27 @@ def _summarize_exposures(exposures: List[TrackedExposure],
                 rejected_despite_positive += 1
             rk = cs.rank_with_build or 99
             if rk == 1:
-                core_ranked_first += 1
+                core_ranked_first_with_build += 1
             elif rk == 2:
-                core_ranked_second += 1
+                core_ranked_second_with_build += 1
             else:
-                core_ranked_third_plus += 1
+                core_ranked_third_plus_with_build += 1
+            rkn = cs.rank_without_build or 99
+            if rkn == 1:
+                core_ranked_first_no_build += 1
+            elif rkn == 2:
+                core_ranked_second_no_build += 1
+            else:
+                core_ranked_third_plus_no_build += 1
             if cs.board_full and (cs.core_free_slot_value or 0) > 0:
                 if (cs.core_actual_replacement_value or 0) <= 0:
                     lost_board_full_only += 1
 
             if chosen and cs:
+                current_lambda = snap.lambda_build if snap else 12.0
+                core_slope = cs.build_gain - cs.replacement_build_value
+                chosen_slope = (chosen.build_gain
+                                - chosen.replacement_build_value)
                 lam = break_even_lambda(
                     core_raw=cs.candidate_raw, core_build=cs.build_gain,
                     repl_raw=cs.replacement_raw,
@@ -365,7 +437,11 @@ def _summarize_exposures(exposures: List[TrackedExposure],
                     chosen_build=chosen.build_gain,
                     chosen_repl_raw=chosen.replacement_raw,
                     chosen_repl_build=chosen.replacement_build_value)
-                bucket = break_even_lambda_bucket(lam)
+                bucket = directional_break_even_bucket(
+                    lam,
+                    current_lambda=current_lambda,
+                    core_slope=core_slope,
+                    chosen_slope=chosen_slope)
                 break_even_buckets[bucket] += 1
                 if lam is not None:
                     break_even_lambdas.append(lam)
@@ -378,12 +454,20 @@ def _summarize_exposures(exposures: List[TrackedExposure],
             "shop_generation": exp.shop_generation,
             "tier": exp.tier,
             "core_have": exp.core_have,
+            "core_frequency": freq,
             "board_full_at_open": exp.board_full_at_open,
             "primary_cause": code,
             "composition_progress_failure": is_composition_progress_failure(code),
             "close_reason": exp.close_reason,
             "decomposition": decomp,
         })
+
+    freq_boundaries: List[float] = []
+    if len(rejected_frequencies) >= 4:
+        freq_boundaries = list(st.quantiles(rejected_frequencies, n=4))[:3]
+    for r in records:
+        r["core_frequency_quartile"] = _frequency_quartile(
+            r["core_frequency"], freq_boundaries)
 
     diag_2c = aggregate_diagnostics(traces)
     seeded_2c = ((diag_2c.get("winner_decision_funnel") or {})
@@ -403,6 +487,8 @@ def _summarize_exposures(exposures: List[TrackedExposure],
             groups[r.get(field, "?")][r["primary_cause"]] += 1
         return {k: dict(v) for k, v in groups.items()}
 
+    mean_raw_gap = st.mean(raw_gaps) if raw_gaps else None
+
     return {
         "methodology_version": METHODOLOGY_VERSION,
         "phase_2c_methodology_version": PHASE_2C_VERSION,
@@ -416,6 +502,7 @@ def _summarize_exposures(exposures: List[TrackedExposure],
             "composition_progress_failure_rate": _pct(comp_failures, n_rej),
             "by_primary_cause": dict(cause_counts),
             "composition_progress_by_cause": dict(comp_fail_counts),
+            "by_close_reason": dict(Counter(r["close_reason"] for r in records)),
         },
         "reconciliation_2c_v3": {
             "tracked_exposures": n_total,
@@ -429,10 +516,11 @@ def _summarize_exposures(exposures: List[TrackedExposure],
                 and n_rej == agg_2c.get("rejected_exposures")),
         },
         "headline_metrics": {
-            "mean_core_raw_stat_disadvantage": (
-                st.mean(raw_disadvs) if raw_disadvs else None),
-            "median_core_raw_stat_disadvantage": (
-                st.median(raw_disadvs) if raw_disadvs else None),
+            "mean_chosen_minus_core_raw_gap": mean_raw_gap,
+            "mean_core_raw_advantage": (-mean_raw_gap if mean_raw_gap is not None
+                                        else None),
+            "median_chosen_minus_core_raw_gap": (
+                st.median(raw_gaps) if raw_gaps else None),
             "mean_lambda_build_bonus": (
                 st.mean(build_bonuses) if build_bonuses else None),
             "mean_replacement_raw_stat_cost": (
@@ -443,9 +531,18 @@ def _summarize_exposures(exposures: List[TrackedExposure],
                 st.median(margins) if margins else None),
             "pct_core_transitions_net_positive": _pct(
                 core_net_positive, n_rej),
-            "pct_core_ranked_first": _pct(core_ranked_first, n_rej),
-            "pct_core_ranked_second": _pct(core_ranked_second, n_rej),
-            "pct_core_ranked_third_plus": _pct(core_ranked_third_plus, n_rej),
+            "pct_core_ranked_first_with_build": _pct(
+                core_ranked_first_with_build, n_rej),
+            "pct_core_ranked_second_with_build": _pct(
+                core_ranked_second_with_build, n_rej),
+            "pct_core_ranked_third_plus_with_build": _pct(
+                core_ranked_third_plus_with_build, n_rej),
+            "pct_core_ranked_first_without_build": _pct(
+                core_ranked_first_no_build, n_rej),
+            "pct_core_ranked_second_without_build": _pct(
+                core_ranked_second_no_build, n_rej),
+            "pct_core_ranked_third_plus_without_build": _pct(
+                core_ranked_third_plus_no_build, n_rej),
             "pct_rejected_despite_positive_core_net": _pct(
                 rejected_despite_positive, n_rej),
             "pct_exposures_lost_board_full_only": _pct(
@@ -457,19 +554,24 @@ def _summarize_exposures(exposures: List[TrackedExposure],
                     if len(break_even_lambdas) >= 4 else None),
             "p75": (st.quantiles(break_even_lambdas, n=4)[2]
                     if len(break_even_lambdas) >= 4 else None),
-            "pct_lambda_le_12": _pct(
-                break_even_buckets.get("lambda_le_12", 0), n_rej),
-            "pct_12_lt_lambda_le_24": _pct(
-                break_even_buckets.get("12_lt_lambda_le_24", 0), n_rej),
-            "pct_lambda_gt_24": _pct(
-                break_even_buckets.get("lambda_gt_24", 0), n_rej),
-            "pct_no_finite_helpful_lambda": _pct(
-                break_even_buckets.get("no_finite_helpful_lambda", 0), n_rej),
+            "pct_helpful_higher_lambda_le_24": _pct(
+                break_even_buckets.get("helpful_higher_lambda_le_24", 0), n_rej),
+            "pct_helpful_higher_lambda_gt_24": _pct(
+                break_even_buckets.get("helpful_higher_lambda_gt_24", 0), n_rej),
+            "pct_helpful_lower_lambda_only": _pct(
+                break_even_buckets.get("helpful_lower_lambda_only", 0), n_rej),
+            "pct_no_lambda_effect": _pct(
+                break_even_buckets.get("no_lambda_effect", 0), n_rej),
+            "pct_no_finite_helpful_higher_lambda": _pct(
+                break_even_buckets.get("no_finite_helpful_higher_lambda", 0),
+                n_rej),
             "bucket_counts": dict(break_even_buckets),
         },
         "breakdown_by_tier": _breakdown_by("tier", records),
         "breakdown_by_core_have": _breakdown_by("core_have", records),
         "breakdown_by_board_full": _breakdown_by("board_full_at_open", records),
         "breakdown_by_archetype": _breakdown_by("archetype_key", records),
+        "breakdown_by_core_frequency_quartile": _breakdown_by(
+            "core_frequency_quartile", records),
         "rejected_exposure_records": records,
     }

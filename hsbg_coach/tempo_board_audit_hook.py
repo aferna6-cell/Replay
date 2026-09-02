@@ -238,6 +238,46 @@ def build_audit_snapshot(
     )
 
 
+def _chosen_from_pending(action: int, obs: Dict, pending: PendingTransition,
+                         fit, tier: int, lambda_build: float) -> ScoredTransition:
+    """Decode the exact compound transition from latched pending intent."""
+    board = obs.get("board") or []
+    hand = obs.get("hand") or []
+    shop = obs.get("shop") or []
+    bi = pending.replacement_slot
+    bm = board[bi] if bi is not None and bi < len(board) else {}
+    repl_name = bm.get("name")
+    repl_raw = _raw_stats(bm)
+    repl_gain = _replacement_build_value(repl_name, fit, tier)
+
+    if pending.source == "hand":
+        hm = (hand[pending.candidate_slot]
+              if pending.candidate_slot < len(hand) else {})
+        cand_raw = _raw_stats(hm)
+        action_type = "hand_sell_play"
+    else:
+        sm = (shop[pending.candidate_slot]
+              if pending.candidate_slot < len(shop) else {})
+        cand_raw = _raw_stats(sm)
+        action_type = "shop_sell_buy"
+
+    return ScoredTransition(
+        action_type=action_type,
+        candidate_name=pending.candidate_name,
+        candidate_slot=pending.candidate_slot,
+        raw_component=cand_raw,
+        build_gain=pending.build_gain,
+        build_component=lambda_build * pending.build_gain,
+        replacement_name=repl_name,
+        replacement_slot=bi,
+        replacement_raw=repl_raw,
+        replacement_build_value=repl_gain,
+        replacement_component=lambda_build * repl_gain,
+        net_value=pending.net_value,
+        is_target_core=pending.build_gain > 0,
+        action_id=action)
+
+
 def _decode_chosen(action: int, obs: Dict, mask: List[bool],
                    transitions: List[ScoredTransition],
                    pending: Optional[PendingTransition],
@@ -264,9 +304,19 @@ def _decode_chosen(action: int, obs: Dict, mask: List[bool],
             replacement_component=0.0, net_value=pending.net_value,
             is_target_core=pending.build_gain > 0, action_id=action)
 
+    if (pending is not None and pending.replacement_slot is not None
+            and A_SELL0 <= action < A_SELL0 + N_SELL
+            and action - A_SELL0 == pending.replacement_slot
+            and compound_stage is None):
+        return _chosen_from_pending(action, obs, pending, fit, tier, lambda_build)
+
     for t in transitions:
-        if t.action_id == action:
-            return t
+        if t.action_id != action:
+            continue
+        if (pending and pending.candidate_name and t.candidate_name
+                and t.candidate_name != pending.candidate_name):
+            continue
+        return t
 
     board = obs.get("board") or []
     hand = obs.get("hand") or []

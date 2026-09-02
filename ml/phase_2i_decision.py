@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, Optional
 
-METHODOLOGY_VERSION = "2i_v1"
+METHODOLOGY_VERSION = "2i_v2"
 
 DOMINANCE_THRESHOLD = 0.50
 
