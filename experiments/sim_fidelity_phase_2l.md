@@ -1,45 +1,50 @@
 # Simulator Fidelity Phase 2L — post-assembly availability decomposition
 
-Date: 2026-09-02 · Status: **measurement-only (2l_v1)** ·
+Date: 2026-09-02 · Status: **measurement-only complete (2l_v1)** ·
 Artifacts: [`results/sim_fidelity_phase_2l/`](../results/sim_fidelity_phase_2l/)
 
 ## Research question
 
-> Of the missing weighted core mass that is never *legally* buyable after first-2
-> assembly (Phase 2K: 92.1%), how much is tier-locked, never raw-offered,
-> raw-offered-but-illegal, or excluded from the lobby pool?
+> Of the missing weighted core mass that is never *legally* buyable after first-2,
+> how much is tier-locked, never raw-offered, raw-offered-but-illegal, or excluded
+> from the lobby pool?
 
 ## Frozen policy
 
-Phase 2J `BoardOpportunityCostPolicy` α=0.5, prior `9b31c93a…`. Observational only.
+Phase 2J α=0.5, prior `9b31c93a…`. Seeds **10200–10699** (44 states; no expand).
 
-## Seeds
+## DEV results
 
-| Range | Role |
-|---|---|
-| **10200–10699** | DEV diagnostic (500) |
-| 10700–10999 | Adaptive expand if &lt;40 states |
-| 8000–8199 / 9000–9999 / 10000–10199 | Forbidden |
+**44** post-assembly states. Never-legal mass ≈ **100%** of total missing in this cohort
+(consistent with 2K: available cores are bought).
 
-## Subfate taxonomy (of never-legal missing mass)
+### Subfate share of never-legal missing mass
 
-| Code | Meaning |
-|---|---|
-| `A1_NOT_IN_LOBBY_POOL` | Card cannot enter catalogue for lobby tribes / KB |
-| `A2_NEVER_TIER_ELIGIBLE` | Player never reaches card tech level after first-2 |
-| `A3_TIER_ELIGIBLE_ZERO_RAW` | Tier OK sometime; **zero** raw `pre_shop` appearances |
-| `A4_RAW_BUT_ZERO_LEGAL` | Raw appearance; **zero** legal-buy slots (gold/hand mask) |
-| `A5_OTHER` | Residual |
+| Subfate | Share |
+|---|---:|
+| **A3_TIER_ELIGIBLE_ZERO_RAW** | **62.8%** |
+| A1_NOT_IN_LOBBY_POOL | 37.2% |
+| A2_NEVER_TIER_ELIGIBLE | 0% |
+| **A4_RAW_BUT_ZERO_LEGAL** | **0%** |
+| A5_OTHER | 0% |
 
-## Headline metrics
+### Headlines
 
 ```text
-% never-legal missing mass: tier-eligible but ZERO RAW appearances
-% never-legal missing mass: RAW appearance but ZERO LEGAL-buy appearances
+tier-eligible but ZERO RAW:     62.8% of never-legal mass
+RAW but ZERO LEGAL:              0.0% of never-legal mass
 ```
 
-If the first dominates → shop/pool generation (Phase 2M).
-If the second dominates → **do not touch the pool**; legality/economy.
+Static sampler expectation for never-legal cards predicted ~48 raw appearances;
+observed **0**. Economy/action-mask is **not** the bottleneck.
+
+## Decision
+
+`a3_tier_eligible_zero_raw` → **Phase 2M: shop/pool generation**
+
+Do **not** touch legality/economy first (A4 = 0). Secondary A1 mass (37%)
+suggests also auditing lobby pool / tribe filtering / card-data inclusion when
+implementing generation fixes.
 
 ## Commands
 
