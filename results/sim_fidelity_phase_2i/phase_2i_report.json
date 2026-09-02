@@ -1,11 +1,11 @@
 {
   "benchmark": "Replay Simulator Fidelity Benchmark v1",
   "phase": "2I seeded opportunity decision-margin diagnostic",
-  "methodology_version": "2i_v1",
+  "methodology_version": "2i_v2",
   "simulator_version": "Simulator v1.1",
-  "implementation_commit": "cb11f4bb5fe006e67767d7974e71ef00cccb7d73",
+  "implementation_commit": "b457a701574651f9a2302efc57a0560dfe505780",
   "working_tree_clean": true,
-  "runtime_seconds": 942.98,
+  "runtime_seconds": 948.19,
   "evaluation_seed_base": 3000,
   "n_lobbies": 500,
   "frozen_lambda_build": 12.0,
@@ -24,6 +24,11 @@
       "composition_progress_by_cause": {
         "A_REPLACEMENT_COST_DOMINATES": 137,
         "F_ECONOMY_LEGALITY_LOSS": 20
+      },
+      "by_close_reason": {
+        "roll": 134,
+        "end": 19,
+        "first_loss_of_buyability": 4
       }
     },
     "reconciliation_2c_v3": {
@@ -34,16 +39,20 @@
       "counts_match": true
     },
     "headline_metrics": {
-      "mean_core_raw_stat_disadvantage": -8.598540145985401,
-      "median_core_raw_stat_disadvantage": -9.0,
+      "mean_chosen_minus_core_raw_gap": -8.598540145985401,
+      "mean_core_raw_advantage": 8.598540145985401,
+      "median_chosen_minus_core_raw_gap": -9.0,
       "mean_lambda_build_bonus": 5.1484072992700725,
       "mean_replacement_raw_stat_cost": 295.7664233576642,
       "mean_core_vs_chosen_margin": -284.7184335766423,
       "median_core_vs_chosen_margin": -191.9842,
       "pct_core_transitions_net_positive": 0.0,
-      "pct_core_ranked_first": 0.37579617834394907,
-      "pct_core_ranked_second": 0.21656050955414013,
-      "pct_core_ranked_third_plus": 0.2802547770700637,
+      "pct_core_ranked_first_with_build": 0.37579617834394907,
+      "pct_core_ranked_second_with_build": 0.21656050955414013,
+      "pct_core_ranked_third_plus_with_build": 0.2802547770700637,
+      "pct_core_ranked_first_without_build": 0.08280254777070063,
+      "pct_core_ranked_second_without_build": 0.12738853503184713,
+      "pct_core_ranked_third_plus_without_build": 0.6624203821656051,
       "pct_rejected_despite_positive_core_net": 0.0,
       "pct_exposures_lost_board_full_only": 0.8726114649681529
     },
@@ -51,14 +60,15 @@
       "median": 343.46463132070335,
       "p25": 64.60576512674743,
       "p75": 1403.7122297991864,
-      "pct_lambda_le_12": 0.18471337579617833,
-      "pct_12_lt_lambda_le_24": 0.012738853503184714,
-      "pct_lambda_gt_24": 0.6751592356687898,
-      "pct_no_finite_helpful_lambda": 0.0,
+      "pct_helpful_higher_lambda_le_24": 0.012738853503184714,
+      "pct_helpful_higher_lambda_gt_24": 0.6751592356687898,
+      "pct_helpful_lower_lambda_only": 0.18471337579617833,
+      "pct_no_lambda_effect": 0.0,
+      "pct_no_finite_helpful_higher_lambda": 0.0,
       "bucket_counts": {
-        "lambda_gt_24": 106,
-        "lambda_le_12": 29,
-        "12_lt_lambda_le_24": 2
+        "helpful_higher_lambda_gt_24": 106,
+        "helpful_lower_lambda_only": 29,
+        "helpful_higher_lambda_le_24": 2
       }
     },
     "breakdown_by_tier": {
@@ -132,6 +142,23 @@
       "undead_butcher": {
         "A_REPLACEMENT_COST_DOMINATES": 2
       }
+    },
+    "breakdown_by_core_frequency_quartile": {
+      "q1_lowest": {
+        "A_REPLACEMENT_COST_DOMINATES": 39,
+        "F_ECONOMY_LEGALITY_LOSS": 7
+      },
+      "q3": {
+        "F_ECONOMY_LEGALITY_LOSS": 12,
+        "A_REPLACEMENT_COST_DOMINATES": 29
+      },
+      "q4_highest": {
+        "A_REPLACEMENT_COST_DOMINATES": 36,
+        "F_ECONOMY_LEGALITY_LOSS": 1
+      },
+      "q2": {
+        "A_REPLACEMENT_COST_DOMINATES": 33
+      }
     }
   },
   "decision": {
@@ -147,7 +174,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "cb11f4bb5fe006e67767d7974e71ef00cccb7d73",
+    "code_commit": "b457a701574651f9a2302efc57a0560dfe505780",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -194,7 +221,7 @@
     "parent_simulator_version": "Simulator v1",
     "working_tree_clean": true,
     "phase": "2I seeded opportunity decision-margin diagnostic",
-    "phase_2i_methodology_version": "2i_v1",
+    "phase_2i_methodology_version": "2i_v2",
     "phase_2h_methodology_version": "2h_v3",
     "frozen_lambda_build": 12.0,
     "policy_config": {
@@ -227,6 +254,7 @@
       "shop_generation": 3,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.126,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -245,7 +273,8 @@
         "decision_margin": -13.2612,
         "core_free_slot_value": 10.7388,
         "core_replacement_value": -13.2612
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 7,
@@ -255,6 +284,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.363,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -271,7 +301,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 7,
@@ -281,6 +312,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -299,7 +331,8 @@
         "decision_margin": -885.032,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -885.032
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 26,
@@ -309,6 +342,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.115,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -327,7 +361,8 @@
         "decision_margin": -64.4234,
         "core_free_slot_value": 13.587,
         "core_replacement_value": -64.4234
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 26,
@@ -337,6 +372,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -353,7 +389,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 30,
@@ -363,6 +400,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.644,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -381,7 +419,8 @@
         "decision_margin": -186.9502,
         "core_free_slot_value": 19.8872,
         "core_replacement_value": -186.9502
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 30,
@@ -391,6 +430,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.644,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -409,7 +449,8 @@
         "decision_margin": -605.9502,
         "core_free_slot_value": 19.8872,
         "core_replacement_value": -605.9502
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 32,
@@ -419,6 +460,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -437,7 +479,8 @@
         "decision_margin": -164.9896,
         "core_free_slot_value": 17.010399999999997,
         "core_replacement_value": -164.9896
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 32,
@@ -447,6 +490,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.098,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -465,7 +509,8 @@
         "decision_margin": -178.6476,
         "core_free_slot_value": 3.3524,
         "core_replacement_value": -178.6476
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 32,
@@ -475,6 +520,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.639,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -493,7 +539,8 @@
         "decision_margin": -163.1818,
         "core_free_slot_value": 18.8182,
         "core_replacement_value": -163.1818
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 42,
@@ -503,6 +550,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -521,7 +569,8 @@
         "decision_margin": -46.0226,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -46.0226
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 42,
@@ -531,6 +580,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.359,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -549,7 +599,8 @@
         "decision_margin": -345.0458,
         "core_free_slot_value": 8.9542,
         "core_replacement_value": -345.0458
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 42,
@@ -559,6 +610,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.247,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -577,7 +629,8 @@
         "decision_margin": -437.5914,
         "core_free_slot_value": 12.4086,
         "core_replacement_value": -437.5914
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 42,
@@ -587,6 +640,7 @@
       "shop_generation": 3,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.363,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -603,7 +657,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 42,
@@ -613,6 +668,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -631,7 +687,8 @@
         "decision_margin": -437.689,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -437.689
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 42,
@@ -641,6 +698,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.242,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -659,7 +717,8 @@
         "decision_margin": -438.6604,
         "core_free_slot_value": 11.3396,
         "core_replacement_value": -438.6604
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 42,
@@ -669,6 +728,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -687,7 +747,8 @@
         "decision_margin": -466.689,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -466.689
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 42,
@@ -697,6 +758,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.788,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -715,7 +777,8 @@
         "decision_margin": -462.1256,
         "core_free_slot_value": 16.8744,
         "core_replacement_value": -462.1256
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 44,
@@ -725,6 +788,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.798,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -743,7 +807,8 @@
         "decision_margin": -48.39280000000001,
         "core_free_slot_value": 27.0124,
         "core_replacement_value": -48.39280000000001
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 44,
@@ -753,6 +818,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.184,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -771,7 +837,8 @@
         "decision_margin": -61.86600000000001,
         "core_free_slot_value": 13.5392,
         "core_replacement_value": -61.86600000000001
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 44,
@@ -781,6 +848,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.746,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -799,7 +867,8 @@
         "decision_margin": -59.11040000000001,
         "core_free_slot_value": 16.2948,
         "core_replacement_value": -59.11040000000001
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 44,
@@ -809,6 +878,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.149,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -827,7 +897,8 @@
         "decision_margin": -569.349,
         "core_free_slot_value": 7.0562,
         "core_replacement_value": -569.349
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 44,
@@ -837,6 +908,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.798,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -855,7 +927,8 @@
         "decision_margin": -606.3928000000001,
         "core_free_slot_value": 27.0124,
         "core_replacement_value": -606.3928000000001
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 66,
@@ -865,6 +938,7 @@
       "shop_generation": 4,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.234,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -883,7 +957,8 @@
         "decision_margin": -3.4617999999999984,
         "core_free_slot_value": 14.2292,
         "core_replacement_value": -3.4617999999999984
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 66,
@@ -893,6 +968,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.327,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -911,7 +987,8 @@
         "decision_margin": -250.17839999999998,
         "core_free_slot_value": 10.512599999999999,
         "core_replacement_value": -250.17839999999998
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 66,
@@ -921,6 +998,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.849,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -939,7 +1017,8 @@
         "decision_margin": -243.97479999999996,
         "core_free_slot_value": 16.7162,
         "core_replacement_value": -243.97479999999996
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 77,
@@ -949,10 +1028,11 @@
       "shop_generation": 0,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.107,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
-      "close_reason": "end",
+      "close_reason": "first_loss_of_buyability",
       "decomposition": {
         "exposure_key": [
           77,
@@ -967,7 +1047,8 @@
         "decision_margin": -38.5234,
         "core_free_slot_value": 7.4765999999999995,
         "core_replacement_value": -38.5234
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 77,
@@ -977,6 +1058,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -995,7 +1077,8 @@
         "decision_margin": -518.689,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -518.689
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 77,
@@ -1005,6 +1088,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.126,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1023,7 +1107,8 @@
         "decision_margin": -520.2612,
         "core_free_slot_value": 10.7388,
         "core_replacement_value": -520.2612
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 77,
@@ -1033,6 +1118,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.363,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -1049,7 +1135,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 92,
@@ -1059,6 +1146,7 @@
       "shop_generation": 2,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -1075,7 +1163,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 92,
@@ -1085,6 +1174,7 @@
       "shop_generation": 3,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1103,7 +1193,8 @@
         "decision_margin": -72.1922,
         "core_free_slot_value": 8.8078,
         "core_replacement_value": -72.1922
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 92,
@@ -1113,6 +1204,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -1129,7 +1221,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 92,
@@ -1139,6 +1232,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1157,7 +1251,8 @@
         "decision_margin": -562.1922,
         "core_free_slot_value": 8.8078,
         "core_replacement_value": -562.1922
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 92,
@@ -1167,6 +1262,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1185,7 +1281,8 @@
         "decision_margin": -682.1922,
         "core_free_slot_value": 9.8078,
         "core_replacement_value": -682.1922
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 92,
@@ -1195,6 +1292,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.967,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1213,7 +1311,8 @@
         "decision_margin": -672.6554,
         "core_free_slot_value": 19.3446,
         "core_replacement_value": -672.6554
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 105,
@@ -1223,6 +1322,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1241,7 +1341,8 @@
         "decision_margin": -65.1922,
         "core_free_slot_value": 8.8078,
         "core_replacement_value": -65.1922
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 105,
@@ -1251,6 +1352,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -1267,7 +1369,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 105,
@@ -1277,6 +1380,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.967,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1295,7 +1399,8 @@
         "decision_margin": -342.6658,
         "core_free_slot_value": 19.3446,
         "core_replacement_value": -342.6658
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 105,
@@ -1305,6 +1410,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1323,7 +1429,8 @@
         "decision_margin": -353.2026,
         "core_free_slot_value": 8.8078,
         "core_replacement_value": -353.2026
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 105,
@@ -1333,6 +1440,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.869,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1351,7 +1459,8 @@
         "decision_margin": -675.0182,
         "core_free_slot_value": 21.9922,
         "core_replacement_value": -675.0182
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 114,
@@ -1361,6 +1470,7 @@
       "shop_generation": 4,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1379,7 +1489,8 @@
         "decision_margin": -9.0542,
         "core_free_slot_value": 10.9458,
         "core_replacement_value": -9.0542
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 114,
@@ -1389,6 +1500,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1407,7 +1519,8 @@
         "decision_margin": -581.0542,
         "core_free_slot_value": 11.9458,
         "core_replacement_value": -581.0542
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 114,
@@ -1417,6 +1530,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.218,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1435,7 +1549,8 @@
         "decision_margin": -581.9916,
         "core_free_slot_value": 11.0084,
         "core_replacement_value": -581.9916
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 114,
@@ -1445,6 +1560,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.526,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -1461,7 +1577,8 @@
         "chosen_type": "end",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 114,
@@ -1471,6 +1588,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.923,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1489,7 +1607,8 @@
         "decision_margin": -568.2626,
         "core_free_slot_value": 24.7374,
         "core_replacement_value": -568.2626
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 114,
@@ -1499,6 +1618,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.154,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1517,7 +1637,8 @@
         "decision_margin": -579.8748,
         "core_free_slot_value": 13.1252,
         "core_replacement_value": -579.8748
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 118,
@@ -1527,6 +1648,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.181,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1545,7 +1667,8 @@
         "decision_margin": -773.5022,
         "core_free_slot_value": 14.4978,
         "core_replacement_value": -773.5022
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 121,
@@ -1555,6 +1678,7 @@
       "shop_generation": 1,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.195,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1573,7 +1697,8 @@
         "decision_margin": -13.309000000000001,
         "core_free_slot_value": 7.691,
         "core_replacement_value": -13.309000000000001
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 121,
@@ -1583,6 +1708,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.688,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1601,7 +1727,8 @@
         "decision_margin": -203.22179999999997,
         "core_free_slot_value": 22.4944,
         "core_replacement_value": -203.22179999999997
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 121,
@@ -1611,6 +1738,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.112,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1629,7 +1757,8 @@
         "decision_margin": -322.17060000000004,
         "core_free_slot_value": 6.5456,
         "core_replacement_value": -322.17060000000004
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 121,
@@ -1639,6 +1768,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.195,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1657,7 +1787,8 @@
         "decision_margin": -343.02520000000004,
         "core_free_slot_value": 7.691,
         "core_replacement_value": -343.02520000000004
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 155,
@@ -1667,6 +1798,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.586,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1685,7 +1817,8 @@
         "decision_margin": -55.314400000000006,
         "core_free_slot_value": 13.0868,
         "core_replacement_value": -55.314400000000006
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 166,
@@ -1695,6 +1828,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.526,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1713,7 +1847,8 @@
         "decision_margin": -286.7412,
         "core_free_slot_value": 15.2588,
         "core_replacement_value": -286.7412
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 166,
@@ -1723,6 +1858,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1741,7 +1877,8 @@
         "decision_margin": -290.0542,
         "core_free_slot_value": 11.9458,
         "core_replacement_value": -290.0542
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 167,
@@ -1751,6 +1888,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.524,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1769,7 +1907,8 @@
         "decision_margin": -220.7688,
         "core_free_slot_value": 16.2312,
         "core_replacement_value": -220.7688
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 180,
@@ -1779,6 +1918,7 @@
       "shop_generation": 3,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1797,7 +1937,8 @@
         "decision_margin": -231.94480000000001,
         "core_free_slot_value": 3.0212,
         "core_replacement_value": -231.94480000000001
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 180,
@@ -1807,6 +1948,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1825,7 +1967,8 @@
         "decision_margin": -231.94480000000001,
         "core_free_slot_value": 3.0212,
         "core_replacement_value": -231.94480000000001
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 180,
@@ -1835,6 +1978,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1853,7 +1997,8 @@
         "decision_margin": -518.9448,
         "core_free_slot_value": 3.0212,
         "core_replacement_value": -518.9448
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 180,
@@ -1863,6 +2008,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.586,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1881,7 +2027,8 @@
         "decision_margin": -778.8792,
         "core_free_slot_value": 13.0868,
         "core_replacement_value": -778.8792
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 194,
@@ -1891,6 +2038,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.247,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1909,7 +2057,8 @@
         "decision_margin": -44.5914,
         "core_free_slot_value": 12.4086,
         "core_replacement_value": -44.5914
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 194,
@@ -1919,6 +2068,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.247,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1937,7 +2087,8 @@
         "decision_margin": -44.5914,
         "core_free_slot_value": 12.4086,
         "core_replacement_value": -44.5914
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 194,
@@ -1947,6 +2098,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.359,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1965,7 +2117,8 @@
         "decision_margin": -126.0458,
         "core_free_slot_value": 8.9542,
         "core_replacement_value": -126.0458
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 194,
@@ -1975,6 +2128,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.247,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -1993,7 +2147,8 @@
         "decision_margin": -122.5914,
         "core_free_slot_value": 12.4086,
         "core_replacement_value": -122.5914
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 194,
@@ -2003,6 +2158,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2021,7 +2177,8 @@
         "decision_margin": -114.0226,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -114.0226
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 194,
@@ -2031,6 +2188,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.363,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -2047,7 +2205,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 194,
@@ -2057,6 +2216,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.242,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2075,7 +2235,8 @@
         "decision_margin": -231.6604,
         "core_free_slot_value": 11.3396,
         "core_replacement_value": -231.6604
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 199,
@@ -2085,10 +2246,11 @@
       "shop_generation": 0,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.129,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
-      "close_reason": "end",
+      "close_reason": "first_loss_of_buyability",
       "decomposition": {
         "exposure_key": [
           199,
@@ -2103,7 +2265,8 @@
         "decision_margin": -33.1858,
         "core_free_slot_value": 12.7802,
         "core_replacement_value": -33.1858
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 199,
@@ -2113,6 +2276,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2131,7 +2295,8 @@
         "decision_margin": -171.94480000000001,
         "core_free_slot_value": 3.0212,
         "core_replacement_value": -171.94480000000001
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 199,
@@ -2141,6 +2306,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.174,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2159,7 +2325,8 @@
         "decision_margin": -639.5648,
         "core_free_slot_value": 18.4012,
         "core_replacement_value": -639.5648
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 235,
@@ -2169,6 +2336,7 @@
       "shop_generation": 3,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.423,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2187,7 +2355,8 @@
         "decision_margin": -4.162600000000001,
         "core_free_slot_value": 12.837399999999999,
         "core_replacement_value": -4.162600000000001
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 235,
@@ -2197,6 +2366,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.702,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2215,7 +2385,8 @@
         "decision_margin": -20.1996,
         "core_free_slot_value": 20.6876,
         "core_replacement_value": -20.1996
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 235,
@@ -2225,6 +2396,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.669,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2243,7 +2415,8 @@
         "decision_margin": -55.65500000000001,
         "core_free_slot_value": 21.2322,
         "core_replacement_value": -55.65500000000001
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 240,
@@ -2253,6 +2426,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -2269,7 +2443,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 240,
@@ -2279,6 +2454,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.218,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2297,7 +2473,8 @@
         "decision_margin": -68.9916,
         "core_free_slot_value": 11.0084,
         "core_replacement_value": -68.9916
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 240,
@@ -2307,6 +2484,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.218,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2325,7 +2503,8 @@
         "decision_margin": -176.9916,
         "core_free_slot_value": 11.0084,
         "core_replacement_value": -176.9916
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 240,
@@ -2335,6 +2514,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2353,7 +2533,8 @@
         "decision_margin": -176.0542,
         "core_free_slot_value": 11.9458,
         "core_replacement_value": -176.0542
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 240,
@@ -2363,6 +2544,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.526,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2381,7 +2563,8 @@
         "decision_margin": -172.7412,
         "core_free_slot_value": 15.2588,
         "core_replacement_value": -172.7412
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 240,
@@ -2391,6 +2574,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -2407,7 +2591,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 240,
@@ -2417,6 +2602,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.154,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2435,7 +2621,8 @@
         "decision_margin": -682.8748,
         "core_free_slot_value": 13.1252,
         "core_replacement_value": -682.8748
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 240,
@@ -2445,6 +2632,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.526,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2463,7 +2651,8 @@
         "decision_margin": -680.7412,
         "core_free_slot_value": 15.2588,
         "core_replacement_value": -680.7412
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 249,
@@ -2473,6 +2662,7 @@
       "shop_generation": 3,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.107,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2491,7 +2681,8 @@
         "decision_margin": -15.262200000000002,
         "core_free_slot_value": 7.4765999999999995,
         "core_replacement_value": -15.262200000000002
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 249,
@@ -2501,6 +2692,7 @@
       "shop_generation": 3,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.363,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2519,7 +2711,8 @@
         "decision_margin": -70.7294,
         "core_free_slot_value": 14.0094,
         "core_replacement_value": -70.7294
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 249,
@@ -2529,6 +2722,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.126,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -2545,7 +2739,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 262,
@@ -2555,6 +2750,7 @@
       "shop_generation": 2,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.492,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2573,7 +2769,8 @@
         "decision_margin": -1.2104,
         "core_free_slot_value": 12.7896,
         "core_replacement_value": -1.2104
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 262,
@@ -2583,6 +2780,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.607,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2601,7 +2799,8 @@
         "decision_margin": -48.623400000000004,
         "core_free_slot_value": 16.3766,
         "core_replacement_value": -48.623400000000004
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 262,
@@ -2611,6 +2810,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.967,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2629,7 +2829,8 @@
         "decision_margin": -45.6554,
         "core_free_slot_value": 19.3446,
         "core_replacement_value": -45.6554
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 262,
@@ -2639,6 +2840,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.492,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2657,7 +2859,8 @@
         "decision_margin": -136.2104,
         "core_free_slot_value": 17.7896,
         "core_replacement_value": -136.2104
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 262,
@@ -2667,6 +2870,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.492,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2685,7 +2889,8 @@
         "decision_margin": -413.2104,
         "core_free_slot_value": 17.7896,
         "core_replacement_value": -413.2104
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 275,
@@ -2695,6 +2900,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.291,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2713,7 +2919,8 @@
         "decision_margin": -191.9842,
         "core_free_slot_value": 12.015799999999999,
         "core_replacement_value": -191.9842
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 275,
@@ -2723,6 +2930,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.423,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2741,7 +2949,8 @@
         "decision_margin": -401.1626,
         "core_free_slot_value": 12.837399999999999,
         "core_replacement_value": -401.1626
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 284,
@@ -2751,6 +2960,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2769,7 +2979,8 @@
         "decision_margin": -21.689,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -21.689
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 284,
@@ -2779,6 +2990,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.359,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2797,7 +3009,8 @@
         "decision_margin": -114.0458,
         "core_free_slot_value": 8.9542,
         "core_replacement_value": -114.0458
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 284,
@@ -2807,6 +3020,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2825,7 +3039,8 @@
         "decision_margin": -110.689,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -110.689
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 284,
@@ -2835,6 +3050,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.788,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2853,7 +3069,8 @@
         "decision_margin": -133.1256,
         "core_free_slot_value": 16.8744,
         "core_replacement_value": -133.1256
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 284,
@@ -2863,6 +3080,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2881,7 +3099,8 @@
         "decision_margin": -129.0226,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -129.0226
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 293,
@@ -2891,10 +3110,11 @@
       "shop_generation": 0,
       "tier": 3,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": false,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
-      "close_reason": "end",
+      "close_reason": "first_loss_of_buyability",
       "decomposition": {
         "exposure_key": [
           293,
@@ -2907,7 +3127,8 @@
         "chosen_type": "level",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 293,
@@ -2917,6 +3138,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.418,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2935,7 +3157,8 @@
         "decision_margin": -26.2528,
         "core_free_slot_value": 16.7684,
         "core_replacement_value": -26.2528
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 293,
@@ -2945,6 +3168,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.967,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -2963,7 +3187,8 @@
         "decision_margin": -146.6766,
         "core_free_slot_value": 22.3446,
         "core_replacement_value": -146.6766
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 293,
@@ -2973,6 +3198,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -2989,7 +3215,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 309,
@@ -2999,6 +3226,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.169,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3017,7 +3245,8 @@
         "decision_margin": -85.3554,
         "core_free_slot_value": 14.3322,
         "core_replacement_value": -85.3554
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 309,
@@ -3027,6 +3256,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.423,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3045,7 +3275,8 @@
         "decision_margin": -160.8502,
         "core_free_slot_value": 12.837399999999999,
         "core_replacement_value": -160.8502
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 309,
@@ -3055,6 +3286,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.169,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3073,7 +3305,8 @@
         "decision_margin": -333.3554,
         "core_free_slot_value": 14.3322,
         "core_replacement_value": -333.3554
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 309,
@@ -3083,6 +3316,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.291,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3101,7 +3335,8 @@
         "decision_margin": -335.67179999999996,
         "core_free_slot_value": 12.015799999999999,
         "core_replacement_value": -335.67179999999996
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 337,
@@ -3111,6 +3346,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.319,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3129,7 +3365,8 @@
         "decision_margin": -121.5978,
         "core_free_slot_value": 10.4022,
         "core_replacement_value": -121.5978
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 359,
@@ -3139,6 +3376,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.669,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3157,7 +3395,8 @@
         "decision_margin": -73.7678,
         "core_free_slot_value": 21.2322,
         "core_replacement_value": -73.7678
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 359,
@@ -3167,6 +3406,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.423,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3185,7 +3425,8 @@
         "decision_margin": -600.1626,
         "core_free_slot_value": 12.837399999999999,
         "core_replacement_value": -600.1626
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 386,
@@ -3195,6 +3436,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.824,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3213,7 +3455,8 @@
         "decision_margin": -271.345,
         "core_free_slot_value": 27.371199999999998,
         "core_replacement_value": -271.345
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 397,
@@ -3223,6 +3466,7 @@
       "shop_generation": 2,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3241,7 +3485,8 @@
         "decision_margin": -11.0542,
         "core_free_slot_value": 11.9458,
         "core_replacement_value": -11.0542
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 397,
@@ -3251,6 +3496,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.154,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3269,7 +3515,8 @@
         "decision_margin": -682.8748,
         "core_free_slot_value": 13.1252,
         "core_replacement_value": -682.8748
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 397,
@@ -3279,6 +3526,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.192,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3297,7 +3545,8 @@
         "decision_margin": -685.3504,
         "core_free_slot_value": 10.6496,
         "core_replacement_value": -685.3504
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 403,
@@ -3307,6 +3556,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.359,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3325,7 +3575,8 @@
         "decision_margin": -57.0458,
         "core_free_slot_value": 8.9542,
         "core_replacement_value": -57.0458
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 403,
@@ -3335,6 +3586,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3353,7 +3605,8 @@
         "decision_margin": -149.0226,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -149.0226
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 403,
@@ -3363,6 +3616,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.363,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3381,7 +3635,8 @@
         "decision_margin": -335.9906,
         "core_free_slot_value": 14.0094,
         "core_replacement_value": -335.9906
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 403,
@@ -3391,6 +3646,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.126,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3409,7 +3665,8 @@
         "decision_margin": -545.2612,
         "core_free_slot_value": 10.7388,
         "core_replacement_value": -545.2612
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 403,
@@ -3419,6 +3676,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3437,7 +3695,8 @@
         "decision_margin": -697.0226,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -697.0226
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 403,
@@ -3447,6 +3706,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.788,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3465,7 +3725,8 @@
         "decision_margin": -701.1256,
         "core_free_slot_value": 16.8744,
         "core_replacement_value": -701.1256
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 409,
@@ -3475,6 +3736,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.967,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -3491,7 +3753,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 409,
@@ -3501,6 +3764,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3519,7 +3783,8 @@
         "decision_margin": -124.33420000000001,
         "core_free_slot_value": 17.010399999999997,
         "core_replacement_value": -124.33420000000001
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 411,
@@ -3529,6 +3794,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3547,7 +3813,8 @@
         "decision_margin": -86.64320000000001,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -86.64320000000001
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 411,
@@ -3557,6 +3824,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.359,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -3573,7 +3841,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 411,
@@ -3583,6 +3852,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.723,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3601,7 +3871,8 @@
         "decision_margin": -77.9768,
         "core_free_slot_value": 20.9774,
         "core_replacement_value": -77.9768
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 411,
@@ -3611,6 +3882,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.095,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3629,7 +3901,8 @@
         "decision_margin": -346.64320000000004,
         "core_free_slot_value": 12.311,
         "core_replacement_value": -346.64320000000004
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 411,
@@ -3639,6 +3912,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.788,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3657,7 +3931,8 @@
         "decision_margin": -342.07980000000003,
         "core_free_slot_value": 16.8744,
         "core_replacement_value": -342.07980000000003
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 411,
@@ -3667,6 +3942,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.126,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3685,7 +3961,8 @@
         "decision_margin": -348.2154,
         "core_free_slot_value": 10.7388,
         "core_replacement_value": -348.2154
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 413,
@@ -3695,6 +3972,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.195,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3713,7 +3991,8 @@
         "decision_margin": -329.309,
         "core_free_slot_value": 8.690999999999999,
         "core_replacement_value": -329.309
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 413,
@@ -3723,6 +4002,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.586,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3741,7 +4021,8 @@
         "decision_margin": -324.9132,
         "core_free_slot_value": 13.0868,
         "core_replacement_value": -324.9132
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 413,
@@ -3751,6 +4032,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.586,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3769,7 +4051,8 @@
         "decision_margin": -582.9132,
         "core_free_slot_value": 13.0868,
         "core_replacement_value": -582.9132
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 413,
@@ -3779,6 +4062,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.129,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3797,7 +4081,8 @@
         "decision_margin": -616.2198,
         "core_free_slot_value": 12.7802,
         "core_replacement_value": -616.2198
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 417,
@@ -3807,6 +4092,7 @@
       "shop_generation": 4,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.492,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3825,7 +4111,8 @@
         "decision_margin": -11.2104,
         "core_free_slot_value": 17.7896,
         "core_replacement_value": -11.2104
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 417,
@@ -3835,6 +4122,7 @@
       "shop_generation": 4,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -3851,7 +4139,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 417,
@@ -3861,6 +4150,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3879,7 +4169,8 @@
         "decision_margin": -115.2026,
         "core_free_slot_value": 8.8078,
         "core_replacement_value": -115.2026
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 417,
@@ -3889,6 +4180,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -3905,7 +4197,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 422,
@@ -3915,6 +4208,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.526,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3933,7 +4227,8 @@
         "decision_margin": -98.74119999999999,
         "core_free_slot_value": 15.2588,
         "core_replacement_value": -98.74119999999999
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 422,
@@ -3943,6 +4238,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.192,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3961,7 +4257,8 @@
         "decision_margin": -103.35040000000001,
         "core_free_slot_value": 10.6496,
         "core_replacement_value": -103.35040000000001
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 422,
@@ -3971,6 +4268,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.154,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -3989,7 +4287,8 @@
         "decision_margin": -232.8748,
         "core_free_slot_value": 13.1252,
         "core_replacement_value": -232.8748
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 422,
@@ -3999,6 +4298,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.923,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4017,7 +4317,8 @@
         "decision_margin": -221.2626,
         "core_free_slot_value": 24.7374,
         "core_replacement_value": -221.2626
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 422,
@@ -4027,6 +4328,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.141,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -4043,7 +4345,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 445,
@@ -4053,6 +4356,7 @@
       "shop_generation": 7,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.418,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4071,7 +4375,8 @@
         "decision_margin": -80.5762,
         "core_free_slot_value": 16.7684,
         "core_replacement_value": -80.5762
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 445,
@@ -4081,6 +4386,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.123,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4099,7 +4405,8 @@
         "decision_margin": -164.64720000000003,
         "core_free_slot_value": 9.6974,
         "core_replacement_value": -164.64720000000003
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 451,
@@ -4109,6 +4416,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.174,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4127,7 +4435,8 @@
         "decision_margin": -157.68560000000002,
         "core_free_slot_value": 18.4012,
         "core_replacement_value": -157.68560000000002
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 451,
@@ -4137,6 +4446,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.074,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4155,7 +4465,8 @@
         "decision_margin": -173.06560000000002,
         "core_free_slot_value": 3.0212,
         "core_replacement_value": -173.06560000000002
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 451,
@@ -4165,6 +4476,7 @@
       "shop_generation": 3,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.336,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4183,7 +4495,8 @@
         "decision_margin": -162.45000000000002,
         "core_free_slot_value": 13.636800000000001,
         "core_replacement_value": -162.45000000000002
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 451,
@@ -4193,6 +4506,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.07,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4211,7 +4525,8 @@
         "decision_margin": -168.1208,
         "core_free_slot_value": 7.966,
         "core_replacement_value": -168.1208
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 451,
@@ -4221,6 +4536,7 @@
       "shop_generation": 5,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.07,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4239,7 +4555,8 @@
         "decision_margin": -499.1208,
         "core_free_slot_value": 7.966,
         "core_replacement_value": -499.1208
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 451,
@@ -4249,6 +4566,7 @@
       "shop_generation": 1,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.336,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4267,7 +4585,8 @@
         "decision_margin": -493.45,
         "core_free_slot_value": 13.636800000000001,
         "core_replacement_value": -493.45
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 451,
@@ -4277,6 +4596,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.336,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4295,7 +4615,8 @@
         "decision_margin": -493.45,
         "core_free_slot_value": 13.636800000000001,
         "core_replacement_value": -493.45
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 467,
@@ -4305,6 +4626,7 @@
       "shop_generation": 3,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.27,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4323,7 +4645,8 @@
         "decision_margin": -659.0094,
         "core_free_slot_value": 12.725999999999999,
         "core_replacement_value": -659.0094
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 467,
@@ -4333,6 +4656,7 @@
       "shop_generation": 2,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.856,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4351,7 +4675,8 @@
         "decision_margin": -656.9226,
         "core_free_slot_value": 14.8128,
         "core_replacement_value": -656.9226
-      }
+      },
+      "core_frequency_quartile": "q4_highest"
     },
     {
       "lobby": 474,
@@ -4361,10 +4686,11 @@
       "shop_generation": 0,
       "tier": 5,
       "core_have": 1,
+      "core_frequency": 0.492,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
-      "close_reason": "end",
+      "close_reason": "first_loss_of_buyability",
       "decomposition": {
         "exposure_key": [
           474,
@@ -4379,7 +4705,8 @@
         "decision_margin": -28.2104,
         "core_free_slot_value": 17.7896,
         "core_replacement_value": -28.2104
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 474,
@@ -4389,6 +4716,7 @@
       "shop_generation": 6,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4407,7 +4735,8 @@
         "decision_margin": -67.1922,
         "core_free_slot_value": 8.8078,
         "core_replacement_value": -67.1922
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 474,
@@ -4417,6 +4746,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.508,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4435,7 +4765,8 @@
         "decision_margin": -389.9896,
         "core_free_slot_value": 15.010399999999999,
         "core_replacement_value": -389.9896
-      }
+      },
+      "core_frequency_quartile": "q3"
     },
     {
       "lobby": 474,
@@ -4445,6 +4776,7 @@
       "shop_generation": 0,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.164,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4463,7 +4795,8 @@
         "decision_margin": -660.7368,
         "core_free_slot_value": 7.263199999999999,
         "core_replacement_value": -660.7368
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 474,
@@ -4473,6 +4806,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.131,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4491,7 +4825,8 @@
         "decision_margin": -811.1922,
         "core_free_slot_value": 9.8078,
         "core_replacement_value": -811.1922
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 481,
@@ -4501,6 +4836,7 @@
       "shop_generation": 0,
       "tier": 5,
       "core_have": 2,
+      "core_frequency": 0.195,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4519,7 +4855,8 @@
         "decision_margin": -13.275000000000002,
         "core_free_slot_value": 8.690999999999999,
         "core_replacement_value": -13.275000000000002
-      }
+      },
+      "core_frequency_quartile": "q2"
     },
     {
       "lobby": 481,
@@ -4529,6 +4866,7 @@
       "shop_generation": 5,
       "tier": 5,
       "core_have": 2,
+      "core_frequency": 0.07,
       "board_full_at_open": true,
       "primary_cause": "F_ECONOMY_LEGALITY_LOSS",
       "composition_progress_failure": true,
@@ -4545,7 +4883,8 @@
         "chosen_type": "roll",
         "chosen_net": 0.0,
         "decision_margin": null
-      }
+      },
+      "core_frequency_quartile": "q1_lowest"
     },
     {
       "lobby": 481,
@@ -4555,6 +4894,7 @@
       "shop_generation": 4,
       "tier": 6,
       "core_have": 1,
+      "core_frequency": 0.174,
       "board_full_at_open": true,
       "primary_cause": "A_REPLACEMENT_COST_DOMINATES",
       "composition_progress_failure": true,
@@ -4573,7 +4913,8 @@
         "decision_margin": -114.5988,
         "core_free_slot_value": 18.4012,
         "core_replacement_value": -114.5988
-      }
+      },
+      "core_frequency_quartile": "q2"
     }
   ]
 }

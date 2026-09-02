@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "cb11f4bb5fe006e67767d7974e71ef00cccb7d73",
+  "code_commit": "b457a701574651f9a2302efc57a0560dfe505780",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -50,7 +50,7 @@
   "parent_simulator_version": "Simulator v1",
   "working_tree_clean": true,
   "phase": "2I seeded opportunity decision-margin diagnostic",
-  "phase_2i_methodology_version": "2i_v1",
+  "phase_2i_methodology_version": "2i_v2",
   "phase_2h_methodology_version": "2h_v3",
   "frozen_lambda_build": 12.0,
   "policy_config": {
