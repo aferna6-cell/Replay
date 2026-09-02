@@ -1,0 +1,165 @@
+{
+  "methodology_version": "2j_v1",
+  "survival_horizon": 2,
+  "weight_1": 0.5,
+  "weight_2": 0.5,
+  "fit_seed_base": 7000,
+  "fit_lobbies": 300,
+  "global_p_survive_1": 0.9890604074152393,
+  "global_p_survive_2": 0.9757806442517798,
+  "collapsed_from": [
+    "5|strong|core",
+    "6plus|strong|core",
+    "le4|strong|core",
+    "5|strong|core->pooled",
+    "6plus|strong|core->pooled",
+    "le4|strong|core->pooled"
+  ],
+  "cells": {
+    "5|mid|core": {
+      "tier_band": "5",
+      "rank_band": "mid",
+      "is_core": true,
+      "n": 73,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "5|mid|noncore": {
+      "tier_band": "5",
+      "rank_band": "mid",
+      "is_core": false,
+      "n": 4981,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "5|strong|core": {
+      "tier_band": "5",
+      "rank_band": "strong",
+      "is_core": true,
+      "n": 5054,
+      "p_survive_1": 0.999604273842501,
+      "p_survive_2": 0.999208547685002
+    },
+    "5|strong|noncore": {
+      "tier_band": "5",
+      "rank_band": "strong",
+      "is_core": false,
+      "n": 5038,
+      "p_survive_1": 0.999603017070266,
+      "p_survive_2": 0.999206034140532
+    },
+    "5|weak|core": {
+      "tier_band": "5",
+      "rank_band": "weak",
+      "is_core": true,
+      "n": 178,
+      "p_survive_1": 0.9382022471910112,
+      "p_survive_2": 0.8651685393258427
+    },
+    "5|weak|noncore": {
+      "tier_band": "5",
+      "rank_band": "weak",
+      "is_core": false,
+      "n": 7403,
+      "p_survive_1": 0.9062542212616507,
+      "p_survive_2": 0.7914359043630961
+    },
+    "6plus|mid|core": {
+      "tier_band": "6plus",
+      "rank_band": "mid",
+      "is_core": true,
+      "n": 103,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "6plus|mid|noncore": {
+      "tier_band": "6plus",
+      "rank_band": "mid",
+      "is_core": false,
+      "n": 6853,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "6plus|strong|core": {
+      "tier_band": "6plus",
+      "rank_band": "strong",
+      "is_core": true,
+      "n": 6956,
+      "p_survive_1": 0.9998562392179413,
+      "p_survive_2": 0.9997124784358827
+    },
+    "6plus|strong|noncore": {
+      "tier_band": "6plus",
+      "rank_band": "strong",
+      "is_core": false,
+      "n": 6941,
+      "p_survive_1": 0.9998559285405562,
+      "p_survive_2": 0.9997118570811122
+    },
+    "6plus|weak|core": {
+      "tier_band": "6plus",
+      "rank_band": "weak",
+      "is_core": true,
+      "n": 237,
+      "p_survive_1": 0.9873417721518988,
+      "p_survive_2": 0.9662447257383966
+    },
+    "6plus|weak|noncore": {
+      "tier_band": "6plus",
+      "rank_band": "weak",
+      "is_core": false,
+      "n": 10197,
+      "p_survive_1": 0.993625576149848,
+      "p_survive_2": 0.9866627439442973
+    },
+    "le4|mid|core": {
+      "tier_band": "le4",
+      "rank_band": "mid",
+      "is_core": true,
+      "n": 40,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "le4|mid|noncore": {
+      "tier_band": "le4",
+      "rank_band": "mid",
+      "is_core": false,
+      "n": 8338,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "le4|strong|core": {
+      "tier_band": "le4",
+      "rank_band": "strong",
+      "is_core": true,
+      "n": 3672,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "le4|strong|noncore": {
+      "tier_band": "le4",
+      "rank_band": "strong",
+      "is_core": false,
+      "n": 3664,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "le4|weak|core": {
+      "tier_band": "le4",
+      "rank_band": "weak",
+      "is_core": true,
+      "n": 244,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    },
+    "le4|weak|noncore": {
+      "tier_band": "le4",
+      "rank_band": "weak",
+      "is_core": false,
+      "n": 16606,
+      "p_survive_1": 1.0,
+      "p_survive_2": 1.0
+    }
+  },
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
+}
