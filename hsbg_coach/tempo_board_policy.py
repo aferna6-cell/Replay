@@ -414,11 +414,3 @@ def aggregate_policy_stats(policies: List[TempoBoardGreedyPolicy]) -> Dict:
         agg.raw_stat_sacrifice_completed_sum += s.raw_stat_sacrifice_completed_sum
         agg.build_gain_completed_sum += s.build_gain_completed_sum
     return agg.summary()
-
-
-def tempo_board_greedy_policy(obs: Dict, mask: List[bool], rng) -> int:
-    """Default λ=8 singleton for imports; confirmation uses ``policies_for_lobby``."""
-    return _DEFAULT_TEMPO_POLICY(obs, mask, rng)
-
-
-_DEFAULT_TEMPO_POLICY = TempoBoardGreedyPolicy(8.0)

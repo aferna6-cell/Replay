@@ -677,13 +677,6 @@ def seeded_core_deploy_stress_greedy_policy(obs: Dict, mask: List[bool],
     return _greedy(obs, mask, rng, 0.0, buy_override=seeded_core_buy_override)
 
 
-def tempo_board_greedy_policy(obs: Dict, mask: List[bool],
-                              rng: random.Random) -> int:
-    """Phase 2H candidate — tempo-aware board management (default λ=8 singleton)."""
-    from .tempo_board_policy import tempo_board_greedy_policy as _policy
-    return _policy(obs, mask, rng)
-
-
 def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
             level_bias: float,
             buy_scorer: Optional[Callable[[Dict, int], float]] = None,

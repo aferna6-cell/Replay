@@ -7,7 +7,6 @@ from hsbg_coach.bg_env import (
     A_PLAY0,
     A_SELL0,
     greedy_policy,
-    tempo_board_greedy_policy,
 )
 from hsbg_coach.tempo_board_policy import (
     LAMBDA_BUILD_CANDIDATES,
@@ -73,7 +72,8 @@ def test_unseeded_matches_greedy():
     rng = random.Random(0)
     obs = _obs([{"name": "Z", "attack": 5, "health": 5, "tribes": []}])
     mask = _mask(n_shop=1)
-    assert tempo_board_greedy_policy(obs, mask, rng) == greedy_policy(obs, mask, rng)
+    policy = TempoBoardGreedyPolicy(12.0)
+    assert policy(obs, mask, rng) == greedy_policy(obs, mask, rng)
 
 
 def test_hand_core_has_deploy_gain_when_on_board_only():
