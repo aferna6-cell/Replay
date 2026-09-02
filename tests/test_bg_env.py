@@ -5,7 +5,7 @@ import random
 from hsbg_coach.bg_env import (
     BGEnv, EnvMinion, build_pool, greedy_policy, random_policy, gold_at,
     A_BUY0, A_PLAY0, A_SELL0, A_ROLL, A_LEVEL, A_FREEZE, A_END, N_ACTIONS,
-    BUY_COST, SELL_VALUE, MAX_BOARD, POOL_COPIES,
+    BUY_COST, SELL_VALUE, MAX_BOARD, POOL_COPIES, SHOP_SLOTS,
 )
 
 
@@ -73,7 +73,90 @@ def test_freeze_keeps_shop_across_turn():
     env.step(A_END)
     if env.done:                     # rare: lobby collapsed turn 1
         return
-    assert [m.name for m in p.shop] == kept
+    # Full frozen shop is preserved; Phase 2N top-up only adds missing slots.
+    assert [m.name for m in p.shop][:len(kept)] == kept
+    assert len(p.shop) == SHOP_SLOTS[p.tier]
+
+
+def test_freeze_topup_incomplete_shop():
+    """Phase 2N-B: incomplete frozen shop refills to SHOP_SLOTS[tier]."""
+    from hsbg_coach.bg_env import PHASE_2N_FREEZE_TOPUP, SHOP_SLOTS
+    assert PHASE_2N_FREEZE_TOPUP
+    env = make_env(seed=5)
+    p = env.players[0]
+    assert len(p.shop) >= 1
+    kept = [m.name for m in p.shop[:1]]
+    p.shop = p.shop[:1]              # simulate buy leaving incomplete freeze
+    p.frozen = True
+    env._deal_reason = "start_turn"
+    env._deal_shop(p)
+    assert not p.frozen
+    assert len(p.shop) == SHOP_SLOTS[p.tier]
+    assert p.shop[0].name == kept[0]
+
+
+def test_death_returns_holdings_to_pool():
+    """Phase 2N-B: eliminated players return board/hand/shop to the shared pool."""
+    from hsbg_coach.bg_env import PHASE_2N_DEATH_RETURN
+    assert PHASE_2N_DEATH_RETURN
+    env = make_env(seed=9)
+    # Pair seat 0 vs seat 1 with seat 1 at 0 HP after forced combat damage path.
+    a, b = env.players[0], env.players[1]
+    name = next(iter(env._catalogue))
+    base = env._catalogue[name]
+    held = EnvMinion(base.card_id, base.name, base.tier, base.attack,
+                     base.health, list(base.tribes), list(base.keywords))
+    b.board = [held]
+    b.hand = [
+        EnvMinion(base.card_id, base.name, base.tier, base.attack,
+                  base.health, list(base.tribes), list(base.keywords))
+    ]
+    b.shop = [
+        EnvMinion(base.card_id, base.name, base.tier, base.attack,
+                  base.health, list(base.tribes), list(base.keywords))
+    ]
+    # Take the three copies out of the pool accounting so return is visible.
+    env._pool[name] = max(0, env._pool.get(name, 0) - 3)
+    before = env._pool[name]
+    b.hp = 0
+    # Invoke the death handling block via _run_combat with no living opponents
+    # by zeroing all other players' HP too carefully — call death path directly
+    # through the same code as combat by simulating one dead among alive.
+    alive_before = [p for p in env.players if p.alive]
+    assert b in alive_before
+    place = len(alive_before)
+    b.alive = False
+    b.placement = place
+    b.last_board = [EnvMinion(m.card_id, m.name, m.tier, m.attack,
+                              m.health, list(m.tribes), list(m.keywords),
+                              m.golden) for m in b.board]
+    env._return_player_holdings_to_pool(b)
+    assert env._pool[name] == before + 3
+    assert b.board == [] and b.hand == [] and b.shop == []
+    assert len(b.last_board) == 1
+
+
+def test_pool_copies_tier6_is_seven():
+    """Phase 2N-C: T6 copy count matches current Battlegrounds (7)."""
+    assert POOL_COPIES[6] == 7
+    env = make_env(seed=1)
+    t6 = [n for n, m in env._catalogue.items() if m.tier == 6]
+    assert t6
+    assert env._pool[t6[0]] == 7
+    env = make_env()
+    p = env.players[0]
+    base = env._catalogue[sorted(env._catalogue)[0]]
+    copies = [EnvMinion(base.card_id, base.name, base.tier, base.attack,
+                        base.health, list(base.tribes), list(base.keywords))
+              for _ in range(3)]
+    p.board = copies[:2]
+    p.hand = [copies[2]]
+    env._check_triple(p, base.name)
+    assert p.board == []
+    goldens = [m for m in p.hand if m.golden]
+    assert len(goldens) == 1
+    assert goldens[0].attack == base.attack * 2
+    assert len(p.hand) == 2          # golden + the discover reward
 
 
 def test_triple_merges_to_golden_plus_discover():

@@ -174,6 +174,7 @@ def audit_catalogue_synchronization(
 
 
 def audit_pool_contract() -> Dict:
+    from hsbg_coach.bg_env import PHASE_2N_DEATH_RETURN, PHASE_2N_FREEZE_TOPUP
     return {
         "simulator": {
             "POOL_COPIES": dict(POOL_COPIES),
@@ -182,8 +183,11 @@ def audit_pool_contract() -> Dict:
                 "weighted by remaining live copies among catalogue minions "
                 "with tier <= tavern and pool > 0; without replacement within deal"),
             "freeze": (
-                "frozen shop skips return+redraw; does not top-up incomplete "
-                "frozen shops after buys/tier-up"),
+                "frozen shop skips full return+redraw; "
+                + ("incomplete shops top up to SHOP_SLOTS[tier] (Phase 2N-B)"
+                   if PHASE_2N_FREEZE_TOPUP else
+                   "does not top-up incomplete frozen shops")
+            ),
             "roll": "unfreeze; return shop copies; redraw SHOP_SLOTS[tier]",
             "buy": "shop→hand; copy stays out of pool",
             "sell": "board→pool (+1 or +3 if golden)",
@@ -191,7 +195,11 @@ def audit_pool_contract() -> Dict:
                 "3 non-golden → 1 golden in hand; discover = extra _draw; "
                 "base copies not returned (golden returns as 3 on sell)"),
             "elimination": (
+                "DEAD PLAYERS RETURN board/hand/shop copies to pool (Phase 2N-B)"
+                if PHASE_2N_DEATH_RETURN else
                 "DEAD PLAYERS DO NOT RETURN board/hand/shop copies to pool"),
+            "phase_2n_death_return": PHASE_2N_DEATH_RETURN,
+            "phase_2n_freeze_topup": PHASE_2N_FREEZE_TOPUP,
         },
         "reference_current_bg": {
             "POOL_COPIES": dict(REF_POOL_COPIES),
@@ -260,20 +268,22 @@ def audit_rule_mismatches(contract: Optional[Dict] = None) -> Dict:
     mismatches.append({
         "id": "elimination_no_return_to_pool",
         "area": "pool_lifecycle_accounting",
-        "simulator": "no return of board/hand/shop on death",
+        "simulator": contract["simulator"]["elimination"],
         "reference": "eliminated players' minions expected to return to pool",
-        "mismatch": True,
-        "phase_2n_actionable": True,
-        "note": "Concrete accounting divergence",
+        "mismatch": not bool(contract["simulator"].get("phase_2n_death_return")),
+        "phase_2n_actionable": not bool(
+            contract["simulator"].get("phase_2n_death_return")),
+        "note": "Phase 2N-B enables death return when flag is on",
     })
     mismatches.append({
         "id": "freeze_no_topup",
         "area": "freeze_return_to_pool",
-        "simulator": "frozen shop kept as-is; no top-up",
+        "simulator": contract["simulator"]["freeze"],
         "reference": "incomplete freeze / tier-up tops up new slots",
-        "mismatch": True,
-        "phase_2n_actionable": True,
-        "note": "Documented behavioral mismatch",
+        "mismatch": not bool(contract["simulator"].get("phase_2n_freeze_topup")),
+        "phase_2n_actionable": not bool(
+            contract["simulator"].get("phase_2n_freeze_topup")),
+        "note": "Phase 2N-B enables freeze top-up when flag is on",
     })
     mismatches.append({
         "id": "no_tier_7",
