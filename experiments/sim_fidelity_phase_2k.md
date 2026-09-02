@@ -1,6 +1,6 @@
 # Simulator Fidelity Phase 2K — post-assembly residual composition-gap diagnostic
 
-Date: 2026-09-02 · Status: **measurement-only (2k_v1)** ·
+Date: 2026-09-02 · Status: **measurement-only complete (2k_v1)** ·
 Artifacts: [`results/sim_fidelity_phase_2k/`](../results/sim_fidelity_phase_2k/)
 
 ## Research question
@@ -11,38 +11,64 @@ Artifacts: [`results/sim_fidelity_phase_2k/`](../results/sim_fidelity_phase_2k/)
 ## Frozen policy
 
 - `BoardOpportunityCostPolicy`, **α = 0.5**
-- `prior_hash_sha256 = 9b31c93a8d89…` (Phase 2J canonical prior)
-- No policy/simulator changes — observational only
+- `prior_hash_sha256 = 9b31c93a8d89…`
+- Observational only
 
 ## Seeds
 
 | Range | Role |
 |---|---|
-| **9000–9499** | DEV diagnostic (500 lobbies) |
-| 9500–9999 | Adaptive expansion if &lt;40 post-assembly states |
-| 8000–8199 | **Forbidden** (Phase 2J confirmation) |
-| 10000–10199 | Reserved future intervention confirmation |
+| 9000–9499 | DEV screen (31 states &lt; 40) |
+| **9500–9999** | Adaptive expansion → **78 states total / 1000 lobbies** |
+| 8000–8199 | Forbidden (Phase 2J confirmation) |
 
-## Cohort
+## DEV results
 
-`(lobby, winner_seat, archetype_key)` enters at the first end-of-recruit where:
+**78** post-assembly states. Mass reconciliation: **pass**.
+
+### Missing weighted coverage mass by cause
+
+| Cause | Share of missing mass |
+|---|---:|
+| **A_NEVER_AVAILABLE_POST_ASSEMBLY** | **92.1%** |
+| F_TARGET_SWITCH | 7.8% |
+| D_DEPLOYED_THEN_LOST | ~0.05% |
+| E_EXISTING_CORE_LOST | ~0.03% |
+| B / C / G / H | 0% |
+
+### Funnel (post first-2)
 
 ```text
-inferred target == archetype_key
-core_count >= 2
+78 first persistent 2+
+ ├─ 52 reached 3+
+ ├─ 19 reached 4+
+ ├─ 72 survived +1 turn
+ └─ 64 survived +2 turns
+mean final core count ≈ 2.97
+mean final coverage   ≈ 0.250
+coverage_peak − final ≈ 0.0   # no peak→final retention collapse
 ```
 
-Archetype is frozen from that moment; later `infer_target` changes are events
-(`F_TARGET_SWITCH`), not silent retargets.
+### Weighted opportunity funnel (means)
 
-## Missing-mass taxonomy
+```text
+remaining at first-2 ≈ 0.82
+  → legally available after ≈ 0.074
+  → purchased ≈ 0.074
+  → deployed  ≈ 0.074
+  → retained  ≈ 0.072
+  → final present ≈ 0.250  # includes cores already held at first-2
+```
 
-Each unit of missing final weighted coverage (`arch.core` normalized) gets exactly
-one primary cause: never-available / available-not-bought / bought-not-deployed /
-deployed-then-lost / existing-core-lost / target-switch / triple-discover /
-unresolved.
+Once a missing core is offered, it is almost always bought and kept. The gap is
+**upstream availability**, not post-commit rejection or sell pressure.
 
-Headline: **% of missing weighted coverage mass by cause**.
+## Decision
+
+`a_never_available_post_assembly` → **Phase 2L: shop/pool/core-availability fidelity**
+
+Not card effects: low overall lobby coverage still reflects rare assembly plus
+missing post-assembly offers of the remaining weighted core mass.
 
 ## Commands
 
@@ -50,21 +76,6 @@ Headline: **% of missing weighted coverage mass by cause**.
 pytest tests/test_post_assembly_gap_diagnostic.py
 python -m ml.fidelity_phase_2k
 ```
-
-## Decision tree (precommitted)
-
-```text
->50% NEVER_AVAILABLE     → shop/pool availability fidelity
->50% AVAILABLE_NOT_BOUGHT → post-commit valuation/policy
->50% buy/deploy/existing loss → retention/sell policy
->50% TARGET_SWITCH       → target commitment/hysteresis
-triple/discover dominates → triple/discover fidelity
-available+acquired+retained but coverage stalls
-                         → representation/core-set before card effects
-mixed                    → expand DEV; do not implement
-```
-
-Card effects are **not** justified by low core-coverage alone.
 
 ## Frozen
 
