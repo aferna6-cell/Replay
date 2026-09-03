@@ -986,49 +986,109 @@ def diagnose_phase_2r(
     """Predeclared routing — measurement only, no α / scaling retune."""
     t10 = greedy_cmp.get("t10_shares_of_post_scale_hole") or {}
     win = greedy_cmp.get("t9_t12_mean_hole") or {}
+    gaps = greedy_cmp.get("gap_decomposition_by_turn") or {}
+
+    def _share(part, total):
+        if part is None or total is None or abs(total) < 1e-9:
+            return None
+        return float(part) / float(total)
+
+    def _initiated(g: Dict) -> Optional[float]:
+        """Replacement net + carried start + crater-induced residual shrink."""
+        if not g:
+            return None
+        parts = [
+            g.get("replacement_net_hole") or 0.0,
+            max(0.0, g.get("start_of_recruit_hole") or 0.0),
+            max(0.0, g.get("residual_shrinkage_extra_vs_control") or 0.0),
+        ]
+        hole = g.get("post_scale_hole_control_minus_treatment")
+        return _share(sum(parts), hole)
+
+    def _independent_residual(g: Dict) -> Optional[float]:
+        hole = (g or {}).get("post_scale_hole_control_minus_treatment")
+        resid = (g or {}).get("residual_recovery_hole")
+        shrink = (g or {}).get("residual_shrinkage_extra_vs_control")
+        if resid is None:
+            return None
+        independent = float(resid) - max(0.0, float(shrink or 0.0))
+        return _share(independent, hole)
+
+    t10_gap = gaps.get("10") or {}
+    win_initiated = _share(
+        (win.get("replacement_net") or 0.0)
+        + max(0.0, win.get("start_of_recruit_carried") or 0.0),
+        win.get("post_scale"),
+    )
+    # Mean shrinkage extra over the headline window.
+    shrink_parts = []
+    for t in HEADLINE_TURNS:
+        g = gaps.get(str(t)) or {}
+        if g.get("residual_shrinkage_extra_vs_control") is not None:
+            shrink_parts.append(float(g["residual_shrinkage_extra_vs_control"]))
+    win_shrink = _mean(shrink_parts) if shrink_parts else None
+    win_initiated_plus_shrink = _share(
+        (win.get("replacement_net") or 0.0)
+        + max(0.0, win.get("start_of_recruit_carried") or 0.0)
+        + max(0.0, win_shrink or 0.0),
+        win.get("post_scale"),
+    )
+    t10_initiated = _initiated(t10_gap)
+    t10_independent_resid = _independent_residual(t10_gap)
+    win_independent_resid = None
+    if win.get("residual_recovery") is not None:
+        win_independent_resid = _share(
+            float(win["residual_recovery"]) - max(0.0, win_shrink or 0.0),
+            win.get("post_scale"),
+        )
+
     repl_share = win.get("replacement_share")
-    if repl_share is None:
-        repl_share = t10.get("replacement_net")
     resid_share = win.get("residual_share")
-    if resid_share is None:
-        resid_share = t10.get("residual_recovery")
-    start_share = t10.get("start_of_recruit_carried")
 
     n_t = (greedy_cmp.get("treatment") or {}).get("n_replacements") or 0
     n_c = (greedy_cmp.get("control") or {}).get("n_replacements") or 0
     churn_up = n_t > n_c
-    t10_hole = (
-        (greedy_cmp.get("gap_decomposition_by_turn") or {}).get("10") or {}
-    ).get("post_scale_hole_control_minus_treatment")
+    t10_hole = t10_gap.get("post_scale_hole_control_minus_treatment")
     collapse = t10_hole is not None and t10_hole > 50.0
 
-    # Carried start-of-recruit hole is prior-turn replacement compounding.
-    compounded = None
-    if repl_share is not None and start_share is not None:
-        compounded = repl_share + max(0.0, start_share)
+    # Replacement initiates if same-turn net + carried crater + the residual
+    # budget that shrinks *because* the board was cratered explain ≥ 50%.
+    replacement_explains = (
+        (win_initiated_plus_shrink is not None
+         and win_initiated_plus_shrink >= REPLACEMENT_SHARE_THRESHOLD)
+        or (t10_initiated is not None
+            and t10_initiated >= REPLACEMENT_SHARE_THRESHOLD)
+    )
+    residual_independent = (
+        (win_independent_resid is not None
+         and win_independent_resid >= REPLACEMENT_SHARE_THRESHOLD)
+        or (t10_independent_resid is not None
+            and t10_independent_resid >= REPLACEMENT_SHARE_THRESHOLD)
+    )
 
-    if collapse and churn_up and (
-        (repl_share is not None and repl_share >= REPLACEMENT_SHARE_THRESHOLD)
-        or (compounded is not None and compounded >= REPLACEMENT_SHARE_THRESHOLD)
-    ):
+    if collapse and churn_up and replacement_explains:
         primary = "replacement_churn_loss_explains_macro_collapse"
         nxt = (
             "Preserve legitimate accumulated combat value on incumbents "
-            "while using unscaled recruit-value for selection. Do not "
-            "retune residual budget or Phase 2J α yet."
+            "while using unscaled recruit-value for selection. Residual "
+            "under-recovery on this run is mostly the cratered-board "
+            "budget (ratio_add ∝ current), not an independent pace-formula "
+            "defect. Do not retune residual budget or Phase 2J α yet."
         )
-    elif collapse and resid_share is not None and resid_share >= REPLACEMENT_SHARE_THRESHOLD:
+    elif collapse and residual_independent and not replacement_explains:
         primary = "residual_pace_coupling_dominates"
         nxt = (
-            "Replacement volume is not the main post-scale hole. Inspect "
-            "residual/pace coupling (ratio_add vs clamp vs end-of-recruit "
-            "current). Do not retune α or burn confirm seeds."
+            "Replacement volume is not the main post-scale hole after "
+            "crediting crater-induced residual shrink. Inspect residual/"
+            "pace coupling (ratio_add vs clamp vs Firestone current). "
+            "Do not retune α or burn confirm seeds."
         )
     elif collapse:
         primary = "mixed_replacement_and_residual_coupling"
         nxt = (
-            "Neither term alone clears the 50% share threshold. Inspect "
-            "gap_decomposition_by_turn before designing the next split."
+            "Neither replacement-initiated share nor independent residual "
+            "clears the 50% threshold. Inspect gap_decomposition_by_turn "
+            "before designing the next split."
         )
     else:
         primary = "collapse_not_reproduced"
@@ -1042,6 +1102,10 @@ def diagnose_phase_2r(
         "replacement_share_threshold": REPLACEMENT_SHARE_THRESHOLD,
         "greedy_replacement_share_t9_t12": repl_share,
         "greedy_residual_share_t9_t12": resid_share,
+        "greedy_replacement_initiated_share_t9_t12": win_initiated_plus_shrink,
+        "greedy_independent_residual_share_t9_t12": win_independent_resid,
+        "greedy_t10_initiated_share": t10_initiated,
+        "greedy_t10_independent_residual_share": t10_independent_resid,
         "greedy_t10_shares": t10,
         "greedy_comparison": {
             "deltas": greedy_cmp.get("deltas"),

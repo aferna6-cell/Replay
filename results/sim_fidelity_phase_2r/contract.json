@@ -1,0 +1,75 @@
+{
+  "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+  "simulator_version": "Simulator v1.1",
+  "scaling_mode": "residual",
+  "simulator_module": "hsbg_coach.bg_env.BGEnv",
+  "code_commit": "604e8c6f239f4419d9c299b4dd6aa7b99d2a1ebb",
+  "runtime": {
+    "python_version": "3.12.3",
+    "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+    "torch_version": "2.14.0+cpu",
+    "numpy_version": "2.4.4",
+    "torch_device": "cpu",
+    "torch_cuda_available": false
+  },
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+  "reference_data_fingerprints": {
+    "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+    "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
+    "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+    "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+    "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+    "bg_cards": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+    "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+  },
+  "reference_metadata": {
+    "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+    "_fetched": "2026-09-01",
+    "_mmr": 10,
+    "_period": "past-seven",
+    "_heroDataPoints": 58561,
+    "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+  },
+  "evaluation": {
+    "policy": "greedy \u00b1 recruit-value; BoardOpp \u03b1=0.5 \u00b1 recruit-value (secondary)",
+    "lobbies": 500,
+    "base_seed": 13700,
+    "note": "Phase 2R measurement-only collapse mechanism; not Benchmark v1."
+  },
+  "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+  "parent_simulator_version": "Simulator v1",
+  "working_tree_clean": false,
+  "phase": "2R replacement-collapse mechanism diagnostic",
+  "phase_2r_methodology_version": "2r_v1",
+  "phase_2j_methodology_version": "2j_v1",
+  "simulator_version_label": "Simulator v1.1",
+  "frozen_alpha": 0.5,
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+  "forbidden_seed_ranges": [
+    "8000\u20138199",
+    "9000\u20139999",
+    "10000\u201310199",
+    "10200\u201310699",
+    "11000\u201311499",
+    "11500\u201311699",
+    "11700\u201312199",
+    "12200\u201312699",
+    "12700\u201313199",
+    "13200\u201313699"
+  ],
+  "feature_toggle": "PHASE_2Q_RECRUIT_VALUE_STATS (default OFF)",
+  "measurement_only": true,
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "runtime_sec": 457.22
+}

@@ -1,0 +1,223 @@
+{
+  "deltas": {
+    "n_replacements": 23381.0,
+    "mean_combat_loss_per_replacement": 96.87469447506004,
+    "mean_replacement_net_t9_t12": -230.76447784630176,
+    "mean_combat_removed_t9_t12": 255.92972178421164,
+    "mean_residual_t9_t12": -1206.8736642396468,
+    "post_scale_over_firestone_t10": -0.4861423185583496,
+    "post_scale_over_firestone_t14": -1.7127459365453113,
+    "mean_game_length": -2.646000000000001
+  },
+  "control": {
+    "n_replacements": 1467,
+    "mean_combat_loss_per_replacement": -0.7757327880027266,
+    "mean_replacement_net_t9_t12": 0.12081961991718866,
+    "mean_combat_removed_t9_t12": 1.7041087164242488,
+    "post_scale_over_firestone_t10": 0.9539699217750157,
+    "post_scale_over_firestone_t14": 1.827894384253478,
+    "mean_game_length": 15.734
+  },
+  "treatment": {
+    "n_replacements": 24848,
+    "mean_combat_loss_per_replacement": 96.09896168705731,
+    "mean_replacement_net_t9_t12": -230.64365822638456,
+    "mean_combat_removed_t9_t12": 257.6338305006359,
+    "post_scale_over_firestone_t10": 0.4678276032166661,
+    "post_scale_over_firestone_t14": 0.11514844770816676,
+    "mean_game_length": 13.088
+  },
+  "paired_post_scale_firestone": {
+    "8": {
+      "control": 1.1495454432856895,
+      "treatment": 1.1495454432856895,
+      "delta": 0.0
+    },
+    "9": {
+      "control": 1.3075501168892043,
+      "treatment": 0.6212682331730239,
+      "delta": -0.6862818837161804
+    },
+    "10": {
+      "control": 0.9539699217750157,
+      "treatment": 0.4678276032166661,
+      "delta": -0.4861423185583496
+    },
+    "11": {
+      "control": 1.1833344659151517,
+      "treatment": 0.25095218783085127,
+      "delta": -0.9323822780843004
+    },
+    "12": {
+      "control": 1.4670110838647676,
+      "treatment": 0.16759064331612508,
+      "delta": -1.2994204405486425
+    },
+    "13": {
+      "control": 1.7588111026626205,
+      "treatment": 0.1273642482418655,
+      "delta": -1.631446854420755
+    },
+    "14": {
+      "control": 1.827894384253478,
+      "treatment": 0.11514844770816676,
+      "delta": -1.7127459365453113
+    }
+  },
+  "paired_alive_curve": {
+    "8": {
+      "control": 7.19803094233474,
+      "treatment": 7.19803094233474,
+      "delta": 0.0
+    },
+    "9": {
+      "control": 6.19946984758118,
+      "treatment": 6.19946984758118,
+      "delta": 0.0
+    },
+    "10": {
+      "control": 5.363989134652697,
+      "treatment": 5.1053061224489795,
+      "delta": -0.2586830122037176
+    },
+    "11": {
+      "control": 4.415954415954416,
+      "treatment": 3.961206896551724,
+      "delta": -0.45474751940269176
+    },
+    "12": {
+      "control": 3.661233993015134,
+      "treatment": 2.95622641509434,
+      "delta": -0.705007577920794
+    },
+    "13": {
+      "control": 3.018867924528302,
+      "treatment": 2.410757946210269,
+      "delta": -0.608109978318033
+    },
+    "14": {
+      "control": 2.604757548032937,
+      "treatment": 2.176470588235294,
+      "delta": -0.4282869597976431
+    }
+  },
+  "gap_decomposition_by_turn": {
+    "8": {
+      "post_scale_hole_control_minus_treatment": 0.0,
+      "start_of_recruit_hole": 0.0,
+      "replacement_net_hole": 0.0,
+      "other_recruit_hole": 0.0,
+      "residual_recovery_hole": 0.0,
+      "residual_shrinkage_extra_vs_control": 0.0,
+      "n_replacements_control": 0,
+      "n_replacements_treatment": 0
+    },
+    "9": {
+      "post_scale_hole_control_minus_treatment": 495.2210072895957,
+      "start_of_recruit_hole": 0.0,
+      "replacement_net_hole": 188.3691186216037,
+      "other_recruit_hole": 0.6736249171636846,
+      "residual_recovery_hole": 306.1782637508283,
+      "residual_shrinkage_extra_vs_control": 298.35552895691654,
+      "n_replacements_control": 1467,
+      "n_replacements_treatment": 11239
+    },
+    "10": {
+      "post_scale_hole_control_minus_treatment": 778.3624662437734,
+      "start_of_recruit_hole": 499.35109310779023,
+      "replacement_net_hole": 0.0,
+      "other_recruit_hole": 0.0,
+      "residual_recovery_hole": 279.0113731359832,
+      "residual_shrinkage_extra_vs_control": -0.043762654169191104,
+      "n_replacements_control": 0,
+      "n_replacements_treatment": 0
+    },
+    "11": {
+      "post_scale_hole_control_minus_treatment": 2966.9336470920525,
+      "start_of_recruit_hole": 774.1781665479582,
+      "replacement_net_hole": 465.3496767241379,
+      "other_recruit_hole": 1.3448275862068966,
+      "residual_recovery_hole": 1726.0609762337492,
+      "residual_shrinkage_extra_vs_control": 650.7058870440999,
+      "n_replacements_control": 0,
+      "n_replacements_treatment": 6612
+    },
+    "12": {
+      "post_scale_hole_control_minus_treatment": 6948.001095613592,
+      "start_of_recruit_hole": 3011.085324313045,
+      "replacement_net_hole": 425.50037735849054,
+      "other_recruit_hole": 4.708679245283019,
+      "residual_recovery_hole": 3506.7067146967734,
+      "residual_shrinkage_extra_vs_control": 437.42875980008495,
+      "n_replacements_control": 0,
+      "n_replacements_treatment": 4093
+    },
+    "13": {
+      "post_scale_hole_control_minus_treatment": 11646.409659653444,
+      "start_of_recruit_hole": 7108.001621711775,
+      "replacement_net_hole": 381.2909535452323,
+      "other_recruit_hole": 11.04034229828851,
+      "residual_recovery_hole": 4146.076742098147,
+      "residual_shrinkage_extra_vs_control": 229.05073590720644,
+      "n_replacements_control": 0,
+      "n_replacements_treatment": 2170
+    },
+    "14": {
+      "post_scale_hole_control_minus_treatment": 14204.487150144885,
+      "start_of_recruit_hole": 11887.45816467869,
+      "replacement_net_hole": 251.1888544891641,
+      "other_recruit_hole": 10.820433436532507,
+      "residual_recovery_hole": 2055.0196975404983,
+      "residual_shrinkage_extra_vs_control": 104.23037811001281,
+      "n_replacements_control": 0,
+      "n_replacements_treatment": 734
+    }
+  },
+  "t10_shares_of_post_scale_hole": {
+    "replacement_net": 0.0,
+    "residual_recovery": 0.358459439189608,
+    "start_of_recruit_carried": 0.641540560810392
+  },
+  "t9_t12_mean_hole": {
+    "post_scale": 2797.1295540597534,
+    "replacement_net": 269.804793176058,
+    "residual_recovery": 1454.4893319543335,
+    "start_of_recruit_carried": 1071.1536459921983,
+    "replacement_share": 0.09645773925074846,
+    "residual_share": 0.5199935519051264
+  },
+  "directional_macro_policy_harm": {
+    "definition": {
+      "name": "directional_macro_policy_harm",
+      "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+      "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+    },
+    "by_turn": {
+      "10": {
+        "greedy_ratio": 0.9539699217750157,
+        "treatment_ratio": 0.4678276032166661,
+        "greedy_distance": 0.04603007822498428,
+        "treatment_distance": 0.5321723967833338,
+        "macro_policy_harm": 0.48614231855834955,
+        "treatment_closer_to_firestone": false
+      },
+      "12": {
+        "greedy_ratio": 1.4670110838647676,
+        "treatment_ratio": 0.16759064331612508,
+        "greedy_distance": 0.46701108386476764,
+        "treatment_distance": 0.832409356683875,
+        "macro_policy_harm": 0.3653982728191073,
+        "treatment_closer_to_firestone": false
+      },
+      "14": {
+        "greedy_ratio": 1.827894384253478,
+        "treatment_ratio": 0.11514844770816676,
+        "greedy_distance": 0.827894384253478,
+        "treatment_distance": 0.8848515522918332,
+        "macro_policy_harm": 0.056957168038355155,
+        "treatment_closer_to_firestone": false
+      }
+    },
+    "applied_to_2n_v3": false
+  }
+}

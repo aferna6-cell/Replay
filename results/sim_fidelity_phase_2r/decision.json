@@ -1,0 +1,70 @@
+{
+  "primary_finding": "replacement_churn_loss_explains_macro_collapse",
+  "replacement_share_threshold": 0.5,
+  "greedy_replacement_share_t9_t12": 0.09645773925074846,
+  "greedy_residual_share_t9_t12": 0.5199935519051264,
+  "greedy_replacement_initiated_share_t9_t12": 0.6033220878187964,
+  "greedy_independent_residual_share_t9_t12": 0.39607665903770056,
+  "greedy_t10_initiated_share": 0.641540560810392,
+  "greedy_t10_independent_residual_share": 0.358459439189608,
+  "greedy_t10_shares": {
+    "replacement_net": 0.0,
+    "residual_recovery": 0.358459439189608,
+    "start_of_recruit_carried": 0.641540560810392
+  },
+  "greedy_comparison": {
+    "deltas": {
+      "n_replacements": 23381.0,
+      "mean_combat_loss_per_replacement": 96.87469447506004,
+      "mean_replacement_net_t9_t12": -230.76447784630176,
+      "mean_combat_removed_t9_t12": 255.92972178421164,
+      "mean_residual_t9_t12": -1206.8736642396468,
+      "post_scale_over_firestone_t10": -0.4861423185583496,
+      "post_scale_over_firestone_t14": -1.7127459365453113,
+      "mean_game_length": -2.646000000000001
+    },
+    "t9_t12_mean_hole": {
+      "post_scale": 2797.1295540597534,
+      "replacement_net": 269.804793176058,
+      "residual_recovery": 1454.4893319543335,
+      "start_of_recruit_carried": 1071.1536459921983,
+      "replacement_share": 0.09645773925074846,
+      "residual_share": 0.5199935519051264
+    }
+  },
+  "phase_2j_comparison_secondary": {
+    "deltas": {
+      "n_replacements": 5336.0,
+      "mean_combat_loss_per_replacement": 29.0454247473167,
+      "mean_replacement_net_t9_t12": -150.16568686081183,
+      "mean_combat_removed_t9_t12": 155.47544843642717,
+      "mean_residual_t9_t12": -579.9744372926788,
+      "post_scale_over_firestone_t10": -0.21709921657184683,
+      "post_scale_over_firestone_t14": -1.0195625723266604,
+      "mean_game_length": -1.734
+    },
+    "t9_t12_mean_hole": {
+      "post_scale": 1298.0391466224155,
+      "replacement_net": 194.8426704496566,
+      "residual_recovery": 675.2275330240138,
+      "start_of_recruit_carried": 427.7741823861404,
+      "replacement_share": 0.1501053885444443,
+      "residual_share": 0.520190423209501
+    },
+    "t10_shares_of_post_scale_hole": {
+      "replacement_net": 0.06529443415527962,
+      "residual_recovery": 0.3546611430907369,
+      "start_of_recruit_carried": 0.5802747931501412
+    },
+    "note": "Phase 2J \u03b1=0.5 frozen; report-only, no retune."
+  },
+  "keep_pr_29_hold": true,
+  "keep_pr_33_hold": true,
+  "keep_phase_2j_alpha": 0.5,
+  "confirm_seeds_reserved": "11500\u201311699",
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "toggle_default_off": true,
+  "measurement_only": true,
+  "recommended_next_step": "Preserve legitimate accumulated combat value on incumbents while using unscaled recruit-value for selection. Residual under-recovery on this run is mostly the cratered-board budget (ratio_add \u221d current), not an independent pace-formula defect. Do not retune residual budget or Phase 2J \u03b1 yet."
+}
