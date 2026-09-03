@@ -38,6 +38,7 @@ tuning on the current simulator.
 | 2L | [`sim_fidelity_phase_2l.md`](sim_fidelity_phase_2l.md) | Availability decomp (`2l_v2`: **63% A3** → approve; Phase 2M pool audit) |
 | 2M | [`sim_fidelity_phase_2m.md`](sim_fidelity_phase_2m.md) | Shop/pool audit (`2m_v2`: multi-mismatch; mild draw undershoot) |
 | 2N | [`sim_fidelity_phase_2n.md`](sim_fidelity_phase_2n.md) | Active Tavern-pool OK; **HOLD v1.x** (`2n_v3` macro gates fail; confirm 11500 reserved) |
+| 2O | [`sim_fidelity_phase_2o.md`](sim_fidelity_phase_2o.md) | Midgame scaling-budget diagnostic (`2o_v1`; DEV 12200–12699; measurement-only) |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.

@@ -216,6 +216,9 @@ class BGEnv:
         # Must not mutate env. Used by Phase 2M shop/pool audit only.
         self.pool_deal_hook: Optional[Callable] = None
         self._deal_reason: str = "unknown"
+        # Optional observational hook for residual scaling intermediates.
+        # Signature: (env, player, seat, audit_dict) -> None. Must not mutate.
+        self.scaling_audit_hook: Optional[Callable] = None
 
     MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
 
@@ -529,6 +532,46 @@ class BGEnv:
             m.attack = max(1, round(m.attack * g))
             m.health = max(1, round(m.health * g))
 
+    def _residual_scaling_budget(self, p: PlayerState
+                                 ) -> Optional[Dict[str, float]]:
+        """Compute residual scaling intermediates without mutating the board.
+
+        Measurement helper for Phase 2O. Math matches
+        ``_end_of_turn_scaling_residual`` exactly (including RNG for factor).
+        """
+        if not p.board:
+            return None
+        current = float(p.strength())
+        prev = _curve_at(self._scaling, max(1, self.turn - 1)) or 1.0
+        cur = _curve_at(self._scaling, self.turn) or prev
+        ratio = (cur / prev) if prev else 1.0
+        factor = self._scaling_growth_factor(p)
+        ratio_g = max(1.0, ratio * factor)
+        ratio_add = current * (ratio_g - 1)
+        pace_target = cur * factor
+        over = max(0.0, current - pace_target)
+        residual_clamp_active = self.turn >= 10
+        if residual_clamp_active:
+            residual_add = max(0.0, ratio_add - over)
+        else:
+            residual_add = ratio_add
+        return {
+            "end_of_recruit_pre_scaling_stats": current,
+            "firestone_target": float(cur),
+            "firestone_prev": float(prev),
+            "curve_ratio": float(ratio),
+            "growth_factor": float(factor),
+            "ratio_g": float(ratio_g),
+            "ratio_add": float(ratio_add),
+            "pace_target": float(pace_target),
+            "over": float(over),
+            "residual_add": float(residual_add),
+            "residual_clamp_active": float(1.0 if residual_clamp_active else 0.0),
+            "just_leveled": float(1.0 if p.turns_since_level == 0 else 0.0),
+            "tavern_tier": float(p.tier),
+            "turns_since_level": float(p.turns_since_level),
+        }
+
     def _end_of_turn_scaling_residual(self, p: PlayerState) -> None:
         """Apply only unexplained abstract growth once boards exceed the pace curve.
 
@@ -537,21 +580,14 @@ class BGEnv:
         board stats already above the Firestone pace target from the ratio-mode
         abstract buff budget instead of multiplying the full board again.
         """
-        if not p.board:
+        budget = self._residual_scaling_budget(p)
+        if budget is None:
             return
-        current = p.strength()
-        prev = _curve_at(self._scaling, max(1, self.turn - 1)) or 1.0
-        cur = _curve_at(self._scaling, self.turn) or prev
-        ratio = (cur / prev) if prev else 1.0
-        factor = self._scaling_growth_factor(p)
-        ratio_g = max(1.0, ratio * factor)
-        ratio_add = current * (ratio_g - 1)
-        if self.turn >= 10:
-            pace_target = cur * factor
-            over = max(0.0, current - pace_target)
-            residual_add = max(0.0, ratio_add - over)
-        else:
-            residual_add = ratio_add
+        current = budget["end_of_recruit_pre_scaling_stats"]
+        residual_add = budget["residual_add"]
+        if self.scaling_audit_hook is not None:
+            seat = next((i for i, pl in enumerate(self.players) if pl is p), -1)
+            self.scaling_audit_hook(self, p, seat, dict(budget))
         if residual_add <= 0:
             return
         for m in p.board:
@@ -763,6 +799,8 @@ class BGEnv:
                 records.append({"seat": seat, "turn": self.turn,
                                 "state": self.snapshot(seat)})
             self._scale_all()
+            if recruit_tracer is not None and hasattr(recruit_tracer, "after_scale_all"):
+                recruit_tracer.after_scale_all(self)
             self._run_combat()
             alive = [p for p in self.players if p.alive]
             if len(alive) <= 1 or self.turn >= MAX_TURNS:
