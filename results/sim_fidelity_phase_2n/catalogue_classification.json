@@ -1,0 +1,352 @@
+{
+  "methodology": "2n_a_v1",
+  "source": "HearthstoneJSON refresh-cards + Phase 2M problematic slots",
+  "kb_size_after_refresh": 1306,
+  "classification_counts": {
+    "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH": 38,
+    "TIER_OUT_OF_SIM_SCOPE": 2,
+    "TIER_REFRESH_FIXED": 1
+  },
+  "rows": [
+    {
+      "card": "Barrier Banshee",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_514",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Boom-in-a-Box",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_620",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Bramble Tunneler",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_331",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Bronze Timewalker",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_242",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Cagey Conjurer",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 3,
+      "kb_card_id": "BG36_508",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Captain Cookie",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_760",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Clever Castaway",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 2,
+      "kb_card_id": "BG36_342",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Crimson Vindicator",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_241",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Dead Bellringer",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_511",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Deathstrider",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_208",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Devilish Distractor",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_762",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Drone Duplicator",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_506",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Enterprising Escapee",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_523",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Eredar Escapist",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_733",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Gatekeeper Amalgam",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_640",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Glambot",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_853",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Headhunter Gryphon",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_204",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Hoarding Hyena",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_210",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Hooktusk, Master Marauder",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_344",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Imp-lusionist",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_731",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Kelp Keeper",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_701",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Lurking Lionfish",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 2,
+      "kb_card_id": "BG36_201",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Maritime Extortionist",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_524",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Moat Custodian",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_351",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Ravaging Scorpid",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_209",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Rescue Bot",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 3,
+      "kb_card_id": "BG36_854",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Runic Arcanist",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_245",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Shamanic Tidecaller",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_704",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Sky-hatch Runaway",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_243",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Snazzy Phantom",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_515",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Soulkeeping Jailer",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_503",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Spark Snapper",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_851",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Tasty Lobster",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 3,
+      "kb_card_id": "BG36_202",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Torrential Ruiner",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_622",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Twilight Tidehunter",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 4,
+      "kb_card_id": "BG36_703",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Unbound Tempest",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG36_352",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Vigilant Bristlemane",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 5,
+      "kb_card_id": "BG36_510",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Wolf Pup",
+      "classification": "ACTIVE_MISSING_FROM_KB_FIXED_BY_REFRESH",
+      "action": "none_cores_unchanged",
+      "kb_tier": 3,
+      "kb_card_id": "BG36_207",
+      "in_exact_catalogue_after_refresh": true
+    },
+    {
+      "card": "Polarizing Beatboxer",
+      "archetype_key": "mech_magnet",
+      "classification": "TIER_OUT_OF_SIM_SCOPE",
+      "action": "remove_from_archetype_cores",
+      "kb_tier": 7,
+      "kb_card_id": "BG26_149",
+      "in_exact_catalogue_after_refresh": false,
+      "core_frequency": 0.548
+    },
+    {
+      "card": "Sanguine Champion",
+      "archetype_key": "quilboar_choose_one",
+      "classification": "TIER_REFRESH_FIXED",
+      "action": "none_cores_unchanged",
+      "kb_tier": 6,
+      "kb_card_id": "BG23_017",
+      "in_exact_catalogue_after_refresh": true,
+      "core_frequency": 0.231
+    },
+    {
+      "card": "Polarizing Beatboxer",
+      "archetype_key": "mech_automaton",
+      "classification": "TIER_OUT_OF_SIM_SCOPE",
+      "action": "remove_from_archetype_cores",
+      "kb_tier": 7,
+      "kb_card_id": "BG26_149",
+      "in_exact_catalogue_after_refresh": false,
+      "core_frequency": 0.306
+    }
+  ],
+  "summary": {
+    "active_missing_fixed_by_kb_refresh": 38,
+    "tier_out_of_sim_scope": 2,
+    "tier_refresh_fixed": 1
+  },
+  "note": "Do not invent cards. Active missing cores were repaired by refreshing bg_cards.json from HearthstoneJSON. T7 cores are out of Simulator v1.x MAX_TIER=6 scope \u2014 remove from archetype references rather than adding Tier-7 shop support."
+}

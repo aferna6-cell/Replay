@@ -1,0 +1,3285 @@
+{
+  "methodology_version": "2r_v1",
+  "decision": {
+    "primary_finding": "replacement_churn_loss_explains_macro_collapse",
+    "greedy_comparison": {
+      "deltas": {
+        "full_board_replace_rate": 0.28366286175914734,
+        "n_completed_replacements": 23381.0,
+        "sum_combat_strength_removed": 2389005.0,
+        "sum_recruit_value_gain": 79247.0,
+        "sum_residual_scaling_added": -19999485.637047395,
+        "net_combat_removed_after_residual": 22388490.637047395,
+        "mean_combat_loss_per_replacement": 96.87469447506004,
+        "post_scale_over_firestone_t10": -0.4861423185583496,
+        "post_scale_over_firestone_t14": -1.7127459365453113,
+        "mean_game_length": -2.646000000000001,
+        "treatment_post_stats_deficit_t10": 778.3624662437734,
+        "excess_mean_net_loss_t10": 279.0551357901524,
+        "cumulative_excess_net_loss_t8_t10": 773.5534687707743,
+        "residual_scaling_delta_t10": -279.0551357901524,
+        "churn_explains_fraction_t10_same_turn": 0.35851566319329153,
+        "churn_explains_fraction_t10": 0.9938216477777939
+      },
+      "control": {
+        "full_board_replace_rate": 0.01618026603136788,
+        "n_completed_replacements": 1467,
+        "headline_t8_t14": {
+          "sum_combat_strength_removed": -1138.0,
+          "sum_recruit_value_gain": 7435.0,
+          "sum_residual_scaling_added": 23717399.85726425,
+          "net_combat_removed_after_residual": -23718537.85726425,
+          "mean_combat_loss_per_replacement": -0.7757327880027266,
+          "mean_recruit_gain_per_replacement": 5.068166325835038,
+          "source_counts": {
+            "hand": 1467
+          }
+        },
+        "post_scale_over_firestone_t10": 0.9539699217750157,
+        "post_scale_over_firestone_t14": 1.827894384253478,
+        "mean_game_length": 15.734,
+        "mean_combat_loss_per_replacement": -0.7757327880027266,
+        "replacement_loss_distribution": {
+          "n": 1467,
+          "mean": -0.7757327880027266,
+          "median": 0.0,
+          "p10": -7.0,
+          "p25": -5.0,
+          "p75": 3.0,
+          "p90": 5.0,
+          "p95": 6.0,
+          "min": -11.0,
+          "max": 9.0,
+          "share_positive_loss": 0.4505794137695978,
+          "share_loss_ge_20": 0.0,
+          "share_loss_ge_50": 0.0
+        }
+      },
+      "treatment": {
+        "full_board_replace_rate": 0.29984312779051525,
+        "n_completed_replacements": 24848,
+        "headline_t8_t14": {
+          "sum_combat_strength_removed": 2387867.0,
+          "sum_recruit_value_gain": 86682.0,
+          "sum_residual_scaling_added": 3717914.2202168535,
+          "net_combat_removed_after_residual": -1330047.2202168535,
+          "mean_combat_loss_per_replacement": 96.09896168705731,
+          "mean_recruit_gain_per_replacement": 3.48849001931745,
+          "source_counts": {
+            "hand": 24848
+          }
+        },
+        "post_scale_over_firestone_t10": 0.4678276032166661,
+        "post_scale_over_firestone_t14": 0.11514844770816676,
+        "mean_game_length": 13.088,
+        "mean_combat_loss_per_replacement": 96.09896168705731,
+        "replacement_loss_distribution": {
+          "n": 24848,
+          "mean": 96.09896168705731,
+          "median": 56.0,
+          "p10": 4.0,
+          "p25": 13.0,
+          "p75": 102.0,
+          "p90": 226.0,
+          "p95": 413.0,
+          "min": -14.0,
+          "max": 2106.0,
+          "share_positive_loss": 0.9312620734063104,
+          "share_loss_ge_20": 0.6994526722472634,
+          "share_loss_ge_50": 0.5143271088216356
+        }
+      },
+      "paired_post_scale_firestone_ratios": {
+        "8": {
+          "control": 1.1495454432856895,
+          "treatment": 1.1495454432856895,
+          "delta": 0.0
+        },
+        "9": {
+          "control": 1.3075501168892043,
+          "treatment": 0.6212682331730239,
+          "delta": -0.6862818837161804
+        },
+        "10": {
+          "control": 0.9539699217750157,
+          "treatment": 0.4678276032166661,
+          "delta": -0.4861423185583496
+        },
+        "11": {
+          "control": 1.1833344659151517,
+          "treatment": 0.25095218783085127,
+          "delta": -0.9323822780843004
+        },
+        "12": {
+          "control": 1.4670110838647676,
+          "treatment": 0.16759064331612508,
+          "delta": -1.2994204405486425
+        },
+        "13": {
+          "control": 1.7588111026626205,
+          "treatment": 0.1273642482418655,
+          "delta": -1.631446854420755
+        },
+        "14": {
+          "control": 1.827894384253478,
+          "treatment": 0.11514844770816676,
+          "delta": -1.7127459365453113
+        }
+      },
+      "paired_alive_curve": {
+        "8": {
+          "control": 7.19803094233474,
+          "treatment": 7.19803094233474,
+          "delta": 0.0
+        },
+        "9": {
+          "control": 6.19946984758118,
+          "treatment": 6.19946984758118,
+          "delta": 0.0
+        },
+        "10": {
+          "control": 5.363989134652697,
+          "treatment": 5.1053061224489795,
+          "delta": -0.2586830122037176
+        },
+        "11": {
+          "control": 4.415954415954416,
+          "treatment": 3.961206896551724,
+          "delta": -0.45474751940269176
+        },
+        "12": {
+          "control": 3.661233993015134,
+          "treatment": 2.95622641509434,
+          "delta": -0.705007577920794
+        },
+        "13": {
+          "control": 3.018867924528302,
+          "treatment": 2.410757946210269,
+          "delta": -0.608109978318033
+        },
+        "14": {
+          "control": 2.604757548032937,
+          "treatment": 2.176470588235294,
+          "delta": -0.4282869597976431
+        }
+      },
+      "per_turn_decomposition_delta": {
+        "8": {
+          "replacements_per_seat_turn": 0.0,
+          "mean_combat_strength_removed": 0.0,
+          "mean_recruit_value_gain": 0.0,
+          "mean_residual_scaling_added": 0.0,
+          "mean_net_after_residual": 0.0,
+          "mean_post_scaling_stats": 0.0
+        },
+        "9": {
+          "replacements_per_seat_turn": 3.237905897945659,
+          "mean_combat_strength_removed": 188.3691186216037,
+          "mean_recruit_value_gain": 11.818091451292247,
+          "mean_residual_scaling_added": -306.1292143590182,
+          "mean_net_after_residual": 494.4983329806219,
+          "mean_post_scaling_stats": -495.2210072895957
+        },
+        "10": {
+          "replacements_per_seat_turn": 0.0,
+          "mean_combat_strength_removed": 0.0,
+          "mean_recruit_value_gain": 0.0,
+          "mean_residual_scaling_added": -279.0551357901524,
+          "mean_net_after_residual": 279.0551357901524,
+          "mean_post_scaling_stats": -778.3624662437734
+        },
+        "11": {
+          "replacements_per_seat_turn": 3.5625,
+          "mean_combat_strength_removed": 465.3496767241379,
+          "mean_recruit_value_gain": 11.839439655172415,
+          "mean_residual_scaling_added": -1726.0000854033162,
+          "mean_net_after_residual": 2191.349762127454,
+          "mean_post_scaling_stats": -2966.9336470920525
+        },
+        "12": {
+          "replacements_per_seat_turn": 3.0890566037735847,
+          "mean_combat_strength_removed": 425.50037735849054,
+          "mean_recruit_value_gain": 9.788679245283019,
+          "mean_residual_scaling_added": -3506.792031769998,
+          "mean_net_after_residual": 3932.2924091284885,
+          "mean_post_scaling_stats": -6948.001095613592
+        },
+        "13": {
+          "replacements_per_seat_turn": 2.65281173594132,
+          "mean_combat_strength_removed": 381.2909535452323,
+          "mean_recruit_value_gain": 8.00122249388753,
+          "mean_residual_scaling_added": -4146.045779904646,
+          "mean_net_after_residual": 4527.336733449879,
+          "mean_post_scaling_stats": -11646.409659653444
+        },
+        "14": {
+          "replacements_per_seat_turn": 2.2724458204334366,
+          "mean_combat_strength_removed": 251.1888544891641,
+          "mean_recruit_value_gain": 6.473684210526316,
+          "mean_residual_scaling_added": -2054.964603595675,
+          "mean_net_after_residual": 2306.153458084839,
+          "mean_post_scaling_stats": -14204.487150144885
+        }
+      },
+      "directional_macro_policy_harm": {
+        "definition": {
+          "name": "directional_macro_policy_harm",
+          "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+          "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+        },
+        "by_turn": {
+          "10": {
+            "greedy_ratio": 0.9539699217750157,
+            "treatment_ratio": 0.4678276032166661,
+            "greedy_distance": 0.04603007822498428,
+            "treatment_distance": 0.5321723967833338,
+            "macro_policy_harm": 0.48614231855834955,
+            "treatment_closer_to_firestone": false
+          },
+          "12": {
+            "greedy_ratio": 1.4670110838647676,
+            "treatment_ratio": 0.16759064331612508,
+            "greedy_distance": 0.46701108386476764,
+            "treatment_distance": 0.832409356683875,
+            "macro_policy_harm": 0.3653982728191073,
+            "treatment_closer_to_firestone": false
+          },
+          "14": {
+            "greedy_ratio": 1.827894384253478,
+            "treatment_ratio": 0.11514844770816676,
+            "greedy_distance": 0.827894384253478,
+            "treatment_distance": 0.8848515522918332,
+            "macro_policy_harm": 0.056957168038355155,
+            "treatment_closer_to_firestone": false
+          }
+        },
+        "applied_to_2n_v3": false
+      },
+      "churn_explains_threshold": 0.55
+    },
+    "phase_2j_comparison": {
+      "deltas": {
+        "full_board_replace_rate": 0.13091526240229728,
+        "n_completed_replacements": 5287.0,
+        "sum_combat_strength_removed": 1910656.0,
+        "sum_recruit_value_gain": 17202.0,
+        "sum_residual_scaling_added": -11371151.14154731,
+        "net_combat_removed_after_residual": 13281807.14154731,
+        "mean_combat_loss_per_replacement": 30.303391518035426,
+        "post_scale_over_firestone_t10": -0.21709921657184683,
+        "post_scale_over_firestone_t14": -1.0195625723266604,
+        "mean_game_length": -1.734,
+        "treatment_post_stats_deficit_t10": 347.59755565318414,
+        "excess_mean_net_loss_t10": 145.98622613101054,
+        "cumulative_excess_net_loss_t8_t10": 348.9093413811992,
+        "residual_scaling_delta_t10": -123.29004042087757,
+        "churn_explains_fraction_t10_same_turn": 0.41998634270221524,
+        "churn_explains_fraction_t10": 1.0037738635001332
+      },
+      "control": {
+        "full_board_replace_rate": 0.06863177805800756,
+        "n_completed_replacements": 4353,
+        "headline_t8_t14": {
+          "sum_combat_strength_removed": 1332602.0,
+          "sum_recruit_value_gain": 8393.0,
+          "sum_residual_scaling_added": 19899563.15572093,
+          "net_combat_removed_after_residual": -18566961.15572093,
+          "mean_combat_loss_per_replacement": 306.13416034918447,
+          "mean_recruit_gain_per_replacement": 1.9280955662761314,
+          "source_counts": {
+            "hand": 593,
+            "shop": 3760
+          }
+        },
+        "post_scale_over_firestone_t10": 0.8778198907547905,
+        "post_scale_over_firestone_t14": 1.5272440515027694,
+        "mean_game_length": 15.14,
+        "mean_combat_loss_per_replacement": 306.13416034918447,
+        "replacement_loss_distribution": {
+          "n": 4353,
+          "mean": 306.13416034918447,
+          "median": 78.0,
+          "p10": 1.0,
+          "p25": 11.0,
+          "p75": 268.0,
+          "p90": 846.0,
+          "p95": 1584.599999999995,
+          "min": -14.0,
+          "max": 5523.0,
+          "share_positive_loss": 0.9016770043648059,
+          "share_loss_ge_20": 0.6636802205375603,
+          "share_loss_ge_50": 0.5603032391454169
+        }
+      },
+      "treatment": {
+        "full_board_replace_rate": 0.19954704046030483,
+        "n_completed_replacements": 9640,
+        "headline_t8_t14": {
+          "sum_combat_strength_removed": 3243258.0,
+          "sum_recruit_value_gain": 25595.0,
+          "sum_residual_scaling_added": 8528412.014173621,
+          "net_combat_removed_after_residual": -5285154.014173621,
+          "mean_combat_loss_per_replacement": 336.4375518672199,
+          "mean_recruit_gain_per_replacement": 2.655082987551867,
+          "source_counts": {
+            "hand": 3486,
+            "shop": 6154
+          }
+        },
+        "post_scale_over_firestone_t10": 0.6607206741829437,
+        "post_scale_over_firestone_t14": 0.507681479176109,
+        "mean_game_length": 13.406,
+        "mean_combat_loss_per_replacement": 336.4375518672199,
+        "replacement_loss_distribution": {
+          "n": 9640,
+          "mean": 336.4375518672199,
+          "median": 108.0,
+          "p10": 11.0,
+          "p25": 48.0,
+          "p75": 404.25,
+          "p90": 924.1000000000004,
+          "p95": 1366.1499999999978,
+          "min": -13.0,
+          "max": 6853.0,
+          "share_positive_loss": 0.9766597510373444,
+          "share_loss_ge_20": 0.8588174273858921,
+          "share_loss_ge_50": 0.7448132780082988
+        }
+      },
+      "paired_post_scale_firestone_ratios": {
+        "8": {
+          "control": 1.0240304391451074,
+          "treatment": 1.0205837464572265,
+          "delta": -0.0034466926878808923
+        },
+        "9": {
+          "control": 1.1631766588355381,
+          "treatment": 0.8782581566893335,
+          "delta": -0.2849185021462046
+        },
+        "10": {
+          "control": 0.8778198907547905,
+          "treatment": 0.6607206741829437,
+          "delta": -0.21709921657184683
+        },
+        "11": {
+          "control": 1.0021222720383651,
+          "treatment": 0.5904378821828187,
+          "delta": -0.41168438985554645
+        },
+        "12": {
+          "control": 1.1803856412585607,
+          "treatment": 0.5578045784703723,
+          "delta": -0.6225810627881884
+        },
+        "13": {
+          "control": 1.3847716513868213,
+          "treatment": 0.5254637387304885,
+          "delta": -0.8593079126563329
+        },
+        "14": {
+          "control": 1.5272440515027694,
+          "treatment": 0.507681479176109,
+          "delta": -1.0195625723266604
+        }
+      },
+      "paired_alive_curve": {
+        "8": {
+          "control": 7.042639008931144,
+          "treatment": 7.042639008931144,
+          "delta": 0.0
+        },
+        "9": {
+          "control": 6.1448645031783204,
+          "treatment": 6.149348479786168,
+          "delta": 0.004483976607847495
+        },
+        "10": {
+          "control": 5.224530563324011,
+          "treatment": 5.179188429087987,
+          "delta": -0.045342134236023846
+        },
+        "11": {
+          "control": 4.409266409266409,
+          "treatment": 4.094671495085359,
+          "delta": -0.31459491418104957
+        },
+        "12": {
+          "control": 3.619047619047619,
+          "treatment": 3.1109530583214795,
+          "delta": -0.5080945607261396
+        },
+        "13": {
+          "control": 3.0317460317460316,
+          "treatment": 2.5171696149843914,
+          "delta": -0.5145764167616402
+        },
+        "14": {
+          "control": 2.639442231075697,
+          "treatment": 2.218884120171674,
+          "delta": -0.42055811090402306
+        }
+      },
+      "per_turn_decomposition_delta": {
+        "8": {
+          "replacements_per_seat_turn": 0.0,
+          "mean_combat_strength_removed": 0.7032555459521752,
+          "mean_recruit_value_gain": 0.0365888792855085,
+          "mean_residual_scaling_added": -0.3532622773736449,
+          "mean_net_after_residual": 1.0565178233258194,
+          "mean_post_scaling_stats": -1.0567559781042632
+        },
+        "9": {
+          "replacements_per_seat_turn": 1.0171584706905608,
+          "mean_combat_strength_removed": 76.3429590422707,
+          "mean_recruit_value_gain": 3.9096978485653544,
+          "mean_residual_scaling_added": -125.52363838459229,
+          "mean_net_after_residual": 201.86659742686288,
+          "mean_post_scaling_stats": -205.5971911487012
+        },
+        "10": {
+          "replacements_per_seat_turn": 0.06876119889559608,
+          "mean_combat_strength_removed": 22.696185710132976,
+          "mean_recruit_value_gain": 0.20596128358304305,
+          "mean_residual_scaling_added": -123.29004042087757,
+          "mean_net_after_residual": 145.98622613101054,
+          "mean_post_scaling_stats": -347.59755565318414
+        },
+        "11": {
+          "replacements_per_seat_turn": 0.6002168194356502,
+          "mean_combat_strength_removed": 231.06569249391288,
+          "mean_recruit_value_gain": 1.6735017387500575,
+          "mean_residual_scaling_added": -767.8678483509516,
+          "mean_net_after_residual": 998.9335408448645,
+          "mean_post_scaling_stats": -1310.0208969593346
+        },
+        "12": {
+          "replacements_per_seat_turn": 0.5163618505723768,
+          "mean_combat_strength_removed": 447.3663059676217,
+          "mean_recruit_value_gain": 1.150162568583621,
+          "mean_residual_scaling_added": -1684.3300459899888,
+          "mean_net_after_residual": 2131.6963519576107,
+          "mean_post_scaling_stats": -3328.940942728442
+        },
+        "13": {
+          "replacements_per_seat_turn": 0.5494103757817151,
+          "mean_combat_strength_removed": 683.9514245286507,
+          "mean_recruit_value_gain": 0.791476030810058,
+          "mean_residual_scaling_added": -2241.4519662776947,
+          "mean_net_after_residual": 2925.403390806345,
+          "mean_post_scaling_stats": -6134.341396079763
+        },
+        "14": {
+          "replacements_per_seat_turn": 0.47251337995656856,
+          "mean_combat_strength_removed": 606.4487030419097,
+          "mean_recruit_value_gain": 0.657853564283638,
+          "mean_residual_scaling_added": -1599.5051817370038,
+          "mean_net_after_residual": 2205.9538847789136,
+          "mean_post_scaling_stats": -8455.640237333926
+        }
+      },
+      "directional_macro_policy_harm": {
+        "definition": {
+          "name": "directional_macro_policy_harm",
+          "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+          "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+        },
+        "by_turn": {
+          "10": {
+            "greedy_ratio": 0.8778198907547905,
+            "treatment_ratio": 0.6607206741829437,
+            "greedy_distance": 0.1221801092452095,
+            "treatment_distance": 0.33927932581705633,
+            "macro_policy_harm": 0.21709921657184683,
+            "treatment_closer_to_firestone": false
+          },
+          "12": {
+            "greedy_ratio": 1.1803856412585607,
+            "treatment_ratio": 0.5578045784703723,
+            "greedy_distance": 0.1803856412585607,
+            "treatment_distance": 0.44219542152962765,
+            "macro_policy_harm": 0.26180978027106694,
+            "treatment_closer_to_firestone": false
+          },
+          "14": {
+            "greedy_ratio": 1.5272440515027694,
+            "treatment_ratio": 0.507681479176109,
+            "greedy_distance": 0.5272440515027694,
+            "treatment_distance": 0.49231852082389105,
+            "macro_policy_harm": -0.03492553067887838,
+            "treatment_closer_to_firestone": true
+          }
+        },
+        "applied_to_2n_v3": false
+      },
+      "churn_explains_threshold": 0.55
+    },
+    "phase_2j_report_only": true,
+    "keep_pr_29_hold": true,
+    "keep_pr_33_hold": true,
+    "keep_phase_2j_alpha": 0.5,
+    "confirm_seeds_reserved": "11500\u201311699",
+    "feature_toggle_default_off": true,
+    "no_scaling_retune": true,
+    "no_alpha_retune": true,
+    "churn_explains_fraction_t10": 0.9938216477777939,
+    "churn_explains_threshold": 0.55,
+    "recommended_next_step": "Replacement churn/loss explains most of the post-scale deficit. Next design should preserve legitimate accumulated combat value while using unscaled recruit value for selection (e.g. combat carry-over on replace, or residual budget that does not assume scaled incumbents persist). Do not retune \u03b1; do not burn confirm.",
+    "game_length_impact": {
+      "delta": -2.646000000000001,
+      "shortened": true
+    }
+  },
+  "contract": {
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version": "Simulator v1.1",
+    "scaling_mode": "residual",
+    "simulator_module": "hsbg_coach.bg_env.BGEnv",
+    "code_commit": "d8e41a5ab419ffc518cb22b43a95dd99a8e6ea35",
+    "runtime": {
+      "python_version": "3.12.3",
+      "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+      "torch_version": "2.14.0+cpu",
+      "numpy_version": "2.4.4",
+      "torch_device": "cpu",
+      "torch_cuda_available": false
+    },
+    "environment": {
+      "env": "hsbg_coach.bg_env.BGEnv",
+      "n_players": 8,
+      "field_size": 7,
+      "agent_seat": 0,
+      "n_actions": 28,
+      "max_turns": 20,
+      "max_decisions": 400
+    },
+    "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+    "reference_data_fingerprints": {
+      "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
+      "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+      "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+      "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+      "bg_cards": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+      "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+    },
+    "reference_metadata": {
+      "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+      "_fetched": "2026-09-01",
+      "_mmr": 10,
+      "_period": "past-seven",
+      "_heroDataPoints": 58561,
+      "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+    },
+    "evaluation": {
+      "policy": "greedy \u00b1 recruit-value (primary); BoardOpp \u03b1=0.5 \u00b1 recruit-value (report-only)",
+      "lobbies": 500,
+      "base_seed": 13700,
+      "note": "Phase 2R measurement-only churn diagnostic; not Benchmark v1."
+    },
+    "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+    "parent_simulator_version": "Simulator v1",
+    "working_tree_clean": true,
+    "phase": "2R replacement churn / combat-loss collapse diagnostic",
+    "phase_2r_methodology_version": "2r_v1",
+    "phase_2j_methodology_version": "2j_v1",
+    "simulator_version_label": "Simulator v1.1",
+    "frozen_alpha": 0.5,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "forbidden_seed_ranges": [
+      "8000\u20138199",
+      "9000\u20139999",
+      "10000\u201310199",
+      "10200\u201310699",
+      "11000\u201311499",
+      "11500\u201311699",
+      "11700\u201312199",
+      "12200\u201312699",
+      "12700\u201313199",
+      "13200\u201313699"
+    ],
+    "feature_toggle": "PHASE_2Q_RECRUIT_VALUE_STATS",
+    "feature_toggle_default": false,
+    "runtime_sec": 456.92
+  },
+  "greedy_control": {
+    "arm": "greedy_control",
+    "recruit_value_stats": false,
+    "n_lobbies": 500,
+    "seed_base": 13700,
+    "full_board_replace_rate": 0.01618026603136788,
+    "full_board_decisions": 90666,
+    "full_board_sells": 1467,
+    "incomplete_abandons": 0,
+    "n_completed_replacements": 1467,
+    "n_seat_turns_instrumented": 15445,
+    "replacements_per_seat_turn": 0.09498219488507607,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": -1138.0,
+      "sum_recruit_value_gain": 7435.0,
+      "sum_residual_scaling_added": 23717399.85726425,
+      "net_combat_removed_after_residual": -23718537.85726425,
+      "mean_combat_loss_per_replacement": -0.7757327880027266,
+      "mean_recruit_gain_per_replacement": 5.068166325835038,
+      "source_counts": {
+        "hand": 1467
+      }
+    },
+    "replacement_loss_distribution": {
+      "n": 1467,
+      "mean": -0.7757327880027266,
+      "median": 0.0,
+      "p10": -7.0,
+      "p25": -5.0,
+      "p75": 3.0,
+      "p90": 5.0,
+      "p95": 6.0,
+      "min": -11.0,
+      "max": 9.0,
+      "share_positive_loss": 0.4505794137695978,
+      "share_loss_ge_20": 0.0,
+      "share_loss_ge_50": 0.0
+    },
+    "per_turn_decomposition": {
+      "8": {
+        "n_seat_turns": 3555,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 103.18840744013377,
+        "mean_net_after_residual": -103.18840744013377,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 366834.78844967554,
+        "mean_post_scaling_stats": 352.4506329113924,
+        "mean_next_turn_carried_strength": 361.9698475811796,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "9": {
+        "n_seat_turns": 3018,
+        "n_replacements": 1467,
+        "replacements_per_seat_turn": 0.4860834990059642,
+        "mean_combat_strength_removed": -0.3770709078860172,
+        "mean_recruit_value_gain": 2.463552021206097,
+        "mean_residual_scaling_added": 581.1710317823917,
+        "mean_net_after_residual": -581.5481026902777,
+        "sum_combat_strength_removed": -1138.0,
+        "sum_recruit_value_gain": 7435.0,
+        "sum_residual_scaling_added": 1753974.1739192582,
+        "mean_post_scaling_stats": 943.5281643472498,
+        "mean_next_turn_carried_strength": 968.2584400465657,
+        "replacement_loss_distribution": {
+          "n": 1467,
+          "mean": -0.7757327880027266,
+          "median": 0.0,
+          "p10": -7.0,
+          "p25": -5.0,
+          "p75": 3.0,
+          "p90": 5.0,
+          "p95": 6.0,
+          "min": -11.0,
+          "max": 9.0,
+          "share_positive_loss": 0.4505794137695978,
+          "share_loss_ge_20": 0.0,
+          "share_loss_ge_50": 0.0
+        }
+      },
+      "10": {
+        "n_seat_turns": 2577,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 559.1734448459173,
+        "mean_net_after_residual": -559.1734448459173,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 1440989.9673679287,
+        "mean_post_scaling_stats": 1527.4012417539775,
+        "mean_next_turn_carried_strength": 1574.3812915479582,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "11": {
+        "n_seat_turns": 2106,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 2191.0348059002326,
+        "mean_net_after_residual": -2191.0348059002326,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 4614319.30122589,
+        "mean_post_scaling_stats": 3765.488603988604,
+        "mean_next_turn_carried_strength": 3883.371362048894,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "12": {
+        "n_seat_turns": 1718,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 3960.731761061457,
+        "mean_net_after_residual": -3960.731761061457,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 6804537.165503583,
+        "mean_post_scaling_stats": 7844.108265424913,
+        "mean_next_turn_carried_strength": 8067.758345428157,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "13": {
+        "n_seat_turns": 1378,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 4487.83379373678,
+        "mean_net_after_residual": -4487.83379373678,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 6184234.967769283,
+        "mean_post_scaling_stats": 12555.62481857765,
+        "mean_next_turn_carried_strength": 12824.145471180238,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "14": {
+        "n_seat_turns": 1093,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 2335.324330309818,
+        "mean_net_after_residual": -2335.324330309818,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 2552509.493028631,
+        "mean_post_scaling_stats": 15159.459286367795,
+        "mean_next_turn_carried_strength": 15300.484184914842,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      }
+    },
+    "post_scale_firestone_ratios": {
+      "8": {
+        "mean_post_scale_over_firestone": 1.1495454432856895,
+        "mean_pre_scale_over_firestone": 0.8129156677795484,
+        "abs_distance_from_one_post": 0.14954544328568953
+      },
+      "9": {
+        "mean_post_scale_over_firestone": 1.3075501168892043,
+        "mean_pre_scale_over_firestone": 0.5021290402448575,
+        "abs_distance_from_one_post": 0.3075501168892043
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.9539699217750157,
+        "mean_pre_scale_over_firestone": 0.6047457623175103,
+        "abs_distance_from_one_post": 0.04603007822498428
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 1.1833344659151517,
+        "mean_pre_scale_over_firestone": 0.4947617270192509,
+        "abs_distance_from_one_post": 0.18333446591515168
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 1.4670110838647676,
+        "mean_pre_scale_over_firestone": 0.726271060790891,
+        "abs_distance_from_one_post": 0.46701108386476764
+      },
+      "13": {
+        "mean_post_scale_over_firestone": 1.7588111026626205,
+        "mean_pre_scale_over_firestone": 1.130143912116794,
+        "abs_distance_from_one_post": 0.7588111026626205
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 1.827894384253478,
+        "mean_pre_scale_over_firestone": 1.5463073614175415,
+        "abs_distance_from_one_post": 0.827894384253478
+      }
+    },
+    "alive_curve_t8_t14": {
+      "8": {
+        "sim_players_alive": 7.19803094233474,
+        "reference_alive_prior": 8.0,
+        "alive_error_vs_prior": -0.8019690576652598
+      },
+      "9": {
+        "sim_players_alive": 6.19946984758118,
+        "reference_alive_prior": 7.0,
+        "alive_error_vs_prior": -0.80053015241882
+      },
+      "10": {
+        "sim_players_alive": 5.363989134652697,
+        "reference_alive_prior": 5.0,
+        "alive_error_vs_prior": 0.3639891346526971
+      },
+      "11": {
+        "sim_players_alive": 4.415954415954416,
+        "reference_alive_prior": 4.0,
+        "alive_error_vs_prior": 0.41595441595441596
+      },
+      "12": {
+        "sim_players_alive": 3.661233993015134,
+        "reference_alive_prior": 3.0,
+        "alive_error_vs_prior": 0.6612339930151339
+      },
+      "13": {
+        "sim_players_alive": 3.018867924528302,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 1.018867924528302
+      },
+      "14": {
+        "sim_players_alive": 2.604757548032937,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 0.604757548032937
+      }
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3555,
+        "mean_pre_scale_over_firestone": 0.8129156677795484,
+        "mean_post_scale_over_firestone": 1.1495454432856895,
+        "abs_distance_from_one_post": 0.14954544328568953,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 352.4506329113924,
+        "mean_remaining_target_gap": -45.85063291139238,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 3018,
+        "mean_pre_scale_over_firestone": 0.5021290402448575,
+        "mean_post_scale_over_firestone": 1.3075501168892043,
+        "abs_distance_from_one_post": 0.3075501168892043,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 943.5281643472498,
+        "mean_remaining_target_gap": -221.9281643472498,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2577,
+        "mean_pre_scale_over_firestone": 0.6047457623175103,
+        "mean_post_scale_over_firestone": 0.9539699217750157,
+        "abs_distance_from_one_post": 0.04603007822498428,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 1527.4012417539775,
+        "mean_remaining_target_gap": 73.69875824602242,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 2106,
+        "mean_pre_scale_over_firestone": 0.4947617270192509,
+        "mean_post_scale_over_firestone": 1.1833344659151517,
+        "abs_distance_from_one_post": 0.18333446591515168,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 3765.488603988604,
+        "mean_remaining_target_gap": -583.3886039886041,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1718,
+        "mean_pre_scale_over_firestone": 0.726271060790891,
+        "mean_post_scale_over_firestone": 1.4670110838647676,
+        "abs_distance_from_one_post": 0.46701108386476764,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 7844.108265424913,
+        "mean_remaining_target_gap": -2497.1082654249126,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 1378,
+        "mean_pre_scale_over_firestone": 1.130143912116794,
+        "mean_post_scale_over_firestone": 1.7588111026626205,
+        "abs_distance_from_one_post": 0.7588111026626205,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 12555.62481857765,
+        "mean_remaining_target_gap": -5416.924818577649,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 1093,
+        "mean_pre_scale_over_firestone": 1.5463073614175415,
+        "mean_post_scale_over_firestone": 1.827894384253478,
+        "abs_distance_from_one_post": 0.827894384253478,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 15159.459286367795,
+        "mean_remaining_target_gap": -6866.059286367796,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "lobby_dynamics": {
+      "avg_game_length": 15.734,
+      "median_game_length": 15.5,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.856851237560602,
+        "8": 7.19803094233474,
+        "9": 6.19946984758118,
+        "10": 5.363989134652697,
+        "11": 4.415954415954416,
+        "12": 3.661233993015134,
+        "13": 3.018867924528302,
+        "14": 2.604757548032937,
+        "15": 2.4282238442822384,
+        "16": 2.2463235294117645,
+        "17": 2.2,
+        "18": 2.1595744680851063,
+        "19": 2.107142857142857,
+        "20": 2.0476190476190474
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3362804878048782,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.8981557377049181,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9852439024390243,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.984423076923077,
+      "tier_error_turn_4": 0.20000000000000018,
+      "stats_ratio_turn_5": 1.0518835616438356,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 1.0057063882063881,
+      "tier_error_turn_6": 0.20000000000000018,
+      "stats_ratio_turn_7": 0.8397407232430311,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.8129156677795485,
+      "tier_error_turn_8": 0.20000000000000018,
+      "stats_ratio_turn_9": 0.5021290402448575,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.6047457623175103,
+      "tier_error_turn_10": 0.5,
+      "stats_ratio_turn_11": 0.49476172701925086,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.726271060790891,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 1.130143912116794,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 1.5463073614175415,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "aggregation_by_turn": {
+      "10": {
+        "n": 2577,
+        "recruit_delta": 0.0,
+        "scaling_delta": 559.1428017074118,
+        "post_scale_over_firestone": 0.9539699217750157
+      },
+      "11": {
+        "n": 2106,
+        "recruit_delta": 0.0,
+        "scaling_delta": 2191.1073124406457,
+        "post_scale_over_firestone": 1.1833344659151517
+      },
+      "12": {
+        "n": 1718,
+        "recruit_delta": 0.0,
+        "scaling_delta": 3960.7369033760187,
+        "post_scale_over_firestone": 1.4670110838647676
+      },
+      "13": {
+        "n": 1378,
+        "recruit_delta": 0.0,
+        "scaling_delta": 4487.866473149492,
+        "post_scale_over_firestone": 1.7588111026626205
+      },
+      "14": {
+        "n": 1093,
+        "recruit_delta": 0.0,
+        "scaling_delta": 2335.3138151875573,
+        "post_scale_over_firestone": 1.827894384253478
+      },
+      "7": {
+        "n": 3919,
+        "recruit_delta": 23.604235774432254,
+        "scaling_delta": 117.98545547333504,
+        "post_scale_over_firestone": 1.6185226075554735
+      },
+      "8": {
+        "n": 3555,
+        "recruit_delta": -0.1389592123769339,
+        "scaling_delta": 103.21068917018285,
+        "post_scale_over_firestone": 1.1495454432856895
+      },
+      "9": {
+        "n": 3018,
+        "recruit_delta": 0.36646785950960903,
+        "scaling_delta": 581.1918489065606,
+        "post_scale_over_firestone": 1.3075501168892043
+      }
+    },
+    "policy_stats": null
+  },
+  "greedy_treatment": {
+    "arm": "greedy_treatment",
+    "recruit_value_stats": true,
+    "n_lobbies": 500,
+    "seed_base": 13700,
+    "full_board_replace_rate": 0.29984312779051525,
+    "full_board_decisions": 82870,
+    "full_board_sells": 24848,
+    "incomplete_abandons": 0,
+    "n_completed_replacements": 24848,
+    "n_seat_turns_instrumented": 13345,
+    "replacements_per_seat_turn": 1.861970775571375,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": 2387867.0,
+      "sum_recruit_value_gain": 86682.0,
+      "sum_residual_scaling_added": 3717914.2202168535,
+      "net_combat_removed_after_residual": -1330047.2202168535,
+      "mean_combat_loss_per_replacement": 96.09896168705731,
+      "mean_recruit_gain_per_replacement": 3.48849001931745,
+      "source_counts": {
+        "hand": 24848
+      }
+    },
+    "replacement_loss_distribution": {
+      "n": 24848,
+      "mean": 96.09896168705731,
+      "median": 56.0,
+      "p10": 4.0,
+      "p25": 13.0,
+      "p75": 102.0,
+      "p90": 226.0,
+      "p95": 413.0,
+      "min": -14.0,
+      "max": 2106.0,
+      "share_positive_loss": 0.9312620734063104,
+      "share_loss_ge_20": 0.6994526722472634,
+      "share_loss_ge_50": 0.5143271088216356
+    },
+    "per_turn_decomposition": {
+      "8": {
+        "n_seat_turns": 3555,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 103.18840744013377,
+        "mean_net_after_residual": -103.18840744013377,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 366834.78844967554,
+        "mean_post_scaling_stats": 352.4506329113924,
+        "mean_next_turn_carried_strength": 361.9698475811796,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "9": {
+        "n_seat_turns": 3018,
+        "n_replacements": 11239,
+        "replacements_per_seat_turn": 3.7239893969516236,
+        "mean_combat_strength_removed": 187.99204771371768,
+        "mean_recruit_value_gain": 14.281643472498343,
+        "mean_residual_scaling_added": 275.04181742337346,
+        "mean_net_after_residual": -87.04976970965578,
+        "sum_combat_strength_removed": 567360.0,
+        "sum_recruit_value_gain": 43102.0,
+        "sum_residual_scaling_added": 830076.2049837412,
+        "mean_post_scaling_stats": 448.3071570576541,
+        "mean_next_turn_carried_strength": 468.9073469387755,
+        "replacement_loss_distribution": {
+          "n": 11239,
+          "mean": 50.481359551561525,
+          "median": 36.0,
+          "p10": 4.0,
+          "p25": 11.0,
+          "p75": 86.0,
+          "p90": 110.0,
+          "p95": 123.0,
+          "min": -11.0,
+          "max": 208.0,
+          "share_positive_loss": 0.9475932022421923,
+          "share_loss_ge_20": 0.6773734317999822,
+          "share_loss_ge_50": 0.4415873298336151
+        }
+      },
+      "10": {
+        "n_seat_turns": 2450,
+        "n_replacements": 0,
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 280.1183090557649,
+        "mean_net_after_residual": -280.1183090557649,
+        "sum_combat_strength_removed": 0.0,
+        "sum_recruit_value_gain": 0.0,
+        "sum_residual_scaling_added": 686289.857186624,
+        "mean_post_scaling_stats": 749.0387755102041,
+        "mean_next_turn_carried_strength": 800.203125,
+        "replacement_loss_distribution": {
+          "n": 0,
+          "mean": null,
+          "median": null,
+          "p10": null,
+          "p25": null,
+          "p75": null,
+          "p90": null,
+          "p95": null,
+          "min": null,
+          "max": null,
+          "share_positive_loss": null,
+          "share_loss_ge_20": null,
+          "share_loss_ge_50": null
+        }
+      },
+      "11": {
+        "n_seat_turns": 1856,
+        "n_replacements": 6612,
+        "replacements_per_seat_turn": 3.5625,
+        "mean_combat_strength_removed": 465.3496767241379,
+        "mean_recruit_value_gain": 11.839439655172415,
+        "mean_residual_scaling_added": 465.0347204969164,
+        "mean_net_after_residual": 0.3149562272215267,
+        "sum_combat_strength_removed": 863689.0,
+        "sum_recruit_value_gain": 21974.0,
+        "sum_residual_scaling_added": 863104.4412422768,
+        "mean_post_scaling_stats": 798.5549568965517,
+        "mean_next_turn_carried_strength": 872.286037735849,
+        "replacement_loss_distribution": {
+          "n": 6612,
+          "mean": 130.62447065940714,
+          "median": 78.0,
+          "p10": 11.0,
+          "p25": 23.0,
+          "p75": 183.0,
+          "p90": 382.0,
+          "p95": 502.4499999999998,
+          "min": -14.0,
+          "max": 968.0,
+          "share_positive_loss": 0.9106170598911071,
+          "share_loss_ge_20": 0.8065638233514821,
+          "share_loss_ge_50": 0.6282516636418632
+        }
+      },
+      "12": {
+        "n_seat_turns": 1325,
+        "n_replacements": 4093,
+        "replacements_per_seat_turn": 3.0890566037735847,
+        "mean_combat_strength_removed": 425.50037735849054,
+        "mean_recruit_value_gain": 9.788679245283019,
+        "mean_residual_scaling_added": 453.93972929145883,
+        "mean_net_after_residual": -28.439351932968243,
+        "sum_combat_strength_removed": 563788.0,
+        "sum_recruit_value_gain": 12970.0,
+        "sum_residual_scaling_added": 601470.1413111829,
+        "mean_post_scaling_stats": 896.1071698113208,
+        "mean_next_turn_carried_strength": 959.7567237163814,
+        "replacement_loss_distribution": {
+          "n": 4093,
+          "mean": 137.74444172978255,
+          "median": 76.0,
+          "p10": 5.0,
+          "p25": 11.0,
+          "p75": 199.0,
+          "p90": 357.8000000000002,
+          "p95": 581.3999999999996,
+          "min": -12.0,
+          "max": 2091.0,
+          "share_positive_loss": 0.9330564378206694,
+          "share_loss_ge_20": 0.6440263865135597,
+          "share_loss_ge_50": 0.6403615929635964
+        }
+      },
+      "13": {
+        "n_seat_turns": 818,
+        "n_replacements": 2170,
+        "replacements_per_seat_turn": 2.65281173594132,
+        "mean_combat_strength_removed": 381.2909535452323,
+        "mean_recruit_value_gain": 8.00122249388753,
+        "mean_residual_scaling_added": 341.78801383213323,
+        "mean_net_after_residual": 39.50293971309903,
+        "sum_combat_strength_removed": 311896.0,
+        "sum_recruit_value_gain": 6545.0,
+        "sum_residual_scaling_added": 279582.595314685,
+        "mean_post_scaling_stats": 909.2151589242054,
+        "mean_next_turn_carried_strength": 936.6873065015479,
+        "replacement_loss_distribution": {
+          "n": 2170,
+          "mean": 143.73087557603688,
+          "median": 37.0,
+          "p10": 4.0,
+          "p25": 8.0,
+          "p75": 187.0,
+          "p90": 423.1000000000015,
+          "p95": 648.5499999999997,
+          "min": -11.0,
+          "max": 2106.0,
+          "share_positive_loss": 0.9285714285714286,
+          "share_loss_ge_20": 0.6419354838709678,
+          "share_loss_ge_50": 0.36036866359447006
+        }
+      },
+      "14": {
+        "n_seat_turns": 323,
+        "n_replacements": 734,
+        "replacements_per_seat_turn": 2.2724458204334366,
+        "mean_combat_strength_removed": 251.1888544891641,
+        "mean_recruit_value_gain": 6.473684210526316,
+        "mean_residual_scaling_added": 280.3597267141432,
+        "mean_net_after_residual": -29.17087222497911,
+        "sum_combat_strength_removed": 81134.0,
+        "sum_recruit_value_gain": 2091.0,
+        "sum_residual_scaling_added": 90556.19172866826,
+        "mean_post_scaling_stats": 954.9721362229102,
+        "mean_next_turn_carried_strength": 899.1428571428571,
+        "replacement_loss_distribution": {
+          "n": 734,
+          "mean": 110.53678474114442,
+          "median": 22.0,
+          "p10": -1.0,
+          "p25": 4.0,
+          "p75": 74.0,
+          "p90": 366.70000000000005,
+          "p95": 443.8000000000002,
+          "min": -11.0,
+          "max": 1973.0,
+          "share_positive_loss": 0.8651226158038147,
+          "share_loss_ge_20": 0.5517711171662125,
+          "share_loss_ge_50": 0.3542234332425068
+        }
+      }
+    },
+    "post_scale_firestone_ratios": {
+      "8": {
+        "mean_post_scale_over_firestone": 1.1495454432856895,
+        "mean_pre_scale_over_firestone": 0.8129156677795484,
+        "abs_distance_from_one_post": 0.14954544328568953
+      },
+      "9": {
+        "mean_post_scale_over_firestone": 0.6212682331730239,
+        "mean_pre_scale_over_firestone": 0.24015184576208676,
+        "abs_distance_from_one_post": 0.37873176682697607
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.4678276032166661,
+        "mean_pre_scale_over_firestone": 0.2928657466359225,
+        "abs_distance_from_one_post": 0.5321723967833338
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 0.25095218783085127,
+        "mean_pre_scale_over_firestone": 0.10480771210510517,
+        "abs_distance_from_one_post": 0.7490478121691487
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 0.16759064331612508,
+        "mean_pre_scale_over_firestone": 0.08267757268226585,
+        "abs_distance_from_one_post": 0.832409356683875
+      },
+      "13": {
+        "mean_post_scale_over_firestone": 0.1273642482418655,
+        "mean_pre_scale_over_firestone": 0.07948582064981868,
+        "abs_distance_from_one_post": 0.8726357517581345
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 0.11514844770816676,
+        "mean_pre_scale_over_firestone": 0.08135119716592126,
+        "abs_distance_from_one_post": 0.8848515522918332
+      }
+    },
+    "alive_curve_t8_t14": {
+      "8": {
+        "sim_players_alive": 7.19803094233474,
+        "reference_alive_prior": 8.0,
+        "alive_error_vs_prior": -0.8019690576652598
+      },
+      "9": {
+        "sim_players_alive": 6.19946984758118,
+        "reference_alive_prior": 7.0,
+        "alive_error_vs_prior": -0.80053015241882
+      },
+      "10": {
+        "sim_players_alive": 5.1053061224489795,
+        "reference_alive_prior": 5.0,
+        "alive_error_vs_prior": 0.10530612244897952
+      },
+      "11": {
+        "sim_players_alive": 3.961206896551724,
+        "reference_alive_prior": 4.0,
+        "alive_error_vs_prior": -0.0387931034482758
+      },
+      "12": {
+        "sim_players_alive": 2.95622641509434,
+        "reference_alive_prior": 3.0,
+        "alive_error_vs_prior": -0.04377358490566019
+      },
+      "13": {
+        "sim_players_alive": 2.410757946210269,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 0.41075794621026906
+      },
+      "14": {
+        "sim_players_alive": 2.176470588235294,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 0.17647058823529393
+      }
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3555,
+        "mean_pre_scale_over_firestone": 0.8129156677795484,
+        "mean_post_scale_over_firestone": 1.1495454432856895,
+        "abs_distance_from_one_post": 0.14954544328568953,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 352.4506329113924,
+        "mean_remaining_target_gap": -45.85063291139238,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 3018,
+        "mean_pre_scale_over_firestone": 0.24015184576208676,
+        "mean_post_scale_over_firestone": 0.6212682331730239,
+        "abs_distance_from_one_post": 0.37873176682697607,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 448.3071570576541,
+        "mean_remaining_target_gap": 273.29284294234594,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2450,
+        "mean_pre_scale_over_firestone": 0.2928657466359225,
+        "mean_post_scale_over_firestone": 0.4678276032166661,
+        "abs_distance_from_one_post": 0.5321723967833338,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 749.0387755102041,
+        "mean_remaining_target_gap": 852.0612244897958,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 1856,
+        "mean_pre_scale_over_firestone": 0.10480771210510517,
+        "mean_post_scale_over_firestone": 0.25095218783085127,
+        "abs_distance_from_one_post": 0.7490478121691487,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 798.5549568965517,
+        "mean_remaining_target_gap": 2383.5450431034483,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1325,
+        "mean_pre_scale_over_firestone": 0.08267757268226585,
+        "mean_post_scale_over_firestone": 0.16759064331612508,
+        "abs_distance_from_one_post": 0.832409356683875,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 896.1071698113208,
+        "mean_remaining_target_gap": 4450.892830188679,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 818,
+        "mean_pre_scale_over_firestone": 0.07948582064981868,
+        "mean_post_scale_over_firestone": 0.1273642482418655,
+        "abs_distance_from_one_post": 0.8726357517581345,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 909.2151589242054,
+        "mean_remaining_target_gap": 6229.484841075794,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 323,
+        "mean_pre_scale_over_firestone": 0.08135119716592126,
+        "mean_post_scale_over_firestone": 0.11514844770816676,
+        "abs_distance_from_one_post": 0.8848515522918332,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 954.9721362229102,
+        "mean_remaining_target_gap": 7338.427863777089,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "lobby_dynamics": {
+      "avg_game_length": 13.088,
+      "median_game_length": 13.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.856851237560602,
+        "8": 7.19803094233474,
+        "9": 6.19946984758118,
+        "10": 5.1053061224489795,
+        "11": 3.961206896551724,
+        "12": 2.95622641509434,
+        "13": 2.410757946210269,
+        "14": 2.176470588235294,
+        "15": 2.0714285714285716,
+        "16": 2.0,
+        "17": 2.0
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3362804878048782,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.8981557377049181,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9852439024390243,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.984423076923077,
+      "tier_error_turn_4": 0.20000000000000018,
+      "stats_ratio_turn_5": 1.0518835616438356,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 1.0057063882063881,
+      "tier_error_turn_6": 0.20000000000000018,
+      "stats_ratio_turn_7": 0.8397407232430311,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.8129156677795485,
+      "tier_error_turn_8": 0.20000000000000018,
+      "stats_ratio_turn_9": 0.24015184576208676,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.2928657466359225,
+      "tier_error_turn_10": 0.5,
+      "stats_ratio_turn_11": 0.10480771210510517,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.08267757268226585,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.07948582064981868,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 0.08135119716592126,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "aggregation_by_turn": {
+      "10": {
+        "n": 2450,
+        "recruit_delta": 0.0,
+        "scaling_delta": 280.13142857142856,
+        "post_scale_over_firestone": 0.4678276032166661
+      },
+      "11": {
+        "n": 1856,
+        "recruit_delta": -466.6945043103448,
+        "scaling_delta": 465.04633620689657,
+        "post_scale_over_firestone": 0.25095218783085127
+      },
+      "12": {
+        "n": 1325,
+        "recruit_delta": -430.2090566037736,
+        "scaling_delta": 454.03018867924527,
+        "post_scale_over_firestone": 0.16759064331612508
+      },
+      "13": {
+        "n": 818,
+        "recruit_delta": -392.33129584352076,
+        "scaling_delta": 341.78973105134475,
+        "post_scale_over_firestone": 0.1273642482418655
+      },
+      "14": {
+        "n": 323,
+        "recruit_delta": -262.0092879256966,
+        "scaling_delta": 280.29411764705884,
+        "post_scale_over_firestone": 0.11514844770816676
+      },
+      "7": {
+        "n": 3919,
+        "recruit_delta": 23.604235774432254,
+        "scaling_delta": 117.98545547333504,
+        "post_scale_over_firestone": 1.6185226075554735
+      },
+      "8": {
+        "n": 3555,
+        "recruit_delta": -0.1389592123769339,
+        "scaling_delta": 103.21068917018285,
+        "post_scale_over_firestone": 1.1495454432856895
+      },
+      "9": {
+        "n": 3018,
+        "recruit_delta": -188.6762756792578,
+        "scaling_delta": 275.0135851557323,
+        "post_scale_over_firestone": 0.6212682331730239
+      }
+    },
+    "policy_stats": null
+  },
+  "greedy_comparison": {
+    "deltas": {
+      "full_board_replace_rate": 0.28366286175914734,
+      "n_completed_replacements": 23381.0,
+      "sum_combat_strength_removed": 2389005.0,
+      "sum_recruit_value_gain": 79247.0,
+      "sum_residual_scaling_added": -19999485.637047395,
+      "net_combat_removed_after_residual": 22388490.637047395,
+      "mean_combat_loss_per_replacement": 96.87469447506004,
+      "post_scale_over_firestone_t10": -0.4861423185583496,
+      "post_scale_over_firestone_t14": -1.7127459365453113,
+      "mean_game_length": -2.646000000000001,
+      "treatment_post_stats_deficit_t10": 778.3624662437734,
+      "excess_mean_net_loss_t10": 279.0551357901524,
+      "cumulative_excess_net_loss_t8_t10": 773.5534687707743,
+      "residual_scaling_delta_t10": -279.0551357901524,
+      "churn_explains_fraction_t10_same_turn": 0.35851566319329153,
+      "churn_explains_fraction_t10": 0.9938216477777939
+    },
+    "control": {
+      "full_board_replace_rate": 0.01618026603136788,
+      "n_completed_replacements": 1467,
+      "headline_t8_t14": {
+        "sum_combat_strength_removed": -1138.0,
+        "sum_recruit_value_gain": 7435.0,
+        "sum_residual_scaling_added": 23717399.85726425,
+        "net_combat_removed_after_residual": -23718537.85726425,
+        "mean_combat_loss_per_replacement": -0.7757327880027266,
+        "mean_recruit_gain_per_replacement": 5.068166325835038,
+        "source_counts": {
+          "hand": 1467
+        }
+      },
+      "post_scale_over_firestone_t10": 0.9539699217750157,
+      "post_scale_over_firestone_t14": 1.827894384253478,
+      "mean_game_length": 15.734,
+      "mean_combat_loss_per_replacement": -0.7757327880027266,
+      "replacement_loss_distribution": {
+        "n": 1467,
+        "mean": -0.7757327880027266,
+        "median": 0.0,
+        "p10": -7.0,
+        "p25": -5.0,
+        "p75": 3.0,
+        "p90": 5.0,
+        "p95": 6.0,
+        "min": -11.0,
+        "max": 9.0,
+        "share_positive_loss": 0.4505794137695978,
+        "share_loss_ge_20": 0.0,
+        "share_loss_ge_50": 0.0
+      }
+    },
+    "treatment": {
+      "full_board_replace_rate": 0.29984312779051525,
+      "n_completed_replacements": 24848,
+      "headline_t8_t14": {
+        "sum_combat_strength_removed": 2387867.0,
+        "sum_recruit_value_gain": 86682.0,
+        "sum_residual_scaling_added": 3717914.2202168535,
+        "net_combat_removed_after_residual": -1330047.2202168535,
+        "mean_combat_loss_per_replacement": 96.09896168705731,
+        "mean_recruit_gain_per_replacement": 3.48849001931745,
+        "source_counts": {
+          "hand": 24848
+        }
+      },
+      "post_scale_over_firestone_t10": 0.4678276032166661,
+      "post_scale_over_firestone_t14": 0.11514844770816676,
+      "mean_game_length": 13.088,
+      "mean_combat_loss_per_replacement": 96.09896168705731,
+      "replacement_loss_distribution": {
+        "n": 24848,
+        "mean": 96.09896168705731,
+        "median": 56.0,
+        "p10": 4.0,
+        "p25": 13.0,
+        "p75": 102.0,
+        "p90": 226.0,
+        "p95": 413.0,
+        "min": -14.0,
+        "max": 2106.0,
+        "share_positive_loss": 0.9312620734063104,
+        "share_loss_ge_20": 0.6994526722472634,
+        "share_loss_ge_50": 0.5143271088216356
+      }
+    },
+    "paired_post_scale_firestone_ratios": {
+      "8": {
+        "control": 1.1495454432856895,
+        "treatment": 1.1495454432856895,
+        "delta": 0.0
+      },
+      "9": {
+        "control": 1.3075501168892043,
+        "treatment": 0.6212682331730239,
+        "delta": -0.6862818837161804
+      },
+      "10": {
+        "control": 0.9539699217750157,
+        "treatment": 0.4678276032166661,
+        "delta": -0.4861423185583496
+      },
+      "11": {
+        "control": 1.1833344659151517,
+        "treatment": 0.25095218783085127,
+        "delta": -0.9323822780843004
+      },
+      "12": {
+        "control": 1.4670110838647676,
+        "treatment": 0.16759064331612508,
+        "delta": -1.2994204405486425
+      },
+      "13": {
+        "control": 1.7588111026626205,
+        "treatment": 0.1273642482418655,
+        "delta": -1.631446854420755
+      },
+      "14": {
+        "control": 1.827894384253478,
+        "treatment": 0.11514844770816676,
+        "delta": -1.7127459365453113
+      }
+    },
+    "paired_alive_curve": {
+      "8": {
+        "control": 7.19803094233474,
+        "treatment": 7.19803094233474,
+        "delta": 0.0
+      },
+      "9": {
+        "control": 6.19946984758118,
+        "treatment": 6.19946984758118,
+        "delta": 0.0
+      },
+      "10": {
+        "control": 5.363989134652697,
+        "treatment": 5.1053061224489795,
+        "delta": -0.2586830122037176
+      },
+      "11": {
+        "control": 4.415954415954416,
+        "treatment": 3.961206896551724,
+        "delta": -0.45474751940269176
+      },
+      "12": {
+        "control": 3.661233993015134,
+        "treatment": 2.95622641509434,
+        "delta": -0.705007577920794
+      },
+      "13": {
+        "control": 3.018867924528302,
+        "treatment": 2.410757946210269,
+        "delta": -0.608109978318033
+      },
+      "14": {
+        "control": 2.604757548032937,
+        "treatment": 2.176470588235294,
+        "delta": -0.4282869597976431
+      }
+    },
+    "per_turn_decomposition_delta": {
+      "8": {
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": 0.0,
+        "mean_net_after_residual": 0.0,
+        "mean_post_scaling_stats": 0.0
+      },
+      "9": {
+        "replacements_per_seat_turn": 3.237905897945659,
+        "mean_combat_strength_removed": 188.3691186216037,
+        "mean_recruit_value_gain": 11.818091451292247,
+        "mean_residual_scaling_added": -306.1292143590182,
+        "mean_net_after_residual": 494.4983329806219,
+        "mean_post_scaling_stats": -495.2210072895957
+      },
+      "10": {
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.0,
+        "mean_recruit_value_gain": 0.0,
+        "mean_residual_scaling_added": -279.0551357901524,
+        "mean_net_after_residual": 279.0551357901524,
+        "mean_post_scaling_stats": -778.3624662437734
+      },
+      "11": {
+        "replacements_per_seat_turn": 3.5625,
+        "mean_combat_strength_removed": 465.3496767241379,
+        "mean_recruit_value_gain": 11.839439655172415,
+        "mean_residual_scaling_added": -1726.0000854033162,
+        "mean_net_after_residual": 2191.349762127454,
+        "mean_post_scaling_stats": -2966.9336470920525
+      },
+      "12": {
+        "replacements_per_seat_turn": 3.0890566037735847,
+        "mean_combat_strength_removed": 425.50037735849054,
+        "mean_recruit_value_gain": 9.788679245283019,
+        "mean_residual_scaling_added": -3506.792031769998,
+        "mean_net_after_residual": 3932.2924091284885,
+        "mean_post_scaling_stats": -6948.001095613592
+      },
+      "13": {
+        "replacements_per_seat_turn": 2.65281173594132,
+        "mean_combat_strength_removed": 381.2909535452323,
+        "mean_recruit_value_gain": 8.00122249388753,
+        "mean_residual_scaling_added": -4146.045779904646,
+        "mean_net_after_residual": 4527.336733449879,
+        "mean_post_scaling_stats": -11646.409659653444
+      },
+      "14": {
+        "replacements_per_seat_turn": 2.2724458204334366,
+        "mean_combat_strength_removed": 251.1888544891641,
+        "mean_recruit_value_gain": 6.473684210526316,
+        "mean_residual_scaling_added": -2054.964603595675,
+        "mean_net_after_residual": 2306.153458084839,
+        "mean_post_scaling_stats": -14204.487150144885
+      }
+    },
+    "directional_macro_policy_harm": {
+      "definition": {
+        "name": "directional_macro_policy_harm",
+        "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+        "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+      },
+      "by_turn": {
+        "10": {
+          "greedy_ratio": 0.9539699217750157,
+          "treatment_ratio": 0.4678276032166661,
+          "greedy_distance": 0.04603007822498428,
+          "treatment_distance": 0.5321723967833338,
+          "macro_policy_harm": 0.48614231855834955,
+          "treatment_closer_to_firestone": false
+        },
+        "12": {
+          "greedy_ratio": 1.4670110838647676,
+          "treatment_ratio": 0.16759064331612508,
+          "greedy_distance": 0.46701108386476764,
+          "treatment_distance": 0.832409356683875,
+          "macro_policy_harm": 0.3653982728191073,
+          "treatment_closer_to_firestone": false
+        },
+        "14": {
+          "greedy_ratio": 1.827894384253478,
+          "treatment_ratio": 0.11514844770816676,
+          "greedy_distance": 0.827894384253478,
+          "treatment_distance": 0.8848515522918332,
+          "macro_policy_harm": 0.056957168038355155,
+          "treatment_closer_to_firestone": false
+        }
+      },
+      "applied_to_2n_v3": false
+    },
+    "churn_explains_threshold": 0.55
+  },
+  "phase_2j_control": {
+    "arm": "phase_2j_control",
+    "recruit_value_stats": false,
+    "n_lobbies": 500,
+    "seed_base": 13700,
+    "full_board_replace_rate": 0.06863177805800756,
+    "full_board_decisions": 63440,
+    "full_board_sells": 4354,
+    "incomplete_abandons": 1,
+    "n_completed_replacements": 4353,
+    "n_seat_turns_instrumented": 15042,
+    "replacements_per_seat_turn": 0.2893897088153171,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": 1332602.0,
+      "sum_recruit_value_gain": 8393.0,
+      "sum_residual_scaling_added": 19899563.15572093,
+      "net_combat_removed_after_residual": -18566961.15572093,
+      "mean_combat_loss_per_replacement": 306.13416034918447,
+      "mean_recruit_gain_per_replacement": 1.9280955662761314,
+      "source_counts": {
+        "hand": 593,
+        "shop": 3760
+      }
+    },
+    "replacement_loss_distribution": {
+      "n": 4353,
+      "mean": 306.13416034918447,
+      "median": 78.0,
+      "p10": 1.0,
+      "p25": 11.0,
+      "p75": 268.0,
+      "p90": 846.0,
+      "p95": 1584.599999999995,
+      "min": -14.0,
+      "max": 5523.0,
+      "share_positive_loss": 0.9016770043648059,
+      "share_loss_ge_20": 0.6636802205375603,
+      "share_loss_ge_50": 0.5603032391454169
+    },
+    "per_turn_decomposition": {
+      "8": {
+        "n_seat_turns": 3471,
+        "n_replacements": 53,
+        "replacements_per_seat_turn": 0.015269374819936617,
+        "mean_combat_strength_removed": 0.14866032843560933,
+        "mean_recruit_value_gain": -0.012388360702967444,
+        "mean_residual_scaling_added": 92.96107989604003,
+        "mean_net_after_residual": -92.81241956760442,
+        "sum_combat_strength_removed": 516.0,
+        "sum_recruit_value_gain": -43.0,
+        "sum_residual_scaling_added": 322667.9083191549,
+        "mean_post_scaling_stats": 313.96773264188994,
+        "mean_next_turn_carried_strength": 325.2418869187019,
+        "replacement_loss_distribution": {
+          "n": 53,
+          "mean": 9.735849056603774,
+          "median": 9.0,
+          "p10": 5.0,
+          "p25": 6.0,
+          "p75": 13.0,
+          "p90": 15.800000000000004,
+          "p95": 17.799999999999997,
+          "min": -1.0,
+          "max": 38.0,
+          "share_positive_loss": 0.9811320754716981,
+          "share_loss_ge_20": 0.018867924528301886,
+          "share_loss_ge_50": 0.0
+        }
+      },
+      "9": {
+        "n_seat_turns": 2989,
+        "n_replacements": 1229,
+        "replacements_per_seat_turn": 0.41117430578788894,
+        "mean_combat_strength_removed": 3.880896620943459,
+        "mean_recruit_value_gain": 1.0685848109735698,
+        "mean_residual_scaling_added": 513.4150977446349,
+        "mean_net_after_residual": -509.53420112369133,
+        "sum_combat_strength_removed": 11600.0,
+        "sum_recruit_value_gain": 3194.0,
+        "sum_residual_scaling_added": 1534597.7271587134,
+        "mean_post_scaling_stats": 839.3482770157243,
+        "mean_next_turn_carried_strength": 868.6052736715941,
+        "replacement_loss_distribution": {
+          "n": 1229,
+          "mean": 9.438567941415785,
+          "median": 6.0,
+          "p10": -5.0,
+          "p25": 0.0,
+          "p75": 17.0,
+          "p90": 26.0,
+          "p95": 32.0,
+          "min": -11.0,
+          "max": 84.0,
+          "share_positive_loss": 0.7485760781122864,
+          "share_loss_ge_20": 0.2017900732302685,
+          "share_loss_ge_50": 0.009764035801464606
+        }
+      },
+      "10": {
+        "n_seat_turns": 2503,
+        "n_replacements": 205,
+        "replacements_per_seat_turn": 0.08190171793847383,
+        "mean_combat_strength_removed": 6.771873751498203,
+        "mean_recruit_value_gain": 0.045545345585297645,
+        "mean_residual_scaling_added": 542.8728537923207,
+        "mean_net_after_residual": -536.1009800408225,
+        "sum_combat_strength_removed": 16950.0,
+        "sum_recruit_value_gain": 114.0,
+        "sum_residual_scaling_added": 1358810.753042179,
+        "mean_post_scaling_stats": 1405.477427087495,
+        "mean_next_turn_carried_strength": 1455.230694980695,
+        "replacement_loss_distribution": {
+          "n": 205,
+          "mean": 82.6829268292683,
+          "median": 76.0,
+          "p10": 34.800000000000004,
+          "p25": 52.0,
+          "p75": 109.0,
+          "p90": 137.0,
+          "p95": 151.79999999999998,
+          "min": 1.0,
+          "max": 288.0,
+          "share_positive_loss": 1.0,
+          "share_loss_ge_20": 0.9658536585365853,
+          "share_loss_ge_50": 0.7658536585365854
+        }
+      },
+      "11": {
+        "n_seat_turns": 2072,
+        "n_replacements": 1002,
+        "replacements_per_seat_turn": 0.48359073359073357,
+        "mean_combat_strength_removed": 67.82722007722008,
+        "mean_recruit_value_gain": 0.7833011583011583,
+        "mean_residual_scaling_added": 1799.2111028341055,
+        "mean_net_after_residual": -1731.3838827568854,
+        "sum_combat_strength_removed": 140538.0,
+        "sum_recruit_value_gain": 1623.0,
+        "sum_residual_scaling_added": 3727965.4050722667,
+        "mean_post_scaling_stats": 3188.8532818532817,
+        "mean_next_turn_carried_strength": 3317.7595238095237,
+        "replacement_loss_distribution": {
+          "n": 1002,
+          "mean": 140.2574850299401,
+          "median": 134.0,
+          "p10": 38.20000000000002,
+          "p25": 85.0,
+          "p75": 184.0,
+          "p90": 242.0,
+          "p95": 281.7999999999997,
+          "min": -14.0,
+          "max": 529.0,
+          "share_positive_loss": 0.9750499001996008,
+          "share_loss_ge_20": 0.936127744510978,
+          "share_loss_ge_50": 0.8822355289421158
+        }
+      },
+      "12": {
+        "n_seat_turns": 1680,
+        "n_replacements": 932,
+        "replacements_per_seat_turn": 0.5547619047619048,
+        "mean_combat_strength_removed": 195.55119047619047,
+        "mean_recruit_value_gain": 0.9785714285714285,
+        "mean_residual_scaling_added": 3188.258764309468,
+        "mean_net_after_residual": -2992.707573833278,
+        "sum_combat_strength_removed": 328526.0,
+        "sum_recruit_value_gain": 1644.0,
+        "sum_residual_scaling_added": 5356274.724039907,
+        "mean_post_scaling_stats": 6311.5220238095235,
+        "mean_next_turn_carried_strength": 6576.492063492064,
+        "replacement_loss_distribution": {
+          "n": 932,
+          "mean": 352.4957081545064,
+          "median": 333.0,
+          "p10": 9.100000000000009,
+          "p25": 75.0,
+          "p75": 520.75,
+          "p90": 739.4999999999999,
+          "p95": 984.3499999999998,
+          "min": -11.0,
+          "max": 1621.0,
+          "share_positive_loss": 0.9474248927038627,
+          "share_loss_ge_20": 0.8315450643776824,
+          "share_loss_ge_50": 0.7918454935622318
+        }
+      },
+      "13": {
+        "n_seat_turns": 1323,
+        "n_replacements": 592,
+        "replacements_per_seat_turn": 0.4474678760393046,
+        "mean_combat_strength_removed": 339.96220710506424,
+        "mean_recruit_value_gain": 0.8994708994708994,
+        "mean_residual_scaling_added": 3648.5559701833195,
+        "mean_net_after_residual": -3308.593763078255,
+        "sum_combat_strength_removed": 449770.0,
+        "sum_recruit_value_gain": 1190.0,
+        "sum_residual_scaling_added": 4827039.548552532,
+        "mean_post_scaling_stats": 9885.469387755102,
+        "mean_next_turn_carried_strength": 10287.93326693227,
+        "replacement_loss_distribution": {
+          "n": 592,
+          "mean": 759.7466216216217,
+          "median": 392.5,
+          "p10": 7.0,
+          "p25": 36.0,
+          "p75": 1340.25,
+          "p90": 2059.7,
+          "p95": 2388.8999999999996,
+          "min": -14.0,
+          "max": 3944.0,
+          "share_positive_loss": 0.9527027027027027,
+          "share_loss_ge_20": 0.7956081081081081,
+          "share_loss_ge_50": 0.6993243243243243
+        }
+      },
+      "14": {
+        "n_seat_turns": 1004,
+        "n_replacements": 340,
+        "replacements_per_seat_turn": 0.3386454183266932,
+        "mean_combat_strength_removed": 383.16932270916334,
+        "mean_recruit_value_gain": 0.6683266932270916,
+        "mean_residual_scaling_added": 2761.16243977707,
+        "mean_net_after_residual": -2377.993117067907,
+        "sum_combat_strength_removed": 384702.0,
+        "sum_recruit_value_gain": 671.0,
+        "sum_residual_scaling_added": 2772207.0895361784,
+        "mean_post_scaling_stats": 12666.045816733067,
+        "mean_next_turn_carried_strength": 13017.942136498516,
+        "replacement_loss_distribution": {
+          "n": 340,
+          "mean": 1131.4764705882353,
+          "median": 344.0,
+          "p10": 5.0,
+          "p25": 21.0,
+          "p75": 2012.0,
+          "p90": 3468.9000000000015,
+          "p95": 3889.6500000000005,
+          "min": -12.0,
+          "max": 5523.0,
+          "share_positive_loss": 0.9529411764705882,
+          "share_loss_ge_20": 0.7588235294117647,
+          "share_loss_ge_50": 0.6882352941176471
+        }
+      }
+    },
+    "post_scale_firestone_ratios": {
+      "8": {
+        "mean_post_scale_over_firestone": 1.0240304391451074,
+        "mean_pre_scale_over_firestone": 0.7206773183377769,
+        "abs_distance_from_one_post": 0.024030439145107385
+      },
+      "9": {
+        "mean_post_scale_over_firestone": 1.1631766588355381,
+        "mean_pre_scale_over_firestone": 0.4516769359046734,
+        "abs_distance_from_one_post": 0.1631766588355381
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.8778198907547905,
+        "mean_pre_scale_over_firestone": 0.5387803575812704,
+        "abs_distance_from_one_post": 0.1221801092452095
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 1.0021222720383651,
+        "mean_pre_scale_over_firestone": 0.4367104649936742,
+        "abs_distance_from_one_post": 0.002122272038365125
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 1.1803856412585607,
+        "mean_pre_scale_over_firestone": 0.5841188205224114,
+        "abs_distance_from_one_post": 0.1803856412585607
+      },
+      "13": {
+        "mean_post_scale_over_firestone": 1.3847716513868213,
+        "mean_pre_scale_over_firestone": 0.8736662515361718,
+        "abs_distance_from_one_post": 0.38477165138682135
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 1.5272440515027694,
+        "mean_pre_scale_over_firestone": 1.1943151502317833,
+        "abs_distance_from_one_post": 0.5272440515027694
+      }
+    },
+    "alive_curve_t8_t14": {
+      "8": {
+        "sim_players_alive": 7.042639008931144,
+        "reference_alive_prior": 8.0,
+        "alive_error_vs_prior": -0.9573609910688559
+      },
+      "9": {
+        "sim_players_alive": 6.1448645031783204,
+        "reference_alive_prior": 7.0,
+        "alive_error_vs_prior": -0.8551354968216796
+      },
+      "10": {
+        "sim_players_alive": 5.224530563324011,
+        "reference_alive_prior": 5.0,
+        "alive_error_vs_prior": 0.2245305633240111
+      },
+      "11": {
+        "sim_players_alive": 4.409266409266409,
+        "reference_alive_prior": 4.0,
+        "alive_error_vs_prior": 0.4092664092664089
+      },
+      "12": {
+        "sim_players_alive": 3.619047619047619,
+        "reference_alive_prior": 3.0,
+        "alive_error_vs_prior": 0.6190476190476191
+      },
+      "13": {
+        "sim_players_alive": 3.0317460317460316,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 1.0317460317460316
+      },
+      "14": {
+        "sim_players_alive": 2.639442231075697,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 0.6394422310756971
+      }
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3471,
+        "mean_pre_scale_over_firestone": 0.7206773183377769,
+        "mean_post_scale_over_firestone": 1.0240304391451074,
+        "abs_distance_from_one_post": 0.024030439145107385,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 313.96773264188994,
+        "mean_remaining_target_gap": -7.367732641889923,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 2989,
+        "mean_pre_scale_over_firestone": 0.4516769359046734,
+        "mean_post_scale_over_firestone": 1.1631766588355381,
+        "abs_distance_from_one_post": 0.1631766588355381,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 839.3482770157243,
+        "mean_remaining_target_gap": -117.7482770157243,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2503,
+        "mean_pre_scale_over_firestone": 0.5387803575812704,
+        "mean_post_scale_over_firestone": 0.8778198907547905,
+        "abs_distance_from_one_post": 0.1221801092452095,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 1405.477427087495,
+        "mean_remaining_target_gap": 195.6225729125049,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 2072,
+        "mean_pre_scale_over_firestone": 0.4367104649936742,
+        "mean_post_scale_over_firestone": 1.0021222720383651,
+        "abs_distance_from_one_post": 0.002122272038365125,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 3188.8532818532817,
+        "mean_remaining_target_gap": -6.753281853281944,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1680,
+        "mean_pre_scale_over_firestone": 0.5841188205224114,
+        "mean_post_scale_over_firestone": 1.1803856412585607,
+        "abs_distance_from_one_post": 0.1803856412585607,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 6311.5220238095235,
+        "mean_remaining_target_gap": -964.5220238095238,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 1323,
+        "mean_pre_scale_over_firestone": 0.8736662515361718,
+        "mean_post_scale_over_firestone": 1.3847716513868213,
+        "abs_distance_from_one_post": 0.38477165138682135,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 9885.469387755102,
+        "mean_remaining_target_gap": -2746.7693877551023,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 1004,
+        "mean_pre_scale_over_firestone": 1.1943151502317833,
+        "mean_post_scale_over_firestone": 1.5272440515027694,
+        "abs_distance_from_one_post": 0.5272440515027694,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 12666.045816733067,
+        "mean_remaining_target_gap": -4372.645816733068,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "lobby_dynamics": {
+      "avg_game_length": 15.14,
+      "median_game_length": 15.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.736103896103896,
+        "8": 7.042639008931144,
+        "9": 6.1448645031783204,
+        "10": 5.224530563324011,
+        "11": 4.409266409266409,
+        "12": 3.619047619047619,
+        "13": 3.0317460317460316,
+        "14": 2.639442231075697,
+        "15": 2.391691394658754,
+        "16": 2.2205882352941178,
+        "17": 2.1404255319148935,
+        "18": 2.1260504201680672,
+        "19": 2.1475409836065573,
+        "20": 2.0
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3362804878048782,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.8981557377049181,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9629268292682925,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.9627125506072874,
+      "tier_error_turn_4": 0.1967500000000002,
+      "stats_ratio_turn_5": 0.9744121004566212,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 0.9324692874692875,
+      "tier_error_turn_6": 0.16825,
+      "stats_ratio_turn_7": 0.7414135699284213,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.7206773183377769,
+      "tier_error_turn_8": 0.18588303082685087,
+      "stats_ratio_turn_9": 0.4516769359046734,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.5387803575812704,
+      "tier_error_turn_10": 0.4264882141430286,
+      "stats_ratio_turn_11": 0.4367104649936742,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.5841188205224113,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.8736662515361718,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 1.1943151502317833,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "aggregation_by_turn": {
+      "10": {
+        "n": 2503,
+        "recruit_delta": -5.964043148222133,
+        "scaling_delta": 542.836196564123,
+        "post_scale_over_firestone": 0.8778198907547905
+      },
+      "11": {
+        "n": 2072,
+        "recruit_delta": -65.57432432432432,
+        "scaling_delta": 1799.1969111969113,
+        "post_scale_over_firestone": 1.0021222720383651
+      },
+      "12": {
+        "n": 1680,
+        "recruit_delta": -194.47619047619048,
+        "scaling_delta": 3188.2386904761906,
+        "post_scale_over_firestone": 1.1803856412585607
+      },
+      "13": {
+        "n": 1323,
+        "recruit_delta": -339.6507936507937,
+        "scaling_delta": 3648.6281179138323,
+        "post_scale_over_firestone": 1.3847716513868213
+      },
+      "14": {
+        "n": 1004,
+        "recruit_delta": -383.0,
+        "scaling_delta": 2761.112549800797,
+        "post_scale_over_firestone": 1.5272440515027694
+      },
+      "7": {
+        "n": 3850,
+        "recruit_delta": 13.925974025974027,
+        "scaling_delta": 101.02571428571429,
+        "post_scale_over_firestone": 1.4082499678539282
+      },
+      "8": {
+        "n": 3471,
+        "recruit_delta": 0.4860270815326995,
+        "scaling_delta": 93.00806683952752,
+        "post_scale_over_firestone": 1.0240304391451074
+      },
+      "9": {
+        "n": 2989,
+        "recruit_delta": 0.6881900301104048,
+        "scaling_delta": 513.418200066912,
+        "post_scale_over_firestone": 1.1631766588355381
+      }
+    },
+    "policy_stats": {
+      "compound_transitions_planned": 4088,
+      "compound_transitions_completed": 4088,
+      "compound_transitions_abandoned": 0,
+      "compound_transitions_completion_rate": 1.0,
+      "replacement_sells": 4088,
+      "replacement_transitions": 4088,
+      "tempo_selected_buys": 7715,
+      "tempo_selected_deploys": 7749,
+      "target_core_buys": 7715,
+      "target_core_deploys": 7749,
+      "mean_raw_stat_sacrifice_completed": 468.21232876712327,
+      "mean_build_gain_completed": 0.4628813967710359,
+      "mean_relative_tempo_loss": 0.10950419124306676,
+      "p95_relative_tempo_loss": 0.3827717957624175,
+      "mean_persistence_weight": 0.9722634506905246,
+      "mean_opportunity_cost": 0.10840689278947635
+    }
+  },
+  "phase_2j_treatment": {
+    "arm": "phase_2j_treatment",
+    "recruit_value_stats": true,
+    "n_lobbies": 500,
+    "seed_base": 13700,
+    "full_board_replace_rate": 0.19954704046030483,
+    "full_board_decisions": 49011,
+    "full_board_sells": 9780,
+    "incomplete_abandons": 140,
+    "n_completed_replacements": 9640,
+    "n_seat_turns_instrumented": 13719,
+    "replacements_per_seat_turn": 0.7026751220934471,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": 3243258.0,
+      "sum_recruit_value_gain": 25595.0,
+      "sum_residual_scaling_added": 8528412.014173621,
+      "net_combat_removed_after_residual": -5285154.014173621,
+      "mean_combat_loss_per_replacement": 336.4375518672199,
+      "mean_recruit_gain_per_replacement": 2.655082987551867,
+      "source_counts": {
+        "hand": 3486,
+        "shop": 6154
+      }
+    },
+    "replacement_loss_distribution": {
+      "n": 9640,
+      "mean": 336.4375518672199,
+      "median": 108.0,
+      "p10": 11.0,
+      "p25": 48.0,
+      "p75": 404.25,
+      "p90": 924.1000000000004,
+      "p95": 1366.1499999999978,
+      "min": -13.0,
+      "max": 6853.0,
+      "share_positive_loss": 0.9766597510373444,
+      "share_loss_ge_20": 0.8588174273858921,
+      "share_loss_ge_50": 0.7448132780082988
+    },
+    "per_turn_decomposition": {
+      "8": {
+        "n_seat_turns": 3471,
+        "n_replacements": 53,
+        "replacements_per_seat_turn": 0.015269374819936617,
+        "mean_combat_strength_removed": 0.8519158743877845,
+        "mean_recruit_value_gain": 0.024200518582541054,
+        "mean_residual_scaling_added": 92.60781761866639,
+        "mean_net_after_residual": -91.7559017442786,
+        "sum_combat_strength_removed": 2957.0,
+        "sum_recruit_value_gain": 84.0,
+        "sum_residual_scaling_added": 321441.734954391,
+        "mean_post_scaling_stats": 312.9109766637857,
+        "mean_next_turn_carried_strength": 324.07951887738056,
+        "replacement_loss_distribution": {
+          "n": 53,
+          "mean": 55.79245283018868,
+          "median": 57.0,
+          "p10": 21.400000000000002,
+          "p25": 43.0,
+          "p75": 70.0,
+          "p90": 81.60000000000001,
+          "p95": 86.19999999999999,
+          "min": 14.0,
+          "max": 95.0,
+          "share_positive_loss": 1.0,
+          "share_loss_ge_20": 0.8867924528301887,
+          "share_loss_ge_50": 0.660377358490566
+        }
+      },
+      "9": {
+        "n_seat_turns": 2993,
+        "n_replacements": 4275,
+        "replacements_per_seat_turn": 1.4283327764784497,
+        "mean_combat_strength_removed": 80.22385566321417,
+        "mean_recruit_value_gain": 4.978282659538924,
+        "mean_residual_scaling_added": 387.8914593600426,
+        "mean_net_after_residual": -307.66760369682845,
+        "sum_combat_strength_removed": 240110.0,
+        "sum_recruit_value_gain": 14900.0,
+        "sum_residual_scaling_added": 1160959.1378646074,
+        "mean_post_scaling_stats": 633.7510858670231,
+        "mean_next_turn_carried_strength": 666.903173965448,
+        "replacement_loss_distribution": {
+          "n": 4275,
+          "mean": 56.16608187134503,
+          "median": 57.0,
+          "p10": 5.0,
+          "p25": 18.0,
+          "p75": 89.0,
+          "p90": 109.0,
+          "p95": 123.0,
+          "min": -11.0,
+          "max": 190.0,
+          "share_positive_loss": 0.9583625730994152,
+          "share_loss_ge_20": 0.7359064327485381,
+          "share_loss_ge_50": 0.5265497076023392
+        }
+      },
+      "10": {
+        "n_seat_turns": 2489,
+        "n_replacements": 375,
+        "replacements_per_seat_turn": 0.1506629168340699,
+        "mean_combat_strength_removed": 29.468059461631178,
+        "mean_recruit_value_gain": 0.2515066291683407,
+        "mean_residual_scaling_added": 419.58281337144314,
+        "mean_net_after_residual": -390.11475390981195,
+        "sum_combat_strength_removed": 73346.0,
+        "sum_recruit_value_gain": 626.0,
+        "sum_residual_scaling_added": 1044341.6224815219,
+        "mean_post_scaling_stats": 1057.8798714343109,
+        "mean_next_turn_carried_strength": 1145.281427832385,
+        "replacement_loss_distribution": {
+          "n": 375,
+          "mean": 195.58933333333334,
+          "median": 208.0,
+          "p10": 50.4,
+          "p25": 102.0,
+          "p75": 276.0,
+          "p90": 328.6,
+          "p95": 362.6,
+          "min": 3.0,
+          "max": 450.0,
+          "share_positive_loss": 1.0,
+          "share_loss_ge_20": 0.992,
+          "share_loss_ge_50": 0.9013333333333333
+        }
+      },
+      "11": {
+        "n_seat_turns": 1933,
+        "n_replacements": 2095,
+        "replacements_per_seat_turn": 1.0838075530263838,
+        "mean_combat_strength_removed": 298.89291257113297,
+        "mean_recruit_value_gain": 2.4568028970512157,
+        "mean_residual_scaling_added": 1031.343254483154,
+        "mean_net_after_residual": -732.4503419120209,
+        "sum_combat_strength_removed": 577760.0,
+        "sum_recruit_value_gain": 4749.0,
+        "sum_residual_scaling_added": 1993586.5109159364,
+        "mean_post_scaling_stats": 1878.8323848939472,
+        "mean_next_turn_carried_strength": 2119.4765291607396,
+        "replacement_loss_distribution": {
+          "n": 2095,
+          "mean": 275.78042959427205,
+          "median": 231.0,
+          "p10": 62.0,
+          "p25": 120.0,
+          "p75": 424.0,
+          "p90": 530.0,
+          "p95": 585.0,
+          "min": -13.0,
+          "max": 860.0,
+          "share_positive_loss": 0.9899761336515513,
+          "share_loss_ge_20": 0.966109785202864,
+          "share_loss_ge_50": 0.9202863961813843
+        }
+      },
+      "12": {
+        "n_seat_turns": 1406,
+        "n_replacements": 1506,
+        "replacements_per_seat_turn": 1.0711237553342816,
+        "mean_combat_strength_removed": 642.9174964438122,
+        "mean_recruit_value_gain": 2.1287339971550496,
+        "mean_residual_scaling_added": 1503.9287183194792,
+        "mean_net_after_residual": -861.011221875667,
+        "sum_combat_strength_removed": 903942.0,
+        "sum_recruit_value_gain": 2993.0,
+        "sum_residual_scaling_added": 2114523.777957188,
+        "mean_post_scaling_stats": 2982.5810810810813,
+        "mean_next_turn_carried_strength": 3366.9001040582725,
+        "replacement_loss_distribution": {
+          "n": 1506,
+          "mean": 600.2270916334661,
+          "median": 502.0,
+          "p10": 119.5,
+          "p25": 259.0,
+          "p75": 923.25,
+          "p90": 1198.0,
+          "p95": 1347.0,
+          "min": -9.0,
+          "max": 2036.0,
+          "share_positive_loss": 0.99734395750332,
+          "share_loss_ge_20": 0.9734395750332006,
+          "share_loss_ge_50": 0.9687915006640107
+        }
+      },
+      "13": {
+        "n_seat_turns": 961,
+        "n_replacements": 958,
+        "replacements_per_seat_turn": 0.9968782518210197,
+        "mean_combat_strength_removed": 1023.9136316337149,
+        "mean_recruit_value_gain": 1.6909469302809574,
+        "mean_residual_scaling_added": 1407.104003905625,
+        "mean_net_after_residual": -383.19037227191,
+        "sum_combat_strength_removed": 983981.0,
+        "sum_recruit_value_gain": 1625.0,
+        "sum_residual_scaling_added": 1352226.9477533055,
+        "mean_post_scaling_stats": 3751.1279916753383,
+        "mean_next_turn_carried_strength": 4037.912017167382,
+        "replacement_loss_distribution": {
+          "n": 958,
+          "mean": 1027.1200417536534,
+          "median": 786.5,
+          "p10": 45.0,
+          "p25": 340.0,
+          "p75": 1574.75,
+          "p90": 2367.0,
+          "p95": 2728.6,
+          "min": -6.0,
+          "max": 4099.0,
+          "share_positive_loss": 0.9895615866388309,
+          "share_loss_ge_20": 0.9352818371607515,
+          "share_loss_ge_50": 0.8935281837160751
+        }
+      },
+      "14": {
+        "n_seat_turns": 466,
+        "n_replacements": 378,
+        "replacements_per_seat_turn": 0.8111587982832618,
+        "mean_combat_strength_removed": 989.618025751073,
+        "mean_recruit_value_gain": 1.3261802575107295,
+        "mean_residual_scaling_added": 1161.6572580400664,
+        "mean_net_after_residual": -172.03923228899345,
+        "sum_combat_strength_removed": 461162.0,
+        "sum_recruit_value_gain": 618.0,
+        "sum_residual_scaling_added": 541332.2822466709,
+        "mean_post_scaling_stats": 4210.405579399142,
+        "mean_next_turn_carried_strength": 4790.222222222223,
+        "replacement_loss_distribution": {
+          "n": 378,
+          "mean": 1220.005291005291,
+          "median": 781.0,
+          "p10": 12.700000000000003,
+          "p25": 114.5,
+          "p75": 1823.25,
+          "p90": 3244.2999999999997,
+          "p95": 3875.999999999999,
+          "min": -6.0,
+          "max": 6853.0,
+          "share_positive_loss": 0.9682539682539683,
+          "share_loss_ge_20": 0.8677248677248677,
+          "share_loss_ge_50": 0.828042328042328
+        }
+      }
+    },
+    "post_scale_firestone_ratios": {
+      "8": {
+        "mean_post_scale_over_firestone": 1.0205837464572265,
+        "mean_pre_scale_over_firestone": 0.718384534761324,
+        "abs_distance_from_one_post": 0.020583746457226493
+      },
+      "9": {
+        "mean_post_scale_over_firestone": 0.8782581566893335,
+        "mean_pre_scale_over_firestone": 0.3406845277561909,
+        "abs_distance_from_one_post": 0.12174184331066651
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.6607206741829437,
+        "mean_pre_scale_over_firestone": 0.3986777973228982,
+        "abs_distance_from_one_post": 0.33927932581705633
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 0.5904378821828187,
+        "mean_pre_scale_over_firestone": 0.266329895371635,
+        "abs_distance_from_one_post": 0.4095621178171813
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 0.5578045784703723,
+        "mean_pre_scale_over_firestone": 0.27653174125372015,
+        "abs_distance_from_one_post": 0.44219542152962765
+      },
+      "13": {
+        "mean_post_scale_over_firestone": 0.5254637387304885,
+        "mean_pre_scale_over_firestone": 0.3283425001217514,
+        "abs_distance_from_one_post": 0.47453626126951154
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 0.507681479176109,
+        "mean_pre_scale_over_firestone": 0.3676140528933965,
+        "abs_distance_from_one_post": 0.49231852082389105
+      }
+    },
+    "alive_curve_t8_t14": {
+      "8": {
+        "sim_players_alive": 7.042639008931144,
+        "reference_alive_prior": 8.0,
+        "alive_error_vs_prior": -0.9573609910688559
+      },
+      "9": {
+        "sim_players_alive": 6.149348479786168,
+        "reference_alive_prior": 7.0,
+        "alive_error_vs_prior": -0.8506515202138321
+      },
+      "10": {
+        "sim_players_alive": 5.179188429087987,
+        "reference_alive_prior": 5.0,
+        "alive_error_vs_prior": 0.17918842908798727
+      },
+      "11": {
+        "sim_players_alive": 4.094671495085359,
+        "reference_alive_prior": 4.0,
+        "alive_error_vs_prior": 0.09467149508535933
+      },
+      "12": {
+        "sim_players_alive": 3.1109530583214795,
+        "reference_alive_prior": 3.0,
+        "alive_error_vs_prior": 0.1109530583214795
+      },
+      "13": {
+        "sim_players_alive": 2.5171696149843914,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 0.5171696149843914
+      },
+      "14": {
+        "sim_players_alive": 2.218884120171674,
+        "reference_alive_prior": 2.0,
+        "alive_error_vs_prior": 0.21888412017167402
+      }
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3471,
+        "mean_pre_scale_over_firestone": 0.718384534761324,
+        "mean_post_scale_over_firestone": 1.0205837464572265,
+        "abs_distance_from_one_post": 0.020583746457226493,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 312.9109766637857,
+        "mean_remaining_target_gap": -6.31097666378563,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 2993,
+        "mean_pre_scale_over_firestone": 0.3406845277561909,
+        "mean_post_scale_over_firestone": 0.8782581566893335,
+        "abs_distance_from_one_post": 0.12174184331066651,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 633.7510858670231,
+        "mean_remaining_target_gap": 87.84891413297697,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2489,
+        "mean_pre_scale_over_firestone": 0.3986777973228982,
+        "mean_post_scale_over_firestone": 0.6607206741829437,
+        "abs_distance_from_one_post": 0.33927932581705633,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 1057.8798714343109,
+        "mean_remaining_target_gap": 543.2201285656889,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 1933,
+        "mean_pre_scale_over_firestone": 0.266329895371635,
+        "mean_post_scale_over_firestone": 0.5904378821828187,
+        "abs_distance_from_one_post": 0.4095621178171813,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 1878.8323848939472,
+        "mean_remaining_target_gap": 1303.2676151060527,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1406,
+        "mean_pre_scale_over_firestone": 0.27653174125372015,
+        "mean_post_scale_over_firestone": 0.5578045784703723,
+        "abs_distance_from_one_post": 0.44219542152962765,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 2982.5810810810813,
+        "mean_remaining_target_gap": 2364.4189189189187,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 961,
+        "mean_pre_scale_over_firestone": 0.3283425001217514,
+        "mean_post_scale_over_firestone": 0.5254637387304885,
+        "abs_distance_from_one_post": 0.47453626126951154,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 3751.1279916753383,
+        "mean_remaining_target_gap": 3387.5720083246615,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 466,
+        "mean_pre_scale_over_firestone": 0.3676140528933965,
+        "mean_post_scale_over_firestone": 0.507681479176109,
+        "abs_distance_from_one_post": 0.49231852082389105,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 4210.405579399142,
+        "mean_remaining_target_gap": 4082.994420600858,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "lobby_dynamics": {
+      "avg_game_length": 13.406,
+      "median_game_length": 13.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.736103896103896,
+        "8": 7.042639008931144,
+        "9": 6.149348479786168,
+        "10": 5.179188429087987,
+        "11": 4.094671495085359,
+        "12": 3.1109530583214795,
+        "13": 2.5171696149843914,
+        "14": 2.218884120171674,
+        "15": 2.0980392156862746,
+        "16": 2.1578947368421053,
+        "17": 2.3333333333333335,
+        "18": 2.0
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3362804878048782,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.8981557377049181,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9629268292682925,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.9627125506072874,
+      "tier_error_turn_4": 0.1967500000000002,
+      "stats_ratio_turn_5": 0.9744121004566212,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 0.9324692874692875,
+      "tier_error_turn_6": 0.16825,
+      "stats_ratio_turn_7": 0.7414135699284213,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.718384534761324,
+      "tier_error_turn_8": 0.18588303082685087,
+      "stats_ratio_turn_9": 0.3406845277561909,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.3986777973228982,
+      "tier_error_turn_10": 0.4100040176777826,
+      "stats_ratio_turn_11": 0.266329895371635,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.2765317412537201,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.32834250012175137,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 0.36761405289339655,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "aggregation_by_turn": {
+      "10": {
+        "n": 2489,
+        "recruit_delta": -28.580152671755727,
+        "scaling_delta": 419.55685014061874,
+        "post_scale_over_firestone": 0.6607206741829437
+      },
+      "11": {
+        "n": 1933,
+        "recruit_delta": -297.79306777030524,
+        "scaling_delta": 1031.3440248318675,
+        "post_scale_over_firestone": 0.5904378821828187
+      },
+      "12": {
+        "n": 1406,
+        "recruit_delta": -640.8613086770981,
+        "scaling_delta": 1503.9658605974396,
+        "post_scale_over_firestone": 0.5578045784703723
+      },
+      "13": {
+        "n": 961,
+        "recruit_delta": -1022.9614984391259,
+        "scaling_delta": 1407.1893860561916,
+        "post_scale_over_firestone": 0.5254637387304885
+      },
+      "14": {
+        "n": 466,
+        "recruit_delta": -989.1416309012875,
+        "scaling_delta": 1161.6351931330473,
+        "post_scale_over_firestone": 0.507681479176109
+      },
+      "7": {
+        "n": 3850,
+        "recruit_delta": 13.925974025974027,
+        "scaling_delta": 101.02571428571429,
+        "post_scale_over_firestone": 1.4082499678539282
+      },
+      "8": {
+        "n": 3471,
+        "recruit_delta": -0.21694036300777875,
+        "scaling_delta": 92.6542783059637,
+        "post_scale_over_firestone": 1.0205837464572265
+      },
+      "9": {
+        "n": 2993,
+        "recruit_delta": -78.24156364851319,
+        "scaling_delta": 387.9131306381557,
+        "post_scale_over_firestone": 0.8782581566893335
+      }
+    },
+    "policy_stats": {
+      "compound_transitions_planned": 6265,
+      "compound_transitions_completed": 6265,
+      "compound_transitions_abandoned": 0,
+      "compound_transitions_completion_rate": 1.0,
+      "replacement_sells": 6265,
+      "replacement_transitions": 6265,
+      "tempo_selected_buys": 10410,
+      "tempo_selected_deploys": 10471,
+      "target_core_buys": 10410,
+      "target_core_deploys": 10471,
+      "mean_raw_stat_sacrifice_completed": 0.5781324820430965,
+      "mean_build_gain_completed": 0.4196411093375895,
+      "mean_relative_tempo_loss": 0.009302180752108912,
+      "p95_relative_tempo_loss": 0.06153846153846154,
+      "mean_persistence_weight": 0.9605164653718463,
+      "mean_opportunity_cost": 0.00896606232578739
+    }
+  },
+  "phase_2j_comparison": {
+    "deltas": {
+      "full_board_replace_rate": 0.13091526240229728,
+      "n_completed_replacements": 5287.0,
+      "sum_combat_strength_removed": 1910656.0,
+      "sum_recruit_value_gain": 17202.0,
+      "sum_residual_scaling_added": -11371151.14154731,
+      "net_combat_removed_after_residual": 13281807.14154731,
+      "mean_combat_loss_per_replacement": 30.303391518035426,
+      "post_scale_over_firestone_t10": -0.21709921657184683,
+      "post_scale_over_firestone_t14": -1.0195625723266604,
+      "mean_game_length": -1.734,
+      "treatment_post_stats_deficit_t10": 347.59755565318414,
+      "excess_mean_net_loss_t10": 145.98622613101054,
+      "cumulative_excess_net_loss_t8_t10": 348.9093413811992,
+      "residual_scaling_delta_t10": -123.29004042087757,
+      "churn_explains_fraction_t10_same_turn": 0.41998634270221524,
+      "churn_explains_fraction_t10": 1.0037738635001332
+    },
+    "control": {
+      "full_board_replace_rate": 0.06863177805800756,
+      "n_completed_replacements": 4353,
+      "headline_t8_t14": {
+        "sum_combat_strength_removed": 1332602.0,
+        "sum_recruit_value_gain": 8393.0,
+        "sum_residual_scaling_added": 19899563.15572093,
+        "net_combat_removed_after_residual": -18566961.15572093,
+        "mean_combat_loss_per_replacement": 306.13416034918447,
+        "mean_recruit_gain_per_replacement": 1.9280955662761314,
+        "source_counts": {
+          "hand": 593,
+          "shop": 3760
+        }
+      },
+      "post_scale_over_firestone_t10": 0.8778198907547905,
+      "post_scale_over_firestone_t14": 1.5272440515027694,
+      "mean_game_length": 15.14,
+      "mean_combat_loss_per_replacement": 306.13416034918447,
+      "replacement_loss_distribution": {
+        "n": 4353,
+        "mean": 306.13416034918447,
+        "median": 78.0,
+        "p10": 1.0,
+        "p25": 11.0,
+        "p75": 268.0,
+        "p90": 846.0,
+        "p95": 1584.599999999995,
+        "min": -14.0,
+        "max": 5523.0,
+        "share_positive_loss": 0.9016770043648059,
+        "share_loss_ge_20": 0.6636802205375603,
+        "share_loss_ge_50": 0.5603032391454169
+      }
+    },
+    "treatment": {
+      "full_board_replace_rate": 0.19954704046030483,
+      "n_completed_replacements": 9640,
+      "headline_t8_t14": {
+        "sum_combat_strength_removed": 3243258.0,
+        "sum_recruit_value_gain": 25595.0,
+        "sum_residual_scaling_added": 8528412.014173621,
+        "net_combat_removed_after_residual": -5285154.014173621,
+        "mean_combat_loss_per_replacement": 336.4375518672199,
+        "mean_recruit_gain_per_replacement": 2.655082987551867,
+        "source_counts": {
+          "hand": 3486,
+          "shop": 6154
+        }
+      },
+      "post_scale_over_firestone_t10": 0.6607206741829437,
+      "post_scale_over_firestone_t14": 0.507681479176109,
+      "mean_game_length": 13.406,
+      "mean_combat_loss_per_replacement": 336.4375518672199,
+      "replacement_loss_distribution": {
+        "n": 9640,
+        "mean": 336.4375518672199,
+        "median": 108.0,
+        "p10": 11.0,
+        "p25": 48.0,
+        "p75": 404.25,
+        "p90": 924.1000000000004,
+        "p95": 1366.1499999999978,
+        "min": -13.0,
+        "max": 6853.0,
+        "share_positive_loss": 0.9766597510373444,
+        "share_loss_ge_20": 0.8588174273858921,
+        "share_loss_ge_50": 0.7448132780082988
+      }
+    },
+    "paired_post_scale_firestone_ratios": {
+      "8": {
+        "control": 1.0240304391451074,
+        "treatment": 1.0205837464572265,
+        "delta": -0.0034466926878808923
+      },
+      "9": {
+        "control": 1.1631766588355381,
+        "treatment": 0.8782581566893335,
+        "delta": -0.2849185021462046
+      },
+      "10": {
+        "control": 0.8778198907547905,
+        "treatment": 0.6607206741829437,
+        "delta": -0.21709921657184683
+      },
+      "11": {
+        "control": 1.0021222720383651,
+        "treatment": 0.5904378821828187,
+        "delta": -0.41168438985554645
+      },
+      "12": {
+        "control": 1.1803856412585607,
+        "treatment": 0.5578045784703723,
+        "delta": -0.6225810627881884
+      },
+      "13": {
+        "control": 1.3847716513868213,
+        "treatment": 0.5254637387304885,
+        "delta": -0.8593079126563329
+      },
+      "14": {
+        "control": 1.5272440515027694,
+        "treatment": 0.507681479176109,
+        "delta": -1.0195625723266604
+      }
+    },
+    "paired_alive_curve": {
+      "8": {
+        "control": 7.042639008931144,
+        "treatment": 7.042639008931144,
+        "delta": 0.0
+      },
+      "9": {
+        "control": 6.1448645031783204,
+        "treatment": 6.149348479786168,
+        "delta": 0.004483976607847495
+      },
+      "10": {
+        "control": 5.224530563324011,
+        "treatment": 5.179188429087987,
+        "delta": -0.045342134236023846
+      },
+      "11": {
+        "control": 4.409266409266409,
+        "treatment": 4.094671495085359,
+        "delta": -0.31459491418104957
+      },
+      "12": {
+        "control": 3.619047619047619,
+        "treatment": 3.1109530583214795,
+        "delta": -0.5080945607261396
+      },
+      "13": {
+        "control": 3.0317460317460316,
+        "treatment": 2.5171696149843914,
+        "delta": -0.5145764167616402
+      },
+      "14": {
+        "control": 2.639442231075697,
+        "treatment": 2.218884120171674,
+        "delta": -0.42055811090402306
+      }
+    },
+    "per_turn_decomposition_delta": {
+      "8": {
+        "replacements_per_seat_turn": 0.0,
+        "mean_combat_strength_removed": 0.7032555459521752,
+        "mean_recruit_value_gain": 0.0365888792855085,
+        "mean_residual_scaling_added": -0.3532622773736449,
+        "mean_net_after_residual": 1.0565178233258194,
+        "mean_post_scaling_stats": -1.0567559781042632
+      },
+      "9": {
+        "replacements_per_seat_turn": 1.0171584706905608,
+        "mean_combat_strength_removed": 76.3429590422707,
+        "mean_recruit_value_gain": 3.9096978485653544,
+        "mean_residual_scaling_added": -125.52363838459229,
+        "mean_net_after_residual": 201.86659742686288,
+        "mean_post_scaling_stats": -205.5971911487012
+      },
+      "10": {
+        "replacements_per_seat_turn": 0.06876119889559608,
+        "mean_combat_strength_removed": 22.696185710132976,
+        "mean_recruit_value_gain": 0.20596128358304305,
+        "mean_residual_scaling_added": -123.29004042087757,
+        "mean_net_after_residual": 145.98622613101054,
+        "mean_post_scaling_stats": -347.59755565318414
+      },
+      "11": {
+        "replacements_per_seat_turn": 0.6002168194356502,
+        "mean_combat_strength_removed": 231.06569249391288,
+        "mean_recruit_value_gain": 1.6735017387500575,
+        "mean_residual_scaling_added": -767.8678483509516,
+        "mean_net_after_residual": 998.9335408448645,
+        "mean_post_scaling_stats": -1310.0208969593346
+      },
+      "12": {
+        "replacements_per_seat_turn": 0.5163618505723768,
+        "mean_combat_strength_removed": 447.3663059676217,
+        "mean_recruit_value_gain": 1.150162568583621,
+        "mean_residual_scaling_added": -1684.3300459899888,
+        "mean_net_after_residual": 2131.6963519576107,
+        "mean_post_scaling_stats": -3328.940942728442
+      },
+      "13": {
+        "replacements_per_seat_turn": 0.5494103757817151,
+        "mean_combat_strength_removed": 683.9514245286507,
+        "mean_recruit_value_gain": 0.791476030810058,
+        "mean_residual_scaling_added": -2241.4519662776947,
+        "mean_net_after_residual": 2925.403390806345,
+        "mean_post_scaling_stats": -6134.341396079763
+      },
+      "14": {
+        "replacements_per_seat_turn": 0.47251337995656856,
+        "mean_combat_strength_removed": 606.4487030419097,
+        "mean_recruit_value_gain": 0.657853564283638,
+        "mean_residual_scaling_added": -1599.5051817370038,
+        "mean_net_after_residual": 2205.9538847789136,
+        "mean_post_scaling_stats": -8455.640237333926
+      }
+    },
+    "directional_macro_policy_harm": {
+      "definition": {
+        "name": "directional_macro_policy_harm",
+        "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+        "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+      },
+      "by_turn": {
+        "10": {
+          "greedy_ratio": 0.8778198907547905,
+          "treatment_ratio": 0.6607206741829437,
+          "greedy_distance": 0.1221801092452095,
+          "treatment_distance": 0.33927932581705633,
+          "macro_policy_harm": 0.21709921657184683,
+          "treatment_closer_to_firestone": false
+        },
+        "12": {
+          "greedy_ratio": 1.1803856412585607,
+          "treatment_ratio": 0.5578045784703723,
+          "greedy_distance": 0.1803856412585607,
+          "treatment_distance": 0.44219542152962765,
+          "macro_policy_harm": 0.26180978027106694,
+          "treatment_closer_to_firestone": false
+        },
+        "14": {
+          "greedy_ratio": 1.5272440515027694,
+          "treatment_ratio": 0.507681479176109,
+          "greedy_distance": 0.5272440515027694,
+          "treatment_distance": 0.49231852082389105,
+          "macro_policy_harm": -0.03492553067887838,
+          "treatment_closer_to_firestone": true
+        }
+      },
+      "applied_to_2n_v3": false
+    },
+    "churn_explains_threshold": 0.55
+  }
+}

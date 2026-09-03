@@ -1,0 +1,255 @@
+{
+  "deltas": {
+    "full_board_replace_rate": 0.28366286175914734,
+    "n_completed_replacements": 23381.0,
+    "sum_combat_strength_removed": 2389005.0,
+    "sum_recruit_value_gain": 79247.0,
+    "sum_residual_scaling_added": -19999485.637047395,
+    "net_combat_removed_after_residual": 22388490.637047395,
+    "mean_combat_loss_per_replacement": 96.87469447506004,
+    "post_scale_over_firestone_t10": -0.4861423185583496,
+    "post_scale_over_firestone_t14": -1.7127459365453113,
+    "mean_game_length": -2.646000000000001,
+    "treatment_post_stats_deficit_t10": 778.3624662437734,
+    "excess_mean_net_loss_t10": 279.0551357901524,
+    "cumulative_excess_net_loss_t8_t10": 773.5534687707743,
+    "residual_scaling_delta_t10": -279.0551357901524,
+    "churn_explains_fraction_t10_same_turn": 0.35851566319329153,
+    "churn_explains_fraction_t10": 0.9938216477777939
+  },
+  "control": {
+    "full_board_replace_rate": 0.01618026603136788,
+    "n_completed_replacements": 1467,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": -1138.0,
+      "sum_recruit_value_gain": 7435.0,
+      "sum_residual_scaling_added": 23717399.85726425,
+      "net_combat_removed_after_residual": -23718537.85726425,
+      "mean_combat_loss_per_replacement": -0.7757327880027266,
+      "mean_recruit_gain_per_replacement": 5.068166325835038,
+      "source_counts": {
+        "hand": 1467
+      }
+    },
+    "post_scale_over_firestone_t10": 0.9539699217750157,
+    "post_scale_over_firestone_t14": 1.827894384253478,
+    "mean_game_length": 15.734,
+    "mean_combat_loss_per_replacement": -0.7757327880027266,
+    "replacement_loss_distribution": {
+      "n": 1467,
+      "mean": -0.7757327880027266,
+      "median": 0.0,
+      "p10": -7.0,
+      "p25": -5.0,
+      "p75": 3.0,
+      "p90": 5.0,
+      "p95": 6.0,
+      "min": -11.0,
+      "max": 9.0,
+      "share_positive_loss": 0.4505794137695978,
+      "share_loss_ge_20": 0.0,
+      "share_loss_ge_50": 0.0
+    }
+  },
+  "treatment": {
+    "full_board_replace_rate": 0.29984312779051525,
+    "n_completed_replacements": 24848,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": 2387867.0,
+      "sum_recruit_value_gain": 86682.0,
+      "sum_residual_scaling_added": 3717914.2202168535,
+      "net_combat_removed_after_residual": -1330047.2202168535,
+      "mean_combat_loss_per_replacement": 96.09896168705731,
+      "mean_recruit_gain_per_replacement": 3.48849001931745,
+      "source_counts": {
+        "hand": 24848
+      }
+    },
+    "post_scale_over_firestone_t10": 0.4678276032166661,
+    "post_scale_over_firestone_t14": 0.11514844770816676,
+    "mean_game_length": 13.088,
+    "mean_combat_loss_per_replacement": 96.09896168705731,
+    "replacement_loss_distribution": {
+      "n": 24848,
+      "mean": 96.09896168705731,
+      "median": 56.0,
+      "p10": 4.0,
+      "p25": 13.0,
+      "p75": 102.0,
+      "p90": 226.0,
+      "p95": 413.0,
+      "min": -14.0,
+      "max": 2106.0,
+      "share_positive_loss": 0.9312620734063104,
+      "share_loss_ge_20": 0.6994526722472634,
+      "share_loss_ge_50": 0.5143271088216356
+    }
+  },
+  "paired_post_scale_firestone_ratios": {
+    "8": {
+      "control": 1.1495454432856895,
+      "treatment": 1.1495454432856895,
+      "delta": 0.0
+    },
+    "9": {
+      "control": 1.3075501168892043,
+      "treatment": 0.6212682331730239,
+      "delta": -0.6862818837161804
+    },
+    "10": {
+      "control": 0.9539699217750157,
+      "treatment": 0.4678276032166661,
+      "delta": -0.4861423185583496
+    },
+    "11": {
+      "control": 1.1833344659151517,
+      "treatment": 0.25095218783085127,
+      "delta": -0.9323822780843004
+    },
+    "12": {
+      "control": 1.4670110838647676,
+      "treatment": 0.16759064331612508,
+      "delta": -1.2994204405486425
+    },
+    "13": {
+      "control": 1.7588111026626205,
+      "treatment": 0.1273642482418655,
+      "delta": -1.631446854420755
+    },
+    "14": {
+      "control": 1.827894384253478,
+      "treatment": 0.11514844770816676,
+      "delta": -1.7127459365453113
+    }
+  },
+  "paired_alive_curve": {
+    "8": {
+      "control": 7.19803094233474,
+      "treatment": 7.19803094233474,
+      "delta": 0.0
+    },
+    "9": {
+      "control": 6.19946984758118,
+      "treatment": 6.19946984758118,
+      "delta": 0.0
+    },
+    "10": {
+      "control": 5.363989134652697,
+      "treatment": 5.1053061224489795,
+      "delta": -0.2586830122037176
+    },
+    "11": {
+      "control": 4.415954415954416,
+      "treatment": 3.961206896551724,
+      "delta": -0.45474751940269176
+    },
+    "12": {
+      "control": 3.661233993015134,
+      "treatment": 2.95622641509434,
+      "delta": -0.705007577920794
+    },
+    "13": {
+      "control": 3.018867924528302,
+      "treatment": 2.410757946210269,
+      "delta": -0.608109978318033
+    },
+    "14": {
+      "control": 2.604757548032937,
+      "treatment": 2.176470588235294,
+      "delta": -0.4282869597976431
+    }
+  },
+  "per_turn_decomposition_delta": {
+    "8": {
+      "replacements_per_seat_turn": 0.0,
+      "mean_combat_strength_removed": 0.0,
+      "mean_recruit_value_gain": 0.0,
+      "mean_residual_scaling_added": 0.0,
+      "mean_net_after_residual": 0.0,
+      "mean_post_scaling_stats": 0.0
+    },
+    "9": {
+      "replacements_per_seat_turn": 3.237905897945659,
+      "mean_combat_strength_removed": 188.3691186216037,
+      "mean_recruit_value_gain": 11.818091451292247,
+      "mean_residual_scaling_added": -306.1292143590182,
+      "mean_net_after_residual": 494.4983329806219,
+      "mean_post_scaling_stats": -495.2210072895957
+    },
+    "10": {
+      "replacements_per_seat_turn": 0.0,
+      "mean_combat_strength_removed": 0.0,
+      "mean_recruit_value_gain": 0.0,
+      "mean_residual_scaling_added": -279.0551357901524,
+      "mean_net_after_residual": 279.0551357901524,
+      "mean_post_scaling_stats": -778.3624662437734
+    },
+    "11": {
+      "replacements_per_seat_turn": 3.5625,
+      "mean_combat_strength_removed": 465.3496767241379,
+      "mean_recruit_value_gain": 11.839439655172415,
+      "mean_residual_scaling_added": -1726.0000854033162,
+      "mean_net_after_residual": 2191.349762127454,
+      "mean_post_scaling_stats": -2966.9336470920525
+    },
+    "12": {
+      "replacements_per_seat_turn": 3.0890566037735847,
+      "mean_combat_strength_removed": 425.50037735849054,
+      "mean_recruit_value_gain": 9.788679245283019,
+      "mean_residual_scaling_added": -3506.792031769998,
+      "mean_net_after_residual": 3932.2924091284885,
+      "mean_post_scaling_stats": -6948.001095613592
+    },
+    "13": {
+      "replacements_per_seat_turn": 2.65281173594132,
+      "mean_combat_strength_removed": 381.2909535452323,
+      "mean_recruit_value_gain": 8.00122249388753,
+      "mean_residual_scaling_added": -4146.045779904646,
+      "mean_net_after_residual": 4527.336733449879,
+      "mean_post_scaling_stats": -11646.409659653444
+    },
+    "14": {
+      "replacements_per_seat_turn": 2.2724458204334366,
+      "mean_combat_strength_removed": 251.1888544891641,
+      "mean_recruit_value_gain": 6.473684210526316,
+      "mean_residual_scaling_added": -2054.964603595675,
+      "mean_net_after_residual": 2306.153458084839,
+      "mean_post_scaling_stats": -14204.487150144885
+    }
+  },
+  "directional_macro_policy_harm": {
+    "definition": {
+      "name": "directional_macro_policy_harm",
+      "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+      "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+    },
+    "by_turn": {
+      "10": {
+        "greedy_ratio": 0.9539699217750157,
+        "treatment_ratio": 0.4678276032166661,
+        "greedy_distance": 0.04603007822498428,
+        "treatment_distance": 0.5321723967833338,
+        "macro_policy_harm": 0.48614231855834955,
+        "treatment_closer_to_firestone": false
+      },
+      "12": {
+        "greedy_ratio": 1.4670110838647676,
+        "treatment_ratio": 0.16759064331612508,
+        "greedy_distance": 0.46701108386476764,
+        "treatment_distance": 0.832409356683875,
+        "macro_policy_harm": 0.3653982728191073,
+        "treatment_closer_to_firestone": false
+      },
+      "14": {
+        "greedy_ratio": 1.827894384253478,
+        "treatment_ratio": 0.11514844770816676,
+        "greedy_distance": 0.827894384253478,
+        "treatment_distance": 0.8848515522918332,
+        "macro_policy_harm": 0.056957168038355155,
+        "treatment_closer_to_firestone": false
+      }
+    },
+    "applied_to_2n_v3": false
+  },
+  "churn_explains_threshold": 0.55
+}

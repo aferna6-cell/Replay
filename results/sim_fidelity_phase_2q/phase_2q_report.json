@@ -1,0 +1,1980 @@
+{
+  "methodology_version": "2q_v1",
+  "decision": {
+    "primary_finding": "replacement_unblocked_but_post_scale_macro_collapses",
+    "greedy_gates": {
+      "deltas": {
+        "recruit_delta_mean_t9_t12": -271.7301683270144,
+        "full_board_replace_rate": 0.2711496994519687,
+        "valuation_scaling_blocked_pct": -0.8033736602310172,
+        "post_scale_over_firestone_t10": -0.4819644531049476,
+        "post_scale_over_firestone_t14": -1.7163209447353358,
+        "mean_game_length": -2.571999999999999
+      },
+      "control": {
+        "recruit_delta_mean_t9_t12": 0.07975228772447485,
+        "full_board_replace_rate": 0.015515048749470114,
+        "valuation_scaling_blocked_pct": 0.8033736602310172,
+        "post_scale_over_firestone_t10": 0.9528571177627881,
+        "post_scale_over_firestone_t14": 1.8251304343437007,
+        "mean_game_length": 15.638
+      },
+      "treatment": {
+        "recruit_delta_mean_t9_t12": -271.6504160392899,
+        "full_board_replace_rate": 0.28666474820143883,
+        "valuation_scaling_blocked_pct": 0.0,
+        "post_scale_over_firestone_t10": 0.4708926646578405,
+        "post_scale_over_firestone_t14": 0.10880948960836478,
+        "mean_game_length": 13.066
+      },
+      "gates": {
+        "recruit_delta_t9_t12_increases": false,
+        "full_board_replace_rate_increases": true,
+        "scaling_blocked_collapses": true,
+        "post_scale_macro_not_materially_worse": false,
+        "game_length_acceptable": false
+      },
+      "gates_passed": 2,
+      "gates_total": 5,
+      "directional_macro_policy_harm": {
+        "definition": {
+          "name": "directional_macro_policy_harm",
+          "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+          "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+        },
+        "by_turn": {
+          "10": {
+            "greedy_ratio": 0.9528571177627881,
+            "treatment_ratio": 0.4708926646578405,
+            "greedy_distance": 0.04714288223721186,
+            "treatment_distance": 0.5291073353421595,
+            "macro_policy_harm": 0.4819644531049476,
+            "treatment_closer_to_firestone": false
+          },
+          "12": {
+            "greedy_ratio": 1.4574117639338668,
+            "treatment_ratio": 0.16293318334454526,
+            "greedy_distance": 0.45741176393386684,
+            "treatment_distance": 0.8370668166554547,
+            "macro_policy_harm": 0.37965505272158784,
+            "treatment_closer_to_firestone": false
+          },
+          "14": {
+            "greedy_ratio": 1.8251304343437007,
+            "treatment_ratio": 0.10880948960836478,
+            "greedy_distance": 0.8251304343437007,
+            "treatment_distance": 0.8911905103916352,
+            "macro_policy_harm": 0.06606007604793451,
+            "treatment_closer_to_firestone": false
+          }
+        },
+        "applied_to_2n_v3": false
+      }
+    },
+    "phase_2j_gates": {
+      "deltas": {
+        "recruit_delta_mean_t9_t12": -199.81336818119314,
+        "full_board_replace_rate": 0.1283262270070668,
+        "valuation_scaling_blocked_pct": -0.6488103354240523,
+        "post_scale_over_firestone_t10": -0.23732231472807253,
+        "post_scale_over_firestone_t14": -1.064489421065412,
+        "mean_game_length": -1.6479999999999997
+      },
+      "control": {
+        "recruit_delta_mean_t9_t12": -68.24268228391917,
+        "full_board_replace_rate": 0.06809750114977771,
+        "valuation_scaling_blocked_pct": 0.6488103354240523,
+        "post_scale_over_firestone_t10": 0.888976187969,
+        "post_scale_over_firestone_t14": 1.5402318769869934,
+        "mean_game_length": 15.102
+      },
+      "treatment": {
+        "recruit_delta_mean_t9_t12": -268.0560504651123,
+        "full_board_replace_rate": 0.1964237281568445,
+        "valuation_scaling_blocked_pct": 0.0,
+        "post_scale_over_firestone_t10": 0.6516538732409275,
+        "post_scale_over_firestone_t14": 0.4757424559215814,
+        "mean_game_length": 13.454
+      },
+      "gates": {
+        "recruit_delta_t9_t12_increases": false,
+        "full_board_replace_rate_increases": true,
+        "scaling_blocked_collapses": true,
+        "post_scale_macro_not_materially_worse": false,
+        "game_length_acceptable": false
+      },
+      "gates_passed": 2,
+      "gates_total": 5,
+      "directional_macro_policy_harm": {
+        "definition": {
+          "name": "directional_macro_policy_harm",
+          "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+          "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+        },
+        "by_turn": {
+          "10": {
+            "greedy_ratio": 0.888976187969,
+            "treatment_ratio": 0.6516538732409275,
+            "greedy_distance": 0.11102381203099998,
+            "treatment_distance": 0.3483461267590725,
+            "macro_policy_harm": 0.23732231472807253,
+            "treatment_closer_to_firestone": false
+          },
+          "12": {
+            "greedy_ratio": 1.188508598341299,
+            "treatment_ratio": 0.5409926371848239,
+            "greedy_distance": 0.18850859834129907,
+            "treatment_distance": 0.45900736281517607,
+            "macro_policy_harm": 0.270498764473877,
+            "treatment_closer_to_firestone": false
+          },
+          "14": {
+            "greedy_ratio": 1.5402318769869934,
+            "treatment_ratio": 0.4757424559215814,
+            "greedy_distance": 0.5402318769869934,
+            "treatment_distance": 0.5242575440784186,
+            "macro_policy_harm": -0.01597433290857475,
+            "treatment_closer_to_firestone": true
+          }
+        },
+        "applied_to_2n_v3": false
+      }
+    },
+    "phase_2j_mechanism": {
+      "control": {
+        "persistent_2_plus": null,
+        "committed_states": null,
+        "fulfilled_exposures": null,
+        "played": null,
+        "played_rate": null,
+        "coverage_mean": null,
+        "replacement_transitions": 4125,
+        "mean_relative_tempo_loss": 0.10644141573136148,
+        "p95_relative_tempo_loss": 0.3798151001540832
+      },
+      "treatment": {
+        "persistent_2_plus": null,
+        "committed_states": null,
+        "fulfilled_exposures": null,
+        "played": null,
+        "played_rate": null,
+        "coverage_mean": null,
+        "replacement_transitions": 6445,
+        "mean_relative_tempo_loss": 0.009386972107757114,
+        "p95_relative_tempo_loss": 0.0625
+      },
+      "deltas": {
+        "persistent_2_plus": null,
+        "committed_states": null,
+        "played_rate": null,
+        "coverage_mean": null,
+        "replacement_transitions": 2320.0,
+        "mean_relative_tempo_loss": -0.09705444362360437
+      },
+      "directional_macro_policy_harm": {
+        "definition": {
+          "name": "directional_macro_policy_harm",
+          "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+          "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+        },
+        "by_turn": {
+          "10": {
+            "greedy_ratio": 0.888976187969,
+            "treatment_ratio": 0.6516538732409275,
+            "greedy_distance": 0.11102381203099998,
+            "treatment_distance": 0.3483461267590725,
+            "macro_policy_harm": 0.23732231472807253,
+            "treatment_closer_to_firestone": false
+          },
+          "12": {
+            "greedy_ratio": 1.188508598341299,
+            "treatment_ratio": 0.5409926371848239,
+            "greedy_distance": 0.18850859834129907,
+            "treatment_distance": 0.45900736281517607,
+            "macro_policy_harm": 0.270498764473877,
+            "treatment_closer_to_firestone": false
+          },
+          "14": {
+            "greedy_ratio": 1.5402318769869934,
+            "treatment_ratio": 0.4757424559215814,
+            "greedy_distance": 0.5402318769869934,
+            "treatment_distance": 0.5242575440784186,
+            "macro_policy_harm": -0.01597433290857475,
+            "treatment_closer_to_firestone": true
+          }
+        },
+        "applied_to_2n_v3": false
+      },
+      "note": "\u03b1=0.5 frozen without retune; input value space changed so numerical optimality is not required \u2014 mechanism survival only. Composition-trace persistent-2+/coverage omitted from this DEV pass for memory; policy_stats replacement/tempo reported."
+    },
+    "keep_pr_29_hold": true,
+    "keep_phase_2j_alpha": 0.5,
+    "confirm_seeds_reserved": "11500\u201311699",
+    "no_scaling_retune": true,
+    "no_alpha_retune": true,
+    "recommended_next_step": "Replacement contamination is causal, but naive recruit-value replacement without adjusting residual timing/budget collapses post-scale macro (boards sell scaled combat stats for printed shop units). Next: redesign residual interaction or pace recruit swaps \u2014 not \u03b1 retune, not confirm burn."
+  },
+  "contract": {
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version": "Simulator v1.1",
+    "scaling_mode": "residual",
+    "simulator_module": "hsbg_coach.bg_env.BGEnv",
+    "code_commit": "20eef8d7bbb0d4e98daa57ab3a867f56746b60fa",
+    "runtime": {
+      "python_version": "3.12.3",
+      "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+      "torch_version": "2.13.0+cpu",
+      "numpy_version": "2.4.4",
+      "torch_device": "cpu",
+      "torch_cuda_available": false
+    },
+    "environment": {
+      "env": "hsbg_coach.bg_env.BGEnv",
+      "n_players": 8,
+      "field_size": 7,
+      "agent_seat": 0,
+      "n_actions": 28,
+      "max_turns": 20,
+      "max_decisions": 400
+    },
+    "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+    "reference_data_fingerprints": {
+      "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
+      "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+      "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+      "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+      "bg_cards": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+      "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+    },
+    "reference_metadata": {
+      "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+      "_fetched": "2026-09-01",
+      "_mmr": 10,
+      "_period": "past-seven",
+      "_heroDataPoints": 58561,
+      "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+    },
+    "evaluation": {
+      "policy": "greedy \u00b1 recruit-value; BoardOpp \u03b1=0.5 \u00b1 recruit-value",
+      "lobbies": 500,
+      "base_seed": 13200,
+      "note": "Phase 2Q representation-split A/B; not Benchmark v1."
+    },
+    "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+    "parent_simulator_version": "Simulator v1",
+    "working_tree_clean": true,
+    "phase": "2Q recruit-value vs combat representation split",
+    "phase_2q_methodology_version": "2q_v1",
+    "phase_2j_methodology_version": "2j_v1",
+    "simulator_version_label": "Simulator v1.1",
+    "frozen_alpha": 0.5,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "forbidden_seed_ranges": [
+      "8000\u20138199",
+      "9000\u20139999",
+      "10000\u201310199",
+      "10200\u201310699",
+      "11000\u201311499",
+      "11500\u201311699",
+      "11700\u201312199",
+      "12200\u201312699",
+      "12700\u201313199"
+    ],
+    "feature_toggle": "PHASE_2Q_RECRUIT_VALUE_STATS",
+    "runtime_sec": 3465.8
+  },
+  "greedy_control": {
+    "arm": "greedy_control",
+    "recruit_value_stats": false,
+    "n_lobbies": 500,
+    "seed_base": 13200,
+    "aggregation": {
+      "by_turn": {
+        "10": {
+          "n": 2560,
+          "recruit_delta": 0.0,
+          "scaling_delta": 560.71015625,
+          "post_scale_over_firestone": 0.9528571177627881,
+          "pre_scale_over_firestone": 0.6026540347261258
+        },
+        "11": {
+          "n": 2109,
+          "recruit_delta": 0.000474158368895211,
+          "scaling_delta": 2182.9905168326222,
+          "post_scale_over_firestone": 1.179167387679145,
+          "pre_scale_over_firestone": 0.4931454157635478
+        },
+        "12": {
+          "n": 1710,
+          "recruit_delta": -0.0017543859649122807,
+          "scaling_delta": 3924.6637426900584,
+          "post_scale_over_firestone": 1.4574117639338668,
+          "pre_scale_over_firestone": 0.7234181707619838
+        },
+        "13": {
+          "n": 1365,
+          "recruit_delta": 0.0,
+          "scaling_delta": 4447.978754578755,
+          "post_scale_over_firestone": 1.7453944862576687,
+          "pre_scale_over_firestone": 1.1223148282556858
+        },
+        "14": {
+          "n": 1075,
+          "recruit_delta": 0.0,
+          "scaling_delta": 2460.421395348837,
+          "post_scale_over_firestone": 1.8251304343437007,
+          "pre_scale_over_firestone": 1.5284582136201328
+        },
+        "7": {
+          "n": 3919,
+          "recruit_delta": 23.66853789231947,
+          "scaling_delta": 118.05894360806329,
+          "post_scale_over_firestone": 1.6225143310452506,
+          "pre_scale_over_firestone": 0.843247376536582
+        },
+        "8": {
+          "n": 3511,
+          "recruit_delta": -0.017943605810310452,
+          "scaling_delta": 103.70692110509826,
+          "post_scale_over_firestone": 1.15449571127031,
+          "pre_scale_over_firestone": 0.8162474363026053
+        },
+        "9": {
+          "n": 3041,
+          "recruit_delta": 0.3202893784939165,
+          "scaling_delta": 576.7323248931273,
+          "post_scale_over_firestone": 1.3007531584239342,
+          "pre_scale_over_firestone": 0.5015121316873388
+        }
+      }
+    },
+    "recruit_delta_t9_t12": {
+      "9": 0.3202893784939165,
+      "10": 0.0,
+      "11": 0.000474158368895211,
+      "12": -0.0017543859649122807,
+      "mean_t9_t12": 0.07975228772447485
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3511,
+        "mean_pre_scale_over_firestone": 0.8162474363026053,
+        "mean_post_scale_over_firestone": 1.15449571127031,
+        "abs_distance_from_one_post": 0.15449571127031003,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 353.96838507547704,
+        "mean_remaining_target_gap": -47.36838507547705,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 3041,
+        "mean_pre_scale_over_firestone": 0.5015121316873388,
+        "mean_post_scale_over_firestone": 1.3007531584239342,
+        "abs_distance_from_one_post": 0.30075315842393424,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 938.623479118711,
+        "mean_remaining_target_gap": -217.02347911871092,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2560,
+        "mean_pre_scale_over_firestone": 0.6026540347261258,
+        "mean_post_scale_over_firestone": 0.9528571177627881,
+        "abs_distance_from_one_post": 0.04714288223721186,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 1525.61953125,
+        "mean_remaining_target_gap": 75.48046874999991,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 2109,
+        "mean_pre_scale_over_firestone": 0.4931454157635478,
+        "mean_post_scale_over_firestone": 1.179167387679145,
+        "abs_distance_from_one_post": 0.17916738767914508,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 3752.2285443338073,
+        "mean_remaining_target_gap": -570.1285443338076,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1710,
+        "mean_pre_scale_over_firestone": 0.7234181707619838,
+        "mean_post_scale_over_firestone": 1.4574117639338668,
+        "abs_distance_from_one_post": 0.45741176393386684,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 7792.7807017543855,
+        "mean_remaining_target_gap": -2445.780701754386,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 1365,
+        "mean_pre_scale_over_firestone": 1.1223148282556858,
+        "mean_post_scale_over_firestone": 1.7453944862576687,
+        "abs_distance_from_one_post": 0.7453944862576687,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 12459.84761904762,
+        "mean_remaining_target_gap": -5321.147619047619,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 1075,
+        "mean_pre_scale_over_firestone": 1.5284582136201328,
+        "mean_post_scale_over_firestone": 1.8251304343437007,
+        "abs_distance_from_one_post": 0.8251304343437007,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 15136.536744186047,
+        "mean_remaining_target_gap": -6843.136744186047,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "post_scale_fidelity": {
+      "9": {
+        "mean_post_scale_over_firestone": 1.3007531584239342,
+        "abs_distance_from_one_post": 0.30075315842393424,
+        "mean_pre_scale_over_firestone": 0.5015121316873388
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.9528571177627881,
+        "abs_distance_from_one_post": 0.04714288223721186,
+        "mean_pre_scale_over_firestone": 0.6026540347261258
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 1.179167387679145,
+        "abs_distance_from_one_post": 0.17916738767914508,
+        "mean_pre_scale_over_firestone": 0.4931454157635478
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 1.4574117639338668,
+        "abs_distance_from_one_post": 0.45741176393386684,
+        "mean_pre_scale_over_firestone": 0.7234181707619838
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 1.8251304343437007,
+        "abs_distance_from_one_post": 0.8251304343437007,
+        "mean_pre_scale_over_firestone": 1.5284582136201328
+      }
+    },
+    "replacement_headline_t8_t14": {
+      "all_full_board_states": {
+        "n_full_board_states": 84063,
+        "pct_scaling_blocked_upgrade_states": 0.8033736602310172,
+        "p_best_shop_gt_weakest_scaled": 0.0453350463342969,
+        "p_best_shop_gt_weakest_printed": 0.8487087065653142
+      },
+      "nongolden_weakest_states": {
+        "n_full_board_states": 84063,
+        "pct_scaling_blocked_upgrade_states": 0.8033736602310172,
+        "p_best_shop_gt_weakest_scaled": 0.0453350463342969,
+        "p_best_shop_gt_weakest_printed": 0.8487087065653142
+      }
+    },
+    "valuation_scaling_blocked_pct_full_board": 0.8033736602310172,
+    "valuation_scaling_blocked_by_turn": {
+      "8": {
+        "n": 6990,
+        "blocked": 4690,
+        "pct_valuation_blocked": 0.670958512160229
+      },
+      "9": {
+        "n": 24443,
+        "blocked": 18434,
+        "pct_valuation_blocked": 0.7541627459804443
+      },
+      "10": {
+        "n": 2560,
+        "blocked": 1974,
+        "pct_valuation_blocked": 0.77109375
+      },
+      "11": {
+        "n": 16870,
+        "blocked": 14309,
+        "pct_valuation_blocked": 0.8481920569057498
+      },
+      "12": {
+        "n": 13680,
+        "blocked": 11580,
+        "pct_valuation_blocked": 0.8464912280701754
+      },
+      "13": {
+        "n": 10920,
+        "blocked": 9279,
+        "pct_valuation_blocked": 0.8497252747252747
+      },
+      "14": {
+        "n": 8600,
+        "blocked": 7268,
+        "pct_valuation_blocked": 0.8451162790697675
+      }
+    },
+    "full_board_replace_rate": 0.015515048749470114,
+    "full_board_replace_by_turn": {
+      "7": {
+        "sell": 0,
+        "non_sell": 3895,
+        "full_board_replace_rate": 0.0
+      },
+      "8": {
+        "sell": 0,
+        "non_sell": 10501,
+        "full_board_replace_rate": 0.0
+      },
+      "9": {
+        "sell": 1461,
+        "non_sell": 23312,
+        "full_board_replace_rate": 0.05897549751745852
+      },
+      "10": {
+        "sell": 0,
+        "non_sell": 5120,
+        "full_board_replace_rate": 0.0
+      },
+      "11": {
+        "sell": 2,
+        "non_sell": 16869,
+        "full_board_replace_rate": 0.0001185466184577085
+      },
+      "12": {
+        "sell": 1,
+        "non_sell": 13679,
+        "full_board_replace_rate": 7.309941520467836e-05
+      },
+      "13": {
+        "sell": 0,
+        "non_sell": 10920,
+        "full_board_replace_rate": 0.0
+      },
+      "14": {
+        "sell": 0,
+        "non_sell": 8600,
+        "full_board_replace_rate": 0.0
+      }
+    },
+    "full_board_decisions": 94360,
+    "full_board_sells": 1464,
+    "lobby_dynamics": {
+      "avg_game_length": 15.638,
+      "median_game_length": 15.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.8588925746363865,
+        "8": 7.116775847336941,
+        "9": 6.225254850378165,
+        "10": 5.31328125,
+        "11": 4.450924608819346,
+        "12": 3.6783625730994154,
+        "13": 3.0454212454212453,
+        "14": 2.685581395348837,
+        "15": 2.44080604534005,
+        "16": 2.2986512524084777,
+        "17": 2.193846153846154,
+        "18": 2.18,
+        "19": 2.1794871794871793,
+        "20": 2.176470588235294
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3392073170731709,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.9001229508196722,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9878658536585365,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.9885627530364373,
+      "tier_error_turn_4": 0.20000000000000018,
+      "stats_ratio_turn_5": 1.056170091324201,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 1.0090724815724814,
+      "tier_error_turn_6": 0.20000000000000018,
+      "stats_ratio_turn_7": 0.8432473765365819,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.8162474363026053,
+      "tier_error_turn_8": 0.20000000000000018,
+      "stats_ratio_turn_9": 0.5015121316873388,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.6026540347261258,
+      "tier_error_turn_10": 0.5,
+      "stats_ratio_turn_11": 0.49314541576354776,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.7234181707619839,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 1.1223148282556858,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 1.5284582136201328,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "policy_stats": null,
+    "mechanism": null,
+    "lifecycle_funnel": null
+  },
+  "greedy_treatment": {
+    "arm": "greedy_treatment",
+    "recruit_value_stats": true,
+    "n_lobbies": 500,
+    "seed_base": 13200,
+    "aggregation": {
+      "by_turn": {
+        "10": {
+          "n": 2437,
+          "recruit_delta": 0.0,
+          "scaling_delta": 281.50553959786623,
+          "post_scale_over_firestone": 0.4708926646578405,
+          "pre_scale_over_firestone": 0.2950725787182576
+        },
+        "11": {
+          "n": 1841,
+          "recruit_delta": -474.13796849538295,
+          "scaling_delta": 457.6034763715372,
+          "post_scale_over_firestone": 0.24765193800922772,
+          "pre_scale_over_firestone": 0.10384643963660045
+        },
+        "12": {
+          "n": 1340,
+          "recruit_delta": -424.4268656716418,
+          "scaling_delta": 438.7268656716418,
+          "post_scale_over_firestone": 0.16293318334454526,
+          "pre_scale_over_firestone": 0.08088215179944676
+        },
+        "13": {
+          "n": 819,
+          "recruit_delta": -369.17338217338215,
+          "scaling_delta": 343.2649572649573,
+          "post_scale_over_firestone": 0.12815150725414498,
+          "pre_scale_over_firestone": 0.08006642772076254
+        },
+        "14": {
+          "n": 322,
+          "recruit_delta": -267.0372670807453,
+          "scaling_delta": 257.54037267080747,
+          "post_scale_over_firestone": 0.10880948960836478,
+          "pre_scale_over_firestone": 0.07775583577871621
+        },
+        "7": {
+          "n": 3919,
+          "recruit_delta": 23.66853789231947,
+          "scaling_delta": 118.05894360806329,
+          "post_scale_over_firestone": 1.6225143310452506,
+          "pre_scale_over_firestone": 0.843247376536582
+        },
+        "8": {
+          "n": 3511,
+          "recruit_delta": -0.017943605810310452,
+          "scaling_delta": 103.70692110509826,
+          "post_scale_over_firestone": 1.15449571127031,
+          "pre_scale_over_firestone": 0.8162474363026053
+        },
+        "9": {
+          "n": 3041,
+          "recruit_delta": -188.03682999013483,
+          "scaling_delta": 275.4255179217363,
+          "post_scale_over_firestone": 0.6221723292387628,
+          "pre_scale_over_firestone": 0.24048508156451628
+        }
+      }
+    },
+    "recruit_delta_t9_t12": {
+      "9": -188.03682999013483,
+      "10": 0.0,
+      "11": -474.13796849538295,
+      "12": -424.4268656716418,
+      "mean_t9_t12": -271.6504160392899
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3511,
+        "mean_pre_scale_over_firestone": 0.8162474363026053,
+        "mean_post_scale_over_firestone": 1.15449571127031,
+        "abs_distance_from_one_post": 0.15449571127031003,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 353.96838507547704,
+        "mean_remaining_target_gap": -47.36838507547705,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 3041,
+        "mean_pre_scale_over_firestone": 0.24048508156451628,
+        "mean_post_scale_over_firestone": 0.6221723292387628,
+        "abs_distance_from_one_post": 0.37782767076123724,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 448.9595527786912,
+        "mean_remaining_target_gap": 272.6404472213088,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2437,
+        "mean_pre_scale_over_firestone": 0.2950725787182576,
+        "mean_post_scale_over_firestone": 0.4708926646578405,
+        "abs_distance_from_one_post": 0.5291073353421595,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 753.9462453836685,
+        "mean_remaining_target_gap": 847.1537546163314,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 1841,
+        "mean_pre_scale_over_firestone": 0.10384643963660045,
+        "mean_post_scale_over_firestone": 0.24765193800922772,
+        "abs_distance_from_one_post": 0.7523480619907723,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 788.0532319391635,
+        "mean_remaining_target_gap": 2394.0467680608363,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1340,
+        "mean_pre_scale_over_firestone": 0.08088215179944676,
+        "mean_post_scale_over_firestone": 0.16293318334454526,
+        "abs_distance_from_one_post": 0.8370668166554547,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 871.2037313432836,
+        "mean_remaining_target_gap": 4475.796268656716,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 819,
+        "mean_pre_scale_over_firestone": 0.08006642772076254,
+        "mean_post_scale_over_firestone": 0.12815150725414498,
+        "abs_distance_from_one_post": 0.871848492745855,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 914.8351648351648,
+        "mean_remaining_target_gap": 6223.864835164835,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 322,
+        "mean_pre_scale_over_firestone": 0.07775583577871621,
+        "mean_post_scale_over_firestone": 0.10880948960836478,
+        "abs_distance_from_one_post": 0.8911905103916352,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 902.4006211180124,
+        "mean_remaining_target_gap": 7390.9993788819875,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "post_scale_fidelity": {
+      "9": {
+        "mean_post_scale_over_firestone": 0.6221723292387628,
+        "abs_distance_from_one_post": 0.37782767076123724,
+        "mean_pre_scale_over_firestone": 0.24048508156451628
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.4708926646578405,
+        "abs_distance_from_one_post": 0.5291073353421595,
+        "mean_pre_scale_over_firestone": 0.2950725787182576
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 0.24765193800922772,
+        "abs_distance_from_one_post": 0.7523480619907723,
+        "mean_pre_scale_over_firestone": 0.10384643963660045
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 0.16293318334454526,
+        "abs_distance_from_one_post": 0.8370668166554547,
+        "mean_pre_scale_over_firestone": 0.08088215179944676
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 0.10880948960836478,
+        "abs_distance_from_one_post": 0.8911905103916352,
+        "mean_pre_scale_over_firestone": 0.07775583577871621
+      }
+    },
+    "replacement_headline_t8_t14": {
+      "all_full_board_states": {
+        "n_full_board_states": 71703,
+        "pct_scaling_blocked_upgrade_states": 0.18536183981144444,
+        "p_best_shop_gt_weakest_scaled": 0.36645607575694183,
+        "p_best_shop_gt_weakest_printed": 0.5518179155683862
+      },
+      "nongolden_weakest_states": {
+        "n_full_board_states": 71703,
+        "pct_scaling_blocked_upgrade_states": 0.18536183981144444,
+        "p_best_shop_gt_weakest_scaled": 0.36645607575694183,
+        "p_best_shop_gt_weakest_printed": 0.5518179155683862
+      }
+    },
+    "valuation_scaling_blocked_pct_full_board": 0.0,
+    "valuation_scaling_blocked_by_turn": {
+      "8": {
+        "n": 6990,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "9": {
+        "n": 26185,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "10": {
+        "n": 2437,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "11": {
+        "n": 15614,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "12": {
+        "n": 11132,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "13": {
+        "n": 6714,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "14": {
+        "n": 2631,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      }
+    },
+    "full_board_replace_rate": 0.28666474820143883,
+    "full_board_replace_by_turn": {
+      "7": {
+        "sell": 0,
+        "non_sell": 3895,
+        "full_board_replace_rate": 0.0
+      },
+      "8": {
+        "sell": 0,
+        "non_sell": 10501,
+        "full_board_replace_rate": 0.0
+      },
+      "9": {
+        "sell": 11389,
+        "non_sell": 17292,
+        "full_board_replace_rate": 0.39709215159861927
+      },
+      "10": {
+        "sell": 0,
+        "non_sell": 4874,
+        "full_board_replace_rate": 0.0
+      },
+      "11": {
+        "sell": 6520,
+        "non_sell": 10446,
+        "full_board_replace_rate": 0.3842980077802664
+      },
+      "12": {
+        "sell": 4110,
+        "non_sell": 7872,
+        "full_board_replace_rate": 0.343014521782674
+      },
+      "13": {
+        "sell": 2148,
+        "non_sell": 5028,
+        "full_board_replace_rate": 0.2993311036789298
+      },
+      "14": {
+        "sell": 737,
+        "non_sell": 2063,
+        "full_board_replace_rate": 0.26321428571428573
+      }
+    },
+    "full_board_decisions": 86875,
+    "full_board_sells": 24904,
+    "lobby_dynamics": {
+      "avg_game_length": 13.066,
+      "median_game_length": 13.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.8588925746363865,
+        "8": 7.116775847336941,
+        "9": 6.225254850378165,
+        "10": 5.068937217890849,
+        "11": 3.941879413362303,
+        "12": 3.017910447761194,
+        "13": 2.440781440781441,
+        "14": 2.1677018633540373,
+        "15": 2.168539325842697,
+        "16": 2.176470588235294
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3392073170731709,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.9001229508196722,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9878658536585365,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.9885627530364373,
+      "tier_error_turn_4": 0.20000000000000018,
+      "stats_ratio_turn_5": 1.056170091324201,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 1.0090724815724814,
+      "tier_error_turn_6": 0.20000000000000018,
+      "stats_ratio_turn_7": 0.8432473765365819,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.8162474363026053,
+      "tier_error_turn_8": 0.20000000000000018,
+      "stats_ratio_turn_9": 0.24048508156451628,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.2950725787182576,
+      "tier_error_turn_10": 0.5,
+      "stats_ratio_turn_11": 0.10384643963660047,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.08088215179944676,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.08006642772076254,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 0.07775583577871621,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "policy_stats": null,
+    "mechanism": null,
+    "lifecycle_funnel": null
+  },
+  "greedy_comparison": {
+    "deltas": {
+      "recruit_delta_mean_t9_t12": -271.7301683270144,
+      "full_board_replace_rate": 0.2711496994519687,
+      "valuation_scaling_blocked_pct": -0.8033736602310172,
+      "post_scale_over_firestone_t10": -0.4819644531049476,
+      "post_scale_over_firestone_t14": -1.7163209447353358,
+      "mean_game_length": -2.571999999999999
+    },
+    "control": {
+      "recruit_delta_mean_t9_t12": 0.07975228772447485,
+      "full_board_replace_rate": 0.015515048749470114,
+      "valuation_scaling_blocked_pct": 0.8033736602310172,
+      "post_scale_over_firestone_t10": 0.9528571177627881,
+      "post_scale_over_firestone_t14": 1.8251304343437007,
+      "mean_game_length": 15.638
+    },
+    "treatment": {
+      "recruit_delta_mean_t9_t12": -271.6504160392899,
+      "full_board_replace_rate": 0.28666474820143883,
+      "valuation_scaling_blocked_pct": 0.0,
+      "post_scale_over_firestone_t10": 0.4708926646578405,
+      "post_scale_over_firestone_t14": 0.10880948960836478,
+      "mean_game_length": 13.066
+    },
+    "gates": {
+      "recruit_delta_t9_t12_increases": false,
+      "full_board_replace_rate_increases": true,
+      "scaling_blocked_collapses": true,
+      "post_scale_macro_not_materially_worse": false,
+      "game_length_acceptable": false
+    },
+    "gates_passed": 2,
+    "gates_total": 5,
+    "directional_macro_policy_harm": {
+      "definition": {
+        "name": "directional_macro_policy_harm",
+        "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+        "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+      },
+      "by_turn": {
+        "10": {
+          "greedy_ratio": 0.9528571177627881,
+          "treatment_ratio": 0.4708926646578405,
+          "greedy_distance": 0.04714288223721186,
+          "treatment_distance": 0.5291073353421595,
+          "macro_policy_harm": 0.4819644531049476,
+          "treatment_closer_to_firestone": false
+        },
+        "12": {
+          "greedy_ratio": 1.4574117639338668,
+          "treatment_ratio": 0.16293318334454526,
+          "greedy_distance": 0.45741176393386684,
+          "treatment_distance": 0.8370668166554547,
+          "macro_policy_harm": 0.37965505272158784,
+          "treatment_closer_to_firestone": false
+        },
+        "14": {
+          "greedy_ratio": 1.8251304343437007,
+          "treatment_ratio": 0.10880948960836478,
+          "greedy_distance": 0.8251304343437007,
+          "treatment_distance": 0.8911905103916352,
+          "macro_policy_harm": 0.06606007604793451,
+          "treatment_closer_to_firestone": false
+        }
+      },
+      "applied_to_2n_v3": false
+    }
+  },
+  "phase_2j_control": {
+    "arm": "phase_2j_control",
+    "recruit_value_stats": false,
+    "n_lobbies": 500,
+    "seed_base": 13200,
+    "aggregation": {
+      "by_turn": {
+        "10": {
+          "n": 2484,
+          "recruit_delta": -5.427133655394525,
+          "scaling_delta": 548.8349436392915,
+          "post_scale_over_firestone": 0.888976187969,
+          "pre_scale_over_firestone": 0.5461900136892601
+        },
+        "11": {
+          "n": 2048,
+          "recruit_delta": -71.8955078125,
+          "scaling_delta": 1805.66748046875,
+          "post_scale_over_firestone": 1.0077796011281859,
+          "pre_scale_over_firestone": 0.44033436670162784
+        },
+        "12": {
+          "n": 1662,
+          "recruit_delta": -196.04632972322503,
+          "scaling_delta": 3210.7984356197353,
+          "post_scale_over_firestone": 1.188508598341299,
+          "pre_scale_over_firestone": 0.5880226369386929
+        },
+        "13": {
+          "n": 1316,
+          "recruit_delta": -338.4840425531915,
+          "scaling_delta": 3696.798632218845,
+          "post_scale_over_firestone": 1.4039081383663166,
+          "pre_scale_over_firestone": 0.886054939293818
+        },
+        "14": {
+          "n": 967,
+          "recruit_delta": -374.2543950361944,
+          "scaling_delta": 2697.0486039296793,
+          "post_scale_over_firestone": 1.5402318769869934,
+          "pre_scale_over_firestone": 1.2150276659360757
+        },
+        "7": {
+          "n": 3846,
+          "recruit_delta": 14.199947997919917,
+          "scaling_delta": 102.30473218928758,
+          "post_scale_over_firestone": 1.4245686659149535,
+          "pre_scale_over_firestone": 0.7492899055896229
+        },
+        "8": {
+          "n": 3457,
+          "recruit_delta": 0.5669655770899624,
+          "scaling_delta": 93.92450101243853,
+          "post_scale_over_firestone": 1.035941331965678,
+          "pre_scale_over_firestone": 0.7295991890679658
+        },
+        "9": {
+          "n": 2958,
+          "recruit_delta": 0.3982420554428668,
+          "scaling_delta": 520.9279918864097,
+          "post_scale_over_firestone": 1.1782138595173524,
+          "pre_scale_over_firestone": 0.4563069971470506
+        }
+      }
+    },
+    "recruit_delta_t9_t12": {
+      "9": 0.3982420554428668,
+      "10": -5.427133655394525,
+      "11": -71.8955078125,
+      "12": -196.04632972322503,
+      "mean_t9_t12": -68.24268228391917
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3457,
+        "mean_pre_scale_over_firestone": 0.7295991890679658,
+        "mean_post_scale_over_firestone": 1.035941331965678,
+        "abs_distance_from_one_post": 0.03594133196567806,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 317.61961238067687,
+        "mean_remaining_target_gap": -11.019612380676865,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 2958,
+        "mean_pre_scale_over_firestone": 0.4563069971470506,
+        "mean_post_scale_over_firestone": 1.1782138595173524,
+        "abs_distance_from_one_post": 0.17821385951735236,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 850.1991210277214,
+        "mean_remaining_target_gap": -128.59912102772142,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2484,
+        "mean_pre_scale_over_firestone": 0.5461900136892601,
+        "mean_post_scale_over_firestone": 0.888976187969,
+        "abs_distance_from_one_post": 0.11102381203099998,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 1423.3397745571658,
+        "mean_remaining_target_gap": 177.76022544283404,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 2048,
+        "mean_pre_scale_over_firestone": 0.44033436670162784,
+        "mean_post_scale_over_firestone": 1.0077796011281859,
+        "abs_distance_from_one_post": 0.007779601128185876,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 3206.85546875,
+        "mean_remaining_target_gap": -24.75546875000009,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1662,
+        "mean_pre_scale_over_firestone": 0.5880226369386929,
+        "mean_post_scale_over_firestone": 1.188508598341299,
+        "abs_distance_from_one_post": 0.18850859834129907,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 6354.955475330927,
+        "mean_remaining_target_gap": -1007.9554753309266,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 1316,
+        "mean_pre_scale_over_firestone": 0.886054939293818,
+        "mean_post_scale_over_firestone": 1.4039081383663166,
+        "abs_distance_from_one_post": 0.40390813836631656,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 10022.079027355623,
+        "mean_remaining_target_gap": -2883.3790273556233,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 967,
+        "mean_pre_scale_over_firestone": 1.2150276659360757,
+        "mean_post_scale_over_firestone": 1.5402318769869934,
+        "abs_distance_from_one_post": 0.5402318769869934,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 12773.75904860393,
+        "mean_remaining_target_gap": -4480.35904860393,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "post_scale_fidelity": {
+      "9": {
+        "mean_post_scale_over_firestone": 1.1782138595173524,
+        "abs_distance_from_one_post": 0.17821385951735236,
+        "mean_pre_scale_over_firestone": 0.4563069971470506
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.888976187969,
+        "abs_distance_from_one_post": 0.11102381203099998,
+        "mean_pre_scale_over_firestone": 0.5461900136892601
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 1.0077796011281859,
+        "abs_distance_from_one_post": 0.007779601128185876,
+        "mean_pre_scale_over_firestone": 0.44033436670162784
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 1.188508598341299,
+        "abs_distance_from_one_post": 0.18850859834129907,
+        "mean_pre_scale_over_firestone": 0.5880226369386929
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 1.5402318769869934,
+        "abs_distance_from_one_post": 0.5402318769869934,
+        "mean_pre_scale_over_firestone": 1.2150276659360757
+      }
+    },
+    "replacement_headline_t8_t14": {
+      "all_full_board_states": {
+        "n_full_board_states": 58672,
+        "pct_scaling_blocked_upgrade_states": 0.6488103354240523,
+        "p_best_shop_gt_weakest_scaled": 0.19922620670848104,
+        "p_best_shop_gt_weakest_printed": 0.8480365421325334
+      },
+      "nongolden_weakest_states": {
+        "n_full_board_states": 58672,
+        "pct_scaling_blocked_upgrade_states": 0.6488103354240523,
+        "p_best_shop_gt_weakest_scaled": 0.19922620670848104,
+        "p_best_shop_gt_weakest_printed": 0.8480365421325334
+      }
+    },
+    "valuation_scaling_blocked_pct_full_board": 0.6488103354240523,
+    "valuation_scaling_blocked_by_turn": {
+      "8": {
+        "n": 3425,
+        "blocked": 2185,
+        "pct_valuation_blocked": 0.637956204379562
+      },
+      "9": {
+        "n": 12975,
+        "blocked": 8244,
+        "pct_valuation_blocked": 0.6353757225433526
+      },
+      "10": {
+        "n": 2259,
+        "blocked": 1293,
+        "pct_valuation_blocked": 0.5723771580345286
+      },
+      "11": {
+        "n": 11623,
+        "blocked": 7684,
+        "pct_valuation_blocked": 0.661102985459864
+      },
+      "12": {
+        "n": 11386,
+        "blocked": 7303,
+        "pct_valuation_blocked": 0.6414017214122607
+      },
+      "13": {
+        "n": 9669,
+        "blocked": 6468,
+        "pct_valuation_blocked": 0.6689419795221843
+      },
+      "14": {
+        "n": 7335,
+        "blocked": 4890,
+        "pct_valuation_blocked": 0.6666666666666666
+      }
+    },
+    "full_board_replace_rate": 0.06809750114977771,
+    "full_board_replace_by_turn": {
+      "7": {
+        "sell": 0,
+        "non_sell": 1770,
+        "full_board_replace_rate": 0.0
+      },
+      "8": {
+        "sell": 63,
+        "non_sell": 5102,
+        "full_board_replace_rate": 0.012197483059051308
+      },
+      "9": {
+        "sell": 1266,
+        "non_sell": 12194,
+        "full_board_replace_rate": 0.09405646359583952
+      },
+      "10": {
+        "sell": 203,
+        "non_sell": 3837,
+        "full_board_replace_rate": 0.05024752475247525
+      },
+      "11": {
+        "sell": 1054,
+        "non_sell": 10901,
+        "full_board_replace_rate": 0.08816394813885403
+      },
+      "12": {
+        "sell": 920,
+        "non_sell": 10695,
+        "full_board_replace_rate": 0.07920792079207921
+      },
+      "13": {
+        "sell": 606,
+        "non_sell": 9211,
+        "full_board_replace_rate": 0.06172965264337374
+      },
+      "14": {
+        "sell": 330,
+        "non_sell": 7078,
+        "full_board_replace_rate": 0.04454643628509719
+      }
+    },
+    "full_board_decisions": 65230,
+    "full_board_sells": 4442,
+    "lobby_dynamics": {
+      "avg_game_length": 15.102,
+      "median_game_length": 15.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.725429017160686,
+        "8": 7.0069424356378365,
+        "9": 6.073022312373225,
+        "10": 5.187600644122384,
+        "11": 4.345703125,
+        "12": 3.607701564380265,
+        "13": 2.9939209726443767,
+        "14": 2.563598759048604,
+        "15": 2.3385335413416537,
+        "16": 2.199004975124378,
+        "17": 2.1931330472103006,
+        "18": 2.2231404958677685,
+        "19": 2.263157894736842,
+        "20": 2.257142857142857
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3392073170731709,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.9001229508196722,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9677642276422763,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.969251012145749,
+      "tier_error_turn_4": 0.19700000000000006,
+      "stats_ratio_turn_5": 0.9848630136986302,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 0.9415601965601965,
+      "tier_error_turn_6": 0.17400000000000038,
+      "stats_ratio_turn_7": 0.7492899055896229,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.7295991890679658,
+      "tier_error_turn_8": 0.19190049175585777,
+      "stats_ratio_turn_9": 0.45630699714705053,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.5461900136892601,
+      "tier_error_turn_10": 0.43035426731078896,
+      "stats_ratio_turn_11": 0.44033436670162784,
+      "tier_error_turn_11": 0.19951171875000018,
+      "stats_ratio_turn_12": 0.5880226369386929,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.886054939293818,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 1.2150276659360757,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "policy_stats": {
+      "compound_transitions_planned": 4125,
+      "compound_transitions_completed": 4125,
+      "compound_transitions_abandoned": 0,
+      "compound_transitions_completion_rate": 1.0,
+      "replacement_sells": 4125,
+      "replacement_transitions": 4125,
+      "tempo_selected_buys": 7581,
+      "tempo_selected_deploys": 7627,
+      "target_core_buys": 7581,
+      "target_core_deploys": 7627,
+      "mean_raw_stat_sacrifice_completed": 450.9321212121212,
+      "mean_build_gain_completed": 0.4616662787878779,
+      "mean_relative_tempo_loss": 0.10644141573136148,
+      "p95_relative_tempo_loss": 0.3798151001540832,
+      "mean_persistence_weight": 0.972186247395042,
+      "mean_opportunity_cost": 0.10536529971340476
+    },
+    "mechanism": null,
+    "lifecycle_funnel": null
+  },
+  "phase_2j_treatment": {
+    "arm": "phase_2j_treatment",
+    "recruit_value_stats": true,
+    "n_lobbies": 500,
+    "seed_base": 13200,
+    "aggregation": {
+      "by_turn": {
+        "10": {
+          "n": 2493,
+          "recruit_delta": -30.68231046931408,
+          "scaling_delta": 410.37745687926196,
+          "post_scale_over_firestone": 0.6516538732409275,
+          "pre_scale_over_firestone": 0.39534417560851104
+        },
+        "11": {
+          "n": 1916,
+          "recruit_delta": -305.53705636743217,
+          "scaling_delta": 1021.4832985386221,
+          "post_scale_over_firestone": 0.5825891687052425,
+          "pre_scale_over_firestone": 0.2615799928343955
+        },
+        "12": {
+          "n": 1431,
+          "recruit_delta": -654.2480782669462,
+          "scaling_delta": 1462.9867225716282,
+          "post_scale_over_firestone": 0.5409926371848239,
+          "pre_scale_over_firestone": 0.26738374947739396
+        },
+        "13": {
+          "n": 956,
+          "recruit_delta": -1074.2897489539748,
+          "scaling_delta": 1340.4822175732218,
+          "post_scale_over_firestone": 0.4991318755046818,
+          "pre_scale_over_firestone": 0.31135507894883524
+        },
+        "14": {
+          "n": 467,
+          "recruit_delta": -1072.2548179871521,
+          "scaling_delta": 1110.3297644539614,
+          "post_scale_over_firestone": 0.4757424559215814,
+          "pre_scale_over_firestone": 0.34186132581161904
+        },
+        "7": {
+          "n": 3846,
+          "recruit_delta": 14.199947997919917,
+          "scaling_delta": 102.30473218928758,
+          "post_scale_over_firestone": 1.4245686659149535,
+          "pre_scale_over_firestone": 0.7492899055896229
+        },
+        "8": {
+          "n": 3457,
+          "recruit_delta": -0.23430720277697425,
+          "scaling_delta": 93.54874168354064,
+          "post_scale_over_firestone": 1.0321023492234573,
+          "pre_scale_over_firestone": 0.7269857749131488
+        },
+        "9": {
+          "n": 2960,
+          "recruit_delta": -81.75675675675676,
+          "scaling_delta": 389.09087837837836,
+          "post_scale_over_firestone": 0.8798400326601545,
+          "pre_scale_over_firestone": 0.34063426994067236
+        }
+      }
+    },
+    "recruit_delta_t9_t12": {
+      "9": -81.75675675675676,
+      "10": -30.68231046931408,
+      "11": -305.53705636743217,
+      "12": -654.2480782669462,
+      "mean_t9_t12": -268.0560504651123
+    },
+    "symmetric_absolute_fidelity_turns_8_14": {
+      "8": {
+        "n": 3457,
+        "mean_pre_scale_over_firestone": 0.7269857749131488,
+        "mean_post_scale_over_firestone": 1.0321023492234573,
+        "abs_distance_from_one_post": 0.03210234922345734,
+        "undershoot": false,
+        "overshoot": true,
+        "firestone_target": 306.6,
+        "mean_post_scaling_stats": 316.44258027191205,
+        "mean_remaining_target_gap": -9.84258027191204,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "9": {
+        "n": 2960,
+        "mean_pre_scale_over_firestone": 0.34063426994067236,
+        "mean_post_scale_over_firestone": 0.8798400326601545,
+        "abs_distance_from_one_post": 0.12015996733984546,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 721.6,
+        "mean_post_scaling_stats": 634.8925675675675,
+        "mean_remaining_target_gap": 86.70743243243246,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "10": {
+        "n": 2493,
+        "mean_pre_scale_over_firestone": 0.39534417560851104,
+        "mean_post_scale_over_firestone": 0.6516538732409275,
+        "abs_distance_from_one_post": 0.3483461267590725,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 1601.1,
+        "mean_post_scaling_stats": 1043.363016446049,
+        "mean_remaining_target_gap": 557.736983553951,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "11": {
+        "n": 1916,
+        "mean_pre_scale_over_firestone": 0.2615799928343955,
+        "mean_post_scale_over_firestone": 0.5825891687052425,
+        "abs_distance_from_one_post": 0.41741083129475753,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 3182.1,
+        "mean_post_scaling_stats": 1853.856993736952,
+        "mean_remaining_target_gap": 1328.2430062630478,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "12": {
+        "n": 1431,
+        "mean_pre_scale_over_firestone": 0.26738374947739396,
+        "mean_post_scale_over_firestone": 0.5409926371848239,
+        "abs_distance_from_one_post": 0.45900736281517607,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 5347.0,
+        "mean_post_scaling_stats": 2892.6876310272537,
+        "mean_remaining_target_gap": 2454.3123689727463,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "13": {
+        "n": 956,
+        "mean_pre_scale_over_firestone": 0.31135507894883524,
+        "mean_post_scale_over_firestone": 0.4991318755046818,
+        "abs_distance_from_one_post": 0.5008681244953181,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 7138.7,
+        "mean_post_scaling_stats": 3563.152719665272,
+        "mean_remaining_target_gap": 3575.547280334728,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      },
+      "14": {
+        "n": 467,
+        "mean_pre_scale_over_firestone": 0.34186132581161904,
+        "mean_post_scale_over_firestone": 0.4757424559215814,
+        "abs_distance_from_one_post": 0.5242575440784186,
+        "undershoot": true,
+        "overshoot": false,
+        "firestone_target": 8293.4,
+        "mean_post_scaling_stats": 3945.522483940043,
+        "mean_remaining_target_gap": 4347.877516059957,
+        "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+      }
+    },
+    "post_scale_fidelity": {
+      "9": {
+        "mean_post_scale_over_firestone": 0.8798400326601545,
+        "abs_distance_from_one_post": 0.12015996733984546,
+        "mean_pre_scale_over_firestone": 0.34063426994067236
+      },
+      "10": {
+        "mean_post_scale_over_firestone": 0.6516538732409275,
+        "abs_distance_from_one_post": 0.3483461267590725,
+        "mean_pre_scale_over_firestone": 0.39534417560851104
+      },
+      "11": {
+        "mean_post_scale_over_firestone": 0.5825891687052425,
+        "abs_distance_from_one_post": 0.41741083129475753,
+        "mean_pre_scale_over_firestone": 0.2615799928343955
+      },
+      "12": {
+        "mean_post_scale_over_firestone": 0.5409926371848239,
+        "abs_distance_from_one_post": 0.45900736281517607,
+        "mean_pre_scale_over_firestone": 0.26738374947739396
+      },
+      "14": {
+        "mean_post_scale_over_firestone": 0.4757424559215814,
+        "abs_distance_from_one_post": 0.5242575440784186,
+        "mean_pre_scale_over_firestone": 0.34186132581161904
+      }
+    },
+    "replacement_headline_t8_t14": {
+      "all_full_board_states": {
+        "n_full_board_states": 44091,
+        "pct_scaling_blocked_upgrade_states": 0.3260982967045429,
+        "p_best_shop_gt_weakest_scaled": 0.43169807897303303,
+        "p_best_shop_gt_weakest_printed": 0.757796375677576
+      },
+      "nongolden_weakest_states": {
+        "n_full_board_states": 44091,
+        "pct_scaling_blocked_upgrade_states": 0.3260982967045429,
+        "p_best_shop_gt_weakest_scaled": 0.43169807897303303,
+        "p_best_shop_gt_weakest_printed": 0.757796375677576
+      }
+    },
+    "valuation_scaling_blocked_pct_full_board": 0.0,
+    "valuation_scaling_blocked_by_turn": {
+      "8": {
+        "n": 3425,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "9": {
+        "n": 12322,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "10": {
+        "n": 2442,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "11": {
+        "n": 8566,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "12": {
+        "n": 8074,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "13": {
+        "n": 6075,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      },
+      "14": {
+        "n": 3187,
+        "blocked": 0,
+        "pct_valuation_blocked": 0.0
+      }
+    },
+    "full_board_replace_rate": 0.1964237281568445,
+    "full_board_replace_by_turn": {
+      "7": {
+        "sell": 0,
+        "non_sell": 1770,
+        "full_board_replace_rate": 0.0
+      },
+      "8": {
+        "sell": 63,
+        "non_sell": 5102,
+        "full_board_replace_rate": 0.012197483059051308
+      },
+      "9": {
+        "sell": 4478,
+        "non_sell": 8844,
+        "full_board_replace_rate": 0.33613571535805437
+      },
+      "10": {
+        "sell": 421,
+        "non_sell": 3659,
+        "full_board_replace_rate": 0.10318627450980392
+      },
+      "11": {
+        "sell": 2175,
+        "non_sell": 7007,
+        "full_board_replace_rate": 0.23687649749509912
+      },
+      "12": {
+        "sell": 1602,
+        "non_sell": 6902,
+        "full_board_replace_rate": 0.188381937911571
+      },
+      "13": {
+        "sell": 989,
+        "non_sell": 5324,
+        "full_board_replace_rate": 0.15666085854585776
+      },
+      "14": {
+        "sell": 411,
+        "non_sell": 2871,
+        "full_board_replace_rate": 0.12522851919561243
+      }
+    },
+    "full_board_decisions": 51618,
+    "full_board_sells": 10139,
+    "lobby_dynamics": {
+      "avg_game_length": 13.454,
+      "median_game_length": 13.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.725429017160686,
+        "8": 7.0069424356378365,
+        "9": 6.078378378378378,
+        "10": 5.2013638186923385,
+        "11": 4.058455114822547,
+        "12": 3.1257861635220126,
+        "13": 2.4456066945606696,
+        "14": 2.190578158458244,
+        "15": 2.111111111111111,
+        "16": 2.061224489795918,
+        "17": 2.0
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "headline_end_recruit": {
+      "stats_ratio_turn_1": 1.3392073170731709,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.9001229508196722,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9677642276422763,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.969251012145749,
+      "tier_error_turn_4": 0.19700000000000006,
+      "stats_ratio_turn_5": 0.9848630136986302,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 0.9415601965601965,
+      "tier_error_turn_6": 0.17400000000000038,
+      "stats_ratio_turn_7": 0.7492899055896229,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.7269857749131488,
+      "tier_error_turn_8": 0.19190049175585777,
+      "stats_ratio_turn_9": 0.34063426994067236,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.3953441756085111,
+      "tier_error_turn_10": 0.41175290814279997,
+      "stats_ratio_turn_11": 0.2615799928343955,
+      "tier_error_turn_11": 0.19947807933194195,
+      "stats_ratio_turn_12": 0.26738374947739396,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.3113550789488353,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 0.34186132581161904,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "policy_stats": {
+      "compound_transitions_planned": 6445,
+      "compound_transitions_completed": 6445,
+      "compound_transitions_abandoned": 0,
+      "compound_transitions_completion_rate": 1.0,
+      "replacement_sells": 6445,
+      "replacement_transitions": 6445,
+      "tempo_selected_buys": 10423,
+      "tempo_selected_deploys": 10494,
+      "target_core_buys": 10423,
+      "target_core_deploys": 10494,
+      "mean_raw_stat_sacrifice_completed": 0.586656322730799,
+      "mean_build_gain_completed": 0.42106502715283106,
+      "mean_relative_tempo_loss": 0.009386972107757114,
+      "p95_relative_tempo_loss": 0.0625,
+      "mean_persistence_weight": 0.9614006232017827,
+      "mean_opportunity_cost": 0.009036401241886165
+    },
+    "mechanism": null,
+    "lifecycle_funnel": null
+  },
+  "phase_2j_comparison": {
+    "deltas": {
+      "recruit_delta_mean_t9_t12": -199.81336818119314,
+      "full_board_replace_rate": 0.1283262270070668,
+      "valuation_scaling_blocked_pct": -0.6488103354240523,
+      "post_scale_over_firestone_t10": -0.23732231472807253,
+      "post_scale_over_firestone_t14": -1.064489421065412,
+      "mean_game_length": -1.6479999999999997
+    },
+    "control": {
+      "recruit_delta_mean_t9_t12": -68.24268228391917,
+      "full_board_replace_rate": 0.06809750114977771,
+      "valuation_scaling_blocked_pct": 0.6488103354240523,
+      "post_scale_over_firestone_t10": 0.888976187969,
+      "post_scale_over_firestone_t14": 1.5402318769869934,
+      "mean_game_length": 15.102
+    },
+    "treatment": {
+      "recruit_delta_mean_t9_t12": -268.0560504651123,
+      "full_board_replace_rate": 0.1964237281568445,
+      "valuation_scaling_blocked_pct": 0.0,
+      "post_scale_over_firestone_t10": 0.6516538732409275,
+      "post_scale_over_firestone_t14": 0.4757424559215814,
+      "mean_game_length": 13.454
+    },
+    "gates": {
+      "recruit_delta_t9_t12_increases": false,
+      "full_board_replace_rate_increases": true,
+      "scaling_blocked_collapses": true,
+      "post_scale_macro_not_materially_worse": false,
+      "game_length_acceptable": false
+    },
+    "gates_passed": 2,
+    "gates_total": 5,
+    "directional_macro_policy_harm": {
+      "definition": {
+        "name": "directional_macro_policy_harm",
+        "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+        "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+      },
+      "by_turn": {
+        "10": {
+          "greedy_ratio": 0.888976187969,
+          "treatment_ratio": 0.6516538732409275,
+          "greedy_distance": 0.11102381203099998,
+          "treatment_distance": 0.3483461267590725,
+          "macro_policy_harm": 0.23732231472807253,
+          "treatment_closer_to_firestone": false
+        },
+        "12": {
+          "greedy_ratio": 1.188508598341299,
+          "treatment_ratio": 0.5409926371848239,
+          "greedy_distance": 0.18850859834129907,
+          "treatment_distance": 0.45900736281517607,
+          "macro_policy_harm": 0.270498764473877,
+          "treatment_closer_to_firestone": false
+        },
+        "14": {
+          "greedy_ratio": 1.5402318769869934,
+          "treatment_ratio": 0.4757424559215814,
+          "greedy_distance": 0.5402318769869934,
+          "treatment_distance": 0.5242575440784186,
+          "macro_policy_harm": -0.01597433290857475,
+          "treatment_closer_to_firestone": true
+        }
+      },
+      "applied_to_2n_v3": false
+    }
+  },
+  "phase_2j_mechanism": {
+    "control": {
+      "persistent_2_plus": null,
+      "committed_states": null,
+      "fulfilled_exposures": null,
+      "played": null,
+      "played_rate": null,
+      "coverage_mean": null,
+      "replacement_transitions": 4125,
+      "mean_relative_tempo_loss": 0.10644141573136148,
+      "p95_relative_tempo_loss": 0.3798151001540832
+    },
+    "treatment": {
+      "persistent_2_plus": null,
+      "committed_states": null,
+      "fulfilled_exposures": null,
+      "played": null,
+      "played_rate": null,
+      "coverage_mean": null,
+      "replacement_transitions": 6445,
+      "mean_relative_tempo_loss": 0.009386972107757114,
+      "p95_relative_tempo_loss": 0.0625
+    },
+    "deltas": {
+      "persistent_2_plus": null,
+      "committed_states": null,
+      "played_rate": null,
+      "coverage_mean": null,
+      "replacement_transitions": 2320.0,
+      "mean_relative_tempo_loss": -0.09705444362360437
+    },
+    "directional_macro_policy_harm": {
+      "definition": {
+        "name": "directional_macro_policy_harm",
+        "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+        "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+      },
+      "by_turn": {
+        "10": {
+          "greedy_ratio": 0.888976187969,
+          "treatment_ratio": 0.6516538732409275,
+          "greedy_distance": 0.11102381203099998,
+          "treatment_distance": 0.3483461267590725,
+          "macro_policy_harm": 0.23732231472807253,
+          "treatment_closer_to_firestone": false
+        },
+        "12": {
+          "greedy_ratio": 1.188508598341299,
+          "treatment_ratio": 0.5409926371848239,
+          "greedy_distance": 0.18850859834129907,
+          "treatment_distance": 0.45900736281517607,
+          "macro_policy_harm": 0.270498764473877,
+          "treatment_closer_to_firestone": false
+        },
+        "14": {
+          "greedy_ratio": 1.5402318769869934,
+          "treatment_ratio": 0.4757424559215814,
+          "greedy_distance": 0.5402318769869934,
+          "treatment_distance": 0.5242575440784186,
+          "macro_policy_harm": -0.01597433290857475,
+          "treatment_closer_to_firestone": true
+        }
+      },
+      "applied_to_2n_v3": false
+    },
+    "note": "\u03b1=0.5 frozen without retune; input value space changed so numerical optimality is not required \u2014 mechanism survival only. Composition-trace persistent-2+/coverage omitted from this DEV pass for memory; policy_stats replacement/tempo reported."
+  }
+}
