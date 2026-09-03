@@ -14,7 +14,7 @@ import json
 import os
 import sys
 import time
-from typing import Dict
+from typing import Dict, List
 
 from hsbg_coach.board_opportunity_policy import (
     METHODOLOGY_VERSION as PHASE_2J_VERSION,
@@ -51,6 +51,17 @@ def _write_json(path: str, data: Dict) -> None:
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
+
+
+def _sample_rows(rows: List[Dict], *, limit: int = 200, key: str = "turn") -> List[Dict]:
+    if len(rows) <= limit:
+        return list(rows)
+    rows = sorted(rows, key=lambda r: (
+        -(1 if r.get("scaling_blocked_upgrade") else 0),
+        int(r.get("turn") or 0),
+        int(r.get("seed") or 0),
+    ))
+    return rows[:limit]
 
 
 def run_phase_2p(
@@ -118,17 +129,21 @@ def run_phase_2p(
     _write_json(os.path.join(out_dir, "contract.json"), contract)
     _write_json(os.path.join(out_dir, "phase_2p_report.json"), report)
     _write_json(os.path.join(out_dir, "decision.json"), report["decision"])
-    _write_json(os.path.join(out_dir, "state_rows_greedy.json"), {
-        "rows": greedy_raw["state_rows"]
+    _write_json(os.path.join(out_dir, "example_state_rows_greedy.json"), {
+        "rows": _sample_rows(greedy_raw["state_rows"]),
+        "sampled_from_n": len(greedy_raw["state_rows"]),
     })
-    _write_json(os.path.join(out_dir, "state_rows_phase_2j.json"), {
-        "rows": phase_2j_raw["state_rows"]
+    _write_json(os.path.join(out_dir, "example_state_rows_phase_2j.json"), {
+        "rows": _sample_rows(phase_2j_raw["state_rows"]),
+        "sampled_from_n": len(phase_2j_raw["state_rows"]),
     })
-    _write_json(os.path.join(out_dir, "candidate_rows_greedy.json"), {
-        "rows": greedy_raw["candidate_rows"]
+    _write_json(os.path.join(out_dir, "example_candidate_rows_greedy.json"), {
+        "rows": _sample_rows(greedy_raw["candidate_rows"]),
+        "sampled_from_n": len(greedy_raw["candidate_rows"]),
     })
-    _write_json(os.path.join(out_dir, "candidate_rows_phase_2j.json"), {
-        "rows": phase_2j_raw["candidate_rows"]
+    _write_json(os.path.join(out_dir, "example_candidate_rows_phase_2j.json"), {
+        "rows": _sample_rows(phase_2j_raw["candidate_rows"]),
+        "sampled_from_n": len(phase_2j_raw["candidate_rows"]),
     })
 
     print(f"[2P] primary_finding={report['decision']['primary_finding']}")
