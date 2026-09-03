@@ -33,9 +33,10 @@ _PUBLISHED_CHURN_FRAC_T10 = 0.9938216477777939
 
 
 class _FakePlayer:
-    def __init__(self, board, alive=True):
+    def __init__(self, board, alive=True, tier=4):
         self.board = list(board)
         self.alive = alive
+        self.tier = tier
 
     def strength(self):
         return sum(int(m.attack) + int(m.health) for m in self.board)
