@@ -86,6 +86,11 @@ unscaled recruit-value for selection (e.g. combat carry-over / transfer on
 upgrade, or residual budget that does not assume scaled incumbents persist).
 Do **not** retune α; do **not** burn confirm seeds.
 
+Independent QA ([`sim_fidelity_phase_2r_qa.md`](sim_fidelity_phase_2r_qa.md)):
+the **0.9938** T8–T10 identity recomputes from committed per-turn tables;
+event accounting (sell→buy→play, residual recovery, next-turn carry) is clean.
+Phase 2S is preregistered only — see [`sim_fidelity_phase_2s.md`](sim_fidelity_phase_2s.md).
+
 ## Protocol
 
 ```bash
