@@ -77,6 +77,54 @@ FORBIDDEN_RANGES = (
 CHURN_EXPLAINS_FRACTION = 0.55
 
 
+def recompute_churn_explains_t10(per_turn_control: Dict, per_turn_treatment: Dict) -> Dict:
+    """Recompute the published T8–T10 attribution from per-turn tables only.
+
+    ``churn_explains_fraction_t10`` =
+        sum_{t=8..10} (treatment − control) mean_net_after_residual
+        / (control − treatment) mean_post_scaling_stats at T10
+
+    ``mean_net_after_residual`` is combat_removed − residual_added (per seat-turn).
+    Same-turn T10 replacements are *not* required; carry-forward from earlier
+    cratering plus later residual undershoot is the intended identity.
+    """
+    cum = 0.0
+    per_turn = {}
+    for t in (8, 9, 10):
+        key = str(t)
+        c_pt = per_turn_control.get(key) or {}
+        t_pt = per_turn_treatment.get(key) or {}
+        c_net = c_pt.get("mean_net_after_residual")
+        t_net = t_pt.get("mean_net_after_residual")
+        if c_net is None or t_net is None:
+            raise ValueError(f"missing mean_net_after_residual at T{t}")
+        d_net = float(t_net) - float(c_net)
+        per_turn[key] = {
+            "excess_mean_net_after_residual": d_net,
+            "control_n_replacements": c_pt.get("n_replacements"),
+            "treatment_n_replacements": t_pt.get("n_replacements"),
+            "control_mean_residual": c_pt.get("mean_residual_scaling_added"),
+            "treatment_mean_residual": t_pt.get("mean_residual_scaling_added"),
+        }
+        cum += d_net
+    c_post = (per_turn_control.get("10") or {}).get("mean_post_scaling_stats")
+    t_post = (per_turn_treatment.get("10") or {}).get("mean_post_scaling_stats")
+    if c_post is None or t_post is None:
+        raise ValueError("missing T10 mean_post_scaling_stats")
+    deficit = float(c_post) - float(t_post)
+    same_turn = per_turn["10"]["excess_mean_net_after_residual"]
+    return {
+        "cumulative_excess_net_loss_t8_t10": cum,
+        "treatment_post_stats_deficit_t10": deficit,
+        "excess_mean_net_loss_t10": same_turn,
+        "churn_explains_fraction_t10": (cum / deficit) if deficit > 1e-6 else None,
+        "churn_explains_fraction_t10_same_turn": (
+            same_turn / deficit if deficit > 1e-6 else None
+        ),
+        "per_turn": per_turn,
+    }
+
+
 def assert_seed_range_allowed(seed: int, lobbies: int) -> None:
     lo, hi = seed, seed + lobbies - 1
     for flo, fhi in FORBIDDEN_RANGES:
