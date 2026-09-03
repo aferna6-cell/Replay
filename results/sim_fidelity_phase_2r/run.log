@@ -1,0 +1,8 @@
+[2R] greedy CONTROL — 500 lobbies, seeds 13700–14199
+[2R] greedy TREATMENT (recruit-value) — same seeds
+[2R] greedy replace_rate Δ=0.28366286175914734 churn_frac_t10=0.9938216477777939
+[2R] Phase 2J CONTROL α=0.5 (report-only) — same seeds
+[2R] Phase 2J TREATMENT α=0.5 (report-only) — same seeds
+[2R] phase_2j churn_frac_t10=1.0037738635001332
+[2R] primary_finding=replacement_churn_loss_explains_macro_collapse
+[2R] wrote results/sim_fidelity_phase_2r/ (456.92s)
