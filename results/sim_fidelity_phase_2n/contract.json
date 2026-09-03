@@ -3,7 +3,7 @@
   "simulator_version": "Simulator v1.1",
   "scaling_mode": "residual",
   "simulator_module": "hsbg_coach.bg_env.BGEnv",
-  "code_commit": "7628cb729be607720cffddb80bda86d4c4d2ff6a",
+  "code_commit": "7170fa2e61aeae47c2e98c599351db2ad1fd445b",
   "runtime": {
     "python_version": "3.12.3",
     "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -50,7 +50,7 @@
   "parent_simulator_version": "Simulator v1",
   "working_tree_clean": true,
   "phase": "2N shop/pool fidelity interventions",
-  "phase_2n_methodology_version": "2n_v2",
+  "phase_2n_methodology_version": "2n_v3",
   "phase_2j_methodology_version": "2j_v1",
   "frozen_alpha": 0.5,
   "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
@@ -64,5 +64,5 @@
     "5": 9,
     "6": 7
   },
-  "note": "2n_v2 measurement after 2N-A/B/C/D (active Tavern-pool manifest). No _draw rewrite; no buy/economy; no card effects; no BC/DAgger/PPO. Confirm seeds 11500\u201311699 reserved."
+  "note": "2n_v3 validation after 2N-A/B/C/D: paired greedy vs BoardOpp \u03b1=0.5 + macro fidelity vs Firestone reference. No simulator changes in 2n_v3. Confirm seeds 11500\u201311699 reserved."
 }
