@@ -1,0 +1,39 @@
+{
+  "primary_finding": "recruit_contribution_collapsed",
+  "all_findings": [
+    "recruit_contribution_collapsed",
+    "just_leveled_factor_explains_deficit"
+  ],
+  "recommended_next_step": "recruit/effect-value fidelity",
+  "routing_table": [
+    {
+      "finding": "pre_scale_near_firestone_scaling_wrong",
+      "next_step": "scaling formula defect"
+    },
+    {
+      "finding": "pre_scale_far_below_post_still_far",
+      "next_step": "target-gap bridge defect"
+    },
+    {
+      "finding": "recruit_contribution_collapsed",
+      "next_step": "recruit/effect-value fidelity"
+    },
+    {
+      "finding": "just_leveled_factor_explains_deficit",
+      "next_step": "leveling-growth penalty"
+    },
+    {
+      "finding": "greedy_healthy_phase_2j_low",
+      "next_step": "policy issue"
+    },
+    {
+      "finding": "both_arms_low",
+      "next_step": "simulator-level issue"
+    },
+    {
+      "finding": "late_scaling_overcompensates",
+      "next_step": "growth timing/budget redistribution"
+    }
+  ],
+  "hypothesis": "Strong prior: pre_scale_far_below_post_still_far \u2192 target-gap bridge defect (residual_add \u221d undersized current)."
+}
