@@ -71,23 +71,26 @@ def test_entry_turn_excluded_from_post_assembly():
     assert not any(d["turn"] == 10 for d in kept)
 
 
-def test_catalogue_sync_flags_missing_kb():
+def test_catalogue_sync_post_2n_a_clean():
     cat = audit_catalogue_synchronization()
     assert cat["n_core_slots"] > 0
-    assert cat["n_missing_from_kb"] >= 1
-    assert "MISSING_FROM_KB" in cat["status_counts"]
+    assert cat.get("n_missing_from_kb", 0) == 0
+    assert cat["status_counts"].get("MISSING_FROM_KB", 0) == 0
+    assert cat["status_counts"].get("MISSING_OR_INVALID_TIER", 0) == 0
+    assert cat["status_counts"].get("IN_EXACT_CATALOGUE", 0) == cat["n_core_slots"]
 
 
 def test_rule_mismatches_actionable_vs_contextual():
     rules = audit_rule_mismatches()
-    assert "pool_copies_tier_6" in rules["phase_2n_actionable_ids"]
-    assert "elimination_no_return_to_pool" in rules["phase_2n_actionable_ids"]
-    assert "freeze_no_topup" in rules["phase_2n_actionable_ids"]
-    assert "shop_slots_vs_spell_era" in rules["contextual_ids"]
-    assert "no_tier_7" in rules["contextual_ids"]
-    assert POOL_COPIES[6] == 6
+    # After Phase 2N-A/B/C, actionable pool mismatches should be cleared.
+    assert "pool_copies_tier_6" not in rules["phase_2n_actionable_ids"]
+    assert "elimination_no_return_to_pool" not in rules["phase_2n_actionable_ids"]
+    assert "freeze_no_topup" not in rules["phase_2n_actionable_ids"]
+    assert POOL_COPIES[6] == 7
     assert REF_POOL_COPIES[6] == 7
     assert SHOP_SLOTS == audit_pool_contract()["simulator"]["SHOP_SLOTS"]
+    assert "shop_slots_vs_spell_era" in rules["contextual_ids"]
+    assert "no_tier_7" in rules["contextual_ids"]
 
 
 def test_pool_deal_hook_is_observational():

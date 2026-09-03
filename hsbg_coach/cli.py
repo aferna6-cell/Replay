@@ -456,6 +456,7 @@ def cmd_pace(_args) -> int:
 
 def cmd_refresh_cards(_args) -> int:
     from . import cards
+    from . import active_tavern_pool as atp
     print("Building BG card knowledge from HearthstoneJSON…")
     try:
         kb = cards.build_card_kb()
@@ -464,6 +465,15 @@ def cmd_refresh_cards(_args) -> int:
         print("Refresh failed:", exc)
         return 1
     print(f"Wrote {len(kb)} BG minions -> {path}")
+    print("Building active Tavern-pool manifest (isBattlegroundsPoolMinion)…")
+    try:
+        manifest = atp.build_active_tavern_pool_manifest()
+        apath = atp.save_active_tavern_pool(manifest)
+    except Exception as exc:
+        print("Active-pool refresh failed:", exc)
+        return 1
+    print(f"Wrote {manifest['n_solo_sim_eligible']} solo-sim Tavern minions "
+          f"(of {manifest['n_pool_minions_all']} pool-flagged) -> {apath}")
     return 0
 
 

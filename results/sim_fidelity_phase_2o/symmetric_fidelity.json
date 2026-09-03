@@ -1,0 +1,208 @@
+{
+  "greedy": {
+    "8": {
+      "n": 3544,
+      "mean_pre_scale_over_firestone": 0.8100614546198824,
+      "mean_post_scale_over_firestone": 1.1489904567535292,
+      "abs_distance_from_one_post": 0.14899045675352918,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 306.6,
+      "mean_post_scaling_stats": 352.28047404063204,
+      "mean_remaining_target_gap": -45.680474040632035,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "9": {
+      "n": 3052,
+      "mean_pre_scale_over_firestone": 0.5001804458128579,
+      "mean_post_scale_over_firestone": 1.2967097653968318,
+      "abs_distance_from_one_post": 0.2967097653968318,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 721.6,
+      "mean_post_scaling_stats": 935.7057667103538,
+      "mean_remaining_target_gap": -214.10576671035383,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "10": {
+      "n": 2595,
+      "mean_pre_scale_over_firestone": 0.5995971700092025,
+      "mean_post_scale_over_firestone": 0.9516475246004403,
+      "abs_distance_from_one_post": 0.04835247539955967,
+      "undershoot": true,
+      "overshoot": false,
+      "firestone_target": 1601.1,
+      "mean_post_scaling_stats": 1523.682851637765,
+      "mean_remaining_target_gap": 77.41714836223498,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "11": {
+      "n": 2121,
+      "mean_pre_scale_over_firestone": 0.49420407568912156,
+      "mean_post_scale_over_firestone": 1.1803764518999276,
+      "abs_distance_from_one_post": 0.18037645189992757,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 3182.1,
+      "mean_post_scaling_stats": 3756.075907590759,
+      "mean_remaining_target_gap": -573.9759075907592,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "12": {
+      "n": 1725,
+      "mean_pre_scale_over_firestone": 0.7215092846320434,
+      "mean_post_scale_over_firestone": 1.4555734625673884,
+      "abs_distance_from_one_post": 0.4555734625673884,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 5347.0,
+      "mean_post_scaling_stats": 7782.951304347826,
+      "mean_remaining_target_gap": -2435.951304347826,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "13": {
+      "n": 1394,
+      "mean_pre_scale_over_firestone": 1.1179003310486244,
+      "mean_post_scale_over_firestone": 1.7386521250920404,
+      "abs_distance_from_one_post": 0.7386521250920404,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 7138.7,
+      "mean_post_scaling_stats": 12411.715925394548,
+      "mean_remaining_target_gap": -5273.0159253945485,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "14": {
+      "n": 1073,
+      "mean_pre_scale_over_firestone": 1.5231541644484883,
+      "mean_post_scale_over_firestone": 1.8222289337251547,
+      "abs_distance_from_one_post": 0.8222289337251547,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 8293.4,
+      "mean_post_scaling_stats": 15112.473438956198,
+      "mean_remaining_target_gap": -6819.073438956198,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    }
+  },
+  "phase_2j": {
+    "8": {
+      "n": 3448,
+      "mean_pre_scale_over_firestone": 0.7241376113742066,
+      "mean_post_scale_over_firestone": 1.028128466846167,
+      "abs_distance_from_one_post": 0.02812846684616699,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 306.6,
+      "mean_post_scaling_stats": 315.2241879350348,
+      "mean_remaining_target_gap": -8.62418793503478,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "9": {
+      "n": 2968,
+      "mean_pre_scale_over_firestone": 0.4538278032942667,
+      "mean_post_scale_over_firestone": 1.1747175899916926,
+      "abs_distance_from_one_post": 0.17471758999169262,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 721.6,
+      "mean_post_scaling_stats": 847.6762129380054,
+      "mean_remaining_target_gap": -126.07621293800537,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "10": {
+      "n": 2502,
+      "mean_pre_scale_over_firestone": 0.543798550566829,
+      "mean_post_scale_over_firestone": 0.8857374783453482,
+      "abs_distance_from_one_post": 0.11426252165465178,
+      "undershoot": true,
+      "overshoot": false,
+      "firestone_target": 1601.1,
+      "mean_post_scaling_stats": 1418.154276578737,
+      "mean_remaining_target_gap": 182.9457234212629,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "11": {
+      "n": 2083,
+      "mean_pre_scale_over_firestone": 0.44093337577549696,
+      "mean_post_scale_over_firestone": 1.0089871568099902,
+      "abs_distance_from_one_post": 0.008987156809990182,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 3182.1,
+      "mean_post_scaling_stats": 3210.6980316850695,
+      "mean_remaining_target_gap": -28.598031685069703,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "12": {
+      "n": 1664,
+      "mean_pre_scale_over_firestone": 0.5911328332925724,
+      "mean_post_scale_over_firestone": 1.1942997331357628,
+      "abs_distance_from_one_post": 0.19429973313576276,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 5347.0,
+      "mean_post_scaling_stats": 6385.920673076923,
+      "mean_remaining_target_gap": -1038.920673076923,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "13": {
+      "n": 1286,
+      "mean_pre_scale_over_firestone": 0.8926965478356305,
+      "mean_post_scale_over_firestone": 1.408146461925133,
+      "abs_distance_from_one_post": 0.40814646192513293,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 7138.7,
+      "mean_post_scaling_stats": 10052.335147744945,
+      "mean_remaining_target_gap": -2913.6351477449457,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    },
+    "14": {
+      "n": 930,
+      "mean_pre_scale_over_firestone": 1.2183992141957163,
+      "mean_post_scale_over_firestone": 1.5510162116215744,
+      "abs_distance_from_one_post": 0.5510162116215744,
+      "undershoot": false,
+      "overshoot": true,
+      "firestone_target": 8293.4,
+      "mean_post_scaling_stats": 12863.197849462365,
+      "mean_remaining_target_gap": -4569.797849462366,
+      "note": "Symmetric absolute fidelity; Phase 2B historical upper bounds are preserved separately and not retuned here."
+    }
+  },
+  "directional_macro_policy_harm": {
+    "definition": {
+      "name": "directional_macro_policy_harm",
+      "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+      "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+    },
+    "by_turn": {
+      "10": {
+        "greedy_ratio": 0.9516475246004403,
+        "treatment_ratio": 0.8857374783453482,
+        "greedy_distance": 0.04835247539955967,
+        "treatment_distance": 0.11426252165465178,
+        "macro_policy_harm": 0.06591004625509211,
+        "treatment_closer_to_firestone": false
+      },
+      "12": {
+        "greedy_ratio": 1.4555734625673884,
+        "treatment_ratio": 1.1942997331357628,
+        "greedy_distance": 0.4555734625673884,
+        "treatment_distance": 0.19429973313576276,
+        "macro_policy_harm": -0.26127372943162563,
+        "treatment_closer_to_firestone": true
+      },
+      "14": {
+        "greedy_ratio": 1.8222289337251547,
+        "treatment_ratio": 1.5510162116215744,
+        "greedy_distance": 0.8222289337251547,
+        "treatment_distance": 0.5510162116215744,
+        "macro_policy_harm": -0.2712127221035803,
+        "treatment_closer_to_firestone": true
+      }
+    },
+    "applied_to_2n_v3": false
+  }
+}
