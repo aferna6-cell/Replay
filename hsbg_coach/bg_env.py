@@ -26,6 +26,7 @@ Stdlib only, like the rest of the core package.
 """
 
 import random
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
@@ -52,6 +53,11 @@ N_LOBBY_TRIBES = 5
 # Phase 2N lifecycle toggles (independent; default ON after 2N-B).
 PHASE_2N_DEATH_RETURN = True   # eliminated players return board/hand/shop
 PHASE_2N_FREEZE_TOPUP = True   # incomplete frozen shops refill to SHOP_SLOTS
+
+# Phase 2Q: recruit/replacement valuation uses recruit_* stats (excludes
+# synthetic residual/ratio scaling) while combat keeps live attack/health.
+# Default OFF = control (pre-2Q contaminated valuation).
+PHASE_2Q_RECRUIT_VALUE_STATS = False
 
 TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
           "Pirate", "Naga", "Undead", "Quilboar"]
@@ -89,6 +95,16 @@ class EnvMinion:
     tribes: List[str] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
     golden: bool = False
+    # Recruit-value stats: printed + golden + future modeled buffs.
+    # Combat uses attack/health (those plus abstract fidelity scaling).
+    recruit_attack: Optional[int] = None
+    recruit_health: Optional[int] = None
+
+    def __post_init__(self) -> None:
+        if self.recruit_attack is None:
+            self.recruit_attack = int(self.attack)
+        if self.recruit_health is None:
+            self.recruit_health = int(self.health)
 
     def tags(self) -> Dict[str, str]:
         t = {kw_tag: "1" for kw, kw_tag in _KW_TO_TAG.items() if kw in self.keywords}
@@ -101,12 +117,63 @@ class EnvMinion:
         """The dict shape the rest of the package reads (MinionView-like)."""
         return {"name": self.name, "card_id": self.card_id,
                 "attack": self.attack, "health": self.health,
+                "recruit_attack": self.recruit_attack,
+                "recruit_health": self.recruit_health,
                 "tags": self.tags()}
 
+    def copy(self) -> "EnvMinion":
+        return EnvMinion(
+            self.card_id, self.name, self.tier,
+            self.attack, self.health,
+            list(self.tribes), list(self.keywords), self.golden,
+            self.recruit_attack, self.recruit_health,
+        )
+
     def as_golden(self) -> "EnvMinion":
-        return EnvMinion(self.card_id, self.name, self.tier,
-                         self.attack * 2, self.health * 2,
-                         list(self.tribes), list(self.keywords), golden=True)
+        return EnvMinion(
+            self.card_id, self.name, self.tier,
+            self.attack * 2, self.health * 2,
+            list(self.tribes), list(self.keywords), True,
+            int(self.recruit_attack) * 2, int(self.recruit_health) * 2,
+        )
+
+
+def combat_raw(m: Dict) -> float:
+    """Live combat stats (include abstract scaling)."""
+    return float((m.get("attack") or 0) + (m.get("health") or 0))
+
+
+def recruit_raw(m: Dict) -> float:
+    """Recruit-value stats (exclude abstract scaling when tracked)."""
+    ra = m.get("recruit_attack")
+    rh = m.get("recruit_health")
+    if ra is not None and rh is not None:
+        return float(ra) + float(rh)
+    return combat_raw(m)
+
+
+def valuation_raw(m: Dict) -> float:
+    """Stats used for recruit / replacement valuation.
+
+    When ``PHASE_2Q_RECRUIT_VALUE_STATS`` is on, uses recruit-value stats
+    (printed + golden + modeled buffs). Otherwise uses live combat stats
+    (legacy contaminated behavior).
+    """
+    if PHASE_2Q_RECRUIT_VALUE_STATS:
+        return recruit_raw(m)
+    return combat_raw(m)
+
+
+@contextmanager
+def recruit_value_stats_enabled(enabled: bool = True):
+    """Temporarily set Phase 2Q recruit-value valuation toggle."""
+    global PHASE_2Q_RECRUIT_VALUE_STATS
+    prev = PHASE_2Q_RECRUIT_VALUE_STATS
+    PHASE_2Q_RECRUIT_VALUE_STATS = bool(enabled)
+    try:
+        yield
+    finally:
+        PHASE_2Q_RECRUIT_VALUE_STATS = prev
 
 
 def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
@@ -529,6 +596,7 @@ class BGEnv:
         g = ratio * self._scaling_growth_factor(p)
         g = max(1.0, g)
         for m in p.board:
+            # Combat only — recruit-value stats exclude abstract scaling.
             m.attack = max(1, round(m.attack * g))
             m.health = max(1, round(m.health * g))
 
@@ -596,6 +664,7 @@ class BGEnv:
             total = m.attack + m.health
             if total <= 0:
                 continue
+            # Combat only — recruit-value stats exclude abstract scaling.
             m.attack = max(1, round(m.attack + add * m.attack / total))
             m.health = max(1, round(m.health + add * m.health / total))
 
@@ -665,10 +734,7 @@ class BGEnv:
             for p in sorted(dead, key=lambda x: (x.hp, x.strength())):
                 p.alive = False
                 p.placement = place
-                p.last_board = [EnvMinion(m.card_id, m.name, m.tier, m.attack,
-                                          m.health, list(m.tribes),
-                                          list(m.keywords), m.golden)
-                                for m in p.board]
+                p.last_board = [m.copy() for m in p.board]
                 if PHASE_2N_DEATH_RETURN:
                     self._return_player_holdings_to_pool(p)
                 place -= 1
@@ -681,10 +747,7 @@ class BGEnv:
             # End-of-lobby: return remaining holdings so the shared pool
             # conservation invariant closes (Phase 2N-B/D).
             if PHASE_2N_DEATH_RETURN:
-                p.last_board = [
-                    EnvMinion(m.card_id, m.name, m.tier, m.attack, m.health,
-                              list(m.tribes), list(m.keywords), m.golden)
-                    for m in p.board]
+                p.last_board = [m.copy() for m in p.board]
                 self._return_player_holdings_to_pool(p)
             p.alive = False
         self._done = True
@@ -905,10 +968,8 @@ def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
             best = max(buys, key=lambda i: buy_scorer(obs, i))
         bval = buy_scorer(obs, best)
         weakest = min(range(len(obs["board"])),
-                      key=lambda i: (obs["board"][i].get("attack") or 0)
-                      + (obs["board"][i].get("health") or 0))
-        wval = ((obs["board"][weakest].get("attack") or 0)
-                + (obs["board"][weakest].get("health") or 0))
+                      key=lambda i: valuation_raw(obs["board"][i]))
+        wval = valuation_raw(obs["board"][weakest])
         if bval > wval and mask[A_SELL0 + weakest]:
             return A_SELL0 + weakest
     if mask[A_ROLL] and obs["gold"] >= BUY_COST + ROLL_COST:

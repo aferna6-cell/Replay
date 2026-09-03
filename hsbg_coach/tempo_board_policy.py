@@ -87,7 +87,9 @@ def policy_config_fingerprint(lambda_build: float) -> Dict:
 
 
 def _raw_stats(m: Dict) -> float:
-    return float((m.get("attack") or 0) + (m.get("health") or 0))
+    """Replacement raw; respects Phase 2Q recruit-value toggle."""
+    from .bg_env import valuation_raw
+    return valuation_raw(m)
 
 
 def _board_name_set(board: List[Dict]) -> set:

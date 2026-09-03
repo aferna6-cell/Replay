@@ -40,6 +40,7 @@ tuning on the current simulator.
 | 2N | [`sim_fidelity_phase_2n.md`](sim_fidelity_phase_2n.md) | Active Tavern-pool OK; **HOLD v1.x** (`2n_v3` macro gates fail; confirm 11500 reserved) |
 | 2O | [`sim_fidelity_phase_2o.md`](sim_fidelity_phase_2o.md) | Midgame scaling budget (`2o_v1`): **pre-scale hole, post-scale ~OK at T10; recruit Δ≈0**; #29 still HOLD |
 | 2P | [`sim_fidelity_phase_2p.md`](sim_fidelity_phase_2p.md) | Replacement-value contamination (`2p_v2`): **confirmed** (golden fix; weakest-golden share 0); #29 HOLD |
+| 2Q | [`sim_fidelity_phase_2q.md`](sim_fidelity_phase_2q.md) | Recruit vs combat representation split (`2q_v1`): **in progress** — DEV 13200–13699 |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
