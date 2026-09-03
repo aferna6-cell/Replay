@@ -1,9 +1,92 @@
 {
-  "methodology_version": "2p_v1",
+  "methodology_version": "2p_v2",
   "decision": {
     "primary_finding": "scaling_contamination_dominant",
     "recommended_next_step": "Phase 2Q: separate recruit valuation from scaled combat strength (printed/base replacement space vs abstract combat-strength bridge).",
+    "survives_nongolden_weakest_filter": true,
     "t10": {
+      "greedy_all": {
+        "n_full_board_states": 2569,
+        "scaling_blocked_upgrade_states": 1993,
+        "pct_scaling_blocked_upgrade_states": 0.7757882444530946,
+        "p_best_shop_gt_weakest_scaled": 0.0,
+        "p_best_shop_gt_weakest_printed": 0.7757882444530946,
+        "median_weakest_board_scaled_raw": 45.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
+        "median_weakest_board_printed_raw": 7.0,
+        "median_best_shop_printed_raw": 10.0,
+        "median_board_inflation_ratio": 7.0,
+        "p90_board_inflation_ratio": 8.4,
+        "share_weakest_golden": 0.0,
+        "mean_gold": 10.0,
+        "action_counts": {
+          "level": 2569
+        }
+      },
+      "phase_2j_all": {
+        "n_full_board_states": 2221,
+        "scaling_blocked_upgrade_states": 1280,
+        "pct_scaling_blocked_upgrade_states": 0.5763169743358847,
+        "p_best_shop_gt_weakest_scaled": 0.21386762719495722,
+        "p_best_shop_gt_weakest_printed": 0.7901846015308419,
+        "median_weakest_board_scaled_raw": 25.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
+        "median_weakest_board_printed_raw": 7.0,
+        "median_best_shop_printed_raw": 10.0,
+        "median_board_inflation_ratio": 2.8181818181818183,
+        "p90_board_inflation_ratio": 7.857142857142857,
+        "share_weakest_golden": 0.0,
+        "mean_gold": 9.125619090499775,
+        "action_counts": {
+          "level": 1726,
+          "sell": 221,
+          "roll": 218,
+          "end": 56
+        }
+      },
+      "greedy_nongolden_weakest": {
+        "n_full_board_states": 2569,
+        "scaling_blocked_upgrade_states": 1993,
+        "pct_scaling_blocked_upgrade_states": 0.7757882444530946,
+        "p_best_shop_gt_weakest_scaled": 0.0,
+        "p_best_shop_gt_weakest_printed": 0.7757882444530946,
+        "median_weakest_board_scaled_raw": 45.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
+        "median_weakest_board_printed_raw": 7.0,
+        "median_best_shop_printed_raw": 10.0,
+        "median_board_inflation_ratio": 7.0,
+        "p90_board_inflation_ratio": 8.4,
+        "share_weakest_golden": 0.0,
+        "mean_gold": 10.0,
+        "action_counts": {
+          "level": 2569
+        }
+      },
+      "phase_2j_nongolden_weakest": {
+        "n_full_board_states": 2221,
+        "scaling_blocked_upgrade_states": 1280,
+        "pct_scaling_blocked_upgrade_states": 0.5763169743358847,
+        "p_best_shop_gt_weakest_scaled": 0.21386762719495722,
+        "p_best_shop_gt_weakest_printed": 0.7901846015308419,
+        "median_weakest_board_scaled_raw": 25.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
+        "median_weakest_board_printed_raw": 7.0,
+        "median_best_shop_printed_raw": 10.0,
+        "median_board_inflation_ratio": 2.8181818181818183,
+        "p90_board_inflation_ratio": 7.857142857142857,
+        "share_weakest_golden": 0.0,
+        "mean_gold": 9.125619090499775,
+        "action_counts": {
+          "level": 1726,
+          "sell": 221,
+          "roll": 218,
+          "end": 56
+        }
+      },
       "greedy": {
         "n_full_board_states": 2569,
         "scaling_blocked_upgrade_states": 1993,
@@ -11,10 +94,13 @@
         "p_best_shop_gt_weakest_scaled": 0.0,
         "p_best_shop_gt_weakest_printed": 0.7757882444530946,
         "median_weakest_board_scaled_raw": 45.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 10.0,
         "median_board_inflation_ratio": 7.0,
         "p90_board_inflation_ratio": 8.4,
+        "share_weakest_golden": 0.0,
         "mean_gold": 10.0,
         "action_counts": {
           "level": 2569
@@ -27,16 +113,49 @@
         "p_best_shop_gt_weakest_scaled": 0.21386762719495722,
         "p_best_shop_gt_weakest_printed": 0.7901846015308419,
         "median_weakest_board_scaled_raw": 25.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 10.0,
         "median_board_inflation_ratio": 2.8181818181818183,
         "p90_board_inflation_ratio": 7.857142857142857,
+        "share_weakest_golden": 0.0,
         "mean_gold": 9.125619090499775,
         "action_counts": {
           "level": 1726,
           "sell": 221,
           "roll": 218,
           "end": 56
+        }
+      }
+    },
+    "contamination_headline": {
+      "greedy": {
+        "all_full_board_states": {
+          "n_full_board_states": 83595,
+          "pct_scaling_blocked_upgrade_states": 0.807823434415934,
+          "p_best_shop_gt_weakest_scaled": 0.046952568933548655,
+          "p_best_shop_gt_weakest_printed": 0.8547760033494827
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 83595,
+          "pct_scaling_blocked_upgrade_states": 0.807823434415934,
+          "p_best_shop_gt_weakest_scaled": 0.046952568933548655,
+          "p_best_shop_gt_weakest_printed": 0.8547760033494827
+        }
+      },
+      "phase_2j": {
+        "all_full_board_states": {
+          "n_full_board_states": 56823,
+          "pct_scaling_blocked_upgrade_states": 0.6369427872516411,
+          "p_best_shop_gt_weakest_scaled": 0.20616651707935166,
+          "p_best_shop_gt_weakest_printed": 0.8431093043309927
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 56823,
+          "pct_scaling_blocked_upgrade_states": 0.6369427872516411,
+          "p_best_shop_gt_weakest_scaled": 0.20616651707935166,
+          "p_best_shop_gt_weakest_printed": 0.8431093043309927
         }
       }
     },
@@ -50,7 +169,7 @@
     "simulator_version": "Simulator v1.1",
     "scaling_mode": "residual",
     "simulator_module": "hsbg_coach.bg_env.BGEnv",
-    "code_commit": "e88c4a16294afc948219d3e8535f5d63e5b42f1a",
+    "code_commit": "3e14607215766fa26cb5637694b2578055d25a4d",
     "runtime": {
       "python_version": "3.12.3",
       "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
@@ -95,9 +214,9 @@
     },
     "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
     "parent_simulator_version": "Simulator v1",
-    "working_tree_clean": true,
+    "working_tree_clean": false,
     "phase": "2P replacement-value / scaling-contamination diagnostic",
-    "phase_2p_methodology_version": "2p_v1",
+    "phase_2p_methodology_version": "2p_v2",
     "phase_2j_methodology_version": "2j_v1",
     "simulator_version_label": "Simulator v1.1",
     "frozen_alpha": 0.5,
@@ -123,7 +242,7 @@
       14
     ],
     "measurement_only": true,
-    "runtime_sec": 2073.67
+    "runtime_sec": 2097.3
   },
   "greedy": {
     "arm": "greedy",
@@ -139,13 +258,54 @@
         "p_best_shop_gt_weakest_scaled": 0.0,
         "p_best_shop_gt_weakest_printed": 0.7757882444530946,
         "median_weakest_board_scaled_raw": 45.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 10.0,
         "median_board_inflation_ratio": 7.0,
         "p90_board_inflation_ratio": 8.4,
+        "share_weakest_golden": 0.0,
         "mean_gold": 10.0,
         "action_counts": {
           "level": 2569
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 2569,
+          "scaling_blocked_upgrade_states": 1993,
+          "pct_scaling_blocked_upgrade_states": 0.7757882444530946,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.7757882444530946,
+          "median_weakest_board_scaled_raw": 45.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 7.0,
+          "p90_board_inflation_ratio": 8.4,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 10.0,
+          "action_counts": {
+            "level": 2569
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 2569,
+          "scaling_blocked_upgrade_states": 1993,
+          "pct_scaling_blocked_upgrade_states": 0.7757882444530946,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.7757882444530946,
+          "median_weakest_board_scaled_raw": 45.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 7.0,
+          "p90_board_inflation_ratio": 8.4,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 10.0,
+          "action_counts": {
+            "level": 2569
+          }
         }
       },
       "11": {
@@ -155,14 +315,57 @@
         "p_best_shop_gt_weakest_scaled": 0.0,
         "p_best_shop_gt_weakest_printed": 0.8466745843230403,
         "median_weakest_board_scaled_raw": 73.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 11.0,
         "p90_board_inflation_ratio": 13.714285714285714,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.5,
         "action_counts": {
           "roll": 14735,
           "end": 2105
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 16840,
+          "scaling_blocked_upgrade_states": 14258,
+          "pct_scaling_blocked_upgrade_states": 0.8466745843230403,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.8466745843230403,
+          "median_weakest_board_scaled_raw": 73.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 11.0,
+          "p90_board_inflation_ratio": 13.714285714285714,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 14735,
+            "end": 2105
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 16840,
+          "scaling_blocked_upgrade_states": 14258,
+          "pct_scaling_blocked_upgrade_states": 0.8466745843230403,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.8466745843230403,
+          "median_weakest_board_scaled_raw": 73.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 11.0,
+          "p90_board_inflation_ratio": 13.714285714285714,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 14735,
+            "end": 2105
+          }
         }
       },
       "12": {
@@ -172,14 +375,57 @@
         "p_best_shop_gt_weakest_scaled": 0.0,
         "p_best_shop_gt_weakest_printed": 0.852433628318584,
         "median_weakest_board_scaled_raw": 176.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 26.75,
         "p90_board_inflation_ratio": 34.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.5,
         "action_counts": {
           "roll": 11865,
           "end": 1695
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 13560,
+          "scaling_blocked_upgrade_states": 11559,
+          "pct_scaling_blocked_upgrade_states": 0.852433628318584,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.852433628318584,
+          "median_weakest_board_scaled_raw": 176.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 26.75,
+          "p90_board_inflation_ratio": 34.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 11865,
+            "end": 1695
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 13560,
+          "scaling_blocked_upgrade_states": 11559,
+          "pct_scaling_blocked_upgrade_states": 0.852433628318584,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.852433628318584,
+          "median_weakest_board_scaled_raw": 176.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 26.75,
+          "p90_board_inflation_ratio": 34.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 11865,
+            "end": 1695
+          }
         }
       },
       "13": {
@@ -189,14 +435,57 @@
         "p_best_shop_gt_weakest_scaled": 0.0,
         "p_best_shop_gt_weakest_printed": 0.859817436661699,
         "median_weakest_board_scaled_raw": 357.5,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 55.0,
         "p90_board_inflation_ratio": 70.5,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.5,
         "action_counts": {
           "roll": 9394,
           "end": 1342
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 10736,
+          "scaling_blocked_upgrade_states": 9231,
+          "pct_scaling_blocked_upgrade_states": 0.859817436661699,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.859817436661699,
+          "median_weakest_board_scaled_raw": 357.5,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 55.0,
+          "p90_board_inflation_ratio": 70.5,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 9394,
+            "end": 1342
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 10736,
+          "scaling_blocked_upgrade_states": 9231,
+          "pct_scaling_blocked_upgrade_states": 0.859817436661699,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.859817436661699,
+          "median_weakest_board_scaled_raw": 357.5,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 55.0,
+          "p90_board_inflation_ratio": 70.5,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 9394,
+            "end": 1342
+          }
         }
       },
       "14": {
@@ -206,14 +495,57 @@
         "p_best_shop_gt_weakest_scaled": 0.0,
         "p_best_shop_gt_weakest_printed": 0.8699435559736595,
         "median_weakest_board_scaled_raw": 579.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 86.25,
         "p90_board_inflation_ratio": 111.71428571428572,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.5,
         "action_counts": {
           "roll": 7441,
           "end": 1063
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 8504,
+          "scaling_blocked_upgrade_states": 7398,
+          "pct_scaling_blocked_upgrade_states": 0.8699435559736595,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.8699435559736595,
+          "median_weakest_board_scaled_raw": 579.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 86.25,
+          "p90_board_inflation_ratio": 111.71428571428572,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 7441,
+            "end": 1063
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 8504,
+          "scaling_blocked_upgrade_states": 7398,
+          "pct_scaling_blocked_upgrade_states": 0.8699435559736595,
+          "p_best_shop_gt_weakest_scaled": 0.0,
+          "p_best_shop_gt_weakest_printed": 0.8699435559736595,
+          "median_weakest_board_scaled_raw": 579.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 86.25,
+          "p90_board_inflation_ratio": 111.71428571428572,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "roll": 7441,
+            "end": 1063
+          }
         }
       },
       "8": {
@@ -223,14 +555,57 @@
         "p_best_shop_gt_weakest_scaled": 0.2191977077363897,
         "p_best_shop_gt_weakest_printed": 0.882808022922636,
         "median_weakest_board_scaled_raw": 12.0,
+        "median_weakest_board_normal_printed_raw": 6.0,
+        "median_weakest_board_natural_printed_raw": 6.0,
         "median_weakest_board_printed_raw": 6.0,
         "median_best_shop_printed_raw": 9.0,
         "median_board_inflation_ratio": 2.0,
         "p90_board_inflation_ratio": 2.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.5,
         "action_counts": {
           "level": 3490,
           "buy": 3490
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 6980,
+          "scaling_blocked_upgrade_states": 4632,
+          "pct_scaling_blocked_upgrade_states": 0.6636103151862465,
+          "p_best_shop_gt_weakest_scaled": 0.2191977077363897,
+          "p_best_shop_gt_weakest_printed": 0.882808022922636,
+          "median_weakest_board_scaled_raw": 12.0,
+          "median_weakest_board_normal_printed_raw": 6.0,
+          "median_weakest_board_natural_printed_raw": 6.0,
+          "median_weakest_board_printed_raw": 6.0,
+          "median_best_shop_printed_raw": 9.0,
+          "median_board_inflation_ratio": 2.0,
+          "p90_board_inflation_ratio": 2.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "level": 3490,
+            "buy": 3490
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 6980,
+          "scaling_blocked_upgrade_states": 4632,
+          "pct_scaling_blocked_upgrade_states": 0.6636103151862465,
+          "p_best_shop_gt_weakest_scaled": 0.2191977077363897,
+          "p_best_shop_gt_weakest_printed": 0.882808022922636,
+          "median_weakest_board_scaled_raw": 12.0,
+          "median_weakest_board_normal_printed_raw": 6.0,
+          "median_weakest_board_natural_printed_raw": 6.0,
+          "median_weakest_board_printed_raw": 6.0,
+          "median_best_shop_printed_raw": 9.0,
+          "median_board_inflation_ratio": 2.0,
+          "p90_board_inflation_ratio": 2.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.5,
+          "action_counts": {
+            "level": 3490,
+            "buy": 3490
+          }
         }
       },
       "9": {
@@ -240,16 +615,63 @@
         "p_best_shop_gt_weakest_scaled": 0.0981316069818897,
         "p_best_shop_gt_weakest_printed": 0.8544620175366713,
         "median_weakest_board_scaled_raw": 17.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 10.0,
         "median_board_inflation_ratio": 2.6666666666666665,
         "p90_board_inflation_ratio": 3.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.592436286159141,
         "action_counts": {
           "roll": 18700,
           "end": 2753,
           "sell": 1465,
           "buy": 1488
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 24406,
+          "scaling_blocked_upgrade_states": 18459,
+          "pct_scaling_blocked_upgrade_states": 0.7563304105547816,
+          "p_best_shop_gt_weakest_scaled": 0.0981316069818897,
+          "p_best_shop_gt_weakest_printed": 0.8544620175366713,
+          "median_weakest_board_scaled_raw": 17.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 2.6666666666666665,
+          "p90_board_inflation_ratio": 3.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.592436286159141,
+          "action_counts": {
+            "roll": 18700,
+            "end": 2753,
+            "sell": 1465,
+            "buy": 1488
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 24406,
+          "scaling_blocked_upgrade_states": 18459,
+          "pct_scaling_blocked_upgrade_states": 0.7563304105547816,
+          "p_best_shop_gt_weakest_scaled": 0.0981316069818897,
+          "p_best_shop_gt_weakest_printed": 0.8544620175366713,
+          "median_weakest_board_scaled_raw": 17.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 2.6666666666666665,
+          "p90_board_inflation_ratio": 3.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.592436286159141,
+          "action_counts": {
+            "roll": 18700,
+            "end": 2753,
+            "sell": 1465,
+            "buy": 1488
+          }
         }
       }
     },
@@ -380,6 +802,20 @@
         "share_text_present_rejected": 1.0,
         "share_card2vec_in_vocab_rejected": 0.5326592292610255
       }
+    },
+    "contamination_headline": {
+      "all_full_board_states": {
+        "n_full_board_states": 83595,
+        "pct_scaling_blocked_upgrade_states": 0.807823434415934,
+        "p_best_shop_gt_weakest_scaled": 0.046952568933548655,
+        "p_best_shop_gt_weakest_printed": 0.8547760033494827
+      },
+      "nongolden_weakest_states": {
+        "n_full_board_states": 83595,
+        "pct_scaling_blocked_upgrade_states": 0.807823434415934,
+        "p_best_shop_gt_weakest_scaled": 0.046952568933548655,
+        "p_best_shop_gt_weakest_printed": 0.8547760033494827
+      }
     }
   },
   "phase_2j": {
@@ -396,16 +832,63 @@
         "p_best_shop_gt_weakest_scaled": 0.21386762719495722,
         "p_best_shop_gt_weakest_printed": 0.7901846015308419,
         "median_weakest_board_scaled_raw": 25.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 10.0,
         "median_board_inflation_ratio": 2.8181818181818183,
         "p90_board_inflation_ratio": 7.857142857142857,
+        "share_weakest_golden": 0.0,
         "mean_gold": 9.125619090499775,
         "action_counts": {
           "level": 1726,
           "sell": 221,
           "roll": 218,
           "end": 56
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 2221,
+          "scaling_blocked_upgrade_states": 1280,
+          "pct_scaling_blocked_upgrade_states": 0.5763169743358847,
+          "p_best_shop_gt_weakest_scaled": 0.21386762719495722,
+          "p_best_shop_gt_weakest_printed": 0.7901846015308419,
+          "median_weakest_board_scaled_raw": 25.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 2.8181818181818183,
+          "p90_board_inflation_ratio": 7.857142857142857,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 9.125619090499775,
+          "action_counts": {
+            "level": 1726,
+            "sell": 221,
+            "roll": 218,
+            "end": 56
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 2221,
+          "scaling_blocked_upgrade_states": 1280,
+          "pct_scaling_blocked_upgrade_states": 0.5763169743358847,
+          "p_best_shop_gt_weakest_scaled": 0.21386762719495722,
+          "p_best_shop_gt_weakest_printed": 0.7901846015308419,
+          "median_weakest_board_scaled_raw": 25.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 2.8181818181818183,
+          "p90_board_inflation_ratio": 7.857142857142857,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 9.125619090499775,
+          "action_counts": {
+            "level": 1726,
+            "sell": 221,
+            "roll": 218,
+            "end": 56
+          }
         }
       },
       "11": {
@@ -415,10 +898,13 @@
         "p_best_shop_gt_weakest_scaled": 0.1929031135849713,
         "p_best_shop_gt_weakest_printed": 0.8447556096712472,
         "median_weakest_board_scaled_raw": 54.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 5.0,
         "p90_board_inflation_ratio": 13.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.434423377978779,
         "action_counts": {
           "roll": 8947,
@@ -426,6 +912,52 @@
           "end": 1432,
           "level": 84,
           "buy": 7
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 11498,
+          "scaling_blocked_upgrade_states": 7495,
+          "pct_scaling_blocked_upgrade_states": 0.6518524960862758,
+          "p_best_shop_gt_weakest_scaled": 0.1929031135849713,
+          "p_best_shop_gt_weakest_printed": 0.8447556096712472,
+          "median_weakest_board_scaled_raw": 54.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 5.0,
+          "p90_board_inflation_ratio": 13.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.434423377978779,
+          "action_counts": {
+            "roll": 8947,
+            "sell": 1028,
+            "end": 1432,
+            "level": 84,
+            "buy": 7
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 11498,
+          "scaling_blocked_upgrade_states": 7495,
+          "pct_scaling_blocked_upgrade_states": 0.6518524960862758,
+          "p_best_shop_gt_weakest_scaled": 0.1929031135849713,
+          "p_best_shop_gt_weakest_printed": 0.8447556096712472,
+          "median_weakest_board_scaled_raw": 54.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 5.0,
+          "p90_board_inflation_ratio": 13.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.434423377978779,
+          "action_counts": {
+            "roll": 8947,
+            "sell": 1028,
+            "end": 1432,
+            "level": 84,
+            "buy": 7
+          }
         }
       },
       "12": {
@@ -435,16 +967,63 @@
         "p_best_shop_gt_weakest_scaled": 0.21170193525049738,
         "p_best_shop_gt_weakest_printed": 0.8416531018267318,
         "median_weakest_board_scaled_raw": 100.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 9.666666666666666,
         "p90_board_inflation_ratio": 31.285714285714285,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.463103635377102,
         "action_counts": {
           "roll": 8812,
           "sell": 920,
           "end": 1324,
           "level": 2
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 11058,
+          "scaling_blocked_upgrade_states": 6966,
+          "pct_scaling_blocked_upgrade_states": 0.6299511665762344,
+          "p_best_shop_gt_weakest_scaled": 0.21170193525049738,
+          "p_best_shop_gt_weakest_printed": 0.8416531018267318,
+          "median_weakest_board_scaled_raw": 100.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 9.666666666666666,
+          "p90_board_inflation_ratio": 31.285714285714285,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.463103635377102,
+          "action_counts": {
+            "roll": 8812,
+            "sell": 920,
+            "end": 1324,
+            "level": 2
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 11058,
+          "scaling_blocked_upgrade_states": 6966,
+          "pct_scaling_blocked_upgrade_states": 0.6299511665762344,
+          "p_best_shop_gt_weakest_scaled": 0.21170193525049738,
+          "p_best_shop_gt_weakest_printed": 0.8416531018267318,
+          "median_weakest_board_scaled_raw": 100.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 9.666666666666666,
+          "p90_board_inflation_ratio": 31.285714285714285,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.463103635377102,
+          "action_counts": {
+            "roll": 8812,
+            "sell": 920,
+            "end": 1324,
+            "level": 2
+          }
         }
       },
       "13": {
@@ -454,16 +1033,63 @@
         "p_best_shop_gt_weakest_scaled": 0.1952880146979358,
         "p_best_shop_gt_weakest_printed": 0.8404841672970929,
         "median_weakest_board_scaled_raw": 226.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 19.533333333333335,
         "p90_board_inflation_ratio": 64.33333333333333,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.491624338052524,
         "action_counts": {
           "roll": 7577,
           "sell": 573,
           "end": 1102,
           "buy": 1
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 9253,
+          "scaling_blocked_upgrade_states": 5970,
+          "pct_scaling_blocked_upgrade_states": 0.6451961525991571,
+          "p_best_shop_gt_weakest_scaled": 0.1952880146979358,
+          "p_best_shop_gt_weakest_printed": 0.8404841672970929,
+          "median_weakest_board_scaled_raw": 226.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 19.533333333333335,
+          "p90_board_inflation_ratio": 64.33333333333333,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.491624338052524,
+          "action_counts": {
+            "roll": 7577,
+            "sell": 573,
+            "end": 1102,
+            "buy": 1
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 9253,
+          "scaling_blocked_upgrade_states": 5970,
+          "pct_scaling_blocked_upgrade_states": 0.6451961525991571,
+          "p_best_shop_gt_weakest_scaled": 0.1952880146979358,
+          "p_best_shop_gt_weakest_printed": 0.8404841672970929,
+          "median_weakest_board_scaled_raw": 226.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 19.533333333333335,
+          "p90_board_inflation_ratio": 64.33333333333333,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.491624338052524,
+          "action_counts": {
+            "roll": 7577,
+            "sell": 573,
+            "end": 1102,
+            "buy": 1
+          }
         }
       },
       "14": {
@@ -473,15 +1099,60 @@
         "p_best_shop_gt_weakest_scaled": 0.1939228894940519,
         "p_best_shop_gt_weakest_printed": 0.8472122688834742,
         "median_weakest_board_scaled_raw": 364.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 12.0,
         "median_board_inflation_ratio": 32.06666666666667,
         "p90_board_inflation_ratio": 105.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.505948115235775,
         "action_counts": {
           "roll": 5829,
           "end": 836,
           "sell": 312
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 6977,
+          "scaling_blocked_upgrade_states": 4558,
+          "pct_scaling_blocked_upgrade_states": 0.6532893793894224,
+          "p_best_shop_gt_weakest_scaled": 0.1939228894940519,
+          "p_best_shop_gt_weakest_printed": 0.8472122688834742,
+          "median_weakest_board_scaled_raw": 364.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 32.06666666666667,
+          "p90_board_inflation_ratio": 105.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.505948115235775,
+          "action_counts": {
+            "roll": 5829,
+            "end": 836,
+            "sell": 312
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 6977,
+          "scaling_blocked_upgrade_states": 4558,
+          "pct_scaling_blocked_upgrade_states": 0.6532893793894224,
+          "p_best_shop_gt_weakest_scaled": 0.1939228894940519,
+          "p_best_shop_gt_weakest_printed": 0.8472122688834742,
+          "median_weakest_board_scaled_raw": 364.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 12.0,
+          "median_board_inflation_ratio": 32.06666666666667,
+          "p90_board_inflation_ratio": 105.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.505948115235775,
+          "action_counts": {
+            "roll": 5829,
+            "end": 836,
+            "sell": 312
+          }
         }
       },
       "8": {
@@ -491,10 +1162,13 @@
         "p_best_shop_gt_weakest_scaled": 0.26298208320680233,
         "p_best_shop_gt_weakest_printed": 0.875493470999089,
         "median_weakest_board_scaled_raw": 12.0,
+        "median_weakest_board_normal_printed_raw": 6.0,
+        "median_weakest_board_natural_printed_raw": 6.0,
         "median_weakest_board_printed_raw": 6.0,
         "median_best_shop_printed_raw": 9.0,
         "median_board_inflation_ratio": 2.0,
         "p90_board_inflation_ratio": 2.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.555724263589432,
         "action_counts": {
           "sell": 60,
@@ -502,6 +1176,52 @@
           "buy": 1557,
           "roll": 17,
           "end": 16
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 3293,
+          "scaling_blocked_upgrade_states": 2017,
+          "pct_scaling_blocked_upgrade_states": 0.6125113877922866,
+          "p_best_shop_gt_weakest_scaled": 0.26298208320680233,
+          "p_best_shop_gt_weakest_printed": 0.875493470999089,
+          "median_weakest_board_scaled_raw": 12.0,
+          "median_weakest_board_normal_printed_raw": 6.0,
+          "median_weakest_board_natural_printed_raw": 6.0,
+          "median_weakest_board_printed_raw": 6.0,
+          "median_best_shop_printed_raw": 9.0,
+          "median_board_inflation_ratio": 2.0,
+          "p90_board_inflation_ratio": 2.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.555724263589432,
+          "action_counts": {
+            "sell": 60,
+            "level": 1643,
+            "buy": 1557,
+            "roll": 17,
+            "end": 16
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 3293,
+          "scaling_blocked_upgrade_states": 2017,
+          "pct_scaling_blocked_upgrade_states": 0.6125113877922866,
+          "p_best_shop_gt_weakest_scaled": 0.26298208320680233,
+          "p_best_shop_gt_weakest_printed": 0.875493470999089,
+          "median_weakest_board_scaled_raw": 12.0,
+          "median_weakest_board_normal_printed_raw": 6.0,
+          "median_weakest_board_natural_printed_raw": 6.0,
+          "median_weakest_board_printed_raw": 6.0,
+          "median_best_shop_printed_raw": 9.0,
+          "median_board_inflation_ratio": 2.0,
+          "p90_board_inflation_ratio": 2.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.555724263589432,
+          "action_counts": {
+            "sell": 60,
+            "level": 1643,
+            "buy": 1557,
+            "roll": 17,
+            "end": 16
+          }
         }
       },
       "9": {
@@ -511,10 +1231,13 @@
         "p_best_shop_gt_weakest_scaled": 0.21200990178072346,
         "p_best_shop_gt_weakest_printed": 0.8434081290425617,
         "median_weakest_board_scaled_raw": 16.0,
+        "median_weakest_board_normal_printed_raw": 7.0,
+        "median_weakest_board_natural_printed_raw": 7.0,
         "median_weakest_board_printed_raw": 7.0,
         "median_best_shop_printed_raw": 10.0,
         "median_board_inflation_ratio": 2.625,
         "p90_board_inflation_ratio": 3.0,
+        "share_weakest_golden": 0.0,
         "mean_gold": 6.445819691767149,
         "action_counts": {
           "sell": 1237,
@@ -522,6 +1245,52 @@
           "roll": 9127,
           "end": 1478,
           "level": 23
+        },
+        "all_full_board_states": {
+          "n_full_board_states": 12523,
+          "scaling_blocked_upgrade_states": 7907,
+          "pct_scaling_blocked_upgrade_states": 0.6313982272618383,
+          "p_best_shop_gt_weakest_scaled": 0.21200990178072346,
+          "p_best_shop_gt_weakest_printed": 0.8434081290425617,
+          "median_weakest_board_scaled_raw": 16.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 2.625,
+          "p90_board_inflation_ratio": 3.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.445819691767149,
+          "action_counts": {
+            "sell": 1237,
+            "buy": 658,
+            "roll": 9127,
+            "end": 1478,
+            "level": 23
+          }
+        },
+        "nongolden_weakest_states": {
+          "n_full_board_states": 12523,
+          "scaling_blocked_upgrade_states": 7907,
+          "pct_scaling_blocked_upgrade_states": 0.6313982272618383,
+          "p_best_shop_gt_weakest_scaled": 0.21200990178072346,
+          "p_best_shop_gt_weakest_printed": 0.8434081290425617,
+          "median_weakest_board_scaled_raw": 16.0,
+          "median_weakest_board_normal_printed_raw": 7.0,
+          "median_weakest_board_natural_printed_raw": 7.0,
+          "median_weakest_board_printed_raw": 7.0,
+          "median_best_shop_printed_raw": 10.0,
+          "median_board_inflation_ratio": 2.625,
+          "p90_board_inflation_ratio": 3.0,
+          "share_weakest_golden": 0.0,
+          "mean_gold": 6.445819691767149,
+          "action_counts": {
+            "sell": 1237,
+            "buy": 658,
+            "roll": 9127,
+            "end": 1478,
+            "level": 23
+          }
         }
       }
     },
@@ -651,6 +1420,20 @@
         "share_target_core_rejected": 0.06470009832841692,
         "share_text_present_rejected": 1.0,
         "share_card2vec_in_vocab_rejected": 0.5339948154107446
+      }
+    },
+    "contamination_headline": {
+      "all_full_board_states": {
+        "n_full_board_states": 56823,
+        "pct_scaling_blocked_upgrade_states": 0.6369427872516411,
+        "p_best_shop_gt_weakest_scaled": 0.20616651707935166,
+        "p_best_shop_gt_weakest_printed": 0.8431093043309927
+      },
+      "nongolden_weakest_states": {
+        "n_full_board_states": 56823,
+        "pct_scaling_blocked_upgrade_states": 0.6369427872516411,
+        "p_best_shop_gt_weakest_scaled": 0.20616651707935166,
+        "p_best_shop_gt_weakest_printed": 0.8431093043309927
       }
     }
   }
