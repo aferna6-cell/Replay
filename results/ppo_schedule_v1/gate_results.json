@@ -1,0 +1,46 @@
+{
+  "all_passed": true,
+  "per_seed": [
+    {
+      "seed": 0,
+      "success": true,
+      "stage": "train"
+    },
+    {
+      "seed": 1,
+      "success": true,
+      "stage": "train"
+    },
+    {
+      "seed": 2,
+      "success": true,
+      "stage": "train"
+    },
+    {
+      "seed": 3,
+      "success": true,
+      "stage": "train"
+    }
+  ],
+  "hash_gates": [
+    {
+      "seed": 0,
+      "success": true
+    },
+    {
+      "seed": 1,
+      "success": true
+    },
+    {
+      "seed": 2,
+      "success": true
+    },
+    {
+      "seed": 3,
+      "success": true
+    }
+  ],
+  "control_code_equivalence_passed": true,
+  "expected_warm_start_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+  "kl_schedule": "0.03@160,0.01@320"
+}

@@ -1,0 +1,47 @@
+{
+  "all_passed": true,
+  "per_seed": [
+    {
+      "seed": 0,
+      "success": true,
+      "hash_ok": true
+    },
+    {
+      "seed": 1,
+      "success": true,
+      "hash_ok": true
+    },
+    {
+      "seed": 2,
+      "success": true,
+      "hash_ok": true
+    },
+    {
+      "seed": 3,
+      "success": true,
+      "hash_ok": true
+    }
+  ],
+  "placement_gates": [
+    {
+      "seed": 0,
+      "success": true
+    },
+    {
+      "seed": 1,
+      "success": true
+    },
+    {
+      "seed": 2,
+      "success": true
+    },
+    {
+      "seed": 3,
+      "success": true
+    }
+  ],
+  "expected_warm_start_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+  "training_code_commit": "17881b7a4592a519c4d17b70ecd96ffd24670507",
+  "analysis_code_commit": "c84108e05c11f8512664c6705646ba3dd0a00c54",
+  "mode": "gates_only"
+}

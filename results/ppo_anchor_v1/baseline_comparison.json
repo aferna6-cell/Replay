@@ -1,0 +1,85 @@
+{
+  "method": "paired anchored vs Experiment 2 at same iteration",
+  "comparisons": [
+    {
+      "a": "Anchor_iter000",
+      "b": "iter000",
+      "n": 1000,
+      "mean_diff": -0.004,
+      "ci95": [
+        -0.163,
+        0.158
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 0,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter040",
+      "b": "iter040",
+      "n": 1000,
+      "mean_diff": -0.153,
+      "ci95": [
+        -0.312,
+        0.008
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter080",
+      "b": "iter080",
+      "n": 1000,
+      "mean_diff": 0.255,
+      "ci95": [
+        0.094,
+        0.41
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "iter080 places better",
+      "iteration": 80,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter160",
+      "b": "iter160",
+      "n": 1000,
+      "mean_diff": 0.149,
+      "ci95": [
+        -0.002,
+        0.306
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 160,
+      "field": "greedy"
+    },
+    {
+      "a": "Anchor_iter320",
+      "b": "iter320",
+      "n": 1000,
+      "mean_diff": 0.067,
+      "ci95": [
+        -0.09,
+        0.223
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 320,
+      "field": "greedy"
+    }
+  ]
+}

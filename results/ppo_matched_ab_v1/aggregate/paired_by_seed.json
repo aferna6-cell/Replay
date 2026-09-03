@@ -1,0 +1,314 @@
+{
+  "seed_0": {
+    "iter040": {
+      "a": "beta01_s0_i040",
+      "b": "beta0_s0_i040",
+      "n": 1000,
+      "mean_diff": 0.023,
+      "ci95": [
+        -0.134,
+        0.18
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40,
+      "training_seed": 0,
+      "anchored_avg": 6.608,
+      "unconstrained_avg": 6.585,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter080": {
+      "a": "beta01_s0_i080",
+      "b": "beta0_s0_i080",
+      "n": 1000,
+      "mean_diff": -0.036,
+      "ci95": [
+        -0.183,
+        0.113
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 80,
+      "training_seed": 0,
+      "anchored_avg": 6.58,
+      "unconstrained_avg": 6.616,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter160": {
+      "a": "beta01_s0_i160",
+      "b": "beta0_s0_i160",
+      "n": 1000,
+      "mean_diff": 0.031,
+      "ci95": [
+        -0.125,
+        0.191
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 160,
+      "training_seed": 0,
+      "anchored_avg": 6.584,
+      "unconstrained_avg": 6.553,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter320": {
+      "a": "beta01_s0_i320",
+      "b": "beta0_s0_i320",
+      "n": 1000,
+      "mean_diff": -0.018,
+      "ci95": [
+        -0.171,
+        0.138
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 320,
+      "training_seed": 0,
+      "anchored_avg": 6.673,
+      "unconstrained_avg": 6.691,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    }
+  },
+  "seed_1": {
+    "iter040": {
+      "a": "beta01_s1_i040",
+      "b": "beta0_s1_i040",
+      "n": 1000,
+      "mean_diff": 0.022,
+      "ci95": [
+        -0.133,
+        0.182
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40,
+      "training_seed": 1,
+      "anchored_avg": 6.623,
+      "unconstrained_avg": 6.601,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter080": {
+      "a": "beta01_s1_i080",
+      "b": "beta0_s1_i080",
+      "n": 1000,
+      "mean_diff": -0.408,
+      "ci95": [
+        -0.55,
+        -0.268
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "beta01_s1_i080 places better",
+      "iteration": 80,
+      "training_seed": 1,
+      "anchored_avg": 6.653,
+      "unconstrained_avg": 7.061,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter160": {
+      "a": "beta01_s1_i160",
+      "b": "beta0_s1_i160",
+      "n": 1000,
+      "mean_diff": -0.432,
+      "ci95": [
+        -0.579,
+        -0.287
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "beta01_s1_i160 places better",
+      "iteration": 160,
+      "training_seed": 1,
+      "anchored_avg": 6.61,
+      "unconstrained_avg": 7.042,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter320": {
+      "a": "beta01_s1_i320",
+      "b": "beta0_s1_i320",
+      "n": 1000,
+      "mean_diff": -0.171,
+      "ci95": [
+        -0.317,
+        -0.027
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "beta01_s1_i320 places better",
+      "iteration": 320,
+      "training_seed": 1,
+      "anchored_avg": 6.562,
+      "unconstrained_avg": 6.733,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    }
+  },
+  "seed_2": {
+    "iter040": {
+      "a": "beta01_s2_i040",
+      "b": "beta0_s2_i040",
+      "n": 1000,
+      "mean_diff": 0.333,
+      "ci95": [
+        0.176,
+        0.489
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "beta0_s2_i040 places better",
+      "iteration": 40,
+      "training_seed": 2,
+      "anchored_avg": 6.766,
+      "unconstrained_avg": 6.433,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter080": {
+      "a": "beta01_s2_i080",
+      "b": "beta0_s2_i080",
+      "n": 1000,
+      "mean_diff": -0.145,
+      "ci95": [
+        -0.291,
+        0.002
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 80,
+      "training_seed": 2,
+      "anchored_avg": 6.534,
+      "unconstrained_avg": 6.679,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter160": {
+      "a": "beta01_s2_i160",
+      "b": "beta0_s2_i160",
+      "n": 1000,
+      "mean_diff": 0.071,
+      "ci95": [
+        -0.054,
+        0.194
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 160,
+      "training_seed": 2,
+      "anchored_avg": 6.61,
+      "unconstrained_avg": 6.539,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter320": {
+      "a": "beta01_s2_i320",
+      "b": "beta0_s2_i320",
+      "n": 1000,
+      "mean_diff": -0.189,
+      "ci95": [
+        -0.306,
+        -0.073
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "beta01_s2_i320 places better",
+      "iteration": 320,
+      "training_seed": 2,
+      "anchored_avg": 6.603,
+      "unconstrained_avg": 6.792,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    }
+  },
+  "seed_3": {
+    "iter040": {
+      "a": "beta01_s3_i040",
+      "b": "beta0_s3_i040",
+      "n": 1000,
+      "mean_diff": -0.011,
+      "ci95": [
+        -0.166,
+        0.149
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 40,
+      "training_seed": 3,
+      "anchored_avg": 6.622,
+      "unconstrained_avg": 6.633,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter080": {
+      "a": "beta01_s3_i080",
+      "b": "beta0_s3_i080",
+      "n": 1000,
+      "mean_diff": -0.103,
+      "ci95": [
+        -0.222,
+        0.02
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 80,
+      "training_seed": 3,
+      "anchored_avg": 6.568,
+      "unconstrained_avg": 6.671,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter160": {
+      "a": "beta01_s3_i160",
+      "b": "beta0_s3_i160",
+      "n": 1000,
+      "mean_diff": -0.427,
+      "ci95": [
+        -0.545,
+        -0.31
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "beta01_s3_i160 places better",
+      "iteration": 160,
+      "training_seed": 3,
+      "anchored_avg": 6.524,
+      "unconstrained_avg": 6.951,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    },
+    "iter320": {
+      "a": "beta01_s3_i320",
+      "b": "beta0_s3_i320",
+      "n": 1000,
+      "mean_diff": -0.088,
+      "ci95": [
+        -0.205,
+        0.031
+      ],
+      "method": "paired percentile bootstrap",
+      "resamples": 10000,
+      "bootstrap_seed": 0,
+      "verdict": "no clear difference (CI includes 0)",
+      "iteration": 320,
+      "training_seed": 3,
+      "anchored_avg": 6.569,
+      "unconstrained_avg": 6.657,
+      "convention": "positive mean_diff = anchored places worse; negative = anchored places better"
+    }
+  }
+}

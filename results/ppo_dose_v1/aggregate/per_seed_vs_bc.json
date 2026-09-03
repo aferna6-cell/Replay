@@ -1,0 +1,122 @@
+{
+  "seed_0": {
+    "beta0": {
+      "kl_coef": 0.0,
+      "placement": 6.691,
+      "delta_vs_bc": 0.14100000000000001,
+      "kl_from_warmstart": 2.6857001781463623,
+      "expert_agreement": 0.32950448989868164
+    },
+    "beta001": {
+      "kl_coef": 0.01,
+      "placement": 6.242,
+      "delta_vs_bc": -0.30799999999999983,
+      "kl_from_warmstart": 0.6321458220481873,
+      "expert_agreement": 0.635585606098175
+    },
+    "beta003": {
+      "kl_coef": 0.03,
+      "placement": 6.573,
+      "delta_vs_bc": 0.023000000000000576,
+      "kl_from_warmstart": 0.31740158796310425,
+      "expert_agreement": 0.8085585832595825
+    },
+    "beta01": {
+      "kl_coef": 0.1,
+      "placement": 6.673,
+      "delta_vs_bc": 0.12300000000000022,
+      "kl_from_warmstart": 0.04324198514223099,
+      "expert_agreement": 0.832207202911377
+    }
+  },
+  "seed_1": {
+    "beta0": {
+      "kl_coef": 0.0,
+      "placement": 6.733,
+      "delta_vs_bc": 0.18299999999999983,
+      "kl_from_warmstart": 2.3455970287323,
+      "expert_agreement": 0.3234234154224396
+    },
+    "beta001": {
+      "kl_coef": 0.01,
+      "placement": 6.894,
+      "delta_vs_bc": 0.3440000000000003,
+      "kl_from_warmstart": 1.2389589548110962,
+      "expert_agreement": 0.4472973048686981
+    },
+    "beta003": {
+      "kl_coef": 0.03,
+      "placement": 6.536,
+      "delta_vs_bc": -0.014000000000000234,
+      "kl_from_warmstart": 0.34488606452941895,
+      "expert_agreement": 0.818468451499939
+    },
+    "beta01": {
+      "kl_coef": 0.1,
+      "placement": 6.562,
+      "delta_vs_bc": 0.012000000000000455,
+      "kl_from_warmstart": 0.0952073410153389,
+      "expert_agreement": 0.8204954862594604
+    }
+  },
+  "seed_2": {
+    "beta0": {
+      "kl_coef": 0.0,
+      "placement": 6.792,
+      "delta_vs_bc": 0.242,
+      "kl_from_warmstart": 2.443648338317871,
+      "expert_agreement": 0.4322071969509125
+    },
+    "beta001": {
+      "kl_coef": 0.01,
+      "placement": 6.513,
+      "delta_vs_bc": -0.03699999999999992,
+      "kl_from_warmstart": 0.5666711926460266,
+      "expert_agreement": 0.7063062787055969
+    },
+    "beta003": {
+      "kl_coef": 0.03,
+      "placement": 6.498,
+      "delta_vs_bc": -0.0519999999999996,
+      "kl_from_warmstart": 0.2689007520675659,
+      "expert_agreement": 0.7860360145568848
+    },
+    "beta01": {
+      "kl_coef": 0.1,
+      "placement": 6.603,
+      "delta_vs_bc": 0.052999999999999936,
+      "kl_from_warmstart": 0.052817557007074356,
+      "expert_agreement": 0.8324324488639832
+    }
+  },
+  "seed_3": {
+    "beta0": {
+      "kl_coef": 0.0,
+      "placement": 6.657,
+      "delta_vs_bc": 0.1070000000000002,
+      "kl_from_warmstart": 0.5712432265281677,
+      "expert_agreement": 0.7448198199272156
+    },
+    "beta001": {
+      "kl_coef": 0.01,
+      "placement": 6.474,
+      "delta_vs_bc": -0.07599999999999962,
+      "kl_from_warmstart": 1.3372018337249756,
+      "expert_agreement": 0.486261248588562
+    },
+    "beta003": {
+      "kl_coef": 0.03,
+      "placement": 6.553,
+      "delta_vs_bc": 0.0030000000000001137,
+      "kl_from_warmstart": 0.4071672856807709,
+      "expert_agreement": 0.7979729771614075
+    },
+    "beta01": {
+      "kl_coef": 0.1,
+      "placement": 6.569,
+      "delta_vs_bc": 0.019000000000000128,
+      "kl_from_warmstart": 0.03869228437542915,
+      "expert_agreement": 0.8477477431297302
+    }
+  }
+}

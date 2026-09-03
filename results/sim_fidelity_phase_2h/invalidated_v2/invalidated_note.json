@@ -1,0 +1,7 @@
+{
+  "status": "invalidated",
+  "methodology_version": "2h_v2",
+  "reason": "Incorrect shop full-board compound transition (buy before sell); cross-lobby policy state reuse; telemetry mislabeled core actions; confirmation run with working_tree_clean=false.",
+  "confirmation_seeds": "5000\u20135199",
+  "do_not_use_for_decisions": true
+}

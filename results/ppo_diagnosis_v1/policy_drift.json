@@ -1,0 +1,117 @@
+{
+  "corpus": {
+    "lobbies": 100,
+    "seed_base": 10590000,
+    "states": 4440,
+    "fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+    "source": "greedy seat-0 trajectories via ml.bc.collect",
+    "split": "dev (diagnostic sub-range; never TEST seeds)"
+  },
+  "reference": {
+    "checkpoint": "iter_000.pt",
+    "checkpoint_sha256": "03abd3d364b2c17de0a590fdb1a109d78b5eeafa75d2fc2f295e945aa33fe7e8"
+  },
+  "kl_definition": "mean over states of KL(pi_reference || pi_k) on legal-action-masked softmax distributions",
+  "checkpoints": [
+    {
+      "checkpoint": "iter_000.pt",
+      "checkpoint_sha256": "03abd3d364b2c17de0a590fdb1a109d78b5eeafa75d2fc2f295e945aa33fe7e8",
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart_mean": 0.0,
+      "kl_from_warmstart_p95": 0.0,
+      "value_mean": -0.09246109426021576,
+      "value_std": 0.535218358039856
+    },
+    {
+      "checkpoint": "iter_001.pt",
+      "checkpoint_sha256": "6acb4cb027cd4ca489d86894f801966c7b95a13898492daae112e5516ed1f0a3",
+      "expert_agreement": 0.8452702760696411,
+      "warmstart_agreement": 0.9596846699714661,
+      "kl_from_warmstart_mean": 0.010848136618733406,
+      "kl_from_warmstart_p95": 0.07447535544633865,
+      "value_mean": -0.23234425485134125,
+      "value_std": 0.1454770416021347
+    },
+    {
+      "checkpoint": "iter_002.pt",
+      "checkpoint_sha256": "1150afe25fc3fceecf83fa20250f14c2af27ff54f44f4ac2a8993823a10b077c",
+      "expert_agreement": 0.841891884803772,
+      "warmstart_agreement": 0.9808558821678162,
+      "kl_from_warmstart_mean": 0.02185126207768917,
+      "kl_from_warmstart_p95": 0.10164232552051544,
+      "value_mean": -0.12476456165313721,
+      "value_std": 0.3093873858451843
+    },
+    {
+      "checkpoint": "iter_004.pt",
+      "checkpoint_sha256": "d1508def748c89475f8540a4d8b2acb1a1c37e1d121b5198927dfc7a2a099309",
+      "expert_agreement": 0.8227477669715881,
+      "warmstart_agreement": 0.9472972750663757,
+      "kl_from_warmstart_mean": 0.06150980666279793,
+      "kl_from_warmstart_p95": 0.23020735383033752,
+      "value_mean": -0.05061940848827362,
+      "value_std": 0.4377414882183075
+    },
+    {
+      "checkpoint": "iter_008.pt",
+      "checkpoint_sha256": "61daad7b6f30d102a18c88554925da530f07eea9c92ad17efa89ff83548e5345",
+      "expert_agreement": 0.7797297239303589,
+      "warmstart_agreement": 0.9108108282089233,
+      "kl_from_warmstart_mean": 0.21559882164001465,
+      "kl_from_warmstart_p95": 1.7433784008026123,
+      "value_mean": -0.04090076684951782,
+      "value_std": 0.47082796692848206
+    },
+    {
+      "checkpoint": "iter_012.pt",
+      "checkpoint_sha256": "895ddcac8d3fb542ba9f37f8d18193e05007e6180cb37ce4bd729a37b89b9f67",
+      "expert_agreement": 0.7788287997245789,
+      "warmstart_agreement": 0.8029279112815857,
+      "kl_from_warmstart_mean": 0.21597307920455933,
+      "kl_from_warmstart_p95": 1.0919170379638672,
+      "value_mean": 0.08146414905786514,
+      "value_std": 0.40746769309043884
+    },
+    {
+      "checkpoint": "iter_016.pt",
+      "checkpoint_sha256": "85b2c7cab22d60b09444c5ab5e432c2f575216fafae3a33b5fbc3d5b508b89ae",
+      "expert_agreement": 0.792792797088623,
+      "warmstart_agreement": 0.8128378391265869,
+      "kl_from_warmstart_mean": 0.19746020436286926,
+      "kl_from_warmstart_p95": 0.8045175075531006,
+      "value_mean": 0.07657952606678009,
+      "value_std": 0.5365274548530579
+    },
+    {
+      "checkpoint": "iter_024.pt",
+      "checkpoint_sha256": "ef1536b05471b750eb84dfc04cb172ce9675d775a28fa6f1ecec6f2668562018",
+      "expert_agreement": 0.7488738894462585,
+      "warmstart_agreement": 0.8695945739746094,
+      "kl_from_warmstart_mean": 0.23994950950145721,
+      "kl_from_warmstart_p95": 1.4164066314697266,
+      "value_mean": 0.09000024944543839,
+      "value_std": 0.49631497263908386
+    },
+    {
+      "checkpoint": "iter_032.pt",
+      "checkpoint_sha256": "604b8774f1302d6eca9f0a44be0a2b440a068ad24486d4555415f17b04ab3794",
+      "expert_agreement": 0.7826576828956604,
+      "warmstart_agreement": 0.917792797088623,
+      "kl_from_warmstart_mean": 0.23627275228500366,
+      "kl_from_warmstart_p95": 1.3378245830535889,
+      "value_mean": 0.02818668819963932,
+      "value_std": 0.5021918416023254
+    },
+    {
+      "checkpoint": "iter_040.pt",
+      "checkpoint_sha256": "fc0aeae2fd1e4f427fef3e57f6bda69cda91f3589b12df532cfff4da6b601050",
+      "expert_agreement": 0.7718468308448792,
+      "warmstart_agreement": 0.9020270109176636,
+      "kl_from_warmstart_mean": 0.37138617038726807,
+      "kl_from_warmstart_p95": 1.4877171516418457,
+      "value_mean": 0.029808390885591507,
+      "value_std": 0.5685974359512329
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+Replay Benchmark v1
+Evaluation games: 1000
+Seed range: 10250000-10250999
+Field: 7x greedy
+
+BC vs 7x greedy (1000 games, seeds 10250000-10250999)
+Checkpoint: policy_bc_plain.pt sha256:e4cb0390e140
+Avg placement: 6.50
+95% CI: [6.38, 6.62]  (percentile bootstrap)
+Median: 7   Std dev: 1.94
+Top-4: 17.2%
+Win rate: 3.1%
+Placements: 1:31  2:34  3:37  4:70  5:63  6:124  7:180  8:461
+Decision latency: mean 0.91ms  p50 0.88ms  p95 1.15ms
+
+FAIL: does not beat 4.5 average placement threshold
+
+Saved -> results/benchmark_v1/bc_vs_greedy.json

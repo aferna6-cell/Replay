@@ -1,0 +1,497 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "evaluation_split": "dev",
+  "training_seed": 3,
+  "episodes_per_iteration": 16,
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "greedy_games": 1000,
+  "mixed_games": 500,
+  "dev_seed_range_greedy": [
+    10550000,
+    10550999
+  ],
+  "curve": [
+    {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "greedy_avg": 6.573,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.454,
+        "high": 6.683
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.922672879093061,
+      "greedy_top4": 0.15,
+      "greedy_win": 0.033,
+      "greedy_placement_counts": {
+        "1": 33,
+        "2": 29,
+        "3": 39,
+        "4": 49,
+        "5": 83,
+        "6": 92,
+        "7": 198,
+        "8": 477
+      },
+      "mixed_avg": 4.362,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.234,
+        "high": 4.488
+      },
+      "mixed_top4": 0.464,
+      "mixed_win": 0.052,
+      "expert_agreement": 0.851576566696167,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart": 0.0,
+      "corpus_entropy": 0.37169742584228516,
+      "value_mean": -0.18414625525474548,
+      "value_std": 0.5622252821922302,
+      "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b",
+      "checkpoint_sha256": "5252950685e4dcb7ca41ea655306e2c060f37b19148e53e4ff278d29b7525f8c",
+      "expert_disagreement_by_category": {
+        "buy": 0.7120291616038882,
+        "play": 0.0013333333333333333,
+        "sell": 1.0,
+        "roll": 0.0029585798816568047,
+        "level": 0.0,
+        "freeze": null,
+        "end": 0.0
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.8892261001517451,
+        "play": 0.0015174506828528073,
+        "sell": 0.10318664643399089,
+        "roll": 0.006069802731411229,
+        "level": 0.0,
+        "freeze": 0.0,
+        "end": 0.0
+      }
+    },
+    {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "greedy_avg": 6.635,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.519,
+        "high": 6.753
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.872371490917334,
+      "greedy_top4": 0.147,
+      "greedy_win": 0.021,
+      "greedy_placement_counts": {
+        "1": 21,
+        "2": 38,
+        "3": 34,
+        "4": 54,
+        "5": 77,
+        "6": 96,
+        "7": 181,
+        "8": 499
+      },
+      "mixed_avg": 4.432,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.312,
+        "high": 4.552
+      },
+      "mixed_top4": 0.454,
+      "mixed_win": 0.032,
+      "expert_agreement": 0.6060810685157776,
+      "warmstart_agreement": 0.6511261463165283,
+      "kl_from_warmstart": 0.7322870492935181,
+      "corpus_entropy": 0.8531568646430969,
+      "value_mean": -0.0014120014384388924,
+      "value_std": 0.4353121817111969,
+      "parameter_sha256": "04247d1cab91eeababb59dd9f70478472c63a4bf0e8af47d3ce9687fc580a91e",
+      "checkpoint_sha256": "49ec8af4c037f1174b9711edced7f787d8e2839d23f770ccc066f389aebfcaab",
+      "expert_disagreement_by_category": {
+        "buy": 0.675577156743621,
+        "play": 0.144,
+        "sell": 0.9852941176470589,
+        "roll": 0.7322485207100592,
+        "level": 0.06635071090047394,
+        "freeze": null,
+        "end": 0.0
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.31789594053744996,
+        "play": 0.06174957118353345,
+        "sell": 0.038307604345340196,
+        "roll": 0.5660377358490566,
+        "level": 0.016009148084619784,
+        "freeze": 0.0,
+        "end": 0.0
+      }
+    },
+    {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "greedy_avg": 7.142,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 7.065,
+        "high": 7.218
+      },
+      "greedy_median": 8.0,
+      "greedy_std": 1.2360566330067566,
+      "greedy_top4": 0.053,
+      "greedy_win": 0.0,
+      "greedy_placement_counts": {
+        "1": 0,
+        "2": 4,
+        "3": 19,
+        "4": 30,
+        "5": 57,
+        "6": 102,
+        "7": 244,
+        "8": 544
+      },
+      "mixed_avg": 4.894,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.796,
+        "high": 4.988
+      },
+      "mixed_top4": 0.316,
+      "mixed_win": 0.0,
+      "expert_agreement": 0.5682432651519775,
+      "warmstart_agreement": 0.5569819808006287,
+      "kl_from_warmstart": 0.6657530665397644,
+      "corpus_entropy": 0.8140783309936523,
+      "value_mean": -0.11655265092849731,
+      "value_std": 0.3994288742542267,
+      "parameter_sha256": "5cdd11771a125258ba7f54cf06bbbf4d1dc43b673e926f41c43fb95e497f578e",
+      "checkpoint_sha256": "7e932ada19edd4305370868f4083d50eb2323eec041f68e49ccc8de00a0afc5c",
+      "expert_disagreement_by_category": {
+        "buy": 0.7387606318347509,
+        "play": 0.124,
+        "sell": 0.23529411764705882,
+        "roll": 0.7255917159763313,
+        "level": 0.471563981042654,
+        "freeze": null,
+        "end": 0.01951219512195122
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.3171622326551904,
+        "play": 0.048513302034428794,
+        "sell": 0.008346374543557642,
+        "roll": 0.5117370892018779,
+        "level": 0.10380803338549817,
+        "freeze": 0.0,
+        "end": 0.010432968179447054
+      }
+    },
+    {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "greedy_avg": 7.151,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 7.071,
+        "high": 7.226
+      },
+      "greedy_median": 8.0,
+      "greedy_std": 1.261823680234287,
+      "greedy_top4": 0.044,
+      "greedy_win": 0.003,
+      "greedy_placement_counts": {
+        "1": 3,
+        "2": 11,
+        "3": 11,
+        "4": 19,
+        "5": 50,
+        "6": 130,
+        "7": 221,
+        "8": 555
+      },
+      "mixed_avg": 4.892,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.796,
+        "high": 4.984
+      },
+      "mixed_top4": 0.29,
+      "mixed_win": 0.002,
+      "expert_agreement": 0.46441441774368286,
+      "warmstart_agreement": 0.42477476596832275,
+      "kl_from_warmstart": 1.6559473276138306,
+      "corpus_entropy": 1.1912078857421875,
+      "value_mean": 0.05673791840672493,
+      "value_std": 0.45920300483703613,
+      "parameter_sha256": "f715be7ae9e72ac8836f0f08a9abb585c7900db089afd452a55e9d2b6f6fa7da",
+      "checkpoint_sha256": "598d3f9d956dd0ff3d7ecac8ec6342365fd8f1ef97ab46f599f67ce12acec865",
+      "expert_disagreement_by_category": {
+        "buy": 0.7654921020656136,
+        "play": 0.009333333333333334,
+        "sell": 0.9705882352941176,
+        "roll": 1.0,
+        "level": 0.7654028436018957,
+        "freeze": null,
+        "end": 0.0
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.2649285113540791,
+        "play": 0.002943650126156434,
+        "sell": 0.027754415475189236,
+        "roll": 0.5685449957947856,
+        "level": 0.13582842724978975,
+        "freeze": 0.0,
+        "end": 0.0
+      }
+    },
+    {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "greedy_avg": 6.558,
+      "greedy_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 6.442,
+        "high": 6.666
+      },
+      "greedy_median": 7.0,
+      "greedy_std": 1.8326581787120042,
+      "greedy_top4": 0.156,
+      "greedy_win": 0.022,
+      "greedy_placement_counts": {
+        "1": 22,
+        "2": 28,
+        "3": 42,
+        "4": 64,
+        "5": 68,
+        "6": 108,
+        "7": 234,
+        "8": 434
+      },
+      "mixed_avg": 4.402,
+      "mixed_ci95": {
+        "method": "percentile bootstrap",
+        "resamples": 2000,
+        "level": 0.95,
+        "low": 4.282,
+        "high": 4.51
+      },
+      "mixed_top4": 0.462,
+      "mixed_win": 0.026,
+      "expert_agreement": 0.45315316319465637,
+      "warmstart_agreement": 0.45990991592407227,
+      "kl_from_warmstart": 1.4118648767471313,
+      "corpus_entropy": 0.5982955098152161,
+      "value_mean": 0.1284150928258896,
+      "value_std": 0.45064011216163635,
+      "parameter_sha256": "a533b41c80046eb1b6ae692f9f5fcf5bfda88d6ffe8b838d6ffe07fe577452c8",
+      "checkpoint_sha256": "790e320db5eef2b375390b2f9e031fc1c5703d8558a1ecb6d03f4ae8fa7b062c",
+      "expert_disagreement_by_category": {
+        "buy": 0.7776427703523694,
+        "play": 0.02,
+        "sell": 0.17647058823529413,
+        "roll": 1.0,
+        "level": 0.3056872037914692,
+        "freeze": null,
+        "end": 0.2731707317073171
+      },
+      "drift_contribution_by_category": {
+        "buy": 0.26359143327841844,
+        "play": 0.006177924217462933,
+        "sell": 0.004942339373970346,
+        "roll": 0.556836902800659,
+        "level": 0.05313014827018122,
+        "freeze": 0.0,
+        "end": 0.11532125205930807
+      }
+    }
+  ],
+  "paired": {
+    "iter040_vs_iter000": {
+      "target_iteration": 40,
+      "reference_iteration": 0,
+      "mean_diff": 0.062,
+      "ci95": [
+        -0.015,
+        0.139
+      ],
+      "verdict": "no clear difference (CI includes 0)",
+      "n_games": 1000
+    },
+    "iter080_vs_iter000": {
+      "target_iteration": 80,
+      "reference_iteration": 0,
+      "mean_diff": 0.569,
+      "ci95": [
+        0.435,
+        0.704
+      ],
+      "verdict": "Seed3_iter000 places better",
+      "n_games": 1000
+    },
+    "iter160_vs_iter000": {
+      "target_iteration": 160,
+      "reference_iteration": 0,
+      "mean_diff": 0.578,
+      "ci95": [
+        0.437,
+        0.72
+      ],
+      "verdict": "Seed3_iter000 places better",
+      "n_games": 1000
+    },
+    "iter320_vs_iter000": {
+      "target_iteration": 320,
+      "reference_iteration": 0,
+      "mean_diff": -0.015,
+      "ci95": [
+        -0.103,
+        0.073
+      ],
+      "verdict": "no clear difference (CI includes 0)",
+      "n_games": 1000
+    },
+    "iter080_vs_iter040": {
+      "target_iteration": 80,
+      "reference_iteration": 40,
+      "mean_diff": 0.507,
+      "ci95": [
+        0.372,
+        0.641
+      ],
+      "verdict": "Seed3_iter040 places better",
+      "n_games": 1000
+    },
+    "iter160_vs_iter040": {
+      "target_iteration": 160,
+      "reference_iteration": 40,
+      "mean_diff": 0.516,
+      "ci95": [
+        0.375,
+        0.654
+      ],
+      "verdict": "Seed3_iter040 places better",
+      "n_games": 1000
+    },
+    "iter320_vs_iter040": {
+      "target_iteration": 320,
+      "reference_iteration": 40,
+      "mean_diff": -0.077,
+      "ci95": [
+        -0.153,
+        -0.004
+      ],
+      "verdict": "Seed3_iter320 places better",
+      "n_games": 1000
+    },
+    "iter160_vs_iter080": {
+      "target_iteration": 160,
+      "reference_iteration": 80,
+      "mean_diff": 0.009,
+      "ci95": [
+        -0.098,
+        0.117
+      ],
+      "verdict": "no clear difference (CI includes 0)",
+      "n_games": 1000
+    },
+    "iter320_vs_iter080": {
+      "target_iteration": 320,
+      "reference_iteration": 80,
+      "mean_diff": -0.584,
+      "ci95": [
+        -0.719,
+        -0.45
+      ],
+      "verdict": "Seed3_iter320 places better",
+      "n_games": 1000
+    }
+  },
+  "rl_signal_blocks": {
+    "iters_1_40": {
+      "adv_mean": 0.014607310319243923,
+      "adv_std": 0.25134012701694747,
+      "adv_mean_abs": 0.21224064925270894,
+      "adv_frac_positive": 0.5249023798903109,
+      "adv_frac_negative": 0.4750976201096891,
+      "return_mean": -0.2143572347744265,
+      "return_std": 0.3995948813946412,
+      "value_pred_mean": -0.228964544898263,
+      "value_pred_std": 0.31895171425896385,
+      "value_explained_variance": 0.5423214913880404,
+      "placement_std": 1.7487400692969872,
+      "shaping_reward_sum": -0.12841071428571416,
+      "terminal_reward_sum": -5.6,
+      "entropy": 0.490689922607271,
+      "approx_kl": 0.012220858525241358,
+      "clip_frac": 0.049325600463877586,
+      "grad_norm": 0.9103289514469604,
+      "pi_loss": -0.003449059065193675,
+      "v_loss": 0.061794691003160554
+    },
+    "iters_41_160": {
+      "adv_mean": -0.0006782076225194299,
+      "adv_std": 0.2072175175206392,
+      "adv_mean_abs": 0.17340044332936902,
+      "adv_frac_positive": 0.5024987430565283,
+      "adv_frac_negative": 0.4975012569434717,
+      "return_mean": -0.22854268820089524,
+      "return_std": 0.3506586503751066,
+      "value_pred_mean": -0.22786448046173385,
+      "value_pred_std": 0.28261298239647176,
+      "value_explained_variance": 0.624913385357043,
+      "placement_std": 1.5217204868369918,
+      "shaping_reward_sum": 0.0,
+      "terminal_reward_sum": -5.652380952380953,
+      "entropy": 0.6714285893119976,
+      "approx_kl": 0.0064751016429985,
+      "clip_frac": 0.06198909558734158,
+      "grad_norm": 0.9178647303850287,
+      "pi_loss": -0.008803508779758178,
+      "v_loss": 0.04359692225021313
+    },
+    "iters_161_320": {
+      "adv_mean": 0.003835606626919411,
+      "adv_std": 0.2256962148027323,
+      "adv_mean_abs": 0.1875012736878843,
+      "adv_frac_positive": 0.5001215703928029,
+      "adv_frac_negative": 0.4998784296071971,
+      "return_mean": -0.19975166447268924,
+      "return_std": 0.39604339976234937,
+      "value_pred_mean": -0.20358727102532892,
+      "value_pred_std": 0.33029728113886697,
+      "value_explained_variance": 0.6518297114725572,
+      "placement_std": 1.6629053467033894,
+      "shaping_reward_sum": 0.0,
+      "terminal_reward_sum": -4.941071428571428,
+      "entropy": 0.6959872879719721,
+      "approx_kl": 0.006703170078844423,
+      "clip_frac": 0.06338189282081051,
+      "grad_norm": 0.9063631892165479,
+      "pi_loss": -0.006691470911209763,
+      "v_loss": 0.05155009471115288
+    }
+  }
+}

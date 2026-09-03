@@ -1,0 +1,85 @@
+{
+  "contract_version": 1,
+  "expected_warm_start_parameter_sha256": "c85de276471872c8d5c5365bd3550e9a31ae2cbc5046244f2869392dd0cacf1c",
+  "warm_start_checkpoint_sha256": "340fd7e85720b01ea0790a889b68a05f19931ccc5179ebd448541ad6b6daf9ec",
+  "warm_start_path": "results/ppo_matched_ab_v1/warm_start.pt",
+  "code_commit": "17881b7a4592a519c4d17b70ecd96ffd24670507",
+  "runtime": {
+    "python_version": "3.12.3",
+    "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+    "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+    "torch_version": "2.13.0+cpu",
+    "numpy_version": "2.4.4",
+    "torch_device": "cpu",
+    "torch_cuda_available": false
+  },
+  "runtime_fingerprint_sha256": "b4907d0a1782dc0a66c1bb09a01712c7f97e66bf228e4112861f64874d1e52b0",
+  "ppo_recipe": {
+    "iterations": 320,
+    "episodes_per_iteration": 16,
+    "shaping_initial": 1.0,
+    "shaping_horizon": 40,
+    "optimizer": "AdamW",
+    "lr": 0.0003,
+    "weight_decay": 0.0001,
+    "gamma": 0.999,
+    "lam": 0.95,
+    "clip": 0.2,
+    "entropy_coef": 0.01,
+    "value_coef": 0.5,
+    "ppo_epochs": 4,
+    "minibatch": 256,
+    "grad_clip_norm": 1.0,
+    "league_every": 8,
+    "league_max": 5
+  },
+  "ppo_config_hash_sha256": "69218321dfaf64c3a95d559905f6e5d4952fa5cab3a84d4f6c43159945339030",
+  "environment": {
+    "env": "hsbg_coach.bg_env.BGEnv",
+    "n_players": 8,
+    "field_size": 7,
+    "agent_seat": 0,
+    "n_actions": 28,
+    "max_turns": 20,
+    "max_decisions": 400
+  },
+  "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+  "dev_seed_range": [
+    10550000,
+    10599999
+  ],
+  "primary_dev_eval": {
+    "field": "greedy",
+    "games": 1000,
+    "seed_range": [
+      10550000,
+      10550999
+    ]
+  },
+  "secondary_dev_eval": {
+    "field": "greedy4_random3",
+    "games": 500,
+    "seed_range": [
+      10550000,
+      10550499
+    ]
+  },
+  "primary_iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "training_seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "kl_coef_values": [
+    0.0,
+    0.1
+  ],
+  "single_variable_within_seed_pair": "kl_coef"
+}

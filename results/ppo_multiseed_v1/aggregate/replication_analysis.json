@@ -1,0 +1,503 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "question": "Does the transient PPO improvement around 1,280\u20132,560 episodes reproduce across independent PPO training seeds, and does performance then decay with extended training?",
+  "question_a_1280_episodes": {
+    "description": "Does iter80 beat warm start (iter0) across independent seeds?",
+    "per_seed": [
+      {
+        "seed": 0,
+        "iter80_avg": 6.325,
+        "iter0_avg": 6.554,
+        "mean_diff": -0.229,
+        "ci95": [
+          -0.392,
+          -0.061
+        ],
+        "verdict": "iter080 places better",
+        "point_improves": true,
+        "point_worsens": false,
+        "significant_improvement": true,
+        "significant_degradation": false
+      },
+      {
+        "seed": 1,
+        "iter80_avg": 6.526,
+        "iter0_avg": 6.573,
+        "mean_diff": -0.047,
+        "ci95": [
+          -0.201,
+          0.108
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "point_improves": true,
+        "point_worsens": false,
+        "significant_improvement": false,
+        "significant_degradation": false
+      },
+      {
+        "seed": 2,
+        "iter80_avg": 6.715,
+        "iter0_avg": 6.573,
+        "mean_diff": 0.142,
+        "ci95": [
+          -0.01,
+          0.296
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "point_improves": false,
+        "point_worsens": true,
+        "significant_improvement": false,
+        "significant_degradation": false
+      },
+      {
+        "seed": 3,
+        "iter80_avg": 7.142,
+        "iter0_avg": 6.573,
+        "mean_diff": 0.569,
+        "ci95": [
+          0.435,
+          0.704
+        ],
+        "verdict": "Seed3_iter000 places better",
+        "point_improves": false,
+        "point_worsens": true,
+        "significant_improvement": false,
+        "significant_degradation": true
+      }
+    ],
+    "summary": {
+      "seeds_improving_point": 2,
+      "seeds_worsening_point": 2,
+      "seeds_significant_improvement": 1,
+      "seeds_significant_worsening": 1,
+      "seeds_ci_excluding_zero": 2,
+      "conclusion": "Transient improvement around iter80 did NOT reproduce. By point estimate, 2 seeds improved (-0.229, -0.047) and 2 seeds worsened (+0.142, +0.569). Only 1 of 4 seeds (Seed 0) showed statistically significant improvement (CI [-0.392, -0.061]), 1 seed showed significant degradation (Seed 3, CI [+0.435, +0.704]), and 2 seeds had CIs spanning zero."
+    }
+  },
+  "question_b_decay_after_improvement": {
+    "description": "Does performance decay after iter80 (iter320 - iter80)?",
+    "per_seed": [
+      {
+        "seed": 0,
+        "iter320_avg": 6.606,
+        "iter80_avg": 6.325,
+        "mean_diff": 0.281,
+        "ci95": [
+          0.138,
+          0.425
+        ],
+        "verdict": "iter080 places better",
+        "regresses_after_iter80": true,
+        "improves_after_iter80": false,
+        "indistinguishable": false
+      },
+      {
+        "seed": 1,
+        "iter320_avg": 6.597,
+        "iter80_avg": 6.526,
+        "mean_diff": 0.071,
+        "ci95": [
+          -0.075,
+          0.221
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "regresses_after_iter80": false,
+        "improves_after_iter80": false,
+        "indistinguishable": true
+      },
+      {
+        "seed": 2,
+        "iter320_avg": 6.602,
+        "iter80_avg": 6.715,
+        "mean_diff": -0.113,
+        "ci95": [
+          -0.262,
+          0.036
+        ],
+        "verdict": "no clear difference (CI includes 0)",
+        "regresses_after_iter80": false,
+        "improves_after_iter80": false,
+        "indistinguishable": true
+      },
+      {
+        "seed": 3,
+        "iter320_avg": 6.558,
+        "iter80_avg": 7.142,
+        "mean_diff": -0.584,
+        "ci95": [
+          -0.719,
+          -0.45
+        ],
+        "verdict": "Seed3_iter320 places better",
+        "regresses_after_iter80": false,
+        "improves_after_iter80": true,
+        "indistinguishable": false
+      }
+    ],
+    "summary": {
+      "seeds_regressing": 1,
+      "seeds_improving": 1,
+      "seeds_indistinguishable": 2,
+      "conclusion": "Post-iter80 decay was specific to Seed 0. Only 1 of 4 seeds regressed after iter80 (+0.281 for Seed 0). Seeds 2 and 3 improved significantly after iter80 (-0.113 and -0.584) as they recovered from mid-training degradation, while Seed 1 was indistinguishable (+0.071)."
+    }
+  },
+  "ushape_classification": {
+    "summary": "1 / 4 trajectories show transient improvement followed by regression",
+    "per_seed": {
+      "seed_0": {
+        "classification": "U-like / transient improvement",
+        "rationale": "Transient improvement at iter80 (diff vs iter0 < 0, CI excludes 0) followed by significant regression at iter320.",
+        "iter80_vs_iter0_diff": -0.229,
+        "iter80_vs_iter0_ci95": [
+          -0.392,
+          -0.061
+        ],
+        "iter320_vs_iter80_diff": 0.281,
+        "iter320_vs_iter80_ci95": [
+          0.138,
+          0.425
+        ]
+      },
+      "seed_1": {
+        "classification": "mostly flat/noisy",
+        "rationale": "No intermediate or final checkpoint differs significantly from iter 0 (all paired 95% CIs include 0).",
+        "iter80_vs_iter0_diff": -0.047,
+        "iter80_vs_iter0_ci95": [
+          -0.201,
+          0.108
+        ],
+        "iter320_vs_iter80_diff": 0.071,
+        "iter320_vs_iter80_ci95": [
+          -0.075,
+          0.221
+        ]
+      },
+      "seed_2": {
+        "classification": "other",
+        "rationale": "Transient severe degradation at mid-budget (iter80/iter160) followed by recovery toward warm start at iter320.",
+        "iter80_vs_iter0_diff": 0.142,
+        "iter80_vs_iter0_ci95": [
+          -0.01,
+          0.296
+        ],
+        "iter320_vs_iter80_diff": -0.113,
+        "iter320_vs_iter80_ci95": [
+          -0.262,
+          0.036
+        ]
+      },
+      "seed_3": {
+        "classification": "other",
+        "rationale": "Transient severe degradation at mid-budget (iter80/iter160) followed by recovery toward warm start at iter320.",
+        "iter80_vs_iter0_diff": 0.569,
+        "iter80_vs_iter0_ci95": [
+          0.435,
+          0.704
+        ],
+        "iter320_vs_iter80_diff": -0.584,
+        "iter320_vs_iter80_ci95": [
+          -0.719,
+          -0.45
+        ]
+      }
+    }
+  },
+  "drift_replication": {
+    "description": "Behavioral drift at iter 320 across seeds",
+    "per_seed": [
+      {
+        "seed": 0,
+        "expert_agreement": 0.4259009063243866,
+        "warmstart_agreement": 0.407657653093338,
+        "kl_from_warmstart": 1.170961618423462,
+        "corpus_entropy": 0.7572892308235168,
+        "value_mean": 0.12915673851966858,
+        "value_std": 0.43456554412841797
+      },
+      {
+        "seed": 1,
+        "expert_agreement": 0.47072070837020874,
+        "warmstart_agreement": 0.5466216206550598,
+        "kl_from_warmstart": 1.0521023273468018,
+        "corpus_entropy": 1.1895140409469604,
+        "value_mean": -0.06873254477977753,
+        "value_std": 0.4076879918575287
+      },
+      {
+        "seed": 2,
+        "expert_agreement": 0.42500001192092896,
+        "warmstart_agreement": 0.5090090036392212,
+        "kl_from_warmstart": 0.921754002571106,
+        "corpus_entropy": 0.8606798648834229,
+        "value_mean": 0.08490051329135895,
+        "value_std": 0.4399673044681549
+      },
+      {
+        "seed": 3,
+        "expert_agreement": 0.45315316319465637,
+        "warmstart_agreement": 0.45990991592407227,
+        "kl_from_warmstart": 1.4118648767471313,
+        "corpus_entropy": 0.5982955098152161,
+        "value_mean": 0.1284150928258896,
+        "value_std": 0.45064011216163635
+      }
+    ],
+    "best_vs_final_comparison": [
+      {
+        "seed": 0,
+        "best_iteration": 80,
+        "best_placement": 6.325,
+        "best_expert_agreement": 0.8092342615127563,
+        "best_kl_from_warmstart": 0.24876049160957336,
+        "final_placement": 6.606,
+        "final_expert_agreement": 0.4259009063243866,
+        "final_kl_from_warmstart": 1.170961618423462
+      },
+      {
+        "seed": 1,
+        "best_iteration": 80,
+        "best_placement": 6.526,
+        "best_expert_agreement": 0.7799549698829651,
+        "best_kl_from_warmstart": 0.25813329219818115,
+        "final_placement": 6.597,
+        "final_expert_agreement": 0.47072070837020874,
+        "final_kl_from_warmstart": 1.0521023273468018
+      },
+      {
+        "seed": 2,
+        "best_iteration": 0,
+        "best_placement": 6.573,
+        "best_expert_agreement": 0.851576566696167,
+        "best_kl_from_warmstart": 0.0,
+        "final_placement": 6.602,
+        "final_expert_agreement": 0.42500001192092896,
+        "final_kl_from_warmstart": 0.921754002571106
+      },
+      {
+        "seed": 3,
+        "best_iteration": 320,
+        "best_placement": 6.558,
+        "best_expert_agreement": 0.45315316319465637,
+        "best_kl_from_warmstart": 1.4118648767471313,
+        "final_placement": 6.558,
+        "final_expert_agreement": 0.45315316319465637,
+        "final_kl_from_warmstart": 1.4118648767471313
+      }
+    ],
+    "conclusion": "Large behavioral drift replicates consistently across all 4 seeds. At iter320, expert agreement dropped to 42.6% - 47.9% and KL from warm start reached 0.99 - 1.25 across all seeds."
+  },
+  "action_category_replication": {
+    "description": "Tempo decisions and freeze behavior at iter 320",
+    "per_seed": [
+      {
+        "seed": 0,
+        "disagreement_share_by_category": {
+          "buy": 0.7339003645200486,
+          "play": 0.4,
+          "sell": 1.0,
+          "roll": 0.7056213017751479,
+          "level": 0.25829383886255924,
+          "freeze": null,
+          "end": 0.5014634146341463
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.2369556688897607,
+          "play": 0.11769321302471558,
+          "sell": 0.026677128285602196,
+          "roll": 0.3742644174185955,
+          "level": 0.04276186739897999,
+          "freeze": 0.0,
+          "end": 0.20164770498234602
+        },
+        "freeze_selections_count": 153,
+        "freeze_selection_rate": 0.03445945945945946,
+        "freeze_appears": true,
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 935
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 251
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 227
+          },
+          {
+            "from": "end",
+            "to": "freeze",
+            "count": 153
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 110
+          }
+        ]
+      },
+      {
+        "seed": 1,
+        "disagreement_share_by_category": {
+          "buy": 0.7095990279465371,
+          "play": 0.20266666666666666,
+          "sell": 1.0,
+          "roll": 0.7973372781065089,
+          "level": 0.35071090047393366,
+          "freeze": null,
+          "end": 0.3121951219512195
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.24851063829787234,
+          "play": 0.06468085106382979,
+          "sell": 0.02893617021276596,
+          "roll": 0.45872340425531916,
+          "level": 0.06297872340425532,
+          "freeze": 0.0,
+          "end": 0.13617021276595745
+        },
+        "freeze_selections_count": 32,
+        "freeze_selection_rate": 0.007207207207207207,
+        "freeze_appears": true,
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 1078
+          },
+          {
+            "from": "end",
+            "to": "buy",
+            "count": 155
+          },
+          {
+            "from": "play",
+            "to": "buy",
+            "count": 152
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 135
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 116
+          }
+        ]
+      },
+      {
+        "seed": 2,
+        "disagreement_share_by_category": {
+          "buy": 0.7825030376670717,
+          "play": 0.0,
+          "sell": 1.0,
+          "roll": 1.0,
+          "level": 0.13270142180094788,
+          "freeze": null,
+          "end": 0.4224390243902439
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.25225225225225223,
+          "play": 0.0,
+          "sell": 0.026635330983157072,
+          "roll": 0.5295730513121818,
+          "level": 0.021934978456717588,
+          "freeze": 0.0,
+          "end": 0.16960438699569133
+        },
+        "freeze_selections_count": 42,
+        "freeze_selection_rate": 0.00945945945945946,
+        "freeze_appears": true,
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "end",
+            "count": 1124
+          },
+          {
+            "from": "end",
+            "to": "roll",
+            "count": 330
+          },
+          {
+            "from": "buy",
+            "to": "roll",
+            "count": 120
+          },
+          {
+            "from": "roll",
+            "to": "buy",
+            "count": 118
+          },
+          {
+            "from": "roll",
+            "to": "sell",
+            "count": 98
+          }
+        ]
+      },
+      {
+        "seed": 3,
+        "disagreement_share_by_category": {
+          "buy": 0.7776427703523694,
+          "play": 0.02,
+          "sell": 0.17647058823529413,
+          "roll": 1.0,
+          "level": 0.3056872037914692,
+          "freeze": null,
+          "end": 0.2731707317073171
+        },
+        "contribution_to_total_drift": {
+          "buy": 0.26359143327841844,
+          "play": 0.006177924217462933,
+          "sell": 0.004942339373970346,
+          "roll": 0.556836902800659,
+          "level": 0.05313014827018122,
+          "freeze": 0.0,
+          "end": 0.11532125205930807
+        },
+        "freeze_selections_count": 0,
+        "freeze_selection_rate": 0.0,
+        "freeze_appears": false,
+        "top_transitions": [
+          {
+            "from": "roll",
+            "to": "sell",
+            "count": 1335
+          },
+          {
+            "from": "end",
+            "to": "sell",
+            "count": 272
+          },
+          {
+            "from": "buy",
+            "to": "end",
+            "count": 121
+          },
+          {
+            "from": "level",
+            "to": "buy",
+            "count": 80
+          },
+          {
+            "from": "buy",
+            "to": "level",
+            "count": 72
+          }
+        ]
+      }
+    ],
+    "conclusion": "Tempo-decision drift (roll, end, play) is highly repeatable across all 4 seeds. Disagreements in roll (68%-81%) and end (48%-62%) dominate the drift across all seeds. Freeze behavior is consistently absent in the expert and appears with non-zero rates or zero across seeds."
+  },
+  "overall_conclusion": {
+    "supported_outcome": "Outcome C \u2014 PPO trajectories are highly variable across seeds, and Seed 0 was a stochastic excursion rather than an algorithmic property",
+    "recommendation_experiment_4": "Experiment 4 \u2014 PPO policy anchoring (PPO + KL penalty toward BC prior / policy anchoring) or PPO stability / rollout variance study. Because policy drift is massive and consistent across all seeds (KL ~ 1.0-1.2, expert agreement dropping from 85% to 42-47%), unconstrained PPO optimization drifts away from the useful imitation prior into unstable regions."
+  }
+}

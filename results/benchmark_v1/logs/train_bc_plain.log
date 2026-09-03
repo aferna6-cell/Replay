@@ -1,0 +1,12 @@
+Collecting demonstrations from 150 lobbies…
+  7319 decisions
+epoch 0  imitation acc 62.5%
+epoch 1  imitation acc 79.5%
+epoch 2  imitation acc 83.0%
+epoch 3  imitation acc 83.5%
+epoch 4  imitation acc 83.6%
+epoch 5  imitation acc 84.3%
+Saved -> ml/policy_bc_plain.pt
+
+Evaluating vs all-greedy field (30 episodes)…
+BC policy avg placement 6.27  (4.5 = even with the field)

@@ -1,0 +1,83 @@
+{
+  "corpus": {
+    "lobbies": 100,
+    "seed_base": 10590000,
+    "states": 4440,
+    "fingerprint_sha256": "2ec217b353bd97d7186d5fbe53a7abf019a5036ed53c6a0e888217a77802943e",
+    "source": "greedy seat-0 trajectories via ml.bc.collect",
+    "split": "dev (diagnostic sub-range; never TEST seeds)"
+  },
+  "reference": {
+    "checkpoint": "iter_000.pt",
+    "checkpoint_sha256": "e19ed93856e5af570d183c5ad3f912e89d9f71de9fac7548e653fb28baf087cf",
+    "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b"
+  },
+  "kl_definition": "mean over states of KL(pi_reference || pi_k) on legal-action-masked softmax distributions",
+  "checkpoints": [
+    {
+      "checkpoint": "iter_000.pt",
+      "checkpoint_sha256": "e19ed93856e5af570d183c5ad3f912e89d9f71de9fac7548e653fb28baf087cf",
+      "parameter_sha256": "1f8077f9b982eb31ba1ab45ddaf0d0afa8b296b267ac1587b77fc80d8aa84f1b",
+      "expert_agreement": 0.851576566696167,
+      "warmstart_agreement": 1.0,
+      "kl_from_warmstart_mean": 0.0,
+      "kl_from_warmstart_p95": 0.0,
+      "entropy_mean": 0.37169742584228516,
+      "entropy_std": 0.5286530256271362,
+      "value_mean": -0.18414625525474548,
+      "value_std": 0.5622252821922302
+    },
+    {
+      "checkpoint": "iter_040.pt",
+      "checkpoint_sha256": "ba5718de206f71c530142c0d14aa3f8bb9fca8f0ef4fb27c140fd1d7f4d6d18d",
+      "parameter_sha256": "805c25157f1b6d5b04995ecb78053ca57b4cc65bfd9eebb84d9a50181f6c5bf6",
+      "expert_agreement": 0.7268018126487732,
+      "warmstart_agreement": 0.7520270347595215,
+      "kl_from_warmstart_mean": 0.47471049427986145,
+      "kl_from_warmstart_p95": 2.19425106048584,
+      "entropy_mean": 0.7218430042266846,
+      "entropy_std": 0.5463749766349792,
+      "value_mean": 0.06936296075582504,
+      "value_std": 0.4196273982524872
+    },
+    {
+      "checkpoint": "iter_080.pt",
+      "checkpoint_sha256": "95d8c1dc6696645739a1bee04d6d73915795ae4adfd231d96c73f1bbed9e08b9",
+      "parameter_sha256": "63458bcc4d4f9ac1f1298186ce3b8283c18065b5751c5bc916a13a14e72d106a",
+      "expert_agreement": 0.7799549698829651,
+      "warmstart_agreement": 0.820270299911499,
+      "kl_from_warmstart_mean": 0.25813329219818115,
+      "kl_from_warmstart_p95": 1.253585934638977,
+      "entropy_mean": 0.6448127627372742,
+      "entropy_std": 0.5277138352394104,
+      "value_mean": 0.18842537701129913,
+      "value_std": 0.5145418047904968
+    },
+    {
+      "checkpoint": "iter_160.pt",
+      "checkpoint_sha256": "fc43f9c0137566e36b89586e2222cadcda07fb26ced9a2027af3ae82744edf9a",
+      "parameter_sha256": "07bc242754d33c22ff0d691a0212db95e2e2397b7bf407ad04c7689b46f4afab",
+      "expert_agreement": 0.7749999761581421,
+      "warmstart_agreement": 0.8792792558670044,
+      "kl_from_warmstart_mean": 0.4698270857334137,
+      "kl_from_warmstart_p95": 3.2380247116088867,
+      "entropy_mean": 0.6071210503578186,
+      "entropy_std": 0.40679851174354553,
+      "value_mean": 0.16683274507522583,
+      "value_std": 0.5021930932998657
+    },
+    {
+      "checkpoint": "iter_320.pt",
+      "checkpoint_sha256": "0b41fcfd2c27c8e6680fe04dbbce1b955eea79ec2ebb9856f6f53f28c6e8ca01",
+      "parameter_sha256": "b2f5a7ee7976a520115a3e836f7a51f07b03cf18ba03f1846fb13b238b23e415",
+      "expert_agreement": 0.47072070837020874,
+      "warmstart_agreement": 0.5466216206550598,
+      "kl_from_warmstart_mean": 1.0521023273468018,
+      "kl_from_warmstart_p95": 3.151772975921631,
+      "entropy_mean": 1.1895140409469604,
+      "entropy_std": 0.7028313279151917,
+      "value_mean": -0.06873254477977753,
+      "value_std": 0.4076879918575287
+    }
+  ]
+}

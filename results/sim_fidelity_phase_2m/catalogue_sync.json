@@ -1,0 +1,2569 @@
+{
+  "catalogue_synchronization": {
+    "n_core_slots": 228,
+    "n_unique_cores": 122,
+    "status_counts": {
+      "IN_EXACT_CATALOGUE": 169,
+      "MISSING_FROM_KB": 56,
+      "MISSING_OR_INVALID_TIER": 3
+    },
+    "status_share": {
+      "IN_EXACT_CATALOGUE": 0.7412280701754386,
+      "MISSING_FROM_KB": 0.24561403508771928,
+      "MISSING_OR_INVALID_TIER": 0.013157894736842105
+    },
+    "n_missing_from_kb": 56,
+    "n_in_exact_catalogue": 169,
+    "missing_from_kb_names": [
+      "Barrier Banshee",
+      "Boom-in-a-Box",
+      "Bramble Tunneler",
+      "Bronze Timewalker",
+      "Cagey Conjurer",
+      "Captain Cookie",
+      "Clever Castaway",
+      "Crimson Vindicator",
+      "Dead Bellringer",
+      "Deathstrider",
+      "Devilish Distractor",
+      "Drone Duplicator",
+      "Enterprising Escapee",
+      "Eredar Escapist",
+      "Gatekeeper Amalgam",
+      "Glambot",
+      "Headhunter Gryphon",
+      "Hoarding Hyena",
+      "Hooktusk, Master Marauder",
+      "Imp-lusionist",
+      "Kelp Keeper",
+      "Lurking Lionfish",
+      "Maritime Extortionist",
+      "Moat Custodian",
+      "Ravaging Scorpid",
+      "Rescue Bot",
+      "Runic Arcanist",
+      "Shamanic Tidecaller",
+      "Sky-hatch Runaway",
+      "Snazzy Phantom",
+      "Soulkeeping Jailer",
+      "Spark Snapper",
+      "Tasty Lobster",
+      "Torrential Ruiner",
+      "Twilight Tidehunter",
+      "Unbound Tempest",
+      "Vigilant Bristlemane",
+      "Wolf Pup"
+    ]
+  },
+  "rows": [
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Fauna Whisperer",
+      "core_frequency": 0.908,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.9,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Gatekeeper Amalgam",
+      "core_frequency": 0.752,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Drakkari Enchanter",
+      "core_frequency": 0.732,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Felfire Conjurer",
+      "core_frequency": 0.438,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon",
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Torrential Ruiner",
+      "core_frequency": 0.258,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Seafloor Recruiter",
+      "core_frequency": 0.236,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Tranquil Meditative",
+      "core_frequency": 0.228,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Groundbreaker",
+      "core_frequency": 0.182,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Warpwing",
+      "core_frequency": 0.143,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.107,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_end_of_turn",
+      "archetype_name": "Naga End Of Turn",
+      "tribe": "Naga",
+      "card": "Abyssal Bruiser",
+      "core_frequency": 0.069,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Unbound Tempest",
+      "core_frequency": 0.855,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.788,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Unleashed Mana Surge",
+      "core_frequency": 0.723,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Moat Custodian",
+      "core_frequency": 0.427,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Wildfire Elemental",
+      "core_frequency": 0.363,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Tavern Tempest",
+      "core_frequency": 0.359,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Air Revenant",
+      "core_frequency": 0.247,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.242,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Flaming Enforcer",
+      "core_frequency": 0.126,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Elemental",
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Meteorite Crasher",
+      "core_frequency": 0.107,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.095,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "elemental_cycle",
+      "archetype_name": "Elemental Cycle",
+      "tribe": "Elemental",
+      "card": "Kelp Keeper",
+      "core_frequency": 0.095,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Hooktusk, Master Marauder",
+      "core_frequency": 0.993,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Enterprising Escapee",
+      "core_frequency": 0.968,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Blade Collector",
+      "core_frequency": 0.586,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Pirate"
+      ]
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.338,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Sky Admiral Rogers",
+      "core_frequency": 0.336,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Pirate"
+      ]
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.195,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Proud Privateer",
+      "core_frequency": 0.174,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Pirate"
+      ]
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Clever Castaway",
+      "core_frequency": 0.139,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.129,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Maritime Extortionist",
+      "core_frequency": 0.081,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Deadly Spore",
+      "core_frequency": 0.074,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "pirate_discover",
+      "archetype_name": "Pirate Discover",
+      "tribe": "Pirate",
+      "card": "Sin'dorei Straight Shot",
+      "core_frequency": 0.07,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Devilish Distractor",
+      "core_frequency": 0.953,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Felboar",
+      "core_frequency": 0.836,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon",
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.777,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Imp-lusionist",
+      "core_frequency": 0.67,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.374,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Twisted Wrathguard",
+      "core_frequency": 0.352,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.254,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Insatiable Ur'zul",
+      "core_frequency": 0.172,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.13,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Titus Rivendare",
+      "core_frequency": 0.124,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Ashen Corruptor",
+      "core_frequency": 0.124,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_boost_shop",
+      "archetype_name": "Demon Boost Shop",
+      "tribe": "Demon",
+      "card": "Sin'dorei Straight Shot",
+      "core_frequency": 0.075,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Diremuck Forager",
+      "core_frequency": 0.702,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Choral Mrrrglr",
+      "core_frequency": 0.669,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Bile Spitter",
+      "core_frequency": 0.644,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Expert Aviator",
+      "core_frequency": 0.423,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Costume Enthusiast",
+      "core_frequency": 0.383,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.319,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Shamanic Tidecaller",
+      "core_frequency": 0.316,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.291,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Twilight Tidehunter",
+      "core_frequency": 0.199,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.169,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Kelp Keeper",
+      "core_frequency": 0.11,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "murloc_handbuff",
+      "archetype_name": "Murloc Handbuff",
+      "tribe": "Murloc",
+      "card": "Captain Cookie",
+      "core_frequency": 0.11,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Drone Duplicator",
+      "core_frequency": 0.696,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Spark Snapper",
+      "core_frequency": 0.552,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Polarizing Beatboxer",
+      "core_frequency": 0.548,
+      "status": "MISSING_OR_INVALID_TIER",
+      "kb_tier": 7,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Utility Drone",
+      "core_frequency": 0.53,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Glambot",
+      "core_frequency": 0.522,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Scrap Scraper",
+      "core_frequency": 0.496,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Deflect-o-Bot",
+      "core_frequency": 0.381,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Drakkari Enchanter",
+      "core_frequency": 0.215,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.181,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Rescue Bot",
+      "core_frequency": 0.17,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.17,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_magnet",
+      "archetype_name": "Mech Magnet",
+      "tribe": "Mech",
+      "card": "Titus Rivendare",
+      "core_frequency": 0.144,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Drustfallen Butcher",
+      "core_frequency": 0.926,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Snazzy Phantom",
+      "core_frequency": 0.921,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Handless Forsaken",
+      "core_frequency": 0.856,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Mummifier",
+      "core_frequency": 0.633,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Dead Bellringer",
+      "core_frequency": 0.628,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Deathly Striker",
+      "core_frequency": 0.321,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Friendly Geist",
+      "core_frequency": 0.27,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Barrier Banshee",
+      "core_frequency": 0.214,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Eternal Summoner",
+      "core_frequency": 0.172,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Risen Rider",
+      "core_frequency": 0.149,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 1,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Forsaken Weaver",
+      "core_frequency": 0.065,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Undead"
+      ]
+    },
+    {
+      "archetype_key": "undead_butcher",
+      "archetype_name": "Undead Butcher",
+      "tribe": "Undead",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.06,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Deathstrider",
+      "core_frequency": 0.99,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Titus Rivendare",
+      "core_frequency": 0.98,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Tasty Lobster",
+      "core_frequency": 0.976,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Headhunter Gryphon",
+      "core_frequency": 0.902,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Hoarding Hyena",
+      "core_frequency": 0.498,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Sin'dorei Straight Shot",
+      "core_frequency": 0.176,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Lurking Lionfish",
+      "core_frequency": 0.146,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Ravaging Scorpid",
+      "core_frequency": 0.063,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Wolf Pup",
+      "core_frequency": 0.044,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.039,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Drakkari Enchanter",
+      "core_frequency": 0.039,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_lobster",
+      "archetype_name": "Beast Lobster",
+      "tribe": "Beast",
+      "card": "Fish of N'Zoth",
+      "core_frequency": 0.029,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 1,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Persistent Poet",
+      "core_frequency": 0.849,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Warpwing",
+      "core_frequency": 0.824,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Fire-forged Evoker",
+      "core_frequency": 0.688,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Crimson Vindicator",
+      "core_frequency": 0.58,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.327,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.298,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Runic Arcanist",
+      "core_frequency": 0.288,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Felfire Conjurer",
+      "core_frequency": 0.234,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon",
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Amber Guardian",
+      "core_frequency": 0.195,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Bronze Timewalker",
+      "core_frequency": 0.141,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Thousandth Paper Drake",
+      "core_frequency": 0.112,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_evoker",
+      "archetype_name": "Dragon Evoker",
+      "tribe": "Dragon",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.098,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Gatekeeper Amalgam",
+      "core_frequency": 0.943,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.874,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.552,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Fauna Whisperer",
+      "core_frequency": 0.425,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Felfire Conjurer",
+      "core_frequency": 0.322,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon",
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Warpwing",
+      "core_frequency": 0.241,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Tranquil Meditative",
+      "core_frequency": 0.23,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.19,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Enterprising Escapee",
+      "core_frequency": 0.161,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Felboar",
+      "core_frequency": 0.121,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon",
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Captain Cookie",
+      "core_frequency": 0.115,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "neutral_tea_set",
+      "archetype_name": "Neutral Tea Set",
+      "tribe": null,
+      "card": "Heroic Underdog",
+      "core_frequency": 0.109,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Banana Slamma",
+      "core_frequency": 0.967,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Ravaging Scorpid",
+      "core_frequency": 0.721,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Turquoise Skitterer",
+      "core_frequency": 0.639,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Sewer Lord",
+      "core_frequency": 0.508,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Lurking Leviathan",
+      "core_frequency": 0.418,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.262,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Headhunter Gryphon",
+      "core_frequency": 0.254,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Buzzing Vermin",
+      "core_frequency": 0.131,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 1,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Titus Rivendare",
+      "core_frequency": 0.123,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Forest Rover",
+      "core_frequency": 0.098,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Goldrinn, the Great Wolf",
+      "core_frequency": 0.098,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_leviathan",
+      "archetype_name": "Beast Leviathan",
+      "tribe": "Beast",
+      "card": "Fish of N'Zoth",
+      "core_frequency": 0.074,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 1,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Warpwing",
+      "core_frequency": 0.798,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Kalecgos, Arcane Aspect",
+      "core_frequency": 0.754,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.746,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Persistent Poet",
+      "core_frequency": 0.605,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Bronze Timewalker",
+      "core_frequency": 0.588,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Crimson Vindicator",
+      "core_frequency": 0.474,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Sky-hatch Runaway",
+      "core_frequency": 0.316,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.263,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Amber Guardian",
+      "core_frequency": 0.202,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Fire-forged Evoker",
+      "core_frequency": 0.184,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Draconic Warden",
+      "core_frequency": 0.184,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "dragon_kalecgos",
+      "archetype_name": "Dragon Kalecgos",
+      "tribe": "Dragon",
+      "card": "Thousandth Paper Drake",
+      "core_frequency": 0.149,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Dragon"
+      ]
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Banana Slamma",
+      "core_frequency": 0.936,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Ravaging Scorpid",
+      "core_frequency": 0.936,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Turquoise Skitterer",
+      "core_frequency": 0.845,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Forest Rover",
+      "core_frequency": 0.609,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Buzzing Vermin",
+      "core_frequency": 0.518,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 1,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Headhunter Gryphon",
+      "core_frequency": 0.218,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.191,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Deathstrider",
+      "core_frequency": 0.118,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Titus Rivendare",
+      "core_frequency": 0.082,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Boom-in-a-Box",
+      "core_frequency": 0.064,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Sin'dorei Straight Shot",
+      "core_frequency": 0.055,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "beast_beetle",
+      "archetype_name": "Beast Beetle",
+      "tribe": "Beast",
+      "card": "Sewer Lord",
+      "core_frequency": 0.045,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Beast"
+      ]
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Groundbreaker",
+      "core_frequency": 0.928,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Seafloor Recruiter",
+      "core_frequency": 0.88,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.687,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Cagey Conjurer",
+      "core_frequency": 0.446,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Glowscale",
+      "core_frequency": 0.398,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.301,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Darkcrest Strategist",
+      "core_frequency": 0.277,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Torrential Ruiner",
+      "core_frequency": 0.253,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Abyssal Bruiser",
+      "core_frequency": 0.241,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.229,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.181,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "naga_groundbreaker",
+      "archetype_name": "Naga Groundbreaker",
+      "tribe": "Naga",
+      "card": "Showy Cyclist",
+      "core_frequency": 0.145,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Naga"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Turbo Hogrider",
+      "core_frequency": 0.923,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Bramble Tunneler",
+      "core_frequency": 0.859,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Gem Rat",
+      "core_frequency": 0.526,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Sanguine Refiner",
+      "core_frequency": 0.397,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Vigilant Bristlemane",
+      "core_frequency": 0.385,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Balinda Stonehearth",
+      "core_frequency": 0.244,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Sanguine Champion",
+      "core_frequency": 0.231,
+      "status": "MISSING_OR_INVALID_TIER",
+      "kb_tier": 7,
+      "kb_tribes": [
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Felboar",
+      "core_frequency": 0.218,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon",
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.192,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.154,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Thorned Trailblazer",
+      "core_frequency": 0.141,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "quilboar_choose_one",
+      "archetype_name": "Quilboar Choose One",
+      "tribe": "Quilboar",
+      "card": "Razorfen Vineweaver",
+      "core_frequency": 0.141,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Quilboar"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.967,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Cousin Errgl",
+      "core_frequency": 0.869,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Kelp Keeper",
+      "core_frequency": 0.803,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Papa Mrrglton",
+      "core_frequency": 0.607,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Mama Mrrglton",
+      "core_frequency": 0.508,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Bile Spitter",
+      "core_frequency": 0.492,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Drakkari Enchanter",
+      "core_frequency": 0.492,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Diremuck Forager",
+      "core_frequency": 0.213,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Primalfin Lookout",
+      "core_frequency": 0.164,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Expert Aviator",
+      "core_frequency": 0.131,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.131,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "murloc_mrrglton",
+      "archetype_name": "Murloc Mrrglton",
+      "tribe": "Murloc",
+      "card": "Choral Mrrrglr",
+      "core_frequency": 0.115,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Murloc"
+      ]
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Falling Sky Golem",
+      "core_frequency": 0.857,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Titus Rivendare",
+      "core_frequency": 0.571,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Kangor's Apprentice",
+      "core_frequency": 0.551,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Polarizing Beatboxer",
+      "core_frequency": 0.306,
+      "status": "MISSING_OR_INVALID_TIER",
+      "kb_tier": 7,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Scrap Scraper",
+      "core_frequency": 0.306,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Spark Snapper",
+      "core_frequency": 0.286,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.286,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Ancestral Automaton",
+      "core_frequency": 0.245,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Utility Drone",
+      "core_frequency": 0.163,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.122,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Drone Duplicator",
+      "core_frequency": 0.102,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "mech_automaton",
+      "archetype_name": "Mech Automaton",
+      "tribe": "Mech",
+      "card": "Auto Assembler",
+      "core_frequency": 0.082,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Mech"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Wrath Weaver",
+      "core_frequency": 0.833,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 1,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Ashen Corruptor",
+      "core_frequency": 0.667,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Tichondrius",
+      "core_frequency": 0.524,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Malchezaar, Prince of Dance",
+      "core_frequency": 0.429,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Soul Rewinder",
+      "core_frequency": 0.429,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 2,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Eredar Escapist",
+      "core_frequency": 0.333,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Twisted Wrathguard",
+      "core_frequency": 0.286,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.214,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Soulkeeping Jailer",
+      "core_frequency": 0.214,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Imp-lusionist",
+      "core_frequency": 0.214,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Insatiable Ur'zul",
+      "core_frequency": 0.19,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "demon_self_damage",
+      "archetype_name": "Demon Self Damage",
+      "tribe": "Demon",
+      "card": "Imposing Percussionist",
+      "core_frequency": 0.167,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Demon"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Unleashed Mana Surge",
+      "core_frequency": 0.933,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Moat Custodian",
+      "core_frequency": 0.867,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Unbound Tempest",
+      "core_frequency": 0.6,
+      "status": "MISSING_FROM_KB",
+      "kb_tier": null,
+      "kb_tribes": null
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Tavern Tempest",
+      "core_frequency": 0.533,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Brann Bronzebeard",
+      "core_frequency": 0.533,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Glowing Cinder",
+      "core_frequency": 0.333,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Wildfire Elemental",
+      "core_frequency": 0.267,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Meteorite Crasher",
+      "core_frequency": 0.2,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 3,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Nightmare Par-tea Guest",
+      "core_frequency": 0.133,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": [
+        "All"
+      ]
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Heroic Underdog",
+      "core_frequency": 0.133,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 4,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Leeroy the Reckless",
+      "core_frequency": 0.133,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 5,
+      "kb_tribes": []
+    },
+    {
+      "archetype_key": "elemental_boost",
+      "archetype_name": "Elemental Boost",
+      "tribe": "Elemental",
+      "card": "Elemental of Surprise",
+      "core_frequency": 0.133,
+      "status": "IN_EXACT_CATALOGUE",
+      "kb_tier": 6,
+      "kb_tribes": [
+        "Elemental"
+      ]
+    }
+  ]
+}

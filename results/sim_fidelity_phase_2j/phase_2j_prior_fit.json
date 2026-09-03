@@ -1,0 +1,136 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2J board-relative opportunity-cost policy",
+  "methodology_version": "2j_v1",
+  "implementation_commit": "8f396b35308e21559871a963f6183bb322b1588a",
+  "working_tree_clean": true,
+  "runtime_seconds": 205.48,
+  "fit_seed_base": 7000,
+  "fit_lobbies": 300,
+  "prior_path": "results/sim_fidelity_phase_2j/persistence_prior.json",
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+  "prior_summary": {
+    "n_cells": 18,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "global_p_survive_1": 0.9890604074152393,
+    "global_p_survive_2": 0.9757806442517798,
+    "collapsed_from": [
+      "5|strong|core",
+      "6plus|strong|core",
+      "le4|strong|core",
+      "5|strong|core->pooled",
+      "6plus|strong|core->pooled",
+      "le4|strong|core->pooled"
+    ],
+    "cells": {
+      "5|mid|core": {
+        "n": 73,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "5|mid|noncore": {
+        "n": 4981,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "5|strong|core": {
+        "n": 5054,
+        "p1": 0.9996,
+        "p2": 0.9992,
+        "weight": 0.9994
+      },
+      "5|strong|noncore": {
+        "n": 5038,
+        "p1": 0.9996,
+        "p2": 0.9992,
+        "weight": 0.9994
+      },
+      "5|weak|core": {
+        "n": 178,
+        "p1": 0.9382,
+        "p2": 0.8652,
+        "weight": 0.9017
+      },
+      "5|weak|noncore": {
+        "n": 7403,
+        "p1": 0.9063,
+        "p2": 0.7914,
+        "weight": 0.8488
+      },
+      "6plus|mid|core": {
+        "n": 103,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "6plus|mid|noncore": {
+        "n": 6853,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "6plus|strong|core": {
+        "n": 6956,
+        "p1": 0.9999,
+        "p2": 0.9997,
+        "weight": 0.9998
+      },
+      "6plus|strong|noncore": {
+        "n": 6941,
+        "p1": 0.9999,
+        "p2": 0.9997,
+        "weight": 0.9998
+      },
+      "6plus|weak|core": {
+        "n": 237,
+        "p1": 0.9873,
+        "p2": 0.9662,
+        "weight": 0.9768
+      },
+      "6plus|weak|noncore": {
+        "n": 10197,
+        "p1": 0.9936,
+        "p2": 0.9867,
+        "weight": 0.9901
+      },
+      "le4|mid|core": {
+        "n": 40,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "le4|mid|noncore": {
+        "n": 8338,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "le4|strong|core": {
+        "n": 3672,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "le4|strong|noncore": {
+        "n": 3664,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "le4|weak|core": {
+        "n": 244,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      },
+      "le4|weak|noncore": {
+        "n": 16606,
+        "p1": 1.0,
+        "p2": 1.0,
+        "weight": 1.0
+      }
+    }
+  }
+}

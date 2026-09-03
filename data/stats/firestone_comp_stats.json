@@ -1,0 +1,281 @@
+{
+ "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+ "_fetched": "2026-09-01",
+ "_mmr": 10,
+ "_period": "past-seven",
+ "_heroDataPoints": 58561,
+ "comps": [
+  {
+   "name": "Elemental Cycle",
+   "archetype": "elemental_cycle",
+   "tribe": "Elemental",
+   "averagePosition": 3.3,
+   "popularity": 0.1136,
+   "coreCards": [
+    "Unbound Tempest",
+    "Brann Bronzebeard",
+    "Unleashed Mana Surge",
+    "Moat Custodian",
+    "Wildfire Elemental",
+    "Tavern Tempest"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Naga End Of Turn",
+   "archetype": "naga_end_of_turn",
+   "tribe": "Naga",
+   "averagePosition": 3.312,
+   "popularity": 0.1741,
+   "coreCards": [
+    "Fauna Whisperer",
+    "Balinda Stonehearth",
+    "Gatekeeper Amalgam",
+    "Drakkari Enchanter",
+    "Felfire Conjurer",
+    "Torrential Ruiner"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Beast Beetle",
+   "archetype": "beast_beetle",
+   "tribe": "Beast",
+   "averagePosition": 3.529,
+   "popularity": 0.0195,
+   "coreCards": [
+    "Banana Slamma",
+    "Ravaging Scorpid",
+    "Turquoise Skitterer",
+    "Forest Rover",
+    "Buzzing Vermin",
+    "Headhunter Gryphon"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Dragon Evoker",
+   "archetype": "dragon_evoker",
+   "tribe": "Dragon",
+   "averagePosition": 3.548,
+   "popularity": 0.0469,
+   "coreCards": [
+    "Persistent Poet",
+    "Warpwing",
+    "Fire-forged Evoker",
+    "Crimson Vindicator",
+    "Brann Bronzebeard",
+    "Leeroy the Reckless"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Murloc Handbuff",
+   "archetype": "murloc_handbuff",
+   "tribe": "Murloc",
+   "averagePosition": 3.564,
+   "popularity": 0.0745,
+   "coreCards": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Bile Spitter",
+    "Expert Aviator",
+    "Costume Enthusiast",
+    "Brann Bronzebeard"
+   ],
+   "powerTurns": [],
+   "tier": "S"
+  },
+  {
+   "name": "Demon Boost Shop",
+   "archetype": "demon_boost_shop",
+   "tribe": "Demon",
+   "averagePosition": 3.664,
+   "popularity": 0.1087,
+   "coreCards": [
+    "Devilish Distractor",
+    "Felboar",
+    "Balinda Stonehearth",
+    "Imp-lusionist",
+    "Brann Bronzebeard",
+    "Twisted Wrathguard"
+   ],
+   "powerTurns": [],
+   "tier": "A"
+  },
+  {
+   "name": "Pirate Discover",
+   "archetype": "pirate_discover",
+   "tribe": "Pirate",
+   "averagePosition": 3.686,
+   "popularity": 0.1239,
+   "coreCards": [
+    "Hooktusk, Master Marauder",
+    "Enterprising Escapee",
+    "Blade Collector",
+    "Leeroy the Reckless",
+    "Sky Admiral Rogers",
+    "Brann Bronzebeard"
+   ],
+   "powerTurns": [],
+   "tier": "A"
+  },
+  {
+   "name": "Undead Butcher",
+   "archetype": "undead_butcher",
+   "tribe": "Undead",
+   "averagePosition": 3.722,
+   "popularity": 0.0418,
+   "coreCards": [
+    "Drustfallen Butcher",
+    "Snazzy Phantom",
+    "Handless Forsaken",
+    "Mummifier",
+    "Dead Bellringer",
+    "Deathly Striker"
+   ],
+   "powerTurns": [],
+   "tier": "A"
+  },
+  {
+   "name": "Beast Leviathan",
+   "archetype": "beast_leviathan",
+   "tribe": "Beast",
+   "averagePosition": 3.82,
+   "popularity": 0.0247,
+   "coreCards": [
+    "Banana Slamma",
+    "Ravaging Scorpid",
+    "Turquoise Skitterer",
+    "Sewer Lord",
+    "Lurking Leviathan",
+    "Leeroy the Reckless"
+   ],
+   "powerTurns": [],
+   "tier": "A"
+  },
+  {
+   "name": "Murloc Mrrglton",
+   "archetype": "murloc_mrrglton",
+   "tribe": "Murloc",
+   "averagePosition": 3.841,
+   "popularity": 0.0105,
+   "coreCards": [
+    "Brann Bronzebeard",
+    "Cousin Errgl",
+    "Kelp Keeper",
+    "Papa Mrrglton",
+    "Mama Mrrglton",
+    "Bile Spitter"
+   ],
+   "powerTurns": [],
+   "tier": "A"
+  },
+  {
+   "name": "Neutral Tea Set",
+   "archetype": "neutral_tea_set",
+   "tribe": null,
+   "averagePosition": 3.904,
+   "popularity": 0.0431,
+   "coreCards": [
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth",
+    "Brann Bronzebeard",
+    "Fauna Whisperer",
+    "Felfire Conjurer",
+    "Warpwing"
+   ],
+   "powerTurns": [],
+   "tier": "A"
+  },
+  {
+   "name": "Dragon Kalecgos",
+   "archetype": "dragon_kalecgos",
+   "tribe": "Dragon",
+   "averagePosition": 4.109,
+   "popularity": 0.0439,
+   "coreCards": [
+    "Warpwing",
+    "Kalecgos, Arcane Aspect",
+    "Brann Bronzebeard",
+    "Persistent Poet",
+    "Bronze Timewalker",
+    "Crimson Vindicator"
+   ],
+   "powerTurns": [],
+   "tier": "B"
+  },
+  {
+   "name": "Mech Magnet",
+   "archetype": "mech_magnet",
+   "tribe": "Mech",
+   "averagePosition": 4.137,
+   "popularity": 0.0727,
+   "coreCards": [
+    "Drone Duplicator",
+    "Spark Snapper",
+    "Polarizing Beatboxer",
+    "Utility Drone",
+    "Glambot",
+    "Scrap Scraper"
+   ],
+   "powerTurns": [],
+   "tier": "B"
+  },
+  {
+   "name": "Naga Groundbreaker",
+   "archetype": "naga_groundbreaker",
+   "tribe": "Naga",
+   "averagePosition": 4.307,
+   "popularity": 0.0219,
+   "coreCards": [
+    "Groundbreaker",
+    "Seafloor Recruiter",
+    "Balinda Stonehearth",
+    "Cagey Conjurer",
+    "Glowscale",
+    "Leeroy the Reckless"
+   ],
+   "powerTurns": [],
+   "tier": "C"
+  },
+  {
+   "name": "Beast Lobster",
+   "archetype": "beast_lobster",
+   "tribe": "Beast",
+   "averagePosition": 4.345,
+   "popularity": 0.0428,
+   "coreCards": [
+    "Deathstrider",
+    "Titus Rivendare",
+    "Tasty Lobster",
+    "Headhunter Gryphon",
+    "Hoarding Hyena",
+    "Sin'dorei Straight Shot"
+   ],
+   "powerTurns": [],
+   "tier": "C"
+  },
+  {
+   "name": "Quilboar Choose One",
+   "archetype": "quilboar_choose_one",
+   "tribe": "Quilboar",
+   "averagePosition": 4.646,
+   "popularity": 0.0276,
+   "coreCards": [
+    "Turbo Hogrider",
+    "Bramble Tunneler",
+    "Gem Rat",
+    "Sanguine Refiner",
+    "Vigilant Bristlemane",
+    "Balinda Stonehearth"
+   ],
+   "powerTurns": [],
+   "tier": "D"
+  }
+ ]
+}

@@ -1,0 +1,124 @@
+{
+  "experiment": "Replay Experiment 3 \u2014 Multi-Seed PPO Budget Replication",
+  "seeds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "iterations": [
+    0,
+    40,
+    80,
+    160,
+    320
+  ],
+  "episodes_per_iteration": 16,
+  "table_by_seed": {
+    "seed_0": {
+      "iter_000": 6.554,
+      "iter_040": 6.761,
+      "iter_080": 6.325,
+      "iter_160": 6.435,
+      "iter_320": 6.606
+    },
+    "seed_1": {
+      "iter_000": 6.573,
+      "iter_040": 6.61,
+      "iter_080": 6.526,
+      "iter_160": 6.593,
+      "iter_320": 6.597
+    },
+    "seed_2": {
+      "iter_000": 6.573,
+      "iter_040": 6.584,
+      "iter_080": 6.715,
+      "iter_160": 6.697,
+      "iter_320": 6.602
+    },
+    "seed_3": {
+      "iter_000": 6.573,
+      "iter_040": 6.635,
+      "iter_080": 7.142,
+      "iter_160": 7.151,
+      "iter_320": 6.558
+    }
+  },
+  "by_budget": {
+    "0": {
+      "iteration": 0,
+      "cumulative_episodes": 0,
+      "seed_placements": {
+        "seed_0": 6.554,
+        "seed_1": 6.573,
+        "seed_2": 6.573,
+        "seed_3": 6.573
+      },
+      "mean": 6.568250000000001,
+      "median": 6.573,
+      "min": 6.554,
+      "max": 6.573,
+      "std": 0.009500000000000064
+    },
+    "40": {
+      "iteration": 40,
+      "cumulative_episodes": 640,
+      "seed_placements": {
+        "seed_0": 6.761,
+        "seed_1": 6.61,
+        "seed_2": 6.584,
+        "seed_3": 6.635
+      },
+      "mean": 6.6475,
+      "median": 6.6225000000000005,
+      "min": 6.584,
+      "max": 6.761,
+      "std": 0.07847929663293382
+    },
+    "80": {
+      "iteration": 80,
+      "cumulative_episodes": 1280,
+      "seed_placements": {
+        "seed_0": 6.325,
+        "seed_1": 6.526,
+        "seed_2": 6.715,
+        "seed_3": 7.142
+      },
+      "mean": 6.677,
+      "median": 6.6205,
+      "min": 6.325,
+      "max": 7.142,
+      "std": 0.3485082495436802
+    },
+    "160": {
+      "iteration": 160,
+      "cumulative_episodes": 2560,
+      "seed_placements": {
+        "seed_0": 6.435,
+        "seed_1": 6.593,
+        "seed_2": 6.697,
+        "seed_3": 7.151
+      },
+      "mean": 6.718999999999999,
+      "median": 6.645,
+      "min": 6.435,
+      "max": 7.151,
+      "std": 0.30748441694932555
+    },
+    "320": {
+      "iteration": 320,
+      "cumulative_episodes": 5120,
+      "seed_placements": {
+        "seed_0": 6.606,
+        "seed_1": 6.597,
+        "seed_2": 6.602,
+        "seed_3": 6.558
+      },
+      "mean": 6.59075,
+      "median": 6.599500000000001,
+      "min": 6.558,
+      "max": 6.606,
+      "std": 0.022141589825484677
+    }
+  }
+}
