@@ -1,0 +1,1911 @@
+{
+ "_source": "hsreplay.net capture (auto-2026-08-30)",
+ "_imported": "2026-08-30",
+ "_percentile": "TOP_20_PERCENT",
+ "cards": [
+  {
+   "name": "Boom-in-a-Box",
+   "cardId": "133703",
+   "averagePlacement": 1.653,
+   "impact": 0.084,
+   "techLevel": 4,
+   "totalPlayed": 1489
+  },
+  {
+   "name": "Sin'dorei Straight Shot",
+   "cardId": "95286",
+   "averagePlacement": 1.977,
+   "impact": 0.318,
+   "techLevel": 4,
+   "totalPlayed": 4721
+  },
+  {
+   "name": "Deadly Spore",
+   "cardId": "65031",
+   "averagePlacement": 2.081,
+   "impact": 0.213,
+   "techLevel": 3,
+   "totalPlayed": 7555
+  },
+  {
+   "name": "Bream Counter",
+   "cardId": "98509",
+   "averagePlacement": 2.188,
+   "impact": 0.102,
+   "techLevel": 4,
+   "totalPlayed": 3075
+  },
+  {
+   "name": "Heroic Underdog",
+   "cardId": "126966",
+   "averagePlacement": 2.315,
+   "impact": 0.341,
+   "techLevel": 4,
+   "totalPlayed": 10582
+  },
+  {
+   "name": "Leeroy the Reckless",
+   "cardId": "90425",
+   "averagePlacement": 2.661,
+   "impact": 0.642,
+   "techLevel": 5,
+   "totalPlayed": 34119
+  },
+  {
+   "name": "Eredar Escapist",
+   "cardId": "133028",
+   "averagePlacement": 2.723,
+   "impact": 0.242,
+   "techLevel": 6,
+   "totalPlayed": 9545
+  },
+  {
+   "name": "Choral Mrrrglr",
+   "cardId": "98948",
+   "averagePlacement": 2.776,
+   "impact": 0.46,
+   "techLevel": 6,
+   "totalPlayed": 18711
+  },
+  {
+   "name": "Elemental of Surprise",
+   "cardId": "101280",
+   "averagePlacement": 2.806,
+   "impact": 0.428,
+   "techLevel": 6,
+   "totalPlayed": 20520
+  },
+  {
+   "name": "Primitive Painter",
+   "cardId": "122281",
+   "averagePlacement": 2.879,
+   "impact": 0.35,
+   "techLevel": 6,
+   "totalPlayed": 14066
+  },
+  {
+   "name": "Glowscale",
+   "cardId": "80746",
+   "averagePlacement": 2.881,
+   "impact": 0.634,
+   "techLevel": 5,
+   "totalPlayed": 44094
+  },
+  {
+   "name": "Unleashed Mana Surge",
+   "cardId": "120674",
+   "averagePlacement": 2.885,
+   "impact": 0.574,
+   "techLevel": 6,
+   "totalPlayed": 37404
+  },
+  {
+   "name": "Magicfin Mycologist",
+   "cardId": "122277",
+   "averagePlacement": 2.912,
+   "impact": 0.505,
+   "techLevel": 6,
+   "totalPlayed": 48450
+  },
+  {
+   "name": "Snazzy Phantom",
+   "cardId": "133083",
+   "averagePlacement": 2.914,
+   "impact": 0.315,
+   "techLevel": 6,
+   "totalPlayed": 14911
+  },
+  {
+   "name": "Goldrinn, the Great Wolf",
+   "cardId": "59955",
+   "averagePlacement": 2.922,
+   "impact": 0.307,
+   "techLevel": 6,
+   "totalPlayed": 14404
+  },
+  {
+   "name": "Silent Deliverer",
+   "cardId": "132923",
+   "averagePlacement": 2.932,
+   "impact": 0.548,
+   "techLevel": 6,
+   "totalPlayed": 90087
+  },
+  {
+   "name": "Utility Drone",
+   "cardId": "98588",
+   "averagePlacement": 2.939,
+   "impact": 0.295,
+   "techLevel": 6,
+   "totalPlayed": 22593
+  },
+  {
+   "name": "Unbound Tempest",
+   "cardId": "132983",
+   "averagePlacement": 2.946,
+   "impact": 0.471,
+   "techLevel": 6,
+   "totalPlayed": 38368
+  },
+  {
+   "name": "Forsaken Weaver",
+   "cardId": "126733",
+   "averagePlacement": 2.961,
+   "impact": 0.267,
+   "techLevel": 6,
+   "totalPlayed": 12915
+  },
+  {
+   "name": "Magicfin Apprentice",
+   "cardId": "122285",
+   "averagePlacement": 2.98,
+   "impact": 0.536,
+   "techLevel": 1,
+   "totalPlayed": 52588
+  },
+  {
+   "name": "Turbo Hogrider",
+   "cardId": "116195",
+   "averagePlacement": 2.991,
+   "impact": 0.238,
+   "techLevel": 6,
+   "totalPlayed": 16591
+  },
+  {
+   "name": "Veteran Brigand",
+   "cardId": "132929",
+   "averagePlacement": 2.994,
+   "impact": 0.417,
+   "techLevel": 6,
+   "totalPlayed": 45145
+  },
+  {
+   "name": "Groundbreaker",
+   "cardId": "114816",
+   "averagePlacement": 2.999,
+   "impact": 0.407,
+   "techLevel": 6,
+   "totalPlayed": 26862
+  },
+  {
+   "name": "Costume Enthusiast",
+   "cardId": "126641",
+   "averagePlacement": 3.01,
+   "impact": 0.27,
+   "techLevel": 5,
+   "totalPlayed": 12548
+  },
+  {
+   "name": "Gatekeeper Amalgam",
+   "cardId": "133329",
+   "averagePlacement": 3.011,
+   "impact": 0.477,
+   "techLevel": 6,
+   "totalPlayed": 102224
+  },
+  {
+   "name": "Moat Custodian",
+   "cardId": "132981",
+   "averagePlacement": 3.012,
+   "impact": 0.438,
+   "techLevel": 6,
+   "totalPlayed": 36393
+  },
+  {
+   "name": "Sanguine Champion",
+   "cardId": "80755",
+   "averagePlacement": 3.02,
+   "impact": 0.385,
+   "techLevel": 6,
+   "totalPlayed": 31376
+  },
+  {
+   "name": "Bile Spitter",
+   "cardId": "122219",
+   "averagePlacement": 3.022,
+   "impact": 0.262,
+   "techLevel": 5,
+   "totalPlayed": 18592
+  },
+  {
+   "name": "Torrential Ruiner",
+   "cardId": "133707",
+   "averagePlacement": 3.027,
+   "impact": 0.424,
+   "techLevel": 6,
+   "totalPlayed": 39341
+  },
+  {
+   "name": "Eternal Summoner",
+   "cardId": "95263",
+   "averagePlacement": 3.036,
+   "impact": 0.191,
+   "techLevel": 6,
+   "totalPlayed": 15034
+  },
+  {
+   "name": "Deathly Striker",
+   "cardId": "115610",
+   "averagePlacement": 3.043,
+   "impact": 0.183,
+   "techLevel": 6,
+   "totalPlayed": 14007
+  },
+  {
+   "name": "Fauna Whisperer",
+   "cardId": "120905",
+   "averagePlacement": 3.049,
+   "impact": 0.416,
+   "techLevel": 6,
+   "totalPlayed": 58671
+  },
+  {
+   "name": "Crimson Vindicator",
+   "cardId": "132953",
+   "averagePlacement": 3.06,
+   "impact": 0.342,
+   "techLevel": 6,
+   "totalPlayed": 25827
+  },
+  {
+   "name": "Captain Sanders",
+   "cardId": "97539",
+   "averagePlacement": 3.067,
+   "impact": -0.193,
+   "techLevel": 7,
+   "totalPlayed": 3230
+  },
+  {
+   "name": "Futurefin",
+   "cardId": "127494",
+   "averagePlacement": 3.1,
+   "impact": -0.202,
+   "techLevel": 7,
+   "totalPlayed": 1067
+  },
+  {
+   "name": "Ravaging Scorpid",
+   "cardId": "132949",
+   "averagePlacement": 3.109,
+   "impact": 0.33,
+   "techLevel": 6,
+   "totalPlayed": 20620
+  },
+  {
+   "name": "Primalfin Lookout",
+   "cardId": "60028",
+   "averagePlacement": 3.113,
+   "impact": 0.389,
+   "techLevel": 5,
+   "totalPlayed": 36471
+  },
+  {
+   "name": "Polarizing Beatboxer",
+   "cardId": "98713",
+   "averagePlacement": 3.135,
+   "impact": -0.299,
+   "techLevel": 7,
+   "totalPlayed": 1688
+  },
+  {
+   "name": "Balinda Stonehearth",
+   "cardId": "130298",
+   "averagePlacement": 3.138,
+   "impact": 0.336,
+   "techLevel": 6,
+   "totalPlayed": 94366
+  },
+  {
+   "name": "Fire-forged Evoker",
+   "cardId": "120301",
+   "averagePlacement": 3.144,
+   "impact": 0.254,
+   "techLevel": 6,
+   "totalPlayed": 18842
+  },
+  {
+   "name": "Warpwing",
+   "cardId": "92413",
+   "averagePlacement": 3.155,
+   "impact": 0.245,
+   "techLevel": 6,
+   "totalPlayed": 27864
+  },
+  {
+   "name": "Ignition Specialist",
+   "cardId": "105852",
+   "averagePlacement": 3.157,
+   "impact": 0.242,
+   "techLevel": 6,
+   "totalPlayed": 24512
+  },
+  {
+   "name": "Hooktusk, Master Marauder",
+   "cardId": "132925",
+   "averagePlacement": 3.161,
+   "impact": 0.289,
+   "techLevel": 6,
+   "totalPlayed": 40479
+  },
+  {
+   "name": "Twisted Wrathguard",
+   "cardId": "130662",
+   "averagePlacement": 3.174,
+   "impact": 0.224,
+   "techLevel": 6,
+   "totalPlayed": 20099
+  },
+  {
+   "name": "Sewer Lord",
+   "cardId": "130996",
+   "averagePlacement": 3.174,
+   "impact": 0.104,
+   "techLevel": 5,
+   "totalPlayed": 11092
+  },
+  {
+   "name": "Rodeo Performer",
+   "cardId": "104466",
+   "averagePlacement": 3.176,
+   "impact": 0.499,
+   "techLevel": 5,
+   "totalPlayed": 118503
+  },
+  {
+   "name": "Nightmare Par-tea Guest",
+   "cardId": "120754",
+   "averagePlacement": 3.183,
+   "impact": 0.481,
+   "techLevel": 5,
+   "totalPlayed": 93216
+  },
+  {
+   "name": "Sea Witch Zar'jira",
+   "cardId": "103069",
+   "averagePlacement": 3.184,
+   "impact": -0.31,
+   "techLevel": 7,
+   "totalPlayed": 2492
+  },
+  {
+   "name": "Darkcrest Strategist",
+   "cardId": "115555",
+   "averagePlacement": 3.189,
+   "impact": 0.307,
+   "techLevel": 5,
+   "totalPlayed": 26649
+  },
+  {
+   "name": "Air Baller",
+   "cardId": "133455",
+   "averagePlacement": 3.192,
+   "impact": 0.56,
+   "techLevel": 4,
+   "totalPlayed": 48440
+  },
+  {
+   "name": "Champion of Sargeras",
+   "cardId": "103698",
+   "averagePlacement": 3.199,
+   "impact": -0.3,
+   "techLevel": 7,
+   "totalPlayed": 991
+  },
+  {
+   "name": "Showy Cyclist",
+   "cardId": "115565",
+   "averagePlacement": 3.204,
+   "impact": 0.291,
+   "techLevel": 5,
+   "totalPlayed": 20894
+  },
+  {
+   "name": "Sky Admiral Rogers",
+   "cardId": "122516",
+   "averagePlacement": 3.213,
+   "impact": 0.232,
+   "techLevel": 6,
+   "totalPlayed": 46363
+  },
+  {
+   "name": "Falling Sky Golem",
+   "cardId": "130798",
+   "averagePlacement": 3.217,
+   "impact": 0.18,
+   "techLevel": 6,
+   "totalPlayed": 27312
+  },
+  {
+   "name": "Lurking Leviathan",
+   "cardId": "130711",
+   "averagePlacement": 3.223,
+   "impact": 0.077,
+   "techLevel": 5,
+   "totalPlayed": 9354
+  },
+  {
+   "name": "Deathstrider",
+   "cardId": "132808",
+   "averagePlacement": 3.223,
+   "impact": 0.176,
+   "techLevel": 6,
+   "totalPlayed": 26243
+  },
+  {
+   "name": "Stitched Salvager",
+   "cardId": "119666",
+   "averagePlacement": 3.224,
+   "impact": -0.326,
+   "techLevel": 7,
+   "totalPlayed": 892
+  },
+  {
+   "name": "Tranquil Meditative",
+   "cardId": "119942",
+   "averagePlacement": 3.234,
+   "impact": 0.411,
+   "techLevel": 5,
+   "totalPlayed": 47934
+  },
+  {
+   "name": "Highkeeper Ra",
+   "cardId": "127107",
+   "averagePlacement": 3.246,
+   "impact": -0.373,
+   "techLevel": 7,
+   "totalPlayed": 3415
+  },
+  {
+   "name": "Draconic Warden",
+   "cardId": "126860",
+   "averagePlacement": 3.25,
+   "impact": 0.394,
+   "techLevel": 5,
+   "totalPlayed": 55495
+  },
+  {
+   "name": "Refreshing Anomaly",
+   "cardId": "64042",
+   "averagePlacement": 3.253,
+   "impact": 0.511,
+   "techLevel": 4,
+   "totalPlayed": 86659
+  },
+  {
+   "name": "Tavern Tempest",
+   "cardId": "64077",
+   "averagePlacement": 3.259,
+   "impact": 0.503,
+   "techLevel": 4,
+   "totalPlayed": 83338
+  },
+  {
+   "name": "Dancing Barnstormer",
+   "cardId": "99523",
+   "averagePlacement": 3.26,
+   "impact": 0.382,
+   "techLevel": 5,
+   "totalPlayed": 50298
+  },
+  {
+   "name": "Papa Mrrglton",
+   "cardId": "131147",
+   "averagePlacement": 3.279,
+   "impact": 0.537,
+   "techLevel": 3,
+   "totalPlayed": 42382
+  },
+  {
+   "name": "Shamanic Tidecaller",
+   "cardId": "133026",
+   "averagePlacement": 3.282,
+   "impact": 0.211,
+   "techLevel": 5,
+   "totalPlayed": 16914
+  },
+  {
+   "name": "Cousin Errgl",
+   "cardId": "131149",
+   "averagePlacement": 3.285,
+   "impact": 0.207,
+   "techLevel": 5,
+   "totalPlayed": 13689
+  },
+  {
+   "name": "Deepwater Chieftain",
+   "cardId": "131216",
+   "averagePlacement": 3.287,
+   "impact": 0.459,
+   "techLevel": 4,
+   "totalPlayed": 40696
+  },
+  {
+   "name": "Mama Mrrglton",
+   "cardId": "131145",
+   "averagePlacement": 3.289,
+   "impact": 0.527,
+   "techLevel": 3,
+   "totalPlayed": 41808
+  },
+  {
+   "name": "Jailbird Juggernaut",
+   "cardId": "132636",
+   "averagePlacement": 3.29,
+   "impact": -0.392,
+   "techLevel": 7,
+   "totalPlayed": 906
+  },
+  {
+   "name": "Stone Age Slab",
+   "cardId": "126959",
+   "averagePlacement": 3.292,
+   "impact": -0.393,
+   "techLevel": 7,
+   "totalPlayed": 874
+  },
+  {
+   "name": "Lava Lurker",
+   "cardId": "80747",
+   "averagePlacement": 3.295,
+   "impact": 0.412,
+   "techLevel": 2,
+   "totalPlayed": 27736
+  },
+  {
+   "name": "The Last One Standing",
+   "cardId": "127109",
+   "averagePlacement": 3.296,
+   "impact": -0.422,
+   "techLevel": 7,
+   "totalPlayed": 2026
+  },
+  {
+   "name": "Obsidian Ravager",
+   "cardId": "103700",
+   "averagePlacement": 3.301,
+   "impact": -0.403,
+   "techLevel": 7,
+   "totalPlayed": 1044
+  },
+  {
+   "name": "Stalwart Kodo",
+   "cardId": "127113",
+   "averagePlacement": 3.302,
+   "impact": -0.404,
+   "techLevel": 7,
+   "totalPlayed": 785
+  },
+  {
+   "name": "Sand Swirler",
+   "cardId": "119949",
+   "averagePlacement": 3.303,
+   "impact": 0.518,
+   "techLevel": 3,
+   "totalPlayed": 63206
+  },
+  {
+   "name": "Humming Bird",
+   "cardId": "98939",
+   "averagePlacement": 3.305,
+   "impact": 0.187,
+   "techLevel": 2,
+   "totalPlayed": 14619
+  },
+  {
+   "name": "Firescale Hoarder",
+   "cardId": "120213",
+   "averagePlacement": 3.313,
+   "impact": 0.328,
+   "techLevel": 5,
+   "totalPlayed": 54095
+  },
+  {
+   "name": "Snow Baller",
+   "cardId": "117667",
+   "averagePlacement": 3.321,
+   "impact": 0.602,
+   "techLevel": 2,
+   "totalPlayed": 88501
+  },
+  {
+   "name": "Auto Assembler",
+   "cardId": "120025",
+   "averagePlacement": 3.337,
+   "impact": 0.304,
+   "techLevel": 4,
+   "totalPlayed": 30720
+  },
+  {
+   "name": "Fire Baller",
+   "cardId": "116736",
+   "averagePlacement": 3.342,
+   "impact": 0.58,
+   "techLevel": 2,
+   "totalPlayed": 89202
+  },
+  {
+   "name": "Shipwrecked Rascal",
+   "cardId": "122177",
+   "averagePlacement": 3.342,
+   "impact": 0.296,
+   "techLevel": 5,
+   "totalPlayed": 45454
+  },
+  {
+   "name": "Gunpowder Courier",
+   "cardId": "98889",
+   "averagePlacement": 3.349,
+   "impact": 0.146,
+   "techLevel": 4,
+   "totalPlayed": 13028
+  },
+  {
+   "name": "Mind Muck",
+   "cardId": "93321",
+   "averagePlacement": 3.35,
+   "impact": 0.142,
+   "techLevel": 2,
+   "totalPlayed": 19367
+  },
+  {
+   "name": "Motley Phalanx",
+   "cardId": "106487",
+   "averagePlacement": 3.355,
+   "impact": 0.408,
+   "techLevel": 4,
+   "totalPlayed": 100357
+  },
+  {
+   "name": "Air Revenant",
+   "cardId": "126173",
+   "averagePlacement": 3.356,
+   "impact": 0.137,
+   "techLevel": 5,
+   "totalPlayed": 29503
+  },
+  {
+   "name": "Annoy-o-Module",
+   "cardId": "96812",
+   "averagePlacement": 3.364,
+   "impact": 0.379,
+   "techLevel": 3,
+   "totalPlayed": 44704
+  },
+  {
+   "name": "Amber Guardian",
+   "cardId": "95006",
+   "averagePlacement": 3.369,
+   "impact": 0.138,
+   "techLevel": 3,
+   "totalPlayed": 12052
+  },
+  {
+   "name": "Waverider",
+   "cardId": "80745",
+   "averagePlacement": 3.371,
+   "impact": 0.492,
+   "techLevel": 3,
+   "totalPlayed": 38472
+  },
+  {
+   "name": "En-Djinn Blazer",
+   "cardId": "126175",
+   "averagePlacement": 3.383,
+   "impact": 0.364,
+   "techLevel": 4,
+   "totalPlayed": 57631
+  },
+  {
+   "name": "Enchanted Sentinel",
+   "cardId": "130796",
+   "averagePlacement": 3.383,
+   "impact": 0.256,
+   "techLevel": 4,
+   "totalPlayed": 30952
+  },
+  {
+   "name": "Deep-Sea Angler",
+   "cardId": "80742",
+   "averagePlacement": 3.386,
+   "impact": 0.475,
+   "techLevel": 3,
+   "totalPlayed": 34942
+  },
+  {
+   "name": "Turquoise Skitterer",
+   "cardId": "119255",
+   "averagePlacement": 3.388,
+   "impact": 0.102,
+   "techLevel": 5,
+   "totalPlayed": 14675
+  },
+  {
+   "name": "Fearless Foodie",
+   "cardId": "113154",
+   "averagePlacement": 3.392,
+   "impact": 0.353,
+   "techLevel": 4,
+   "totalPlayed": 49203
+  },
+  {
+   "name": "Scarlet Skull",
+   "cardId": "95280",
+   "averagePlacement": 3.397,
+   "impact": -0.02,
+   "techLevel": 2,
+   "totalPlayed": 9357
+  },
+  {
+   "name": "Zesty Shaker",
+   "cardId": "99054",
+   "averagePlacement": 3.4,
+   "impact": 0.339,
+   "techLevel": 4,
+   "totalPlayed": 25159
+  },
+  {
+   "name": "Surfing Sylvar",
+   "cardId": "119994",
+   "averagePlacement": 3.408,
+   "impact": 0.18,
+   "techLevel": 2,
+   "totalPlayed": 16961
+  },
+  {
+   "name": "Oozeling Gladiator",
+   "cardId": "103670",
+   "averagePlacement": 3.409,
+   "impact": 0.507,
+   "techLevel": 2,
+   "totalPlayed": 81504
+  },
+  {
+   "name": "Living Prison",
+   "cardId": "133453",
+   "averagePlacement": 3.413,
+   "impact": 0.228,
+   "techLevel": 4,
+   "totalPlayed": 49958
+  },
+  {
+   "name": "Sellemental",
+   "cardId": "64038",
+   "averagePlacement": 3.415,
+   "impact": 0.505,
+   "techLevel": 2,
+   "totalPlayed": 95541
+  },
+  {
+   "name": "Drakkari Enchanter",
+   "cardId": "101314",
+   "averagePlacement": 3.433,
+   "impact": 0.206,
+   "techLevel": 5,
+   "totalPlayed": 43739
+  },
+  {
+   "name": "Kelp Keeper",
+   "cardId": "132883",
+   "averagePlacement": 3.439,
+   "impact": 0.308,
+   "techLevel": 4,
+   "totalPlayed": 68736
+  },
+  {
+   "name": "Rimescale Priestess",
+   "cardId": "122221",
+   "averagePlacement": 3.441,
+   "impact": 0.298,
+   "techLevel": 4,
+   "totalPlayed": 33631
+  },
+  {
+   "name": "Diremuck Forager",
+   "cardId": "108922",
+   "averagePlacement": 3.447,
+   "impact": 0.361,
+   "techLevel": 3,
+   "totalPlayed": 24330
+  },
+  {
+   "name": "Lovesick Balladist",
+   "cardId": "99011",
+   "averagePlacement": 3.45,
+   "impact": 0.188,
+   "techLevel": 4,
+   "totalPlayed": 26658
+  },
+  {
+   "name": "Glowing Cinder",
+   "cardId": "119951",
+   "averagePlacement": 3.47,
+   "impact": 0.271,
+   "techLevel": 4,
+   "totalPlayed": 38734
+  },
+  {
+   "name": "Snarky Shark",
+   "cardId": "132804",
+   "averagePlacement": 3.478,
+   "impact": 0.157,
+   "techLevel": 4,
+   "totalPlayed": 23836
+  },
+  {
+   "name": "Wildfire Elemental",
+   "cardId": "64189",
+   "averagePlacement": 3.48,
+   "impact": 0.382,
+   "techLevel": 3,
+   "totalPlayed": 43444
+  },
+  {
+   "name": "Dual-Wield Corsair",
+   "cardId": "115708",
+   "averagePlacement": 3.487,
+   "impact": 0.001,
+   "techLevel": 5,
+   "totalPlayed": 13216
+  },
+  {
+   "name": "Thousandth Paper Drake",
+   "cardId": "108116",
+   "averagePlacement": 3.488,
+   "impact": -0.028,
+   "techLevel": 2,
+   "totalPlayed": 13842
+  },
+  {
+   "name": "Abyssal Bruiser",
+   "cardId": "130658",
+   "averagePlacement": 3.488,
+   "impact": 0.251,
+   "techLevel": 4,
+   "totalPlayed": 31108
+  },
+  {
+   "name": "Electric Synthesizer",
+   "cardId": "100026",
+   "averagePlacement": 3.493,
+   "impact": 0.199,
+   "techLevel": 2,
+   "totalPlayed": 22744
+  },
+  {
+   "name": "Shell Collector",
+   "cardId": "80740",
+   "averagePlacement": 3.496,
+   "impact": 0.418,
+   "techLevel": 2,
+   "totalPlayed": 87594
+  },
+  {
+   "name": "Thaumaturgist",
+   "cardId": "115563",
+   "averagePlacement": 3.499,
+   "impact": 0.407,
+   "techLevel": 2,
+   "totalPlayed": 45589
+  },
+  {
+   "name": "Sly Infiltrator",
+   "cardId": "132630",
+   "averagePlacement": 3.501,
+   "impact": 0.31,
+   "techLevel": 3,
+   "totalPlayed": 50123
+  },
+  {
+   "name": "Fleeing Fugitive",
+   "cardId": "133451",
+   "averagePlacement": 3.503,
+   "impact": 0.454,
+   "techLevel": 1,
+   "totalPlayed": 62276
+  },
+  {
+   "name": "Meteorite Crasher",
+   "cardId": "117406",
+   "averagePlacement": 3.513,
+   "impact": 0.348,
+   "techLevel": 3,
+   "totalPlayed": 41074
+  },
+  {
+   "name": "Tad",
+   "cardId": "87060",
+   "averagePlacement": 3.514,
+   "impact": 0.392,
+   "techLevel": 2,
+   "totalPlayed": 54841
+  },
+  {
+   "name": "Prosthetic Hand",
+   "cardId": "112364",
+   "averagePlacement": 3.519,
+   "impact": 0.294,
+   "techLevel": 3,
+   "totalPlayed": 67049
+  },
+  {
+   "name": "Mini-Myrmidon",
+   "cardId": "80738",
+   "averagePlacement": 3.523,
+   "impact": 0.435,
+   "techLevel": 1,
+   "totalPlayed": 73394
+  },
+  {
+   "name": "Void Pup Trainer",
+   "cardId": "130078",
+   "averagePlacement": 3.527,
+   "impact": -0.04,
+   "techLevel": 5,
+   "totalPlayed": 18560
+  },
+  {
+   "name": "Waveling",
+   "cardId": "126169",
+   "averagePlacement": 3.538,
+   "impact": 0.321,
+   "techLevel": 3,
+   "totalPlayed": 42460
+  },
+  {
+   "name": "Tyrael",
+   "cardId": "133438",
+   "averagePlacement": 3.538,
+   "impact": -0.114,
+   "techLevel": 6,
+   "totalPlayed": 69013
+  },
+  {
+   "name": "Azsharan Cutlassier",
+   "cardId": "123325",
+   "averagePlacement": 3.542,
+   "impact": 0.266,
+   "techLevel": 3,
+   "totalPlayed": 35745
+  },
+  {
+   "name": "Cagey Conjurer",
+   "cardId": "132316",
+   "averagePlacement": 3.542,
+   "impact": 0.337,
+   "techLevel": 3,
+   "totalPlayed": 140721
+  },
+  {
+   "name": "Expert Aviator",
+   "cardId": "126637",
+   "averagePlacement": 3.551,
+   "impact": 0.23,
+   "techLevel": 2,
+   "totalPlayed": 26605
+  },
+  {
+   "name": "Briarback Drummer",
+   "cardId": "126669",
+   "averagePlacement": 3.551,
+   "impact": 0.066,
+   "techLevel": 3,
+   "totalPlayed": 17353
+  },
+  {
+   "name": "Nerubian Deathswarmer",
+   "cardId": "95267",
+   "averagePlacement": 3.555,
+   "impact": 0.031,
+   "techLevel": 2,
+   "totalPlayed": 14924
+  },
+  {
+   "name": "Crackling Cyclone",
+   "cardId": "64054",
+   "averagePlacement": 3.558,
+   "impact": 0.396,
+   "techLevel": 1,
+   "totalPlayed": 60392
+  },
+  {
+   "name": "Ominous Seer",
+   "cardId": "117553",
+   "averagePlacement": 3.562,
+   "impact": 0.402,
+   "techLevel": 1,
+   "totalPlayed": 112564
+  },
+  {
+   "name": "Twilight Tidehunter",
+   "cardId": "132989",
+   "averagePlacement": 3.564,
+   "impact": 0.172,
+   "techLevel": 4,
+   "totalPlayed": 20967
+  },
+  {
+   "name": "Sky-hatch Runaway",
+   "cardId": "132957",
+   "averagePlacement": 3.566,
+   "impact": 0.173,
+   "techLevel": 4,
+   "totalPlayed": 50341
+  },
+  {
+   "name": "Accord-o-Tron",
+   "cardId": "98576",
+   "averagePlacement": 3.574,
+   "impact": 0.235,
+   "techLevel": 3,
+   "totalPlayed": 50233
+  },
+  {
+   "name": "Drone Duplicator",
+   "cardId": "132312",
+   "averagePlacement": 3.579,
+   "impact": 0.16,
+   "techLevel": 4,
+   "totalPlayed": 54923
+  },
+  {
+   "name": "Crater Miner",
+   "cardId": "116182",
+   "averagePlacement": 3.582,
+   "impact": 0.273,
+   "techLevel": 2,
+   "totalPlayed": 40460
+  },
+  {
+   "name": "Molten Rock",
+   "cardId": "64296",
+   "averagePlacement": 3.587,
+   "impact": 0.366,
+   "techLevel": 1,
+   "totalPlayed": 57566
+  },
+  {
+   "name": "Flaming Enforcer",
+   "cardId": "126924",
+   "averagePlacement": 3.588,
+   "impact": 0.151,
+   "techLevel": 4,
+   "totalPlayed": 48477
+  },
+  {
+   "name": "Bilgewater Breakout",
+   "cardId": "132756",
+   "averagePlacement": 3.588,
+   "impact": 0.318,
+   "techLevel": 2,
+   "totalPlayed": 66138
+  },
+  {
+   "name": "Laboratory Assistant",
+   "cardId": "130075",
+   "averagePlacement": 3.589,
+   "impact": 0.198,
+   "techLevel": 2,
+   "totalPlayed": 27318
+  },
+  {
+   "name": "Patient Scout",
+   "cardId": "97604",
+   "averagePlacement": 3.594,
+   "impact": 0.324,
+   "techLevel": 2,
+   "totalPlayed": 66189
+  },
+  {
+   "name": "Plaguerunner",
+   "cardId": "126451",
+   "averagePlacement": 3.596,
+   "impact": 0.037,
+   "techLevel": 4,
+   "totalPlayed": 15412
+  },
+  {
+   "name": "Persistent Poet",
+   "cardId": "108463",
+   "averagePlacement": 3.599,
+   "impact": 0.035,
+   "techLevel": 4,
+   "totalPlayed": 19749
+  },
+  {
+   "name": "Lullabot",
+   "cardId": "98582",
+   "averagePlacement": 3.604,
+   "impact": 0.258,
+   "techLevel": 1,
+   "totalPlayed": 43250
+  },
+  {
+   "name": "Sprightly Scarab",
+   "cardId": "108909",
+   "averagePlacement": 3.615,
+   "impact": 0.192,
+   "techLevel": 3,
+   "totalPlayed": 43857
+  },
+  {
+   "name": "Banana Slamma",
+   "cardId": "98824",
+   "averagePlacement": 3.619,
+   "impact": 0.014,
+   "techLevel": 4,
+   "totalPlayed": 16253
+  },
+  {
+   "name": "Blade Collector",
+   "cardId": "99035",
+   "averagePlacement": 3.624,
+   "impact": 0.112,
+   "techLevel": 4,
+   "totalPlayed": 25305
+  },
+  {
+   "name": "Clunker Junker",
+   "cardId": "113766",
+   "averagePlacement": 3.624,
+   "impact": 0.112,
+   "techLevel": 4,
+   "totalPlayed": 38573
+  },
+  {
+   "name": "Seafloor Recruiter",
+   "cardId": "126916",
+   "averagePlacement": 3.631,
+   "impact": 0.107,
+   "techLevel": 4,
+   "totalPlayed": 42003
+  },
+  {
+   "name": "Snare Trapper",
+   "cardId": "132634",
+   "averagePlacement": 3.636,
+   "impact": 0.099,
+   "techLevel": 4,
+   "totalPlayed": 38520
+  },
+  {
+   "name": "Breakout Mastermind",
+   "cardId": "132314",
+   "averagePlacement": 3.639,
+   "impact": 0.219,
+   "techLevel": 3,
+   "totalPlayed": 45794
+  },
+  {
+   "name": "Enterprising Escapee",
+   "cardId": "132762",
+   "averagePlacement": 3.646,
+   "impact": -0.017,
+   "techLevel": 5,
+   "totalPlayed": 35385
+  },
+  {
+   "name": "Dead Bellringer",
+   "cardId": "132322",
+   "averagePlacement": 3.647,
+   "impact": -0.015,
+   "techLevel": 4,
+   "totalPlayed": 32424
+  },
+  {
+   "name": "Proud Privateer",
+   "cardId": "122520",
+   "averagePlacement": 3.649,
+   "impact": -0.164,
+   "techLevel": 5,
+   "totalPlayed": 20487
+  },
+  {
+   "name": "Felfire Conjurer",
+   "cardId": "120299",
+   "averagePlacement": 3.659,
+   "impact": 0.042,
+   "techLevel": 5,
+   "totalPlayed": 39512
+  },
+  {
+   "name": "Wrath Weaver",
+   "cardId": "59670",
+   "averagePlacement": 3.661,
+   "impact": 0.049,
+   "techLevel": 1,
+   "totalPlayed": 19118
+  },
+  {
+   "name": "Felboar",
+   "cardId": "110664",
+   "averagePlacement": 3.67,
+   "impact": -0.185,
+   "techLevel": 5,
+   "totalPlayed": 26365
+  },
+  {
+   "name": "Razorfen Geomancer",
+   "cardId": "70143",
+   "averagePlacement": 3.671,
+   "impact": 0.28,
+   "techLevel": 1,
+   "totalPlayed": 57851
+  },
+  {
+   "name": "Hoarding Hyena",
+   "cardId": "133039",
+   "averagePlacement": 3.698,
+   "impact": -0.213,
+   "techLevel": 5,
+   "totalPlayed": 14541
+  },
+  {
+   "name": "Flittering Bat",
+   "cardId": "132792",
+   "averagePlacement": 3.699,
+   "impact": 0.027,
+   "techLevel": 1,
+   "totalPlayed": 28580
+  },
+  {
+   "name": "Flighty Scout",
+   "cardId": "120677",
+   "averagePlacement": 3.703,
+   "impact": 0.196,
+   "techLevel": 1,
+   "totalPlayed": 37449
+  },
+  {
+   "name": "Maritime Extortionist",
+   "cardId": "132764",
+   "averagePlacement": 3.705,
+   "impact": 0.03,
+   "techLevel": 4,
+   "totalPlayed": 25202
+  },
+  {
+   "name": "Mummifier",
+   "cardId": "108992",
+   "averagePlacement": 3.709,
+   "impact": 0.094,
+   "techLevel": 3,
+   "totalPlayed": 21022
+  },
+  {
+   "name": "Deft Deserter",
+   "cardId": "133705",
+   "averagePlacement": 3.709,
+   "impact": -0.225,
+   "techLevel": 5,
+   "totalPlayed": 18669
+  },
+  {
+   "name": "Very Hungry Winterfinner",
+   "cardId": "109879",
+   "averagePlacement": 3.716,
+   "impact": 0.128,
+   "techLevel": 2,
+   "totalPlayed": 28791
+  },
+  {
+   "name": "Captain Cookie",
+   "cardId": "133075",
+   "averagePlacement": 3.717,
+   "impact": 0.018,
+   "techLevel": 4,
+   "totalPlayed": 55657
+  },
+  {
+   "name": "Buzzing Vermin",
+   "cardId": "116240",
+   "averagePlacement": 3.72,
+   "impact": 0.073,
+   "techLevel": 1,
+   "totalPlayed": 32622
+  },
+  {
+   "name": "Forest Rover",
+   "cardId": "115577",
+   "averagePlacement": 3.731,
+   "impact": 0.167,
+   "techLevel": 2,
+   "totalPlayed": 32903
+  },
+  {
+   "name": "Sly Raptor",
+   "cardId": "101584",
+   "averagePlacement": 3.746,
+   "impact": 0.042,
+   "techLevel": 3,
+   "totalPlayed": 22523
+  },
+  {
+   "name": "Southsea Busker",
+   "cardId": "98501",
+   "averagePlacement": 3.75,
+   "impact": 0.202,
+   "techLevel": 1,
+   "totalPlayed": 87184
+  },
+  {
+   "name": "Timecap'n Hooktail",
+   "cardId": "103676",
+   "averagePlacement": 3.758,
+   "impact": 0.096,
+   "techLevel": 3,
+   "totalPlayed": 31479
+  },
+  {
+   "name": "Kalecgos, Arcane Aspect",
+   "cardId": "60630",
+   "averagePlacement": 3.763,
+   "impact": 0.031,
+   "techLevel": 5,
+   "totalPlayed": 14119
+  },
+  {
+   "name": "Risen Rider",
+   "cardId": "95246",
+   "averagePlacement": 3.763,
+   "impact": 0.022,
+   "techLevel": 1,
+   "totalPlayed": 28217
+  },
+  {
+   "name": "Cage Gnawer",
+   "cardId": "133041",
+   "averagePlacement": 3.763,
+   "impact": -0.133,
+   "techLevel": 4,
+   "totalPlayed": 16350
+  },
+  {
+   "name": "Harmless Bonehead",
+   "cardId": "104551",
+   "averagePlacement": 3.766,
+   "impact": -0.057,
+   "techLevel": 1,
+   "totalPlayed": 25207
+  },
+  {
+   "name": "Handless Forsaken",
+   "cardId": "95265",
+   "averagePlacement": 3.77,
+   "impact": 0.032,
+   "techLevel": 3,
+   "totalPlayed": 21390
+  },
+  {
+   "name": "Maw Caster",
+   "cardId": "121508",
+   "averagePlacement": 3.778,
+   "impact": -0.148,
+   "techLevel": 4,
+   "totalPlayed": 17828
+  },
+  {
+   "name": "Gearfin",
+   "cardId": "133283",
+   "averagePlacement": 3.78,
+   "impact": -0.048,
+   "techLevel": 4,
+   "totalPlayed": 36914
+  },
+  {
+   "name": "Trapped Clapper",
+   "cardId": "132897",
+   "averagePlacement": 3.788,
+   "impact": -0.147,
+   "techLevel": 3,
+   "totalPlayed": 7623
+  },
+  {
+   "name": "Cord Puller",
+   "cardId": "110101",
+   "averagePlacement": 3.791,
+   "impact": -0.164,
+   "techLevel": 1,
+   "totalPlayed": 22715
+  },
+  {
+   "name": "Imposing Percussionist",
+   "cardId": "99232",
+   "averagePlacement": 3.794,
+   "impact": -0.166,
+   "techLevel": 4,
+   "totalPlayed": 23174
+  },
+  {
+   "name": "Intrepid Botanist",
+   "cardId": "120223",
+   "averagePlacement": 3.797,
+   "impact": 0.1,
+   "techLevel": 2,
+   "totalPlayed": 36233
+  },
+  {
+   "name": "Glim Guardian",
+   "cardId": "113346",
+   "averagePlacement": 3.799,
+   "impact": -0.293,
+   "techLevel": 1,
+   "totalPlayed": 18401
+  },
+  {
+   "name": "River Skipper",
+   "cardId": "122092",
+   "averagePlacement": 3.811,
+   "impact": 0.138,
+   "techLevel": 1,
+   "totalPlayed": 86524
+  },
+  {
+   "name": "Malchezaar, Prince of Dance",
+   "cardId": "99199",
+   "averagePlacement": 3.812,
+   "impact": -0.081,
+   "techLevel": 3,
+   "totalPlayed": 17834
+  },
+  {
+   "name": "Soulkeeping Jailer",
+   "cardId": "132306",
+   "averagePlacement": 3.813,
+   "impact": -0.184,
+   "techLevel": 4,
+   "totalPlayed": 22318
+  },
+  {
+   "name": "Runic Arcanist",
+   "cardId": "132985",
+   "averagePlacement": 3.819,
+   "impact": -0.071,
+   "techLevel": 4,
+   "totalPlayed": 23069
+  },
+  {
+   "name": "Brann Bronzebeard",
+   "cardId": "96786",
+   "averagePlacement": 3.823,
+   "impact": -0.126,
+   "techLevel": 5,
+   "totalPlayed": 71631
+  },
+  {
+   "name": "Clever Castaway",
+   "cardId": "132921",
+   "averagePlacement": 3.826,
+   "impact": 0.073,
+   "techLevel": 2,
+   "totalPlayed": 98674
+  },
+  {
+   "name": "Bigwig Bandit",
+   "cardId": "122179",
+   "averagePlacement": 3.834,
+   "impact": -0.102,
+   "techLevel": 4,
+   "totalPlayed": 22672
+  },
+  {
+   "name": "Spark Snapper",
+   "cardId": "132676",
+   "averagePlacement": 3.835,
+   "impact": -0.184,
+   "techLevel": 5,
+   "totalPlayed": 17497
+  },
+  {
+   "name": "Scarlet Survivor",
+   "cardId": "129749",
+   "averagePlacement": 3.839,
+   "impact": -0.214,
+   "techLevel": 1,
+   "totalPlayed": 25225
+  },
+  {
+   "name": "Titus Rivendare",
+   "cardId": "97408",
+   "averagePlacement": 3.848,
+   "impact": -0.226,
+   "techLevel": 5,
+   "totalPlayed": 33680
+  },
+  {
+   "name": "Cadaver Caretaker",
+   "cardId": "113158",
+   "averagePlacement": 3.854,
+   "impact": -0.002,
+   "techLevel": 3,
+   "totalPlayed": 22621
+  },
+  {
+   "name": "Scrap Scraper",
+   "cardId": "98592",
+   "averagePlacement": 3.862,
+   "impact": -0.211,
+   "techLevel": 5,
+   "totalPlayed": 17312
+  },
+  {
+   "name": "Friendly Geist",
+   "cardId": "120219",
+   "averagePlacement": 3.862,
+   "impact": -0.143,
+   "techLevel": 4,
+   "totalPlayed": 14851
+  },
+  {
+   "name": "Treasure Parrot",
+   "cardId": "132987",
+   "averagePlacement": 3.865,
+   "impact": -0.014,
+   "techLevel": 3,
+   "totalPlayed": 49610
+  },
+  {
+   "name": "Charging Czarina",
+   "cardId": "110321",
+   "averagePlacement": 3.882,
+   "impact": -0.072,
+   "techLevel": 5,
+   "totalPlayed": 6708
+  },
+  {
+   "name": "Locked-up Mutineer",
+   "cardId": "132758",
+   "averagePlacement": 3.891,
+   "impact": -0.04,
+   "techLevel": 3,
+   "totalPlayed": 36012
+  },
+  {
+   "name": "Private Investigator",
+   "cardId": "132318",
+   "averagePlacement": 3.892,
+   "impact": -0.042,
+   "techLevel": 3,
+   "totalPlayed": 117423
+  },
+  {
+   "name": "Tusked Camper",
+   "cardId": "122568",
+   "averagePlacement": 3.915,
+   "impact": -0.453,
+   "techLevel": 1,
+   "totalPlayed": 12590
+  },
+  {
+   "name": "Glambot",
+   "cardId": "132893",
+   "averagePlacement": 3.924,
+   "impact": -0.178,
+   "techLevel": 4,
+   "totalPlayed": 30336
+  },
+  {
+   "name": "Rescue Bot",
+   "cardId": "132895",
+   "averagePlacement": 3.936,
+   "impact": -0.07,
+   "techLevel": 3,
+   "totalPlayed": 30157
+  },
+  {
+   "name": "Hired Mount",
+   "cardId": "132951",
+   "averagePlacement": 3.94,
+   "impact": -0.09,
+   "techLevel": 3,
+   "totalPlayed": 49434
+  },
+  {
+   "name": "Imp-lusionist",
+   "cardId": "132899",
+   "averagePlacement": 3.96,
+   "impact": -0.232,
+   "techLevel": 4,
+   "totalPlayed": 29113
+  },
+  {
+   "name": "Devilish Distractor",
+   "cardId": "132901",
+   "averagePlacement": 3.963,
+   "impact": -0.19,
+   "techLevel": 5,
+   "totalPlayed": 20065
+  },
+  {
+   "name": "Wolf Pup",
+   "cardId": "132806",
+   "averagePlacement": 3.966,
+   "impact": -0.116,
+   "techLevel": 3,
+   "totalPlayed": 30269
+  },
+  {
+   "name": "Fruit Vendor",
+   "cardId": "132917",
+   "averagePlacement": 3.982,
+   "impact": -0.135,
+   "techLevel": 3,
+   "totalPlayed": 69812
+  },
+  {
+   "name": "Lurking Lionfish",
+   "cardId": "132794",
+   "averagePlacement": 4.001,
+   "impact": -0.109,
+   "techLevel": 2,
+   "totalPlayed": 58208
+  },
+  {
+   "name": "Tasty Lobster",
+   "cardId": "132796",
+   "averagePlacement": 4.052,
+   "impact": -0.204,
+   "techLevel": 3,
+   "totalPlayed": 28459
+  },
+  {
+   "name": "Soul Rewinder",
+   "cardId": "100949",
+   "averagePlacement": 4.055,
+   "impact": -0.328,
+   "techLevel": 2,
+   "totalPlayed": 20332
+  },
+  {
+   "name": "Drustfallen Butcher",
+   "cardId": "120104",
+   "averagePlacement": 4.089,
+   "impact": -0.133,
+   "techLevel": 5,
+   "totalPlayed": 10638
+  },
+  {
+   "name": "Bronze Timewalker",
+   "cardId": "132955",
+   "averagePlacement": 4.103,
+   "impact": 0.206,
+   "techLevel": 4,
+   "totalPlayed": 18004
+  },
+  {
+   "name": "Eternal Knight",
+   "cardId": "95261",
+   "averagePlacement": 4.14,
+   "impact": -0.09,
+   "techLevel": 2,
+   "totalPlayed": 16314
+  },
+  {
+   "name": "Insatiable Ur'zul",
+   "cardId": "72060",
+   "averagePlacement": 4.169,
+   "impact": -0.215,
+   "techLevel": 5,
+   "totalPlayed": 8859
+  },
+  {
+   "name": "Metallic Hunter",
+   "cardId": "120021",
+   "averagePlacement": 4.197,
+   "impact": 0.166,
+   "techLevel": 2,
+   "totalPlayed": 12918
+  },
+  {
+   "name": "Tortollan Blue Shell",
+   "cardId": "92406",
+   "averagePlacement": 4.221,
+   "impact": -0.521,
+   "techLevel": 4,
+   "totalPlayed": 94301
+  },
+  {
+   "name": "Nomi, Kitchen Nightmare",
+   "cardId": "63626",
+   "averagePlacement": 4.248,
+   "impact": 0.004,
+   "techLevel": 5,
+   "totalPlayed": 5642
+  },
+  {
+   "name": "Suspicious Prisonguard",
+   "cardId": "132915",
+   "averagePlacement": 4.317,
+   "impact": -0.405,
+   "techLevel": 1,
+   "totalPlayed": 160209
+  },
+  {
+   "name": "Mechagnome Interpreter",
+   "cardId": "115678",
+   "averagePlacement": 4.342,
+   "impact": 0.017,
+   "techLevel": 2,
+   "totalPlayed": 8351
+  },
+  {
+   "name": "Ancestral Automaton",
+   "cardId": "108432",
+   "averagePlacement": 4.356,
+   "impact": 0.003,
+   "techLevel": 2,
+   "totalPlayed": 9243
+  },
+  {
+   "name": "Humon'gozz",
+   "cardId": "121640",
+   "averagePlacement": 4.366,
+   "impact": -0.012,
+   "techLevel": 4,
+   "totalPlayed": 6320
+  },
+  {
+   "name": "Barrier Banshee",
+   "cardId": "133081",
+   "averagePlacement": 4.367,
+   "impact": -0.199,
+   "techLevel": 5,
+   "totalPlayed": 2156
+  },
+  {
+   "name": "Blue Whelp",
+   "cardId": "122674",
+   "averagePlacement": 4.373,
+   "impact": -0.019,
+   "techLevel": 3,
+   "totalPlayed": 10542
+  },
+  {
+   "name": "Cataclysmic Harbinger",
+   "cardId": "130884",
+   "averagePlacement": 4.374,
+   "impact": -0.201,
+   "techLevel": 5,
+   "totalPlayed": 12226
+  },
+  {
+   "name": "Deflect-o-Bot",
+   "cardId": "61930",
+   "averagePlacement": 4.382,
+   "impact": -0.028,
+   "techLevel": 3,
+   "totalPlayed": 11021
+  },
+  {
+   "name": "Ashen Corruptor",
+   "cardId": "121687",
+   "averagePlacement": 4.402,
+   "impact": -0.309,
+   "techLevel": 4,
+   "totalPlayed": 14212
+  },
+  {
+   "name": "Dustbone Devastator",
+   "cardId": "122229",
+   "averagePlacement": 4.411,
+   "impact": -0.057,
+   "techLevel": 3,
+   "totalPlayed": 6588
+  },
+  {
+   "name": "Disguised Graverobber",
+   "cardId": "104610",
+   "averagePlacement": 4.425,
+   "impact": -0.068,
+   "techLevel": 3,
+   "totalPlayed": 2038
+  },
+  {
+   "name": "Tarecgosa",
+   "cardId": "72062",
+   "averagePlacement": 4.427,
+   "impact": -0.07,
+   "techLevel": 2,
+   "totalPlayed": 9306
+  },
+  {
+   "name": "Decoy Conjurer",
+   "cardId": "133434",
+   "averagePlacement": 4.445,
+   "impact": -0.192,
+   "techLevel": 2,
+   "totalPlayed": 102702
+  },
+  {
+   "name": "Headhunter Gryphon",
+   "cardId": "132800",
+   "averagePlacement": 4.47,
+   "impact": -0.26,
+   "techLevel": 4,
+   "totalPlayed": 17625
+  },
+  {
+   "name": "Roaring Recruiter",
+   "cardId": "109806",
+   "averagePlacement": 4.482,
+   "impact": -0.121,
+   "techLevel": 3,
+   "totalPlayed": 1975
+  },
+  {
+   "name": "Sanguine Refiner",
+   "cardId": "122566",
+   "averagePlacement": 4.548,
+   "impact": -0.434,
+   "techLevel": 5,
+   "totalPlayed": 6613
+  },
+  {
+   "name": "Gem Rat",
+   "cardId": "116434",
+   "averagePlacement": 4.554,
+   "impact": -0.202,
+   "techLevel": 3,
+   "totalPlayed": 11297
+  },
+  {
+   "name": "Bramble Tunneler",
+   "cardId": "132632",
+   "averagePlacement": 4.555,
+   "impact": -0.212,
+   "techLevel": 4,
+   "totalPlayed": 10677
+  },
+  {
+   "name": "Roadboar",
+   "cardId": "70157",
+   "averagePlacement": 4.61,
+   "impact": -0.259,
+   "techLevel": 2,
+   "totalPlayed": 6893
+  },
+  {
+   "name": "Prodigious Tusker",
+   "cardId": "122098",
+   "averagePlacement": 4.7,
+   "impact": -0.347,
+   "techLevel": 2,
+   "totalPlayed": 3864
+  },
+  {
+   "name": "Thorned Trailblazer",
+   "cardId": "116190",
+   "averagePlacement": 4.844,
+   "impact": -0.505,
+   "techLevel": 4,
+   "totalPlayed": 5101
+  },
+  {
+   "name": "Bonker",
+   "cardId": "70173",
+   "averagePlacement": 4.981,
+   "impact": -0.632,
+   "techLevel": 4,
+   "totalPlayed": 2483
+  }
+ ]
+}

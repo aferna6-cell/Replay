@@ -1,0 +1,2755 @@
+{
+ "_source": "hsreplay.net capture (auto-2026-08-30)",
+ "_imported": "2026-08-30",
+ "_percentile": "TOP_20_PERCENT",
+ "items": [
+  {
+   "name": "Inge, the Iron Hymn",
+   "cardId": "103500",
+   "averagePlacement": 3.853,
+   "adjustedAveragePlacement": null,
+   "pickRate": 33.78,
+   "tier": "s",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.49,
+    15.0,
+    17.84,
+    15.09,
+    13.6,
+    12.45,
+    7.99,
+    3.54
+   ]
+  },
+  {
+   "name": "Cariel Roame",
+   "cardId": "73940",
+   "averagePlacement": 3.911,
+   "adjustedAveragePlacement": null,
+   "pickRate": 38.86,
+   "tier": "s",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.79,
+    15.11,
+    15.97,
+    16.17,
+    14.39,
+    12.84,
+    8.32,
+    3.41
+   ]
+  },
+  {
+   "name": "Alexstrasza",
+   "cardId": "61488",
+   "averagePlacement": 4.006,
+   "adjustedAveragePlacement": null,
+   "pickRate": 23.26,
+   "tier": "a",
+   "bestComposition": "Dragons",
+   "keyMinions": [
+    "Persistent Poet",
+    "Warpwing",
+    "Crimson Vindicator"
+   ],
+   "placementDistribution": [
+    15.33,
+    17.86,
+    15.13,
+    13.31,
+    8.91,
+    10.02,
+    9.16,
+    10.27
+   ]
+  },
+  {
+   "name": "Chenvaala",
+   "cardId": "64475",
+   "averagePlacement": 4.09,
+   "adjustedAveragePlacement": null,
+   "pickRate": 52.66,
+   "tier": "a",
+   "bestComposition": "Elementals",
+   "keyMinions": [
+    "Unbound Tempest",
+    "Unleashed Mana Surge",
+    "Moat Custodian"
+   ],
+   "placementDistribution": [
+    16.58,
+    15.57,
+    13.04,
+    12.58,
+    11.15,
+    10.6,
+    11.28,
+    9.19
+   ]
+  },
+  {
+   "name": "Zerek, Master Cloner",
+   "cardId": "117409",
+   "averagePlacement": 4.103,
+   "adjustedAveragePlacement": null,
+   "pickRate": 57.03,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    16.6,
+    14.37,
+    13.47,
+    12.64,
+    12.08,
+    11.08,
+    10.97,
+    8.79
+   ]
+  },
+  {
+   "name": "Patchwerk",
+   "cardId": "59397",
+   "averagePlacement": 4.106,
+   "adjustedAveragePlacement": null,
+   "pickRate": 31.85,
+   "tier": "a",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.31,
+    14.03,
+    15.5,
+    15.65,
+    14.41,
+    12.88,
+    9.88,
+    5.33
+   ]
+  },
+  {
+   "name": "Sneed",
+   "cardId": "76521",
+   "averagePlacement": 4.118,
+   "adjustedAveragePlacement": null,
+   "pickRate": 19.16,
+   "tier": "a",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    13.75,
+    13.42,
+    13.79,
+    15.0,
+    16.06,
+    12.73,
+    8.8,
+    6.45
+   ]
+  },
+  {
+   "name": "Vanndar Stormpike",
+   "cardId": "80247",
+   "averagePlacement": 4.118,
+   "adjustedAveragePlacement": null,
+   "pickRate": 29.13,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    16.26,
+    13.96,
+    14.48,
+    12.84,
+    11.59,
+    11.16,
+    9.76,
+    9.95
+   ]
+  },
+  {
+   "name": "Millificent Manastorm",
+   "cardId": "57946",
+   "averagePlacement": 4.123,
+   "adjustedAveragePlacement": null,
+   "pickRate": 26.98,
+   "tier": "a",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    14.55,
+    14.06,
+    15.04,
+    14.28,
+    12.81,
+    11.07,
+    8.7,
+    9.5
+   ]
+  },
+  {
+   "name": "Queen Azshara",
+   "cardId": "79618",
+   "averagePlacement": 4.135,
+   "adjustedAveragePlacement": null,
+   "pickRate": 42.61,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.17,
+    16.37,
+    13.72,
+    12.96,
+    11.6,
+    11.8,
+    10.33,
+    9.06
+   ]
+  },
+  {
+   "name": "Reno Jackson",
+   "cardId": "60212",
+   "averagePlacement": 4.155,
+   "adjustedAveragePlacement": null,
+   "pickRate": 64.37,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    17.41,
+    14.59,
+    12.38,
+    11.62,
+    11.07,
+    10.91,
+    11.63,
+    10.39
+   ]
+  },
+  {
+   "name": "Buttons",
+   "cardId": "120649",
+   "averagePlacement": 4.171,
+   "adjustedAveragePlacement": null,
+   "pickRate": 55.99,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    17.13,
+    14.22,
+    13.18,
+    11.28,
+    11.13,
+    10.77,
+    11.72,
+    10.58
+   ]
+  },
+  {
+   "name": "Galakrond",
+   "cardId": "57635",
+   "averagePlacement": 4.172,
+   "adjustedAveragePlacement": null,
+   "pickRate": 47.17,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.01,
+    14.9,
+    14.81,
+    14.35,
+    12.67,
+    11.43,
+    9.97,
+    8.86
+   ]
+  },
+  {
+   "name": "Forest Lord Cenarius",
+   "cardId": "116920",
+   "averagePlacement": 4.176,
+   "adjustedAveragePlacement": null,
+   "pickRate": 58.69,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    21.37,
+    13.48,
+    11.2,
+    9.28,
+    9.19,
+    10.22,
+    10.8,
+    14.46
+   ]
+  },
+  {
+   "name": "Sylvanas Windrunner",
+   "cardId": "89293",
+   "averagePlacement": 4.181,
+   "adjustedAveragePlacement": null,
+   "pickRate": 53.41,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    18.31,
+    14.37,
+    11.48,
+    11.14,
+    10.63,
+    10.83,
+    11.97,
+    11.27
+   ]
+  },
+  {
+   "name": "Captain Eudora",
+   "cardId": "62242",
+   "averagePlacement": 4.184,
+   "adjustedAveragePlacement": null,
+   "pickRate": 46.33,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.56,
+    14.47,
+    14.22,
+    12.79,
+    12.19,
+    11.69,
+    10.64,
+    9.43
+   ]
+  },
+  {
+   "name": "Lady Vashj",
+   "cardId": "85125",
+   "averagePlacement": 4.184,
+   "adjustedAveragePlacement": null,
+   "pickRate": 23.04,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.0,
+    13.95,
+    15.65,
+    15.76,
+    12.62,
+    12.05,
+    10.61,
+    7.36
+   ]
+  },
+  {
+   "name": "A. F. Kay",
+   "cardId": "57944",
+   "averagePlacement": 4.191,
+   "adjustedAveragePlacement": null,
+   "pickRate": 68.55,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.79,
+    14.17,
+    13.86,
+    14.11,
+    12.85,
+    11.87,
+    11.27,
+    8.08
+   ]
+  },
+  {
+   "name": "The Great Akazamzarak",
+   "cardId": "58021",
+   "averagePlacement": 4.195,
+   "adjustedAveragePlacement": null,
+   "pickRate": 23.78,
+   "tier": "a",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    13.35,
+    14.22,
+    13.05,
+    15.12,
+    13.13,
+    13.18,
+    10.22,
+    7.73
+   ]
+  },
+  {
+   "name": "Yogg-Saron, Hope's End",
+   "cardId": "59805",
+   "averagePlacement": 4.22,
+   "adjustedAveragePlacement": null,
+   "pickRate": 32.54,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.27,
+    13.96,
+    13.58,
+    12.83,
+    13.06,
+    12.55,
+    10.84,
+    8.91
+   ]
+  },
+  {
+   "name": "Fungalmancer Flurgl",
+   "cardId": "60372",
+   "averagePlacement": 4.24,
+   "adjustedAveragePlacement": null,
+   "pickRate": 18.97,
+   "tier": "a",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    14.18,
+    17.0,
+    13.8,
+    11.23,
+    9.91,
+    10.35,
+    10.35,
+    13.17
+   ]
+  },
+  {
+   "name": "The Jailer",
+   "cardId": "97186",
+   "averagePlacement": 4.242,
+   "adjustedAveragePlacement": null,
+   "pickRate": 18.33,
+   "tier": "a",
+   "bestComposition": "Undead",
+   "keyMinions": [
+    "Drustfallen Butcher",
+    "Handless Forsaken",
+    "Snazzy Phantom"
+   ],
+   "placementDistribution": [
+    13.93,
+    14.65,
+    13.47,
+    13.34,
+    11.9,
+    11.97,
+    10.01,
+    10.73
+   ]
+  },
+  {
+   "name": "Marin the Manager",
+   "cardId": "113310",
+   "averagePlacement": 4.249,
+   "adjustedAveragePlacement": null,
+   "pickRate": 65.91,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    16.39,
+    13.31,
+    12.68,
+    12.3,
+    11.49,
+    11.13,
+    11.18,
+    11.52
+   ]
+  },
+  {
+   "name": "Nightmare Lord Xavius",
+   "cardId": "132608",
+   "averagePlacement": 4.25,
+   "adjustedAveragePlacement": null,
+   "pickRate": 84.5,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    16.31,
+    13.54,
+    12.7,
+    11.89,
+    11.67,
+    11.33,
+    10.86,
+    11.7
+   ]
+  },
+  {
+   "name": "Drek'Thar",
+   "cardId": "80239",
+   "averagePlacement": 4.254,
+   "adjustedAveragePlacement": null,
+   "pickRate": 23.68,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    15.89,
+    12.73,
+    13.0,
+    12.65,
+    12.25,
+    11.9,
+    10.89,
+    10.69
+   ]
+  },
+  {
+   "name": "Teron Gorefiend",
+   "cardId": "98726",
+   "averagePlacement": 4.259,
+   "adjustedAveragePlacement": null,
+   "pickRate": 42.44,
+   "tier": "a",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    13.11,
+    13.45,
+    14.69,
+    14.09,
+    12.6,
+    11.58,
+    10.94,
+    9.56
+   ]
+  },
+  {
+   "name": "The Lich King",
+   "cardId": "58024",
+   "averagePlacement": 4.26,
+   "adjustedAveragePlacement": null,
+   "pickRate": 37.89,
+   "tier": "a",
+   "bestComposition": "Undead",
+   "keyMinions": [
+    "Drustfallen Butcher",
+    "Handless Forsaken",
+    "Snazzy Phantom"
+   ],
+   "placementDistribution": [
+    12.52,
+    13.05,
+    14.69,
+    14.44,
+    13.37,
+    12.53,
+    11.68,
+    7.72
+   ]
+  },
+  {
+   "name": "Rock Master Voone",
+   "cardId": "99033",
+   "averagePlacement": 4.261,
+   "adjustedAveragePlacement": null,
+   "pickRate": 27.71,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    15.61,
+    13.23,
+    12.71,
+    12.27,
+    12.09,
+    12.39,
+    11.52,
+    10.17
+   ]
+  },
+  {
+   "name": "Morchie",
+   "cardId": "129173",
+   "averagePlacement": 4.284,
+   "adjustedAveragePlacement": null,
+   "pickRate": 63.86,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    16.03,
+    13.68,
+    12.27,
+    11.62,
+    11.83,
+    11.19,
+    11.61,
+    11.77
+   ]
+  },
+  {
+   "name": "King Mukla",
+   "cardId": "59814",
+   "averagePlacement": 4.303,
+   "adjustedAveragePlacement": null,
+   "pickRate": 13.59,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.81,
+    13.93,
+    14.95,
+    14.37,
+    13.67,
+    12.4,
+    12.31,
+    7.56
+   ]
+  },
+  {
+   "name": "Al'Akir",
+   "cardId": "64403",
+   "averagePlacement": 4.304,
+   "adjustedAveragePlacement": null,
+   "pickRate": 23.3,
+   "tier": "a",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.5,
+    13.38,
+    14.13,
+    14.16,
+    12.77,
+    12.25,
+    11.79,
+    9.03
+   ]
+  },
+  {
+   "name": "Thorim, Stormlord",
+   "cardId": "103477",
+   "averagePlacement": 4.306,
+   "adjustedAveragePlacement": null,
+   "pickRate": 42.46,
+   "tier": "a",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    15.07,
+    12.4,
+    13.08,
+    12.6,
+    12.76,
+    11.87,
+    11.76,
+    10.48
+   ]
+  },
+  {
+   "name": "Ini Stormcoil",
+   "cardId": "80832",
+   "averagePlacement": 4.31,
+   "adjustedAveragePlacement": null,
+   "pickRate": 17.07,
+   "tier": "a",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    11.88,
+    15.18,
+    12.79,
+    13.56,
+    13.28,
+    12.86,
+    11.03,
+    9.42
+   ]
+  },
+  {
+   "name": "The Curator",
+   "cardId": "59203",
+   "averagePlacement": 4.314,
+   "adjustedAveragePlacement": null,
+   "pickRate": 18.89,
+   "tier": "a",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.26,
+    12.11,
+    15.24,
+    14.99,
+    14.01,
+    14.07,
+    10.72,
+    7.59
+   ]
+  },
+  {
+   "name": "Lord Barov",
+   "cardId": "63602",
+   "averagePlacement": 4.316,
+   "adjustedAveragePlacement": null,
+   "pickRate": 28.42,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.51,
+    14.22,
+    12.73,
+    11.78,
+    11.98,
+    11.63,
+    11.63,
+    11.53
+   ]
+  },
+  {
+   "name": "George the Fallen",
+   "cardId": "57929",
+   "averagePlacement": 4.319,
+   "adjustedAveragePlacement": null,
+   "pickRate": 15.2,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.74,
+    14.35,
+    13.41,
+    12.35,
+    12.98,
+    12.5,
+    12.35,
+    9.32
+   ]
+  },
+  {
+   "name": "Sir Finley Mrrgglton",
+   "cardId": "60211",
+   "averagePlacement": 4.325,
+   "adjustedAveragePlacement": null,
+   "pickRate": 50.21,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    15.11,
+    12.6,
+    12.39,
+    12.74,
+    12.14,
+    12.35,
+    12.11,
+    10.57
+   ]
+  },
+  {
+   "name": "Vol'jin",
+   "cardId": "71463",
+   "averagePlacement": 4.325,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.06,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.18,
+    13.5,
+    13.79,
+    15.4,
+    12.66,
+    13.79,
+    12.13,
+    7.55
+   ]
+  },
+  {
+   "name": "Illidan Stormrage",
+   "cardId": "57634",
+   "averagePlacement": 4.328,
+   "adjustedAveragePlacement": null,
+   "pickRate": 26.76,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    13.06,
+    12.21,
+    11.45,
+    15.08,
+    14.95,
+    14.32,
+    11.49,
+    7.45
+   ]
+  },
+  {
+   "name": "Murozond, Unbounded",
+   "cardId": "127696",
+   "averagePlacement": 4.332,
+   "adjustedAveragePlacement": null,
+   "pickRate": 47.64,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.35,
+    14.27,
+    13.08,
+    13.03,
+    12.07,
+    11.42,
+    11.08,
+    11.69
+   ]
+  },
+  {
+   "name": "Deathwing",
+   "cardId": "60369",
+   "averagePlacement": 4.334,
+   "adjustedAveragePlacement": null,
+   "pickRate": 4.11,
+   "tier": "b",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    9.65,
+    12.68,
+    14.7,
+    16.14,
+    15.99,
+    12.68,
+    11.53,
+    6.63
+   ]
+  },
+  {
+   "name": "Skycap'n Kragg",
+   "cardId": "62268",
+   "averagePlacement": 4.335,
+   "adjustedAveragePlacement": null,
+   "pickRate": 22.97,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    15.92,
+    13.13,
+    11.74,
+    11.82,
+    11.64,
+    12.06,
+    11.25,
+    12.45
+   ]
+  },
+  {
+   "name": "Ambassador Faelin",
+   "cardId": "81569",
+   "averagePlacement": 4.336,
+   "adjustedAveragePlacement": null,
+   "pickRate": 56.36,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    15.45,
+    13.48,
+    12.3,
+    11.28,
+    11.77,
+    11.62,
+    12.18,
+    11.92
+   ]
+  },
+  {
+   "name": "Exarch Othaar",
+   "cardId": "117425",
+   "averagePlacement": 4.338,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.83,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.95,
+    13.11,
+    13.77,
+    13.28,
+    12.62,
+    12.46,
+    12.08,
+    9.73
+   ]
+  },
+  {
+   "name": "Murloc Holmes",
+   "cardId": "84867",
+   "averagePlacement": 4.339,
+   "adjustedAveragePlacement": null,
+   "pickRate": 29.09,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.24,
+    14.18,
+    12.38,
+    11.83,
+    12.16,
+    11.77,
+    12.06,
+    11.38
+   ]
+  },
+  {
+   "name": "N'Zoth",
+   "cardId": "66483",
+   "averagePlacement": 4.361,
+   "adjustedAveragePlacement": null,
+   "pickRate": 19.16,
+   "tier": "b",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    12.06,
+    14.35,
+    11.63,
+    14.08,
+    13.88,
+    12.3,
+    12.73,
+    8.98
+   ]
+  },
+  {
+   "name": "Rakanishu",
+   "cardId": "64400",
+   "averagePlacement": 4.367,
+   "adjustedAveragePlacement": null,
+   "pickRate": 14.02,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    9.42,
+    14.68,
+    16.82,
+    12.62,
+    13.58,
+    11.27,
+    11.4,
+    10.22
+   ]
+  },
+  {
+   "name": "Galewing",
+   "cardId": "75702",
+   "averagePlacement": 4.377,
+   "adjustedAveragePlacement": null,
+   "pickRate": 31.67,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.29,
+    13.82,
+    12.01,
+    12.16,
+    11.78,
+    11.58,
+    12.12,
+    12.23
+   ]
+  },
+  {
+   "name": "Farseer Nobundo",
+   "cardId": "116926",
+   "averagePlacement": 4.38,
+   "adjustedAveragePlacement": null,
+   "pickRate": 22.6,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.47,
+    13.03,
+    12.55,
+    11.78,
+    12.15,
+    11.83,
+    12.55,
+    11.64
+   ]
+  },
+  {
+   "name": "Cookie the Cook",
+   "cardId": "77516",
+   "averagePlacement": 4.381,
+   "adjustedAveragePlacement": null,
+   "pickRate": 25.12,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.52,
+    13.44,
+    12.12,
+    12.21,
+    11.6,
+    11.67,
+    12.0,
+    12.43
+   ]
+  },
+  {
+   "name": "Shudderwock",
+   "cardId": "58027",
+   "averagePlacement": 4.39,
+   "adjustedAveragePlacement": null,
+   "pickRate": 32.16,
+   "tier": "b",
+   "bestComposition": "Elementals",
+   "keyMinions": [
+    "Unbound Tempest",
+    "Unleashed Mana Surge",
+    "Moat Custodian"
+   ],
+   "placementDistribution": [
+    15.18,
+    12.31,
+    12.09,
+    12.29,
+    12.11,
+    11.49,
+    11.98,
+    12.56
+   ]
+  },
+  {
+   "name": "Master Nguyen",
+   "cardId": "71908",
+   "averagePlacement": 4.392,
+   "adjustedAveragePlacement": null,
+   "pickRate": 65.91,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.76,
+    12.61,
+    11.97,
+    12.14,
+    12.25,
+    12.11,
+    12.48,
+    11.69
+   ]
+  },
+  {
+   "name": "Queen Wagtoggle",
+   "cardId": "57924",
+   "averagePlacement": 4.4,
+   "adjustedAveragePlacement": null,
+   "pickRate": 11.21,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.0,
+    10.47,
+    14.51,
+    14.99,
+    15.68,
+    14.09,
+    12.39,
+    6.86
+   ]
+  },
+  {
+   "name": "Tickatus",
+   "cardId": "67356",
+   "averagePlacement": 4.401,
+   "adjustedAveragePlacement": null,
+   "pickRate": 27.84,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.95,
+    13.33,
+    12.93,
+    11.89,
+    12.38,
+    13.69,
+    12.61,
+    10.24
+   ]
+  },
+  {
+   "name": "Mutanus the Devourer",
+   "cardId": "71916",
+   "averagePlacement": 4.405,
+   "adjustedAveragePlacement": null,
+   "pickRate": 18.2,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    9.16,
+    14.26,
+    12.75,
+    15.04,
+    15.24,
+    14.45,
+    11.31,
+    7.78
+   ]
+  },
+  {
+   "name": "Mister Clocksworth",
+   "cardId": "126532",
+   "averagePlacement": 4.418,
+   "adjustedAveragePlacement": null,
+   "pickRate": 34.24,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    13.71,
+    11.82,
+    12.55,
+    12.85,
+    12.81,
+    13.18,
+    12.4,
+    10.68
+   ]
+  },
+  {
+   "name": "Tavish Stormpike",
+   "cardId": "77987",
+   "averagePlacement": 4.422,
+   "adjustedAveragePlacement": null,
+   "pickRate": 21.4,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    10.62,
+    12.28,
+    13.8,
+    13.55,
+    15.96,
+    13.83,
+    11.03,
+    8.93
+   ]
+  },
+  {
+   "name": "Mr. Bigglesworth",
+   "cardId": "63319",
+   "averagePlacement": 4.431,
+   "adjustedAveragePlacement": null,
+   "pickRate": 16.08,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    15.35,
+    11.14,
+    11.77,
+    12.11,
+    12.03,
+    12.82,
+    13.56,
+    11.21
+   ]
+  },
+  {
+   "name": "Trade Prince Gallywix",
+   "cardId": "57891",
+   "averagePlacement": 4.432,
+   "adjustedAveragePlacement": null,
+   "pickRate": 36.71,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    20.07,
+    12.0,
+    10.5,
+    8.9,
+    8.37,
+    9.0,
+    13.13,
+    18.03
+   ]
+  },
+  {
+   "name": "Dancin' Deryl",
+   "cardId": "59806",
+   "averagePlacement": 4.439,
+   "adjustedAveragePlacement": null,
+   "pickRate": 12.13,
+   "tier": "b",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    8.99,
+    12.67,
+    13.75,
+    15.57,
+    14.24,
+    15.37,
+    12.67,
+    6.73
+   ]
+  },
+  {
+   "name": "Patches the Pirate",
+   "cardId": "57947",
+   "averagePlacement": 4.441,
+   "adjustedAveragePlacement": null,
+   "pickRate": 26.21,
+   "tier": "b",
+   "bestComposition": "Pirates",
+   "keyMinions": [
+    "Hooktusk, Master Marauder",
+    "Enterprising Escapee",
+    "Blade Collector"
+   ],
+   "placementDistribution": [
+    13.96,
+    11.93,
+    12.02,
+    12.73,
+    12.68,
+    12.83,
+    11.93,
+    11.93
+   ]
+  },
+  {
+   "name": "Elise Starseeker",
+   "cardId": "60213",
+   "averagePlacement": 4.442,
+   "adjustedAveragePlacement": null,
+   "pickRate": 20.16,
+   "tier": "b",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.57,
+    12.51,
+    13.7,
+    12.54,
+    11.71,
+    13.22,
+    12.48,
+    11.26
+   ]
+  },
+  {
+   "name": "Captain Hooktusk",
+   "cardId": "62266",
+   "averagePlacement": 4.452,
+   "adjustedAveragePlacement": null,
+   "pickRate": 19.24,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.07,
+    12.79,
+    12.6,
+    11.55,
+    12.72,
+    13.37,
+    12.48,
+    11.42
+   ]
+  },
+  {
+   "name": "Enhance-o Mechano",
+   "cardId": "96870",
+   "averagePlacement": 4.455,
+   "adjustedAveragePlacement": null,
+   "pickRate": 23.01,
+   "tier": "c",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    11.91,
+    11.55,
+    13.08,
+    14.18,
+    13.03,
+    13.77,
+    13.03,
+    9.43
+   ]
+  },
+  {
+   "name": "Varden Dawngrasp",
+   "cardId": "79615",
+   "averagePlacement": 4.456,
+   "adjustedAveragePlacement": null,
+   "pickRate": 20.2,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.07,
+    12.54,
+    12.54,
+    13.21,
+    13.45,
+    13.24,
+    12.36,
+    10.6
+   ]
+  },
+  {
+   "name": "Bru'kan",
+   "cardId": "79719",
+   "averagePlacement": 4.456,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.25,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.67,
+    13.65,
+    12.5,
+    12.9,
+    13.82,
+    14.51,
+    13.3,
+    8.66
+   ]
+  },
+  {
+   "name": "Millhouse Manastorm",
+   "cardId": "60366",
+   "averagePlacement": 4.459,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.61,
+   "tier": "c",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    9.05,
+    11.34,
+    14.58,
+    15.98,
+    14.3,
+    15.08,
+    12.85,
+    6.82
+   ]
+  },
+  {
+   "name": "Zephrys, the Great",
+   "cardId": "64485",
+   "averagePlacement": 4.465,
+   "adjustedAveragePlacement": null,
+   "pickRate": 26.26,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.52,
+    11.57,
+    12.3,
+    12.66,
+    12.75,
+    12.84,
+    13.39,
+    10.97
+   ]
+  },
+  {
+   "name": "Rokara",
+   "cardId": "70838",
+   "averagePlacement": 4.476,
+   "adjustedAveragePlacement": null,
+   "pickRate": 5.35,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.34,
+    12.46,
+    12.68,
+    13.68,
+    15.13,
+    14.02,
+    13.68,
+    8.01
+   ]
+  },
+  {
+   "name": "Doctor Holli'dae",
+   "cardId": "105434",
+   "averagePlacement": 4.479,
+   "adjustedAveragePlacement": null,
+   "pickRate": 13.71,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.31,
+    12.35,
+    13.43,
+    14.82,
+    13.91,
+    12.48,
+    12.69,
+    10.01
+   ]
+  },
+  {
+   "name": "Forest Warden Omu",
+   "cardId": "63604",
+   "averagePlacement": 4.483,
+   "adjustedAveragePlacement": null,
+   "pickRate": 37.63,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.94,
+    12.9,
+    11.6,
+    11.88,
+    11.27,
+    12.23,
+    12.99,
+    13.2
+   ]
+  },
+  {
+   "name": "Arch-Villain Rafaam",
+   "cardId": "60362",
+   "averagePlacement": 4.487,
+   "adjustedAveragePlacement": null,
+   "pickRate": 21.41,
+   "tier": "c",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.22,
+    11.94,
+    12.39,
+    12.53,
+    13.45,
+    14.12,
+    13.45,
+    9.9
+   ]
+  },
+  {
+   "name": "Lord Jaraxxus",
+   "cardId": "59807",
+   "averagePlacement": 4.505,
+   "adjustedAveragePlacement": null,
+   "pickRate": 27.06,
+   "tier": "c",
+   "bestComposition": "Demons",
+   "keyMinions": [
+    "Imp-lusionist",
+    "Devilish Distractor",
+    "Felboar"
+   ],
+   "placementDistribution": [
+    13.17,
+    12.68,
+    11.57,
+    12.55,
+    11.75,
+    12.15,
+    13.61,
+    12.51
+   ]
+  },
+  {
+   "name": "Genn, Worgen King",
+   "cardId": "129684",
+   "averagePlacement": 4.514,
+   "adjustedAveragePlacement": null,
+   "pickRate": 58.55,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    15.36,
+    11.97,
+    11.19,
+    11.07,
+    10.85,
+    11.69,
+    13.06,
+    14.81
+   ]
+  },
+  {
+   "name": "Dinotamer Brann",
+   "cardId": "60214",
+   "averagePlacement": 4.527,
+   "adjustedAveragePlacement": null,
+   "pickRate": 49.03,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.08,
+    12.64,
+    11.44,
+    11.17,
+    12.62,
+    12.98,
+    14.23,
+    11.85
+   ]
+  },
+  {
+   "name": "Malygos",
+   "cardId": "61490",
+   "averagePlacement": 4.545,
+   "adjustedAveragePlacement": null,
+   "pickRate": 15.39,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.12,
+    11.28,
+    12.69,
+    14.33,
+    13.23,
+    12.77,
+    13.91,
+    10.67
+   ]
+  },
+  {
+   "name": "Ysera",
+   "cardId": "60370",
+   "averagePlacement": 4.547,
+   "adjustedAveragePlacement": null,
+   "pickRate": 12.05,
+   "tier": "c",
+   "bestComposition": "Dragons",
+   "keyMinions": [
+    "Persistent Poet",
+    "Warpwing",
+    "Crimson Vindicator"
+   ],
+   "placementDistribution": [
+    7.22,
+    12.98,
+    14.34,
+    15.32,
+    14.83,
+    13.27,
+    12.88,
+    9.17
+   ]
+  },
+  {
+   "name": "Time Twister Chromie",
+   "cardId": "126537",
+   "averagePlacement": 4.555,
+   "adjustedAveragePlacement": null,
+   "pickRate": 20.73,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.71,
+    12.62,
+    11.69,
+    12.48,
+    11.63,
+    11.83,
+    12.85,
+    14.19
+   ]
+  },
+  {
+   "name": "Loh, the Living Legend",
+   "cardId": "122925",
+   "averagePlacement": 4.566,
+   "adjustedAveragePlacement": null,
+   "pickRate": 21.88,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.3,
+    11.43,
+    11.78,
+    12.47,
+    12.88,
+    13.48,
+    14.28,
+    11.37
+   ]
+  },
+  {
+   "name": "Maiev Shadowsong",
+   "cardId": "61914",
+   "averagePlacement": 4.574,
+   "adjustedAveragePlacement": null,
+   "pickRate": 13.19,
+   "tier": "c",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.46,
+    11.96,
+    10.94,
+    11.74,
+    13.3,
+    14.55,
+    12.95,
+    12.1
+   ]
+  },
+  {
+   "name": "Overlord Saurfang",
+   "cardId": "71454",
+   "averagePlacement": 4.578,
+   "adjustedAveragePlacement": null,
+   "pickRate": 11.36,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    7.97,
+    11.17,
+    14.61,
+    14.96,
+    13.24,
+    16.91,
+    12.95,
+    8.19
+   ]
+  },
+  {
+   "name": "Tae'thelan Bloodwatcher",
+   "cardId": "105431",
+   "averagePlacement": 4.581,
+   "adjustedAveragePlacement": null,
+   "pickRate": 9.94,
+   "tier": "c",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.0,
+    10.08,
+    13.38,
+    12.9,
+    13.92,
+    12.24,
+    12.72,
+    12.78
+   ]
+  },
+  {
+   "name": "Tras'tath, Soul Parasite",
+   "cardId": "132578",
+   "averagePlacement": 4.6,
+   "adjustedAveragePlacement": null,
+   "pickRate": 50.71,
+   "tier": "d",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    12.53,
+    11.9,
+    11.71,
+    12.37,
+    12.29,
+    11.82,
+    12.32,
+    15.05
+   ]
+  },
+  {
+   "name": "Snake Eyes",
+   "cardId": "105314",
+   "averagePlacement": 4.617,
+   "adjustedAveragePlacement": null,
+   "pickRate": 41.34,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.64,
+    12.66,
+    11.5,
+    11.01,
+    12.07,
+    11.29,
+    13.49,
+    15.34
+   ]
+  },
+  {
+   "name": "Jandice Barov",
+   "cardId": "63601",
+   "averagePlacement": 4.62,
+   "adjustedAveragePlacement": null,
+   "pickRate": 12.89,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    9.21,
+    11.4,
+    14.43,
+    13.49,
+    13.01,
+    14.15,
+    11.68,
+    12.63
+   ]
+  },
+  {
+   "name": "Y'Shaarj",
+   "cardId": "66196",
+   "averagePlacement": 4.624,
+   "adjustedAveragePlacement": null,
+   "pickRate": 14.3,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    9.6,
+    11.79,
+    11.75,
+    13.39,
+    14.23,
+    15.58,
+    13.52,
+    10.15
+   ]
+  },
+  {
+   "name": "Silas Darkmoon",
+   "cardId": "64480",
+   "averagePlacement": 4.629,
+   "adjustedAveragePlacement": null,
+   "pickRate": 21.75,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.48,
+    11.7,
+    11.62,
+    11.42,
+    13.95,
+    13.53,
+    13.84,
+    12.47
+   ]
+  },
+  {
+   "name": "Tess Greymane",
+   "cardId": "60367",
+   "averagePlacement": 4.635,
+   "adjustedAveragePlacement": null,
+   "pickRate": 31.36,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.63,
+    10.84,
+    11.58,
+    11.2,
+    13.09,
+    13.54,
+    13.99,
+    13.12
+   ]
+  },
+  {
+   "name": "Sire Denathrius",
+   "cardId": "92960",
+   "averagePlacement": 4.637,
+   "adjustedAveragePlacement": null,
+   "pickRate": 71.18,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    14.36,
+    11.3,
+    10.54,
+    10.94,
+    10.91,
+    12.3,
+    14.16,
+    15.49
+   ]
+  },
+  {
+   "name": "Heistbaron Togwaggle",
+   "cardId": "86291",
+   "averagePlacement": 4.638,
+   "adjustedAveragePlacement": null,
+   "pickRate": 16.77,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.48,
+    11.75,
+    11.75,
+    12.7,
+    12.59,
+    12.07,
+    13.88,
+    13.78
+   ]
+  },
+  {
+   "name": "C'Thun",
+   "cardId": "58535",
+   "averagePlacement": 4.646,
+   "adjustedAveragePlacement": null,
+   "pickRate": 3.82,
+   "tier": "d",
+   "bestComposition": null,
+   "keyMinions": [],
+   "placementDistribution": [
+    9.24,
+    8.78,
+    13.87,
+    12.94,
+    18.03,
+    14.64,
+    13.56,
+    8.94
+   ]
+  },
+  {
+   "name": "Death Speaker Blackthorn",
+   "cardId": "71458",
+   "averagePlacement": 4.649,
+   "adjustedAveragePlacement": null,
+   "pickRate": 8.8,
+   "tier": "d",
+   "bestComposition": "Quilboar",
+   "keyMinions": [
+    "Bramble Tunneler",
+    "Turbo Hogrider",
+    "Gem Rat"
+   ],
+   "placementDistribution": [
+    10.1,
+    9.55,
+    13.1,
+    12.69,
+    15.55,
+    14.19,
+    15.83,
+    9.0
+   ]
+  },
+  {
+   "name": "The Rat King",
+   "cardId": "57893",
+   "averagePlacement": 4.654,
+   "adjustedAveragePlacement": null,
+   "pickRate": 21.06,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.42,
+    11.08,
+    11.69,
+    13.98,
+    13.07,
+    13.59,
+    14.4,
+    11.77
+   ]
+  },
+  {
+   "name": "Xyrella",
+   "cardId": "70956",
+   "averagePlacement": 4.669,
+   "adjustedAveragePlacement": null,
+   "pickRate": 22.04,
+   "tier": "d",
+   "bestComposition": "Murlocs",
+   "keyMinions": [
+    "Diremuck Forager",
+    "Choral Mrrrglr",
+    "Choral Mrrrglr"
+   ],
+   "placementDistribution": [
+    11.11,
+    11.3,
+    11.19,
+    12.76,
+    12.97,
+    13.96,
+    13.77,
+    12.95
+   ]
+  },
+  {
+   "name": "Scabbs Cutterbutter",
+   "cardId": "76562",
+   "averagePlacement": 4.672,
+   "adjustedAveragePlacement": null,
+   "pickRate": 24.3,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.11,
+    10.99,
+    11.79,
+    12.08,
+    13.37,
+    13.62,
+    14.47,
+    12.57
+   ]
+  },
+  {
+   "name": "Nozdormu",
+   "cardId": "61489",
+   "averagePlacement": 4.678,
+   "adjustedAveragePlacement": null,
+   "pickRate": 16.34,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.63,
+    11.6,
+    11.45,
+    11.56,
+    12.21,
+    13.6,
+    13.89,
+    14.07
+   ]
+  },
+  {
+   "name": "Kael'thas Sunstrider",
+   "cardId": "61912",
+   "averagePlacement": 4.679,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.51,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.75,
+    9.17,
+    13.17,
+    13.62,
+    12.89,
+    14.29,
+    14.24,
+    11.87
+   ]
+  },
+  {
+   "name": "Ozumat",
+   "cardId": "86013",
+   "averagePlacement": 4.701,
+   "adjustedAveragePlacement": null,
+   "pickRate": 5.9,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    7.55,
+    10.53,
+    13.41,
+    14.0,
+    16.09,
+    15.19,
+    12.21,
+    11.02
+   ]
+  },
+  {
+   "name": "Pyramad",
+   "cardId": "59831",
+   "averagePlacement": 4.702,
+   "adjustedAveragePlacement": null,
+   "pickRate": 9.16,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    9.64,
+    10.29,
+    11.79,
+    13.75,
+    14.2,
+    14.98,
+    14.01,
+    11.34
+   ]
+  },
+  {
+   "name": "Onyxia",
+   "cardId": "82110",
+   "averagePlacement": 4.71,
+   "adjustedAveragePlacement": null,
+   "pickRate": 7.84,
+   "tier": "d",
+   "bestComposition": "Undead",
+   "keyMinions": [
+    "Drustfallen Butcher",
+    "Handless Forsaken",
+    "Snazzy Phantom"
+   ],
+   "placementDistribution": [
+    7.11,
+    11.45,
+    14.81,
+    11.25,
+    15.4,
+    15.99,
+    13.33,
+    10.66
+   ]
+  },
+  {
+   "name": "Ragnaros the Firelord",
+   "cardId": "57892",
+   "averagePlacement": 4.726,
+   "adjustedAveragePlacement": null,
+   "pickRate": 5.5,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    6.45,
+    9.94,
+    12.16,
+    16.81,
+    17.02,
+    16.07,
+    11.42,
+    10.15
+   ]
+  },
+  {
+   "name": "Tamsin Roame",
+   "cardId": "74646",
+   "averagePlacement": 4.736,
+   "adjustedAveragePlacement": null,
+   "pickRate": 6.83,
+   "tier": "d",
+   "bestComposition": null,
+   "keyMinions": [],
+   "placementDistribution": [
+    7.52,
+    10.31,
+    12.76,
+    14.16,
+    15.56,
+    15.38,
+    13.99,
+    10.31
+   ]
+  },
+  {
+   "name": "Kerrigan, Queen of Blades",
+   "cardId": "120358",
+   "averagePlacement": 4.744,
+   "adjustedAveragePlacement": null,
+   "pickRate": 5.04,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.3,
+    8.76,
+    12.07,
+    12.31,
+    16.09,
+    14.56,
+    13.96,
+    11.95
+   ]
+  },
+  {
+   "name": "Greybough",
+   "cardId": "67553",
+   "averagePlacement": 4.747,
+   "adjustedAveragePlacement": null,
+   "pickRate": 18.56,
+   "tier": "d",
+   "bestComposition": "Undead",
+   "keyMinions": [
+    "Drustfallen Butcher",
+    "Handless Forsaken",
+    "Snazzy Phantom"
+   ],
+   "placementDistribution": [
+    8.62,
+    10.22,
+    13.42,
+    12.66,
+    13.35,
+    15.56,
+    14.72,
+    11.44
+   ]
+  },
+  {
+   "name": "E.T.C., Band Manager",
+   "cardId": "101345",
+   "averagePlacement": 4.753,
+   "adjustedAveragePlacement": null,
+   "pickRate": 36.79,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.9,
+    9.92,
+    10.04,
+    11.05,
+    12.55,
+    13.53,
+    15.74,
+    14.27
+   ]
+  },
+  {
+   "name": "Cap'n Hoggarr",
+   "cardId": "101130",
+   "averagePlacement": 4.757,
+   "adjustedAveragePlacement": null,
+   "pickRate": 26.68,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    13.06,
+    9.72,
+    10.03,
+    12.26,
+    11.5,
+    12.57,
+    15.69,
+    15.16
+   ]
+  },
+  {
+   "name": "Guff Runetotem",
+   "cardId": "68129",
+   "averagePlacement": 4.773,
+   "adjustedAveragePlacement": null,
+   "pickRate": 27.42,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    12.18,
+    11.4,
+    10.51,
+    10.64,
+    11.03,
+    13.13,
+    14.6,
+    16.51
+   ]
+  },
+  {
+   "name": "Lich Baz'hial",
+   "cardId": "58044",
+   "averagePlacement": 4.782,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.04,
+   "tier": "d",
+   "bestComposition": "Demons",
+   "keyMinions": [
+    "Imp-lusionist",
+    "Devilish Distractor",
+    "Felboar"
+   ],
+   "placementDistribution": [
+    8.25,
+    10.5,
+    11.32,
+    13.56,
+    15.45,
+    14.5,
+    14.86,
+    11.56
+   ]
+  },
+  {
+   "name": "Kurtrus Ashfallen",
+   "cardId": "74631",
+   "averagePlacement": 4.789,
+   "adjustedAveragePlacement": null,
+   "pickRate": 13.26,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    11.52,
+    10.66,
+    10.66,
+    10.48,
+    13.36,
+    13.09,
+    14.98,
+    15.25
+   ]
+  },
+  {
+   "name": "Artanis",
+   "cardId": "118510",
+   "averagePlacement": 4.806,
+   "adjustedAveragePlacement": null,
+   "pickRate": 9.81,
+   "tier": "d",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    6.5,
+    8.3,
+    15.04,
+    14.32,
+    13.48,
+    18.41,
+    14.32,
+    9.63
+   ]
+  },
+  {
+   "name": "Infinite Toki",
+   "cardId": "58534",
+   "averagePlacement": 4.85,
+   "adjustedAveragePlacement": null,
+   "pickRate": 25.3,
+   "tier": "d",
+   "bestComposition": "Naga",
+   "keyMinions": [
+    "Fauna Whisperer",
+    "Gatekeeper Amalgam",
+    "Balinda Stonehearth"
+   ],
+   "placementDistribution": [
+    10.33,
+    10.59,
+    11.31,
+    11.64,
+    12.2,
+    12.41,
+    14.65,
+    16.87
+   ]
+  },
+  {
+   "name": "Edwin VanCleef",
+   "cardId": "57633",
+   "averagePlacement": 4.854,
+   "adjustedAveragePlacement": null,
+   "pickRate": 3.67,
+   "tier": "d",
+   "bestComposition": null,
+   "keyMinions": [],
+   "placementDistribution": [
+    8.93,
+    8.06,
+    11.73,
+    13.13,
+    14.36,
+    16.99,
+    15.41,
+    11.38
+   ]
+  },
+  {
+   "name": "Sindragosa",
+   "cardId": "58435",
+   "averagePlacement": 4.9,
+   "adjustedAveragePlacement": null,
+   "pickRate": 28.72,
+   "tier": "d",
+   "bestComposition": "Elementals",
+   "keyMinions": [
+    "Unbound Tempest",
+    "Unleashed Mana Surge",
+    "Moat Custodian"
+   ],
+   "placementDistribution": [
+    11.54,
+    9.72,
+    9.97,
+    10.69,
+    12.17,
+    13.12,
+    15.55,
+    17.23
+   ]
+  },
+  {
+   "name": "Professor Putricide",
+   "cardId": "97813",
+   "averagePlacement": 4.927,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.71,
+   "tier": "d",
+   "bestComposition": "Undead",
+   "keyMinions": [
+    "Drustfallen Butcher",
+    "Handless Forsaken",
+    "Snazzy Phantom"
+   ],
+   "placementDistribution": [
+    8.67,
+    8.9,
+    10.59,
+    11.94,
+    14.75,
+    15.43,
+    17.45,
+    12.27
+   ]
+  },
+  {
+   "name": "Jim Raynor",
+   "cardId": "118509",
+   "averagePlacement": 4.96,
+   "adjustedAveragePlacement": null,
+   "pickRate": 10.48,
+   "tier": "d",
+   "bestComposition": "Mechs",
+   "keyMinions": [
+    "Glambot",
+    "Utility Drone",
+    "Utility Drone"
+   ],
+   "placementDistribution": [
+    6.84,
+    7.75,
+    10.26,
+    14.82,
+    16.31,
+    17.9,
+    14.25,
+    11.86
+   ]
+  }
+ ]
+}

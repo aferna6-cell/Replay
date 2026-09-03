@@ -1,0 +1,4525 @@
+{
+ "_source": "hsreplay.net capture (auto-2026-08-30)",
+ "_imported": "2026-08-30",
+ "_percentile": "TOP_20_PERCENT",
+ "items": [
+  {
+   "name": "Dramaloc Sticker",
+   "cardId": "131307",
+   "averagePlacement": 3.33,
+   "pickRate": 32.49,
+   "tier": "s",
+   "group": "greater",
+   "placementDistribution": [
+    16.0,
+    24.27,
+    21.1,
+    14.53,
+    8.66,
+    7.03,
+    5.8,
+    2.63
+   ]
+  },
+  {
+   "name": "Copper Coil",
+   "cardId": "130875",
+   "averagePlacement": 3.399,
+   "pickRate": 52.62,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    34.19,
+    14.2,
+    10.4,
+    8.97,
+    8.11,
+    7.74,
+    7.89,
+    8.5
+   ]
+  },
+  {
+   "name": "Myrmidon Sticker",
+   "cardId": "133720",
+   "averagePlacement": 3.517,
+   "pickRate": 21.55,
+   "tier": "s",
+   "group": "greater",
+   "placementDistribution": [
+    19.62,
+    18.84,
+    17.63,
+    13.17,
+    10.69,
+    8.78,
+    7.44,
+    3.82
+   ]
+  },
+  {
+   "name": "Nazjatar Postcard",
+   "cardId": "117797",
+   "averagePlacement": 3.584,
+   "pickRate": 18.17,
+   "tier": "s",
+   "group": "greater",
+   "placementDistribution": [
+    21.3,
+    18.88,
+    14.58,
+    11.78,
+    9.89,
+    10.79,
+    8.0,
+    4.78
+   ]
+  },
+  {
+   "name": "Groundbreaker Portrait",
+   "cardId": "130907",
+   "averagePlacement": 3.644,
+   "pickRate": 36.99,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    19.61,
+    18.06,
+    15.15,
+    13.67,
+    10.83,
+    9.1,
+    8.87,
+    4.71
+   ]
+  },
+  {
+   "name": "Eternal Portrait",
+   "cardId": "133404",
+   "averagePlacement": 3.676,
+   "pickRate": 16.79,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    11.94,
+    22.5,
+    18.33,
+    15.83,
+    10.69,
+    9.17,
+    8.33,
+    3.19
+   ]
+  },
+  {
+   "name": "Gold Mallet",
+   "cardId": "133342",
+   "averagePlacement": 3.68,
+   "pickRate": 44.06,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    16.12,
+    16.57,
+    16.8,
+    16.75,
+    13.41,
+    10.85,
+    6.81,
+    2.69
+   ]
+  },
+  {
+   "name": "Multilayered Shield",
+   "cardId": "133715",
+   "averagePlacement": 3.704,
+   "pickRate": 14.13,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    17.19,
+    18.1,
+    18.02,
+    12.87,
+    10.53,
+    9.33,
+    8.84,
+    5.12
+   ]
+  },
+  {
+   "name": "Beetle Band",
+   "cardId": "121182",
+   "averagePlacement": 3.719,
+   "pickRate": 18.95,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    17.69,
+    21.54,
+    13.05,
+    11.61,
+    11.45,
+    9.53,
+    9.93,
+    5.2
+   ]
+  },
+  {
+   "name": "Honeycomb Ring",
+   "cardId": "133722",
+   "averagePlacement": 3.722,
+   "pickRate": 13.57,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    21.74,
+    16.5,
+    13.02,
+    11.84,
+    11.39,
+    10.47,
+    9.09,
+    5.96
+   ]
+  },
+  {
+   "name": "Bassgill Portrait",
+   "cardId": "120942",
+   "averagePlacement": 3.739,
+   "pickRate": 25.11,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    13.03,
+    19.48,
+    18.0,
+    16.58,
+    11.87,
+    9.29,
+    7.48,
+    4.26
+   ]
+  },
+  {
+   "name": "Blessing Portrait",
+   "cardId": "121141",
+   "averagePlacement": 3.766,
+   "pickRate": 24.6,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    10.73,
+    19.89,
+    20.52,
+    16.02,
+    12.31,
+    9.0,
+    7.26,
+    4.26
+   ]
+  },
+  {
+   "name": "Maldraxxus Dagger",
+   "cardId": "133713",
+   "averagePlacement": 3.767,
+   "pickRate": 63.04,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    28.6,
+    11.53,
+    9.45,
+    10.1,
+    10.52,
+    11.71,
+    11.35,
+    6.75
+   ]
+  },
+  {
+   "name": "Eternal Portrait",
+   "cardId": "111388",
+   "averagePlacement": 3.78,
+   "pickRate": 18.35,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    9.54,
+    18.2,
+    20.61,
+    18.64,
+    14.14,
+    9.87,
+    6.25,
+    2.74
+   ]
+  },
+  {
+   "name": "Flighty Portrait",
+   "cardId": "133064",
+   "averagePlacement": 3.798,
+   "pickRate": 23.78,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    9.69,
+    19.12,
+    20.81,
+    16.93,
+    13.65,
+    9.18,
+    6.57,
+    4.04
+   ]
+  },
+  {
+   "name": "Flaming Portrait",
+   "cardId": "131284",
+   "averagePlacement": 3.8,
+   "pickRate": 24.44,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    16.46,
+    17.52,
+    15.75,
+    14.56,
+    11.06,
+    9.93,
+    9.68,
+    5.05
+   ]
+  },
+  {
+   "name": "Baller Portrait",
+   "cardId": "130873",
+   "averagePlacement": 3.801,
+   "pickRate": 49.33,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    20.19,
+    15.5,
+    14.14,
+    12.56,
+    11.09,
+    11.26,
+    8.82,
+    6.45
+   ]
+  },
+  {
+   "name": "Conch Portrait",
+   "cardId": "131137",
+   "averagePlacement": 3.808,
+   "pickRate": 30.56,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    13.46,
+    19.92,
+    17.97,
+    14.67,
+    10.03,
+    8.95,
+    8.95,
+    6.06
+   ]
+  },
+  {
+   "name": "Escapee Portrait",
+   "cardId": "133714",
+   "averagePlacement": 3.808,
+   "pickRate": 44.94,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    28.12,
+    13.69,
+    8.88,
+    8.79,
+    9.2,
+    10.43,
+    12.14,
+    8.74
+   ]
+  },
+  {
+   "name": "Faerie Dragon Scale",
+   "cardId": "120870",
+   "averagePlacement": 3.813,
+   "pickRate": 14.81,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    14.88,
+    17.91,
+    17.44,
+    14.88,
+    10.68,
+    10.09,
+    8.17,
+    5.95
+   ]
+  },
+  {
+   "name": "Assembler Portrait",
+   "cardId": "133069",
+   "averagePlacement": 3.83,
+   "pickRate": 19.27,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    9.42,
+    18.84,
+    20.77,
+    17.57,
+    13.22,
+    8.51,
+    7.13,
+    4.53
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 3.839,
+   "pickRate": 32.82,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    15.06,
+    20.19,
+    16.3,
+    12.27,
+    11.49,
+    7.61,
+    9.32,
+    7.76
+   ]
+  },
+  {
+   "name": "Designer Eyepatch",
+   "cardId": "112990",
+   "averagePlacement": 3.839,
+   "pickRate": 42.6,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    26.9,
+    12.26,
+    9.13,
+    9.82,
+    11.14,
+    11.85,
+    12.13,
+    6.76
+   ]
+  },
+  {
+   "name": "Archaic Scroll",
+   "cardId": "120610",
+   "averagePlacement": 3.84,
+   "pickRate": 33.85,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    21.37,
+    16.89,
+    12.56,
+    11.23,
+    9.53,
+    9.66,
+    9.48,
+    9.28
+   ]
+  },
+  {
+   "name": "Slamma Sticker",
+   "cardId": "112381",
+   "averagePlacement": 3.842,
+   "pickRate": 21.09,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    17.79,
+    17.32,
+    14.55,
+    11.5,
+    12.11,
+    10.96,
+    10.35,
+    5.41
+   ]
+  },
+  {
+   "name": "Czarina Portrait",
+   "cardId": "121130",
+   "averagePlacement": 3.845,
+   "pickRate": 19.15,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    7.96,
+    19.3,
+    22.2,
+    17.67,
+    12.3,
+    8.99,
+    7.36,
+    4.22
+   ]
+  },
+  {
+   "name": "Errgl Sticker",
+   "cardId": "131296",
+   "averagePlacement": 3.861,
+   "pickRate": 17.13,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    14.19,
+    21.19,
+    15.44,
+    11.51,
+    11.6,
+    10.16,
+    9.11,
+    6.81
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 3.884,
+   "pickRate": 35.84,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    13.74,
+    18.13,
+    17.93,
+    13.02,
+    11.71,
+    9.88,
+    10.01,
+    5.56
+   ]
+  },
+  {
+   "name": "Chromatic Tear",
+   "cardId": "130977",
+   "averagePlacement": 3.899,
+   "pickRate": 47.04,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    12.86,
+    18.3,
+    17.2,
+    14.39,
+    11.67,
+    11.29,
+    9.19,
+    5.11
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 3.901,
+   "pickRate": 59.67,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    21.66,
+    14.76,
+    11.81,
+    11.29,
+    10.56,
+    11.23,
+    11.34,
+    7.36
+   ]
+  },
+  {
+   "name": "Boom's Monster Portrait",
+   "cardId": "120866",
+   "averagePlacement": 3.913,
+   "pickRate": 32.18,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    16.76,
+    16.36,
+    14.37,
+    12.8,
+    12.26,
+    11.55,
+    10.23,
+    5.67
+   ]
+  },
+  {
+   "name": "Dragon's Eye",
+   "cardId": "133403",
+   "averagePlacement": 3.914,
+   "pickRate": 40.87,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    13.77,
+    17.63,
+    16.87,
+    13.71,
+    12.26,
+    10.64,
+    9.12,
+    6.0
+   ]
+  },
+  {
+   "name": "Ghastly Sticker",
+   "cardId": "120873",
+   "averagePlacement": 3.92,
+   "pickRate": 20.2,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    20.0,
+    14.48,
+    12.84,
+    11.66,
+    11.42,
+    12.59,
+    10.81,
+    6.2
+   ]
+  },
+  {
+   "name": "Charming Panpipes",
+   "cardId": "120619",
+   "averagePlacement": 3.932,
+   "pickRate": 24.4,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    14.95,
+    17.03,
+    14.88,
+    13.79,
+    12.6,
+    11.22,
+    10.13,
+    5.38
+   ]
+  },
+  {
+   "name": "Rusty Trident",
+   "cardId": "111557",
+   "averagePlacement": 3.937,
+   "pickRate": 21.95,
+   "tier": "s",
+   "group": "lesser",
+   "placementDistribution": [
+    12.98,
+    18.24,
+    17.45,
+    13.85,
+    11.58,
+    9.27,
+    9.99,
+    6.62
+   ]
+  },
+  {
+   "name": "Nerglish Phrasebook",
+   "cardId": "110991",
+   "averagePlacement": 3.955,
+   "pickRate": 20.46,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    8.27,
+    18.48,
+    20.23,
+    16.63,
+    13.13,
+    10.41,
+    7.78,
+    5.06
+   ]
+  },
+  {
+   "name": "Warcry Totem",
+   "cardId": "133389",
+   "averagePlacement": 3.958,
+   "pickRate": 23.88,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    19.98,
+    15.87,
+    12.88,
+    11.08,
+    10.2,
+    9.85,
+    10.13,
+    10.01
+   ]
+  },
+  {
+   "name": "Cyclist Portrait",
+   "cardId": "133721",
+   "averagePlacement": 3.96,
+   "pickRate": 26.62,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    9.65,
+    19.09,
+    18.34,
+    15.35,
+    12.67,
+    10.43,
+    9.92,
+    4.55
+   ]
+  },
+  {
+   "name": "Morgl Portrait",
+   "cardId": "121111",
+   "averagePlacement": 3.967,
+   "pickRate": 12.91,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    15.83,
+    14.19,
+    16.1,
+    13.96,
+    13.01,
+    11.07,
+    9.82,
+    6.01
+   ]
+  },
+  {
+   "name": "Young Murk-Eye Sticker",
+   "cardId": "131305",
+   "averagePlacement": 3.969,
+   "pickRate": 20.29,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    15.42,
+    15.42,
+    13.64,
+    15.91,
+    12.42,
+    11.69,
+    10.15,
+    5.36
+   ]
+  },
+  {
+   "name": "Bewitched Ribbon",
+   "cardId": "130865",
+   "averagePlacement": 3.977,
+   "pickRate": 25.59,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    9.86,
+    17.51,
+    19.28,
+    15.4,
+    13.23,
+    10.22,
+    10.12,
+    4.38
+   ]
+  },
+  {
+   "name": "Sky Golem Portrait",
+   "cardId": "131138",
+   "averagePlacement": 3.979,
+   "pickRate": 8.68,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    8.88,
+    19.05,
+    18.29,
+    16.53,
+    13.88,
+    9.37,
+    7.69,
+    6.32
+   ]
+  },
+  {
+   "name": "Gold Mallet",
+   "cardId": "133343",
+   "averagePlacement": 3.986,
+   "pickRate": 26.99,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    15.27,
+    15.27,
+    14.92,
+    14.62,
+    12.66,
+    10.78,
+    10.28,
+    6.2
+   ]
+  },
+  {
+   "name": "Bronze Timepiece",
+   "cardId": "112411",
+   "averagePlacement": 3.996,
+   "pickRate": 16.17,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    15.13,
+    15.02,
+    14.64,
+    14.85,
+    13.33,
+    11.15,
+    9.58,
+    6.31
+   ]
+  },
+  {
+   "name": "Rune of Transmutation",
+   "cardId": "133350",
+   "averagePlacement": 3.998,
+   "pickRate": 50.13,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    13.64,
+    17.18,
+    15.91,
+    14.26,
+    11.67,
+    10.35,
+    9.33,
+    7.66
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.009,
+   "pickRate": 41.25,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    13.93,
+    15.3,
+    14.96,
+    15.39,
+    13.08,
+    12.23,
+    9.74,
+    5.37
+   ]
+  },
+  {
+   "name": "Murky Sticker",
+   "cardId": "131306",
+   "averagePlacement": 4.012,
+   "pickRate": 13.28,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    13.45,
+    16.13,
+    17.18,
+    13.84,
+    12.21,
+    9.83,
+    10.31,
+    7.06
+   ]
+  },
+  {
+   "name": "Soul Fermenter",
+   "cardId": "131132",
+   "averagePlacement": 4.017,
+   "pickRate": 44.49,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    12.25,
+    17.19,
+    17.29,
+    13.43,
+    12.4,
+    10.81,
+    10.4,
+    6.23
+   ]
+  },
+  {
+   "name": "Bronzebeard Portrait",
+   "cardId": "111607",
+   "averagePlacement": 4.022,
+   "pickRate": 64.02,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    12.12,
+    16.23,
+    16.64,
+    15.0,
+    13.16,
+    11.38,
+    10.06,
+    5.4
+   ]
+  },
+  {
+   "name": "Plaguerunner Portrait",
+   "cardId": "133391",
+   "averagePlacement": 4.031,
+   "pickRate": 37.98,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    10.96,
+    16.62,
+    17.62,
+    15.09,
+    13.73,
+    10.61,
+    9.66,
+    5.72
+   ]
+  },
+  {
+   "name": "Heart of the Forest",
+   "cardId": "120160",
+   "averagePlacement": 4.033,
+   "pickRate": 19.72,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    14.53,
+    15.26,
+    15.18,
+    14.23,
+    12.48,
+    11.09,
+    11.02,
+    6.2
+   ]
+  },
+  {
+   "name": "Jarred Frostling",
+   "cardId": "111500",
+   "averagePlacement": 4.034,
+   "pickRate": 26.48,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    15.38,
+    14.69,
+    14.12,
+    15.02,
+    12.56,
+    11.12,
+    10.18,
+    6.93
+   ]
+  },
+  {
+   "name": "Cookie's Stirring Rod",
+   "cardId": "133070",
+   "averagePlacement": 4.038,
+   "pickRate": 19.53,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    11.36,
+    17.97,
+    15.11,
+    14.71,
+    13.81,
+    11.6,
+    9.8,
+    5.64
+   ]
+  },
+  {
+   "name": "Booty Bay Brew",
+   "cardId": "110993",
+   "averagePlacement": 4.039,
+   "pickRate": 13.42,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    13.72,
+    12.74,
+    15.4,
+    15.71,
+    16.89,
+    12.28,
+    8.55,
+    4.71
+   ]
+  },
+  {
+   "name": "Fang Anklet",
+   "cardId": "130896",
+   "averagePlacement": 4.049,
+   "pickRate": 16.95,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    12.03,
+    16.97,
+    14.91,
+    15.4,
+    13.84,
+    10.38,
+    10.71,
+    5.77
+   ]
+  },
+  {
+   "name": "Nerglish Phrasebook",
+   "cardId": "115237",
+   "averagePlacement": 4.05,
+   "pickRate": 19.55,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    8.88,
+    17.51,
+    19.45,
+    14.85,
+    12.75,
+    11.54,
+    9.77,
+    5.25
+   ]
+  },
+  {
+   "name": "Dragon Skull",
+   "cardId": "133390",
+   "averagePlacement": 4.051,
+   "pickRate": 8.37,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    8.86,
+    19.13,
+    16.03,
+    16.03,
+    14.77,
+    10.41,
+    8.67,
+    6.09
+   ]
+  },
+  {
+   "name": "Lava Lamp",
+   "cardId": "111499",
+   "averagePlacement": 4.053,
+   "pickRate": 46.06,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    20.65,
+    12.29,
+    11.51,
+    11.79,
+    11.6,
+    12.4,
+    12.08,
+    7.68
+   ]
+  },
+  {
+   "name": "Coral Spear",
+   "cardId": "130981",
+   "averagePlacement": 4.056,
+   "pickRate": 16.81,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    10.43,
+    17.6,
+    16.63,
+    14.9,
+    13.22,
+    11.44,
+    10.48,
+    5.29
+   ]
+  },
+  {
+   "name": "Azsharan Statuette",
+   "cardId": "120617",
+   "averagePlacement": 4.057,
+   "pickRate": 21.13,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    15.42,
+    15.44,
+    14.4,
+    13.1,
+    12.43,
+    11.13,
+    9.75,
+    8.33
+   ]
+  },
+  {
+   "name": "Ominous Stone",
+   "cardId": "133393",
+   "averagePlacement": 4.064,
+   "pickRate": 59.44,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    15.06,
+    15.02,
+    14.42,
+    13.62,
+    12.94,
+    11.36,
+    9.98,
+    7.61
+   ]
+  },
+  {
+   "name": "Guiding Candle",
+   "cardId": "120928",
+   "averagePlacement": 4.066,
+   "pickRate": 42.68,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    17.09,
+    15.02,
+    12.83,
+    11.98,
+    11.81,
+    12.29,
+    11.5,
+    7.48
+   ]
+  },
+  {
+   "name": "Lorewalker Scroll",
+   "cardId": "117416",
+   "averagePlacement": 4.082,
+   "pickRate": 28.9,
+   "tier": "a",
+   "group": "greater",
+   "placementDistribution": [
+    10.47,
+    15.64,
+    17.35,
+    16.22,
+    13.4,
+    11.75,
+    9.34,
+    5.83
+   ]
+  },
+  {
+   "name": "Chillmere Mosaic",
+   "cardId": "131308",
+   "averagePlacement": 4.088,
+   "pickRate": 25.56,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    15.89,
+    14.76,
+    13.55,
+    12.95,
+    12.4,
+    11.74,
+    11.26,
+    7.46
+   ]
+  },
+  {
+   "name": "Dragonwing Glider",
+   "cardId": "110985",
+   "averagePlacement": 4.094,
+   "pickRate": 15.67,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    7.79,
+    14.03,
+    18.6,
+    20.01,
+    15.44,
+    11.84,
+    8.88,
+    3.41
+   ]
+  },
+  {
+   "name": "Sinstone Sticker",
+   "cardId": "110928",
+   "averagePlacement": 4.1,
+   "pickRate": 31.69,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    20.0,
+    13.13,
+    11.21,
+    11.21,
+    10.99,
+    12.3,
+    12.68,
+    8.47
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.102,
+   "pickRate": 35.07,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    10.76,
+    15.22,
+    17.87,
+    15.22,
+    13.4,
+    11.3,
+    10.12,
+    6.11
+   ]
+  },
+  {
+   "name": "Maw Caster Portrait",
+   "cardId": "121558",
+   "averagePlacement": 4.104,
+   "pickRate": 49.04,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    17.73,
+    11.81,
+    12.77,
+    13.73,
+    12.67,
+    12.96,
+    11.81,
+    6.51
+   ]
+  },
+  {
+   "name": "Beatboxer Portrait",
+   "cardId": "131139",
+   "averagePlacement": 4.104,
+   "pickRate": 75.57,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    17.27,
+    12.36,
+    12.48,
+    13.75,
+    12.92,
+    13.51,
+    11.47,
+    6.25
+   ]
+  },
+  {
+   "name": "Upstart Embers",
+   "cardId": "130874",
+   "averagePlacement": 4.107,
+   "pickRate": 14.28,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    12.71,
+    15.38,
+    15.31,
+    14.7,
+    12.3,
+    12.85,
+    10.05,
+    6.7
+   ]
+  },
+  {
+   "name": "Bloodbound Earrings",
+   "cardId": "120146",
+   "averagePlacement": 4.112,
+   "pickRate": 27.39,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    13.03,
+    14.09,
+    16.9,
+    13.69,
+    12.96,
+    12.09,
+    10.75,
+    6.48
+   ]
+  },
+  {
+   "name": "Splinter of Aurum",
+   "cardId": "111387",
+   "averagePlacement": 4.114,
+   "pickRate": 26.28,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    18.67,
+    15.39,
+    11.66,
+    11.14,
+    10.16,
+    10.68,
+    10.8,
+    11.5
+   ]
+  },
+  {
+   "name": "Bluegill Flippers",
+   "cardId": "121140",
+   "averagePlacement": 4.123,
+   "pickRate": 14.66,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    8.31,
+    13.62,
+    18.53,
+    20.3,
+    14.71,
+    10.49,
+    8.86,
+    5.18
+   ]
+  },
+  {
+   "name": "Lorewalker Scroll",
+   "cardId": "111664",
+   "averagePlacement": 4.125,
+   "pickRate": 23.95,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    9.04,
+    14.97,
+    17.4,
+    17.72,
+    15.0,
+    10.91,
+    9.74,
+    5.22
+   ]
+  },
+  {
+   "name": "Magicfin Sticker",
+   "cardId": "131303",
+   "averagePlacement": 4.126,
+   "pickRate": 14.72,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    15.51,
+    15.07,
+    12.56,
+    12.59,
+    12.02,
+    13.93,
+    11.28,
+    7.04
+   ]
+  },
+  {
+   "name": "Chromatic Tear",
+   "cardId": "130886",
+   "averagePlacement": 4.13,
+   "pickRate": 22.75,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    13.37,
+    15.47,
+    15.16,
+    13.72,
+    11.98,
+    11.58,
+    10.78,
+    7.94
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.131,
+   "pickRate": 46.0,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    16.67,
+    14.49,
+    12.84,
+    12.89,
+    11.34,
+    11.63,
+    10.32,
+    9.84
+   ]
+  },
+  {
+   "name": "Bubble Crown",
+   "cardId": "130898",
+   "averagePlacement": 4.136,
+   "pickRate": 15.27,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    13.45,
+    15.47,
+    15.2,
+    13.38,
+    12.31,
+    11.46,
+    10.09,
+    8.64
+   ]
+  },
+  {
+   "name": "Ornate Clock",
+   "cardId": "121120",
+   "averagePlacement": 4.158,
+   "pickRate": 26.63,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    14.63,
+    14.94,
+    13.63,
+    13.69,
+    12.18,
+    11.11,
+    10.5,
+    9.32
+   ]
+  },
+  {
+   "name": "Spitescale Sushi Roll",
+   "cardId": "111400",
+   "averagePlacement": 4.166,
+   "pickRate": 14.62,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    7.68,
+    14.66,
+    18.5,
+    17.28,
+    15.01,
+    12.57,
+    9.95,
+    4.36
+   ]
+  },
+  {
+   "name": "Curator Sticker",
+   "cardId": "120145",
+   "averagePlacement": 4.166,
+   "pickRate": 14.88,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    11.67,
+    15.22,
+    14.99,
+    14.66,
+    13.7,
+    12.41,
+    10.86,
+    6.47
+   ]
+  },
+  {
+   "name": "Baleful Incense",
+   "cardId": "120137",
+   "averagePlacement": 4.167,
+   "pickRate": 11.25,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    6.74,
+    15.07,
+    19.33,
+    19.33,
+    12.94,
+    12.59,
+    7.8,
+    6.21
+   ]
+  },
+  {
+   "name": "Wicked Tome",
+   "cardId": "121041",
+   "averagePlacement": 4.168,
+   "pickRate": 26.91,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    12.35,
+    13.94,
+    13.94,
+    15.61,
+    13.11,
+    16.03,
+    9.6,
+    5.43
+   ]
+  },
+  {
+   "name": "Blood Golem Sticker",
+   "cardId": "113096",
+   "averagePlacement": 4.17,
+   "pickRate": 25.99,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    14.87,
+    14.41,
+    12.89,
+    13.35,
+    12.76,
+    12.56,
+    11.24,
+    7.93
+   ]
+  },
+  {
+   "name": "Surprise Portrait",
+   "cardId": "117905",
+   "averagePlacement": 4.17,
+   "pickRate": 37.26,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    17.45,
+    12.94,
+    11.31,
+    12.48,
+    12.89,
+    12.74,
+    12.61,
+    7.57
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.174,
+   "pickRate": 33.91,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    13.08,
+    13.7,
+    14.23,
+    13.7,
+    15.39,
+    12.37,
+    11.92,
+    5.6
+   ]
+  },
+  {
+   "name": "Gold-plated Compass",
+   "cardId": "120159",
+   "averagePlacement": 4.178,
+   "pickRate": 23.45,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    15.37,
+    14.2,
+    13.09,
+    12.53,
+    12.06,
+    12.63,
+    12.32,
+    7.79
+   ]
+  },
+  {
+   "name": "Aggem Sticker",
+   "cardId": "121132",
+   "averagePlacement": 4.183,
+   "pickRate": 19.65,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    9.76,
+    17.12,
+    17.47,
+    11.99,
+    13.53,
+    12.33,
+    10.1,
+    7.71
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.187,
+   "pickRate": 28.75,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    12.72,
+    13.8,
+    13.53,
+    15.83,
+    16.37,
+    9.34,
+    10.69,
+    7.71
+   ]
+  },
+  {
+   "name": "Warband Whistle",
+   "cardId": "131002",
+   "averagePlacement": 4.194,
+   "pickRate": 23.45,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    15.96,
+    13.42,
+    13.01,
+    12.2,
+    12.47,
+    12.27,
+    12.51,
+    8.15
+   ]
+  },
+  {
+   "name": "Orb of the Unknown",
+   "cardId": "131328",
+   "averagePlacement": 4.195,
+   "pickRate": 25.75,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    15.15,
+    13.5,
+    13.47,
+    12.87,
+    12.73,
+    12.24,
+    11.95,
+    8.08
+   ]
+  },
+  {
+   "name": "Recycling Sticker",
+   "cardId": "120705",
+   "averagePlacement": 4.199,
+   "pickRate": 35.43,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    19.36,
+    11.77,
+    10.85,
+    11.05,
+    11.77,
+    13.25,
+    13.72,
+    8.23
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.2,
+   "pickRate": 28.53,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    13.67,
+    15.08,
+    13.93,
+    14.06,
+    12.13,
+    10.85,
+    9.82,
+    10.46
+   ]
+  },
+  {
+   "name": "War Drum",
+   "cardId": "121037",
+   "averagePlacement": 4.202,
+   "pickRate": 16.93,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    14.39,
+    14.73,
+    14.32,
+    12.7,
+    11.86,
+    11.07,
+    10.58,
+    10.36
+   ]
+  },
+  {
+   "name": "Glowing Crystal",
+   "cardId": "133696",
+   "averagePlacement": 4.204,
+   "pickRate": 18.51,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    17.85,
+    14.39,
+    10.83,
+    11.0,
+    12.11,
+    10.88,
+    12.05,
+    10.88
+   ]
+  },
+  {
+   "name": "Beetle Band",
+   "cardId": "120760",
+   "averagePlacement": 4.212,
+   "pickRate": 13.74,
+   "tier": "a",
+   "group": "lesser",
+   "placementDistribution": [
+    14.45,
+    14.45,
+    12.7,
+    14.26,
+    11.13,
+    12.89,
+    11.23,
+    8.89
+   ]
+  },
+  {
+   "name": "Sphere of Memory",
+   "cardId": "133712",
+   "averagePlacement": 4.215,
+   "pickRate": 14.54,
+   "tier": "b",
+   "group": "greater",
+   "placementDistribution": [
+    17.98,
+    11.86,
+    11.06,
+    11.74,
+    13.09,
+    13.34,
+    13.25,
+    7.68
+   ]
+  },
+  {
+   "name": "Sellemental Portrait",
+   "cardId": "120800",
+   "averagePlacement": 4.216,
+   "pickRate": 31.39,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    17.28,
+    14.12,
+    11.57,
+    12.21,
+    11.15,
+    10.53,
+    11.51,
+    11.62
+   ]
+  },
+  {
+   "name": "Book of Medivh",
+   "cardId": "115230",
+   "averagePlacement": 4.216,
+   "pickRate": 19.69,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    15.34,
+    13.01,
+    13.18,
+    12.97,
+    12.34,
+    12.83,
+    12.53,
+    7.81
+   ]
+  },
+  {
+   "name": "Enigmatic Headstone",
+   "cardId": "121121",
+   "averagePlacement": 4.225,
+   "pickRate": 13.57,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    8.71,
+    14.56,
+    17.42,
+    15.62,
+    13.81,
+    13.81,
+    10.51,
+    5.56
+   ]
+  },
+  {
+   "name": "Insurrectionist's Blade",
+   "cardId": "133402",
+   "averagePlacement": 4.231,
+   "pickRate": 21.82,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    15.8,
+    13.12,
+    12.04,
+    12.7,
+    12.81,
+    12.43,
+    13.23,
+    7.86
+   ]
+  },
+  {
+   "name": "Protective Ring",
+   "cardId": "130893",
+   "averagePlacement": 4.233,
+   "pickRate": 17.04,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    16.16,
+    12.71,
+    11.02,
+    12.82,
+    13.5,
+    13.33,
+    13.73,
+    6.72
+   ]
+  },
+  {
+   "name": "Manipulator Portrait",
+   "cardId": "111207",
+   "averagePlacement": 4.234,
+   "pickRate": 23.23,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    14.96,
+    12.97,
+    12.66,
+    13.14,
+    13.16,
+    13.28,
+    12.17,
+    7.65
+   ]
+  },
+  {
+   "name": "Scraper Sticker",
+   "cardId": "130879",
+   "averagePlacement": 4.238,
+   "pickRate": 27.97,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    10.69,
+    14.99,
+    14.0,
+    15.39,
+    14.99,
+    12.47,
+    9.95,
+    7.52
+   ]
+  },
+  {
+   "name": "Safety Patch",
+   "cardId": "130838",
+   "averagePlacement": 4.239,
+   "pickRate": 58.02,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    12.05,
+    14.03,
+    13.17,
+    13.3,
+    15.4,
+    15.09,
+    12.14,
+    4.83
+   ]
+  },
+  {
+   "name": "Ironforge Anvil",
+   "cardId": "111488",
+   "averagePlacement": 4.242,
+   "pickRate": 6.7,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    12.12,
+    15.15,
+    13.64,
+    14.39,
+    11.36,
+    13.64,
+    12.88,
+    6.82
+   ]
+  },
+  {
+   "name": "Sous Chef Sticker",
+   "cardId": "130028",
+   "averagePlacement": 4.243,
+   "pickRate": 43.05,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    14.3,
+    15.63,
+    11.97,
+    13.41,
+    11.09,
+    11.64,
+    11.75,
+    10.2
+   ]
+  },
+  {
+   "name": "Azeroth Model Globe",
+   "cardId": "112001",
+   "averagePlacement": 4.26,
+   "pickRate": 37.21,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    14.99,
+    13.17,
+    13.57,
+    12.88,
+    11.65,
+    12.13,
+    11.48,
+    10.12
+   ]
+  },
+  {
+   "name": "Kaleidoscope",
+   "cardId": "131309",
+   "averagePlacement": 4.261,
+   "pickRate": 11.59,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    14.85,
+    11.6,
+    13.09,
+    12.9,
+    14.04,
+    14.02,
+    13.16,
+    6.34
+   ]
+  },
+  {
+   "name": "Inductive Gyroblade",
+   "cardId": "133062",
+   "averagePlacement": 4.263,
+   "pickRate": 20.46,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    8.12,
+    14.29,
+    17.47,
+    17.14,
+    12.79,
+    13.25,
+    10.32,
+    6.62
+   ]
+  },
+  {
+   "name": "Baller Portrait",
+   "cardId": "134199",
+   "averagePlacement": 4.269,
+   "pickRate": 21.98,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    13.72,
+    13.17,
+    14.63,
+    14.0,
+    11.64,
+    11.07,
+    11.8,
+    9.97
+   ]
+  },
+  {
+   "name": "Fancy Spellbook",
+   "cardId": "113102",
+   "averagePlacement": 4.27,
+   "pickRate": 14.74,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    10.28,
+    14.72,
+    15.24,
+    15.16,
+    12.43,
+    13.54,
+    11.54,
+    7.1
+   ]
+  },
+  {
+   "name": "Bob's Tip Jar",
+   "cardId": "112988",
+   "averagePlacement": 4.271,
+   "pickRate": 32.97,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    15.2,
+    13.15,
+    12.07,
+    12.37,
+    12.61,
+    13.63,
+    12.78,
+    8.19
+   ]
+  },
+  {
+   "name": "Poet Portrait",
+   "cardId": "120875",
+   "averagePlacement": 4.288,
+   "pickRate": 29.29,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    9.51,
+    15.09,
+    14.58,
+    14.73,
+    13.57,
+    14.4,
+    12.85,
+    5.28
+   ]
+  },
+  {
+   "name": "Reinforced Shield",
+   "cardId": "110967",
+   "averagePlacement": 4.289,
+   "pickRate": 17.96,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    5.76,
+    13.03,
+    20.18,
+    17.17,
+    15.29,
+    13.53,
+    10.03,
+    5.01
+   ]
+  },
+  {
+   "name": "Corrupted Tome",
+   "cardId": "130830",
+   "averagePlacement": 4.29,
+   "pickRate": 23.9,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    15.75,
+    11.6,
+    12.32,
+    11.86,
+    13.81,
+    13.72,
+    13.19,
+    7.74
+   ]
+  },
+  {
+   "name": "Mystery Cube",
+   "cardId": "117801",
+   "averagePlacement": 4.307,
+   "pickRate": 33.56,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    16.37,
+    12.99,
+    12.05,
+    11.95,
+    10.87,
+    12.09,
+    11.93,
+    11.75
+   ]
+  },
+  {
+   "name": "Fridge Magnet",
+   "cardId": "112397",
+   "averagePlacement": 4.31,
+   "pickRate": 13.8,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    10.25,
+    12.52,
+    14.03,
+    16.55,
+    15.71,
+    12.61,
+    13.36,
+    4.96
+   ]
+  },
+  {
+   "name": "Transcribing Typewriter",
+   "cardId": "131325",
+   "averagePlacement": 4.31,
+   "pickRate": 27.11,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    14.77,
+    12.78,
+    11.9,
+    12.58,
+    12.64,
+    14.02,
+    13.12,
+    8.19
+   ]
+  },
+  {
+   "name": "Butcher's Sickle",
+   "cardId": "111502",
+   "averagePlacement": 4.315,
+   "pickRate": 33.69,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    8.66,
+    11.32,
+    18.62,
+    17.53,
+    14.32,
+    11.46,
+    10.78,
+    7.3
+   ]
+  },
+  {
+   "name": "Funeral Wreath",
+   "cardId": "133405",
+   "averagePlacement": 4.318,
+   "pickRate": 20.92,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    10.29,
+    13.61,
+    14.79,
+    13.08,
+    14.79,
+    16.29,
+    11.25,
+    5.89
+   ]
+  },
+  {
+   "name": "Innkeeper's Hearth",
+   "cardId": "121684",
+   "averagePlacement": 4.319,
+   "pickRate": 37.59,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    11.08,
+    12.92,
+    14.61,
+    14.49,
+    14.15,
+    13.86,
+    11.86,
+    7.03
+   ]
+  },
+  {
+   "name": "Water Wheel",
+   "cardId": "130889",
+   "averagePlacement": 4.32,
+   "pickRate": 16.17,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    14.56,
+    12.53,
+    12.53,
+    12.53,
+    13.46,
+    12.92,
+    11.82,
+    9.63
+   ]
+  },
+  {
+   "name": "Book of Medivh",
+   "cardId": "111609",
+   "averagePlacement": 4.321,
+   "pickRate": 22.72,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    14.93,
+    13.44,
+    12.26,
+    12.15,
+    12.69,
+    11.74,
+    11.34,
+    11.45
+   ]
+  },
+  {
+   "name": "Mysterious Orb",
+   "cardId": "130836",
+   "averagePlacement": 4.329,
+   "pickRate": 15.03,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    14.23,
+    13.73,
+    13.23,
+    12.18,
+    11.26,
+    12.26,
+    11.89,
+    11.21
+   ]
+  },
+  {
+   "name": "Bloodbound Earrings",
+   "cardId": "121038",
+   "averagePlacement": 4.346,
+   "pickRate": 31.47,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    11.23,
+    13.99,
+    14.38,
+    13.27,
+    12.89,
+    12.83,
+    13.5,
+    7.91
+   ]
+  },
+  {
+   "name": "Training Certificate",
+   "cardId": "111417",
+   "averagePlacement": 4.358,
+   "pickRate": 9.27,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    13.76,
+    12.55,
+    12.45,
+    14.08,
+    12.12,
+    12.66,
+    12.34,
+    10.04
+   ]
+  },
+  {
+   "name": "Worn Treasure Map",
+   "cardId": "112075",
+   "averagePlacement": 4.359,
+   "pickRate": 28.71,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    13.9,
+    13.72,
+    12.42,
+    12.5,
+    12.24,
+    11.6,
+    12.45,
+    11.17
+   ]
+  },
+  {
+   "name": "Ancient Wishbone",
+   "cardId": "110957",
+   "averagePlacement": 4.364,
+   "pickRate": 45.93,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    16.69,
+    12.96,
+    11.38,
+    11.1,
+    10.68,
+    11.79,
+    12.07,
+    13.33
+   ]
+  },
+  {
+   "name": "Orb of the Unknown",
+   "cardId": "130834",
+   "averagePlacement": 4.372,
+   "pickRate": 20.03,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    15.31,
+    12.4,
+    12.22,
+    11.42,
+    12.44,
+    12.67,
+    11.83,
+    11.72
+   ]
+  },
+  {
+   "name": "Stuffed Coin Purse",
+   "cardId": "130832",
+   "averagePlacement": 4.376,
+   "pickRate": 24.25,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    15.8,
+    13.19,
+    12.05,
+    10.95,
+    10.78,
+    11.87,
+    12.57,
+    12.8
+   ]
+  },
+  {
+   "name": "Mama Bear Sticker",
+   "cardId": "130877",
+   "averagePlacement": 4.377,
+   "pickRate": 9.59,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    8.08,
+    11.37,
+    15.89,
+    17.53,
+    17.95,
+    11.37,
+    11.37,
+    6.44
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.379,
+   "pickRate": 31.61,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    11.34,
+    11.97,
+    14.0,
+    14.53,
+    13.75,
+    14.58,
+    12.36,
+    7.48
+   ]
+  },
+  {
+   "name": "Accord-o-Tron Portrait",
+   "cardId": "131140",
+   "averagePlacement": 4.379,
+   "pickRate": 38.84,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    13.79,
+    9.65,
+    12.82,
+    12.72,
+    15.83,
+    16.53,
+    12.12,
+    6.54
+   ]
+  },
+  {
+   "name": "Trip Vouchers",
+   "cardId": "112991",
+   "averagePlacement": 4.384,
+   "pickRate": 38.59,
+   "tier": "b",
+   "group": "lesser",
+   "placementDistribution": [
+    15.06,
+    12.3,
+    12.27,
+    11.99,
+    11.95,
+    12.33,
+    12.52,
+    11.57
+   ]
+  },
+  {
+   "name": "Mecha-Jaraxxus Sticker",
+   "cardId": "117855",
+   "averagePlacement": 4.385,
+   "pickRate": 17.22,
+   "tier": "c",
+   "group": "greater",
+   "placementDistribution": [
+    11.59,
+    13.34,
+    13.13,
+    13.95,
+    13.06,
+    13.81,
+    12.09,
+    9.03
+   ]
+  },
+  {
+   "name": "Jailer Sticker",
+   "cardId": "131133",
+   "averagePlacement": 4.388,
+   "pickRate": 37.29,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.59,
+    12.45,
+    14.81,
+    14.13,
+    13.63,
+    13.82,
+    13.26,
+    7.31
+   ]
+  },
+  {
+   "name": "Behemoth Portrait",
+   "cardId": "121114",
+   "averagePlacement": 4.389,
+   "pickRate": 33.17,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    9.07,
+    13.78,
+    15.3,
+    14.9,
+    13.9,
+    12.4,
+    12.26,
+    8.38
+   ]
+  },
+  {
+   "name": "Booty Bay Brew",
+   "cardId": "115245",
+   "averagePlacement": 4.392,
+   "pickRate": 16.93,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    9.53,
+    12.32,
+    14.47,
+    16.0,
+    15.26,
+    13.21,
+    11.63,
+    7.58
+   ]
+  },
+  {
+   "name": "Wax Lance",
+   "cardId": "133381",
+   "averagePlacement": 4.392,
+   "pickRate": 29.47,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.36,
+    12.33,
+    12.95,
+    13.17,
+    13.97,
+    13.93,
+    13.07,
+    8.22
+   ]
+  },
+  {
+   "name": "Jailer Sticker",
+   "cardId": "131135",
+   "averagePlacement": 4.397,
+   "pickRate": 24.31,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    12.07,
+    11.82,
+    15.26,
+    12.91,
+    13.24,
+    12.49,
+    12.32,
+    9.89
+   ]
+  },
+  {
+   "name": "Ur'zul Sticker",
+   "cardId": "131282",
+   "averagePlacement": 4.397,
+   "pickRate": 32.03,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.29,
+    12.05,
+    14.55,
+    15.64,
+    12.72,
+    15.09,
+    12.29,
+    7.36
+   ]
+  },
+  {
+   "name": "Bleeding Heart",
+   "cardId": "117906",
+   "averagePlacement": 4.401,
+   "pickRate": 18.32,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    11.67,
+    12.87,
+    13.96,
+    13.52,
+    12.43,
+    13.85,
+    12.1,
+    9.6
+   ]
+  },
+  {
+   "name": "Avalanche Sticker",
+   "cardId": "131000",
+   "averagePlacement": 4.401,
+   "pickRate": 16.9,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    9.38,
+    13.56,
+    13.07,
+    15.67,
+    15.67,
+    12.74,
+    12.31,
+    7.59
+   ]
+  },
+  {
+   "name": "Comfy Coffin",
+   "cardId": "115226",
+   "averagePlacement": 4.402,
+   "pickRate": 18.75,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    7.98,
+    12.39,
+    15.21,
+    15.21,
+    17.18,
+    13.99,
+    13.13,
+    4.91
+   ]
+  },
+  {
+   "name": "Pocket Cyclone",
+   "cardId": "130888",
+   "averagePlacement": 4.403,
+   "pickRate": 18.89,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    7.89,
+    12.76,
+    15.5,
+    16.54,
+    15.55,
+    13.37,
+    10.87,
+    7.51
+   ]
+  },
+  {
+   "name": "Emergency Gearblade",
+   "cardId": "133695",
+   "averagePlacement": 4.403,
+   "pickRate": 7.47,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    7.61,
+    11.42,
+    16.44,
+    16.09,
+    18.86,
+    11.59,
+    11.59,
+    6.4
+   ]
+  },
+  {
+   "name": "Magician's Top Hat",
+   "cardId": "130833",
+   "averagePlacement": 4.406,
+   "pickRate": 25.24,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    12.68,
+    12.85,
+    12.8,
+    13.16,
+    12.85,
+    13.36,
+    11.66,
+    10.65
+   ]
+  },
+  {
+   "name": "Artisanal Urn",
+   "cardId": "117157",
+   "averagePlacement": 4.408,
+   "pickRate": 18.24,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    6.62,
+    11.4,
+    15.2,
+    18.14,
+    18.38,
+    15.44,
+    9.93,
+    4.9
+   ]
+  },
+  {
+   "name": "Wand of Divination",
+   "cardId": "133379",
+   "averagePlacement": 4.41,
+   "pickRate": 25.64,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    14.31,
+    12.44,
+    12.4,
+    11.6,
+    12.78,
+    12.47,
+    12.47,
+    11.53
+   ]
+  },
+  {
+   "name": "Tickatus Sticker",
+   "cardId": "117860",
+   "averagePlacement": 4.412,
+   "pickRate": 26.66,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    14.99,
+    11.65,
+    12.57,
+    11.64,
+    12.69,
+    12.08,
+    12.34,
+    12.04
+   ]
+  },
+  {
+   "name": "Floating Candle Set",
+   "cardId": "133395",
+   "averagePlacement": 4.414,
+   "pickRate": 21.05,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    13.99,
+    12.44,
+    12.33,
+    11.93,
+    13.04,
+    12.46,
+    12.57,
+    11.24
+   ]
+  },
+  {
+   "name": "Automaton Portrait",
+   "cardId": "111403",
+   "averagePlacement": 4.415,
+   "pickRate": 8.13,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    3.83,
+    10.54,
+    20.29,
+    19.01,
+    15.81,
+    17.41,
+    8.63,
+    4.47
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.42,
+   "pickRate": 52.42,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.82,
+    13.1,
+    11.09,
+    12.82,
+    13.82,
+    13.74,
+    14.06,
+    8.56
+   ]
+  },
+  {
+   "name": "Lovely Locket",
+   "cardId": "133399",
+   "averagePlacement": 4.421,
+   "pickRate": 21.95,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    12.4,
+    12.74,
+    13.02,
+    13.44,
+    12.48,
+    13.21,
+    11.99,
+    10.73
+   ]
+  },
+  {
+   "name": "Electrode Attractor",
+   "cardId": "131141",
+   "averagePlacement": 4.421,
+   "pickRate": 25.52,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.06,
+    11.29,
+    12.25,
+    14.7,
+    14.8,
+    13.98,
+    13.26,
+    7.64
+   ]
+  },
+  {
+   "name": "Bloodfury Shield",
+   "cardId": "133066",
+   "averagePlacement": 4.421,
+   "pickRate": 29.11,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.18,
+    12.29,
+    13.08,
+    12.7,
+    14.09,
+    13.08,
+    14.24,
+    8.34
+   ]
+  },
+  {
+   "name": "Staff of the Scourge",
+   "cardId": "112080",
+   "averagePlacement": 4.427,
+   "pickRate": 17.2,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    8.3,
+    12.98,
+    16.02,
+    14.5,
+    13.8,
+    14.39,
+    12.98,
+    7.02
+   ]
+  },
+  {
+   "name": "Gold Pendant",
+   "cardId": "120809",
+   "averagePlacement": 4.428,
+   "pickRate": 29.8,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    14.6,
+    13.02,
+    11.76,
+    11.43,
+    12.25,
+    11.74,
+    12.12,
+    13.08
+   ]
+  },
+  {
+   "name": "Lens Case",
+   "cardId": "130835",
+   "averagePlacement": 4.433,
+   "pickRate": 31.85,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    12.99,
+    13.78,
+    12.4,
+    12.11,
+    11.99,
+    12.11,
+    12.48,
+    12.15
+   ]
+  },
+  {
+   "name": "Trailblazer Sticker",
+   "cardId": "133380",
+   "averagePlacement": 4.434,
+   "pickRate": 56.7,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    16.92,
+    10.93,
+    10.11,
+    10.8,
+    12.14,
+    14.42,
+    13.62,
+    11.06
+   ]
+  },
+  {
+   "name": "Pagle's Fishing Rod",
+   "cardId": "113103",
+   "averagePlacement": 4.435,
+   "pickRate": 22.81,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.8,
+    10.49,
+    11.92,
+    14.17,
+    14.75,
+    15.22,
+    13.01,
+    7.64
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.435,
+   "pickRate": 23.55,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    8.4,
+    13.61,
+    14.44,
+    15.09,
+    13.96,
+    14.08,
+    13.43,
+    6.98
+   ]
+  },
+  {
+   "name": "Secret Schematic",
+   "cardId": "133068",
+   "averagePlacement": 4.438,
+   "pickRate": 13.64,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    9.47,
+    12.22,
+    14.81,
+    14.4,
+    14.81,
+    14.48,
+    11.65,
+    8.17
+   ]
+  },
+  {
+   "name": "Cursed Crystal",
+   "cardId": "131276",
+   "averagePlacement": 4.442,
+   "pickRate": 12.46,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    7.35,
+    10.39,
+    18.28,
+    16.49,
+    15.23,
+    12.9,
+    13.08,
+    6.27
+   ]
+  },
+  {
+   "name": "Inductive Gyroblade",
+   "cardId": "133694",
+   "averagePlacement": 4.443,
+   "pickRate": 17.99,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    7.57,
+    12.2,
+    16.83,
+    14.33,
+    17.15,
+    12.33,
+    11.89,
+    7.7
+   ]
+  },
+  {
+   "name": "Timeworn Candelabra",
+   "cardId": "130868",
+   "averagePlacement": 4.447,
+   "pickRate": 24.79,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.81,
+    11.82,
+    13.64,
+    14.36,
+    14.39,
+    13.61,
+    12.6,
+    8.76
+   ]
+  },
+  {
+   "name": "Glass of Perspective",
+   "cardId": "133348",
+   "averagePlacement": 4.45,
+   "pickRate": 17.28,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    13.98,
+    12.61,
+    11.83,
+    11.24,
+    12.14,
+    13.46,
+    14.07,
+    10.68
+   ]
+  },
+  {
+   "name": "Pocket Cyclone",
+   "cardId": "131329",
+   "averagePlacement": 4.451,
+   "pickRate": 21.32,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    8.9,
+    12.05,
+    15.02,
+    14.84,
+    13.75,
+    16.24,
+    12.13,
+    7.07
+   ]
+  },
+  {
+   "name": "Wisdomball Supply",
+   "cardId": "120155",
+   "averagePlacement": 4.457,
+   "pickRate": 44.4,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    14.47,
+    10.76,
+    10.74,
+    12.12,
+    14.5,
+    14.09,
+    14.65,
+    8.67
+   ]
+  },
+  {
+   "name": "Holy Mallet",
+   "cardId": "111401",
+   "averagePlacement": 4.458,
+   "pickRate": 9.5,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    8.95,
+    13.53,
+    13.84,
+    15.65,
+    13.1,
+    14.38,
+    10.54,
+    10.01
+   ]
+  },
+  {
+   "name": "Portable Factory",
+   "cardId": "111399",
+   "averagePlacement": 4.462,
+   "pickRate": 13.8,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    14.03,
+    12.49,
+    12.46,
+    11.52,
+    11.96,
+    11.99,
+    12.41,
+    13.14
+   ]
+  },
+  {
+   "name": "Reflective Pendant",
+   "cardId": "117857",
+   "averagePlacement": 4.466,
+   "pickRate": 20.8,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    16.14,
+    12.15,
+    10.8,
+    10.75,
+    11.2,
+    11.88,
+    13.16,
+    13.92
+   ]
+  },
+  {
+   "name": "Explorer's Binoculars",
+   "cardId": "120139",
+   "averagePlacement": 4.466,
+   "pickRate": 40.65,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    11.5,
+    12.63,
+    12.41,
+    13.21,
+    14.27,
+    13.39,
+    12.65,
+    9.93
+   ]
+  },
+  {
+   "name": "Token of the Old Gods",
+   "cardId": "111556",
+   "averagePlacement": 4.468,
+   "pickRate": 29.59,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    13.3,
+    13.22,
+    12.08,
+    11.98,
+    11.92,
+    12.1,
+    12.6,
+    12.82
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.469,
+   "pickRate": 22.85,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    8.42,
+    14.07,
+    13.35,
+    16.32,
+    13.76,
+    12.42,
+    11.6,
+    10.06
+   ]
+  },
+  {
+   "name": "Bob-blehead",
+   "cardId": "113101",
+   "averagePlacement": 4.474,
+   "pickRate": 25.28,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    14.12,
+    11.78,
+    11.01,
+    12.37,
+    13.06,
+    12.82,
+    13.68,
+    11.16
+   ]
+  },
+  {
+   "name": "Amplifying Essence",
+   "cardId": "133719",
+   "averagePlacement": 4.474,
+   "pickRate": 24.92,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.79,
+    10.59,
+    12.02,
+    13.56,
+    13.95,
+    14.49,
+    14.37,
+    8.23
+   ]
+  },
+  {
+   "name": "Stormcoil Sticker",
+   "cardId": "130880",
+   "averagePlacement": 4.478,
+   "pickRate": 13.49,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    7.85,
+    12.68,
+    15.89,
+    15.33,
+    14.38,
+    12.96,
+    11.35,
+    9.56
+   ]
+  },
+  {
+   "name": "All-Purpose Kibble",
+   "cardId": "120932",
+   "averagePlacement": 4.481,
+   "pickRate": 14.78,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    7.91,
+    12.76,
+    15.46,
+    14.8,
+    14.06,
+    14.43,
+    12.38,
+    8.19
+   ]
+  },
+  {
+   "name": "Wolfhead Flail",
+   "cardId": "133400",
+   "averagePlacement": 4.481,
+   "pickRate": 21.31,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    13.56,
+    10.85,
+    10.92,
+    12.31,
+    14.51,
+    14.97,
+    14.46,
+    8.4
+   ]
+  },
+  {
+   "name": "Goldenizer Supply",
+   "cardId": "112082",
+   "averagePlacement": 4.482,
+   "pickRate": 36.57,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    18.06,
+    10.59,
+    9.91,
+    9.49,
+    11.15,
+    13.19,
+    14.37,
+    13.23
+   ]
+  },
+  {
+   "name": "Souvenir Stand",
+   "cardId": "112895",
+   "averagePlacement": 4.482,
+   "pickRate": 39.62,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    14.35,
+    12.03,
+    11.84,
+    11.34,
+    11.8,
+    12.92,
+    13.37,
+    12.35
+   ]
+  },
+  {
+   "name": "Nomi Sticker",
+   "cardId": "115235",
+   "averagePlacement": 4.493,
+   "pickRate": 28.34,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    9.88,
+    11.86,
+    12.93,
+    14.54,
+    14.88,
+    14.95,
+    13.07,
+    7.89
+   ]
+  },
+  {
+   "name": "Replica Cathedral",
+   "cardId": "112855",
+   "averagePlacement": 4.495,
+   "pickRate": 13.75,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    13.62,
+    11.76,
+    12.57,
+    12.14,
+    11.6,
+    12.59,
+    13.24,
+    12.49
+   ]
+  },
+  {
+   "name": "Deathly Phylactery",
+   "cardId": "117794",
+   "averagePlacement": 4.501,
+   "pickRate": 26.81,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    11.48,
+    11.41,
+    12.64,
+    14.06,
+    14.15,
+    13.25,
+    12.7,
+    10.31
+   ]
+  },
+  {
+   "name": "Grifter Portrait",
+   "cardId": "121036",
+   "averagePlacement": 4.506,
+   "pickRate": 38.6,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    20.71,
+    10.37,
+    7.93,
+    8.27,
+    9.99,
+    12.19,
+    15.09,
+    15.45
+   ]
+  },
+  {
+   "name": "Consuming Claw",
+   "cardId": "133061",
+   "averagePlacement": 4.509,
+   "pickRate": 27.32,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    7.13,
+    11.01,
+    17.04,
+    15.37,
+    15.21,
+    14.26,
+    12.28,
+    7.69
+   ]
+  },
+  {
+   "name": "Rockin' Music Box",
+   "cardId": "112079",
+   "averagePlacement": 4.511,
+   "pickRate": 17.37,
+   "tier": "c",
+   "group": "lesser",
+   "placementDistribution": [
+    12.94,
+    12.41,
+    12.06,
+    12.2,
+    12.2,
+    12.35,
+    13.42,
+    12.41
+   ]
+  },
+  {
+   "name": "Innkeeper's Stein",
+   "cardId": "111999",
+   "averagePlacement": 4.516,
+   "pickRate": 31.62,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    14.65,
+    12.11,
+    11.51,
+    11.26,
+    11.24,
+    11.83,
+    13.22,
+    14.18
+   ]
+  },
+  {
+   "name": "Lockbox Portrait",
+   "cardId": "133341",
+   "averagePlacement": 4.516,
+   "pickRate": 31.92,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    14.91,
+    11.93,
+    10.95,
+    11.64,
+    11.04,
+    12.53,
+    12.99,
+    14.02
+   ]
+  },
+  {
+   "name": "Demonic Bloodletter",
+   "cardId": "133060",
+   "averagePlacement": 4.521,
+   "pickRate": 30.48,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    9.78,
+    11.63,
+    13.7,
+    15.06,
+    13.63,
+    13.56,
+    12.85,
+    9.78
+   ]
+  },
+  {
+   "name": "Glass of Perspective",
+   "cardId": "133346",
+   "averagePlacement": 4.524,
+   "pickRate": 21.3,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    14.19,
+    11.66,
+    10.58,
+    12.3,
+    12.41,
+    12.93,
+    13.06,
+    12.87
+   ]
+  },
+  {
+   "name": "Comfy Coffin",
+   "cardId": "112399",
+   "averagePlacement": 4.529,
+   "pickRate": 11.84,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    8.46,
+    10.45,
+    14.76,
+    15.59,
+    16.09,
+    15.75,
+    9.29,
+    9.62
+   ]
+  },
+  {
+   "name": "Goblin Wallet",
+   "cardId": "111448",
+   "averagePlacement": 4.532,
+   "pickRate": 44.48,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    16.93,
+    10.64,
+    9.93,
+    10.45,
+    11.03,
+    12.79,
+    14.26,
+    13.95
+   ]
+  },
+  {
+   "name": "Transcribing Typewriter",
+   "cardId": "131003",
+   "averagePlacement": 4.534,
+   "pickRate": 27.2,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    12.52,
+    12.16,
+    12.01,
+    12.6,
+    12.26,
+    12.96,
+    12.79,
+    12.7
+   ]
+  },
+  {
+   "name": "Cowrie Necklace",
+   "cardId": "130980",
+   "averagePlacement": 4.542,
+   "pickRate": 9.47,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    9.35,
+    13.08,
+    12.15,
+    13.36,
+    15.28,
+    14.56,
+    12.72,
+    9.51
+   ]
+  },
+  {
+   "name": "Herald Sticker",
+   "cardId": "120926",
+   "averagePlacement": 4.544,
+   "pickRate": 22.17,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    11.62,
+    10.55,
+    12.38,
+    12.98,
+    14.67,
+    14.25,
+    14.65,
+    8.9
+   ]
+  },
+  {
+   "name": "Wildfeather Duster",
+   "cardId": "130895",
+   "averagePlacement": 4.562,
+   "pickRate": 13.4,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    13.01,
+    9.94,
+    10.35,
+    12.19,
+    13.63,
+    18.65,
+    14.34,
+    7.89
+   ]
+  },
+  {
+   "name": "Jewelry Box",
+   "cardId": "130904",
+   "averagePlacement": 4.563,
+   "pickRate": 14.96,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    12.47,
+    13.33,
+    9.75,
+    11.73,
+    13.58,
+    13.21,
+    13.58,
+    12.35
+   ]
+  },
+  {
+   "name": "The Eye of Dalaran",
+   "cardId": "112850",
+   "averagePlacement": 4.564,
+   "pickRate": 4.95,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    12.82,
+    7.69,
+    17.95,
+    15.38,
+    5.13,
+    10.26,
+    20.51,
+    10.26
+   ]
+  },
+  {
+   "name": "Kaleidoscope",
+   "cardId": "130839",
+   "averagePlacement": 4.566,
+   "pickRate": 30.44,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.96,
+    11.63,
+    12.52,
+    12.09,
+    13.03,
+    13.33,
+    13.22,
+    12.22
+   ]
+  },
+  {
+   "name": "Thaumaturgist Portrait",
+   "cardId": "120606",
+   "averagePlacement": 4.566,
+   "pickRate": 5.42,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    5.36,
+    12.86,
+    15.01,
+    15.77,
+    16.08,
+    14.85,
+    12.56,
+    7.5
+   ]
+  },
+  {
+   "name": "Shrine of Evolution",
+   "cardId": "111427",
+   "averagePlacement": 4.573,
+   "pickRate": 34.08,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    13.88,
+    9.61,
+    8.54,
+    13.88,
+    14.59,
+    15.66,
+    14.59,
+    9.25
+   ]
+  },
+  {
+   "name": "Bartend-o-Tron's Oilcan",
+   "cardId": "117854",
+   "averagePlacement": 4.573,
+   "pickRate": 32.67,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    12.14,
+    11.87,
+    12.15,
+    12.5,
+    12.36,
+    12.76,
+    13.14,
+    13.07
+   ]
+  },
+  {
+   "name": "Defensive Shell",
+   "cardId": "133063",
+   "averagePlacement": 4.575,
+   "pickRate": 6.48,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    10.9,
+    12.12,
+    12.46,
+    12.68,
+    13.52,
+    13.4,
+    13.01,
+    11.9
+   ]
+  },
+  {
+   "name": "Fish Portrait",
+   "cardId": "110966",
+   "averagePlacement": 4.576,
+   "pickRate": 17.33,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    10.72,
+    11.27,
+    13.19,
+    13.1,
+    13.7,
+    13.65,
+    13.01,
+    11.36
+   ]
+  },
+  {
+   "name": "Rendle Sticker",
+   "cardId": "120154",
+   "averagePlacement": 4.578,
+   "pickRate": 21.09,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.96,
+    11.71,
+    12.3,
+    11.79,
+    13.23,
+    13.21,
+    13.45,
+    12.35
+   ]
+  },
+  {
+   "name": "Ophidian Staff",
+   "cardId": "130908",
+   "averagePlacement": 4.578,
+   "pickRate": 14.63,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    9.24,
+    12.27,
+    13.24,
+    14.22,
+    13.78,
+    13.24,
+    12.98,
+    11.02
+   ]
+  },
+  {
+   "name": "Sunken Anchor",
+   "cardId": "130890",
+   "averagePlacement": 4.599,
+   "pickRate": 9.67,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    10.91,
+    11.32,
+    11.32,
+    13.45,
+    14.71,
+    14.41,
+    12.4,
+    11.47
+   ]
+  },
+  {
+   "name": "Reusable Batteries",
+   "cardId": "121125",
+   "averagePlacement": 4.602,
+   "pickRate": 10.68,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    5.61,
+    12.32,
+    15.49,
+    14.76,
+    15.85,
+    15.24,
+    12.07,
+    8.66
+   ]
+  },
+  {
+   "name": "Putricide Sticker",
+   "cardId": "120827",
+   "averagePlacement": 4.608,
+   "pickRate": 24.09,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    8.37,
+    10.84,
+    14.94,
+    13.14,
+    15.27,
+    15.11,
+    12.23,
+    10.1
+   ]
+  },
+  {
+   "name": "Nether Pendant",
+   "cardId": "112382",
+   "averagePlacement": 4.616,
+   "pickRate": 18.91,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    6.08,
+    10.19,
+    14.57,
+    17.07,
+    16.44,
+    15.28,
+    13.76,
+    6.61
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.621,
+   "pickRate": 23.2,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.84,
+    8.9,
+    11.88,
+    11.46,
+    14.45,
+    15.7,
+    14.69,
+    10.09
+   ]
+  },
+  {
+   "name": "Shark Cannon",
+   "cardId": "120939",
+   "averagePlacement": 4.622,
+   "pickRate": 17.7,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.11,
+    10.21,
+    10.76,
+    12.01,
+    14.91,
+    14.41,
+    16.32,
+    9.26
+   ]
+  },
+  {
+   "name": "Timeworn Candelabra",
+   "cardId": "130841",
+   "averagePlacement": 4.627,
+   "pickRate": 36.51,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.41,
+    11.63,
+    11.45,
+    12.71,
+    13.18,
+    13.5,
+    13.04,
+    13.08
+   ]
+  },
+  {
+   "name": "Great Boar Sticker",
+   "cardId": "112013",
+   "averagePlacement": 4.63,
+   "pickRate": 9.93,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    7.32,
+    11.96,
+    13.04,
+    14.46,
+    15.89,
+    14.46,
+    14.29,
+    8.57
+   ]
+  },
+  {
+   "name": "Deathwhisper Sticker",
+   "cardId": "133392",
+   "averagePlacement": 4.636,
+   "pickRate": 6.16,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    5.16,
+    10.65,
+    17.42,
+    14.84,
+    16.13,
+    13.55,
+    14.52,
+    7.74
+   ]
+  },
+  {
+   "name": "Pilgrimp Sticker",
+   "cardId": "120698",
+   "averagePlacement": 4.641,
+   "pickRate": 19.01,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    9.66,
+    11.36,
+    12.05,
+    16.02,
+    12.16,
+    14.09,
+    11.14,
+    13.52
+   ]
+  },
+  {
+   "name": "Yogg-Tastic Pastry",
+   "cardId": "113104",
+   "averagePlacement": 4.642,
+   "pickRate": 8.36,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.88,
+    11.06,
+    10.41,
+    12.53,
+    13.92,
+    14.01,
+    14.35,
+    11.84
+   ]
+  },
+  {
+   "name": "Privateer Portrait",
+   "cardId": "130891",
+   "averagePlacement": 4.644,
+   "pickRate": 16.94,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.91,
+    10.78,
+    10.76,
+    13.0,
+    15.14,
+    14.24,
+    14.85,
+    10.31
+   ]
+  },
+  {
+   "name": "Glowing Gauntlet",
+   "cardId": "111092",
+   "averagePlacement": 4.65,
+   "pickRate": 16.39,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    9.2,
+    10.33,
+    13.23,
+    14.71,
+    14.06,
+    13.9,
+    13.6,
+    10.96
+   ]
+  },
+  {
+   "name": "Trusty Crowbar",
+   "cardId": "130894",
+   "averagePlacement": 4.659,
+   "pickRate": 13.03,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.49,
+    11.04,
+    11.46,
+    10.9,
+    15.32,
+    15.6,
+    16.36,
+    8.83
+   ]
+  },
+  {
+   "name": "Nomi Sticker",
+   "cardId": "112392",
+   "averagePlacement": 4.663,
+   "pickRate": 31.34,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    7.11,
+    10.97,
+    14.37,
+    14.03,
+    16.41,
+    14.17,
+    12.58,
+    10.37
+   ]
+  },
+  {
+   "name": "Rivendare Portrait",
+   "cardId": "112102",
+   "averagePlacement": 4.663,
+   "pickRate": 43.78,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.97,
+    9.37,
+    11.26,
+    13.44,
+    14.78,
+    15.36,
+    15.58,
+    9.25
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.669,
+   "pickRate": 18.04,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    15.75,
+    9.28,
+    11.25,
+    10.4,
+    10.4,
+    11.53,
+    15.09,
+    16.31
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.685,
+   "pickRate": 25.63,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    10.96,
+    13.74,
+    9.91,
+    10.96,
+    13.04,
+    13.22,
+    13.39,
+    14.78
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 4.686,
+   "pickRate": 29.69,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    12.07,
+    9.1,
+    9.68,
+    12.5,
+    15.46,
+    15.9,
+    15.75,
+    9.54
+   ]
+  },
+  {
+   "name": "Dalaran Cheese Wheel",
+   "cardId": "115236",
+   "averagePlacement": 4.691,
+   "pickRate": 22.45,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    8.0,
+    9.79,
+    13.26,
+    14.8,
+    15.0,
+    15.7,
+    14.26,
+    9.19
+   ]
+  },
+  {
+   "name": "Portable Factory",
+   "cardId": "120925",
+   "averagePlacement": 4.696,
+   "pickRate": 16.58,
+   "tier": "d",
+   "group": "greater",
+   "placementDistribution": [
+    10.59,
+    9.91,
+    11.22,
+    13.05,
+    13.99,
+    15.67,
+    15.25,
+    10.33
+   ]
+  },
+  {
+   "name": "Bazaar Sticker",
+   "cardId": "121033",
+   "averagePlacement": 4.698,
+   "pickRate": 16.71,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    9.49,
+    8.32,
+    14.04,
+    14.95,
+    15.34,
+    13.13,
+    11.44,
+    13.26
+   ]
+  },
+  {
+   "name": "Frigid Blossom",
+   "cardId": "133340",
+   "averagePlacement": 4.7,
+   "pickRate": 17.45,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    12.69,
+    11.43,
+    10.79,
+    10.89,
+    11.45,
+    13.15,
+    14.45,
+    15.15
+   ]
+  },
+  {
+   "name": "Minion Bait",
+   "cardId": "111962",
+   "averagePlacement": 4.707,
+   "pickRate": 27.12,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.15,
+    11.45,
+    10.92,
+    11.96,
+    12.89,
+    13.58,
+    14.34,
+    13.72
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.71,
+   "pickRate": 33.93,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    8.5,
+    11.38,
+    13.35,
+    12.29,
+    14.42,
+    14.42,
+    13.2,
+    12.44
+   ]
+  },
+  {
+   "name": "Lucky Tabby",
+   "cardId": "111408",
+   "averagePlacement": 4.712,
+   "pickRate": 14.82,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.42,
+    10.2,
+    11.16,
+    12.21,
+    12.99,
+    14.47,
+    15.08,
+    12.47
+   ]
+  },
+  {
+   "name": "Hoggy Bank",
+   "cardId": "111514",
+   "averagePlacement": 4.72,
+   "pickRate": 15.07,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    8.95,
+    10.14,
+    13.72,
+    14.44,
+    13.37,
+    11.46,
+    15.16,
+    12.77
+   ]
+  },
+  {
+   "name": "Lightfeather Sticker",
+   "cardId": "133401",
+   "averagePlacement": 4.737,
+   "pickRate": 14.77,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    12.51,
+    8.02,
+    10.51,
+    10.98,
+    15.66,
+    16.14,
+    14.8,
+    11.37
+   ]
+  },
+  {
+   "name": "The Eye of Sargeras",
+   "cardId": "117795",
+   "averagePlacement": 4.746,
+   "pickRate": 15.28,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    8.7,
+    9.28,
+    10.46,
+    16.33,
+    14.22,
+    16.33,
+    15.86,
+    8.81
+   ]
+  },
+  {
+   "name": "Rewinder Portrait",
+   "cardId": "110975",
+   "averagePlacement": 4.766,
+   "pickRate": 18.26,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    5.23,
+    9.75,
+    12.72,
+    17.95,
+    16.65,
+    13.67,
+    15.58,
+    8.44
+   ]
+  },
+  {
+   "name": "Lionfish Portrait",
+   "cardId": "133388",
+   "averagePlacement": 4.769,
+   "pickRate": 14.62,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    8.0,
+    8.51,
+    12.04,
+    14.7,
+    17.63,
+    15.56,
+    12.98,
+    10.58
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "112002",
+   "averagePlacement": 4.79,
+   "pickRate": 20.91,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.21,
+    8.19,
+    11.06,
+    12.64,
+    13.65,
+    15.95,
+    14.66,
+    12.64
+   ]
+  },
+  {
+   "name": "Miniature Ship",
+   "cardId": "130892",
+   "averagePlacement": 4.796,
+   "pickRate": 11.12,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    7.45,
+    9.77,
+    12.89,
+    13.61,
+    14.97,
+    15.45,
+    14.97,
+    10.89
+   ]
+  },
+  {
+   "name": "Herding Horn",
+   "cardId": "133387",
+   "averagePlacement": 4.799,
+   "pickRate": 17.19,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    11.66,
+    10.17,
+    9.43,
+    10.17,
+    12.16,
+    19.11,
+    14.89,
+    12.41
+   ]
+  },
+  {
+   "name": "Spell-powered Wrench",
+   "cardId": "120864",
+   "averagePlacement": 4.801,
+   "pickRate": 12.41,
+   "tier": "d",
+   "group": "lesser",
+   "placementDistribution": [
+    5.81,
+    8.25,
+    15.01,
+    15.75,
+    16.49,
+    14.9,
+    12.37,
+    11.42
+   ]
+  },
+  {
+   "name": "Great Boar Sticker",
+   "cardId": "115225",
+   "averagePlacement": 4.854,
+   "pickRate": 18.67,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    5.22,
+    10.14,
+    11.37,
+    16.28,
+    17.05,
+    14.29,
+    15.51,
+    10.14
+   ]
+  },
+  {
+   "name": "Felsteel Cleaver",
+   "cardId": "133067",
+   "averagePlacement": 4.881,
+   "pickRate": 12.09,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    8.18,
+    9.1,
+    13.36,
+    10.25,
+    14.29,
+    15.55,
+    18.2,
+    11.06
+   ]
+  },
+  {
+   "name": "Quilligraphy Set",
+   "cardId": "111512",
+   "averagePlacement": 4.931,
+   "pickRate": 11.49,
+   "tier": "f",
+   "group": "lesser",
+   "placementDistribution": [
+    8.31,
+    9.25,
+    11.29,
+    13.01,
+    14.42,
+    13.95,
+    13.64,
+    16.14
+   ]
+  },
+  {
+   "name": "Colorful Compass",
+   "cardId": "115250",
+   "averagePlacement": 5.015,
+   "pickRate": 33.17,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    10.58,
+    8.06,
+    8.3,
+    10.82,
+    13.51,
+    16.44,
+    17.98,
+    14.32
+   ]
+  },
+  {
+   "name": "Demonic Tapestry",
+   "cardId": "131280",
+   "averagePlacement": 5.053,
+   "pickRate": 17.53,
+   "tier": "f",
+   "group": "lesser",
+   "placementDistribution": [
+    6.61,
+    9.25,
+    11.67,
+    11.89,
+    14.76,
+    14.1,
+    14.54,
+    17.18
+   ]
+  },
+  {
+   "name": "Jar o' Gems",
+   "cardId": "112398",
+   "averagePlacement": 5.129,
+   "pickRate": 13.89,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    4.92,
+    7.87,
+    10.46,
+    14.27,
+    15.62,
+    14.27,
+    20.66,
+    11.93
+   ]
+  },
+  {
+   "name": "Quilligraphy Set",
+   "cardId": "115253",
+   "averagePlacement": 5.169,
+   "pickRate": 6.95,
+   "tier": "f",
+   "group": "greater",
+   "placementDistribution": [
+    5.07,
+    6.04,
+    11.59,
+    11.59,
+    17.39,
+    18.84,
+    17.15,
+    12.32
+   ]
+  }
+ ]
+}

@@ -55,4 +55,11 @@ def load_default_scorer(model_path: str = _MODEL,
         return None
     from .eval_net import EvalModel          # imports torch — kept lazy
     model = EvalModel.load(model_path, emb)
+    from .board_features import CONTEXT_DIM, feature_dim
+    expect = feature_dim(emb) + (CONTEXT_DIM if model.with_context else 0)
+    if model.mean.shape[0] != expect:
+        print(f"eval_net.pt was trained on an older feature layout "
+              f"({model.mean.shape[0]} dims, current {expect}) — skipping it. "
+              f"Retrain with ./scripts/retrain.sh")
+        return None
     return EvalNetScorer(model, by_name(load_kb()))

@@ -16,11 +16,13 @@ import os
 
 from hsbg_coach.synergy import load_embeddings
 from .board_dataset import (
-    build_examples, trajectory_examples, build_hero_vocab, to_arrays, group_split,
+    build_examples, trajectory_examples, build_hero_vocab, to_arrays,
+    group_split, example_weights,
 )
 from .eval_net import train, EvalModel
 
 _OUT = os.path.join(os.path.dirname(__file__), "eval_net.pt")
+_VOD_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "vods")
 
 
 def main(argv=None):
@@ -29,6 +31,14 @@ def main(argv=None):
     p.add_argument("--cards-source", help="local HearthstoneJSON cards.json")
     p.add_argument("--period", default="past-seven")
     p.add_argument("--trajectories", help="dir of recorded *.jsonl games to fold in")
+    p.add_argument("--traj-weight", type=float, default=1.5,
+                   help="sample weight for your own recorded games (default 1.5)")
+    p.add_argument("--vod-dir", default=_VOD_DIR,
+                   help="dir of VOD-reconstructed *.jsonl games "
+                        "(default data/vods/; skipped when absent)")
+    p.add_argument("--vod-weight", type=float, default=3.0,
+                   help="sample weight for VOD games — top-player play is the "
+                        "scarcest, highest-value signal (default 3.0)")
     p.add_argument("--epochs", type=int, default=40)
     p.add_argument("--out", default=_OUT)
     p.add_argument("--with-context", action="store_true",
@@ -46,9 +56,15 @@ def main(argv=None):
     examples = build_examples(comp_source=a.comp_source, period=a.period, **kw)
     print(f"  population boards: {len(examples)}")
     if a.trajectories:
-        traj = trajectory_examples(a.trajectories)
-        print(f"  your recorded boards: {len(traj)}")
+        traj = trajectory_examples(a.trajectories, weight=a.traj_weight)
+        print(f"  your recorded boards: {len(traj)} (weight {a.traj_weight:g})")
         examples += traj
+    if a.vod_dir and os.path.isdir(a.vod_dir):
+        vod = trajectory_examples(a.vod_dir, weight=a.vod_weight)
+        if vod:
+            print(f"  VOD-reconstructed boards: {len(vod)} "
+                  f"(weight {a.vod_weight:g})")
+        examples += vod
     if not examples:
         print("No examples.")
         return 1
@@ -63,7 +79,8 @@ def main(argv=None):
           f"features {Xtr.shape[1]}  heroes {len(hero_stoi)}")
 
     model, hist = train(Xtr, htr, ytr, n_heroes=len(hero_stoi),
-                        epochs=a.epochs, val=(Xva, hva, yva))
+                        epochs=a.epochs, val=(Xva, hva, yva),
+                        sample_weight=example_weights(train_ex))
     print(f"\nval MAE {hist['val_mae']:.3f} placements | "
           f"val Pearson r {hist['val_r']:.3f}")
 

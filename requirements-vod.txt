@@ -1,0 +1,5 @@
+# VOD ingestion track (vod/ + scripts/ingest_vod.py + fetch_vod_transcript.py).
+# Also needs ffmpeg on PATH (https://ffmpeg.org) for frame extraction.
+anthropic>=0.40
+yt-dlp>=2026.1.1
+pillow>=10.0

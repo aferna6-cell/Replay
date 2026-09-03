@@ -2,6 +2,19 @@
 /data/*.jsonl
 /data/*.jsonl.partial
 
+# Collected Power.log archive stays LOCAL — raw session logs exceed GitHub's
+# 100 MB file limit (training reads them from disk). The small seed log
+# committed before this rule remains tracked. Scheduled-job output too.
+/logs/*.log
+
+# Fetched VOD transcripts/metadata (other people's content — keep local)
+/data/vods/
+
+# HSReplay capture tooling: browser profile holds your LOGIN SESSION (never
+# commit), raw captures are bulky premium data (normalized stats ARE committed)
+/data/stats/hsreplay_profile/
+/data/stats/hsreplay_captures/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -23,3 +36,7 @@ bridge/package-lock.json
 # OS
 .DS_Store
 *.pt.meta.json
+
+# HearthstoneJSON dbf-id index (auto-downloaded cache, regenerable)
+/data/cards/hsjson_index.json
+/logs/transcripts.log

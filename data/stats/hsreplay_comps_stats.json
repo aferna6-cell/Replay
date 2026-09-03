@@ -1,0 +1,224 @@
+{
+ "_source": "hsreplay.net capture (auto-2026-08-30)",
+ "_imported": "2026-08-30",
+ "_percentile": "TOP_20_PERCENT",
+ "items": [
+  {
+   "name": "Naga",
+   "compositionId": 43,
+   "averagePlacement": 3.841,
+   "numGames": 70417,
+   "popularity": 16.08,
+   "placementDistribution": [
+    17.71,
+    16.69,
+    15.11,
+    13.3,
+    11.44,
+    9.97,
+    8.81,
+    6.97
+   ]
+  },
+  {
+   "name": "Murlocs",
+   "compositionId": 2,
+   "averagePlacement": 3.966,
+   "numGames": 30354,
+   "popularity": 6.93,
+   "placementDistribution": [
+    13.87,
+    17.47,
+    16.43,
+    13.59,
+    11.86,
+    10.32,
+    8.81,
+    7.64
+   ]
+  },
+  {
+   "name": "Dragons",
+   "compositionId": 20,
+   "averagePlacement": 4.299,
+   "numGames": 43370,
+   "popularity": 9.9,
+   "placementDistribution": [
+    10.33,
+    14.93,
+    15.27,
+    14.54,
+    12.93,
+    12.06,
+    11.0,
+    8.96
+   ]
+  },
+  {
+   "name": "Elementals",
+   "compositionId": 39,
+   "averagePlacement": 4.302,
+   "numGames": 71238,
+   "popularity": 16.27,
+   "placementDistribution": [
+    16.3,
+    12.49,
+    11.93,
+    11.99,
+    12.08,
+    12.42,
+    12.17,
+    10.63
+   ]
+  },
+  {
+   "name": "Mechs",
+   "compositionId": 8,
+   "averagePlacement": 4.337,
+   "numGames": 52897,
+   "popularity": 12.08,
+   "placementDistribution": [
+    12.98,
+    12.52,
+    13.44,
+    13.71,
+    13.66,
+    12.91,
+    11.49,
+    9.29
+   ]
+  },
+  {
+   "name": "Undead",
+   "compositionId": 47,
+   "averagePlacement": 4.399,
+   "numGames": 22813,
+   "popularity": 5.21,
+   "placementDistribution": [
+    10.31,
+    12.86,
+    14.85,
+    14.47,
+    13.75,
+    12.93,
+    11.55,
+    9.29
+   ]
+  },
+  {
+   "name": "Pirates",
+   "compositionId": 36,
+   "averagePlacement": 4.475,
+   "numGames": 48260,
+   "popularity": 11.02,
+   "placementDistribution": [
+    17.54,
+    10.82,
+    9.56,
+    10.59,
+    11.77,
+    12.9,
+    13.71,
+    13.12
+   ]
+  },
+  {
+   "name": "Demons",
+   "compositionId": 9,
+   "averagePlacement": 4.477,
+   "numGames": 41715,
+   "popularity": 9.52,
+   "placementDistribution": [
+    14.49,
+    11.08,
+    11.53,
+    12.34,
+    12.72,
+    13.09,
+    13.15,
+    11.6
+   ]
+  },
+  {
+   "name": "Beasts",
+   "compositionId": 3,
+   "averagePlacement": 4.629,
+   "numGames": 32121,
+   "popularity": 7.33,
+   "placementDistribution": [
+    12.42,
+    10.68,
+    11.09,
+    12.07,
+    13.33,
+    14.03,
+    14.13,
+    12.27
+   ]
+  },
+  {
+   "name": "Quilboar",
+   "compositionId": 41,
+   "averagePlacement": 5.028,
+   "numGames": 24645,
+   "popularity": 5.62,
+   "placementDistribution": [
+    9.6,
+    9.09,
+    9.74,
+    10.88,
+    12.92,
+    14.17,
+    16.21,
+    17.37
+   ]
+  }
+ ],
+ "compositions": {
+  "1": "Menagerie",
+  "30": "Bubble Menagerie",
+  "13": "No Type",
+  "35": "Saurolisk",
+  "22": "Deathrattle Beasts",
+  "23": "Basic Mechs",
+  "24": "Basic Murlocs",
+  "25": "Basic No Type",
+  "26": "Demon No Type",
+  "19": "Pogo-Hopper",
+  "27": "Basic Menagerie",
+  "28": "Token Beasts",
+  "29": "Basic Dragons",
+  "31": "Dragon Mechs",
+  "32": "Tall Dragons",
+  "33": "Divine Shield Dragons",
+  "21": "Big Demons",
+  "20": "Dragons",
+  "2": "Murlocs",
+  "34": "Divine Shield",
+  "10": "Deathrattle Mechs",
+  "9": "Demons",
+  "8": "Mechs",
+  "4": "Token Demons",
+  "3": "Beasts",
+  "36": "Pirates",
+  "37": "Macaw Beasts",
+  "38": "Deathrattle",
+  "39": "Elementals",
+  "40": "Taunt",
+  "41": "Quilboar",
+  "43": "Naga",
+  "46": "APM Pirates",
+  "45": "Scam Pirates",
+  "44": "Buff Dragons",
+  "42": "Leapfrogger",
+  "47": "Undead",
+  "48": "Banana Beasts",
+  "49": "Shop Buff Demons",
+  "50": "Self Damage Demons",
+  "51": "APM Greymane",
+  "52": "Kaly Dragons",
+  "53": "Start of Combat Dragons",
+  "54": "Azerite Elementals",
+  "55": "Rock Rock Elementals"
+ }
+}

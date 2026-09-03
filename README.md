@@ -169,6 +169,82 @@ The model also *understands* each minion, not just its win rate:
 `bridge/` wraps Firestone's open-source simulator. `cd bridge && npm install`
 activates it; `recommend()` then uses it automatically, else the built-in sim.
 
+## Population card priors (anti-survivorship-bias)
+
+card2vec and the final-board corpora only ever see boards that *survived to the
+end of a game* — cards that quietly lose games leave no trace there. To
+counteract that, the eval net's board features carry an explicit
+**population-prior block** (`ml/board_features.py::meta_prior_vector`): each
+board is annotated with how its cards perform across **all** games — mean/best
+placement edge and impact, from per-card `averagePlacement`/`impact` stats —
+via `hsbg_coach/card_meta_stats.py`.
+
+Two stat sources blend automatically when both exist:
+
+- **Firestone** (`data/stats/firestone_card_stats.json`) — auto-refreshed by
+  `hsbg_coach refresh-stats`; always available.
+- **HSReplay.net** — optional but **weighted 2× over Firestone** in the prior
+  blend (larger HDT population, top-10% filtered). HSReplay has no public API
+  and blocks non-browser traffic, so the repeatable path is the **capture
+  tool**: it opens a real browser window (your login persists between runs in
+  a local profile) and auto-records every stats payload the site fetches
+  while you browse — minions, **comps, heroes, trinkets, dark gifts, quests**,
+  each split by the **turn** filter when you use it. Each category lands in
+  its own `data/stats/hsreplay_<category>_stats.json`:
+
+```bash
+pip install playwright && python -m playwright install chromium   # once
+python scripts/hsreplay_capture.py
+#   1. window opens on the BG minions page (log in on first run)
+#   2. set Rank=Top 10%, step the Turn filter through each value, then
+#      visit Comps / Heroes / Trinkets / Dark Gifts pages the same way —
+#      the terminal prints "captured #NNN" as each payload lands
+#   3. press Enter -> auto-import, categorized + per-turn stats files
+./scripts/retrain.sh                                   # fold into the net
+```
+
+No DevTools needed. Manual fallback: save any export yourself and run
+`python -m hsbg_coach import-hsreplay <file-or-capture-dir>` — the importer
+accepts loose key names (`avg_placement`, `avgPlacement`, "Avg Place"…) since
+HSReplay's frontend schema is undocumented. Raw captures and the browser
+profile (your login session!) stay local — gitignored; only the normalized
+stats files are committed. After a feature-layout change, an old local
+`eval_net.pt` is skipped with a retrain hint instead of crashing.
+
+## Streamer VODs → training trajectories (built)
+
+Top players' games are the scarcest, highest-value training signal — and VODs
+are the only way to get them (no public raw-trajectory source exists). The
+`vod/` pipeline reconstructs turn-by-turn `(state, action, outcome)`
+trajectories straight from video:
+
+```bash
+pip install -r requirements-vod.txt        # anthropic, yt-dlp, pillow (+ ffmpeg)
+python scripts/ingest_vod.py https://www.youtube.com/watch?v=…  \
+    --section 00:05:00-00:45:00            # optional: just this time range
+# frames every 3s → dedupe → Haiku classifies phases → Opus 5 reads each
+# recruit/endscreen frame (structured output) → data/vods/vod-<id>-gN.jsonl
+```
+
+Training then **weights VOD games highest automatically**: `train_eval_net`
+folds `data/vods/*.jsonl` in at `--vod-weight 3.0` (your own games 1.5,
+population boards 1.0) via weighted MSE. Just run `./scripts/retrain.sh`.
+
+Before trusting a reader config, run the accuracy gate on a screen recording
+of your own game (Power.log = ground truth):
+
+```bash
+python -m vod.validate data/vods/vod-<id>-g1.jsonl data/game-<ts>.jsonl
+# PASS at ≥95% board-content accuracy
+```
+
+Practical notes: run on your own machine (YouTube blocks datacenter IPs;
+`--cookies-from-browser chrome` beats the sign-in wall), `--max-reads` caps
+API spend, `--dry-run` costs nothing. Commentary transcripts (the *reasoning*,
+no board states) still come free via
+`python scripts/fetch_vod_transcript.py <url>`. Design + validation ladder:
+`specs/vod-ingestion_spec.md`.
+
 ## Deep learning (optional `ml/` track)
 
 The core package is stdlib-only. The `ml/` track adds the first real neural
@@ -336,7 +412,42 @@ final placement it led to. Fold those into the brain after a session:
 The more you play, the sharper it gets on the live meta *and your playstyle* —
 your per-game placements are a sharper signal than the population averages.
 
+## Harvesting Power.log files automatically (logs/ archive)
+
+Hearthstone overwrites `Power.log` every session, so any log you don't capture
+is training data lost. The collector sweeps this machine — the known
+Hearthstone log locations plus a deep scan of your home directory — for every
+`Power.log` / `Power_old.log`, copies each *new* one (deduped by content hash,
+`logs/manifest.json`) into the [`logs/`](logs/) archive, parses it into
+`data/*.jsonl` trajectories, and commits + pushes the logs to GitHub:
+
+```bash
+python scripts/collect_power_logs.py            # collect + parse + push
+python scripts/collect_power_logs.py --train    # ...and retrain the eval net
+python scripts/collect_power_logs.py --dry-run  # preview what it would grab
+```
+
+Schedule it to run unattended (every 48 hours by default; pass
+`--weekly`/`-Weekly` for weekly):
+
+```bash
+# mac/linux (cron)
+./scripts/schedule_collection.sh
+
+# Windows (Task Scheduler; run from the repo root)
+powershell -ExecutionPolicy Bypass -File scripts\schedule_collection.ps1
+```
+
+Scheduled-run output lands in `logs/collect.log` (gitignored).
+
 ## Keeping it fresh (weekly meta pull)
+
+HSReplay refreshes itself weekly too: `./scripts/schedule_hsreplay.sh` installs
+a Sunday-evening cron that fetches fresh top-20% stats through your saved
+browser session (`scripts/hsreplay_autofetch.py` — no clicking; run the
+interactive capture once first so the profile is logged in), retrains the
+eval net, and pushes the stats. Output: `logs/hsreplay_weekly.log`.
+
 
 ```bash
 ./scripts/weekly_update.sh            # refresh cards + stats from Firestone, retrain everything
