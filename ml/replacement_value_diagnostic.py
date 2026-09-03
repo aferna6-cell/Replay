@@ -248,6 +248,14 @@ def _state_row(
         "pending_candidate_name": None,
         "pending_candidate_slot": None,
         "pending_source": None,
+        "_dedupe_key": (
+            seat,
+            turn,
+            tuple((m.get("name"), m.get("attack"), m.get("health")) for m in board),
+            tuple((shop[i].get("name"), shop[i].get("attack"), shop[i].get("health"))
+                  for i in buy_slots),
+            float(obs.get("gold") or 0),
+        ),
     }
 
 
@@ -288,6 +296,8 @@ def _candidate_rows(
                 reject_bucket = "B_BUILD_OR_CORE_VALUE"
             else:
                 reject_bucket = "C_NEITHER"
+        if current_accepts:
+            continue
         out.append({
             "state_index": state_idx,
             "lobby": state_row["lobby"],
@@ -302,13 +312,11 @@ def _candidate_rows(
             "candidate_printed_raw": cand_printed,
             "candidate_keywords": list(base["keywords"]),
             "candidate_text_present": bool(base["text_present"]),
-            "candidate_rules_text": base["text"],
             "candidate_tribes": list(base["tribes"]),
             "target_archetype": meta["target_archetype"],
             "candidate_target_core": bool(meta["target_core"]),
             "candidate_shop_build_gain": float(meta["shop_build_gain"]),
             "candidate_path_value_adjustment": float(meta["path_value_adjustment"]),
-            "candidate_path_reason": meta["path_reason"],
             "candidate_card2vec_in_vocab": bool(meta["card2vec_in_vocab"]),
             "weakest_board_name": state_row["weakest_board_name"],
             "weakest_board_scaled_raw": weakest_scaled,
@@ -337,6 +345,7 @@ class ReplacementValueTracer:
         self._embeddings = load_embeddings()
         self._last_state_idx: Optional[int] = None
         self._action_counts: Dict[tuple[int, int], Counter] = defaultdict(Counter)
+        self._seen_keys: set[tuple] = set()
 
     def begin_lobby(self, lobby_id: int, _rng_seed: int, _lobby_tribes: List[str]) -> None:
         self.lobby_id = lobby_id
@@ -358,6 +367,11 @@ class ReplacementValueTracer:
         self._last_state_idx = None
         if row is None:
             return
+        dedupe_key = row.pop("_dedupe_key", None)
+        if dedupe_key in self._seen_keys:
+            return
+        if dedupe_key is not None:
+            self._seen_keys.add(dedupe_key)
         idx = len(self.state_rows)
         self.state_rows.append(row)
         self.candidate_rows.extend(
