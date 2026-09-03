@@ -1,0 +1,92 @@
+{
+  "n_documented_checks": 5,
+  "n_demonstrated_mismatches": 2,
+  "n_phase_2n_actionable": 0,
+  "n_contextual_out_of_scope": 2,
+  "mismatches": [
+    {
+      "id": "shop_slots_vs_classic_minion",
+      "area": "shop_slot_counts",
+      "simulator": {
+        "1": 3,
+        "2": 4,
+        "3": 4,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "reference": {
+        "1": 3,
+        "2": 4,
+        "3": 4,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "mismatch": false,
+      "phase_2n_actionable": false,
+      "note": "Matches classic minion-only table. Modern taverns also offer spells with larger card counts \u2014 sim has no tavern spells."
+    },
+    {
+      "id": "shop_slots_vs_spell_era",
+      "area": "shop_slot_counts",
+      "simulator": {
+        "1": 3,
+        "2": 4,
+        "3": 4,
+        "4": 5,
+        "5": 5,
+        "6": 6
+      },
+      "reference": {
+        "1": 4,
+        "2": 5,
+        "3": 5,
+        "4": 6,
+        "5": 6,
+        "6": 7
+      },
+      "mismatch": true,
+      "phase_2n_actionable": false,
+      "severity": "contextual",
+      "note": "Spell-era tavern card counts differ. Contextual/out-of-scope until the simulator models tavern spells."
+    },
+    {
+      "id": "elimination_no_return_to_pool",
+      "area": "pool_lifecycle_accounting",
+      "simulator": "DEAD PLAYERS RETURN board/hand/shop copies to pool (Phase 2N-B)",
+      "reference": "eliminated players' minions expected to return to pool",
+      "mismatch": false,
+      "phase_2n_actionable": false,
+      "note": "Phase 2N-B enables death return when flag is on"
+    },
+    {
+      "id": "freeze_no_topup",
+      "area": "freeze_return_to_pool",
+      "simulator": "frozen shop skips full return+redraw; incomplete shops top up to SHOP_SLOTS[tier] (Phase 2N-B)",
+      "reference": "incomplete freeze / tier-up tops up new slots",
+      "mismatch": false,
+      "phase_2n_actionable": false,
+      "note": "Phase 2N-B enables freeze top-up when flag is on"
+    },
+    {
+      "id": "no_tier_7",
+      "area": "catalogue",
+      "simulator": "MAX_TIER=6; no T7",
+      "reference": "T7 exists in some modes (5 copies)",
+      "mismatch": true,
+      "phase_2n_actionable": false,
+      "severity": "contextual",
+      "note": "Contextual/out-of-scope for a deliberate standard Tier-6 simulator; do not add T7 solely to match a global table."
+    }
+  ],
+  "demonstrated_ids": [
+    "shop_slots_vs_spell_era",
+    "no_tier_7"
+  ],
+  "phase_2n_actionable_ids": [],
+  "contextual_ids": [
+    "shop_slots_vs_spell_era",
+    "no_tier_7"
+  ]
+}

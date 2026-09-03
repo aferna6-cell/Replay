@@ -1,0 +1,69 @@
+{
+  "deltas": {
+    "recruit_delta_mean_t9_t12": -271.7301683270144,
+    "full_board_replace_rate": 0.2711496994519687,
+    "valuation_scaling_blocked_pct": -0.8033736602310172,
+    "post_scale_over_firestone_t10": -0.4819644531049476,
+    "post_scale_over_firestone_t14": -1.7163209447353358,
+    "mean_game_length": -2.571999999999999
+  },
+  "control": {
+    "recruit_delta_mean_t9_t12": 0.07975228772447485,
+    "full_board_replace_rate": 0.015515048749470114,
+    "valuation_scaling_blocked_pct": 0.8033736602310172,
+    "post_scale_over_firestone_t10": 0.9528571177627881,
+    "post_scale_over_firestone_t14": 1.8251304343437007,
+    "mean_game_length": 15.638
+  },
+  "treatment": {
+    "recruit_delta_mean_t9_t12": -271.6504160392899,
+    "full_board_replace_rate": 0.28666474820143883,
+    "valuation_scaling_blocked_pct": 0.0,
+    "post_scale_over_firestone_t10": 0.4708926646578405,
+    "post_scale_over_firestone_t14": 0.10880948960836478,
+    "mean_game_length": 13.066
+  },
+  "gates": {
+    "recruit_delta_t9_t12_increases": false,
+    "full_board_replace_rate_increases": true,
+    "scaling_blocked_collapses": true,
+    "post_scale_macro_not_materially_worse": false,
+    "game_length_acceptable": false
+  },
+  "gates_passed": 2,
+  "gates_total": 5,
+  "directional_macro_policy_harm": {
+    "definition": {
+      "name": "directional_macro_policy_harm",
+      "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+      "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+    },
+    "by_turn": {
+      "10": {
+        "greedy_ratio": 0.9528571177627881,
+        "treatment_ratio": 0.4708926646578405,
+        "greedy_distance": 0.04714288223721186,
+        "treatment_distance": 0.5291073353421595,
+        "macro_policy_harm": 0.4819644531049476,
+        "treatment_closer_to_firestone": false
+      },
+      "12": {
+        "greedy_ratio": 1.4574117639338668,
+        "treatment_ratio": 0.16293318334454526,
+        "greedy_distance": 0.45741176393386684,
+        "treatment_distance": 0.8370668166554547,
+        "macro_policy_harm": 0.37965505272158784,
+        "treatment_closer_to_firestone": false
+      },
+      "14": {
+        "greedy_ratio": 1.8251304343437007,
+        "treatment_ratio": 0.10880948960836478,
+        "greedy_distance": 0.8251304343437007,
+        "treatment_distance": 0.8911905103916352,
+        "macro_policy_harm": 0.06606007604793451,
+        "treatment_closer_to_firestone": false
+      }
+    },
+    "applied_to_2n_v3": false
+  }
+}

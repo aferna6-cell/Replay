@@ -1,0 +1,1477 @@
+{
+  "benchmark": "Replay Simulator Fidelity Benchmark v1",
+  "phase": "2N shop/pool fidelity interventions",
+  "methodology_version": "2n_v3",
+  "simulator_version": "Simulator v1.1",
+  "implementation_commit": "7170fa2e61aeae47c2e98c599351db2ad1fd445b",
+  "working_tree_clean": true,
+  "runtime_seconds": 1716.75,
+  "evaluation_seed_base": 11700,
+  "n_lobbies": 500,
+  "static_catalogue": {
+    "n_core_slots": 224,
+    "n_unique_cores": 120,
+    "status_counts": {
+      "IN_EXACT_CATALOGUE": 224
+    },
+    "status_share": {
+      "IN_EXACT_CATALOGUE": 1.0
+    },
+    "n_missing_from_kb": 0,
+    "n_in_exact_catalogue": 224,
+    "missing_from_kb_names": []
+  },
+  "static_active_pool": {
+    "lobby_tribes": [
+      "Beast",
+      "Mech",
+      "Murloc",
+      "Dragon",
+      "Demon",
+      "Elemental",
+      "Pirate",
+      "Naga",
+      "Undead",
+      "Quilboar"
+    ],
+    "n_active_manifest_solo": 235,
+    "n_expected_lobby_catalogue": 235,
+    "n_build_pool": 235,
+    "active_pool_recall": 1.0,
+    "active_pool_precision": 1.0,
+    "n_false_negatives": 0,
+    "n_false_positives": 0,
+    "false_negative_ids": [],
+    "false_positive_ids": [],
+    "token_cards_in_build_pool": 0,
+    "token_card_ids": [],
+    "duos_only_in_solo_build_pool": 0,
+    "duos_only_ids": [],
+    "out_of_scope_t7_in_build_pool": 0,
+    "t7_ids": [],
+    "removed_or_generated_only_in_build_pool": 0,
+    "not_in_active_ids": [],
+    "foraging_bat_in_build_pool": false,
+    "gates_pass": true
+  },
+  "static_rule_mismatches": {
+    "n_documented_checks": 5,
+    "n_demonstrated_mismatches": 2,
+    "n_phase_2n_actionable": 0,
+    "n_contextual_out_of_scope": 2,
+    "mismatches": [
+      {
+        "id": "shop_slots_vs_classic_minion",
+        "area": "shop_slot_counts",
+        "simulator": {
+          "1": 3,
+          "2": 4,
+          "3": 4,
+          "4": 5,
+          "5": 5,
+          "6": 6
+        },
+        "reference": {
+          "1": 3,
+          "2": 4,
+          "3": 4,
+          "4": 5,
+          "5": 5,
+          "6": 6
+        },
+        "mismatch": false,
+        "phase_2n_actionable": false,
+        "note": "Matches classic minion-only table. Modern taverns also offer spells with larger card counts \u2014 sim has no tavern spells."
+      },
+      {
+        "id": "shop_slots_vs_spell_era",
+        "area": "shop_slot_counts",
+        "simulator": {
+          "1": 3,
+          "2": 4,
+          "3": 4,
+          "4": 5,
+          "5": 5,
+          "6": 6
+        },
+        "reference": {
+          "1": 4,
+          "2": 5,
+          "3": 5,
+          "4": 6,
+          "5": 6,
+          "6": 7
+        },
+        "mismatch": true,
+        "phase_2n_actionable": false,
+        "severity": "contextual",
+        "note": "Spell-era tavern card counts differ. Contextual/out-of-scope until the simulator models tavern spells."
+      },
+      {
+        "id": "elimination_no_return_to_pool",
+        "area": "pool_lifecycle_accounting",
+        "simulator": "DEAD PLAYERS RETURN board/hand/shop copies to pool (Phase 2N-B)",
+        "reference": "eliminated players' minions expected to return to pool",
+        "mismatch": false,
+        "phase_2n_actionable": false,
+        "note": "Phase 2N-B enables death return when flag is on"
+      },
+      {
+        "id": "freeze_no_topup",
+        "area": "freeze_return_to_pool",
+        "simulator": "frozen shop skips full return+redraw; incomplete shops top up to SHOP_SLOTS[tier] (Phase 2N-B)",
+        "reference": "incomplete freeze / tier-up tops up new slots",
+        "mismatch": false,
+        "phase_2n_actionable": false,
+        "note": "Phase 2N-B enables freeze top-up when flag is on"
+      },
+      {
+        "id": "no_tier_7",
+        "area": "catalogue",
+        "simulator": "MAX_TIER=6; no T7",
+        "reference": "T7 exists in some modes (5 copies)",
+        "mismatch": true,
+        "phase_2n_actionable": false,
+        "severity": "contextual",
+        "note": "Contextual/out-of-scope for a deliberate standard Tier-6 simulator; do not add T7 solely to match a global table."
+      }
+    ],
+    "demonstrated_ids": [
+      "shop_slots_vs_spell_era",
+      "no_tier_7"
+    ],
+    "phase_2n_actionable_ids": [],
+    "contextual_ids": [
+      "shop_slots_vs_spell_era",
+      "no_tier_7"
+    ]
+  },
+  "analysis": {
+    "methodology_version": "2m_v2",
+    "n_states_phase_2l": 137,
+    "catalogue_synchronization": {
+      "n_core_slots": 224,
+      "n_unique_cores": 120,
+      "status_counts": {
+        "IN_EXACT_CATALOGUE": 224
+      },
+      "status_share": {
+        "IN_EXACT_CATALOGUE": 1.0
+      },
+      "n_missing_from_kb": 0,
+      "n_in_exact_catalogue": 224,
+      "missing_from_kb_names": []
+    },
+    "active_pool_precision_recall": {
+      "lobby_tribes": [
+        "Beast",
+        "Mech",
+        "Murloc",
+        "Dragon",
+        "Demon",
+        "Elemental",
+        "Pirate",
+        "Naga",
+        "Undead",
+        "Quilboar"
+      ],
+      "n_active_manifest_solo": 235,
+      "n_expected_lobby_catalogue": 235,
+      "n_build_pool": 235,
+      "active_pool_recall": 1.0,
+      "active_pool_precision": 1.0,
+      "n_false_negatives": 0,
+      "n_false_positives": 0,
+      "false_negative_ids": [],
+      "false_positive_ids": [],
+      "token_cards_in_build_pool": 0,
+      "token_card_ids": [],
+      "duos_only_in_solo_build_pool": 0,
+      "duos_only_ids": [],
+      "out_of_scope_t7_in_build_pool": 0,
+      "t7_ids": [],
+      "removed_or_generated_only_in_build_pool": 0,
+      "not_in_active_ids": [],
+      "foraging_bat_in_build_pool": false,
+      "gates_pass": true
+    },
+    "pool_contract": {
+      "simulator": {
+        "POOL_COPIES": {
+          "1": 15,
+          "2": 15,
+          "3": 13,
+          "4": 11,
+          "5": 9,
+          "6": 7
+        },
+        "SHOP_SLOTS": {
+          "1": 3,
+          "2": 4,
+          "3": 4,
+          "4": 5,
+          "5": 5,
+          "6": 6
+        },
+        "active_tavern_pool_manifest": "data/cards/active_tavern_pool.json (Phase 2N-D; build_pool \u2229 isBattlegroundsPoolMinion solo T1\u20136)",
+        "draw": "weighted by remaining live copies among catalogue minions with tier <= tavern and pool > 0; without replacement within deal",
+        "freeze": "frozen shop skips full return+redraw; incomplete shops top up to SHOP_SLOTS[tier] (Phase 2N-B)",
+        "roll": "unfreeze; return shop copies; redraw SHOP_SLOTS[tier]",
+        "buy": "shop\u2192hand; copy stays out of pool",
+        "sell": "board\u2192pool (+1 or +3 if golden)",
+        "triple": "3 non-golden \u2192 1 golden in hand; discover = extra _draw; base copies not returned (golden returns as 3 on sell)",
+        "elimination": "DEAD PLAYERS RETURN board/hand/shop copies to pool (Phase 2N-B)",
+        "phase_2n_death_return": true,
+        "phase_2n_freeze_topup": true
+      },
+      "reference_current_bg": {
+        "POOL_COPIES": {
+          "1": 15,
+          "2": 15,
+          "3": 13,
+          "4": 11,
+          "5": 9,
+          "6": 7
+        },
+        "SHOP_SLOTS_minion_classic": {
+          "1": 3,
+          "2": 4,
+          "3": 4,
+          "4": 5,
+          "5": 5,
+          "6": 6
+        },
+        "SHOP_SLOTS_with_spells_patch34_2": {
+          "1": 4,
+          "2": 5,
+          "3": 5,
+          "4": 6,
+          "5": 6,
+          "6": 7
+        },
+        "shared_pool": "minions at/below tavern tier from remaining shared pool",
+        "elimination_return": "eliminated players' minions expected to return to shared pool",
+        "freeze_topup": "incomplete freeze / tier-up tops up new slots",
+        "sources": [
+          "https://hearthstone.wiki.gg/wiki/Battlegrounds",
+          "Hearthstone patch 34.2 notes (tavern card counts with spells)"
+        ]
+      }
+    },
+    "rule_mismatches": {
+      "n_documented_checks": 5,
+      "n_demonstrated_mismatches": 2,
+      "n_phase_2n_actionable": 0,
+      "n_contextual_out_of_scope": 2,
+      "mismatches": [
+        {
+          "id": "shop_slots_vs_classic_minion",
+          "area": "shop_slot_counts",
+          "simulator": {
+            "1": 3,
+            "2": 4,
+            "3": 4,
+            "4": 5,
+            "5": 5,
+            "6": 6
+          },
+          "reference": {
+            "1": 3,
+            "2": 4,
+            "3": 4,
+            "4": 5,
+            "5": 5,
+            "6": 6
+          },
+          "mismatch": false,
+          "phase_2n_actionable": false,
+          "note": "Matches classic minion-only table. Modern taverns also offer spells with larger card counts \u2014 sim has no tavern spells."
+        },
+        {
+          "id": "shop_slots_vs_spell_era",
+          "area": "shop_slot_counts",
+          "simulator": {
+            "1": 3,
+            "2": 4,
+            "3": 4,
+            "4": 5,
+            "5": 5,
+            "6": 6
+          },
+          "reference": {
+            "1": 4,
+            "2": 5,
+            "3": 5,
+            "4": 6,
+            "5": 6,
+            "6": 7
+          },
+          "mismatch": true,
+          "phase_2n_actionable": false,
+          "severity": "contextual",
+          "note": "Spell-era tavern card counts differ. Contextual/out-of-scope until the simulator models tavern spells."
+        },
+        {
+          "id": "elimination_no_return_to_pool",
+          "area": "pool_lifecycle_accounting",
+          "simulator": "DEAD PLAYERS RETURN board/hand/shop copies to pool (Phase 2N-B)",
+          "reference": "eliminated players' minions expected to return to pool",
+          "mismatch": false,
+          "phase_2n_actionable": false,
+          "note": "Phase 2N-B enables death return when flag is on"
+        },
+        {
+          "id": "freeze_no_topup",
+          "area": "freeze_return_to_pool",
+          "simulator": "frozen shop skips full return+redraw; incomplete shops top up to SHOP_SLOTS[tier] (Phase 2N-B)",
+          "reference": "incomplete freeze / tier-up tops up new slots",
+          "mismatch": false,
+          "phase_2n_actionable": false,
+          "note": "Phase 2N-B enables freeze top-up when flag is on"
+        },
+        {
+          "id": "no_tier_7",
+          "area": "catalogue",
+          "simulator": "MAX_TIER=6; no T7",
+          "reference": "T7 exists in some modes (5 copies)",
+          "mismatch": true,
+          "phase_2n_actionable": false,
+          "severity": "contextual",
+          "note": "Contextual/out-of-scope for a deliberate standard Tier-6 simulator; do not add T7 solely to match a global table."
+        }
+      ],
+      "demonstrated_ids": [
+        "shop_slots_vs_spell_era",
+        "no_tier_7"
+      ],
+      "phase_2n_actionable_ids": [],
+      "contextual_ids": [
+        "shop_slots_vs_spell_era",
+        "no_tier_7"
+      ]
+    },
+    "pool_conservation": {
+      "n_lobbies": 500,
+      "note": "Invariant: pool copies + live board/hand/shop holdings + 3\u00d7 golden holdings == initialized shared-pool copies (requires Phase 2N-B death-return).",
+      "lobby_final_pool_mean": 1504.134,
+      "lobby_initial_pool_mean": 1504.134,
+      "n_lobbies_balanced": 500,
+      "n_lobbies_unbalanced": 0,
+      "conservation_ok": true,
+      "mean_delta": 0.0
+    },
+    "phase_2l_headlines": {
+      "pct_not_in_exact_simulator_catalogue": 0.0052518756164294505,
+      "pct_exact_catalogue_tier_eligible_zero_raw": 0.9922173183777944,
+      "pct_raw_but_never_legal": 0.0025308060057763608,
+      "pct_never_tier_eligible": 0.0,
+      "not_in_exact_catalogue_mass": 0.2575107296137339,
+      "tier_eligible_zero_raw_mass": 48.65054396786295,
+      "raw_but_zero_legal_mass": 0.12409084842366522
+    },
+    "phase_2l_a1_exclusion": {
+      "mass": {
+        "TRIBE_EXCLUDED": 0.2575107296137339
+      },
+      "share_of_a1": {
+        "MISSING_KB_OR_TIER_OR_STATS": 0.0,
+        "TRIBE_EXCLUDED": 1.0,
+        "BUILD_POOL_EXCLUDED": 0.0
+      },
+      "card_counts": {
+        "TRIBE_EXCLUDED": 12
+      },
+      "kb_says_tribe_ok_but_build_pool_excludes_mass": 0.0
+    },
+    "live_calibration": {
+      "methodology_version": "2m_v2",
+      "post_assembly_deal_boundary": "turn > entry_turn",
+      "n_entry_turn_deals_excluded_from_calib": 457,
+      "primary_deal_level": {
+        "cohort": "deal-level: exact-catalogue cores \u00d7 post-assembly deals (turn > entry_turn); NOT conditioned on missing-final",
+        "n_deal_card_observations": 48620,
+        "n_lobbies": 131,
+        "sum_expected_raw": 1834.2561320217271,
+        "sum_observed_raw": 1781.0,
+        "sum_expected_hit_probability": 1807.268909533873,
+        "sum_observed_hit_deals": 1757.0,
+        "raw_ratio_obs_over_exp": 0.9709658149197364,
+        "hit_ratio_obs_over_exp": 0.9721851522655595,
+        "lobby_clustered": {
+          "raw_obs_minus_exp": {
+            "n_lobbies": 131,
+            "mean": -0.40653535894447695,
+            "ci95": [
+              -1.0214694209807615,
+              0.17102094916580937
+            ]
+          },
+          "hit_obs_minus_exp": {
+            "n_lobbies": 131,
+            "mean": -0.38373213384635624,
+            "ci95": [
+              -1.00231310873124,
+              0.1844755589757937
+            ]
+          },
+          "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+        },
+        "by_card_tier": {
+          "1": {
+            "n": 272,
+            "sum_expected_raw": 16.14916180678289,
+            "sum_observed_raw": 13.0,
+            "sum_expected_hit_probability": 15.78157254562598,
+            "sum_observed_hit_deals": 13.0
+          },
+          "2": {
+            "n": 2448,
+            "sum_expected_raw": 137.78353794178506,
+            "sum_observed_raw": 129.0,
+            "sum_expected_hit_probability": 134.80962457344444,
+            "sum_observed_hit_deals": 128.0
+          },
+          "3": {
+            "n": 5584,
+            "sum_expected_raw": 273.7015654616612,
+            "sum_observed_raw": 277.0,
+            "sum_expected_hit_probability": 268.60961794272447,
+            "sum_observed_hit_deals": 271.0
+          },
+          "4": {
+            "n": 12995,
+            "sum_expected_raw": 544.9883520631482,
+            "sum_observed_raw": 535.0,
+            "sum_expected_hit_probability": 536.4207736174392,
+            "sum_observed_hit_deals": 527.0
+          },
+          "5": {
+            "n": 18083,
+            "sum_expected_raw": 610.7318444811955,
+            "sum_observed_raw": 605.0,
+            "sum_expected_hit_probability": 603.1706537150603,
+            "sum_observed_hit_deals": 597.0
+          },
+          "6": {
+            "n": 9238,
+            "sum_expected_raw": 250.90167026715426,
+            "sum_observed_raw": 222.0,
+            "sum_expected_hit_probability": 248.4766671395786,
+            "sum_observed_hit_deals": 221.0
+          }
+        }
+      },
+      "missing_final_deal_level": {
+        "cohort": "deal-level missing-final subset (selection-biased; secondary)",
+        "n_deal_card_observations": 25936,
+        "n_lobbies": 131,
+        "sum_expected_raw": 1007.6975730657143,
+        "sum_observed_raw": 679.0,
+        "sum_expected_hit_probability": 992.4569176508563,
+        "sum_observed_hit_deals": 672.0,
+        "raw_ratio_obs_over_exp": 0.6738132730976825,
+        "hit_ratio_obs_over_exp": 0.6771074774617146,
+        "lobby_clustered": {
+          "raw_obs_minus_exp": {
+            "n_lobbies": 131,
+            "mean": -2.5091417791275896,
+            "ci95": [
+              -2.960532403491397,
+              -2.0606321320766203
+            ]
+          },
+          "hit_obs_minus_exp": {
+            "n_lobbies": 131,
+            "mean": -2.4462360126019616,
+            "ci95": [
+              -2.8922739345962825,
+              -2.007748139264714
+            ]
+          },
+          "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+        },
+        "by_card_tier": {
+          "1": {
+            "n": 204,
+            "sum_expected_raw": 12.247211263316645,
+            "sum_observed_raw": 11.0,
+            "sum_expected_hit_probability": 11.965508822967307,
+            "sum_observed_hit_deals": 11.0
+          },
+          "2": {
+            "n": 1039,
+            "sum_expected_raw": 60.64996479806888,
+            "sum_observed_raw": 53.0,
+            "sum_expected_hit_probability": 59.29062037282796,
+            "sum_observed_hit_deals": 52.0
+          },
+          "3": {
+            "n": 2588,
+            "sum_expected_raw": 130.70178164009602,
+            "sum_observed_raw": 103.0,
+            "sum_expected_hit_probability": 128.19182282340694,
+            "sum_observed_hit_deals": 102.0
+          },
+          "4": {
+            "n": 8539,
+            "sum_expected_raw": 365.2396684985252,
+            "sum_observed_raw": 321.0,
+            "sum_expected_hit_probability": 359.37576630888844,
+            "sum_observed_hit_deals": 316.0
+          },
+          "5": {
+            "n": 8123,
+            "sum_expected_raw": 285.8746322225406,
+            "sum_observed_raw": 136.0,
+            "sum_expected_hit_probability": 282.17892063320124,
+            "sum_observed_hit_deals": 136.0
+          },
+          "6": {
+            "n": 5443,
+            "sum_expected_raw": 152.98431464316695,
+            "sum_observed_raw": 55.0,
+            "sum_expected_hit_probability": 151.45427868956443,
+            "sum_observed_hit_deals": 55.0
+          }
+        }
+      },
+      "a3_deal_level": {
+        "cohort": "deal-level A3 zero-raw windows (observed hits near 0 by definition)",
+        "n_deal_card_observations": 13593,
+        "n_lobbies": 127,
+        "sum_expected_raw": 493.12284570683016,
+        "sum_observed_raw": 0.0,
+        "sum_expected_hit_probability": 486.22428094666986,
+        "sum_observed_hit_deals": 0.0,
+        "raw_ratio_obs_over_exp": 0.0,
+        "hit_ratio_obs_over_exp": 0.0,
+        "lobby_clustered": {
+          "raw_obs_minus_exp": {
+            "n_lobbies": 127,
+            "mean": -3.882857052809686,
+            "ci95": [
+              -4.192440138534079,
+              -3.5824214381231307
+            ]
+          },
+          "hit_obs_minus_exp": {
+            "n_lobbies": 127,
+            "mean": -3.8285376452493707,
+            "ci95": [
+              -4.134310222616512,
+              -3.5321760621104015
+            ]
+          },
+          "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+        },
+        "by_card_tier": {
+          "2": {
+            "n": 280,
+            "sum_expected_raw": 16.371787248282818,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 16.003585401889147,
+            "sum_observed_hit_deals": 0.0
+          },
+          "3": {
+            "n": 962,
+            "sum_expected_raw": 48.920657899523135,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 47.975347582099296,
+            "sum_observed_hit_deals": 0.0
+          },
+          "4": {
+            "n": 2856,
+            "sum_expected_raw": 122.5965087919038,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 120.62216194161972,
+            "sum_observed_hit_deals": 0.0
+          },
+          "5": {
+            "n": 5290,
+            "sum_expected_raw": 186.89917659160142,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 184.4734921977987,
+            "sum_observed_hit_deals": 0.0
+          },
+          "6": {
+            "n": 4205,
+            "sum_expected_raw": 118.33471517551902,
+            "sum_observed_raw": 0.0,
+            "sum_expected_hit_probability": 117.14969382326302,
+            "sum_observed_hit_deals": 0.0
+          }
+        }
+      },
+      "descriptive_card_windows": {
+        "unconditioned": {
+          "cohort": "descriptive card-windows (adaptive P_zero demoted)",
+          "role": "descriptive_secondary",
+          "n_card_windows": 1609,
+          "sum_expected_raw_live": 1834.2561320217271,
+          "sum_observed_raw": 1781.0,
+          "observed_zero_offer_rate": 0.3716594157862026,
+          "adaptive_product_expected_zero_rate": 0.36447748876233027,
+          "note": "observed_zero_offer_rate is descriptive. adaptive_product_expected_zero_rate is demoted \u2014 not a clean ex-ante P(zero) under adaptive pool trajectories."
+        },
+        "a3_zero_raw": {
+          "cohort": "descriptive A3 card-windows (observed zero \u2248 1 by definition)",
+          "role": "descriptive_secondary",
+          "n_card_windows": 526,
+          "sum_expected_raw_live": 493.1228457068302,
+          "sum_observed_raw": 0.0,
+          "observed_zero_offer_rate": 1.0,
+          "adaptive_product_expected_zero_rate": 0.42624581671630535,
+          "note": "observed_zero_offer_rate is descriptive. adaptive_product_expected_zero_rate is demoted \u2014 not a clean ex-ante P(zero) under adaptive pool trajectories."
+        }
+      },
+      "sum_expected_raw": 1834.2561320217271,
+      "sum_observed_raw": 1781.0,
+      "sum_expected_hit_probability": 1807.268909533873,
+      "sum_observed_hit_deals": 1757.0,
+      "raw_ratio_obs_over_exp": 0.9709658149197364,
+      "hit_ratio_obs_over_exp": 0.9721851522655595,
+      "lobby_clustered": {
+        "raw_obs_minus_exp": {
+          "n_lobbies": 131,
+          "mean": -0.40653535894447695,
+          "ci95": [
+            -1.0214694209807615,
+            0.17102094916580937
+          ]
+        },
+        "hit_obs_minus_exp": {
+          "n_lobbies": 131,
+          "mean": -0.38373213384635624,
+          "ci95": [
+            -1.00231310873124,
+            0.1844755589757937
+          ]
+        },
+        "note": "Bootstrap mean(obs\u2212exp) across lobbies; CI accounts for within-lobby correlation of card\u00d7deal observations."
+      },
+      "n_deal_card_observations": 48620,
+      "note": "2m_v2 primary = deal-level \u03a3E(raw)/\u03a3P(hit) vs observed, with lobby-clustered bootstrap. Entry-turn deals excluded. Adaptive whole-window product(P_zero) is descriptive only."
+    },
+    "headlines": {
+      "pct_cores_missing_from_kb": null,
+      "pct_cores_in_exact_catalogue": 1.0,
+      "n_demonstrated_rule_mismatches": 2,
+      "n_phase_2n_actionable_mismatches": 0,
+      "live_sum_expected_raw": 1834.2561320217271,
+      "live_sum_observed_raw": 1781.0,
+      "live_sum_expected_hit_probability": 1807.268909533873,
+      "live_sum_observed_hit_deals": 1757.0,
+      "live_raw_ratio_obs_over_exp": 0.9709658149197364,
+      "live_hit_ratio_obs_over_exp": 0.9721851522655595,
+      "live_n_deal_card_observations": 48620,
+      "a3_descriptive_observed_zero_rate": 1.0,
+      "a3_descriptive_adaptive_expected_zero_rate": 0.42624581671630535,
+      "phase_2l_a3_share": 0.9922173183777944,
+      "phase_2l_a1_share": 0.0052518756164294505,
+      "phase_2l_a4_share": 0.0025308060057763608
+    },
+    "reserved_seeds": {
+      "diagnostic_dev": "10200\u201310699",
+      "intervention_reserved": "11000\u201311499",
+      "confirmation_reserved": "11500\u201311699",
+      "consumed_in_2m": "diagnostic_dev only (reuse 2L)"
+    },
+    "paired_regression_panel": {
+      "phase_2j_mechanism_regression_pass": false,
+      "macro_fidelity_pass": false,
+      "panel_pass": false,
+      "phase_2j_acceptance_flags": {
+        "macro_regression_ok": false,
+        "mechanism_up": true,
+        "coverage_up": true,
+        "fulfillment_up": true,
+        "board_sacrifice_ok": true,
+        "accept_phase_2j_policy": false
+      },
+      "macro_fidelity_gates": {
+        "turn_14_primary": {
+          "value": 1.20541452427451,
+          "max_allowed": 2.033,
+          "passed": true,
+          "unmeasured": false
+        },
+        "turn_12_secondary": {
+          "value": 0.5881242389770708,
+          "max_allowed": 1.37,
+          "passed": true,
+          "unmeasured": false,
+          "note": "Absolute envelope only; Phase 2B's 'improve vs v1' clause does not apply to unpaired candidate evaluation."
+        },
+        "turn_10_regression": {
+          "value": 0.5439432848735297,
+          "baseline_center": 1.033,
+          "allowed_abs_delta": 0.057,
+          "passed": false,
+          "unmeasured": false
+        },
+        "tavern_tier_unchanged": {
+          "passed": true
+        },
+        "alive_curve_unchanged": {
+          "passed": true
+        },
+        "game_length": {
+          "value": 14.976,
+          "median": 15.0,
+          "monitored_only": true
+        },
+        "nontermination": {
+          "max_turns": 20,
+          "n_lobbies": 500,
+          "n_hit_max_turns": 13,
+          "nontermination_rate": 0.026,
+          "passed": true
+        }
+      }
+    }
+  },
+  "paired_regression_panel": {
+    "methodology_version": "2n_v3",
+    "phase_2j_methodology_version": "2j_v1",
+    "evaluation_seed_base": 11700,
+    "n_lobbies": 500,
+    "frozen_alpha": 0.5,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "policy_config": {
+      "policy_id": "board_opportunity_cost_policy",
+      "methodology_version": "2j_v1",
+      "purpose": "Phase 2J board-relative multi-turn opportunity-cost policy",
+      "alpha": 0.5,
+      "lambda_build": null,
+      "seeded_trigger": "infer_target(board).core_have >= 1",
+      "transition_model": "raw_loss=max(0,repl_raw-cand_raw); relative_tempo_loss=raw_loss/max(board_total_raw,1); opportunity_cost=relative_tempo_loss*persistence_weight; build_delta=cand_build-repl_build; score=build_delta-alpha*opportunity_cost; commit iff score>0; free-slot opportunity_cost=0; hand full-board: sell\u2192play; shop full-board: sell\u2192buy\u2192play",
+      "persistence_prior": {
+        "methodology_version": "2j_v1",
+        "survival_horizon": 2,
+        "weight_1": 0.5,
+        "weight_2": 0.5,
+        "fit_seed_base": 7000,
+        "fit_lobbies": 300,
+        "n_cells": 18,
+        "global_p_survive_1": 0.9890604074152393,
+        "global_p_survive_2": 0.9757806442517798,
+        "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
+      },
+      "acquisition_gain": "missing core vs board+hand (shop buys)",
+      "deployment_gain": "missing core vs board only (hand\u2192board)",
+      "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
+      "control_policy_id": "greedy_policy",
+      "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
+      "persistence_fit": "seeds 7000\u20137299",
+      "calibration_screen": "seeds 7300\u20137399",
+      "calibration_replication": "seeds 7400\u20137799",
+      "confirmation": "seeds 8000\u20138199",
+      "alpha_candidates": [
+        0.5,
+        1.0,
+        2.0
+      ]
+    },
+    "greedy": {
+      "label": "greedy",
+      "mechanism": {
+        "methodology_version": "2c_v3",
+        "sim_final_winner_coverage_mean": 0.05597713517040913,
+        "seeded_current_target": {
+          "legally_buyable_exposures": 6321,
+          "fulfilled_exposures": 100,
+          "rejected_exposures": 6221,
+          "fulfillment_rate": 0.0158202816010125,
+          "rejection_rate": 0.9841797183989875,
+          "reached_2_core": 67,
+          "reached_4_core": 2,
+          "mean_max_core_pieces": 1.1815856777493605,
+          "exposure_accounting_valid": true
+        },
+        "committed_current_target": {
+          "n_lobby_archetype_states": 63,
+          "distinct_core_legally_available": 504,
+          "shop_generations_with_buyable_core": 1031,
+          "legally_buyable_exposures": 1205,
+          "fulfilled_exposures": 19,
+          "rejected_exposures": 1186,
+          "core_purchase_actions": 146,
+          "exposure_accounting_valid": true,
+          "rejection_rate": 0.9842323651452282,
+          "fulfillment_rate": 0.015767634854771784,
+          "played": 141,
+          "retained_2_turns": 123,
+          "reached_2_core": 57,
+          "reached_4_core": 2,
+          "pct_lobbies_2plus_distinct_core_available": 0.8412698412698413,
+          "pct_lobbies_4plus_distinct_core_available": 0.8095238095238095,
+          "mean_final_coverage_winner": 0.16295766337855244,
+          "mean_max_core_pieces": 2.0793650793650795
+        },
+        "final_target_hindsight": {
+          "legally_buyable_exposures": 12266,
+          "fulfilled_exposures": 366,
+          "rejected_exposures": 11900,
+          "fulfillment_rate": 0.029838578183596934
+        },
+        "broad_current_target_exploratory": {
+          "legally_buyable_exposures": 12132,
+          "fulfilled_exposures": 207,
+          "rejected_exposures": 11925
+        }
+      },
+      "lifecycle": {
+        "n_fulfilled_purchases": 100,
+        "funnel": {
+          "fulfilled_purchases": 100,
+          "played": 71,
+          "coexist_with_seed_core": 73,
+          "survive_end_of_recruit": 66,
+          "survive_1_turn": 66,
+          "survive_2_turns": 64
+        },
+        "board_full_summary": {
+          "fulfilled_purchases": 100,
+          "board_full_at_purchase": 43,
+          "stuck_in_hand": 24,
+          "stuck_in_hand_and_board_full": 24,
+          "played": 71,
+          "sold_after_play": 12,
+          "persistent_two_core": 68
+        },
+        "fate_totals": {
+          "H_TWO_CORE_PERSISTENT": 68,
+          "A_BOUGHT_STUCK_IN_HAND": 24,
+          "C_PLAYED_NO_PERSISTENT_ASSEMBLY": 1,
+          "D_TARGET_SWITCH": 1,
+          "G_TWO_CORE_TRANSIENT": 5,
+          "B_PLAYED_THEN_SOLD_SAME_TURN": 1
+        }
+      },
+      "committed_states": 63,
+      "seeded_reached_2_core": 67,
+      "seeded_reached_4_core": 2,
+      "headline_divergence": {
+        "stats_ratio_turn_1": 1.3328048780487807,
+        "tier_error_turn_1": 0.0,
+        "stats_ratio_turn_2": 0.8958196721311477,
+        "tier_error_turn_2": 0.3999999999999999,
+        "stats_ratio_turn_3": 0.9860162601626016,
+        "tier_error_turn_3": -0.20000000000000018,
+        "stats_ratio_turn_4": 0.9847165991902835,
+        "tier_error_turn_4": 0.20000000000000018,
+        "stats_ratio_turn_5": 1.0517922374429225,
+        "tier_error_turn_5": -0.2999999999999998,
+        "stats_ratio_turn_6": 1.0068366093366092,
+        "tier_error_turn_6": 0.20000000000000018,
+        "stats_ratio_turn_7": 0.8401875409593027,
+        "tier_error_turn_7": -0.2999999999999998,
+        "stats_ratio_turn_8": 0.8121092451961135,
+        "tier_error_turn_8": 0.20000000000000018,
+        "stats_ratio_turn_9": 0.5003467936605027,
+        "tier_error_turn_9": -0.20000000000000018,
+        "stats_ratio_turn_10": 0.6018154512493227,
+        "tier_error_turn_10": 0.5,
+        "stats_ratio_turn_11": 0.4923316549706178,
+        "tier_error_turn_11": 0.20000000000000018,
+        "stats_ratio_turn_12": 0.71724686095329,
+        "tier_error_turn_12": 0.0,
+        "stats_ratio_turn_13": 1.1146738512925634,
+        "tier_error_turn_13": 0.0,
+        "stats_ratio_turn_14": 1.5195776639163523,
+        "tier_error_turn_14": 0.0,
+        "stats_ratio_turn_15": null,
+        "tier_error_turn_15": null,
+        "stats_ratio_turn_16": null,
+        "tier_error_turn_16": null
+      },
+      "tier_breakdown": null,
+      "lobby_dynamics": {
+        "avg_game_length": 15.942,
+        "median_game_length": 16.0,
+        "sim_alive_by_turn": {
+          "1": 8.0,
+          "2": 8.0,
+          "3": 8.0,
+          "4": 8.0,
+          "5": 8.0,
+          "6": 8.0,
+          "7": 7.855538540071465,
+          "8": 7.194998595110986,
+          "9": 6.242692939244663,
+          "10": 5.29905808477237,
+          "11": 4.435049598488427,
+          "12": 3.7091954022988505,
+          "13": 3.1569444444444446,
+          "14": 2.745674740484429,
+          "15": 2.536557930258718,
+          "16": 2.3883495145631066,
+          "17": 2.316708229426434,
+          "18": 2.2614107883817427,
+          "19": 2.230769230769231,
+          "20": 2.1578947368421053
+        },
+        "reference_alive_prior_by_turn": {
+          "1": 8.0,
+          "2": 8.0,
+          "3": 8.0,
+          "4": 8.0,
+          "5": 8.0,
+          "6": 8.0,
+          "7": 8.0,
+          "8": 8.0,
+          "9": 7.0,
+          "10": 5.0,
+          "11": 4.0,
+          "12": 3.0,
+          "13": 2.0,
+          "14": 2.0,
+          "15": 1.0,
+          "16": 1.0
+        },
+        "n_lobbies": 500
+      }
+    },
+    "treatment": {
+      "label": "board_opportunity",
+      "mechanism": {
+        "methodology_version": "2c_v3",
+        "sim_final_winner_coverage_mean": 0.15556341078751712,
+        "seeded_current_target": {
+          "legally_buyable_exposures": 1881,
+          "fulfilled_exposures": 818,
+          "rejected_exposures": 1063,
+          "fulfillment_rate": 0.4348750664540138,
+          "rejection_rate": 0.5651249335459861,
+          "reached_2_core": 157,
+          "reached_4_core": 137,
+          "mean_max_core_pieces": 4.937888198757764,
+          "exposure_accounting_valid": true
+        },
+        "committed_current_target": {
+          "n_lobby_archetype_states": 138,
+          "distinct_core_legally_available": 977,
+          "shop_generations_with_buyable_core": 1458,
+          "legally_buyable_exposures": 1715,
+          "fulfilled_exposures": 670,
+          "rejected_exposures": 1045,
+          "core_purchase_actions": 970,
+          "exposure_accounting_valid": true,
+          "rejection_rate": 0.60932944606414,
+          "fulfillment_rate": 0.39067055393586003,
+          "played": 965,
+          "retained_2_turns": 706,
+          "reached_2_core": 138,
+          "reached_4_core": 135,
+          "pct_lobbies_2plus_distinct_core_available": 0.9710144927536232,
+          "pct_lobbies_4plus_distinct_core_available": 0.9057971014492754,
+          "mean_final_coverage_winner": 0.5450653583981881,
+          "mean_max_core_pieces": 5.36231884057971
+        },
+        "final_target_hindsight": {
+          "legally_buyable_exposures": 8944,
+          "fulfilled_exposures": 939,
+          "rejected_exposures": 8005,
+          "fulfillment_rate": 0.1049865831842576
+        },
+        "broad_current_target_exploratory": {
+          "legally_buyable_exposures": 8914,
+          "fulfilled_exposures": 906,
+          "rejected_exposures": 8008
+        }
+      },
+      "lifecycle": {
+        "n_fulfilled_purchases": 818,
+        "funnel": {
+          "fulfilled_purchases": 818,
+          "played": 812,
+          "coexist_with_seed_core": 818,
+          "survive_end_of_recruit": 807,
+          "survive_1_turn": 670,
+          "survive_2_turns": 539
+        },
+        "board_full_summary": {
+          "fulfilled_purchases": 818,
+          "board_full_at_purchase": 0,
+          "stuck_in_hand": 0,
+          "stuck_in_hand_and_board_full": 0,
+          "played": 812,
+          "sold_after_play": 197,
+          "persistent_two_core": 816
+        },
+        "fate_totals": {
+          "H_TWO_CORE_PERSISTENT": 816,
+          "G_TWO_CORE_TRANSIENT": 2
+        }
+      },
+      "committed_states": 138,
+      "seeded_reached_2_core": 157,
+      "seeded_reached_4_core": 137,
+      "headline_divergence": {
+        "stats_ratio_turn_1": 1.3328048780487807,
+        "tier_error_turn_1": 0.0,
+        "stats_ratio_turn_2": 0.8958196721311477,
+        "tier_error_turn_2": 0.3999999999999999,
+        "stats_ratio_turn_3": 0.9635975609756097,
+        "tier_error_turn_3": -0.20000000000000018,
+        "stats_ratio_turn_4": 0.9631882591093117,
+        "tier_error_turn_4": 0.1955,
+        "stats_ratio_turn_5": 0.9774372146118723,
+        "tier_error_turn_5": -0.2999999999999998,
+        "stats_ratio_turn_6": 0.9369041769041768,
+        "tier_error_turn_6": 0.16875000000000018,
+        "stats_ratio_turn_7": 0.7473172415280744,
+        "tier_error_turn_7": -0.2999999999999998,
+        "stats_ratio_turn_8": 0.7264475809075814,
+        "tier_error_turn_8": 0.18810904872389766,
+        "stats_ratio_turn_9": 0.45395538297548343,
+        "tier_error_turn_9": -0.20000000000000018,
+        "stats_ratio_turn_10": 0.5439432848735297,
+        "tier_error_turn_10": 0.4244676576938531,
+        "stats_ratio_turn_11": 0.4425155994119886,
+        "tier_error_turn_11": 0.20000000000000018,
+        "stats_ratio_turn_12": 0.5881242389770708,
+        "tier_error_turn_12": 0.0,
+        "stats_ratio_turn_13": 0.8786956843528603,
+        "tier_error_turn_13": 0.0,
+        "stats_ratio_turn_14": 1.20541452427451,
+        "tier_error_turn_14": 0.0,
+        "stats_ratio_turn_15": null,
+        "tier_error_turn_15": null,
+        "stats_ratio_turn_16": null,
+        "tier_error_turn_16": null
+      },
+      "tier_breakdown": {
+        "tier_le4": {
+          "seeded_exposures": 60,
+          "fulfilled": 48,
+          "rejected": 12,
+          "reached_2_core_states": 29,
+          "committed_states": 28
+        },
+        "tier_5": {
+          "seeded_exposures": 262,
+          "fulfilled": 212,
+          "rejected": 50,
+          "reached_2_core_states": 105,
+          "committed_states": 90
+        },
+        "tier_6": {
+          "seeded_exposures": 1559,
+          "fulfilled": 558,
+          "rejected": 1001,
+          "reached_2_core_states": 23,
+          "committed_states": 19
+        }
+      },
+      "policy_stats": {
+        "compound_transitions_planned": 3922,
+        "compound_transitions_completed": 3922,
+        "compound_transitions_abandoned": 0,
+        "compound_transitions_completion_rate": 1.0,
+        "replacement_sells": 3922,
+        "replacement_transitions": 3922,
+        "tempo_selected_buys": 7468,
+        "tempo_selected_deploys": 7506,
+        "target_core_buys": 7468,
+        "target_core_deploys": 7506,
+        "mean_raw_stat_sacrifice_completed": 430.4115247322795,
+        "mean_build_gain_completed": 0.4595040158082604,
+        "mean_relative_tempo_loss": 0.10711042590404495,
+        "p95_relative_tempo_loss": 0.37493135639758374,
+        "mean_persistence_weight": 0.9715624940471566,
+        "mean_opportunity_cost": 0.10600377303485517
+      },
+      "action_deviation_rate_vs_greedy": 0.2562148395925194,
+      "alpha": 0.5,
+      "lobby_dynamics": {
+        "avg_game_length": 14.976,
+        "median_game_length": 15.0,
+        "sim_alive_by_turn": {
+          "1": 8.0,
+          "2": 8.0,
+          "3": 8.0,
+          "4": 8.0,
+          "5": 8.0,
+          "6": 8.0,
+          "7": 7.692287581699347,
+          "8": 6.987819025522041,
+          "9": 6.104857621440536,
+          "10": 5.169546002410606,
+          "11": 4.264197530864197,
+          "12": 3.5027522935779816,
+          "13": 2.9086614173228345,
+          "14": 2.5032537960954446,
+          "15": 2.2793388429752066,
+          "16": 2.195767195767196,
+          "17": 2.1384615384615384,
+          "18": 2.1176470588235294,
+          "19": 2.066666666666667,
+          "20": 2.111111111111111
+        },
+        "reference_alive_prior_by_turn": {
+          "1": 8.0,
+          "2": 8.0,
+          "3": 8.0,
+          "4": 8.0,
+          "5": 8.0,
+          "6": 8.0,
+          "7": 8.0,
+          "8": 8.0,
+          "9": 7.0,
+          "10": 5.0,
+          "11": 4.0,
+          "12": 3.0,
+          "13": 2.0,
+          "14": 2.0,
+          "15": 1.0,
+          "16": 1.0
+        },
+        "n_lobbies": 500
+      },
+      "macro_fidelity_vs_reference": {
+        "pace_headline": {
+          "stats_ratio_turn_10": 0.5439432848735297,
+          "stats_ratio_turn_12": 0.5881242389770708,
+          "stats_ratio_turn_14": 1.20541452427451,
+          "avg_game_length": 14.976,
+          "sim_tavern_tier_turn_10": 5.924467657693853,
+          "real_tavern_tier_turn_10": 5.5
+        },
+        "macro_fidelity_pass": false
+      }
+    },
+    "macro_regression_delta_treatment_minus_greedy": {
+      "turn_10_stats_ratio_delta": -0.057872166375792955,
+      "turn_14_stats_ratio_delta": -0.3141631396418423,
+      "turn_10_tier_error_delta": -0.07553234230614692,
+      "turn_14_tier_error_delta": 0.0,
+      "turn_10_alive_error_delta": -0.1295120823617637,
+      "game_length_delta": -0.9659999999999993,
+      "control_avg_game_length": 15.942,
+      "treatment_avg_game_length": 14.976
+    },
+    "phase_2j_acceptance": {
+      "methodology_version": "2j_v1",
+      "thresholds": {
+        "persistent_2_core_min_delta": 5,
+        "played_rate_min_delta": 0.25,
+        "coverage_improvement_min": 0.003,
+        "macro_turn_14_stats_ratio_max_abs_delta": 0.25,
+        "macro_tier_error_turn_10_max_abs_delta": 0.35,
+        "macro_game_length_max_abs_delta": 1.5,
+        "macro_alive_turn_10_max_abs_delta": 1.0,
+        "mean_relative_tempo_loss_max": 0.35,
+        "p95_relative_tempo_loss_max": 0.7
+      },
+      "deltas_treatment_minus_greedy": {
+        "reached_2_core_states": 90,
+        "final_winner_coverage": 0.09958627561710799,
+        "played_rate": 0.2826650366748167,
+        "committed_states": 75,
+        "seeded_fulfilled_exposures": 718,
+        "treatment_fulfilled_purchases": 818,
+        "meaningful_fulfilled_cohort": true
+      },
+      "board_sacrifice": {
+        "mean_relative_tempo_loss": 0.10711042590404495,
+        "p95_relative_tempo_loss": 0.37493135639758374,
+        "replacement_transitions": 3922,
+        "mean_persistence_weight": 0.9715624940471566,
+        "mean_raw_stat_sacrifice_completed": 430.4115247322795
+      },
+      "flags": {
+        "macro_regression_ok": false,
+        "mechanism_up": true,
+        "coverage_up": true,
+        "fulfillment_up": true,
+        "board_sacrifice_ok": true,
+        "accept_phase_2j_policy": false
+      },
+      "relative_to_oracle_reference": {
+        "persistent_2_core_lift_relative_to_oracle_reference": -1.3432835820895523,
+        "coverage_lift_relative_to_oracle_reference": -1.7790527384786872,
+        "note": "Phase 2E+2G is a causal stress-test reference, not an upper bound; ratios may exceed 1.0."
+      }
+    },
+    "phase_2j_mechanism_decision": {
+      "decision_branch": "macro_regression",
+      "recommended_next_step": "Reject policy \u2014 macro fidelity regressed vs raw greedy.",
+      "acceptance": {
+        "methodology_version": "2j_v1",
+        "thresholds": {
+          "persistent_2_core_min_delta": 5,
+          "played_rate_min_delta": 0.25,
+          "coverage_improvement_min": 0.003,
+          "macro_turn_14_stats_ratio_max_abs_delta": 0.25,
+          "macro_tier_error_turn_10_max_abs_delta": 0.35,
+          "macro_game_length_max_abs_delta": 1.5,
+          "macro_alive_turn_10_max_abs_delta": 1.0,
+          "mean_relative_tempo_loss_max": 0.35,
+          "p95_relative_tempo_loss_max": 0.7
+        },
+        "deltas_treatment_minus_greedy": {
+          "reached_2_core_states": 90,
+          "final_winner_coverage": 0.09958627561710799,
+          "played_rate": 0.2826650366748167,
+          "committed_states": 75,
+          "seeded_fulfilled_exposures": 718,
+          "treatment_fulfilled_purchases": 818,
+          "meaningful_fulfilled_cohort": true
+        },
+        "board_sacrifice": {
+          "mean_relative_tempo_loss": 0.10711042590404495,
+          "p95_relative_tempo_loss": 0.37493135639758374,
+          "replacement_transitions": 3922,
+          "mean_persistence_weight": 0.9715624940471566,
+          "mean_raw_stat_sacrifice_completed": 430.4115247322795
+        },
+        "flags": {
+          "macro_regression_ok": false,
+          "mechanism_up": true,
+          "coverage_up": true,
+          "fulfillment_up": true,
+          "board_sacrifice_ok": true,
+          "accept_phase_2j_policy": false
+        },
+        "relative_to_oracle_reference": {
+          "persistent_2_core_lift_relative_to_oracle_reference": -1.3432835820895523,
+          "coverage_lift_relative_to_oracle_reference": -1.7790527384786872,
+          "note": "Phase 2E+2G is a causal stress-test reference, not an upper bound; ratios may exceed 1.0."
+        }
+      }
+    },
+    "phase_2j_mechanism_regression_pass": false,
+    "macro_fidelity_vs_reference": {
+      "methodology_version": "2n_v3",
+      "success_thresholds_path": "results/sim_fidelity_v1/success_thresholds.json",
+      "success_thresholds_sha256": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+      "gates": {
+        "turn_14_primary": {
+          "value": 1.20541452427451,
+          "max_allowed": 2.033,
+          "passed": true,
+          "unmeasured": false
+        },
+        "turn_12_secondary": {
+          "value": 0.5881242389770708,
+          "max_allowed": 1.37,
+          "passed": true,
+          "unmeasured": false,
+          "note": "Absolute envelope only; Phase 2B's 'improve vs v1' clause does not apply to unpaired candidate evaluation."
+        },
+        "turn_10_regression": {
+          "value": 0.5439432848735297,
+          "baseline_center": 1.033,
+          "allowed_abs_delta": 0.057,
+          "passed": false,
+          "unmeasured": false
+        },
+        "tavern_tier_unchanged": {
+          "passed": true
+        },
+        "alive_curve_unchanged": {
+          "passed": true
+        },
+        "game_length": {
+          "value": 14.976,
+          "median": 15.0,
+          "monitored_only": true
+        },
+        "nontermination": {
+          "max_turns": 20,
+          "n_lobbies": 500,
+          "n_hit_max_turns": 13,
+          "nontermination_rate": 0.026,
+          "passed": true
+        }
+      },
+      "pace_headline": {
+        "stats_ratio_turn_10": 0.5439432848735297,
+        "stats_ratio_turn_12": 0.5881242389770708,
+        "stats_ratio_turn_14": 1.20541452427451,
+        "avg_game_length": 14.976,
+        "sim_tavern_tier_turn_10": 5.924467657693853,
+        "real_tavern_tier_turn_10": 5.5
+      },
+      "macro_fidelity_pass": false,
+      "note": "Compared against frozen Firestone reference curves using the Phase 2B absolute envelope. No thresholds were retuned."
+    },
+    "macro_fidelity_pass": false,
+    "panel_pass": false,
+    "confirmation_thresholds": {
+      "persistent_2_core_min_delta": 5,
+      "played_rate_min_delta": 0.25,
+      "coverage_improvement_min": 0.003,
+      "macro_turn_14_stats_ratio_max_abs_delta": 0.25,
+      "macro_tier_error_turn_10_max_abs_delta": 0.35,
+      "macro_game_length_max_abs_delta": 1.5,
+      "macro_alive_turn_10_max_abs_delta": 1.0,
+      "mean_relative_tempo_loss_max": 0.35,
+      "p95_relative_tempo_loss_max": 0.7
+    }
+  },
+  "decision": {
+    "decision_branch": "phase_2j_mechanism_regression",
+    "recommended_next_step": "Paired BoardOpp vs greedy mechanism regression failed \u2014 inspect phase_2j_acceptance before freeze/confirmation.",
+    "catalogue_clean": true,
+    "active_pool_recall": 1.0,
+    "active_pool_precision": 1.0,
+    "active_pool_gates_pass": true,
+    "lifecycle_copy_clean": true,
+    "pool_conservation_ok": true,
+    "deal_level_raw_ratio": 0.9709658149197364,
+    "lobby_raw_ci95": [
+      -1.0214694209807615,
+      0.17102094916580937
+    ],
+    "phase_2j_mechanism_regression_pass": false,
+    "macro_fidelity_pass": false,
+    "paired_regression_panel_pass": false,
+    "phase_2n_flags": {
+      "death_return": true,
+      "freeze_topup": true,
+      "pool_copies_t6": 7,
+      "active_tavern_pool_filter": true,
+      "frozen_alpha": 0.5
+    },
+    "headlines": {
+      "pct_cores_missing_from_kb": null,
+      "pct_cores_in_exact_catalogue": 1.0,
+      "n_demonstrated_rule_mismatches": 2,
+      "n_phase_2n_actionable_mismatches": 0,
+      "live_sum_expected_raw": 1834.2561320217271,
+      "live_sum_observed_raw": 1781.0,
+      "live_sum_expected_hit_probability": 1807.268909533873,
+      "live_sum_observed_hit_deals": 1757.0,
+      "live_raw_ratio_obs_over_exp": 0.9709658149197364,
+      "live_hit_ratio_obs_over_exp": 0.9721851522655595,
+      "live_n_deal_card_observations": 48620,
+      "a3_descriptive_observed_zero_rate": 1.0,
+      "a3_descriptive_adaptive_expected_zero_rate": 0.42624581671630535,
+      "phase_2l_a3_share": 0.9922173183777944,
+      "phase_2l_a1_share": 0.0052518756164294505,
+      "phase_2l_a4_share": 0.0025308060057763608
+    }
+  },
+  "simulator_v1_x_fingerprint": {
+    "implementation_commit": "7170fa2e61aeae47c2e98c599351db2ad1fd445b",
+    "files_sha256": {
+      "active_tavern_pool.json": "2a5937e5174fcd350308db051920a6b61a7d8e97134409658b056a91b6045c6c",
+      "bg_cards.json": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+      "persistence_prior.json": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+      "success_thresholds.json": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+      "data/stats/firestone_pace.json": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "data/stats/firestone_final_boards.json": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5"
+    },
+    "reference_data_fingerprints": {
+      "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
+      "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+      "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+      "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+      "bg_cards": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+      "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+    },
+    "frozen_alpha": 0.5,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "pool_copies": {
+      "1": 15,
+      "2": 15,
+      "3": 13,
+      "4": 11,
+      "5": 9,
+      "6": 7
+    },
+    "shop_slots": {
+      "1": 3,
+      "2": 4,
+      "3": 4,
+      "4": 5,
+      "5": 5,
+      "6": 6
+    },
+    "scaling_mode": "residual",
+    "phase_2n_toggles": {
+      "death_return": true,
+      "freeze_topup": true,
+      "active_tavern_pool_filter": true
+    },
+    "max_turns": 20,
+    "fingerprint_sha256": "1c1e92ca6a7fa57732cf71249f12c1cdeae52fa5f83e594a458ab18b5325635a"
+  },
+  "contract": {
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version": "Simulator v1.1",
+    "scaling_mode": "residual",
+    "simulator_module": "hsbg_coach.bg_env.BGEnv",
+    "code_commit": "7170fa2e61aeae47c2e98c599351db2ad1fd445b",
+    "runtime": {
+      "python_version": "3.12.3",
+      "python_full": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "platform": "Linux-6.12.94+-x86_64-with-glibc2.39",
+      "torch_version": "2.13.0+cpu",
+      "numpy_version": "2.4.4",
+      "torch_device": "cpu",
+      "torch_cuda_available": false
+    },
+    "environment": {
+      "env": "hsbg_coach.bg_env.BGEnv",
+      "n_players": 8,
+      "field_size": 7,
+      "agent_seat": 0,
+      "n_actions": 28,
+      "max_turns": 20,
+      "max_decisions": 400
+    },
+    "env_config_hash_sha256": "c0f51d5271b9cf352281a4411f654498a86396c47a5413bbb2e461ffde7d8499",
+    "reference_data_fingerprints": {
+      "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+      "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
+      "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+      "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+      "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+      "bg_cards": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+      "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+    },
+    "reference_metadata": {
+      "_source": "Firestone (static.zerotoheroes.com/api/bgs)",
+      "_fetched": "2026-09-01",
+      "_mmr": 10,
+      "_period": "past-seven",
+      "_heroDataPoints": 58561,
+      "reference_label": "Firestone 2026-09-01 reference distribution (top-10% MMR, past-seven)"
+    },
+    "evaluation": {
+      "policy": "greedy",
+      "lobbies": 500,
+      "base_seed": 11700,
+      "note": "Fidelity rollouts seed lobbies as base_seed + i. Not Replay Benchmark v1 agent-eval seeds."
+    },
+    "combat_note": "Combat accuracy is NOT re-measured in Fidelity Benchmark v1. Prior spot-checks found ~97% outcome agreement vs Firestone; Phase 2B+ should not rewrite combat unless spot-checks regress.",
+    "parent_simulator_version": "Simulator v1",
+    "working_tree_clean": true,
+    "phase": "2N shop/pool fidelity interventions",
+    "phase_2n_methodology_version": "2n_v3",
+    "phase_2j_methodology_version": "2j_v1",
+    "frozen_alpha": 0.5,
+    "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "phase_2n_death_return": true,
+    "phase_2n_freeze_topup": true,
+    "pool_copies": {
+      "1": 15,
+      "2": 15,
+      "3": 13,
+      "4": 11,
+      "5": 9,
+      "6": 7
+    },
+    "note": "2n_v3 validation after 2N-A/B/C/D: paired greedy vs BoardOpp \u03b1=0.5 + macro fidelity vs Firestone reference. No simulator changes in 2n_v3. Confirm seeds 11500\u201311699 reserved."
+  },
+  "phase_2m_baseline_deal_level": {
+    "note": "2m_v2 DEV 10200\u201310699 primary deal-level",
+    "sum_expected_raw": 74.86883120790482,
+    "sum_observed_raw": 60.0,
+    "raw_ratio_obs_over_exp": 0.801401585038569
+  }
+}

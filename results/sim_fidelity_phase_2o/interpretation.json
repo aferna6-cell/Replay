@@ -1,0 +1,21 @@
+{
+  "pre_vs_post_scale": {
+    "note": "Fidelity Benchmark / 2n_v3 macros snapshot END-OF-RECRUIT (pre-scaling). Firestone warbandStats are average board stats per turn; residual scaling is intended to bridge to that curve at end of recruit AFTER abstract growth.",
+    "t10_pre_scale_over_firestone": {
+      "greedy": 0.5995971700092025,
+      "phase_2j": 0.543798550566829
+    },
+    "t10_post_scale_over_firestone": {
+      "greedy": 0.9516475246004403,
+      "phase_2j": 0.8857374783453482
+    }
+  },
+  "hypothesis_revision": {
+    "prior": "target-gap bridge defect (residual underfills when current << pace)",
+    "observed": "At T10, residual fills most of the gap: greedy post 0.952\u00d7 / Phase 2J post 0.886\u00d7 Firestone, with unfilled gaps 77 / 183 on target 1601. Automated target-gap route did NOT fire. Primary automated finding: recruit_contribution_collapsed (greedy recruit \u0394\u22480 from T10+; Phase 2J recruit \u0394 negative = board sacrifice). Secondary: just_leveled 0.6\u00d7 factor on universal T10 level-to-6 for greedy.",
+    "late_game": "Post-scale OVERSHOOTS Firestone T12\u2013T14 (greedy 1.46\u21921.82; Phase 2J 1.19\u21921.55). Opposite of midgame undershoot-after-scale.",
+    "why_2n_v3_looked_broken": "2n_v3 T9\u2013T12 ratios (\u22480.45\u20130.60) are pre-scale snapshots \u2014 reproduced here. They are not post-scale board strength.",
+    "phase_2j": "\u03b1=0.5 untouched. Composition-motivated board sacrifice shows as negative recruit \u0394; still closer to Firestone than greedy at T12/T14 on prospective directional harm metric."
+  },
+  "recommended_next_step_refined": "Do not jump straight to a target-gap additive correction without addressing (1) whether acceptance should score post-scale vs pre-scale, and (2) recruit/effect-value contribution \u22480 after active-pool correction. If a Phase 2P scaling change is still wanted, prefer a bounded midgame correction that does not worsen T12\u2013T14 post-scale overshoot."
+}
