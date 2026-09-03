@@ -865,6 +865,8 @@ class BGEnv:
             if recruit_tracer is not None and hasattr(recruit_tracer, "after_scale_all"):
                 recruit_tracer.after_scale_all(self)
             self._run_combat()
+            if recruit_tracer is not None and hasattr(recruit_tracer, "after_combat"):
+                recruit_tracer.after_combat(self)
             alive = [p for p in self.players if p.alive]
             if len(alive) <= 1 or self.turn >= MAX_TURNS:
                 self._finalize()

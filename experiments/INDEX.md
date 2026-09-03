@@ -41,6 +41,7 @@ tuning on the current simulator.
 | 2O | [`sim_fidelity_phase_2o.md`](sim_fidelity_phase_2o.md) | Midgame scaling budget (`2o_v1`): **pre-scale hole, post-scale ~OK at T10; recruit Δ≈0**; #29 still HOLD |
 | 2P | [`sim_fidelity_phase_2p.md`](sim_fidelity_phase_2p.md) | Replacement-value contamination (`2p_v2`): **confirmed** (golden fix; weakest-golden share 0); #29 HOLD |
 | 2Q | [`sim_fidelity_phase_2q.md`](sim_fidelity_phase_2q.md) | Recruit vs combat split (`2q_v1`): **HOLD** — replaces unblocked; post-scale macro collapses; #29 HOLD |
+| 2R | [`sim_fidelity_phase_2r.md`](sim_fidelity_phase_2r.md) | Collapse mechanism (`2r_v1`): measurement-only; DEV 13700–14199; #29/#33 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
