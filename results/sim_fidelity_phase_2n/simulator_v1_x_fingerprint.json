@@ -1,0 +1,46 @@
+{
+  "implementation_commit": "7170fa2e61aeae47c2e98c599351db2ad1fd445b",
+  "files_sha256": {
+    "active_tavern_pool.json": "2a5937e5174fcd350308db051920a6b61a7d8e97134409658b056a91b6045c6c",
+    "bg_cards.json": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+    "persistence_prior.json": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+    "success_thresholds.json": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+    "data/stats/firestone_pace.json": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+    "data/stats/firestone_final_boards.json": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5"
+  },
+  "reference_data_fingerprints": {
+    "firestone_pace": "bcee2de93834ac28b2d91ff2c29c3ede5b481134ef8b7d506290e5bcf530a2f1",
+    "firestone_final_boards": "4e98039cf80646041797500df7f674690c3542f98ea22efbb11b2ade56c857b5",
+    "firestone_hero_stats": "5e2ccdf593dd7743d399328a14617c600a59d3a998732582d4e62305393f1902",
+    "firestone_comp_stats": "d5e14ded3c89852eb2fad96dabae75e3dab50b38455da29818f49c141cd71b46",
+    "firestone_card_stats": "480fda89f4b78cd7f795e5ad35a87338ebe129a552269e4b676c8b8d98d350a9",
+    "bg_cards": "7b42c11da44aa75992c7d4fcffc08ed4c80469df100de7ace68f3e2819a024fe",
+    "card2vec": "bf1cfa2e50bd2e73896691f09e9bb04b6e84626bd191823c30b201929e3bd9ee"
+  },
+  "frozen_alpha": 0.5,
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+  "pool_copies": {
+    "1": 15,
+    "2": 15,
+    "3": 13,
+    "4": 11,
+    "5": 9,
+    "6": 7
+  },
+  "shop_slots": {
+    "1": 3,
+    "2": 4,
+    "3": 4,
+    "4": 5,
+    "5": 5,
+    "6": 6
+  },
+  "scaling_mode": "residual",
+  "phase_2n_toggles": {
+    "death_return": true,
+    "freeze_topup": true,
+    "active_tavern_pool_filter": true
+  },
+  "max_turns": 20,
+  "fingerprint_sha256": "1c1e92ca6a7fa57732cf71249f12c1cdeae52fa5f83e594a458ab18b5325635a"
+}

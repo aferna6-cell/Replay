@@ -43,10 +43,15 @@ ROLL_COST = 1
 START_HP = 30
 MAX_TURNS = 20
 SHOP_SLOTS = {1: 3, 2: 4, 3: 4, 4: 5, 5: 5, 6: 6}
-POOL_COPIES = {1: 15, 2: 15, 3: 13, 4: 11, 5: 9, 6: 6}
+# Phase 2N-C: current Battlegrounds reference uses 7 copies at Tier 6.
+POOL_COPIES = {1: 15, 2: 15, 3: 13, 4: 11, 5: 9, 6: 7}
 UPGRADE_COST = {1: 5, 2: 7, 3: 8, 4: 9, 5: 10}
 VALID_SCALING_MODES = frozenset({"ratio", "residual"})
 N_LOBBY_TRIBES = 5
+
+# Phase 2N lifecycle toggles (independent; default ON after 2N-B).
+PHASE_2N_DEATH_RETURN = True   # eliminated players return board/hand/shop
+PHASE_2N_FREEZE_TOPUP = True   # incomplete frozen shops refill to SHOP_SLOTS
 
 TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
           "Pirate", "Naga", "Undead", "Quilboar"]
@@ -111,17 +116,28 @@ def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
 
     Prefers cards that have a card2vec embedding (meta-relevant, meaningful to
     the learned models); tiers that would end up too thin fall back to the full
-    knowledge base. Restricted to the lobby's tribes + tribeless/All minions.
+    *active* knowledge-base slice. Restricted to:
+
+      active Tavern-pool manifest  (Phase 2N-D)
+      ∩ lobby tribe eligibility (+ tribeless / All)
+      ∩ valid tier/stats, non-skin
+
+    The general KB may still contain tokens, removed, Duos-only, and T7 cards
+    for knowledge/effect lookup — they must not enter Bob's shared pool.
     """
+    from .active_tavern_pool import active_tavern_card_ids
+
     kb = kb if kb is not None else cards_mod.load_kb()
     allowed = set(lobby_tribes or TRIBES)
+    active_ids = active_tavern_card_ids()
 
     def in_lobby(ck) -> bool:
         trs = ck.tribes or []
         return (not trs) or ("All" in trs) or any(t in allowed for t in trs)
 
     def usable(ck) -> bool:
-        return (ck.tier is not None and 1 <= ck.tier <= MAX_TIER
+        return (ck.card_id in active_ids
+                and ck.tier is not None and 1 <= ck.tier <= MAX_TIER
                 and ck.attack is not None and ck.health is not None
                 and "_SKIN_" not in ck.card_id and in_lobby(ck))
 
@@ -136,7 +152,7 @@ def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
     catalogue: List[EnvMinion] = []
     for tier in range(1, MAX_TIER + 1):
         chosen = [ck for ck in pref.values() if ck.tier == tier]
-        if len(chosen) < 6:                       # too thin — widen to the full KB
+        if len(chosen) < 6:                       # too thin — widen within active pool
             chosen = [ck for ck in all_ok.values() if ck.tier == tier]
         for ck in chosen:
             catalogue.append(EnvMinion(ck.card_id, ck.name, ck.tier,
@@ -211,6 +227,7 @@ class BGEnv:
         catalogue = build_pool(self._kb, self._emb_names, self.lobby_tribes)
         self._catalogue = {m.name: m for m in catalogue}
         self._pool = {m.name: POOL_COPIES[m.tier] for m in catalogue}
+        self._pool_initial_total = int(sum(self._pool.values()))
         self.players = [PlayerState(idx=i) for i in range(self.n_players)]
         self.turn = 1
         self._done = False
@@ -241,9 +258,99 @@ class BGEnv:
         # Golden minions were built from 3 copies; return them all.
         self._pool[m.name] = self._pool.get(m.name, 0) + (3 if m.golden else 1)
 
+    def _return_player_holdings_to_pool(self, p: PlayerState) -> None:
+        """Return board, hand, and shop copies to the shared pool (Phase 2N-B)."""
+        for m in list(p.board) + list(p.hand) + list(p.shop):
+            self._return_to_pool(m)
+        p.board = []
+        p.hand = []
+        p.shop = []
+
+    def pool_conservation_snapshot(self) -> Dict:
+        """Pool + live holdings (+ 3× golden) vs initialized shared-pool copies.
+
+        With Phase 2N-B death-return enabled, this should remain balanced for
+        the whole lobby after every lifecycle transition.
+        """
+        pool_copies = int(sum(self._pool.values()))
+        live_nongolden = 0
+        golden_holdings = 0
+        for p in self.players:
+            if not p.alive:
+                continue
+            for m in list(p.board) + list(p.hand) + list(p.shop):
+                if m.golden:
+                    golden_holdings += 1
+                else:
+                    live_nongolden += 1
+        holdings_as_copies = live_nongolden + 3 * golden_holdings
+        initialized = int(getattr(self, "_pool_initial_total", pool_copies))
+        total = pool_copies + holdings_as_copies
+        return {
+            "pool_copies": pool_copies,
+            "live_nongolden_holdings": live_nongolden,
+            "golden_holdings": golden_holdings,
+            "holdings_as_copies": holdings_as_copies,
+            "initialized_copies": initialized,
+            "accounted_copies": total,
+            "balanced": total == initialized,
+            "delta": total - initialized,
+        }
+
+    def assert_pool_conservation(self) -> None:
+        snap = self.pool_conservation_snapshot()
+        if not snap["balanced"]:
+            raise AssertionError(
+                "pool conservation broken: "
+                f"pool({snap['pool_copies']}) + holdings({snap['holdings_as_copies']}) "
+                f"= {snap['accounted_copies']} != initialized {snap['initialized_copies']} "
+                f"(delta={snap['delta']})"
+            )
+
     def _deal_shop(self, p: PlayerState) -> None:
         """Deal shop slots. Optional ``pool_deal_hook`` is observational only."""
         if p.frozen:
+            p.frozen = False
+            if PHASE_2N_FREEZE_TOPUP:
+                # Keep frozen minions; top up to current tier slot count.
+                target = int(SHOP_SLOTS[p.tier])
+                track = getattr(self, "_pool_audit_track_names", None)
+                pre_draw_remaining: Dict[str, int] = {}
+                eligible = self._names_at_or_below(p.tier)
+                eligible_total = sum(self._pool[n] for n in eligible)
+                if track is not None:
+                    pre_draw_remaining = {
+                        n: int(self._pool.get(n, 0)) for n in track
+                        if n in self._catalogue}
+                elif self.pool_deal_hook is not None:
+                    pre_draw_remaining = {
+                        n: int(c) for n, c in self._pool.items()}
+                kept_names: List[str] = [m.name for m in p.shop]
+                newly_dealt_names: List[str] = []
+                n_new = 0
+                while len(p.shop) < target:
+                    m = self._draw(p.tier)
+                    if m is None:
+                        break
+                    p.shop.append(m)
+                    newly_dealt_names.append(m.name)
+                    n_new += 1
+                if self.pool_deal_hook is not None:
+                    self.pool_deal_hook(self, p, {
+                        "reason": self._deal_reason,
+                        "frozen_skip": n_new == 0,
+                        "freeze_topup": True,
+                        "tavern_tier": p.tier,
+                        "n_slots": n_new,
+                        # Calibration must count only newly drawn cards.
+                        "dealt_names": list(newly_dealt_names),
+                        "kept_names": list(kept_names),
+                        "newly_dealt_names": list(newly_dealt_names),
+                        "card_remaining": pre_draw_remaining,
+                        "eligible_total_copies": int(eligible_total),
+                    })
+                return
+            # Legacy: preserve shop verbatim, no top-up.
             if self.pool_deal_hook is not None:
                 self.pool_deal_hook(self, p, {
                     "reason": self._deal_reason,
@@ -254,13 +361,12 @@ class BGEnv:
                     "card_remaining": {},
                     "eligible_total_copies": 0,
                 })
-            p.frozen = False
             return
         for m in p.shop:
             self._return_to_pool(m)
         p.shop = []
         # Snapshot *after* return-to-pool, *before* draws (exact live draw state).
-        pre_draw_remaining: Dict[str, int] = {}
+        pre_draw_remaining = {}
         eligible = self._names_at_or_below(p.tier)
         eligible_total = sum(self._pool[n] for n in eligible)
         n_slots = int(SHOP_SLOTS[p.tier])
@@ -272,7 +378,7 @@ class BGEnv:
             # Default: snapshot all catalogue remaining counts (heavy; prefer track).
             pre_draw_remaining = {n: int(c) for n, c in self._pool.items()}
 
-        dealt_names: List[str] = []
+        dealt_names = []
         for _ in range(n_slots):
             m = self._draw(p.tier)
             if m is not None:
@@ -527,6 +633,8 @@ class BGEnv:
                                           m.health, list(m.tribes),
                                           list(m.keywords), m.golden)
                                 for m in p.board]
+                if PHASE_2N_DEATH_RETURN:
+                    self._return_player_holdings_to_pool(p)
                 place -= 1
 
     def _finalize(self) -> None:
@@ -534,6 +642,14 @@ class BGEnv:
                            key=lambda p: (-p.hp, -p.strength()))
         for i, p in enumerate(survivors):
             p.placement = i + 1
+            # End-of-lobby: return remaining holdings so the shared pool
+            # conservation invariant closes (Phase 2N-B/D).
+            if PHASE_2N_DEATH_RETURN:
+                p.last_board = [
+                    EnvMinion(m.card_id, m.name, m.tier, m.attack, m.health,
+                              list(m.tribes), list(m.keywords), m.golden)
+                    for m in p.board]
+                self._return_player_holdings_to_pool(p)
             p.alive = False
         self._done = True
 

@@ -39,12 +39,17 @@ def _finals_fingerprint(lobbies: int, seed: int, *, with_audit: bool):
             policies = policies_for_lobby(FROZEN_LAMBDA, 8)
             env = BGEnv(seed=seed + i, scaling_mode="residual")
             env.play_scripted(list(policies))
-            tracer_finals = [{
-                "lobby": i, "seat": seat, "placement": p.placement,
-                "final_board": [{"name": m.name, "attack": m.attack,
-                                 "health": m.health, "golden": m.golden}
-                                for m in p.board],
-            } for seat, p in enumerate(env.players)]
+            tracer_finals = []
+            for seat, p in enumerate(env.players):
+                # After Phase 2N death-return, eliminated seats have empty
+                # board but last_board snapshot (same as RecruitTracer).
+                src = p.board if p.board else p.last_board
+                tracer_finals.append({
+                    "lobby": i, "seat": seat, "placement": p.placement,
+                    "final_board": [{"name": m.name, "attack": m.attack,
+                                     "health": m.health, "golden": m.golden}
+                                    for m in src],
+                })
             finals.extend(tracer_finals)
     return sorted(
         (f["lobby"], f["seat"], f.get("placement"),
