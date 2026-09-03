@@ -164,7 +164,10 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
 def _minion_from_name(ck, name):
     if ck is None:
         return {"name": name, "attack": 3, "health": 3}
-    return {"name": ck.name, "attack": ck.attack, "health": ck.health}
+    # Tavern spells (in the KB since 2026-08-20) have no stats — keep the
+    # eval features numeric.
+    return {"name": ck.name, "attack": ck.attack if ck.attack is not None else 0,
+            "health": ck.health if ck.health is not None else 1}
 
 
 def rank_discover(offered: List[str], board, kb, scorer=None,
@@ -239,7 +242,10 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx)
-    if kind == "discover":
+    if kind in ("discover", "dark_gift"):
+        # Dark gifts rank like discovers — board fit + build direction. The
+        # WHEN-to-press timing call is the Director's (LLM) job; here we only
+        # rank the offered gifts against the live board (spec req 10).
         return rank_discover(offered, board or [], kb, scorer=scorer,
                              hero_ctx=hero_ctx, tier=tier)
     if kind in ("hero_power", "quest"):

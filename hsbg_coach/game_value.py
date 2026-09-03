@@ -26,8 +26,8 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER, BUY_COST,
-    SELL_VALUE, MAX_BOARD, tavern_up_cost,
+    Action, BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER,
+    BUY_COST, SELL_VALUE, MAX_BOARD, tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -508,7 +508,7 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     weakest = min(board_now, key=lambda m: _keep_value(m, board_now, kb))
                     reason = f"sell {_name(weakest)} for room — {reason}"
             elif a.kind == LEVEL:                         # aggressive leveling pace
-                adj, lreason = _aggressive_level_adj(snapshot)
+                adj, lreason = _aggressive_level_adj(snapshot, a)
                 if adj:
                     v = max(1.0, v + adj)
                     reason = lreason
@@ -516,6 +516,28 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # …and never sell a synergistic comp piece for its low stats.
                 v = min(8.0, v + _sell_penalty(state)
                         + _sell_synergy_penalty(a, snapshot, kb))
+                # Sell-to-afford (owner, live 2026-08-20): at 2 gold, selling
+                # a weak minion (+1 gold) to buy a strictly better shop minion
+                # is a real line the one-action view can't see. Score this
+                # sell by the best (sell -> buy) pair it enables.
+                gold_now = _get(snapshot, "gold") or 0
+                if gold_now < BUY_COST <= gold_now + SELL_VALUE:
+                    sold = _apply(state, a)
+                    best_v, best_name = None, None
+                    for m in (_get(snapshot, "shop", []) or []):
+                        nm = (m.get("name") if isinstance(m, dict)
+                              else getattr(m, "name", None))
+                        if not nm:
+                            continue
+                        after = _apply(sold, Action(BUY, nm, BUY_COST,
+                                                    {"minion": m}))
+                        pv = expected_placement(after, scorer, pace, horizon)
+                        if best_v is None or pv < best_v:
+                            best_v, best_name = pv, nm
+                    if best_v is not None and best_v < base - 0.05 and best_v < v:
+                        v = max(1.0, best_v)
+                        reason = (f"sell to afford {best_name} — the swap "
+                                  f"upgrades the board")
         elif a.kind == BUY_SPELL:
             # Spells don't change the board composition the eval net reads, so we
             # value them off base via spell_roles' placement bonus + the reason.
@@ -660,19 +682,21 @@ def _low_tier_penalty(action, tavern_tier, kb) -> float:
     return 0.0
 
 
-# Aggressive tavern-tier target by turn — push the lobby's pace, not the
-# conservative "level when you have spare gold" line. Reaching breakpoints early
-# (tier 2 on turn 2, tier 3 on turn 4, tier 4 on turn 5-6) opens a stronger pool
-# before opponents. Eased off only when you're low and need to survive.
-_AGGRO_TIER = {1: 1, 2: 2, 3: 2, 4: 3, 5: 3, 6: 4, 7: 4, 8: 5, 9: 5, 10: 6,
+# Tavern-tier target by turn — the owner's curve (spec req 9: "tier 2 on
+# turn 2, 4-on-5, 5-on-7") which also matches the measured top-10% pace.
+# The old table said 3-on-5/4-on-7 — one tier slow; live session 2026-08-20:
+# turn 5, tier 3, 7 gold (= exact tier-up cost), fighting a ghost, and the
+# ranking preferred a marginal buy over the obvious level.
+_AGGRO_TIER = {1: 1, 2: 2, 3: 2, 4: 3, 5: 4, 6: 4, 7: 5, 8: 5, 9: 6, 10: 6,
                11: 6, 12: 6}
 _AGGRO_LEVEL_HP = 12       # below this HP, don't push tempo-greedy leveling
 
 
-def _aggressive_level_adj(snapshot):
+def _aggressive_level_adj(snapshot, action=None):
     """(placement_adjustment, reason) promoting a tier-up that keeps you on the
-    aggressive curve. Negative = better. Fires when you're below the turn's target
-    tier and healthy enough to invest."""
+    curve. Negative = better. Fires when you're below the turn's target tier and
+    healthy enough to invest; fires HARDER when gold covers the whole tier-up
+    right now (the 4-on-5 / 5-on-7 turns are exactly those)."""
     turn = _get(snapshot, "turn") or 0
     tier = _get(snapshot, "tavern_tier") or 1
     hp = _get(snapshot, "hero_health")
@@ -681,8 +705,12 @@ def _aggressive_level_adj(snapshot):
     target = _AGGRO_TIER.get(turn, 6)
     if tier < target and (hp is None or hp >= _AGGRO_LEVEL_HP):
         to_tier = tier + 1
-        return (-min(1.0, (target - tier) * 0.6),
-                f"aggressive leveling — hit tier {to_tier} ahead of the lobby")
+        adj = -min(1.2, (target - tier) * 0.7)
+        gold = _get(snapshot, "gold") or 0
+        cost = getattr(action, "cost", None)
+        if cost is not None and gold >= cost:
+            adj -= 0.4                        # can level RIGHT NOW — the curve turn
+        return adj, f"on-curve tier-up — tier {to_tier} is the turn-{turn} line"
     return 0.0, None
 
 

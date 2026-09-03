@@ -2,9 +2,9 @@
 
 Beyond win-rate numbers, the model has to know what a minion IS: its tavern
 **tier**, its **tribe(s)**, its **keywords/effects** (Battlecry, Deathrattle,
-Divine Shield, Magnetic, …), and its rules **text**. That's the difference
-between "this card places 3.4" and knowing *why* — and it's the substrate the
-synergy layer (`synergy.py`) reads.
+Divine Shield, Magnetic, Activate, …), and its rules **text**. That's the
+difference between "this card places 3.4" and knowing *why* — and it's the
+substrate the synergy layer (`synergy.py`) reads.
 
 Source: HearthstoneJSON (free). We keep only Battlegrounds minions (those with a
 `techLevel`) and store a slim knowledge file at ``data/cards/bg_cards.json``,
@@ -22,10 +22,13 @@ _CARDS_DIR = os.path.join(os.path.dirname(__file__), "..", "data", "cards")
 BG_CARDS = os.path.join(_CARDS_DIR, "bg_cards.json")
 
 # Mechanics (HearthstoneJSON `mechanics` strings) that matter in BG combat/scaling.
+# Season 14's public data represents the clickable Activate keyword as
+# INTERACTABLE_OBJECT; keep it so the model can identify these cards explicitly.
 KEYWORD_MECHANICS = {
     "BATTLECRY", "DEATHRATTLE", "DIVINE_SHIELD", "TAUNT", "POISONOUS", "VENOMOUS",
     "REBORN", "WINDFURY", "MEGA_WINDFURY", "MAGNETIC", "FRENZY", "STEALTH",
     "OVERKILL", "SPELLPOWER", "CLEAVE", "AVENGE", "CHOOSE_ONE",
+    "INTERACTABLE_OBJECT",
 }
 
 

@@ -222,7 +222,7 @@ def test_tier_two_on_turn_two_is_legal_and_recommended():
     assert levels and levels[0].cost == 4          # affordable at 4 gold
     recs, _ = rank_actions(snap, kb=kb, scorer=scorer)
     lvl = next((r for r in recs if r.action.kind == LEVEL), None)
-    assert lvl is not None and "aggressive leveling" in lvl.reason
+    assert lvl is not None and "on-curve tier-up" in lvl.reason
     # The aggressive bonus should put it among the top moves, not buried.
     top3 = {r.action.kind for r in recs[:3]}
     assert LEVEL in top3
@@ -356,11 +356,13 @@ def test_passive_hero_power_is_not_offered():
     player = Entity(id=-1, name="Me"); player.tags = {"HERO_ENTITY": "90", "RESOURCES": "5"}
     hp = Entity(id=122, name="Wingmen")
     # Passive powers hide their cost and carry no COST tag (Illidan's Wingmen).
-    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "HIDE_COST": "1"}
+    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "ZONE": "PLAY",
+               "HIDE_COST": "1"}
     t.state.entities = {90: hero, -1: player, 122: hp}
     assert t._hero_power() is None          # passive — never offered as "use"
     # An activatable power (real COST, no HIDE_COST) is offered.
-    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "COST": "1"}
+    hp.tags = {"CARDTYPE": "HERO_POWER", "CONTROLLER": "3", "ZONE": "PLAY",
+               "COST": "1"}
     assert t._hero_power() is not None
 
 

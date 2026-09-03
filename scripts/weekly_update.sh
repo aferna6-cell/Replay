@@ -7,28 +7,30 @@
 #   Windows Task Scheduler: weekly action -> `bash scripts/weekly_update.sh`
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# python3 on mac/linux; fall back to python (e.g. git-bash on Windows).
+PY="${PYTHON:-$(command -v python3 || command -v python)}"
 
 echo "==> 1/7  Refresh BG card knowledge (HearthstoneJSON)"
-python -m hsbg_coach refresh-cards
+"$PY" -m hsbg_coach refresh-cards
 
 echo "==> 2/7  Refresh hero/comp/card/trinket stats (Firestone, top-10% / past week)"
-python -m hsbg_coach refresh-stats
+"$PY" -m hsbg_coach refresh-stats
 
 # IMPORTANT: keep --dim at 48. The board-evaluation net (step 4) bakes the card2vec
 # vector into its input features, so changing the dimension here without retraining
 # the eval net breaks it (feature-shape mismatch). Retrain card2vec BEFORE the eval
 # net so the net trains on the fresh vectors.
 echo "==> 3/7  Retrain card2vec on the latest winning boards (dim 48)"
-python -m ml.train_card2vec --dim 48 --epochs 8 --min-count 15
+"$PY" -m ml.train_card2vec --dim 48 --epochs 8 --min-count 15
 
 echo "==> 4/7  Retrain the board-evaluation net on the meta + your recorded games"
-python -m ml.train_eval_net --epochs 40 --trajectories data/
+"$PY" -m ml.train_eval_net --epochs 40 --trajectories data/
 
 echo "==> 5/7  Retrain the economy value net on self-play lobbies"
-python -m ml.train_econ --lobbies 4000 --epochs 30
+"$PY" -m ml.train_econ --lobbies 4000 --epochs 30
 
 echo "==> 6/7  Retrain the self-play economy policy (REINFORCE)"
-python -m ml.train_policy --iters 60 --lobbies 64
+"$PY" -m ml.train_policy --iters 60 --lobbies 64
 
 # Commit ONLY the tracked meta artifacts that actually moved. card2vec.json and the
 # Firestone stats are deterministic from the data, so they change only when the meta

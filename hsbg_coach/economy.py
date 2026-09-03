@@ -168,16 +168,31 @@ def advise(snapshot, config: Optional[EconomyConfig] = None,
             f"({_val(best_shop)} > {_val(weakest_board)} stats).",
             0.65, {"sell": _name(weakest_board), "buy": _name(best_shop)}))
 
-    # --- FREEZE: multiple wanted minions you can't all afford --------------
-    if shop and weakest_board is not None:
-        wanted = [m for m in shop if _val(m) >= _val(weakest_board)]
-        affordable = gold // MINION_COST
-        if len(wanted) >= 2 and affordable < len(wanted):
+    # --- FREEZE: only when the shop holds something genuinely GOOD ---------
+    # Owner, live session 2026-08-20: "suggests freezing way too often —
+    # should only freeze when something is good." "Slightly better than my
+    # weakest minion" is not good: a freeze must be earned by a
+    # triple-completer, a core comp piece, or a big stat jump you can't
+    # afford right now.
+    if shop:
+        board_names = [_name(m) for m in board]
+        core = set(ctx.recommended_minions or []) if ctx else set()
+        strong = []
+        for m in shop:
+            nm = _name(m)
+            if board_names.count(nm) >= 2:
+                strong.append((m, f"{nm} completes a TRIPLE", 0.72))
+            elif nm in core:
+                strong.append((m, f"{nm} is a core piece of your comp", 0.5))
+            elif weakest_board is not None and _val(m) - _val(weakest_board) >= 4:
+                strong.append((m, f"{nm} is a big upgrade", 0.42))
+        if strong and gold < MINION_COST * len(strong):
+            best_pri = max(p for _, _, p in strong)
             out.append(Suggestion(
                 ActionType.FREEZE.value,
-                f"Freeze — {len(wanted)} wanted minions, can only afford "
-                f"{affordable} now.",
-                0.55, {"wanted": [_name(m) for m in wanted]}))
+                "Freeze — " + "; ".join(r for _, r, _ in strong) +
+                f" (can't afford all of it with {gold} gold).",
+                best_pri, {"wanted": [_name(m) for m, _, _ in strong]}))
 
     # --- ROLL: spare gold, nothing better to do ----------------------------
     nothing_to_buy = (not best_shop) or (

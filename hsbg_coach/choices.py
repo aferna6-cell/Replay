@@ -34,10 +34,16 @@ _FIELD = lambda s, k: (re.search(rf"{k}=(\w+)", s) or [None, None])[1]
 
 
 def classify(card_ids: List[str]) -> str:
-    """hero / trinket / hero_power / quest / discover, from BG cardId conventions."""
+    """hero / trinket / hero_power / quest / dark_gift / discover, from BG
+    cardId conventions."""
     joined = " ".join(card_ids).lower()
     if "magicitem" in joined:          # BG trinkets, e.g. BG30_MagicItem_403
         return "trinket"
+    # Dark gifts (the current season's press-the-button rewards). The card-id
+    # convention is inferred, not yet seen in a captured log — a real gift
+    # offer will confirm the exact prefix. # CALIBRATE
+    if "darkgift" in joined or "dark_gift" in joined:
+        return "dark_gift"
     # Hero-power picks (e.g. Nguyen): TB_BaconShop_HP_### or a hero id with a
     # trailing 'p' (BG28_HERO_800p). Check before "hero" so they don't read as a
     # hero select.

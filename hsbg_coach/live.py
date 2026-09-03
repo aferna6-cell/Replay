@@ -306,14 +306,18 @@ class LiveCoach:
                 self._offer = offer
             elif "SendChoices" in line:
                 self._offer = None                 # choice resolved
+            if self.tracker.phase == Phase.GAME_OVER and self._offer is not None:
+                self._offer = None                 # stale offer from a done game
             ev = parse_line(line)
             if ev is None:
                 continue
             with self._lock:
                 self.tracker.feed(ev)
                 self._version += 1            # mark state advanced (poll rebuilds)
-            if self.recorder is not None and self.tracker.state.game_counter != prev_game:
-                self.recorder.start_game()
+            if self.tracker.state.game_counter != prev_game:
+                self._offer = None                 # new game -> old offers are stale
+                if self.recorder is not None:
+                    self.recorder.start_game()
                 prev_game = self.tracker.state.game_counter
             if self.tracker.phase != prev_phase:
                 self._on_phase(prev_phase, self.tracker.phase)
@@ -356,6 +360,17 @@ class LiveCoach:
                 self._snap_cache = self.tracker.snapshot().to_dict()
                 self._snap_version = version
             snap = self._snap_cache
+            phase_now = self.tracker.phase
+        if phase_now == Phase.GAME_OVER:
+            # Between games (incl. replaying a finished log at startup): a
+            # stale board/pick from the DONE game must not read as live
+            # advice on the menu screen.
+            place = self.tracker.placement()
+            note = (f"Game over — placed {place}. " if place
+                    else "Game over. ") + "Waiting for the next game…"
+            return ({"phase": "waiting", "turn": None, "tavern_tier": None,
+                     "gold": None, "hero_health": None, "board": [],
+                     "shop": [], "notes": [note]}, None, [])
         offer = self._offer
         if offer is not None:                       # a choice is on screen
             from .choices import rank_offer

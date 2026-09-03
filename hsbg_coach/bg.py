@@ -19,6 +19,8 @@ from typing import Dict, List, Optional
 from .parser import Event
 from .state import GameState, Entity
 
+_HP_KB: Optional[Dict] = None       # lazy hero-power KB (name/text by card_id)
+
 
 class Phase(str, Enum):
     UNKNOWN = "unknown"
@@ -96,6 +98,8 @@ class Snapshot:
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
+    hero_powers: List[Dict] = field(default_factory=list)  # ALL buttons (Marin!)
+    dark_gifts: List[Dict] = field(default_factory=list)  # pressable gifts
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
@@ -117,6 +121,8 @@ class Snapshot:
             "shop_spells": list(self.shop_spells),
             "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
+            "hero_powers": list(self.hero_powers),
+            "dark_gifts": list(self.dark_gifts),
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
             "trinkets": list(self.trinkets),
@@ -301,6 +307,8 @@ class BGTracker:
             shop_spells=shop_spells,
             hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
+            hero_powers=self._hero_powers(),
+            dark_gifts=self._dark_gifts(),
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
             trinkets=self._trinkets(),
@@ -376,39 +384,92 @@ class BGTracker:
         on_tier = max(1, self._recruit_phases - self._tier_anchor)
         return max(0, base - (on_tier - 1))
 
-    def _hero_power(self) -> Optional[Dict]:
-        """The local player's hero power: name, cost, and whether it's usable now
-        (active, not exhausted, affordable). Recommendable like any other action.
+    def _dark_gifts(self) -> List[Dict]:
+        """Pressable dark gifts the local player holds. Best-effort by card-id
+        pattern — no captured log with gifts existed when this was written, so
+        the exact id convention and the pressable-state tag are # CALIBRATE
+        (first real gift log pins them down). We only require: our entity, id
+        mentions DarkGift, not already used (zone not GRAVEYARD)."""
+        out = []
+        for ent in self.state.entities.values():
+            cid = (ent.card_id or "")
+            if "darkgift" not in cid.lower().replace("_", ""):
+                continue
+            if ent.controller != str(self.local_player):
+                continue
+            if ent.zone in ("GRAVEYARD", "REMOVEDFROMGAME"):
+                continue
+            out.append({"name": self._display_name(cid, ent.name) or "Dark gift",
+                        "card_id": cid})
+        return out
 
-        Passive / start-of-combat hero powers (e.g. Illidan's Wingmen) can't be
-        activated — HAS_ACTIVATE_POWER on the hero/hero-power entity says which, so
-        we never tell you to 'use' a passive power."""
+    def _hero_powers(self) -> List[Dict]:
+        """Every activatable hero-power BUTTON the local player has, in play.
+
+        CALIBRATED against a real captured log (Marin game, 2026-08-20): the
+        old rule 'HIDE_COST=1 or no COST => passive' silently discarded a
+        whole class of activatable powers — free button-powers (Marin's
+        treasure picks, the season's gift-style buttons) carry HIDE_COST=1
+        and NO COST tag precisely because pressing them is free, and heroes
+        can hold several at once (ADDITIONAL_HERO_POWER_INDEX). Activatable
+        markers observed in the log: HAS_ACTIVATE_POWER=1 (classic powers,
+        with COST), BACON_IS_MAGIC_ITEM_DISCOVER=1 and
+        ADDITIONAL_HERO_POWER_INDEX (button powers). Truly passive powers
+        (Wingmen-style) carry none of these.
+
+        The log never EXHAUSTs the button powers, so 'usable' stays
+        permissive for them — the player can see the button; the Director
+        judges the timing."""
+        out = []
+        gold = self._gold()
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "HERO_POWER":
                 continue
             if ent.controller != str(self.local_player):
                 continue
-            # Passive / start-of-combat powers (Illidan's Wingmen) hide their cost
-            # (HIDE_COST=1) and have no real COST — you can't click them. Activatable
-            # powers (e.g. Marin's) carry a COST. Don't offer "use" on passives.
-            if ent.tags.get("HIDE_COST") == "1" or "COST" not in ent.tags:
-                return None
-            cost = ent.tag_int("COST") or 0
-            gold = self._gold()
+            if ent.zone != "PLAY":            # SETASIDE = other heroes / pool
+                continue
+            activatable = (
+                ent.tags.get("HAS_ACTIVATE_POWER") == "1"
+                or "COST" in ent.tags
+                or ent.tags.get("BACON_IS_MAGIC_ITEM_DISCOVER") == "1"
+                or "ADDITIONAL_HERO_POWER_INDEX" in ent.tags
+            )
+            if not activatable:
+                continue
+            cost = ent.tag_int("COST") or 0   # hidden cost = free button
             usable = (ent.tags.get("EXHAUSTED") not in ("1",)
                       and (gold is None or gold >= cost))
-            # Prefer the logged display name; hero powers aren't in the minion KB,
-            # so fall back to a clean label rather than a raw cardId.
+            # Display name: the log's entityName when revealed, else the
+            # committed hero-power KB (bg_hero_powers.json) by card id.
             name = ent.name
             if not name or name == ent.card_id:
-                name = "Hero Power"
-            return {
+                name = self._hero_power_kb().get(ent.card_id, {}).get("name") \
+                    or "Hero Power"
+            out.append({
                 "name": name,
                 "card_id": ent.card_id,
                 "cost": cost,
                 "usable": bool(usable),
-            }
-        return None
+            })
+        # Stable order: classic (costed) power first, then buttons.
+        out.sort(key=lambda p: (p["cost"] == 0, p["name"]))
+        return out
+
+    @staticmethod
+    def _hero_power_kb() -> Dict:
+        global _HP_KB
+        if _HP_KB is None:
+            try:
+                from .cards import load_hero_powers
+                _HP_KB = load_hero_powers()
+            except Exception:
+                _HP_KB = {}
+        return _HP_KB
+
+    def _hero_power(self) -> Optional[Dict]:
+        powers = self._hero_powers()
+        return powers[0] if powers else None
 
     def _trinkets(self) -> List[Dict]:
         """Your equipped trinkets (CARDTYPE=BATTLEGROUND_TRINKET, in PLAY, yours).
@@ -535,6 +596,14 @@ class BGTracker:
             # their minions log as hidden (cardId absent). Requiring a cardId
             # keeps the shop to what we can actually see and buy.
             if not ent.card_id:
+                continue
+            # Tavern UI fixtures leak in as MINIONs (live 2026-08-20: the
+            # 'Drag To Buy' spell-purchase token was suggested as a buy).
+            # Same DragBuy filter the spell paths already use + a name net.
+            if "DragBuy" in ent.card_id:
+                continue
+            nm = (ent.name or "").strip().lower()
+            if nm in ("drag to buy", "drag-to-buy", "sell a minion"):
                 continue
             if ent.zone == "PLAY" and ent.controller not in (
                 None, str(self.local_player)

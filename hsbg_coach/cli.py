@@ -26,11 +26,26 @@ def cmd_detect(_args) -> int:
     print("Power.log:  ", paths.power_log or "NOT FOUND")
     print("log.config: ", paths.log_config,
           "(exists)" if os.path.isfile(paths.log_config) else "(will be created)")
+    if sys.platform.startswith("linux"):
+        installs = config.hearthstone_installs()
+        print("HS installs: ", "; ".join(installs) or
+              "NOT FOUND in any Wine prefix")
+        prefixes = config.wine_drive_cs()
+        if prefixes:
+            print("Wine prefixes searched:")
+            for dc in prefixes:
+                mark = "  [has Hearthstone]" if config._has_hearthstone(dc) else ""
+                print("  -", dc, mark)
+        if not installs:
+            print("\nNo Hearthstone install found. If it lives somewhere "
+                  "unusual, point at it directly:\n"
+                  "  HSBG_HS_DIR=/path/to/Hearthstone python3 -m hsbg_coach detect")
     if not paths.log_dir:
         print("\nSearched these log dirs:")
         for d in config.log_dir_candidates():
             print("  -", d, "[exists]" if os.path.isdir(d) else "")
-        print("\nIf none exist, launch Hearthstone once after `setup`.")
+        print("\nIf none exist, run `setup`, then launch Hearthstone and "
+              "start a game — the Logs folder is created on launch.")
     return 0
 
 
@@ -98,6 +113,8 @@ def _print_board(snap) -> None:
 def cmd_watch(args) -> int:
     # The HDT-style overlay is the default. Both live modes may be launched before
     # Hearthstone and keep discovering new log sessions as the game restarts.
+    # --director rides whichever panel is chosen (on WSL the overlay is the
+    # native Windows panel).
     if getattr(args, "terminal", False):
         return _watch_terminal(args.path, args)
     return _watch_overlay(args.path, args)
@@ -116,11 +133,15 @@ def _watch_terminal(power, args) -> int:
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
+    director = _maybe_director(args, coach)
     print("HSBG Coach (terminal panel) — launch a Battlegrounds game. Ctrl-C to stop.")
     last = None
     try:
         while True:
-            text = format_next(*coach.frame())
+            snap, odds, lines = coach.frame()
+            if director is not None:
+                lines = director.augment(snap, lines)
+            text = format_next(snap, odds, lines)
             if text != last:
                 # Home cursor + clear screen, then repaint the panel in place.
                 print("\033[H\033[J" + text, flush=True)
@@ -130,6 +151,67 @@ def _watch_terminal(power, args) -> int:
         print("\nStopped.")
     finally:
         coach.stop()
+        if director is not None:
+            director.stop()
+        if recorder is not None:
+            recorder.close()
+    return 0
+
+
+def _maybe_director(args, coach):
+    """Build + start a DirectorLoop when --director was asked for; explain and
+    fall back to plain engine advice when its prerequisites are missing."""
+    if not getattr(args, "director", False):
+        return None
+    from .director_live import DirectorLoop
+    d = DirectorLoop(kb=coach.kb, hero_ctx_fn=lambda: coach.hero_ctx)
+    if d.meta_pack is None:
+        print("Director: no meta pack — run `python3 -m hsbg_coach refresh-meta` "
+              "first. Continuing with engine advice only.")
+    if d.client_error:
+        print(f"Director: LLM unavailable ({d.client_error}) — engine advice only.")
+    d.start()
+    return d
+
+
+def _watch_overlay_windows(power, args) -> int:
+    """WSL: drive a NATIVE Windows always-on-top panel (scripts/
+    windows_overlay.ps1) — the HDT-grade overlay. The terminal keeps
+    echoing the panel too, but the floating window is the real UI."""
+    import time
+    from .live import LiveCoach
+    from .overlay import format_next
+    from .win_overlay import WindowsOverlay
+
+    recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
+    coach = LiveCoach(power, recorder=recorder, from_start=True)
+    coach.start()
+    director = _maybe_director(args, coach)
+    ov = WindowsOverlay()
+    ov.start()
+    print("Native Windows overlay opened (drag it anywhere over the game; "
+          "Hearthstone must be windowed/borderless, not exclusive "
+          "fullscreen). Ctrl-C here to stop.")
+    last = None
+    try:
+        while ov.alive():
+            snap, odds, lines = coach.frame()
+            if director is not None:
+                lines = director.augment(snap, lines)
+            text = format_next(snap, odds, lines)
+            ov.update(text)
+            if text != last:
+                print("\033[H\033[J" + text, flush=True)
+                last = text
+            time.sleep(0.2)
+        print("Overlay window closed — stopping.")
+    except KeyboardInterrupt:
+        print("\nStopped.")
+    finally:
+        ov.stop()
+        coach.stop()
+        if director is not None:
+            director.stop()
         if recorder is not None:
             recorder.close()
     return 0
@@ -137,12 +219,19 @@ def _watch_terminal(power, args) -> int:
 
 def _watch_overlay(power, args) -> int:
     """Live overlay: background log thread feeds the coach; the overlay polls it."""
+    if config.is_wsl():
+        from .win_overlay import powershell_exe
+        if powershell_exe():
+            return _watch_overlay_windows(power, args)
+        print("WSL detected but powershell.exe is unreachable — trying the "
+              "Tk overlay instead.")
     from .live import LiveCoach
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     # Read the session from the start so we catch hero-select + early turns that
     # are written before/just-as the overlay attaches.
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
+    director = _maybe_director(args, coach)
 
     # Repaint a tidy panel in the terminal too (in place, like htop). The Tk
     # window is unreliable on Apple's deprecated system Tk, so this is always a
@@ -151,7 +240,10 @@ def _watch_overlay(power, args) -> int:
     last_text = [None]
 
     def frame_and_echo():
-        result = coach.frame()
+        snap, odds, lines = coach.frame()
+        if director is not None:
+            lines = director.augment(snap, lines)
+        result = (snap, odds, lines)
         try:
             text = format_next(*result)
             if text != last_text[0]:
@@ -165,9 +257,19 @@ def _watch_overlay(power, args) -> int:
         from .overlay import Overlay
         ov = Overlay()
     except Exception as exc:  # pragma: no cover - needs a display
-        print("Overlay needs a graphical display:", exc)
+        print("Overlay window could not open:", exc)
+        if "tkinter" in str(exc).lower() or "no module named" in str(exc).lower():
+            print("  Fix: install Tk for this Python — on WSL/Debian/Ubuntu:\n"
+                  "    sudo apt install python3-tk\n"
+                  "  (WSL on Windows 11 shows the window via WSLg.)")
+        print("Falling back to the terminal panel. Tip: keep it visible over "
+              "the game with Windows Terminal's always-on-top (Settings -> "
+              "Appearance -> Always on top, or Ctrl+Shift+P -> 'Toggle "
+              "always on top').")
         coach.stop()
-        return 1
+        if recorder is not None:
+            recorder.close()
+        return _watch_terminal(power, args)
     print("Overlay open — waiting for Hearthstone. Launch a Battlegrounds game; "
           "the panel updates each turn (and prints here too). Close the window to stop.")
     ov.poll(frame_and_echo, interval_ms=120)
@@ -175,6 +277,8 @@ def _watch_overlay(power, args) -> int:
         ov.run()
     finally:
         coach.stop()
+        if director is not None:
+            director.stop()
         if recorder is not None:
             recorder.close()
     return 0
@@ -219,6 +323,10 @@ def build_parser() -> argparse.ArgumentParser:
     w.add_argument("--terminal", action="store_true",
                    help="live recommendations as an in-place terminal panel "
                         "(no GUI; reliable on any macOS — float your terminal window)")
+    w.add_argument("--director", action="store_true",
+                   help="LLM Turn Director: one move + why on top of the panel "
+                        "(needs `refresh-meta` once and an LLM backend; falls "
+                        "back to engine advice if the LLM is unavailable)")
     w.set_defaults(func=cmd_watch)
 
     f = sub.add_parser("parse-file", help="parse a captured log offline")
@@ -276,7 +384,166 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--horizon", type=int, default=3, help="turns to look ahead")
     pl.add_argument("--tribe", help="comp you're building toward")
     pl.set_defaults(func=cmd_plan)
+
+    t7 = sub.add_parser("tier7",
+                        help="lobby-conditioned stats from your HSReplay Tier7 sub")
+    t7.add_argument("kind", choices=["hero", "comps", "trinket"])
+    t7.add_argument("options", nargs="*",
+                    help="hero/trinket: the offered names; comps: none")
+    t7.add_argument("--tribes", required=True,
+                    help="comma-separated tribes in this lobby (e.g. Beast,Mech,Naga)")
+    t7.add_argument("--rating", type=int, help="your BG rating (MMR)")
+    t7.add_argument("--hero", help="trinket only: your hero")
+    t7.add_argument("--turn", type=int, default=8, help="trinket only: current turn")
+    t7.add_argument("--duos", action="store_true", help="hero only: duos stats")
+    t7.set_defaults(func=cmd_tier7)
+
+    rm = sub.add_parser("refresh-meta",
+                        help="one motion: card KB + dbf map + last-patch stats "
+                             "+ playbooks + meta pack (spec req 13)")
+    rm.add_argument("--mmr", type=int, default=10)
+    rm.add_argument("--skip-stats", action="store_true",
+                    help="offline: rebuild playbooks + meta pack from committed data")
+    rm.set_defaults(func=cmd_refresh_meta)
+
+    lb = sub.add_parser("llm-bench",
+                        help="measure your LLM backend's real latency (decides "
+                             "local vs hosted)")
+    lb.set_defaults(func=cmd_llm_bench)
+
+    rv = sub.add_parser("review",
+                        help="grade the latest recorded game and bank the lessons")
+    rv.set_defaults(func=cmd_review)
     return p
+
+
+def cmd_refresh_meta(args) -> int:
+    from . import cards, firestone_stats, tier7
+    from .meta_pack import build_meta_pack, save_meta_pack
+    from .playbooks import generate_playbooks
+    from .stats import _STATS_DIR
+    if not args.skip_stats:
+        print("1/4 Refreshing card KB + hero powers (HearthstoneJSON latest)…")
+        try:
+            kb_raw = cards.build_card_kb()
+            cards.save_kb(kb_raw)
+            cards.save_hero_power_kb(cards.build_hero_power_kb())
+            tier7.refresh_dbf_map()
+        except Exception as exc:
+            print("   card refresh failed (offline?):", exc)
+        print(f"2/4 Refreshing Firestone stats (mmr-{args.mmr}, last-patch)…")
+        try:
+            firestone_stats.refresh(_STATS_DIR, mmr=args.mmr, period="last-patch")
+        except Exception as exc:
+            print("   stats refresh failed (offline?):", exc)
+    else:
+        print("1-2/4 skipped (--skip-stats)")
+    print("3/4 Regenerating comp playbooks…")
+    paths = generate_playbooks()
+    print(f"   wrote {len(paths)} playbooks -> data/playbooks/")
+    print("4/4 Building the meta pack…")
+    pack = build_meta_pack()
+    out = save_meta_pack(pack)
+    print(f"   wrote {out} (patch_build={pack.get('patch_build') or 'unknown'})")
+    print("Done. The Director reads this pack on next launch.")
+    return 0
+
+
+def cmd_llm_bench(_args) -> int:
+    from .llm_client import LLMClient, LLMError, bench
+    try:
+        client = LLMClient()
+    except LLMError as exc:
+        print("LLM not configured:", exc)
+        return 1
+    cfg = client.config
+    print(f"Benchmarking {cfg.backend} / {cfg.model} at {cfg.url} …")
+    r = bench(client)
+    if not r.get("ok"):
+        print("FAILED:", r.get("error"))
+        print("Local: install Ollama and `ollama pull qwen2.5:3b-instruct`, or set "
+              "HSBG_LLM_BACKEND=openai + HSBG_LLM_URL/HSBG_LLM_KEY for a hosted "
+              "open-weights endpoint.")
+        return 1
+    lat = r["latency_s"]
+    print(f"OK — {lat:.2f}s for a realistic Director prompt.")
+    if lat <= 2.5:
+        print("Verdict: fast enough for live move+why. Use this backend.")
+    else:
+        print("Verdict: too slow for live turns (>2.5s). Try a smaller local model "
+              "(qwen2.5:1.5b-instruct) or a hosted open-weights endpoint "
+              "(HSBG_LLM_BACKEND=openai + Groq/Together URL) — picks like "
+              "hero/trinket can tolerate this latency, turns can't.")
+    return 0
+
+
+def cmd_review(_args) -> int:
+    from .llm_client import LLMClient, LLMError
+    from .reviewer import (append_lessons, append_training_examples,
+                           promote_experiments, review_latest)
+    client = None
+    try:
+        client = LLMClient()
+    except LLMError:
+        pass                                   # deterministic-only review is fine
+    review = review_latest(config.DATA_DIR, client=client)
+    if review is None:
+        print("No completed recorded game found in", config.DATA_DIR)
+        return 1
+    print(f"Reviewed {os.path.basename(review.game_path)} "
+          f"(placement: {review.placement or '?'}):")
+    for g in review.grades:
+        print(f"  T{g.turn}: [{g.verdict}] {g.suggested}"
+              + (f" — better: {g.better}" if g.better else ""))
+    append_lessons(review, os.path.join(config.DATA_DIR, "lessons.jsonl"))
+    promote_experiments(review)
+    append_training_examples(review, review.game_path,
+                             os.path.join(config.DATA_DIR, "train_corpus.jsonl"))
+    print(f"Banked {len(review.lessons)} lessons; corpus updated.")
+    return 0
+
+
+def cmd_tier7(args) -> int:
+    from . import tier7
+    token = tier7.find_token()
+    if not token:
+        print(tier7.TOKEN_HELP)
+        return 1
+    tribes = [t.strip() for t in args.tribes.split(",") if t.strip()]
+    try:
+        if args.kind == "hero":
+            if not args.options:
+                print("Give the offered hero names.")
+                return 1
+            rows = tier7.query_hero_pick(args.options, tribes, token=token,
+                                         rating=args.rating, duos=args.duos)
+            print("Tier7 hero pick — best first (this lobby's tribes):")
+            for i, r in enumerate(rows, 1):
+                avg = f"{r['avg_placement']:.2f}" if r["avg_placement"] is not None else "?"
+                pick = f" · picked {r['pick_rate']:.0%}" if r.get("pick_rate") else ""
+                comps = f" · comps: {', '.join(r['top_comps'])}" if r.get("top_comps") else ""
+                mark = "  ◀ PICK" if i == 1 else ""
+                print(f"  {i}. {r['name']} — tier {r.get('tier') or '?'} · "
+                      f"avg {avg}{pick}{comps}{mark}")
+        elif args.kind == "comps":
+            rows = tier7.query_comps(tribes, token=token)
+            print("Tier7 first-place comps for this lobby:")
+            for r in rows[:10]:
+                print(f"  {r['avg_final_placement']:.2f}  {r['name'] or r['id']} "
+                      f"({r['popularity']:.0%}) — {', '.join(r['key_minions'])}")
+        else:                                          # trinket (raw, calibrating)
+            import json
+            if not args.hero or not args.options:
+                print("Trinket needs --hero and the offered trinket names.")
+                return 1
+            resp = tier7.query_trinket_pick(args.hero, args.options, tribes,
+                                            args.turn, token=token,
+                                            rating=args.rating)
+            print(json.dumps(resp, indent=1)[:2000])
+    except (RuntimeError, ValueError) as exc:
+        print(f"Tier7 query failed: {exc}")
+        return 1
+    return 0
 
 
 def cmd_plan(args) -> int:
@@ -424,7 +691,7 @@ def cmd_similar(args) -> int:
     from .synergy import load_embeddings, _cosine
     emb = load_embeddings()
     if not emb:
-        print("No card2vec embeddings. Train with `python -m ml.train_card2vec`.")
+        print("No card2vec embeddings. Train with `python3 -m ml.train_card2vec`.")
         return 1
     if args.card not in emb:
         print(f"'{args.card}' not in the embedding vocab.")

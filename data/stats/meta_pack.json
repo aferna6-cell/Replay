@@ -1,0 +1,706 @@
+{
+ "patch_build": null,
+ "fetched": "2026-06-26",
+ "sources": {
+  "heroes": "firestone",
+  "comps": "firestone"
+ },
+ "tribes": [
+  {
+   "tribe": "Murloc",
+   "avg_placement": 3.584,
+   "top_comps": [
+    "Murloc Scam",
+    "Murloc Handbuff",
+    "Murloc Mrrglton"
+   ]
+  },
+  {
+   "tribe": "Elemental",
+   "avg_placement": 3.749,
+   "top_comps": [
+    "Elemental Cycle",
+    "Elemental Shop Buff"
+   ]
+  },
+  {
+   "tribe": "Undead",
+   "avg_placement": 3.826,
+   "top_comps": [
+    "Undead Forsaken",
+    "Undead Overflow",
+    "Undead Butcher"
+   ]
+  },
+  {
+   "tribe": "Dragon",
+   "avg_placement": 4.036,
+   "top_comps": [
+    "Dragon Ring Bearer",
+    "Dragon Kalecgos"
+   ]
+  },
+  {
+   "tribe": "Mech",
+   "avg_placement": 4.056,
+   "top_comps": [
+    "Mech Magnet",
+    "Mech Shield",
+    "Mech Automaton"
+   ]
+  },
+  {
+   "tribe": "Demon",
+   "avg_placement": 4.098,
+   "top_comps": [
+    "Demon Fodder",
+    "Demon Damage"
+   ]
+  },
+  {
+   "tribe": "Pirate",
+   "avg_placement": 4.114,
+   "top_comps": [
+    "Pirate Bounty",
+    "Pirate End Of Turn"
+   ]
+  },
+  {
+   "tribe": "Quilboar",
+   "avg_placement": 4.14,
+   "top_comps": [
+    "Quilboar Deathrattle",
+    "Quilboar Felboar"
+   ]
+  },
+  {
+   "tribe": "Beast",
+   "avg_placement": 4.177,
+   "top_comps": [
+    "Beast Beetles",
+    "Beast Goldrinn",
+    "Beast Leviathan"
+   ]
+  },
+  {
+   "tribe": "Naga",
+   "avg_placement": 4.235,
+   "top_comps": [
+    "Naga Spellbuff",
+    "Naga Groundbreaker",
+    "Naga Deep Blue"
+   ]
+  }
+ ],
+ "heroes": [
+  {
+   "name": "Millificent Manastorm",
+   "tier": null,
+   "avg_placement": 3.66,
+   "pick_rate": 0.011,
+   "best_tribes": [
+    "Elemental",
+    "Murloc",
+    "Quilboar"
+   ],
+   "playstyle": "economy",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Ini Stormcoil",
+   "tier": null,
+   "avg_placement": 3.81,
+   "pick_rate": 0.0074,
+   "best_tribes": [
+    "Undead",
+    "Dragon"
+   ],
+   "playstyle": "economy",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Sneed",
+   "tier": null,
+   "avg_placement": 3.83,
+   "pick_rate": 0.0073,
+   "best_tribes": [
+    "Undead",
+    "Murloc",
+    "Mech"
+   ],
+   "playstyle": "tempo",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Fungalmancer Flurgl",
+   "tier": null,
+   "avg_placement": 3.83,
+   "pick_rate": 0.0049,
+   "best_tribes": [],
+   "playstyle": "economy",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Lady Vashj",
+   "tier": null,
+   "avg_placement": 3.83,
+   "pick_rate": 0.0048,
+   "best_tribes": [
+    "Dragon",
+    "Mech",
+    "Murloc"
+   ],
+   "playstyle": "flexible",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Inge, the Iron Hymn",
+   "tier": null,
+   "avg_placement": 3.91,
+   "pick_rate": 0.0052,
+   "best_tribes": [
+    "Dragon",
+    "Mech",
+    "Beast"
+   ],
+   "playstyle": "tempo",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Morchie",
+   "tier": null,
+   "avg_placement": 3.92,
+   "pick_rate": 0.0264,
+   "best_tribes": [
+    "Elemental",
+    "Mech",
+    "Naga"
+   ],
+   "playstyle": "economy",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "The Lich King",
+   "tier": null,
+   "avg_placement": 3.92,
+   "pick_rate": 0.0153,
+   "best_tribes": [
+    "Mech",
+    "Murloc",
+    "Elemental"
+   ],
+   "playstyle": "tempo",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Teron Gorefiend",
+   "tier": null,
+   "avg_placement": 3.96,
+   "pick_rate": 0.0143,
+   "best_tribes": [
+    "Mech",
+    "Elemental",
+    "Dragon"
+   ],
+   "playstyle": "flexible",
+   "top_comps": [],
+   "source": "firestone"
+  },
+  {
+   "name": "Dinotamer Brann",
+   "tier": null,
+   "avg_placement": 3.97,
+   "pick_rate": 0.0233,
+   "best_tribes": [
+    "Beast",
+    "Elemental",
+    "Demon"
+   ],
+   "playstyle": "economy",
+   "top_comps": [],
+   "source": "firestone"
+  }
+ ],
+ "comps": [
+  {
+   "name": "Murloc Scam",
+   "tribe": "Murloc",
+   "tier": "S",
+   "avg_placement": 3.056,
+   "core_cards": [
+    "Bile Spitter",
+    "Leeroy the Reckless",
+    "Diremuck Forager",
+    "Expert Aviator",
+    "Heroic Underdog",
+    "Choral Mrrrglr"
+   ],
+   "enabler_cards": [
+    "Murloc Tidecaller",
+    "Rockpool Hunter",
+    "Swampstriker",
+    "Coldlight Seer",
+    "Murloc Warleader",
+    "Old Murk-Eye",
+    "Parched Wanderer",
+    "Saltscale Honcho"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Undead Forsaken",
+   "tribe": "Undead",
+   "tier": "S",
+   "avg_placement": 3.255,
+   "core_cards": [
+    "Handless Forsaken",
+    "Deathly Striker",
+    "Forsaken Weaver",
+    "Eternal Summoner",
+    "Risen Rider",
+    "Dead Sea Ravager"
+   ],
+   "enabler_cards": [
+    "Arms Dealer",
+    "Skeletal Sidekick",
+    "Wailing Banshee",
+    "Nerubian Deathswarmer",
+    "Ride-or-Die",
+    "Scarlet Skull",
+    "Anub'arak, Nerubian King",
+    "Dustbone Devastator"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Murloc Handbuff",
+   "tribe": "Murloc",
+   "tier": "S",
+   "avg_placement": 3.305,
+   "core_cards": [
+    "Choral Mrrrglr",
+    "Diremuck Forager",
+    "Futurefin",
+    "Brann Bronzebeard",
+    "Drakkari Enchanter",
+    "Costume Enthusiast"
+   ],
+   "enabler_cards": [
+    "Murloc Tidecaller",
+    "Rockpool Hunter",
+    "Swampstriker",
+    "Coldlight Seer",
+    "Murloc Warleader",
+    "Old Murk-Eye",
+    "Parched Wanderer",
+    "Saltscale Honcho"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Mech Magnet",
+   "tribe": "Mech",
+   "tier": "S",
+   "avg_placement": 3.33,
+   "core_cards": [
+    "Ingenious Inventor",
+    "Titus Rivendare",
+    "Falling Sky Golem",
+    "Kangor's Apprentice",
+    "Polarizing Beatboxer",
+    "Deflect-o-Bot"
+   ],
+   "enabler_cards": [
+    "Arcanotron, Activated",
+    "Mechagnome Interpreter",
+    "Metaltooth Leaper",
+    "Cobalt Guardian",
+    "Iron Sensei",
+    "Screwjank Clunker",
+    "Springy Spriggan",
+    "Sub Scrubber"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Elemental Cycle",
+   "tribe": "Elemental",
+   "tier": "S",
+   "avg_placement": 3.564,
+   "core_cards": [
+    "Unleashed Mana Surge",
+    "Brann Bronzebeard",
+    "Wildfire Elemental",
+    "Flaming Enforcer",
+    "Leyline Surfacer",
+    "Glowing Cinder"
+   ],
+   "enabler_cards": [
+    "Dune Dweller",
+    "Molten Rock",
+    "Party Elemental",
+    "Meteorite Crasher",
+    "Rock Rock",
+    "Smogger",
+    "Blazing Greasefire",
+    "Dazzling Lightspawn"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Demon Fodder",
+   "tribe": "Demon",
+   "tier": "A",
+   "avg_placement": 3.708,
+   "core_cards": [
+    "Twisted Wrathguard",
+    "Consummate Conqueror",
+    "Brann Bronzebeard",
+    "Ashen Corruptor",
+    "Soul Rewinder",
+    "Leeroy the Reckless"
+   ],
+   "enabler_cards": [
+    "Wrath Weaver",
+    "Mind Muck",
+    "Nathrezim Overseer",
+    "Stray Satyr",
+    "Crystalweaver",
+    "Felhorn",
+    "Keyboard Igniter",
+    "Soul Devourer"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Dragon Ring Bearer",
+   "tribe": "Dragon",
+   "tier": "A",
+   "avg_placement": 3.761,
+   "core_cards": [
+    "Ring Bearer",
+    "Persistent Poet",
+    "Charmwing",
+    "Fire-forged Evoker",
+    "Maelstrom Emergent",
+    "Brann Bronzebeard"
+   ],
+   "enabler_cards": [
+    "Smolderwing",
+    "Valithria Dreamwalker",
+    "Thousandth Paper Drake",
+    "Twilight Emissary",
+    "Whelp Smuggler",
+    "Zoobot",
+    "Amber Guardian",
+    "Bronze Chromadrake"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Naga Spellbuff",
+   "tribe": "Naga",
+   "tier": "A",
+   "avg_placement": 3.818,
+   "core_cards": [
+    "Ruthless Queensguard",
+    "Maelstrom Emergent",
+    "Titus Rivendare",
+    "Rylak Metalhead",
+    "Brann Bronzebeard",
+    "Monstrous Macaw"
+   ],
+   "enabler_cards": [
+    "Timewarped Commander",
+    "Sunken Advocate",
+    "Waverider",
+    "Weary Mage",
+    "Showy Cyclist",
+    "Timewarped Siren",
+    "Bluesy Siren",
+    "Groundbreaker"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Mech Shield",
+   "tribe": "Mech",
+   "tier": "A",
+   "avg_placement": 3.896,
+   "core_cards": [
+    "Deflect-o-Bot",
+    "Ingenious Inventor",
+    "Titus Rivendare",
+    "Falling Sky Golem",
+    "Kangor's Apprentice",
+    "Scrap Scraper"
+   ],
+   "enabler_cards": [
+    "Arcanotron, Activated",
+    "Mechagnome Interpreter",
+    "Metaltooth Leaper",
+    "Cobalt Guardian",
+    "Iron Sensei",
+    "Screwjank Clunker",
+    "Springy Spriggan",
+    "Sub Scrubber"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Beast Beetles",
+   "tribe": "Beast",
+   "tier": "A",
+   "avg_placement": 3.928,
+   "core_cards": [
+    "Silky Shimmermoth",
+    "Rylak Metalhead",
+    "Titus Rivendare",
+    "Monstrous Macaw",
+    "Felhorn",
+    "Brann Bronzebeard"
+   ],
+   "enabler_cards": [
+    "Scavenging Hyena",
+    "Humming Bird",
+    "Hungry Snapjaw",
+    "Leapfrogger",
+    "Pack Leader",
+    "Zoobot",
+    "Bird Buddy",
+    "Houndmaster"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Elemental Shop Buff",
+   "tribe": "Elemental",
+   "tier": "A",
+   "avg_placement": 3.934,
+   "core_cards": [
+    "Leyline Surfacer",
+    "Wildfire Elemental",
+    "Balinda Stonehearth",
+    "Brann Bronzebeard",
+    "Flaming Enforcer",
+    "Rylak Metalhead"
+   ],
+   "enabler_cards": [
+    "Dune Dweller",
+    "Molten Rock",
+    "Party Elemental",
+    "Glowing Cinder",
+    "Meteorite Crasher",
+    "Rock Rock",
+    "Smogger",
+    "Blazing Greasefire"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Pirate Bounty",
+   "tribe": "Pirate",
+   "tier": "A",
+   "avg_placement": 3.942,
+   "core_cards": [
+    "Sky Admiral Rogers",
+    "Proud Privateer",
+    "Blade Collector",
+    "Dead Sea Ravager",
+    "Brazen Buccaneer",
+    "Brann Bronzebeard"
+   ],
+   "enabler_cards": [
+    "Ripsnarl Captain",
+    "Southsea Captain",
+    "Bloodsail Cannoneer",
+    "Crow's Nest Sentry",
+    "Gunpowder Courier",
+    "Peggy Sturdybone",
+    "Southsea Strongarm",
+    "Stellar Freebooter"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Beast Goldrinn",
+   "tribe": "Beast",
+   "tier": "A",
+   "avg_placement": 3.955,
+   "core_cards": [
+    "Goldrinn, the Great Wolf",
+    "Titus Rivendare",
+    "Monstrous Macaw",
+    "Sewer Lord",
+    "Banana Slamma",
+    "Turquoise Skitterer"
+   ],
+   "enabler_cards": [
+    "Scavenging Hyena",
+    "Humming Bird",
+    "Hungry Snapjaw",
+    "Leapfrogger",
+    "Pack Leader",
+    "Zoobot",
+    "Bird Buddy",
+    "Felhorn"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Quilboar Deathrattle",
+   "tribe": "Quilboar",
+   "tier": "A",
+   "avg_placement": 3.955,
+   "core_cards": [
+    "Three Lil' Quilboar",
+    "Titus Rivendare",
+    "Bristlebach",
+    "Earthsong Shaman",
+    "Geomagus Roogug",
+    "Vinespeaker"
+   ],
+   "enabler_cards": [
+    "Bristleback Bully",
+    "Prophet of the Boar",
+    "Redtusk Thornraiser",
+    "Hog Watcher",
+    "Timewarped Bristler",
+    "Turbo Hogrider"
+   ],
+   "source": "firestone"
+  },
+  {
+   "name": "Undead Overflow",
+   "tribe": "Undead",
+   "tier": "A",
+   "avg_placement": 3.962,
+   "core_cards": [
+    "Catacomb Crasher",
+    "Titus Rivendare",
+    "Cadaver Caretaker",
+    "Monstrous Macaw",
+    "Lava Lurker",
+    "Surf n' Surf"
+   ],
+   "enabler_cards": [
+    "Arms Dealer",
+    "Skeletal Sidekick",
+    "Wailing Banshee",
+    "Nerubian Deathswarmer",
+    "Ride-or-Die",
+    "Scarlet Skull",
+    "Anub'arak, Nerubian King",
+    "Dustbone Devastator"
+   ],
+   "source": "firestone"
+  }
+ ],
+ "trinkets": [
+  {
+   "name": "Tiger Carving",
+   "tier": "S",
+   "avg_placement": 3.169,
+   "text": "[x]Whenever a friendly minion takes damage, give another friendly minion +6/+2 permanently."
+  },
+  {
+   "name": "Powder Keg",
+   "tier": "S",
+   "avg_placement": 3.271,
+   "text": "[x]Start of Combat: Give 3 friendly Pirates \"Deathrattle: Summon a 1/1 Sky Pirate and give it this minion's Attack. It attacks immediately.\""
+  },
+  {
+   "name": "Ironforge Anvil",
+   "tier": "S",
+   "avg_placement": 3.273,
+   "text": "Start of Combat: Triple the stats of your minions with no type."
+  },
+  {
+   "name": "Shaker Portrait",
+   "tier": "S",
+   "avg_placement": 3.361,
+   "text": "[x]Get a Zesty Shaker. Your Zesty Shakers give an extra copy of the spell."
+  },
+  {
+   "name": "Soul Fermenter",
+   "tier": "S",
+   "avg_placement": 3.39,
+   "text": "[x]Start of Combat: Destroy your 3 left-most minions. After your last minion dies, resummon them."
+  },
+  {
+   "name": "Protective Ring",
+   "tier": "S",
+   "avg_placement": 3.393,
+   "text": "Start of Combat: Give 4 random friendly Pirates Divine Shield."
+  },
+  {
+   "name": "Deathtouch Apple",
+   "tier": "S",
+   "avg_placement": 3.416,
+   "text": "[x]After a friendly Undead is Reborn, give it Reborn. (3 times per combat.)"
+  },
+  {
+   "name": "Eternal Portrait",
+   "tier": "S",
+   "avg_placement": 3.42,
+   "text": "[x]Get an Eternal Knight. Start of Combat: Give your Eternal Knights Taunt and Reborn."
+  }
+ ],
+ "curve": {
+  "standard": {
+   "1": 1,
+   "2": 2,
+   "3": 2,
+   "4": 3,
+   "5": 4,
+   "6": 4,
+   "7": 5,
+   "8": 5,
+   "9": 6,
+   "10": 6,
+   "11": 6,
+   "12": 6
+  },
+  "measured": {
+   "1": 1.0,
+   "2": 1.6,
+   "3": 2.2,
+   "4": 2.8,
+   "5": 3.3,
+   "6": 3.8,
+   "7": 4.3,
+   "8": 4.8,
+   "9": 5.2,
+   "10": 5.5,
+   "11": 5.8,
+   "12": 6.0,
+   "13": 6.0,
+   "14": 6.0
+  }
+ },
+ "playbook_index": [
+  "Murloc Scam",
+  "Undead Forsaken",
+  "Murloc Handbuff",
+  "Mech Magnet",
+  "Elemental Cycle",
+  "Demon Fodder",
+  "Dragon Ring Bearer",
+  "Naga Spellbuff",
+  "Mech Shield",
+  "Beast Beetles",
+  "Elemental Shop Buff",
+  "Pirate Bounty",
+  "Beast Goldrinn",
+  "Quilboar Deathrattle",
+  "Undead Overflow"
+ ]
+}
