@@ -108,26 +108,34 @@ def run_phase_2q(
     prior_hash = prior.content_hash_sha256()
 
     print(f"[2Q] greedy CONTROL (scaled valuation) — {lobbies} lobbies, "
-          f"seeds {seed}–{seed + lobbies - 1}")
+          f"seeds {seed}–{seed + lobbies - 1}", flush=True)
     greedy_c_raw = run_greedy_control(lobbies, seed)
-    print(f"[2Q] greedy TREATMENT (recruit-value valuation) — same seeds")
-    greedy_t_raw = run_greedy_treatment(lobbies, seed)
-
     greedy_c = summarize_split_arm(greedy_c_raw)
+    del greedy_c_raw
+    print(f"[2Q] greedy TREATMENT (recruit-value valuation) — same seeds",
+          flush=True)
+    greedy_t_raw = run_greedy_treatment(lobbies, seed)
     greedy_t = summarize_split_arm(greedy_t_raw)
+    del greedy_t_raw
     greedy_cmp = compare_control_treatment(greedy_c, greedy_t)
     print(f"[2Q] greedy gates_passed={greedy_cmp['gates_passed']}/"
-          f"{greedy_cmp['gates_total']} {greedy_cmp['gates']}")
+          f"{greedy_cmp['gates_total']} {greedy_cmp['gates']}", flush=True)
 
     phase_2j_c = phase_2j_t = phase_2j_cmp = None
     phase_2j_mechanism = None
     if not skip_phase_2j:
-        print(f"[2Q] Phase 2J CONTROL α={alpha} — same seeds")
-        j_c_raw = run_phase_2j_control(lobbies, seed, alpha, prior)
-        print(f"[2Q] Phase 2J TREATMENT α={alpha} — same seeds")
-        j_t_raw = run_phase_2j_treatment(lobbies, seed, alpha, prior)
+        print(f"[2Q] Phase 2J CONTROL α={alpha} — same seeds", flush=True)
+        j_c_raw = run_phase_2j_control(
+            lobbies, seed, alpha, prior, include_composition=False
+        )
         phase_2j_c = summarize_split_arm(j_c_raw)
+        del j_c_raw
+        print(f"[2Q] Phase 2J TREATMENT α={alpha} — same seeds", flush=True)
+        j_t_raw = run_phase_2j_treatment(
+            lobbies, seed, alpha, prior, include_composition=False
+        )
         phase_2j_t = summarize_split_arm(j_t_raw)
+        del j_t_raw
         phase_2j_cmp = compare_control_treatment(phase_2j_c, phase_2j_t)
         phase_2j_mechanism = {
             "control": _mechanism_snapshot(phase_2j_c),
@@ -163,11 +171,13 @@ def run_phase_2q(
             ),
             "note": (
                 "α=0.5 frozen without retune; input value space changed so "
-                "numerical optimality is not required — mechanism survival only."
+                "numerical optimality is not required — mechanism survival only. "
+                "Composition-trace persistent-2+/coverage omitted from this DEV "
+                "pass for memory; policy_stats replacement/tempo reported."
             ),
         }
         print(f"[2Q] phase_2j gates_passed={phase_2j_cmp['gates_passed']}/"
-              f"{phase_2j_cmp['gates_total']}")
+              f"{phase_2j_cmp['gates_total']}", flush=True)
 
     decision = diagnose_phase_2q(
         greedy_cmp, phase_2j_cmp, phase_2j_mechanism=phase_2j_mechanism

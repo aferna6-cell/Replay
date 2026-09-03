@@ -251,7 +251,8 @@ def run_split_arm(
                 })
             all_records.extend(tracer.scaling.records)
             state_rows.extend(tracer.replacement.state_rows)
-            candidate_rows.extend(tracer.replacement.candidate_rows)
+            # Candidate reject dumps are large; 2Q gates need state rows only.
+            tracer.replacement.candidate_rows.clear()
             full_board_decisions += tracer.full_board_decisions
             full_board_sells += tracer.full_board_sells
             for t, counts in tracer.sell_by_turn.items():
@@ -272,6 +273,8 @@ def run_split_arm(
                     "lobby_tribes": list(env.lobby_tribes),
                     "game_length": game_length,
                 })
+                # Free per-lobby event buffer after copy.
+                tracer.composition.events.clear()
             del env
 
     replace_rate = (
@@ -338,26 +341,28 @@ def run_greedy_treatment(lobbies: int, seed: int) -> Dict:
 
 
 def run_phase_2j_control(
-    lobbies: int, seed: int, alpha: float, prior: PersistencePrior
+    lobbies: int, seed: int, alpha: float, prior: PersistencePrior,
+    *, include_composition: bool = False,
 ) -> Dict:
     def factory(_i: int):
         return policies_for_lobby(alpha, prior, 8)
 
     return run_split_arm(
         lobbies, seed, arm="phase_2j_control", recruit_value_stats=False,
-        policy_factory=factory, include_composition=True,
+        policy_factory=factory, include_composition=include_composition,
     )
 
 
 def run_phase_2j_treatment(
-    lobbies: int, seed: int, alpha: float, prior: PersistencePrior
+    lobbies: int, seed: int, alpha: float, prior: PersistencePrior,
+    *, include_composition: bool = False,
 ) -> Dict:
     def factory(_i: int):
         return policies_for_lobby(alpha, prior, 8)
 
     return run_split_arm(
         lobbies, seed, arm="phase_2j_treatment", recruit_value_stats=True,
-        policy_factory=factory, include_composition=True,
+        policy_factory=factory, include_composition=include_composition,
     )
 
 
