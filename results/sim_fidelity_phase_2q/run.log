@@ -1,0 +1,8 @@
+[2Q] greedy CONTROL (scaled valuation) — 500 lobbies, seeds 13200–13699
+[2Q] greedy TREATMENT (recruit-value valuation) — same seeds
+[2Q] greedy gates_passed=3/4 {'recruit_delta_t9_t12_increases': False, 'full_board_replace_rate_increases': True, 'scaling_blocked_collapses': True, 'post_scale_macro_not_materially_worse': True}
+[2Q] Phase 2J CONTROL α=0.5 — same seeds
+[2Q] Phase 2J TREATMENT α=0.5 — same seeds
+[2Q] phase_2j gates_passed=3/4
+[2Q] primary_finding=recruit_value_split_mechanism_confirmed
+[2Q] wrote results/sim_fidelity_phase_2q/ (3465.8s)

@@ -381,15 +381,18 @@ def _recruit_delta_window(agg: Dict, turns=RECRUIT_DELTA_TURNS) -> Dict:
 
 
 def _post_scale_window(fid: Dict, turns=(9, 10, 11, 12, 14)) -> Dict:
-    by_turn = fid.get("by_turn") or {}
+    """``symmetric_absolute_fidelity`` returns flat ``{turn: metrics}``."""
     out = {}
     for t in turns:
-        bucket = by_turn.get(str(t)) or {}
+        bucket = fid.get(str(t)) or {}
         out[str(t)] = {
             "mean_post_scale_over_firestone": bucket.get(
                 "mean_post_scale_over_firestone"
             ),
-            "mean_abs_log_post_scale": bucket.get("mean_abs_log_post_scale"),
+            "abs_distance_from_one_post": bucket.get("abs_distance_from_one_post"),
+            "mean_pre_scale_over_firestone": bucket.get(
+                "mean_pre_scale_over_firestone"
+            ),
         }
     return out
 
@@ -502,35 +505,43 @@ def compare_control_treatment(control: Dict, treatment: Dict) -> Dict:
             return None
         return float(b) - float(a)
 
-    c_post = (
-        (control.get("post_scale_fidelity") or {}).get("10") or {}
-    ).get("mean_post_scale_over_firestone")
-    t_post = (
-        (treatment.get("post_scale_fidelity") or {}).get("10") or {}
-    ).get("mean_post_scale_over_firestone")
+    def _post(arm: Dict, turn: str = "10"):
+        return (
+            (arm.get("post_scale_fidelity") or {}).get(turn) or {}
+        ).get("mean_post_scale_over_firestone")
+
+    c_post = _post(control, "10")
+    t_post = _post(treatment, "10")
+    c_post14 = _post(control, "14")
+    t_post14 = _post(treatment, "14")
 
     harm = directional_macro_policy_harm(
         control.get("symmetric_absolute_fidelity_turns_8_14") or {},
         treatment.get("symmetric_absolute_fidelity_turns_8_14") or {},
     )
 
-    c_len = (control.get("lobby_dynamics") or {}).get("mean_game_length")
-    t_len = (treatment.get("lobby_dynamics") or {}).get("mean_game_length")
+    c_len = (control.get("lobby_dynamics") or {}).get("avg_game_length")
+    t_len = (treatment.get("lobby_dynamics") or {}).get("avg_game_length")
 
     recruit_up = c_rd is not None and t_rd is not None and t_rd > c_rd
     replace_up = c_rep is not None and t_rep is not None and t_rep > c_rep
     block_down = (
         c_block is not None and t_block is not None and t_block < c_block * 0.5
     )
+    # Material worsen: treatment substantially farther from 1.0 than control at T10.
     post_ok = True
     if c_post is not None and t_post is not None:
         post_ok = abs(t_post - 1.0) <= abs(c_post - 1.0) + 0.15
+    length_ok = True
+    if c_len is not None and t_len is not None:
+        length_ok = t_len >= c_len - 1.5
 
     gates = {
         "recruit_delta_t9_t12_increases": recruit_up,
         "full_board_replace_rate_increases": replace_up,
         "scaling_blocked_collapses": block_down,
         "post_scale_macro_not_materially_worse": post_ok,
+        "game_length_acceptable": length_ok,
     }
     return {
         "deltas": {
@@ -538,6 +549,7 @@ def compare_control_treatment(control: Dict, treatment: Dict) -> Dict:
             "full_board_replace_rate": _delta(c_rep, t_rep),
             "valuation_scaling_blocked_pct": _delta(c_block, t_block),
             "post_scale_over_firestone_t10": _delta(c_post, t_post),
+            "post_scale_over_firestone_t14": _delta(c_post14, t_post14),
             "mean_game_length": _delta(c_len, t_len),
         },
         "control": {
@@ -545,6 +557,7 @@ def compare_control_treatment(control: Dict, treatment: Dict) -> Dict:
             "full_board_replace_rate": c_rep,
             "valuation_scaling_blocked_pct": c_block,
             "post_scale_over_firestone_t10": c_post,
+            "post_scale_over_firestone_t14": c_post14,
             "mean_game_length": c_len,
         },
         "treatment": {
@@ -552,6 +565,7 @@ def compare_control_treatment(control: Dict, treatment: Dict) -> Dict:
             "full_board_replace_rate": t_rep,
             "valuation_scaling_blocked_pct": t_block,
             "post_scale_over_firestone_t10": t_post,
+            "post_scale_over_firestone_t14": t_post14,
             "mean_game_length": t_len,
         },
         "gates": gates,
@@ -561,36 +575,50 @@ def compare_control_treatment(control: Dict, treatment: Dict) -> Dict:
     }
 
 
-def _slim_policy_stats(ps: Optional[Dict]) -> Optional[Dict]:
-    if not ps:
-        return None
-    keys = (
-        "replacement_transitions",
-        "mean_relative_tempo_loss",
-        "p95_relative_tempo_loss",
-        "mean_persistence_weight",
-        "n_committed_transitions",
-        "n_free_slot_commits",
-    )
-    return {k: ps.get(k) for k in keys if k in ps or True}
-
-
 def diagnose_phase_2q(
     greedy_cmp: Dict,
     phase_2j_cmp: Optional[Dict] = None,
     *,
     phase_2j_mechanism: Optional[Dict] = None,
 ) -> Dict:
-    g_pass = greedy_cmp.get("gates_passed", 0)
-    primary = "inconclusive"
-    if g_pass >= 3 and greedy_cmp["gates"].get("scaling_blocked_collapses"):
+    g = greedy_cmp.get("gates") or {}
+    replace_ok = bool(g.get("full_board_replace_rate_increases"))
+    block_ok = bool(g.get("scaling_blocked_collapses"))
+    post_ok = bool(g.get("post_scale_macro_not_materially_worse"))
+    recruit_ok = bool(g.get("recruit_delta_t9_t12_increases"))
+    length_ok = bool(g.get("game_length_acceptable", True))
+
+    if replace_ok and block_ok and post_ok and (recruit_ok or length_ok):
         primary = "recruit_value_split_mechanism_confirmed"
-    elif greedy_cmp["gates"].get("scaling_blocked_collapses") and greedy_cmp[
-        "gates"
-    ].get("full_board_replace_rate_increases"):
+    elif replace_ok and block_ok and not post_ok:
+        primary = "replacement_unblocked_but_post_scale_macro_collapses"
+    elif replace_ok and block_ok:
         primary = "recruit_value_split_partial"
-    elif not greedy_cmp["gates"].get("scaling_blocked_collapses"):
+    elif not block_ok:
         primary = "scaling_blocked_did_not_collapse"
+    else:
+        primary = "inconclusive"
+
+    next_step = {
+        "recruit_value_split_mechanism_confirmed": (
+            "Mechanism confirmed. Keep α=0.5 untuned. Do not freeze; "
+            "do not consume confirm seeds."
+        ),
+        "replacement_unblocked_but_post_scale_macro_collapses": (
+            "Replacement contamination is causal, but naive recruit-value "
+            "replacement without adjusting residual timing/budget collapses "
+            "post-scale macro (boards sell scaled combat stats for printed "
+            "shop units). Next: redesign residual interaction or pace "
+            "recruit swaps — not α retune, not confirm burn."
+        ),
+        "recruit_value_split_partial": (
+            "Partial mechanism lift; inspect failed gates before advancing."
+        ),
+        "scaling_blocked_did_not_collapse": (
+            "Unexpected — inspect valuation wiring."
+        ),
+        "inconclusive": "Inspect failed gates before advancing.",
+    }.get(primary, "Inspect failed gates before advancing.")
 
     return {
         "primary_finding": primary,
@@ -602,11 +630,5 @@ def diagnose_phase_2q(
         "confirm_seeds_reserved": "11500–11699",
         "no_scaling_retune": True,
         "no_alpha_retune": True,
-        "recommended_next_step": (
-            "Mechanism confirmed under greedy causal test. Keep α=0.5 "
-            "untuned; report Phase 2J survival directionally. Do not freeze; "
-            "do not consume confirm seeds."
-            if primary == "recruit_value_split_mechanism_confirmed"
-            else "Inspect failed gates before advancing."
-        ),
+        "recommended_next_step": next_step,
     }

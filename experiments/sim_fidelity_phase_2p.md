@@ -68,15 +68,11 @@ rolling replaces recruiting
 recruit contribution collapses
 ```
 
-## Next: Phase 2Q (not this PR)
+## Next: Phase 2Q (see PR / `sim_fidelity_phase_2q.md`)
 
-Representation split — **not** “always compare printed”:
-
-- **Combat stats:** printed + golden + modeled buffs + abstract scaling
-- **Recruit-value stats:** printed + golden + modeled buffs (**exclude** synthetic scaling)
-
-Fresh DEV for 2Q (when approved): **13200–13699**. Keep confirm reserved.
-No scaling retune. No α retune. No card-effect implementation yet.
+`2q_v1` DEV **13200–13699**: replacement unblocked (scaling-blocked → 0;
+replace rate ↑) but **post-scale macro collapses** under naive recruit-value
+replacement. HOLD — do not default the toggle on; do not freeze.
 
 ## Protocol
 

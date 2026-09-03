@@ -90,6 +90,49 @@ def test_residual_scaling_preserves_recruit_stats():
     assert p.board[0].attack >= 1 and p.board[0].health >= 1
 
 
+def test_compare_flags_post_scale_macro_collapse():
+    control = {
+        "recruit_delta_t9_t12": {"mean_t9_t12": 0.0},
+        "full_board_replace_rate": 0.01,
+        "valuation_scaling_blocked_pct_full_board": 0.8,
+        "post_scale_fidelity": {
+            "10": {"mean_post_scale_over_firestone": 0.95},
+            "14": {"mean_post_scale_over_firestone": 1.8},
+        },
+        "symmetric_absolute_fidelity_turns_8_14": {
+            "10": {"mean_post_scale_over_firestone": 0.95},
+            "12": {"mean_post_scale_over_firestone": 1.4},
+            "14": {"mean_post_scale_over_firestone": 1.8},
+        },
+        "lobby_dynamics": {"avg_game_length": 15.5},
+    }
+    treatment = {
+        "recruit_delta_t9_t12": {"mean_t9_t12": -200.0},
+        "full_board_replace_rate": 0.28,
+        "valuation_scaling_blocked_pct_full_board": 0.0,
+        "post_scale_fidelity": {
+            "10": {"mean_post_scale_over_firestone": 0.47},
+            "14": {"mean_post_scale_over_firestone": 0.11},
+        },
+        "symmetric_absolute_fidelity_turns_8_14": {
+            "10": {"mean_post_scale_over_firestone": 0.47},
+            "12": {"mean_post_scale_over_firestone": 0.16},
+            "14": {"mean_post_scale_over_firestone": 0.11},
+        },
+        "lobby_dynamics": {"avg_game_length": 13.0},
+    }
+    cmp = compare_control_treatment(control, treatment)
+    assert cmp["gates"]["full_board_replace_rate_increases"] is True
+    assert cmp["gates"]["scaling_blocked_collapses"] is True
+    assert cmp["gates"]["post_scale_macro_not_materially_worse"] is False
+    assert cmp["gates"]["recruit_delta_t9_t12_increases"] is False
+    from ml.recruit_combat_split_diagnostic import diagnose_phase_2q
+    d = diagnose_phase_2q(cmp)
+    assert d["primary_finding"] == (
+        "replacement_unblocked_but_post_scale_macro_collapses"
+    )
+
+
 def test_greedy_treatment_smoke_two_lobbies():
     raw_c = run_greedy_control(2, 13200)
     raw_t = run_greedy_treatment(2, 13200)
@@ -99,4 +142,4 @@ def test_greedy_treatment_smoke_two_lobbies():
     assert t["recruit_value_stats"] is True
     cmp = compare_control_treatment(c, t)
     assert "gates" in cmp
-    assert cmp["gates_total"] == 4
+    assert cmp["gates_total"] == 5
