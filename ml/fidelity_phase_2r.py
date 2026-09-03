@@ -127,48 +127,10 @@ def run_phase_2r(
 
     decision = diagnose_phase_2r(greedy_cmp, phase_2j_cmp)
 
-    contract = build_simulator_v1_1_contract(evaluation_seed=seed, lobbies=lobbies)
-    contract["evaluation"] = {
-        "policy": (
-            "greedy ± recruit-value (primary); "
-            "BoardOpp α=0.5 ± recruit-value (report-only)"
-        ),
-        "lobbies": lobbies,
-        "base_seed": seed,
-        "note": "Phase 2R measurement-only churn diagnostic; not Benchmark v1.",
-    }
-    contract.update({
-        "phase": PHASE,
-        "phase_2r_methodology_version": METHODOLOGY_VERSION,
-        "phase_2j_methodology_version": PHASE_2J_VERSION,
-        "fidelity_benchmark_version": FIDELITY_BENCHMARK_VERSION,
-        "simulator_version_label": SIMULATOR_V1_1_VERSION,
-        "frozen_alpha": alpha,
-        "prior_hash_sha256": prior_hash,
-        "forbidden_seed_ranges": [f"{a}–{b}" for a, b in FORBIDDEN_RANGES],
-        "feature_toggle": "PHASE_2Q_RECRUIT_VALUE_STATS",
-        "feature_toggle_default": False,
-        "code_commit": git_commit(),
-        "working_tree_clean": git_working_tree_clean(),
-        "runtime_sec": round(time.time() - t0, 2),
-    })
-
-    report = {
-        "methodology_version": METHODOLOGY_VERSION,
-        "decision": decision,
-        "contract": contract,
-        "greedy_control": _slim_arm(greedy_c),
-        "greedy_treatment": _slim_arm(greedy_t),
-        "greedy_comparison": greedy_cmp,
-        "phase_2j_control": _slim_arm(phase_2j_c) if phase_2j_c else None,
-        "phase_2j_treatment": _slim_arm(phase_2j_t) if phase_2j_t else None,
-        "phase_2j_comparison": phase_2j_cmp,
-    }
-
+    # Persist arm summaries before contract fingerprint (torch-dependent) so a
+    # missing runtime dep cannot discard a completed DEV pass.
     os.makedirs(out_dir, exist_ok=True)
-    _write_json(os.path.join(out_dir, "contract.json"), contract)
     _write_json(os.path.join(out_dir, "decision.json"), decision)
-    _write_json(os.path.join(out_dir, "phase_2r_report.json"), report)
     _write_json(os.path.join(out_dir, "greedy_comparison.json"), greedy_cmp)
     _write_json(
         os.path.join(out_dir, "per_turn_decomposition_greedy.json"),
@@ -211,6 +173,47 @@ def run_phase_2r(
                 "delta": phase_2j_cmp.get("per_turn_decomposition_delta"),
             },
         )
+
+    contract = build_simulator_v1_1_contract(evaluation_seed=seed, lobbies=lobbies)
+    contract["evaluation"] = {
+        "policy": (
+            "greedy ± recruit-value (primary); "
+            "BoardOpp α=0.5 ± recruit-value (report-only)"
+        ),
+        "lobbies": lobbies,
+        "base_seed": seed,
+        "note": "Phase 2R measurement-only churn diagnostic; not Benchmark v1.",
+    }
+    contract.update({
+        "phase": PHASE,
+        "phase_2r_methodology_version": METHODOLOGY_VERSION,
+        "phase_2j_methodology_version": PHASE_2J_VERSION,
+        "fidelity_benchmark_version": FIDELITY_BENCHMARK_VERSION,
+        "simulator_version_label": SIMULATOR_V1_1_VERSION,
+        "frozen_alpha": alpha,
+        "prior_hash_sha256": prior_hash,
+        "forbidden_seed_ranges": [f"{a}–{b}" for a, b in FORBIDDEN_RANGES],
+        "feature_toggle": "PHASE_2Q_RECRUIT_VALUE_STATS",
+        "feature_toggle_default": False,
+        "code_commit": git_commit(),
+        "working_tree_clean": git_working_tree_clean(),
+        "runtime_sec": round(time.time() - t0, 2),
+    })
+
+    report = {
+        "methodology_version": METHODOLOGY_VERSION,
+        "decision": decision,
+        "contract": contract,
+        "greedy_control": _slim_arm(greedy_c),
+        "greedy_treatment": _slim_arm(greedy_t),
+        "greedy_comparison": greedy_cmp,
+        "phase_2j_control": _slim_arm(phase_2j_c) if phase_2j_c else None,
+        "phase_2j_treatment": _slim_arm(phase_2j_t) if phase_2j_t else None,
+        "phase_2j_comparison": phase_2j_cmp,
+    }
+
+    _write_json(os.path.join(out_dir, "contract.json"), contract)
+    _write_json(os.path.join(out_dir, "phase_2r_report.json"), report)
 
     print(f"[2R] primary_finding={decision['primary_finding']}")
     print(f"[2R] wrote {out_dir}/ ({contract['runtime_sec']}s)")
