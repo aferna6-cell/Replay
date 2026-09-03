@@ -1,10 +1,11 @@
 """Simulator Fidelity Phase 2P — replacement-value contamination diagnostic.
 
-Measurement only. Fresh DEV seeds 12700–13199 (500 lobbies).
+Measurement only. DEV seeds 12700–13199 (500 lobbies), reused for 2p_v2.
 Arms: raw greedy + frozen Phase 2J BoardOpp α=0.5.
 
-Quantifies full-board recruit states where abstract scaling alone flips the
-raw-stat greedy replacement rule from replace -> don't replace.
+2p_v2: golden incumbents use natural printed baseline = 2× KB printed stats
+(PREMIUM tag). Reports contamination for all full-board states and for
+non-golden-weakest states only.
 """
 
 from __future__ import annotations
@@ -147,6 +148,7 @@ def run_phase_2p(
     })
 
     print(f"[2P] primary_finding={report['decision']['primary_finding']}")
+    print(f"[2P] survives_nongolden={report['decision'].get('survives_nongolden_weakest_filter')}")
     print(f"[2P] next={report['decision']['recommended_next_step']}")
     print(f"[2P] wrote {out_dir}/ ({contract['runtime_sec']}s)")
     return report
