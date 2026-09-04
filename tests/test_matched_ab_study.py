@@ -105,14 +105,24 @@ def test_gate_results_all_passed():
 @pytest.mark.skipif(not os.path.isdir("results/ppo_matched_ab_v1"),
                     reason="Experiment 4b not run yet")
 def test_all_runs_share_warm_start_hash():
+    from tests.ml_testutil import skip_unless_files
+
     contract = load_contract("results/ppo_matched_ab_v1/contract.json")
     expected = contract["expected_warm_start_parameter_sha256"]
+    assert expected and len(expected) == 64
+    found = False
     for kl in ("beta0", "beta01"):
         for seed in range(4):
             ckpt = (f"results/ppo_matched_ab_v1/{kl}/seed_{seed}/"
                     f"checkpoints/iter_000.pt")
+            if not os.path.isfile(ckpt):
+                continue
+            found = True
             fp = checkpoint_fingerprint(ckpt)
             assert fp["parameter_sha256"] == expected
+    if not found:
+        skip_unless_files(
+            "results/ppo_matched_ab_v1/beta0/seed_0/checkpoints/iter_000.pt")
 
 
 @pytest.mark.skipif(not os.path.isdir("results/ppo_matched_ab_v1/aggregate"),

@@ -77,6 +77,23 @@ python -m hsbg_coach parse-file path/to/Power.log
 python -m hsbg_coach overlay
 ```
 
+## Testing (clean checkout)
+
+Do not rely on packages preinstalled on an agent image. From a fresh clone:
+
+```bash
+# Core: stdlib + pytest. NumPy/Torch tests skip.
+uv run --isolated --extra dev pytest -q
+
+# Full suite: pytest + NumPy + CPU Torch (PR/push CI ML job).
+uv run --isolated --extra full pytest -q
+```
+
+Generated `*.pt` checkpoints are gitignored. Tests that need model bytes
+build a deterministic temporary fixture or skip with rationale and check
+committed experiment JSON instead. See [`tests/README.md`](tests/README.md).
+
+
 ## Combat odds (no ML)
 
 ```python

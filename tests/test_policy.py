@@ -21,6 +21,8 @@ def test_deciders_drive_players_and_record_actions():
 
 
 def test_reward_monotonic():
+    pytest.importorskip("numpy")
+    pytest.importorskip("torch")
     from ml.econ_policy import reward
     assert reward(1) > reward(4) > reward(8)
     assert reward(1) == pytest.approx(1.0)

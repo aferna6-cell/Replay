@@ -11,6 +11,11 @@ dependencies = []  # core is stdlib-only by design (runs anywhere Python does)
 
 [project.optional-dependencies]
 dev = ["pytest>=7"]
+# Optional deep-learning track. Install CPU Torch via uv (see [tool.uv.sources])
+# or: pip install -r requirements-ml.txt
+ml = ["numpy>=1.24", "torch>=2.0"]
+# Full suite = core tests + ML tests. Equivalent to --extra dev --extra ml.
+full = ["pytest>=7", "numpy>=1.24", "torch>=2.0"]
 
 [project.scripts]
 hsbg-coach = "hsbg_coach.cli:main"
@@ -20,3 +25,17 @@ packages = ["hsbg_coach"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "ml: requires the optional ml extra (numpy and/or torch)",
+]
+
+# Keep CI/full-suite Torch on the CPU wheel index. Do not rely on a CUDA
+# build being present on a GitHub-hosted or agent image.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }

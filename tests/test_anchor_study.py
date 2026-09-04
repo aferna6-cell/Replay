@@ -115,6 +115,24 @@ def test_can_pair_anchored_vs_baseline():
 
 @pytest.mark.skipif(not os.path.isdir(DIR), reason="Experiment 4 not run yet")
 def test_warm_start_matches_bc():
-    warm = checkpoint_fingerprint("ml/policy_bc.pt")
-    ckpt = checkpoint_fingerprint(f"{DIR}/checkpoints/iter_000.pt")
+    from tests.ml_testutil import skip_unless_files
+
+    warm_path = "ml/policy_bc.pt"
+    ckpt_path = f"{DIR}/checkpoints/iter_000.pt"
+    skip_unless_files(warm_path, ckpt_path)
+    warm = checkpoint_fingerprint(warm_path)
+    ckpt = checkpoint_fingerprint(ckpt_path)
     assert ckpt["parameter_sha256"] == warm["parameter_sha256"]
+
+
+def test_warm_start_matches_bc_recorded_manifest():
+    """Clean-checkout evidence: committed Experiment 4 hashes, no *.pt bytes."""
+    m_path = f"{DIR}/manifest.json"
+    if not os.path.isfile(m_path):
+        pytest.skip("Experiment 4 manifest not present")
+    m = json.load(open(m_path))
+    warm = m["training"]["warm_start"]["parameter_sha256"]
+    assert warm and len(warm) == 64
+    iter0 = next(ck["parameter_sha256"] for ck in m["checkpoints"]
+                 if ck["iteration"] == 0)
+    assert iter0 == warm

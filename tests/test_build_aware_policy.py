@@ -95,6 +95,8 @@ def test_traced_rollouts_equivalent_control_unchanged():
 
 
 def test_phase_2d_smoke():
+    from tests.ml_testutil import require_ml
+    require_ml()  # contract builder records a Torch/NumPy runtime fingerprint
     from ml.fidelity_phase_2d import run_phase_2d
     result = run_phase_2d(
         lobbies=2, seed=0, out_dir="/tmp/sim_fidelity_phase_2d_test",
