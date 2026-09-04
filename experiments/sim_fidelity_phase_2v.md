@@ -155,5 +155,5 @@ python -m pytest tests/test_phase_2v.py tests/test_phase_2u.py tests/test_phase_
 python -m ml.fidelity_phase_2v          # reused 14200–14699
 ```
 
-Working tree was clean at contract time (`2e2b5fc` + exclusive-support
-fix). Tracer is observational. Runtime **40.66s**.
+Working tree was clean at contract time (`2595f14`, 39.42s). Tracer is
+observational.
