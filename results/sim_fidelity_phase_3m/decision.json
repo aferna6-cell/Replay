@@ -1,0 +1,5933 @@
+{
+  "methodology_version": "3m_v1",
+  "primary_finding": "mixed_route_to_larger",
+  "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+  "feature_toggle_default_off": true,
+  "phase_3m_seed": 14200,
+  "phase_3m_lobbies": 500,
+  "reused_seed_range": "14200\u201314699",
+  "keep_hold_prs": [
+    29,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58
+  ],
+  "no_merge": true,
+  "evaluative": true,
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "no_hero_damage_retune": true,
+  "no_gate_change": true,
+  "no_behavior_change": true,
+  "no_2q_rewrite": true,
+  "no_scaling_constant_change": true,
+  "share_dominant": 0.7,
+  "confirm_seeds_reserved": "11500\u201311699",
+  "frozen_alpha": 0.5,
+  "phase_3d_board_pool_magnitude": 0.4216721428553852,
+  "phase_3e_carry_delta": 0.30513688784757187,
+  "phase_3e_carry_share_of_a1": 0.7236353954551374,
+  "phase_3e_punch_delta_carry": -196.33317557443002,
+  "phase_3f_uncond_share": 0.09084015396406948,
+  "phase_3f_selection_share": 0.9091598460359305,
+  "phase_3g_mixture": -196.52943934946725,
+  "phase_3g_mixture_share": 1.0009996465165045,
+  "phase_3g_within_share": -0.0009996465165047867,
+  "phase_3g_mix_role_share": 0.8158532590211308,
+  "phase_3h_leftover": 7155,
+  "phase_3h_late_control": 17924,
+  "phase_3h_late_treatment": 4273,
+  "phase_3h_collapse": 13651,
+  "phase_3h_share_leftover": 0.5241374258296095,
+  "phase_3i_pairing_schedule": 5952,
+  "phase_3i_share_pairing_schedule": 0.8318658280922432,
+  "phase_3i_different_opponent": 5009,
+  "phase_3i_kind_mismatch": 943,
+  "phase_3j_eligibility": 5648,
+  "phase_3j_share_eligibility": 0.9489247311827957,
+  "phase_3j_rng_order": 304,
+  "phase_3k_third_party": 3701,
+  "phase_3k_share_third_party": 0.6552762039660056,
+  "phase_3k_named": 1947,
+  "phase_3k_share_prior_hp": 0.9337442218798151,
+  "phase_3l_same_seat_earlier": 2082,
+  "phase_3l_share_earlier": 0.5625506619832478,
+  "phase_3l_prior_hp": 1858,
+  "phase_3l_share_prior_hp": 0.8924111431316043,
+  "instrument_turns": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "low_tiers": [
+    1,
+    2,
+    3
+  ],
+  "early_turns": [
+    7,
+    8,
+    9
+  ],
+  "late_turns": [
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "very_late_turns": [
+    12,
+    13,
+    14
+  ],
+  "pairing_turns": [
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "trace_from_turn": 7,
+  "hp_walk_from_turn": 1,
+  "chain_components": [
+    "same_seat_earlier_elimination",
+    "different_seat_alive_set_cascade",
+    "same_fight_outcome_flip",
+    "same_outcome_damage_threshold",
+    "unreconciled"
+  ],
+  "hp_gap_components": [
+    "accumulated_prior_hp",
+    "current_fight_hit",
+    "current_fight_damage_magnitude",
+    "hp_unreconciled"
+  ],
+  "first_divergence_components": [
+    "prior_alive_set_or_pairing",
+    "same_pairing_outcome_flip",
+    "same_outcome_damage",
+    "inherited_hp_carry",
+    "unreconciled"
+  ],
+  "unsupported_marked_not_approximated": true,
+  "venomous_equals_poisonous_in_sim": true,
+  "ordinary_hp_loss_identity": "min(pre_hit_hp, effective_incoming_attack)",
+  "impact_attack_identity": "impact_attack = start_recruit + start_pool_share + combat_delta",
+  "pool_flow_identity": "post = pre + add - represented_loss_or_transfer",
+  "history_link_identity": "punch.opp_carry = seat_history[turn].attack_pool_recruit_start",
+  "weight_reconciliation_identity": "sum_k n_arm(k) = N_arm; sum_k w_arm(k) = 1; mixture + within_cell + leftover = unpaired_punch_delta_carry",
+  "lineage_identity": "t1t3_end = t1t3_start + t1t3_added - t1t3_removed",
+  "paired_seat_identity": "paired (seed, seat) in both arms; first_loss_turn is the first instrumented turn the seat's combat-start T1\u2013T3 count hits 0",
+  "pairing_identity": "same pairing iff both fights are live and opponent_seat matches at (seed, leftover_winner_seat, turn)",
+  "leftover_reconcile_identity": "pairing_schedule + outcome_flip + survivor_substitution + residual = 3H leftover (treatment alive and still fields T1\u2013T3)",
+  "candidate_choice_identity": "chosen opponent is an element of the logged legal candidate set (other alive seats, plus ghost/bye iff the lobby is odd and eligible)",
+  "matchmaking_reconcile_identity": "eligibility + history_legal + rng_order + unreconciled = 3I pairing_schedule (5952 leftover punch rows)",
+  "hp_flow_identity": "post_hp = pre_hp - applied_to_seat; applied_fight = sum of seat HP losses",
+  "elimination_identity": "elimination_turn is the first combat turn after which the seat is dead (hp<=0); survived seats have no combat elimination",
+  "eligibility_timing_identity": "treatment_eliminated_earlier + control_opponent_eliminated_earlier + ghost_bye_third_party + unreconciled = 3J eligibility (5648)",
+  "hp_gap_reconcile_identity": "accumulated_prior_hp + current_fight_hit + current_fight_damage_magnitude + hp_unreconciled = treatment_eliminated_earlier + control_opponent_eliminated_earlier",
+  "chain_reconcile_identity": "same_seat_earlier_elimination + different_seat_alive_set_cascade + same_fight_outcome_flip + same_outcome_damage_threshold + unreconciled = 3K ghost_bye_third_party (3701)",
+  "chain_hp_reconcile_identity": "accumulated_prior_hp + current_fight_hit + current_fight_damage_magnitude + hp_unreconciled = same_seat_earlier_elimination",
+  "row_elim_hp_identity": "every 3K third-party row maps to one causal elimination event; that event's fight has post_hp<=0; post_hp = pre_hp - applied_to_seat",
+  "first_divergence_reconcile_identity": "prior_alive_set_or_pairing + same_pairing_outcome_flip + same_outcome_damage + inherited_hp_carry + unreconciled = 3L same_seat_earlier_elimination (2082)",
+  "row_history_divergence_identity": "every class-(1) row maps to one causal-seat history and exactly one first-divergence event; that event's fight satisfies post_hp = pre_hp - applied_to_seat when a fight is present",
+  "history_filters_applied": false,
+  "recommended_next_step": "No single first-divergence class clears ~70% of the 3L same-seat earlier class (top=same_outcome_damage). Rank components and pursue the largest. Do not apply a scaling correction; do not rewrite 2Q; do not change `_hero_damage`; do not retune scaling constants; do not burn confirm.",
+  "ranked_residual": [
+    {
+      "component": "same_outcome_damage",
+      "share": 0.5086455331412104,
+      "abs_share": 0.5086455331412104
+    },
+    {
+      "component": "prior_alive_set_or_pairing",
+      "share": 0.28674351585014407,
+      "abs_share": 0.28674351585014407
+    },
+    {
+      "component": "same_pairing_outcome_flip",
+      "share": 0.20461095100864554,
+      "abs_share": 0.20461095100864554
+    },
+    {
+      "component": "inherited_hp_carry",
+      "share": 0.0,
+      "abs_share": 0.0
+    },
+    {
+      "component": "unreconciled",
+      "share": 0.0,
+      "abs_share": 0.0
+    }
+  ],
+  "share_prior_alive_set_or_pairing": 0.28674351585014407,
+  "share_same_pairing_outcome_flip": 0.20461095100864554,
+  "share_same_outcome_damage": 0.5086455331412104,
+  "share_inherited_hp_carry": 0.0,
+  "share_unreconciled": 0.0,
+  "attribution": {
+    "turns": [
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "trace_from_turn": 7,
+    "hp_walk_from_turn": 1,
+    "n_pairing_schedule": 5952,
+    "n_eligibility": 5648,
+    "n_third_party": 3701,
+    "n_same_seat_earlier": 2082,
+    "n_leftover_input": 7155,
+    "published_third_party": 3701,
+    "third_party_reproduced": true,
+    "published_same_seat_earlier": 2082,
+    "same_seat_earlier_reproduced": true,
+    "published_eligibility": 5648,
+    "eligibility_reproduced": true,
+    "published_pairing_schedule": 5952,
+    "pairing_schedule_reproduced": true,
+    "chain_3l_counts": {
+      "different_seat_alive_set_cascade": 561,
+      "same_outcome_damage_threshold": 724,
+      "same_seat_earlier_elimination": 2082,
+      "same_fight_outcome_flip": 334
+    },
+    "chain_3l_hp_counts": {
+      "accumulated_prior_hp": 1858,
+      "current_fight_hit": 120,
+      "current_fight_damage_magnitude": 104
+    },
+    "timing_3k_counts": {
+      "ghost_bye_third_party": 3701,
+      "treatment_eliminated_earlier": 1108,
+      "control_opponent_eliminated_earlier": 839
+    },
+    "matchmaking_counts": {
+      "eligibility": 5648,
+      "rng_order": 304
+    },
+    "counts": {
+      "same_pairing_outcome_flip": 426,
+      "prior_alive_set_or_pairing": 597,
+      "same_outcome_damage": 1059
+    },
+    "first_divergence_turn_counts": {
+      "5": 1239,
+      "6": 657,
+      "7": 167,
+      "8": 12,
+      "9": 7
+    },
+    "attributed": {
+      "prior_alive_set_or_pairing": 597.0,
+      "same_pairing_outcome_flip": 426.0,
+      "same_outcome_damage": 1059.0,
+      "inherited_hp_carry": 0.0,
+      "unreconciled": 0.0
+    },
+    "reconstructed_class1_rows": 2082.0,
+    "reconciliation_gap": 0.0,
+    "reconciliation_ok": true,
+    "n_row_checked": 2082,
+    "n_first_divergence_linked": 2082,
+    "n_row_hp_flow_ok": 2082,
+    "n_history_linked": 2082,
+    "row_divergence_ok": true,
+    "row_hp_flow_ok": true,
+    "row_history_ok": true,
+    "share_prior_alive_set_or_pairing": 0.28674351585014407,
+    "share_same_pairing_outcome_flip": 0.20461095100864554,
+    "share_same_outcome_damage": 0.5086455331412104,
+    "share_inherited_hp_carry": 0.0,
+    "share_unreconciled": 0.0,
+    "examples": {
+      "prior_alive_set_or_pairing": [
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 1,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 4
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 0,
+            "choice_in_candidates": true,
+            "pairing_index": 0
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 1,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 4
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 0,
+            "choice_in_candidates": true,
+            "pairing_index": 0
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 1,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 4
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 0,
+            "choice_in_candidates": true,
+            "pairing_index": 0
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 1,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 4
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              6,
+              5,
+              5,
+              3
+            ],
+            "history_constrained_candidates": [
+              2,
+              4,
+              7
+            ],
+            "chosen": 0,
+            "choice_in_candidates": true,
+            "pairing_index": 0
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 2,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 1
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 5,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 2,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 1
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 5,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 2,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 1
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 5,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14203,
+          "turn": 10,
+          "leftover_seat": 2,
+          "causal_seat": 6,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "prior_alive_set_or_pairing",
+          "first_divergence_turn": 6,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": false,
+          "same_fight_pairing": false,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 1,
+          "treatment_opponent": 4,
+          "control_outcome": "loss",
+          "treatment_outcome": "tie",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 12,
+          "treatment_post_hp": 20,
+          "control_applied": 8,
+          "treatment_applied": 0,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 0,
+          "control_survivor_tier_sum": 4,
+          "treatment_survivor_tier_sum": 0,
+          "control_tavern_tier": 4,
+          "treatment_tavern_tier": 4,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 81.0,
+          "treatment_total_combat_raw": 88.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 1,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 12,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 2,
+            "survivor_tier_sum": 4,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 81.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 6,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 20,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 4,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 88.0,
+            "elimination_turn": 8
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "6fe8c692fbd69e8cc584df956d28595273ab6589a0c80ca5062470fb3fb89a9a",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              4,
+              5,
+              1,
+              6,
+              3,
+              0
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 1
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "ee7a6e2f73de35c50ba828d70788440691c71f044fb29402fc4ef93467119c88",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3997549351,
+              1976659566,
+              2827615714,
+              246655243
+            ],
+            "shuffled_order": [
+              1,
+              0,
+              4,
+              6,
+              5,
+              2,
+              7,
+              3
+            ],
+            "pairs": [
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                7,
+                3
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              3,
+              4,
+              4,
+              0
+            ],
+            "history_constrained_candidates": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "chosen": 5,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        }
+      ],
+      "same_pairing_outcome_flip": [
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 3,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              6,
+              0,
+              0,
+              5
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "chosen": 6,
+            "choice_in_candidates": true,
+            "pairing_index": 6
+          }
+        },
+        {
+          "seed": 14202,
+          "turn": 11,
+          "leftover_seat": 6,
+          "causal_seat": 5,
+          "earlier_elimination_turn": 7,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_pairing_outcome_flip",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 4,
+          "treatment_opponent": 4,
+          "control_outcome": "tie",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 28,
+          "treatment_pre_hp": 28,
+          "control_post_hp": 28,
+          "treatment_post_hp": 23,
+          "control_applied": 0,
+          "treatment_applied": 5,
+          "control_survivor_count": 0,
+          "treatment_survivor_count": 1,
+          "control_survivor_tier_sum": 0,
+          "treatment_survivor_tier_sum": 2,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 24.0,
+          "treatment_board_recruit_raw": 24.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 62.0,
+          "control_total_combat_raw": 86.0,
+          "treatment_total_combat_raw": 86.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "tie",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 28,
+            "applied_damage": 0,
+            "applied_hp_loss": 0,
+            "survivor_count": 0,
+            "survivor_tier_sum": 0,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 13
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 4,
+            "outcome": "loss",
+            "pre_combat_hp": 28,
+            "post_combat_hp": 23,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 24.0,
+            "abstract_pool_raw": 62.0,
+            "total_combat_raw": 86.0,
+            "elimination_turn": 7
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              7
+            ],
+            "prior_opponents": [
+              3,
+              4,
+              2,
+              7
+            ],
+            "history_constrained_candidates": [
+              0,
+              1,
+              5
+            ],
+            "chosen": 3,
+            "choice_in_candidates": true,
+            "pairing_index": 7
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "d248580ea2d599dad622954ea4066f9e1013ceb4df01bf5704030547bfb51eb8",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3429013351,
+              3223457976,
+              3126591907,
+              3535296454
+            ],
+            "shuffled_order": [
+              7,
+              2,
+              1,
+              0,
+              4,
+              5,
+              3,
+              6
+            ],
+            "pairs": [
+              [
+                7,
+                2
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              7
+            ],
+            "prior_opponents": [
+              3,
+              4,
+              2,
+              7
+            ],
+            "history_constrained_candidates": [
+              0,
+              1,
+              5
+            ],
+            "chosen": 3,
+            "choice_in_candidates": true,
+            "pairing_index": 7
+          }
+        }
+      ],
+      "same_outcome_damage": [
+        {
+          "seed": 14207,
+          "turn": 10,
+          "leftover_seat": 4,
+          "causal_seat": 3,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 5,
+          "treatment_opponent": 5,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 15,
+          "treatment_post_hp": 10,
+          "control_applied": 5,
+          "treatment_applied": 10,
+          "control_survivor_count": 1,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 2,
+          "treatment_survivor_tier_sum": 7,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 27.0,
+          "treatment_board_recruit_raw": 27.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 40.0,
+          "control_total_combat_raw": 67.0,
+          "treatment_total_combat_raw": 67.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 15,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 8
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 10,
+            "applied_damage": 10,
+            "applied_hp_loss": 10,
+            "survivor_count": 3,
+            "survivor_tier_sum": 7,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 40.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14207,
+          "turn": 10,
+          "leftover_seat": 4,
+          "causal_seat": 3,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 5,
+          "treatment_opponent": 5,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 15,
+          "treatment_post_hp": 10,
+          "control_applied": 5,
+          "treatment_applied": 10,
+          "control_survivor_count": 1,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 2,
+          "treatment_survivor_tier_sum": 7,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 27.0,
+          "treatment_board_recruit_raw": 27.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 40.0,
+          "control_total_combat_raw": 67.0,
+          "treatment_total_combat_raw": 67.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 15,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 8
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 10,
+            "applied_damage": 10,
+            "applied_hp_loss": 10,
+            "survivor_count": 3,
+            "survivor_tier_sum": 7,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 40.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14207,
+          "turn": 10,
+          "leftover_seat": 4,
+          "causal_seat": 3,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 5,
+          "treatment_opponent": 5,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 15,
+          "treatment_post_hp": 10,
+          "control_applied": 5,
+          "treatment_applied": 10,
+          "control_survivor_count": 1,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 2,
+          "treatment_survivor_tier_sum": 7,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 27.0,
+          "treatment_board_recruit_raw": 27.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 40.0,
+          "control_total_combat_raw": 67.0,
+          "treatment_total_combat_raw": 67.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 15,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 8
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 10,
+            "applied_damage": 10,
+            "applied_hp_loss": 10,
+            "survivor_count": 3,
+            "survivor_tier_sum": 7,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 40.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14207,
+          "turn": 10,
+          "leftover_seat": 4,
+          "causal_seat": 3,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 5,
+          "treatment_opponent": 5,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 15,
+          "treatment_post_hp": 10,
+          "control_applied": 5,
+          "treatment_applied": 10,
+          "control_survivor_count": 1,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 2,
+          "treatment_survivor_tier_sum": 7,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 27.0,
+          "treatment_board_recruit_raw": 27.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 40.0,
+          "control_total_combat_raw": 67.0,
+          "treatment_total_combat_raw": 67.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 15,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 8
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 10,
+            "applied_damage": 10,
+            "applied_hp_loss": 10,
+            "survivor_count": 3,
+            "survivor_tier_sum": 7,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 40.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14207,
+          "turn": 10,
+          "leftover_seat": 4,
+          "causal_seat": 3,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 5,
+          "treatment_opponent": 5,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 15,
+          "treatment_post_hp": 10,
+          "control_applied": 5,
+          "treatment_applied": 10,
+          "control_survivor_count": 1,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 2,
+          "treatment_survivor_tier_sum": 7,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 27.0,
+          "treatment_board_recruit_raw": 27.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 40.0,
+          "control_total_combat_raw": 67.0,
+          "treatment_total_combat_raw": 67.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 15,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 8
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 10,
+            "applied_damage": 10,
+            "applied_hp_loss": 10,
+            "survivor_count": 3,
+            "survivor_tier_sum": 7,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 40.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14207,
+          "turn": 10,
+          "leftover_seat": 4,
+          "causal_seat": 3,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 5,
+          "treatment_opponent": 5,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 20,
+          "treatment_pre_hp": 20,
+          "control_post_hp": 15,
+          "treatment_post_hp": 10,
+          "control_applied": 5,
+          "treatment_applied": 10,
+          "control_survivor_count": 1,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 2,
+          "treatment_survivor_tier_sum": 7,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 27.0,
+          "treatment_board_recruit_raw": 27.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 40.0,
+          "control_total_combat_raw": 67.0,
+          "treatment_total_combat_raw": 67.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 15,
+            "applied_damage": 5,
+            "applied_hp_loss": 5,
+            "survivor_count": 1,
+            "survivor_tier_sum": 2,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 8
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 5,
+            "outcome": "loss",
+            "pre_combat_hp": 20,
+            "post_combat_hp": 10,
+            "applied_damage": 10,
+            "applied_hp_loss": 10,
+            "survivor_count": 3,
+            "survivor_tier_sum": 7,
+            "tavern_tier": 3,
+            "board_recruit_raw": 27.0,
+            "abstract_pool_raw": 40.0,
+            "total_combat_raw": 67.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "87d6a70a2c7608ea7498512080c928ad1a8cb9b35978adc393a91805a5ffd5e9",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3135116629,
+              303487516,
+              3555545376,
+              2830333387
+            ],
+            "shuffled_order": [
+              3,
+              5,
+              1,
+              0,
+              7,
+              4,
+              6,
+              2
+            ],
+            "pairs": [
+              [
+                3,
+                5
+              ],
+              [
+                1,
+                0
+              ],
+              [
+                7,
+                4
+              ],
+              [
+                6,
+                2
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              0,
+              0,
+              7,
+              3
+            ],
+            "history_constrained_candidates": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "chosen": 7,
+            "choice_in_candidates": true,
+            "pairing_index": 5
+          }
+        },
+        {
+          "seed": 14212,
+          "turn": 10,
+          "leftover_seat": 1,
+          "causal_seat": 0,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 6,
+          "treatment_opponent": 6,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 16,
+          "treatment_pre_hp": 16,
+          "control_post_hp": 9,
+          "treatment_post_hp": 8,
+          "control_applied": 7,
+          "treatment_applied": 8,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 3,
+          "treatment_survivor_tier_sum": 5,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 38.0,
+          "control_total_combat_raw": 63.0,
+          "treatment_total_combat_raw": 64.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 6,
+            "outcome": "loss",
+            "pre_combat_hp": 16,
+            "post_combat_hp": 9,
+            "applied_damage": 7,
+            "applied_hp_loss": 7,
+            "survivor_count": 2,
+            "survivor_tier_sum": 3,
+            "tavern_tier": 3,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 63.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 6,
+            "outcome": "loss",
+            "pre_combat_hp": 16,
+            "post_combat_hp": 8,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 3,
+            "survivor_tier_sum": 5,
+            "tavern_tier": 3,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 38.0,
+            "total_combat_raw": 64.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "aa9f1927cd1dd66dea055c92b01454f0ad4f752b458933ef2e5d98330e8e57ae",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3858719704,
+              3056586856,
+              3927923920,
+              3656712643
+            ],
+            "shuffled_order": [
+              7,
+              3,
+              5,
+              2,
+              0,
+              6,
+              4,
+              1
+            ],
+            "pairs": [
+              [
+                7,
+                3
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                4,
+                1
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              5,
+              0,
+              7
+            ],
+            "history_constrained_candidates": [
+              2,
+              3,
+              6
+            ],
+            "chosen": 4,
+            "choice_in_candidates": true,
+            "pairing_index": 7
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "aa9f1927cd1dd66dea055c92b01454f0ad4f752b458933ef2e5d98330e8e57ae",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3858719704,
+              3056586856,
+              3927923920,
+              3656712643
+            ],
+            "shuffled_order": [
+              7,
+              3,
+              5,
+              2,
+              0,
+              6,
+              4,
+              1
+            ],
+            "pairs": [
+              [
+                7,
+                3
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                4,
+                1
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              5,
+              0,
+              7
+            ],
+            "history_constrained_candidates": [
+              2,
+              3,
+              6
+            ],
+            "chosen": 4,
+            "choice_in_candidates": true,
+            "pairing_index": 7
+          }
+        },
+        {
+          "seed": 14212,
+          "turn": 10,
+          "leftover_seat": 1,
+          "causal_seat": 0,
+          "earlier_elimination_turn": 6,
+          "chain_class": "same_seat_earlier_elimination",
+          "hp_gap_class": "accumulated_prior_hp",
+          "class": "same_outcome_damage",
+          "first_divergence_turn": 5,
+          "found_event": true,
+          "control_obs": true,
+          "treatment_obs": true,
+          "history_linked": true,
+          "pre_hp_equal": true,
+          "post_hp_equal": false,
+          "pairing_equal": true,
+          "same_fight_pairing": true,
+          "control_kind": "live",
+          "treatment_kind": "live",
+          "control_opponent": 6,
+          "treatment_opponent": 6,
+          "control_outcome": "loss",
+          "treatment_outcome": "loss",
+          "control_pre_hp": 16,
+          "treatment_pre_hp": 16,
+          "control_post_hp": 9,
+          "treatment_post_hp": 8,
+          "control_applied": 7,
+          "treatment_applied": 8,
+          "control_survivor_count": 2,
+          "treatment_survivor_count": 3,
+          "control_survivor_tier_sum": 3,
+          "treatment_survivor_tier_sum": 5,
+          "control_tavern_tier": 3,
+          "treatment_tavern_tier": 3,
+          "control_board_recruit_raw": 26.0,
+          "treatment_board_recruit_raw": 26.0,
+          "control_abstract_pool_raw": 0.0,
+          "treatment_abstract_pool_raw": 38.0,
+          "control_total_combat_raw": 63.0,
+          "treatment_total_combat_raw": 64.0,
+          "hp_flow_ok": true,
+          "control_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 6,
+            "outcome": "loss",
+            "pre_combat_hp": 16,
+            "post_combat_hp": 9,
+            "applied_damage": 7,
+            "applied_hp_loss": 7,
+            "survivor_count": 2,
+            "survivor_tier_sum": 3,
+            "tavern_tier": 3,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 0.0,
+            "total_combat_raw": 63.0,
+            "elimination_turn": 7
+          },
+          "treatment_decisive": {
+            "turn": 5,
+            "kind": "live",
+            "opponent": 6,
+            "outcome": "loss",
+            "pre_combat_hp": 16,
+            "post_combat_hp": 8,
+            "applied_damage": 8,
+            "applied_hp_loss": 8,
+            "survivor_count": 3,
+            "survivor_tier_sum": 5,
+            "tavern_tier": 3,
+            "board_recruit_raw": 26.0,
+            "abstract_pool_raw": 38.0,
+            "total_combat_raw": 64.0,
+            "elimination_turn": 6
+          },
+          "control": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "aa9f1927cd1dd66dea055c92b01454f0ad4f752b458933ef2e5d98330e8e57ae",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3858719704,
+              3056586856,
+              3927923920,
+              3656712643
+            ],
+            "shuffled_order": [
+              7,
+              3,
+              5,
+              2,
+              0,
+              6,
+              4,
+              1
+            ],
+            "pairs": [
+              [
+                7,
+                3
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                4,
+                1
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              5,
+              0,
+              7
+            ],
+            "history_constrained_candidates": [
+              2,
+              3,
+              6
+            ],
+            "chosen": 4,
+            "choice_in_candidates": true,
+            "pairing_index": 7
+          },
+          "treatment": {
+            "alive_seats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "dead_with_board_seats": [],
+            "n_alive": 8,
+            "odd_alive": false,
+            "ghost_eligible": false,
+            "bye_eligible": false,
+            "history_filters_applied": false,
+            "rng_state_digest_pre": "aa9f1927cd1dd66dea055c92b01454f0ad4f752b458933ef2e5d98330e8e57ae",
+            "rng_index_pre": null,
+            "rng_state_head_pre": [
+              3858719704,
+              3056586856,
+              3927923920,
+              3656712643
+            ],
+            "shuffled_order": [
+              7,
+              3,
+              5,
+              2,
+              0,
+              6,
+              4,
+              1
+            ],
+            "pairs": [
+              [
+                7,
+                3
+              ],
+              [
+                5,
+                2
+              ],
+              [
+                0,
+                6
+              ],
+              [
+                4,
+                1
+              ]
+            ],
+            "legal_candidates": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "prior_opponents": [
+              4,
+              5,
+              0,
+              7
+            ],
+            "history_constrained_candidates": [
+              2,
+              3,
+              6
+            ],
+            "chosen": 4,
+            "choice_in_candidates": true,
+            "pairing_index": 7
+          }
+        }
+      ],
+      "inherited_hp_carry": [],
+      "unreconciled": []
+    },
+    "n_compared_kept": 64,
+    "candidate_choice_ok": true,
+    "matchmaking_reconciliation_ok": true,
+    "timing_reconciliation_ok": true,
+    "chain_reconciliation_ok": true,
+    "hp_gap_reconciliation_ok": true,
+    "_chain_cmp": null
+  },
+  "keep_pr_29_hold": true,
+  "keep_pr_33_hold": true,
+  "keep_pr_34_hold": true,
+  "keep_pr_35_hold": true,
+  "keep_pr_36_hold": true,
+  "keep_pr_37_hold": true,
+  "keep_pr_38_hold": true,
+  "keep_pr_39_hold": true,
+  "keep_pr_40_hold": true,
+  "keep_pr_41_hold": true,
+  "keep_pr_42_hold": true,
+  "keep_pr_43_hold": true,
+  "keep_pr_44_hold": true,
+  "keep_pr_45_hold": true,
+  "keep_pr_46_hold": true,
+  "keep_pr_47_hold": true,
+  "keep_pr_50_hold": true,
+  "keep_pr_51_hold": true,
+  "keep_pr_52_hold": true,
+  "keep_pr_53_hold": true,
+  "keep_pr_54_hold": true,
+  "keep_pr_55_hold": true,
+  "keep_pr_56_hold": true,
+  "keep_pr_57_hold": true,
+  "keep_pr_58_hold": true
+}
