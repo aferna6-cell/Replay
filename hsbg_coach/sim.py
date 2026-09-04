@@ -221,6 +221,17 @@ def _bump_map(ctx: Dict, name: str, bid: str, n: int = 1) -> None:
     bucket[bid] = int(bucket.get(bid) or 0) + n
 
 
+def _hit_overkill(incoming: int, hp_before: int, *, poison: bool, lethal: bool) -> int:
+    """Damage beyond the death threshold. Poison leftover HP counts as overkill."""
+    if not lethal:
+        return max(0, int(incoming) - int(hp_before))
+    needed = max(0, int(hp_before))
+    extra = max(0, int(incoming) - needed)
+    if poison:
+        extra += max(0, needed - int(incoming))
+    return int(extra)
+
+
 def _trace_hit(
     ctx: Dict,
     bid: str,
@@ -233,16 +244,55 @@ def _trace_hit(
     hp_before: int,
     hp_after: int,
     lethal: bool,
+    incoming: int,
 ) -> None:
-    """Observational per-swing / per-body lethal-cause tags. No RNG."""
+    """Observational per-swing / per-body lethal-cause and HP-flow tags. No RNG."""
+    incoming = int(incoming)
+    hp_before = int(hp_before)
+    hp_after = int(hp_after)
+    applied = max(0, hp_before - max(hp_after, 0))
+    damaging = hp_after < hp_before
+    hp_delta = hp_before - hp_after
+    if damaging or lethal:
+        overkill = _hit_overkill(
+            incoming, hp_before, poison=bool(poison), lethal=bool(lethal),
+        )
+    else:
+        overkill = 0
     ctx["n_damage"] = int(ctx.get("n_damage") or 0) + 1
+    ctx["n_incoming"] = int(ctx.get("n_incoming") or 0) + incoming
+    ctx["n_applied"] = int(ctx.get("n_applied") or 0) + applied
+    ctx["n_hp_delta"] = int(ctx.get("n_hp_delta") or 0) + hp_delta
+    if damaging:
+        ctx["n_damaging"] = int(ctx.get("n_damaging") or 0) + 1
+    if lethal:
+        ctx["n_overkill"] = int(ctx.get("n_overkill") or 0) + overkill
     if not bid:
         return
-    ctx.setdefault("end_health", {})[bid] = int(hp_after)
+    ctx.setdefault("end_health", {})[bid] = hp_after
     ctx.setdefault("end_divine_shield", {})[bid] = bool(ds_after)
     ctx.setdefault("ds_before_last_hit", {})[bid] = bool(ds_before)
     ctx.setdefault("ds_after_last_hit", {})[bid] = bool(ds_after)
+    ctx.setdefault("last_hp_before", {})[bid] = hp_before
+    ctx.setdefault("last_hp_after", {})[bid] = hp_after
+    ctx.setdefault("last_incoming", {})[bid] = incoming
+    ctx.setdefault("last_cause", {})[bid] = cause
     _bump_map(ctx, "n_hits", bid)
+    _bump_map(ctx, "cumulative_incoming", bid, incoming)
+    _bump_map(ctx, "cumulative_applied", bid, applied)
+    _bump_map(ctx, "hp_delta_sum", bid, hp_delta)
+    if damaging:
+        _bump_map(ctx, "n_damaging_hits", bid)
+    if poison:
+        _bump_map(ctx, "incoming_poison", bid, incoming)
+    if cleave_role == "primary" or cleave_role == "secondary" or cause == "cleave":
+        _bump_map(ctx, "incoming_cleave", bid, incoming)
+    if cause == "start_of_combat":
+        _bump_map(ctx, "incoming_soc", bid, incoming)
+    if cause in ("attack", "counterattack"):
+        _bump_map(ctx, "incoming_ordinary", bid, incoming)
+    if cause == "death_burst":
+        _bump_map(ctx, "incoming_other", bid, incoming)
     if ds_before and not ds_after:
         ctx["n_shield_pops"] = int(ctx.get("n_shield_pops") or 0) + 1
         _bump_map(ctx, "n_shield_pops_body", bid)
@@ -278,7 +328,22 @@ def _trace_hit(
     if lethal:
         ctx.setdefault("death_cause", {})[bid] = cause
         ctx.setdefault("killed_by", {})[bid] = ctx.get("pending_attacker_id")
+        ctx.setdefault("overkill_on_death", {})[bid] = overkill
         ctx["n_deaths"] = int(ctx.get("n_deaths") or 0) + 1
+    events = ctx.setdefault("hit_events", {})
+    lst = events.setdefault(bid, [])
+    lst.append({
+        "cause": cause,
+        "incoming": incoming,
+        "hp_before": hp_before,
+        "hp_after": hp_after,
+        "poison": bool(poison),
+        "cleave_role": cleave_role,
+        "damaging": bool(damaging),
+        "applied": applied,
+        "overkill": overkill,
+        "lethal": bool(lethal),
+    })
 
 
 def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
@@ -297,6 +362,7 @@ def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
                 cause=cause, poison=poison, cleave_role=cleave_role,
                 ds_before=True, ds_after=False,
                 hp_before=pre, hp_after=int(target.health), lethal=False,
+                incoming=int(dmg),
             )
         return
     target.health -= dmg
@@ -309,6 +375,7 @@ def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
             cause=cause, poison=poison, cleave_role=cleave_role,
             ds_before=ds_before, ds_after=bool(target.divine_shield),
             hp_before=pre, hp_after=int(target.health), lethal=lethal,
+            incoming=int(dmg),
         )
 
 
@@ -589,6 +656,50 @@ def _annotate_attack_rows(
             (ctx.get("n_ordinary_counter_body") or {}).get(bid) or 0
         )
         row["ordinary_lethal"] = bool((ctx.get("ordinary_lethal") or {}).get(bid))
+        n_hits = int(row.get("n_hits") or 0)
+        incoming = int((ctx.get("cumulative_incoming") or {}).get(bid) or 0)
+        applied = int((ctx.get("cumulative_applied") or {}).get(bid) or 0)
+        hp_delta = int((ctx.get("hp_delta_sum") or {}).get(bid) or 0)
+        row["cumulative_incoming"] = incoming
+        row["cumulative_applied"] = applied
+        row["hp_delta_sum"] = hp_delta
+        row["incoming_ordinary"] = int(
+            (ctx.get("incoming_ordinary") or {}).get(bid) or 0
+        )
+        row["incoming_poison"] = int(
+            (ctx.get("incoming_poison") or {}).get(bid) or 0
+        )
+        row["incoming_cleave"] = int(
+            (ctx.get("incoming_cleave") or {}).get(bid) or 0
+        )
+        row["incoming_soc"] = int((ctx.get("incoming_soc") or {}).get(bid) or 0)
+        row["incoming_other"] = int(
+            (ctx.get("incoming_other") or {}).get(bid) or 0
+        )
+        row["n_damaging_hits"] = int(
+            (ctx.get("n_damaging_hits") or {}).get(bid) or 0
+        )
+        row["overkill_on_death"] = int(
+            (ctx.get("overkill_on_death") or {}).get(bid) or 0
+        )
+        last_before = (ctx.get("last_hp_before") or {}).get(bid)
+        last_after = (ctx.get("last_hp_after") or {}).get(bid)
+        row["last_hp_before"] = (
+            int(last_before) if last_before is not None else start_hp
+        )
+        row["last_hp_after"] = (
+            int(last_after) if last_after is not None else int(row["end_health"])
+        )
+        row["last_incoming"] = int((ctx.get("last_incoming") or {}).get(bid) or 0)
+        row["last_cause"] = (ctx.get("last_cause") or {}).get(bid)
+        row["mean_incoming_dmg"] = (
+            float(incoming) / float(n_hits) if n_hits else 0.0
+        )
+        mean_in = float(row["mean_incoming_dmg"])
+        row["hp_depletion_margin"] = float(start_hp) / max(mean_in, 1.0)
+        row["hp_flow_ok"] = (start_hp - int(row["end_health"])) == hp_delta
+        events = (ctx.get("hit_events") or {}).get(bid) or []
+        row["hit_events"] = list(events)
 
 
 def _do_attack(attacker: Combatant, atk_board: List[Combatant],
@@ -752,6 +863,21 @@ def fill_combat_survivor_trace(
     n_ordinary_lethal = sum(1 for r in all_bodies if r.get("ordinary_lethal"))
     n_death_causes = sum(1 for r in all_bodies if r.get("death_cause"))
     n_hits_events = int(ctx.get("n_damage") or 0)
+    n_incoming_events = int(ctx.get("n_incoming") or 0)
+    n_applied_events = int(ctx.get("n_applied") or 0)
+    n_hp_delta_events = int(ctx.get("n_hp_delta") or 0)
+    n_damaging_events = int(ctx.get("n_damaging") or 0)
+    n_overkill_events = int(ctx.get("n_overkill") or 0)
+    n_incoming_sum = int(sum(int(r.get("cumulative_incoming") or 0) for r in all_bodies))
+    n_applied_sum = int(sum(int(r.get("cumulative_applied") or 0) for r in all_bodies))
+    n_hp_delta_sum = int(sum(int(r.get("hp_delta_sum") or 0) for r in all_bodies))
+    n_damaging_sum = int(sum(int(r.get("n_damaging_hits") or 0) for r in all_bodies))
+    n_overkill_sum = int(sum(int(r.get("overkill_on_death") or 0) for r in all_bodies))
+    n_start_minus_end = int(sum(
+        int(r.get("start_health") or 0) - int(r.get("end_health") or 0)
+        for r in all_bodies
+    ))
+    n_hp_flow_ok = sum(1 for r in all_bodies if r.get("hp_flow_ok") is False)
     n_shield_events = int(ctx.get("n_shield_pops") or 0)
     n_poison_events = int(ctx.get("n_poison_hits") or 0)
     n_cleave_p_events = int(ctx.get("n_cleave_primary") or 0)
@@ -798,6 +924,18 @@ def fill_combat_survivor_trace(
         "n_soc_lethal": n_soc_lethal,
         "n_ordinary_lethal": n_ordinary_lethal,
         "n_death_causes": n_death_causes,
+        "n_incoming_events": n_incoming_events,
+        "n_incoming_sum": n_incoming_sum,
+        "n_applied_events": n_applied_events,
+        "n_applied_sum": n_applied_sum,
+        "n_hp_delta_events": n_hp_delta_events,
+        "n_hp_delta_sum": n_hp_delta_sum,
+        "n_start_minus_end": n_start_minus_end,
+        "n_damaging_events": n_damaging_events,
+        "n_damaging_sum": n_damaging_sum,
+        "n_overkill_events": n_overkill_events,
+        "n_overkill_sum": n_overkill_sum,
+        "n_hp_flow_mismatch_bodies": n_hp_flow_ok,
         "n_immediate_attacks": int(ctx.get("n_immediate_attacks") or 0),
         "n_unsupported_placeholders": n_placeholder,
         "n_living_end": n_living_end,
@@ -816,6 +954,14 @@ def fill_combat_survivor_trace(
         "ordinary_attack_reconcile": n_ord_atk_events == n_ord_atk_sum,
         "ordinary_counter_reconcile": n_ord_ctr_events == n_ord_ctr_sum,
         "death_causes_reconcile": n_death_causes == n_death_events,
+        "incoming_reconcile": n_incoming_events == n_incoming_sum,
+        "applied_reconcile": n_applied_events == n_applied_sum,
+        "hp_delta_reconcile": n_hp_delta_events == n_hp_delta_sum,
+        "hp_flow_reconcile": (
+            n_hp_delta_events == n_start_minus_end and n_hp_flow_ok == 0
+        ),
+        "damaging_hits_reconcile": n_damaging_events == n_damaging_sum,
+        "overkill_reconcile": n_overkill_events == n_overkill_sum,
     }
     trace.update({
         "winner_side": winner_side,
