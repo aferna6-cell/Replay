@@ -221,7 +221,15 @@ def _record_created(tok: Combatant, board: List[Combatant]) -> None:
 
 def _pick_defender(defenders: List[Combatant], rng: random.Random) -> Combatant:
     taunts = [m for m in defenders if m.taunt]
-    return rng.choice(taunts or defenders)
+    chosen = rng.choice(taunts or defenders)
+    # Observational targeting exposure. Choice already consumed RNG.
+    ctx = _TRACE_CTX
+    if ctx is not None:
+        bid = str(getattr(chosen, "body_id", "") or "")
+        if bid:
+            targeted = ctx.setdefault("targeted", {})
+            targeted[bid] = int(targeted.get(bid) or 0) + 1
+    return chosen
 
 
 def _resolve_start_of_combat(side: List[Combatant], enemy: List[Combatant],
@@ -327,15 +335,32 @@ def _record_attack(attacker: Combatant) -> None:
         return
     attacks = ctx.setdefault("attacks", {})
     attacks[bid] = int(attacks.get(bid) or 0) + 1
+    seq = int(ctx.get("n_swings") or 0)
+    ctx["n_swings"] = seq + 1
+    first = ctx.setdefault("first_attack_index", {})
+    if bid not in first:
+        first[bid] = seq
 
 
-def _annotate_attack_rows(rows: Sequence[dict], attacks: Dict) -> None:
-    """Stamp observational attacked/n_attacks onto already-built trace rows."""
+def _annotate_attack_rows(
+    rows: Sequence[dict],
+    attacks: Dict,
+    first_attack: Optional[Dict] = None,
+    targeted: Optional[Dict] = None,
+) -> None:
+    """Stamp observational attack/target fields onto already-built trace rows."""
+    first_attack = first_attack or {}
+    targeted = targeted or {}
     for row in rows:
         bid = str(row.get("body_id") or "")
         n = int(attacks.get(bid) or 0)
         row["n_attacks"] = n
         row["attacked"] = n > 0
+        idx = first_attack.get(bid)
+        row["first_attack_index"] = int(idx) if idx is not None else None
+        nt = int(targeted.get(bid) or 0)
+        row["n_targeted"] = nt
+        row["was_targeted"] = nt > 0
 
 
 def _do_attack(attacker: Combatant, atk_board: List[Combatant],
@@ -393,6 +418,7 @@ def combatant_trace_row(m: Combatant) -> dict:
         "generated": generated,
         "token": origin == "token",
         "board_slot": getattr(m, "board_slot", None),
+        "taunt": bool(getattr(m, "taunt", False)),
     }
 
 
@@ -423,11 +449,13 @@ def fill_combat_survivor_trace(
     ctx = _TRACE_CTX or {}
     created = list(ctx.get("created") or [])
     attacks = dict(ctx.get("attacks") or {})
-    _annotate_attack_rows(survivors_a, attacks)
-    _annotate_attack_rows(survivors_b, attacks)
-    _annotate_attack_rows(trace.get("starting_a") or [], attacks)
-    _annotate_attack_rows(trace.get("starting_b") or [], attacks)
-    _annotate_attack_rows(created, attacks)
+    first_attack = dict(ctx.get("first_attack_index") or {})
+    targeted = dict(ctx.get("targeted") or {})
+    _annotate_attack_rows(survivors_a, attacks, first_attack, targeted)
+    _annotate_attack_rows(survivors_b, attacks, first_attack, targeted)
+    _annotate_attack_rows(trace.get("starting_a") or [], attacks, first_attack, targeted)
+    _annotate_attack_rows(trace.get("starting_b") or [], attacks, first_attack, targeted)
+    _annotate_attack_rows(created, attacks, first_attack, targeted)
     if winner_side == "a":
         starting_winner = list(trace.get("starting_a") or [])
         created_winner = [c for c in created if c.get("side") == "a"]
@@ -479,7 +507,11 @@ def simulate_once(
     boards = {0: a, 1: b}
     prev_ctx = _TRACE_CTX
     if trace is not None:
-        _TRACE_CTX = {"a": a, "b": b, "created": [], "n": 0, "attacks": {}}
+        _TRACE_CTX = {
+            "a": a, "b": b, "created": [], "n": 0,
+            "attacks": {}, "first_attack_index": {},
+            "targeted": {}, "n_swings": 0,
+        }
         trace["starting_a"] = [combatant_trace_row(m) for m in a]
         trace["starting_b"] = [combatant_trace_row(m) for m in b]
     else:
