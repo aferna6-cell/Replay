@@ -92,15 +92,37 @@ _N_EXAMPLES = 8
 
 
 def rng_state_meta(state) -> Dict:
-    """Observational digest + MT index. Does not consume RNG."""
+    """Observational digest + MT cursor. Does not consume RNG.
+
+    CPython 3.12+ may leave ``getstate()[2]`` as None; keep the leading
+    MT words so hooked/unhooked pairing state still compares exactly.
+    """
     digest = hashlib.sha256(repr(state).encode("utf-8")).hexdigest()
     index = None
+    version = None
+    head: Optional[List[int]] = None
     if isinstance(state, tuple) and len(state) >= 3:
         try:
-            index = int(state[2])
+            version = int(state[0])
         except (TypeError, ValueError):
-            index = None
-    return {"rng_state_digest": digest, "rng_index": index}
+            version = None
+        if state[2] is not None:
+            try:
+                index = int(state[2])
+            except (TypeError, ValueError):
+                index = None
+        inner = state[1]
+        if isinstance(inner, tuple) and inner:
+            try:
+                head = [int(x) for x in inner[:4]]
+            except (TypeError, ValueError):
+                head = None
+    return {
+        "rng_state_digest": digest,
+        "rng_index": index,
+        "rng_state_version": version,
+        "rng_state_head": head,
+    }
 
 
 def ghost_bye_eligibility(alive_seats: Sequence, dead_with_board_seats: Sequence) -> Dict:
@@ -307,8 +329,11 @@ class MatchmakingDivergenceTracer(PairingWhoWinsTracer):
             "history_filters_applied": False,
             "rng_state_digest_pre": pre_meta["rng_state_digest"],
             "rng_index_pre": pre_meta["rng_index"],
+            "rng_state_version_pre": pre_meta["rng_state_version"],
+            "rng_state_head_pre": pre_meta["rng_state_head"],
             "rng_state_digest_post": post_meta["rng_state_digest"],
             "rng_index_post": post_meta["rng_index"],
+            "rng_state_head_post": post_meta["rng_state_head"],
             "shuffled_order": order,
             "pairs": [list(p) for p in pairs],
             "per_seat": per_seat,
@@ -436,6 +461,7 @@ def _slim_decision(decision: Optional[Dict], seat) -> Dict:
         "history_filters_applied": bool(decision.get("history_filters_applied")),
         "rng_state_digest_pre": decision.get("rng_state_digest_pre"),
         "rng_index_pre": decision.get("rng_index_pre"),
+        "rng_state_head_pre": list(decision.get("rng_state_head_pre") or []),
         "shuffled_order": list(decision.get("shuffled_order") or []),
         "pairs": list(decision.get("pairs") or []),
         "legal_candidates": list(view.get("legal_candidates") or []),

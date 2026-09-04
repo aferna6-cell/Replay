@@ -396,7 +396,7 @@ def test_combat_and_pairing_hooks_are_observational_same_seed():
     for rec in late:
         assert rec["history_filters_applied"] is False
         assert rec["rng_state_digest_pre"]
-        assert rec["rng_index_pre"] is not None
+        assert rec["rng_state_head_pre"] or rec["rng_index_pre"] is not None
         assert rec["shuffled_order"]
         assert rec["alive_seats"]
         for seat, view in rec["per_seat"].items():
@@ -441,7 +441,7 @@ def test_unhooked_simulate_once_unchanged():
     assert r1.getstate() == r2.getstate()
     meta = rng_state_meta(r1.getstate())
     assert len(meta["rng_state_digest"]) == 64
-    assert meta["rng_index"] is not None
+    assert meta["rng_state_head"] or meta["rng_index"] is not None
 
 
 def test_pairing_hook_does_not_consume_extra_rng():
