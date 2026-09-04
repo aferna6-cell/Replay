@@ -329,6 +329,12 @@ def test_pair_trajectories_date_divergence_and_condition():
     assert hist_c["n_ok"] == 2
     assert hist_c["n_carry_mismatch"] == 0
     assert hist_c["n_history_gap"] == 0
+    ghost = _fight(14200, 11, winner=3, loser=2, start_tier=1, carry=0.0)
+    ghost["ghost"] = True
+    ghost["kind"] = "ghost"
+    hist_g = reconcile_history_links([ghost], control_turns)
+    assert hist_g["n_punch_rows"] == 0
+    assert hist_g["n_skipped_ghost_or_no_loser"] == 1
 
 
 def test_compare_divergence_routes_selection_on_synthetic_crater():

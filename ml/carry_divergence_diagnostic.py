@@ -235,6 +235,8 @@ def _punch_links(fights: Sequence[Dict]) -> List[Dict]:
             "seed": fight.get("seed"),
             "lobby": fight.get("lobby"),
             "turn": fight.get("turn"),
+            "kind": fight.get("kind"),
+            "ghost": bool(fight.get("ghost")),
             "winner_seat": fight.get("winner_seat"),
             "loser_seat": fight.get("loser_seat"),
             "fight_outcome": fight.get("fight_outcome") or fight.get("outcome"),
@@ -534,6 +536,7 @@ def reconcile_history_links(
     links = _punch_links(fights)
     n = 0
     n_ok = 0
+    n_skipped_ghost = 0
     n_missing_turn = 0
     n_carry_mismatch = 0
     n_add_mismatch = 0
@@ -541,10 +544,14 @@ def reconcile_history_links(
     n_flow_bad = 0
     examples: List[Dict] = []
     for link in links:
+        if link.get("ghost") or (link.get("kind") not in (None, "live")):
+            n_skipped_ghost += 1
+            continue
         loser = link.get("loser_seat")
         seed = link.get("seed")
         turn = link.get("turn")
         if loser is None or seed is None or turn is None:
+            n_skipped_ghost += 1
             continue
         n += 1
         row = turns.get((int(seed), int(loser), int(turn)))
@@ -595,6 +602,7 @@ def reconcile_history_links(
     return {
         "identity": HISTORY_LINK_IDENTITY,
         "n_punch_rows": n,
+        "n_skipped_ghost_or_no_loser": n_skipped_ghost,
         "n_ok": n_ok,
         "n_missing_turn_row": n_missing_turn,
         "n_carry_mismatch": n_carry_mismatch,
@@ -663,9 +671,10 @@ def compare_divergence(
             "separation": _separation_hist(pairs, stage=stage),
         }
 
-    # Decision uses pooled unconditional Δ vs the extra gap after filters.
-    # Prefer punch-appearance Δ for punch-conditioned stages (that is the
-    # #51 carry term's sampling frame); pooled Δ for the unconditional path.
+    # Decision uses pooled unconditional paired Δ vs the extra gap that
+    # appears only after punch / winner-start / outcome filters. Prefer
+    # punch-appearance Δ for filtered stages (that is the #51 sampling
+    # frame). Also keep the unpaired 3E punch-row Δcarry as the denom.
     uncond_delta = by_stage["unconditional"]["pooled_delta"]
     punch_delta = by_stage["punch_included"]["delta_at_first_punch_appearance"]
     if punch_delta is None:
@@ -677,14 +686,46 @@ def compare_divergence(
     if out_delta is None:
         out_delta = by_stage["outcome_conditioned"]["pooled_delta"]
 
-    share_uncond = share_of_carry_term(uncond_delta)
-    share_punch = share_of_carry_term(punch_delta)
-    share_low = share_of_carry_term(low_delta)
-    share_out = share_of_carry_term(out_delta)
+    unpaired_punch = None
+    if lifecycle_cmp:
+        flow = (lifecycle_cmp.get("additive_flow") or {}).get(
+            "delta_treatment_minus_control"
+        ) or {}
+        unpaired_punch = flow.get("mean_carry")
+    if unpaired_punch is None:
+        unpaired_punch = PHASE_3E_PUNCH_DELTA_CARRY
+
+    share_uncond = share_of_carry_term(uncond_delta, denom=unpaired_punch)
+    share_punch = share_of_carry_term(punch_delta, denom=unpaired_punch)
+    share_low = share_of_carry_term(low_delta, denom=unpaired_punch)
+    share_out = share_of_carry_term(out_delta, denom=unpaired_punch)
     after = [s for s in (share_punch, share_low, share_out) if s is not None]
     share_sel = None
-    if share_uncond is not None and after:
-        share_sel = max(0.0, max(after) - float(share_uncond))
+    if share_uncond is not None:
+        # Selection = punch-row crater not already present in paired uncond Δ.
+        # If filters enlarge the paired gap, take that increment; else the
+        # residual vs the unpaired 3E punch Δcarry is the selection piece.
+        incr = 0.0 if not after else max(0.0, max(after) - float(share_uncond))
+        residual_vs_unpaired = max(0.0, 1.0 - float(share_uncond))
+        share_sel = max(incr, residual_vs_unpaired)
+
+    unpaired_by_tier: Dict[str, Dict] = {}
+    c_links = _punch_links(control_raw.get("fights") or [])
+    t_links = _punch_links(treatment_raw.get("fights") or [])
+    for tier in range(1, 7):
+        cc = [carry_value(r) for r in c_links if int(r.get("winner_start_tier") or 0) == tier]
+        tt = [carry_value(r) for r in t_links if int(r.get("winner_start_tier") or 0) == tier]
+        cc_f = [float(x) for x in cc if x is not None]
+        tt_f = [float(x) for x in tt if x is not None]
+        dc = None if not cc_f or not tt_f else float(st.mean(tt_f) - st.mean(cc_f))
+        unpaired_by_tier[str(tier)] = {
+            "n_control": len(cc_f),
+            "n_treatment": len(tt_f),
+            "mean_control_carry": _mean(cc_f),
+            "mean_treatment_carry": _mean(tt_f),
+            "delta_treatment_minus_control": dc,
+            "share_of_3e_carry": share_of_carry_term(dc, denom=unpaired_punch),
+        }
 
     hist_c = reconcile_history_links(
         control_raw.get("fights") or [],
@@ -708,6 +749,7 @@ def compare_divergence(
         "phase_3e_punch_delta_carry": PHASE_3E_PUNCH_DELTA_CARRY,
         "phase_3e_carry_delta": PHASE_3E_CARRY_DELTA,
         "phase_3e_carry_share_of_a1": PHASE_3E_CARRY_SHARE_OF_A1,
+        "unpaired_punch_delta_carry": unpaired_punch,
         "unconditional_pooled_delta": uncond_delta,
         "punch_included_delta_at_appearance": punch_delta,
         "low_winner_start_delta_at_appearance": low_delta,
@@ -718,6 +760,7 @@ def compare_divergence(
         "share_of_3e_carry_outcome_conditioned": share_out,
         "share_of_3e_carry_before_conditioning": share_uncond,
         "share_of_3e_carry_from_selection": share_sel,
+        "unpaired_punch_by_winner_start_tier": unpaired_by_tier,
         "by_stage": by_stage,
     }
 
