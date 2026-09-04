@@ -1,0 +1,1090 @@
+{
+  "methodology_version": "2w_v1",
+  "non_evaluative": false,
+  "decision": {
+    "methodology_version": "2w_v1",
+    "primary_finding": "mixed_or_undershoots_firestone",
+    "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+    "feature_toggle_default_off": true,
+    "phase_2w_seed": 14200,
+    "phase_2w_lobbies": 500,
+    "reused_seed_range": "14200\u201314699",
+    "keep_hold_prs": [
+      29,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "no_merge": true,
+    "evaluative": true,
+    "no_scaling_retune": true,
+    "no_alpha_retune": true,
+    "no_hero_damage_retune": true,
+    "no_gate_change": true,
+    "no_behavior_change": true,
+    "confirm_seeds_reserved": "11500\u201311699",
+    "frozen_alpha": 0.5,
+    "high_tier_min": 4,
+    "late_turns": [
+      12,
+      13,
+      14
+    ],
+    "firestone_is_final_board_data": true,
+    "primary_sim_window": "last_alive_late_board",
+    "sensitivity_windows": [
+      "t12",
+      "t13",
+      "t14"
+    ],
+    "material_t4_share_delta": 0.08,
+    "material_mean_tier_delta": 0.25,
+    "material_mean_printed_raw_delta": 2.0,
+    "recommended_next_step": "Treatment is not a clean over-select vs both control and Firestone, and does not match Firestone within tolerance. Report the mix; do not change 2Q or `_hero_damage`; do not burn confirm.",
+    "coverage": {
+      "join_rate": 1.0,
+      "n_example_boards": 57,
+      "n_unique_joined_cards": 113,
+      "n_unique_card_ids": 158,
+      "n_minions": 392,
+      "n_unresolved": 0,
+      "pool_name_rate": 0.9668367346938775,
+      "pool_id_or_name_rate": 0.9668367346938775,
+      "weight_reconcile": true,
+      "is_final_board_data": true,
+      "examples_per_archetype": 3,
+      "note": "57 example boards (3 per archetype) joined at card-ID/name. Adequate for tier / printed-raw / golden / tribe mix. Card-frequency overlap is noisier (3 boards/arch)."
+    },
+    "last_alive_deltas": {
+      "control": {
+        "t4_plus_share": 0.22885697488872092,
+        "t5_plus_share": 0.01595700008398421,
+        "t6_plus_share": 8.398421096833795e-05,
+        "t6_share": 8.398421096833795e-05,
+        "mean_printed_tier": 2.532291929117326,
+        "mean_printed_raw": 7.588729318888049,
+        "golden_share": 0.0011757789535567313,
+        "mean_board_size": 7.0,
+        "n_boards": 1701,
+        "n_minions": 11907
+      },
+      "treatment": {
+        "t4_plus_share": 0.9693877551020409,
+        "t5_plus_share": 0.6951664876476906,
+        "t6_plus_share": 0.37733619763694953,
+        "t6_share": 0.37733619763694953,
+        "mean_printed_tier": 5.038023630504833,
+        "mean_printed_raw": 13.80343716433942,
+        "golden_share": 0.02234156820622986,
+        "mean_board_size": 7.0,
+        "n_boards": 1330,
+        "n_minions": 9310
+      },
+      "firestone": {
+        "t4_plus_share": 0.880541208174264,
+        "t5_plus_share": 0.6972715023579604,
+        "t6_plus_share": 0.3547608353918705,
+        "t6_share": 0.3429148888389848,
+        "mean_printed_tier": 4.888547046934652,
+        "mean_printed_raw": 15.076981810015726,
+        "golden_share": 0.527262519649674,
+        "mean_board_size": 6.801069110347461
+      },
+      "t4_share_treatment_minus_control": 0.74053078021332,
+      "t4_share_treatment_minus_firestone": 0.08884654692777694,
+      "t4_share_control_minus_firestone": -0.651684233285543,
+      "mean_printed_tier_treatment_minus_control": 2.505731701387507,
+      "mean_printed_tier_treatment_minus_firestone": 0.14947658357018145,
+      "mean_printed_raw_treatment_minus_control": 6.21470784545137,
+      "mean_printed_raw_treatment_minus_firestone": -1.2735446456763064,
+      "t6_share_treatment_minus_control": 0.3772522134259812,
+      "t6_share_treatment_minus_firestone": 0.034421308797964734,
+      "golden_share_treatment_minus_firestone": -0.5049209514434441
+    },
+    "overshoots_firestone": false,
+    "overshoots_control": true,
+    "matches_firestone": false,
+    "keep_pr_29_hold": true,
+    "keep_pr_33_hold": true,
+    "keep_pr_34_hold": true,
+    "keep_pr_35_hold": true,
+    "keep_pr_36_hold": true,
+    "keep_pr_37_hold": true,
+    "keep_pr_38_hold": true,
+    "keep_pr_39_hold": true,
+    "keep_pr_40_hold": true
+  },
+  "contract": {
+    "runtime_fingerprint_error": "No module named 'torch'",
+    "evaluation_seed": 14200,
+    "lobbies": 500,
+    "evaluation": {
+      "policy": "greedy control (2Q/2S OFF) vs greedy treatment (2Q recruit-value + 2S board-level pool)",
+      "lobbies": 500,
+      "base_seed": 14200,
+      "note": "Phase 2W reuses consumed 2S\u20132V DEV 14200\u201314699. Measurement only; no new seeds. Firestone is final-board data.",
+      "non_evaluative": false,
+      "reused_phase_2s_dev": true,
+      "stacked_on_phase_2v": true
+    },
+    "phase": "2W Firestone final-board vs 2Q selection",
+    "phase_2w_methodology_version": "2w_v1",
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version_label": "Simulator v1.1",
+    "frozen_alpha": 0.5,
+    "forbidden_seed_ranges": [
+      "8000\u20138199",
+      "9000\u20139999",
+      "10000\u201310199",
+      "10200\u201310699",
+      "11000\u201311499",
+      "11500\u201311699",
+      "11700\u201312199",
+      "12200\u201312699",
+      "12700\u201313199",
+      "13200\u201313699",
+      "13700\u201314199"
+    ],
+    "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+    "feature_toggle_default": false,
+    "phase_2q_toggle_default": false,
+    "hold_prs": [
+      29,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "no_merge": true,
+    "no_hero_damage_change": true,
+    "no_gate_change": true,
+    "no_behavior_change": true,
+    "firestone_is_final_board_data": true,
+    "code_commit": "790692dd5b37214b600ff97a35e244d0c35a81b6",
+    "working_tree_clean": true,
+    "runtime_sec": 35.53
+  },
+  "firestone": {
+    "coverage": {
+      "join_rate": 1.0,
+      "n_example_boards": 57,
+      "n_unique_joined_cards": 113,
+      "n_unique_card_ids": 158,
+      "n_minions": 392,
+      "n_unresolved": 0,
+      "pool_name_rate": 0.9668367346938775,
+      "pool_id_or_name_rate": 0.9668367346938775,
+      "weight_reconcile": true,
+      "is_final_board_data": true,
+      "examples_per_archetype": 3,
+      "note": "57 example boards (3 per archetype) joined at card-ID/name. Adequate for tier / printed-raw / golden / tribe mix. Card-frequency overlap is noisier (3 boards/arch)."
+    },
+    "weighted": {
+      "weighting": "boardCount_per_example",
+      "n_example_boards": 57,
+      "n_minions": 392,
+      "n_joined": 392,
+      "join_rate": 1.0,
+      "pool_id_or_name_rate": 0.9668367346938775,
+      "n_unique_card_ids": 158,
+      "n_unique_joined_cards": 113,
+      "sum_board_count": 4365.0,
+      "sum_example_weight": 4365.0,
+      "weight_reconcile": true,
+      "tier_histogram": {
+        "1": 0.013979339770940931,
+        "2": 0.027913766000449123,
+        "3": 0.07756568605434536,
+        "4": 0.18326970581630356,
+        "5": 0.3425106669660899,
+        "6": 0.3429148888389848,
+        "7plus": 0.011845946552885685
+      },
+      "t4_plus_share": 0.880541208174264,
+      "t5_plus_share": 0.6972715023579604,
+      "t6_plus_share": 0.3547608353918705,
+      "t6_share": 0.3429148888389848,
+      "t7_plus_share": 0.011845946552885685,
+      "mean_printed_tier": 4.888547046934652,
+      "mean_printed_raw": 15.076981810015726,
+      "printed_raw": {
+        "mean": 15.076981810015718,
+        "median": 13.0,
+        "p25": 8.0,
+        "p75": 20.0,
+        "n": 392
+      },
+      "golden_share": 0.527262519649674,
+      "mean_board_size": 6.801069110347461,
+      "tribe_mix": {
+        "tribeless": 0.21775207725129117,
+        "Pirate": 0.11265439029867501,
+        "Demon": 0.10810689422860989,
+        "Elemental": 0.10084212890186385,
+        "Beast": 0.09539636200314383,
+        "Dragon": 0.09272400628789579,
+        "Murloc": 0.06775207725129119,
+        "Mech": 0.05620929710307651,
+        "Naga": 0.0561980687177184,
+        "Undead": 0.04703570626543901,
+        "All": 0.031315966763979325,
+        "Quilboar": 0.014013024927015488
+      },
+      "card_frequency_top20": [
+        {
+          "name": "Leeroy the Reckless",
+          "share": 0.05427801482146865,
+          "weight": 1611.3333333333335
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "share": 0.05363799685605208,
+          "weight": 1592.3333333333335
+        },
+        {
+          "name": "Unbound Tempest",
+          "share": 0.048708735683808645,
+          "weight": 1446.0
+        },
+        {
+          "name": "Brann Bronzebeard",
+          "share": 0.04693465079721533,
+          "weight": 1393.3333333333333
+        },
+        {
+          "name": "Enterprising Escapee",
+          "share": 0.038300022456770694,
+          "weight": 1137.0
+        },
+        {
+          "name": "Hooktusk, Master Marauder",
+          "share": 0.03826633730069614,
+          "weight": 1136.0
+        },
+        {
+          "name": "Gatekeeper Amalgam",
+          "share": 0.029699079272400612,
+          "weight": 881.6666666666666
+        },
+        {
+          "name": "Warpwing",
+          "share": 0.02867729620480574,
+          "weight": 851.3333333333335
+        },
+        {
+          "name": "Felfire Conjurer",
+          "share": 0.02672355715248146,
+          "weight": 793.3333333333334
+        },
+        {
+          "name": "Devilish Distractor",
+          "share": 0.024612620705142585,
+          "weight": 730.6666666666666
+        },
+        {
+          "name": "Imp-lusionist",
+          "share": 0.024612620705142585,
+          "weight": 730.6666666666666
+        },
+        {
+          "name": "Felboar",
+          "share": 0.018459465528856942,
+          "weight": 548.0
+        },
+        {
+          "name": "Titus Rivendare",
+          "share": 0.018010330114529516,
+          "weight": 534.6666666666665
+        },
+        {
+          "name": "Fauna Whisperer",
+          "share": 0.017583651470918473,
+          "weight": 522.0
+        },
+        {
+          "name": "Deathstrider",
+          "share": 0.01611273298899617,
+          "weight": 478.33333333333326
+        },
+        {
+          "name": "Blade Collector",
+          "share": 0.015001122838535812,
+          "weight": 445.33333333333337
+        },
+        {
+          "name": "Choral Mrrrglr",
+          "share": 0.014641814507073875,
+          "weight": 434.6666666666667
+        },
+        {
+          "name": "Crimson Vindicator",
+          "share": 0.01424882101953738,
+          "weight": 422.99999999999994
+        },
+        {
+          "name": "Drakkari Enchanter",
+          "share": 0.013676173366269924,
+          "weight": 406.0
+        },
+        {
+          "name": "Moat Custodian",
+          "share": 0.01358634628340444,
+          "weight": 403.33333333333337
+        }
+      ],
+      "in_active_pool_share": 0.9802268133842357
+    }
+  },
+  "greedy_control": {
+    "arm": "greedy_control",
+    "recruit_value_stats": false,
+    "board_level_abstract_scaling": false,
+    "n_lobbies": 500,
+    "mean_game_length": 15.692,
+    "last_alive": {
+      "label": "last_alive_late",
+      "n_boards": 1701,
+      "n_minions": 11907,
+      "join_rate": 1.0,
+      "tier_histogram": {
+        "1": 0.20853279583438314,
+        "2": 0.29554043839758126,
+        "3": 0.2670697908793147,
+        "4": 0.2128999748047367,
+        "5": 0.015873015873015872,
+        "6": 8.398421096833795e-05,
+        "7plus": 0.0
+      },
+      "t4_plus_share": 0.22885697488872092,
+      "t5_plus_share": 0.01595700008398421,
+      "t6_plus_share": 8.398421096833795e-05,
+      "t6_share": 8.398421096833795e-05,
+      "mean_printed_tier": 2.532291929117326,
+      "mean_printed_raw": 7.588729318888049,
+      "printed_raw": {
+        "mean": 7.588729318888049,
+        "median": 7.0,
+        "p25": 6.0,
+        "p75": 9.0,
+        "n": 11907
+      },
+      "mean_recruit_raw": 7.588729318888049,
+      "mean_combat_raw": 1883.4894599815234,
+      "golden_share": 0.0011757789535567313,
+      "mean_board_size": 7.0,
+      "tribe_mix": {
+        "tribeless": 0.1958511799781641,
+        "Dragon": 0.10901150583690267,
+        "Murloc": 0.10859158478206098,
+        "Elemental": 0.09960527420844881,
+        "Naga": 0.08860334257159654,
+        "Beast": 0.07441001091794743,
+        "Quilboar": 0.07222642143277064,
+        "Undead": 0.0679432266733854,
+        "Mech": 0.06777525825144873,
+        "Pirate": 0.06357604770303182,
+        "Demon": 0.04711514235323759,
+        "All": 0.005291005291005291
+      },
+      "card_frequency_top20": [
+        {
+          "name": "Suspicious Prisonguard",
+          "share": 0.04770303183001596,
+          "n": 568
+        },
+        {
+          "name": "Intrepid Botanist",
+          "share": 0.03233392122281011,
+          "n": 385
+        },
+        {
+          "name": "Fleeing Fugitive",
+          "share": 0.02956244226085496,
+          "n": 352
+        },
+        {
+          "name": "Decoy Conjurer",
+          "share": 0.02830267909632989,
+          "n": 337
+        },
+        {
+          "name": "Scarlet Survivor",
+          "share": 0.0230116738053246,
+          "n": 274
+        },
+        {
+          "name": "Flighty Scout",
+          "share": 0.022507768539514573,
+          "n": 268
+        },
+        {
+          "name": "Tarecgosa",
+          "share": 0.021835894851767866,
+          "n": 260
+        },
+        {
+          "name": "Molten Rock",
+          "share": 0.02007222642143277,
+          "n": 239
+        },
+        {
+          "name": "Very Hungry Winterfinner",
+          "share": 0.019400352733686066,
+          "n": 231
+        },
+        {
+          "name": "Fruit Vendor",
+          "share": 0.01847652641303435,
+          "n": 220
+        },
+        {
+          "name": "Treasure Parrot",
+          "share": 0.018224573780129337,
+          "n": 217
+        },
+        {
+          "name": "Disguised Graverobber",
+          "share": 0.017720668514319308,
+          "n": 211
+        },
+        {
+          "name": "Lurking Lionfish",
+          "share": 0.01646090534979424,
+          "n": 196
+        },
+        {
+          "name": "Laboratory Assistant",
+          "share": 0.0163769211388259,
+          "n": 195
+        },
+        {
+          "name": "Expert Aviator",
+          "share": 0.01553707902914252,
+          "n": 185
+        },
+        {
+          "name": "Boom-in-a-Box",
+          "share": 0.01478122113042748,
+          "n": 176
+        },
+        {
+          "name": "Ancestral Automaton",
+          "share": 0.014529268497522466,
+          "n": 173
+        },
+        {
+          "name": "Shell Collector",
+          "share": 0.014277315864617453,
+          "n": 170
+        },
+        {
+          "name": "Electric Synthesizer",
+          "share": 0.014193331653649114,
+          "n": 169
+        },
+        {
+          "name": "Snow Baller",
+          "share": 0.012177710590409003,
+          "n": 145
+        }
+      ]
+    },
+    "last_alive_all": {
+      "label": "last_alive_all",
+      "n_boards": 4000,
+      "n_minions": 27764,
+      "join_rate": 1.0,
+      "tier_histogram": {
+        "1": 0.22291456562454978,
+        "2": 0.2963910099409307,
+        "3": 0.26444316380924937,
+        "4": 0.20115977524852327,
+        "5": 0.015019449647024924,
+        "6": 7.203572972194209e-05,
+        "7plus": 0.0
+      },
+      "t4_plus_share": 0.21625126062527014,
+      "t5_plus_share": 0.015091485376746866,
+      "t6_plus_share": 7.203572972194209e-05,
+      "t6_share": 7.203572972194209e-05,
+      "mean_printed_tier": 2.4891946405417085,
+      "mean_printed_raw": 7.397745281659703,
+      "printed_raw": {
+        "mean": 7.397745281659703,
+        "median": 7.0,
+        "p25": 6.0,
+        "p75": 9.0,
+        "n": 27764
+      },
+      "mean_recruit_raw": 7.397745281659703,
+      "mean_combat_raw": 896.9213009652788,
+      "golden_share": 0.0021610718916582625,
+      "mean_board_size": 6.941,
+      "tribe_mix": {
+        "tribeless": 0.18336695000720357,
+        "Dragon": 0.11086298804206887,
+        "Murloc": 0.1034793257455698,
+        "Elemental": 0.09530327042212938,
+        "Naga": 0.0905489122604812,
+        "Beast": 0.07729433799164385,
+        "Quilboar": 0.07660999855928541,
+        "Undead": 0.07610574845123182,
+        "Mech": 0.06883013974931566,
+        "Pirate": 0.06169860250684339,
+        "Demon": 0.05157758248091053,
+        "All": 0.004322143783316525
+      },
+      "card_frequency_top20": [
+        {
+          "name": "Suspicious Prisonguard",
+          "share": 0.04174470537386544,
+          "n": 1159
+        },
+        {
+          "name": "Intrepid Botanist",
+          "share": 0.02838207751044518,
+          "n": 788
+        },
+        {
+          "name": "Decoy Conjurer",
+          "share": 0.027841809537530616,
+          "n": 773
+        },
+        {
+          "name": "Fleeing Fugitive",
+          "share": 0.02629304134850886,
+          "n": 730
+        },
+        {
+          "name": "Flighty Scout",
+          "share": 0.02074629015991932,
+          "n": 576
+        },
+        {
+          "name": "Scarlet Survivor",
+          "share": 0.020530182970753492,
+          "n": 570
+        },
+        {
+          "name": "Molten Rock",
+          "share": 0.018873361187148826,
+          "n": 524
+        },
+        {
+          "name": "Fruit Vendor",
+          "share": 0.01869327186284397,
+          "n": 519
+        },
+        {
+          "name": "Tarecgosa",
+          "share": 0.01800893243048552,
+          "n": 500
+        },
+        {
+          "name": "Very Hungry Winterfinner",
+          "share": 0.017900878835902606,
+          "n": 497
+        },
+        {
+          "name": "Disguised Graverobber",
+          "share": 0.017036450079239304,
+          "n": 473
+        },
+        {
+          "name": "Lurking Lionfish",
+          "share": 0.015379628295634634,
+          "n": 427
+        },
+        {
+          "name": "Treasure Parrot",
+          "share": 0.015091485376746866,
+          "n": 419
+        },
+        {
+          "name": "Expert Aviator",
+          "share": 0.014803342457859098,
+          "n": 411
+        },
+        {
+          "name": "Ancestral Automaton",
+          "share": 0.014767324592998126,
+          "n": 410
+        },
+        {
+          "name": "Laboratory Assistant",
+          "share": 0.014659270998415214,
+          "n": 407
+        },
+        {
+          "name": "Rot Hide Gnoll",
+          "share": 0.013722806512029968,
+          "n": 381
+        },
+        {
+          "name": "Electric Synthesizer",
+          "share": 0.013686788647168996,
+          "n": 380
+        },
+        {
+          "name": "Flittering Bat",
+          "share": 0.013614752917447053,
+          "n": 378
+        },
+        {
+          "name": "Shell Collector",
+          "share": 0.013218556403976373,
+          "n": 367
+        }
+      ]
+    },
+    "replacements": {
+      "n": 1466,
+      "mean_delta_printed_tier": 1.7244201909959072,
+      "mean_delta_printed_raw": 6.914733969986357,
+      "median_delta_printed_tier": 2.0,
+      "median_delta_printed_raw": 8.0,
+      "share_increase_tier": 0.8458390177353342,
+      "share_increase_raw": 1.0,
+      "share_cand_t4_plus": 0.9536152796725784,
+      "mean_cand_tier": 4.573669849931787,
+      "mean_inc_tier": 2.84924965893588,
+      "mean_cand_printed_raw": 13.509549795361528,
+      "mean_inc_printed_raw": 6.5948158253751705,
+      "share_cand_tier_above_firestone": 0.6207366984993179,
+      "share_cand_raw_above_firestone": 0.34106412005457026,
+      "disproportionate_tier_upgrade": false,
+      "disproportionate_raw_upgrade": false
+    },
+    "full_board_decisions": 110610,
+    "full_board_sells": 1466,
+    "full_board_replace_rate": 0.013253774523099178,
+    "overlap_last_vs_firestone": {
+      "jaccard_top20": 0.0,
+      "overlap_count": 0,
+      "cosine_top20": 0.0,
+      "shared_names": []
+    },
+    "n_last_minion_join_mismatch": 0
+  },
+  "greedy_treatment": {
+    "arm": "greedy_2s_treatment",
+    "recruit_value_stats": true,
+    "board_level_abstract_scaling": true,
+    "n_lobbies": 500,
+    "mean_game_length": 13.51,
+    "last_alive": {
+      "label": "last_alive_late",
+      "n_boards": 1330,
+      "n_minions": 9310,
+      "join_rate": 1.0,
+      "tier_histogram": {
+        "1": 0.0007518796992481203,
+        "2": 0.002363050483351235,
+        "3": 0.02749731471535983,
+        "4": 0.27422126745435016,
+        "5": 0.31783029001074115,
+        "6": 0.37733619763694953,
+        "7plus": 0.0
+      },
+      "t4_plus_share": 0.9693877551020409,
+      "t5_plus_share": 0.6951664876476906,
+      "t6_plus_share": 0.37733619763694953,
+      "t6_share": 0.37733619763694953,
+      "mean_printed_tier": 5.038023630504833,
+      "mean_printed_raw": 13.80343716433942,
+      "printed_raw": {
+        "mean": 13.80343716433942,
+        "median": 13.0,
+        "p25": 11.0,
+        "p75": 16.0,
+        "n": 9310
+      },
+      "mean_recruit_raw": 13.80343716433942,
+      "mean_combat_raw": 1767.8247046186896,
+      "golden_share": 0.02234156820622986,
+      "mean_board_size": 7.0,
+      "tribe_mix": {
+        "tribeless": 0.22567132116004296,
+        "Dragon": 0.10708915145005371,
+        "Demon": 0.10064446831364125,
+        "Pirate": 0.09194414607948442,
+        "Murloc": 0.0849624060150376,
+        "Beast": 0.08066595059076262,
+        "Undead": 0.07969924812030076,
+        "Elemental": 0.07454350161117078,
+        "Naga": 0.05735767991407089,
+        "Quilboar": 0.04575725026852846,
+        "Mech": 0.032975295381310415,
+        "All": 0.018689581095596132
+      },
+      "card_frequency_top20": [
+        {
+          "name": "Boom-in-a-Box",
+          "share": 0.06541353383458647,
+          "n": 609
+        },
+        {
+          "name": "Cataclysmic Harbinger",
+          "share": 0.049087003222341566,
+          "n": 457
+        },
+        {
+          "name": "Maritime Extortionist",
+          "share": 0.032545649838882924,
+          "n": 303
+        },
+        {
+          "name": "Tyrael",
+          "share": 0.0322234156820623,
+          "n": 300
+        },
+        {
+          "name": "Zesty Shaker",
+          "share": 0.028464017185821696,
+          "n": 265
+        },
+        {
+          "name": "Nomi, Kitchen Nightmare",
+          "share": 0.02728249194414608,
+          "n": 254
+        },
+        {
+          "name": "Heroic Underdog",
+          "share": 0.022986036519871106,
+          "n": 214
+        },
+        {
+          "name": "Bream Counter",
+          "share": 0.02287862513426423,
+          "n": 213
+        },
+        {
+          "name": "Proud Privateer",
+          "share": 0.022771213748657357,
+          "n": 212
+        },
+        {
+          "name": "Deft Deserter",
+          "share": 0.022663802363050482,
+          "n": 211
+        },
+        {
+          "name": "Kalecgos, Arcane Aspect",
+          "share": 0.022126745435016113,
+          "n": 206
+        },
+        {
+          "name": "Barrier Banshee",
+          "share": 0.021160042964554242,
+          "n": 197
+        },
+        {
+          "name": "Void Pup Trainer",
+          "share": 0.019441460794844254,
+          "n": 181
+        },
+        {
+          "name": "Deathly Striker",
+          "share": 0.018582169709989257,
+          "n": 173
+        },
+        {
+          "name": "Gatekeeper Amalgam",
+          "share": 0.018582169709989257,
+          "n": 173
+        },
+        {
+          "name": "Air Baller",
+          "share": 0.018152524167561763,
+          "n": 169
+        },
+        {
+          "name": "Gearfin",
+          "share": 0.017293233082706767,
+          "n": 161
+        },
+        {
+          "name": "Goldrinn, the Great Wolf",
+          "share": 0.017078410311493018,
+          "n": 159
+        },
+        {
+          "name": "Crimson Vindicator",
+          "share": 0.016970998925886143,
+          "n": 158
+        },
+        {
+          "name": "Veteran Brigand",
+          "share": 0.016219119226638025,
+          "n": 151
+        }
+      ]
+    },
+    "last_alive_all": {
+      "label": "last_alive_all",
+      "n_boards": 4000,
+      "n_minions": 27824,
+      "join_rate": 1.0,
+      "tier_histogram": {
+        "1": 0.06997556066705003,
+        "2": 0.128953421506613,
+        "3": 0.17995255894192064,
+        "4": 0.30387435307648075,
+        "5": 0.17948533640023,
+        "6": 0.13775876940770557,
+        "7plus": 0.0
+      },
+      "t4_plus_share": 0.6211184588844163,
+      "t5_plus_share": 0.3172441058079356,
+      "t6_plus_share": 0.13775876940770557,
+      "t6_share": 0.13775876940770557,
+      "mean_printed_tier": 3.8072167912593446,
+      "mean_printed_raw": 10.345205577918344,
+      "printed_raw": {
+        "mean": 10.345205577918344,
+        "median": 10.0,
+        "p25": 8.0,
+        "p75": 12.0,
+        "n": 27824
+      },
+      "mean_recruit_raw": 10.345205577918344,
+      "mean_combat_raw": 708.3223835537665,
+      "golden_share": 0.009667912593444508,
+      "mean_board_size": 6.956,
+      "tribe_mix": {
+        "tribeless": 0.19860552041403104,
+        "Dragon": 0.10059660724554341,
+        "Murloc": 0.09718228867165038,
+        "Beast": 0.09067711328349626,
+        "Elemental": 0.08546578493387004,
+        "Pirate": 0.07554629097182289,
+        "Demon": 0.0745399654974123,
+        "Naga": 0.074252443933295,
+        "Undead": 0.07321017826336976,
+        "Quilboar": 0.06925675675675676,
+        "Mech": 0.05178982173663025,
+        "All": 0.00887722829212191
+      },
+      "card_frequency_top20": [
+        {
+          "name": "Boom-in-a-Box",
+          "share": 0.03338844163312248,
+          "n": 929
+        },
+        {
+          "name": "Heroic Underdog",
+          "share": 0.021600057504312823,
+          "n": 601
+        },
+        {
+          "name": "Cataclysmic Harbinger",
+          "share": 0.020090569292696953,
+          "n": 559
+        },
+        {
+          "name": "Maritime Extortionist",
+          "share": 0.016316848763657275,
+          "n": 454
+        },
+        {
+          "name": "Treasure Parrot",
+          "share": 0.01584962622196665,
+          "n": 441
+        },
+        {
+          "name": "Gearfin",
+          "share": 0.01556210465784934,
+          "n": 433
+        },
+        {
+          "name": "Fruit Vendor",
+          "share": 0.015202702702702704,
+          "n": 423
+        },
+        {
+          "name": "Zesty Shaker",
+          "share": 0.014627659574468085,
+          "n": 407
+        },
+        {
+          "name": "Bream Counter",
+          "share": 0.013621334100057505,
+          "n": 379
+        },
+        {
+          "name": "Nomi, Kitchen Nightmare",
+          "share": 0.013118171362852213,
+          "n": 365
+        },
+        {
+          "name": "Decoy Conjurer",
+          "share": 0.012399367452558941,
+          "n": 345
+        },
+        {
+          "name": "Intrepid Botanist",
+          "share": 0.012004025301897642,
+          "n": 334
+        },
+        {
+          "name": "Humon'gozz",
+          "share": 0.011464922369177689,
+          "n": 319
+        },
+        {
+          "name": "Air Baller",
+          "share": 0.011321161587119034,
+          "n": 315
+        },
+        {
+          "name": "Tyrael",
+          "share": 0.011321161587119034,
+          "n": 315
+        },
+        {
+          "name": "Disguised Graverobber",
+          "share": 0.011069580218516388,
+          "n": 308
+        },
+        {
+          "name": "Roaring Recruiter",
+          "share": 0.010530477285796435,
+          "n": 293
+        },
+        {
+          "name": "Suspicious Prisonguard",
+          "share": 0.00988355376653249,
+          "n": 275
+        },
+        {
+          "name": "Proud Privateer",
+          "share": 0.00988355376653249,
+          "n": 275
+        },
+        {
+          "name": "Very Hungry Winterfinner",
+          "share": 0.009739792984473836,
+          "n": 271
+        }
+      ]
+    },
+    "replacements": {
+      "n": 25536,
+      "mean_delta_printed_tier": 1.6366306390977443,
+      "mean_delta_printed_raw": 3.709782268170426,
+      "median_delta_printed_tier": 2.0,
+      "median_delta_printed_raw": 3.0,
+      "share_increase_tier": 0.793937969924812,
+      "share_increase_raw": 1.0,
+      "share_cand_t4_plus": 0.8442590852130326,
+      "mean_cand_tier": 4.547540726817043,
+      "mean_inc_tier": 2.9109100877192984,
+      "mean_cand_printed_raw": 11.404644423558898,
+      "mean_inc_printed_raw": 7.6948621553884715,
+      "share_cand_tier_above_firestone": 0.537750626566416,
+      "share_cand_raw_above_firestone": 0.14223057644110276,
+      "disproportionate_tier_upgrade": false,
+      "disproportionate_raw_upgrade": false
+    },
+    "full_board_decisions": 90332,
+    "full_board_sells": 25536,
+    "full_board_replace_rate": 0.28269051941726075,
+    "overlap_last_vs_firestone": {
+      "jaccard_top20": 0.05263157894736842,
+      "overlap_count": 2,
+      "cosine_top20": 0.04541389280392428,
+      "shared_names": [
+        "Crimson Vindicator",
+        "Gatekeeper Amalgam"
+      ]
+    },
+    "n_last_minion_join_mismatch": 0
+  },
+  "comparison": {
+    "last_alive": {
+      "control": {
+        "t4_plus_share": 0.22885697488872092,
+        "t5_plus_share": 0.01595700008398421,
+        "t6_plus_share": 8.398421096833795e-05,
+        "t6_share": 8.398421096833795e-05,
+        "mean_printed_tier": 2.532291929117326,
+        "mean_printed_raw": 7.588729318888049,
+        "golden_share": 0.0011757789535567313,
+        "mean_board_size": 7.0,
+        "n_boards": 1701,
+        "n_minions": 11907
+      },
+      "treatment": {
+        "t4_plus_share": 0.9693877551020409,
+        "t5_plus_share": 0.6951664876476906,
+        "t6_plus_share": 0.37733619763694953,
+        "t6_share": 0.37733619763694953,
+        "mean_printed_tier": 5.038023630504833,
+        "mean_printed_raw": 13.80343716433942,
+        "golden_share": 0.02234156820622986,
+        "mean_board_size": 7.0,
+        "n_boards": 1330,
+        "n_minions": 9310
+      },
+      "firestone": {
+        "t4_plus_share": 0.880541208174264,
+        "t5_plus_share": 0.6972715023579604,
+        "t6_plus_share": 0.3547608353918705,
+        "t6_share": 0.3429148888389848,
+        "mean_printed_tier": 4.888547046934652,
+        "mean_printed_raw": 15.076981810015726,
+        "golden_share": 0.527262519649674,
+        "mean_board_size": 6.801069110347461
+      },
+      "t4_share_treatment_minus_control": 0.74053078021332,
+      "t4_share_treatment_minus_firestone": 0.08884654692777694,
+      "t4_share_control_minus_firestone": -0.651684233285543,
+      "mean_printed_tier_treatment_minus_control": 2.505731701387507,
+      "mean_printed_tier_treatment_minus_firestone": 0.14947658357018145,
+      "mean_printed_raw_treatment_minus_control": 6.21470784545137,
+      "mean_printed_raw_treatment_minus_firestone": -1.2735446456763064,
+      "t6_share_treatment_minus_control": 0.3772522134259812,
+      "t6_share_treatment_minus_firestone": 0.034421308797964734,
+      "golden_share_treatment_minus_firestone": -0.5049209514434441
+    },
+    "overlap": {
+      "control": {
+        "jaccard_top20": 0.0,
+        "overlap_count": 0,
+        "cosine_top20": 0.0,
+        "shared_names": []
+      },
+      "treatment": {
+        "jaccard_top20": 0.05263157894736842,
+        "overlap_count": 2,
+        "cosine_top20": 0.04541389280392428,
+        "shared_names": [
+          "Crimson Vindicator",
+          "Gatekeeper Amalgam"
+        ]
+      }
+    },
+    "replace_rate": {
+      "control": 0.013253774523099178,
+      "treatment": 0.28269051941726075
+    }
+  },
+  "reconciliation": {
+    "firestone_weight_ok": true,
+    "firestone_join_plus_unresolved": 392,
+    "firestone_n_minions": 392,
+    "last_join_mismatch_control": 0,
+    "last_join_mismatch_treatment": 0,
+    "n_last_boards_control": 1701,
+    "n_last_boards_treatment": 1330
+  }
+}
