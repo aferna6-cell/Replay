@@ -232,6 +232,82 @@ def _hit_overkill(incoming: int, hp_before: int, *, poison: bool, lethal: bool) 
     return int(extra)
 
 
+def _dealer_snapshot(dealer: Optional[Combatant], ctx: Optional[Dict] = None) -> Dict:
+    """Observational dealer identity/stats at impact. Combat never reads this."""
+    if dealer is None:
+        return {}
+    atk = int(getattr(dealer, "attack", 0) or 0)
+    ra = getattr(dealer, "recruit_attack", None)
+    try:
+        recruit_attack = int(ra) if ra not in (None, "") else atk
+    except (TypeError, ValueError):
+        recruit_attack = atk
+    synth = max(0, atk - recruit_attack)
+    bid = str(getattr(dealer, "body_id", "") or "")
+    idx = None
+    if ctx is not None and bid:
+        raw = (ctx.get("first_attack_index") or {}).get(bid)
+        if raw is not None:
+            try:
+                idx = int(raw)
+            except (TypeError, ValueError):
+                idx = None
+    slot = getattr(dealer, "board_slot", None)
+    try:
+        slot_i = None if slot is None else int(slot)
+    except (TypeError, ValueError):
+        slot_i = None
+    return {
+        "attacker_id": bid,
+        "attacker_name": str(getattr(dealer, "name", "") or ""),
+        "attacker_card_id": str(getattr(dealer, "card_id", "") or ""),
+        "attacker_tier": int(getattr(dealer, "tier", 1) or 1),
+        "attacker_slot": slot_i,
+        "attacker_attack": atk,
+        "attacker_recruit_attack": recruit_attack,
+        "attacker_synth_attack": synth,
+        "attacker_synth_share": (float(synth) / float(atk)) if atk else 0.0,
+        "attacker_golden": bool(getattr(dealer, "golden", False)),
+        "attacker_generated": bool(
+            getattr(dealer, "generated", False)
+            or str(getattr(dealer, "origin", "") or "") in ("token", "reborn")
+        ),
+        "attacker_origin": str(getattr(dealer, "origin", "") or ""),
+        "attacker_poisonous": bool(getattr(dealer, "poisonous", False)),
+        "attacker_cleave": bool(getattr(dealer, "cleave", False)),
+        "attacker_divine_shield": bool(getattr(dealer, "divine_shield", False)),
+        "attacker_windfury": bool(getattr(dealer, "windfury", False)),
+        "attacker_taunt": bool(getattr(dealer, "taunt", False)),
+        "attacker_health_at_impact": int(getattr(dealer, "health", 0) or 0),
+        "attacker_first_attack_index": idx,
+        "attacker_has_represented_generated": has_represented_generated_effect(dealer),
+        "attacker_survived_swing": int(getattr(dealer, "health", 0) or 0) > 0,
+    }
+
+
+def _classify_hit_kind(
+    *,
+    cause: str,
+    poison: bool,
+    cleave_role: Optional[str],
+    ds_before: bool,
+) -> str:
+    """Partition ordinary vs shield / poison / cleave / SOC / other. No combat effect."""
+    if ds_before:
+        return "shield"
+    if poison or cause == "poison":
+        return "poison"
+    if cleave_role or cause == "cleave":
+        return "cleave"
+    if cause == "start_of_combat":
+        return "start_of_combat"
+    if cause == "death_burst":
+        return "death_burst"
+    if cause in ("attack", "counterattack"):
+        return "ordinary"
+    return "other"
+
+
 def _trace_hit(
     ctx: Dict,
     bid: str,
@@ -245,6 +321,8 @@ def _trace_hit(
     hp_after: int,
     lethal: bool,
     incoming: int,
+    dealer: Optional[Combatant] = None,
+    defender_slot: Optional[int] = None,
 ) -> None:
     """Observational per-swing / per-body lethal-cause and HP-flow tags. No RNG."""
     incoming = int(incoming)
@@ -253,6 +331,22 @@ def _trace_hit(
     applied = max(0, hp_before - max(hp_after, 0))
     damaging = hp_after < hp_before
     hp_delta = hp_before - hp_after
+    kind = _classify_hit_kind(
+        cause=cause, poison=poison, cleave_role=cleave_role, ds_before=ds_before,
+    )
+    ordinary_expected = min(hp_before, incoming)
+    ordinary_ok = (applied == ordinary_expected) if kind == "ordinary" else None
+    if kind == "ordinary":
+        ctx["n_ordinary_kind"] = int(ctx.get("n_ordinary_kind") or 0) + 1
+        if ordinary_ok:
+            ctx["n_ordinary_ok"] = int(ctx.get("n_ordinary_ok") or 0) + 1
+    elif kind == "shield":
+        ctx["n_shield_kind"] = int(ctx.get("n_shield_kind") or 0) + 1
+    elif kind == "poison":
+        ctx["n_poison_kind"] = int(ctx.get("n_poison_kind") or 0) + 1
+    else:
+        ctx["n_non_ordinary_kind"] = int(ctx.get("n_non_ordinary_kind") or 0) + 1
+    dealer_snap = _dealer_snapshot(dealer, ctx)
     if damaging or lethal:
         overkill = _hit_overkill(
             incoming, hp_before, poison=bool(poison), lethal=bool(lethal),
@@ -332,7 +426,7 @@ def _trace_hit(
         ctx["n_deaths"] = int(ctx.get("n_deaths") or 0) + 1
     events = ctx.setdefault("hit_events", {})
     lst = events.setdefault(bid, [])
-    lst.append({
+    event = {
         "cause": cause,
         "incoming": incoming,
         "hp_before": hp_before,
@@ -343,17 +437,31 @@ def _trace_hit(
         "applied": applied,
         "overkill": overkill,
         "lethal": bool(lethal),
-    })
+        "hit_kind": kind,
+        "ordinary_expected": ordinary_expected,
+        "ordinary_ok": ordinary_ok,
+        "defender_id": bid,
+        "defender_slot": defender_slot,
+        "hit_was_counterattack": cause == "counterattack",
+    }
+    event.update(dealer_snap)
+    lst.append(event)
 
 
 def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
-                  cause: str = "attack", cleave_role: Optional[str] = None) -> None:
+                  cause: str = "attack", cleave_role: Optional[str] = None,
+                  dealer: Optional[Combatant] = None) -> None:
     if dmg <= 0:
         return
     ctx = _TRACE_CTX
     pre = int(target.health)
     bid = str(getattr(target, "body_id", "") or "")
     ds_before = bool(target.divine_shield)
+    slot = getattr(target, "board_slot", None)
+    try:
+        defender_slot = None if slot is None else int(slot)
+    except (TypeError, ValueError):
+        defender_slot = None
     if target.divine_shield:
         target.divine_shield = False     # shield eats the hit (and any poison)
         if ctx is not None:
@@ -362,7 +470,7 @@ def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
                 cause=cause, poison=poison, cleave_role=cleave_role,
                 ds_before=True, ds_after=False,
                 hp_before=pre, hp_after=int(target.health), lethal=False,
-                incoming=int(dmg),
+                incoming=int(dmg), dealer=dealer, defender_slot=defender_slot,
             )
         return
     target.health -= dmg
@@ -375,7 +483,7 @@ def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
             cause=cause, poison=poison, cleave_role=cleave_role,
             ds_before=ds_before, ds_after=bool(target.divine_shield),
             hp_before=pre, hp_after=int(target.health), lethal=lethal,
-            incoming=int(dmg),
+            incoming=int(dmg), dealer=dealer, defender_slot=defender_slot,
         )
 
 
@@ -456,7 +564,9 @@ def _resolve_start_of_combat(side: List[Combatant], enemy: List[Combatant],
             living = _living(enemy)
             if not living:
                 break
-            _apply_damage(rng.choice(living), soc.damage, cause="start_of_combat")
+            _apply_damage(
+                rng.choice(living), soc.damage, cause="start_of_combat", dealer=m,
+            )
 
 
 def _exchange(attacker: Combatant, defender: Combatant,
@@ -469,18 +579,38 @@ def _exchange(attacker: Combatant, defender: Combatant,
         di = -1
     cause = "poison" if attacker.poisonous else "attack"
     primary_role = "primary" if attacker.cleave else None
+    ctx = _TRACE_CTX
+    before_lens: Dict[str, int] = {}
+    if ctx is not None:
+        for bid, lst in (ctx.get("hit_events") or {}).items():
+            before_lens[bid] = len(lst)
     _apply_damage(
         defender, a_dmg, attacker.poisonous, cause=cause, cleave_role=primary_role,
+        dealer=attacker,
     )
     if attacker.cleave and di >= 0:
         for nb in (di - 1, di + 1):
             if 0 <= nb < len(def_board) and def_board[nb] is not defender:
                 _apply_damage(
                     def_board[nb], a_dmg, attacker.poisonous, cause="cleave",
-                    cleave_role="secondary",
+                    cleave_role="secondary", dealer=attacker,
                 )
     back = "poison" if defender.poisonous else "counterattack"
-    _apply_damage(attacker, d_dmg, defender.poisonous, cause=back)
+    _apply_damage(attacker, d_dmg, defender.poisonous, cause=back, dealer=defender)
+    if ctx is not None:
+        a_alive = int(attacker.health) > 0
+        d_alive = int(defender.health) > 0
+        a_id = str(getattr(attacker, "body_id", "") or "")
+        d_id = str(getattr(defender, "body_id", "") or "")
+        for bid, lst in (ctx.get("hit_events") or {}).items():
+            start = before_lens.get(bid, 0)
+            for ev in lst[start:]:
+                dealer_id = str(ev.get("attacker_id") or "")
+                if dealer_id == a_id:
+                    ev["attacker_survived_swing"] = a_alive
+                elif dealer_id == d_id:
+                    ev["attacker_survived_swing"] = d_alive
+                ev["hit_was_counterattack"] = ev.get("cause") == "counterattack"
 
 
 def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
@@ -493,13 +623,13 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
         return
     new: List[Combatant] = []
     immediates: List[Combatant] = []
-    bursts: List = []                                  # AOE-damage deathrattles
+    bursts: List = []                                  # (parent, AOE-damage deathrattle)
     for m in board:
         if m.health > 0:
             new.append(m)
             continue
         if m.death_burst:
-            bursts.append(m.death_burst)
+            bursts.append((m, m.death_burst))
         dr = m.deathrattle
         if dr and dr.count > 0:
             for _ in range(dr.count):
@@ -524,13 +654,13 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
 
     # Fire AOE-damage deathrattles (Tunnel Blaster: 3 to all enemies) — pops Divine
     # Shields and clears swarms, then resolve the deaths that causes.
-    for burst in bursts:
+    for parent, burst in bursts:
         targets = _living(enemy)
         if not getattr(burst, "hits_all", True):
             rng.shuffle(targets)
             targets = targets[:max(1, getattr(burst, "targets", 1))]
         for t in targets:
-            _apply_damage(t, burst.damage, cause="death_burst")
+            _apply_damage(t, burst.damage, cause="death_burst", dealer=parent)
         if targets:
             _resolve_deaths(enemy, board, rng, process_immediates=False)
 
@@ -567,6 +697,111 @@ def _record_attack(attacker: Combatant) -> None:
     first = ctx.setdefault("first_attack_index", {})
     if bid not in first:
         first[bid] = seq
+
+
+def _annotate_attacker_punch(row: dict, events: Sequence[dict]) -> None:
+    """Roll damaging-hit dealer stats onto a body row. Observational; no RNG."""
+    damaging = [e for e in events if e.get("damaging")]
+    n_ord = n_ord_ok = n_shield = n_poison = n_cleave = n_soc = n_other = 0
+    for e in events:
+        kind = str(e.get("hit_kind") or "")
+        if kind == "ordinary":
+            n_ord += 1
+            if e.get("ordinary_ok") is True:
+                n_ord_ok += 1
+        elif kind == "shield":
+            n_shield += 1
+        elif kind == "poison":
+            n_poison += 1
+        elif kind == "cleave":
+            n_cleave += 1
+        elif kind == "start_of_combat":
+            n_soc += 1
+        else:
+            n_other += 1
+    row["n_ordinary_kind"] = n_ord
+    row["n_ordinary_ok"] = n_ord_ok
+    row["n_shield_kind"] = n_shield
+    row["n_poison_kind"] = n_poison
+    row["n_cleave_kind"] = n_cleave
+    row["n_soc_kind"] = n_soc
+    row["n_other_kind"] = n_other
+    row["ordinary_hp_loss_ok"] = n_ord == n_ord_ok
+
+    def _mean_key(key: str) -> Optional[float]:
+        xs = []
+        for e in damaging:
+            v = e.get(key)
+            if v is None:
+                continue
+            try:
+                xs.append(float(v))
+            except (TypeError, ValueError):
+                continue
+        if not xs:
+            return None
+        return float(sum(xs) / len(xs))
+
+    defender_slot = row.get("board_slot")
+    try:
+        d_slot = None if defender_slot is None else int(defender_slot)
+    except (TypeError, ValueError):
+        d_slot = None
+    rels = []
+    for e in damaging:
+        a_slot = e.get("attacker_slot")
+        try:
+            a_i = None if a_slot is None else int(a_slot)
+        except (TypeError, ValueError):
+            a_i = None
+        if a_i is not None and d_slot is not None:
+            rels.append(float(a_i - d_slot))
+    first = damaging[0] if damaging else None
+    last = damaging[-1] if damaging else None
+    row["n_punch_hits"] = len(damaging)
+    row["mean_attacker_attack"] = _mean_key("attacker_attack") or 0.0
+    row["mean_attacker_recruit_attack"] = _mean_key("attacker_recruit_attack") or 0.0
+    row["mean_attacker_synth_attack"] = _mean_key("attacker_synth_attack") or 0.0
+    row["mean_attacker_synth_share"] = _mean_key("attacker_synth_share") or 0.0
+    row["mean_attacker_tier"] = _mean_key("attacker_tier")
+    row["mean_attacker_slot"] = _mean_key("attacker_slot")
+    row["mean_relative_slot"] = (
+        float(sum(rels) / len(rels)) if rels else 0.0
+    )
+    row["mean_attacker_first_attack_index"] = _mean_key("attacker_first_attack_index")
+    row["mean_defender_hp_before"] = _mean_key("hp_before")
+    row["mean_hp_loss"] = _mean_key("applied") or 0.0
+    survived = [
+        1.0 if e.get("attacker_survived_swing") else 0.0 for e in damaging
+    ]
+    counters = [
+        1.0 if e.get("hit_was_counterattack") else 0.0 for e in damaging
+    ]
+    goldens = [
+        1.0 if e.get("attacker_golden") else 0.0 for e in damaging
+    ]
+    generated = [
+        1.0 if e.get("attacker_generated") else 0.0 for e in damaging
+    ]
+    n_d = float(len(damaging)) if damaging else 0.0
+    row["p_attacker_survived_swing"] = (
+        (sum(survived) / n_d) if n_d else 0.0
+    )
+    row["p_hit_was_counterattack"] = (sum(counters) / n_d) if n_d else 0.0
+    row["p_attacker_golden"] = (sum(goldens) / n_d) if n_d else 0.0
+    row["p_attacker_generated"] = (sum(generated) / n_d) if n_d else 0.0
+    row["first_attacker_id"] = (first or {}).get("attacker_id")
+    row["first_attacker_name"] = (first or {}).get("attacker_name")
+    row["last_attacker_id"] = (last or {}).get("attacker_id")
+    row["last_attacker_attack"] = (last or {}).get("attacker_attack")
+    idx = row.get("mean_attacker_first_attack_index")
+    rel = float(row.get("mean_relative_slot") or 0)
+    if int(row.get("n_punch_hits") or 0) <= 0:
+        row["pairing_order_value"] = -1.0
+    else:
+        row["pairing_order_value"] = (
+            (0.0 if idx is None else float(idx)) + 0.05 * rel
+        )
 
 
 def _annotate_attack_rows(
@@ -700,6 +935,7 @@ def _annotate_attack_rows(
         row["hp_flow_ok"] = (start_hp - int(row["end_health"])) == hp_delta
         events = (ctx.get("hit_events") or {}).get(bid) or []
         row["hit_events"] = list(events)
+        _annotate_attacker_punch(row, events)
 
 
 def _do_attack(attacker: Combatant, atk_board: List[Combatant],
@@ -885,6 +1121,18 @@ def fill_combat_survivor_trace(
     n_soc_events = int(ctx.get("n_soc_hits") or 0)
     n_ord_atk_events = int(ctx.get("n_ordinary_attack") or 0)
     n_ord_ctr_events = int(ctx.get("n_ordinary_counter") or 0)
+    n_ordinary_kind_events = int(ctx.get("n_ordinary_kind") or 0)
+    n_ordinary_ok_events = int(ctx.get("n_ordinary_ok") or 0)
+    n_shield_kind_events = int(ctx.get("n_shield_kind") or 0)
+    n_poison_kind_events = int(ctx.get("n_poison_kind") or 0)
+    n_non_ordinary_kind_events = int(ctx.get("n_non_ordinary_kind") or 0)
+    n_ordinary_kind_sum = int(sum(int(r.get("n_ordinary_kind") or 0) for r in all_bodies))
+    n_ordinary_ok_sum = int(sum(int(r.get("n_ordinary_ok") or 0) for r in all_bodies))
+    n_shield_kind_sum = int(sum(int(r.get("n_shield_kind") or 0) for r in all_bodies))
+    n_poison_kind_sum = int(sum(int(r.get("n_poison_kind") or 0) for r in all_bodies))
+    n_ordinary_mismatch_bodies = sum(
+        1 for r in all_bodies if r.get("ordinary_hp_loss_ok") is False
+    )
     event_counts = {
         "n_attacks_events": n_attacks_events,
         "n_attacks_sum": n_attacks_sum,
@@ -962,6 +1210,24 @@ def fill_combat_survivor_trace(
         ),
         "damaging_hits_reconcile": n_damaging_events == n_damaging_sum,
         "overkill_reconcile": n_overkill_events == n_overkill_sum,
+        "n_ordinary_kind_events": n_ordinary_kind_events,
+        "n_ordinary_kind_sum": n_ordinary_kind_sum,
+        "n_ordinary_ok_events": n_ordinary_ok_events,
+        "n_ordinary_ok_sum": n_ordinary_ok_sum,
+        "n_shield_kind_events": n_shield_kind_events,
+        "n_shield_kind_sum": n_shield_kind_sum,
+        "n_poison_kind_events": n_poison_kind_events,
+        "n_poison_kind_sum": n_poison_kind_sum,
+        "n_non_ordinary_kind_events": n_non_ordinary_kind_events,
+        "n_ordinary_mismatch_bodies": n_ordinary_mismatch_bodies,
+        "ordinary_kind_reconcile": n_ordinary_kind_events == n_ordinary_kind_sum,
+        "ordinary_ok_reconcile": n_ordinary_ok_events == n_ordinary_ok_sum,
+        "shield_kind_reconcile": n_shield_kind_events == n_shield_kind_sum,
+        "poison_kind_reconcile": n_poison_kind_events == n_poison_kind_sum,
+        "ordinary_hp_loss_reconcile": (
+            n_ordinary_kind_events == n_ordinary_ok_events
+            and n_ordinary_mismatch_bodies == 0
+        ),
     }
     trace.update({
         "winner_side": winner_side,
