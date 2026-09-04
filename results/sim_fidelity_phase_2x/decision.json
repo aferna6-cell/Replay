@@ -1,0 +1,361 @@
+{
+  "methodology_version": "2x_v1",
+  "primary_finding": "position_combat_order_dominates",
+  "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+  "feature_toggle_default_off": true,
+  "phase_2x_seed": 14200,
+  "phase_2x_lobbies": 500,
+  "reused_seed_range": "14200\u201314699",
+  "keep_hold_prs": [
+    29,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41
+  ],
+  "no_merge": true,
+  "evaluative": true,
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "no_hero_damage_retune": true,
+  "no_gate_change": true,
+  "no_behavior_change": true,
+  "no_2q_rewrite": true,
+  "share_synthetic_dominant": 0.7,
+  "confirm_seeds_reserved": "11500\u201311699",
+  "frozen_alpha": 0.5,
+  "phase_2v_within_tier_B": 1.6782901818400895,
+  "phase_2v_share_within_tier": 0.4185551426754372,
+  "instrument_turns": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "recommended_next_step": "Most of the leftover 2V within-tier survival term remains after holding tier + recruit/raw and synthetic share fixed \u2014 residual combat-order / board-slot effects. Next hour: diagnose positioning / combat fidelity. Do not rewrite 2Q; do not change `_hero_damage`; do not burn confirm.",
+  "reweighting": {
+    "method": "nested_kitagawa_tier_then_recruit_decile_then_synthetic_decile",
+    "n_deciles": 10,
+    "within_tier_B": 1.6782901818425806,
+    "phase_2v_within_tier_B": 1.6782901818400895,
+    "observed_B_used_for_shares": 1.6782901818400895,
+    "recruit_mix": 0.042685065794637524,
+    "synthetic_allocation": 0.2636603477116788,
+    "residual_position": 1.3719447683362298,
+    "explained_mix_plus_synth_plus_resid": 1.6782901818425462,
+    "residual_vs_direct_B": 3.441691376337985e-14,
+    "share_of_B_recruit_mix": 0.02543366234070279,
+    "share_of_B_synthetic": 0.1571005720968943,
+    "share_of_B_residual_position": 0.8174657655638667,
+    "share_synthetic_of_standardized": 0.16120049095270494,
+    "per_tier": {
+      "1": {
+        "exclusive_support": false,
+        "n_start_control": 1.4803149606301989,
+        "n_start_treatment": 0.7345713487852,
+        "p_survive_control": 0.3801883501917377,
+        "p_survive_treatment": 0.2212507127922624,
+        "within_tier_B": -0.17601439856346335,
+        "recruit_mix": -0.001093444189286042,
+        "synthetic_allocation": -0.12612582863406302,
+        "residual_position": -0.04879512574014789,
+        "nested_residual": 3.359118538881489e-14,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.0007350784622743522,
+            "delta_p_rate": -0.013942408613312918,
+            "synthetic_allocation_dp": -0.08034361333523776,
+            "residual_position_dp": -0.029724594922080676
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.003979088029196126,
+            "delta_p_rate": -0.04546598342537529,
+            "synthetic_allocation_dp": -0.20353506501644672,
+            "residual_position_dp": -0.003445978875430432
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.00874226883431785,
+            "delta_p_rate": -0.08375554016442036,
+            "synthetic_allocation_dp": -0.10358654041871448,
+            "residual_position_dp": -0.06101775999522217
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.003179585521280872,
+            "delta_p_rate": -0.014611178648156848,
+            "synthetic_allocation_dp": -0.0419981348901371,
+            "residual_position_dp": -0.06082173660563894
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0013313145443016826,
+            "delta_p_rate": -0.0001751673464129196,
+            "synthetic_allocation_dp": -0.11965811965811957,
+            "residual_position_dp": 0.05555555555555553
+          }
+        }
+      },
+      "2": {
+        "exclusive_support": false,
+        "n_start_control": 2.0787401574809117,
+        "n_start_treatment": 1.2271711812340729,
+        "p_survive_control": 0.347677595628287,
+        "p_survive_treatment": 0.31789737171471266,
+        "within_tier_B": -0.09845077990535649,
+        "recruit_mix": 0.005234175380994327,
+        "synthetic_allocation": -0.0648068274581309,
+        "residual_position": -0.03887812782835667,
+        "nested_residual": 1.3676559884601147e-13,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.004573625879663044,
+            "delta_p_rate": 0.003945978429156695,
+            "synthetic_allocation_dp": 5.068132370229794e-05,
+            "residual_position_dp": 0.033708419986877576
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.004522549721392102,
+            "delta_p_rate": -0.00175198184344903,
+            "synthetic_allocation_dp": 0.029039147745871772,
+            "residual_position_dp": -0.04617322396889374
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.004662728085888938,
+            "delta_p_rate": -0.027345080032140433,
+            "synthetic_allocation_dp": -0.03609324000182549,
+            "residual_position_dp": -0.007440061340219309
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.004029082908428467,
+            "delta_p_rate": -0.00779318010641339,
+            "synthetic_allocation_dp": -0.003591648658459047,
+            "residual_position_dp": -0.04864926430279192
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0019876422100109327,
+            "delta_p_rate": 0.0015807620359828281,
+            "synthetic_allocation_dp": 0.1775157232704396,
+            "residual_position_dp": 0.2686551979282278
+          }
+        }
+      },
+      "3": {
+        "exclusive_support": false,
+        "n_start_control": 1.9251323092816275,
+        "n_start_treatment": 1.6922647305218266,
+        "p_survive_control": 0.2794689553438616,
+        "p_survive_treatment": 0.37095709570964114,
+        "within_tier_B": 0.49642339220444065,
+        "recruit_mix": 0.0694894055302712,
+        "synthetic_allocation": 0.0771937855734172,
+        "residual_position": 0.3497402011007025,
+        "nested_residual": 4.973799150320701e-14,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.027974704033551276,
+            "delta_p_rate": 0.015958506436885157,
+            "synthetic_allocation_dp": 0.05153129408159576,
+            "residual_position_dp": 0.02456094852981001
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.005281455845197855,
+            "delta_p_rate": 0.022915550285943134,
+            "synthetic_allocation_dp": -0.004409149439427523,
+            "residual_position_dp": 0.0787261047938897
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.019391004575910514,
+            "delta_p_rate": 0.024901630735680642,
+            "synthetic_allocation_dp": 0.0011163282463259316,
+            "residual_position_dp": 0.0919264211249666
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.023778464934480482,
+            "delta_p_rate": 0.014096716911222048,
+            "synthetic_allocation_dp": 0.019588476743833926,
+            "residual_position_dp": 0.0477128295471953
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0028932111466333328,
+            "delta_p_rate": 0.0008092152177690788,
+            "synthetic_allocation_dp": 0.07797931235431141,
+            "residual_position_dp": 0.08948863636363633
+          }
+        }
+      },
+      "4": {
+        "exclusive_support": false,
+        "n_start_control": 1.4520459532724905,
+        "n_start_treatment": 2.0896397654282874,
+        "p_survive_control": 0.27895812961145294,
+        "p_survive_treatment": 0.4220900708272318,
+        "within_tier_B": 1.0138567041876867,
+        "recruit_mix": 0.009859450706993182,
+        "synthetic_allocation": 0.1923831681782039,
+        "residual_position": 0.8116140853027123,
+        "nested_residual": -2.2259971643734389e-13,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.0302409057022233,
+            "delta_p_rate": 0.01250117272025459,
+            "synthetic_allocation_dp": 0.010887487171302716,
+            "residual_position_dp": 0.08712032402701293
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.01605034333231942,
+            "delta_p_rate": 0.018028359297334963,
+            "synthetic_allocation_dp": 0.04625476638334008,
+            "residual_position_dp": 0.07101602143072824
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.0007924094602238531,
+            "delta_p_rate": 0.04576478867018611,
+            "synthetic_allocation_dp": 0.020168364599197335,
+            "residual_position_dp": 0.1575959041816566
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0103712512172869,
+            "delta_p_rate": 0.01322211506969268,
+            "synthetic_allocation_dp": 0.02397827639741538,
+            "residual_position_dp": 0.08242933759311522
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.018539971412861844,
+            "delta_p_rate": 0.02827878333189274,
+            "synthetic_allocation_dp": 0.032652287034129694,
+            "residual_position_dp": 0.154497710771783
+          },
+          "5": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.018608935272429034,
+            "delta_p_rate": 0.020043996438135456,
+            "synthetic_allocation_dp": 0.04386099913382066,
+            "residual_position_dp": 0.12721210847178135
+          },
+          "6": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0009554155572763799,
+            "delta_p_rate": 0.003900810723227154,
+            "synthetic_allocation_dp": 0.006045533817639065,
+            "residual_position_dp": 0.050701506816205534
+          }
+        }
+      },
+      "5": {
+        "exclusive_support": false,
+        "n_start_control": 0.06299212598425225,
+        "n_start_treatment": 0.8397095783299849,
+        "p_survive_control": 0.24590163934426046,
+        "p_survive_treatment": 0.44196873960764677,
+        "within_tier_B": 0.4424752639192731,
+        "recruit_mix": -0.04080452163433514,
+        "synthetic_allocation": 0.1850160500522516,
+        "residual_position": 0.2982637355013196,
+        "nested_residual": 3.702593787124897e-14,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.052465296013417095,
+            "delta_p_rate": -0.003736101292894726,
+            "synthetic_allocation_dp": 0.036914782748122696,
+            "residual_position_dp": -0.0838283629950303
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.028938018770462422,
+            "delta_p_rate": 0.020563962944340625,
+            "synthetic_allocation_dp": 0.06656359063132977,
+            "residual_position_dp": 0.1098906934001298
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.06957618923387411,
+            "delta_p_rate": 0.035472413207436354,
+            "synthetic_allocation_dp": 0.06314672425857665,
+            "residual_position_dp": 0.13663637280547788
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.029215733873933652,
+            "delta_p_rate": 0.018457182327068035,
+            "synthetic_allocation_dp": 0.037928100016764096,
+            "residual_position_dp": 0.18011701276519596
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.017139511321018982,
+            "delta_p_rate": 0.03350296926341919,
+            "synthetic_allocation_dp": 0.06564118217193037,
+            "residual_position_dp": 0.2402583305984492
+          },
+          "5": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.18379725101209338,
+            "delta_p_rate": 0.1098877393262575,
+            "synthetic_allocation_dp": 0.11536087204646786,
+            "residual_position_dp": 0.13983605467596613
+          },
+          "6": {
+            "exclusive_support": true,
+            "delta_p_mix": 0.0026604589291655675,
+            "delta_p_rate": 0.0,
+            "synthetic_allocation_dp": 0.0,
+            "residual_position_dp": 0.0
+          }
+        }
+      },
+      "6": {
+        "exclusive_support": true,
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.41413013124827164,
+        "p_survive_control": null,
+        "p_survive_treatment": 0.45178691840861807,
+        "within_tier_B": 0.0,
+        "recruit_mix": 0.0,
+        "synthetic_allocation": 0.0,
+        "residual_position": 0.0
+      }
+    }
+  },
+  "share_of_B_synthetic": 0.1571005720968943,
+  "share_of_B_residual_position": 0.8174657655638667,
+  "share_of_B_recruit_mix": 0.02543366234070279,
+  "within_tier_B": 1.6782901818425806,
+  "keep_pr_29_hold": true,
+  "keep_pr_33_hold": true,
+  "keep_pr_34_hold": true,
+  "keep_pr_35_hold": true,
+  "keep_pr_36_hold": true,
+  "keep_pr_37_hold": true,
+  "keep_pr_38_hold": true,
+  "keep_pr_39_hold": true,
+  "keep_pr_40_hold": true,
+  "keep_pr_41_hold": true
+}
