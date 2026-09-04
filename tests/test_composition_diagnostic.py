@@ -103,6 +103,8 @@ def test_seeded_subset_of_broad():
 
 
 def test_phase_2c_runner_smoke():
+    from tests.ml_testutil import require_ml
+    require_ml()  # contract builder records a Torch/NumPy runtime fingerprint
     from ml.fidelity_phase_2c import run_phase_2c
     result = run_phase_2c(
         lobbies=2, seed=0, out_dir="/tmp/sim_fidelity_phase_2c_test",
