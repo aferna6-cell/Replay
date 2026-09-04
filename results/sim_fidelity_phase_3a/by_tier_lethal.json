@@ -1,0 +1,230 @@
+{
+  "control": {
+    "1": {
+      "n_start": 11468,
+      "p_survive": 0.38018835019183816,
+      "p_start_divine_shield": 0.041070805720265086,
+      "p_shield_popped": 0.04028601325427276,
+      "p_poison_hit": 0.0,
+      "p_poison_lethal": 0.0,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6625392396232996,
+      "p_ordinary_counter_hit": 0.8611789326822462,
+      "mean_per_hit": 1.4803149606299213
+    },
+    "2": {
+      "n_start": 16104,
+      "p_survive": 0.3476775956284153,
+      "p_start_divine_shield": 0.0,
+      "p_shield_popped": 0.0,
+      "p_poison_hit": 0.00018628912071535022,
+      "p_poison_lethal": 0.00018628912071535022,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6882762046696473,
+      "p_ordinary_counter_hit": 0.6993293591654247,
+      "mean_per_hit": 2.078740157480315
+    },
+    "3": {
+      "n_start": 14914,
+      "p_survive": 0.2794689553439721,
+      "p_start_divine_shield": 0.03419605739573555,
+      "p_shield_popped": 0.03272093335121362,
+      "p_poison_hit": 6.705109293281481e-05,
+      "p_poison_lethal": 6.705109293281481e-05,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.5911894863886281,
+      "p_ordinary_counter_hit": 0.5876357784631889,
+      "mean_per_hit": 1.925132309281012
+    },
+    "4": {
+      "n_start": 11249,
+      "p_survive": 0.278958129611521,
+      "p_start_divine_shield": 0.10836518801671259,
+      "p_shield_popped": 0.09547515334696417,
+      "p_poison_hit": 0.00017779358165170237,
+      "p_poison_lethal": 0.00017779358165170237,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6146324117699351,
+      "p_ordinary_counter_hit": 0.42039292381545024,
+      "mean_per_hit": 1.4520459532722345
+    },
+    "5": {
+      "n_start": 488,
+      "p_survive": 0.2459016393442623,
+      "p_start_divine_shield": 0.012295081967213115,
+      "p_shield_popped": 0.004098360655737705,
+      "p_poison_hit": 0.0,
+      "p_poison_lethal": 0.0,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.5963114754098361,
+      "p_ordinary_counter_hit": 0.2766393442622951,
+      "mean_per_hit": 0.06299212598425197
+    },
+    "6": {
+      "n_start": 0,
+      "p_survive": null,
+      "p_start_divine_shield": null,
+      "p_shield_popped": null,
+      "p_poison_hit": null,
+      "p_poison_lethal": null,
+      "p_cleave_primary": null,
+      "p_cleave_secondary": null,
+      "p_soc_hit": null,
+      "p_ordinary_attack_hit": null,
+      "p_ordinary_counter_hit": null,
+      "mean_per_hit": 0.0
+    }
+  },
+  "treatment": {
+    "1": {
+      "n_start": 5261,
+      "p_survive": 0.2212507127922448,
+      "p_start_divine_shield": 0.033643793955521764,
+      "p_shield_popped": 0.03193309256795286,
+      "p_poison_hit": 0.0,
+      "p_poison_lethal": 0.0,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.45713742634480137,
+      "p_ordinary_counter_hit": 0.8429956282075651,
+      "mean_per_hit": 0.7345713487852555
+    },
+    "2": {
+      "n_start": 8789,
+      "p_survive": 0.31789737171464333,
+      "p_start_divine_shield": 0.0,
+      "p_shield_popped": 0.0,
+      "p_poison_hit": 0.0007964501080896575,
+      "p_poison_lethal": 0.0007964501080896575,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6166799408351348,
+      "p_ordinary_counter_hit": 0.6848333143702355,
+      "mean_per_hit": 1.227171181234292
+    },
+    "3": {
+      "n_start": 12120,
+      "p_survive": 0.37095709570957097,
+      "p_start_divine_shield": 0.02037953795379538,
+      "p_shield_popped": 0.019471947194719473,
+      "p_poison_hit": 0.0033003300330033004,
+      "p_poison_lethal": 0.0033003300330033004,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6008250825082508,
+      "p_ordinary_counter_hit": 0.727970297029703,
+      "mean_per_hit": 1.6922647305222005
+    },
+    "4": {
+      "n_start": 14966,
+      "p_survive": 0.42209007082720834,
+      "p_start_divine_shield": 0.08646264867031939,
+      "p_shield_popped": 0.08058265401576907,
+      "p_poison_hit": 0.005746358412401443,
+      "p_poison_lethal": 0.005545904049178137,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6704530268608847,
+      "p_ordinary_counter_hit": 0.693371642389416,
+      "mean_per_hit": 2.089639765428651
+    },
+    "5": {
+      "n_start": 6014,
+      "p_survive": 0.4419687396075823,
+      "p_start_divine_shield": 0.014798802793481875,
+      "p_shield_popped": 0.013634852011972065,
+      "p_poison_hit": 0.007648819421350183,
+      "p_poison_lethal": 0.007482540738277353,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6476554705686731,
+      "p_ordinary_counter_hit": 0.6757565680079813,
+      "mean_per_hit": 0.8397095783300754
+    },
+    "6": {
+      "n_start": 2966,
+      "p_survive": 0.45178691840863117,
+      "p_start_divine_shield": 0.0832771409305462,
+      "p_shield_popped": 0.07552258934592043,
+      "p_poison_hit": 0.013486176668914362,
+      "p_poison_lethal": 0.012137559002022926,
+      "p_cleave_primary": 0.0,
+      "p_cleave_secondary": 0.0,
+      "p_soc_hit": 0.0,
+      "p_ordinary_attack_hit": 0.6325016857720837,
+      "p_ordinary_counter_hit": 0.6638570465273095,
+      "mean_per_hit": 0.41413013124825465
+    }
+  },
+  "delta_p_start_divine_shield": {
+    "1": -0.0074270117647433215,
+    "2": 0.0,
+    "3": -0.013816519441940171,
+    "4": -0.021902539346393204,
+    "5": 0.002503720826268761,
+    "6": null
+  },
+  "delta_p_shield_popped": {
+    "1": -0.008352920686319897,
+    "2": 0.0,
+    "3": -0.013248986156494148,
+    "4": -0.014892499331195103,
+    "5": 0.009536491356234359,
+    "6": null
+  },
+  "delta_p_poison_hit": {
+    "1": 0.0,
+    "2": 0.0006101609873743073,
+    "3": 0.0032332789400704855,
+    "4": 0.0055685648307497405,
+    "5": 0.007648819421350183,
+    "6": null
+  },
+  "delta_p_poison_lethal": {
+    "1": 0.0,
+    "2": 0.0006101609873743073,
+    "3": 0.0032332789400704855,
+    "4": 0.005368110467526435,
+    "5": 0.007482540738277353,
+    "6": null
+  },
+  "delta_p_cleave_secondary": {
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": null
+  },
+  "delta_p_soc_hit": {
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": null
+  },
+  "delta_p_survive": {
+    "1": -0.15893763739959335,
+    "2": -0.029780223913771997,
+    "3": 0.09148814036559888,
+    "4": 0.14313194121568734,
+    "5": 0.19606710026332003,
+    "6": null
+  }
+}

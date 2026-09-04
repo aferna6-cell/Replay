@@ -216,31 +216,100 @@ def has_represented_generated_effect(m: Combatant) -> bool:
     return bool(getattr(m, "reborn", False))
 
 
+def _bump_map(ctx: Dict, name: str, bid: str, n: int = 1) -> None:
+    bucket = ctx.setdefault(name, {})
+    bucket[bid] = int(bucket.get(bid) or 0) + n
+
+
+def _trace_hit(
+    ctx: Dict,
+    bid: str,
+    *,
+    cause: str,
+    poison: bool,
+    cleave_role: Optional[str],
+    ds_before: bool,
+    ds_after: bool,
+    hp_before: int,
+    hp_after: int,
+    lethal: bool,
+) -> None:
+    """Observational per-swing / per-body lethal-cause tags. No RNG."""
+    ctx["n_damage"] = int(ctx.get("n_damage") or 0) + 1
+    if not bid:
+        return
+    ctx.setdefault("end_health", {})[bid] = int(hp_after)
+    ctx.setdefault("end_divine_shield", {})[bid] = bool(ds_after)
+    ctx.setdefault("ds_before_last_hit", {})[bid] = bool(ds_before)
+    ctx.setdefault("ds_after_last_hit", {})[bid] = bool(ds_after)
+    _bump_map(ctx, "n_hits", bid)
+    if ds_before and not ds_after:
+        ctx["n_shield_pops"] = int(ctx.get("n_shield_pops") or 0) + 1
+        _bump_map(ctx, "n_shield_pops_body", bid)
+        pops = ctx.setdefault("shield_pop_cause", {})
+        if bid not in pops:
+            pops[bid] = cause
+    if poison:
+        ctx["n_poison_hits"] = int(ctx.get("n_poison_hits") or 0) + 1
+        _bump_map(ctx, "n_hits_poison", bid)
+        if lethal:
+            ctx.setdefault("poison_lethal", {})[bid] = True
+    if cleave_role == "primary":
+        ctx["n_cleave_primary"] = int(ctx.get("n_cleave_primary") or 0) + 1
+        _bump_map(ctx, "n_cleave_primary_body", bid)
+    elif cleave_role == "secondary" or cause == "cleave":
+        ctx["n_cleave_secondary"] = int(ctx.get("n_cleave_secondary") or 0) + 1
+        _bump_map(ctx, "n_cleave_secondary_body", bid)
+    if (cleave_role or cause == "cleave") and lethal:
+        ctx.setdefault("cleave_lethal", {})[bid] = True
+    if cause == "start_of_combat":
+        ctx["n_soc_hits"] = int(ctx.get("n_soc_hits") or 0) + 1
+        _bump_map(ctx, "n_soc_hits_body", bid)
+        if lethal:
+            ctx.setdefault("soc_lethal", {})[bid] = True
+    if cause == "attack":
+        ctx["n_ordinary_attack"] = int(ctx.get("n_ordinary_attack") or 0) + 1
+        _bump_map(ctx, "n_ordinary_attack_body", bid)
+    elif cause == "counterattack":
+        ctx["n_ordinary_counter"] = int(ctx.get("n_ordinary_counter") or 0) + 1
+        _bump_map(ctx, "n_ordinary_counter_body", bid)
+    if lethal and cause in ("attack", "counterattack"):
+        ctx.setdefault("ordinary_lethal", {})[bid] = True
+    if lethal:
+        ctx.setdefault("death_cause", {})[bid] = cause
+        ctx.setdefault("killed_by", {})[bid] = ctx.get("pending_attacker_id")
+        ctx["n_deaths"] = int(ctx.get("n_deaths") or 0) + 1
+
+
 def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
-                  cause: str = "attack") -> None:
+                  cause: str = "attack", cleave_role: Optional[str] = None) -> None:
     if dmg <= 0:
         return
     ctx = _TRACE_CTX
     pre = int(target.health)
     bid = str(getattr(target, "body_id", "") or "")
+    ds_before = bool(target.divine_shield)
     if target.divine_shield:
         target.divine_shield = False     # shield eats the hit (and any poison)
         if ctx is not None:
-            ctx["n_damage"] = int(ctx.get("n_damage") or 0) + 1
-            if bid:
-                ctx.setdefault("end_health", {})[bid] = int(target.health)
+            _trace_hit(
+                ctx, bid,
+                cause=cause, poison=poison, cleave_role=cleave_role,
+                ds_before=True, ds_after=False,
+                hp_before=pre, hp_after=int(target.health), lethal=False,
+            )
         return
     target.health -= dmg
     if poison:
         target.health = min(target.health, 0)
     if ctx is not None:
-        ctx["n_damage"] = int(ctx.get("n_damage") or 0) + 1
-        if bid:
-            ctx.setdefault("end_health", {})[bid] = int(target.health)
-            if pre > 0 and target.health <= 0:
-                ctx.setdefault("death_cause", {})[bid] = cause
-                ctx.setdefault("killed_by", {})[bid] = ctx.get("pending_attacker_id")
-                ctx["n_deaths"] = int(ctx.get("n_deaths") or 0) + 1
+        lethal = pre > 0 and target.health <= 0
+        _trace_hit(
+            ctx, bid,
+            cause=cause, poison=poison, cleave_role=cleave_role,
+            ds_before=ds_before, ds_after=bool(target.divine_shield),
+            hp_before=pre, hp_after=int(target.health), lethal=lethal,
+        )
 
 
 # Observational only. simulate_once sets this when ``trace`` is provided.
@@ -332,12 +401,16 @@ def _exchange(attacker: Combatant, defender: Combatant,
     except ValueError:
         di = -1
     cause = "poison" if attacker.poisonous else "attack"
-    _apply_damage(defender, a_dmg, attacker.poisonous, cause=cause)
+    primary_role = "primary" if attacker.cleave else None
+    _apply_damage(
+        defender, a_dmg, attacker.poisonous, cause=cause, cleave_role=primary_role,
+    )
     if attacker.cleave and di >= 0:
         for nb in (di - 1, di + 1):
             if 0 <= nb < len(def_board) and def_board[nb] is not defender:
                 _apply_damage(
                     def_board[nb], a_dmg, attacker.poisonous, cause="cleave",
+                    cleave_role="secondary",
                 )
     back = "poison" if defender.poisonous else "counterattack"
     _apply_damage(attacker, d_dmg, defender.poisonous, cause=back)
@@ -487,6 +560,35 @@ def _annotate_attack_rows(
         row["has_represented_generated_effect"] = bool(
             row.get("has_represented_generated_effect")
         )
+        row["n_hits"] = int((ctx.get("n_hits") or {}).get(bid) or 0)
+        row["n_shield_pops"] = int(
+            (ctx.get("n_shield_pops_body") or {}).get(bid) or 0
+        )
+        row["shield_pop_cause"] = (ctx.get("shield_pop_cause") or {}).get(bid)
+        row["ds_before_last_hit"] = (ctx.get("ds_before_last_hit") or {}).get(bid)
+        row["ds_after_last_hit"] = (ctx.get("ds_after_last_hit") or {}).get(bid)
+        if bid in (ctx.get("end_divine_shield") or {}):
+            row["end_divine_shield"] = bool(ctx["end_divine_shield"][bid])
+        else:
+            row["end_divine_shield"] = bool(row.get("start_divine_shield"))
+        row["n_hits_poison"] = int((ctx.get("n_hits_poison") or {}).get(bid) or 0)
+        row["poison_lethal"] = bool((ctx.get("poison_lethal") or {}).get(bid))
+        row["n_cleave_primary"] = int(
+            (ctx.get("n_cleave_primary_body") or {}).get(bid) or 0
+        )
+        row["n_cleave_secondary"] = int(
+            (ctx.get("n_cleave_secondary_body") or {}).get(bid) or 0
+        )
+        row["cleave_lethal"] = bool((ctx.get("cleave_lethal") or {}).get(bid))
+        row["n_soc_hits"] = int((ctx.get("n_soc_hits_body") or {}).get(bid) or 0)
+        row["soc_lethal"] = bool((ctx.get("soc_lethal") or {}).get(bid))
+        row["n_ordinary_attack_hits"] = int(
+            (ctx.get("n_ordinary_attack_body") or {}).get(bid) or 0
+        )
+        row["n_ordinary_counter_hits"] = int(
+            (ctx.get("n_ordinary_counter_body") or {}).get(bid) or 0
+        )
+        row["ordinary_lethal"] = bool((ctx.get("ordinary_lethal") or {}).get(bid))
 
 
 def _do_attack(attacker: Combatant, atk_board: List[Combatant],
@@ -549,6 +651,10 @@ def combatant_trace_row(m: Combatant) -> dict:
         "token": origin == "token",
         "board_slot": getattr(m, "board_slot", None),
         "taunt": bool(getattr(m, "taunt", False)),
+        "divine_shield": bool(getattr(m, "divine_shield", False)),
+        "poisonous": bool(getattr(m, "poisonous", False)),
+        "cleave": bool(getattr(m, "cleave", False)),
+        "start_divine_shield": bool(getattr(m, "divine_shield", False)),
         "effect_status": status,
         "has_unsupported_effect": status in (
             "unsupported_placeholder", "represented_approximate",
@@ -628,6 +734,31 @@ def fill_combat_survivor_trace(
     n_created_represented = sum(
         1 for c in created if c.get("represented_generated")
     )
+    n_hits_sum = int(sum(int(r.get("n_hits") or 0) for r in all_bodies))
+    n_shield_sum = int(sum(int(r.get("n_shield_pops") or 0) for r in all_bodies))
+    n_poison_sum = int(sum(int(r.get("n_hits_poison") or 0) for r in all_bodies))
+    n_cleave_p_sum = int(sum(int(r.get("n_cleave_primary") or 0) for r in all_bodies))
+    n_cleave_s_sum = int(sum(int(r.get("n_cleave_secondary") or 0) for r in all_bodies))
+    n_soc_sum = int(sum(int(r.get("n_soc_hits") or 0) for r in all_bodies))
+    n_ord_atk_sum = int(
+        sum(int(r.get("n_ordinary_attack_hits") or 0) for r in all_bodies)
+    )
+    n_ord_ctr_sum = int(
+        sum(int(r.get("n_ordinary_counter_hits") or 0) for r in all_bodies)
+    )
+    n_poison_lethal = sum(1 for r in all_bodies if r.get("poison_lethal"))
+    n_cleave_lethal = sum(1 for r in all_bodies if r.get("cleave_lethal"))
+    n_soc_lethal = sum(1 for r in all_bodies if r.get("soc_lethal"))
+    n_ordinary_lethal = sum(1 for r in all_bodies if r.get("ordinary_lethal"))
+    n_death_causes = sum(1 for r in all_bodies if r.get("death_cause"))
+    n_hits_events = int(ctx.get("n_damage") or 0)
+    n_shield_events = int(ctx.get("n_shield_pops") or 0)
+    n_poison_events = int(ctx.get("n_poison_hits") or 0)
+    n_cleave_p_events = int(ctx.get("n_cleave_primary") or 0)
+    n_cleave_s_events = int(ctx.get("n_cleave_secondary") or 0)
+    n_soc_events = int(ctx.get("n_soc_hits") or 0)
+    n_ord_atk_events = int(ctx.get("n_ordinary_attack") or 0)
+    n_ord_ctr_events = int(ctx.get("n_ordinary_counter") or 0)
     event_counts = {
         "n_attacks_events": n_attacks_events,
         "n_attacks_sum": n_attacks_sum,
@@ -645,7 +776,28 @@ def fill_combat_survivor_trace(
         "n_cursor_advance": n_cursor_advance,
         "n_cursor_wrap": n_cursor_wrap,
         "n_cursor_reset": n_cursor_wrap,
-        "n_damage": int(ctx.get("n_damage") or 0),
+        "n_damage": n_hits_events,
+        "n_hits_events": n_hits_events,
+        "n_hits_sum": n_hits_sum,
+        "n_shield_pops_events": n_shield_events,
+        "n_shield_pops_sum": n_shield_sum,
+        "n_poison_hits_events": n_poison_events,
+        "n_poison_hits_sum": n_poison_sum,
+        "n_cleave_primary_events": n_cleave_p_events,
+        "n_cleave_primary_sum": n_cleave_p_sum,
+        "n_cleave_secondary_events": n_cleave_s_events,
+        "n_cleave_secondary_sum": n_cleave_s_sum,
+        "n_soc_hits_events": n_soc_events,
+        "n_soc_hits_sum": n_soc_sum,
+        "n_ordinary_attack_events": n_ord_atk_events,
+        "n_ordinary_attack_sum": n_ord_atk_sum,
+        "n_ordinary_counter_events": n_ord_ctr_events,
+        "n_ordinary_counter_sum": n_ord_ctr_sum,
+        "n_poison_lethal": n_poison_lethal,
+        "n_cleave_lethal": n_cleave_lethal,
+        "n_soc_lethal": n_soc_lethal,
+        "n_ordinary_lethal": n_ordinary_lethal,
+        "n_death_causes": n_death_causes,
         "n_immediate_attacks": int(ctx.get("n_immediate_attacks") or 0),
         "n_unsupported_placeholders": n_placeholder,
         "n_living_end": n_living_end,
@@ -655,6 +807,15 @@ def fill_combat_survivor_trace(
         "forced_open_reconcile": (n_forced_events + n_open_events) == n_targets_events,
         "created_reconcile": n_created_events == n_created,
         "deaths_reconcile": n_death_events == n_deaths_expected,
+        "hits_reconcile": n_hits_events == n_hits_sum,
+        "shield_pops_reconcile": n_shield_events == n_shield_sum,
+        "poison_hits_reconcile": n_poison_events == n_poison_sum,
+        "cleave_primary_reconcile": n_cleave_p_events == n_cleave_p_sum,
+        "cleave_secondary_reconcile": n_cleave_s_events == n_cleave_s_sum,
+        "soc_hits_reconcile": n_soc_events == n_soc_sum,
+        "ordinary_attack_reconcile": n_ord_atk_events == n_ord_atk_sum,
+        "ordinary_counter_reconcile": n_ord_ctr_events == n_ord_ctr_sum,
+        "death_causes_reconcile": n_death_causes == n_death_events,
     }
     trace.update({
         "winner_side": winner_side,
@@ -709,6 +870,9 @@ def simulate_once(
             "n_targets_open": 0, "n_damage": 0, "n_deaths": 0,
             "n_created": 0, "n_cursor_advance": 0, "n_cursor_wrap": 0,
             "n_immediate_attacks": 0,
+            "n_shield_pops": 0, "n_poison_hits": 0,
+            "n_cleave_primary": 0, "n_cleave_secondary": 0,
+            "n_soc_hits": 0, "n_ordinary_attack": 0, "n_ordinary_counter": 0,
             "death_cause": {}, "killed_by": {}, "end_health": {},
             "spawned_represented": {}, "wrap_before_first": {},
             "last_attacker": {},
