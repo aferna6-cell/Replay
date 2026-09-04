@@ -407,6 +407,10 @@ class BGEnv:
         # Optional observational hook for resolved combats. Must not mutate.
         # Signature: (env, fight_dict) -> None. Phase 2T/2U measurement only.
         self.combat_audit_hook: Optional[Callable] = None
+        # Optional observational hook for the pre-combat pairing decision.
+        # Signature: (env, pairing_dict) -> None. Must not mutate or consume RNG.
+        # Phase 3J matchmaking attribution only.
+        self.pairing_audit_hook: Optional[Callable] = None
 
     MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
 
@@ -880,12 +884,35 @@ class BGEnv:
     def _run_combat(self) -> None:
         alive = [p for p in self.players if p.alive]
         order = alive[:]
+        pairing_hook = self.pairing_audit_hook
+        pre_pair = None
+        if pairing_hook is not None:
+            # Snapshot only. getstate() does not consume RNG.
+            pre_pair = {
+                "turn": int(self.turn),
+                "alive_seats": [int(p.idx) for p in alive],
+                "dead_with_board_seats": [
+                    int(p.idx) for p in self.players
+                    if (not p.alive) and p.last_board
+                ],
+                "rng_state_pre": self.rng.getstate(),
+            }
         self.rng.shuffle(order)
         pairs: List[Tuple[PlayerState, Optional[PlayerState]]] = []
         for i in range(0, len(order) - 1, 2):
             pairs.append((order[i], order[i + 1]))
         if len(order) % 2 == 1:
             pairs.append((order[-1], None))       # fights a ghost
+        if pairing_hook is not None and pre_pair is not None:
+            pairing_hook(self, {
+                **pre_pair,
+                "shuffled_order": [int(p.idx) for p in order],
+                "pairs": [
+                    (int(a.idx), None if b is None else int(b.idx))
+                    for a, b in pairs
+                ],
+                "rng_state_post": self.rng.getstate(),
+            })
 
         dead_boards = [p.last_board for p in self.players
                        if not p.alive and p.last_board]
