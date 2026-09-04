@@ -61,7 +61,7 @@ tuning on the current simulator.
 | 3H | [`sim_fidelity_phase_3h.md`](sim_fidelity_phase_3h.md) | Low-tier board-retention (`3h_v1`): **HOLD `mixed_route`** — late T1–T3 17924→4273 leftover **7155 (52.4%)**; next decomposes leftover pairing / who-wins; do not rewrite 2Q; #29/#33–#47/#50–#54 HOLD |
 | 3I | [`sim_fidelity_phase_3i.md`](sim_fidelity_phase_3i.md) | Pairing / who-wins (`3i_v1`): **HOLD `opponent_schedule_dominates`** — leftover 7155 is pairing-schedule **5952 (83.2%)**; next audits matchmaking; do not rewrite 2Q; #29/#33–#47/#50–#55 HOLD |
 | 3J | [`sim_fidelity_phase_3j.md`](sim_fidelity_phase_3j.md) | Matchmaking divergence (`3j_v1`): **HOLD `eligibility_dominates`** — 5952 is eligibility **5648 (94.9%)** / RNG **304 (5.1%)**; next traces elimination timing; do not rewrite 2Q; #29/#33–#47/#50–#56 HOLD |
-| 3K | [`sim_fidelity_phase_3k.md`](sim_fidelity_phase_3k.md) | Elimination-timing attribution (`3k_v1`): measurement of the 5648 eligibility leftover; DEV 14200–14699 reused; do not rewrite 2Q; #29/#33–#47/#50–#56 HOLD |
+| 3K | [`sim_fidelity_phase_3k.md`](sim_fidelity_phase_3k.md) | Elimination-timing (`3k_v1`): **HOLD `mixed_route_to_larger`** — 5648 is third-party **65.5%** / treat-earlier **19.6%** / ctrl-opp **14.9%**; (1)+(2) prior-HP **93.4%**; next traces the third-party elim chain one hop upstream; do not rewrite 2Q; #29/#33–#47/#50–#56 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
