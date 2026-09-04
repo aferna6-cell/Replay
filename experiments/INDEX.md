@@ -55,6 +55,7 @@ tuning on the current simulator.
 | 3B | [`sim_fidelity_phase_3b.md`](sim_fidelity_phase_3b.md) | HP depletion / overkill / hit-count (`3b_v1`): **HOLD `damage_per_hit_dominates`** — 3A leftover +0.828 is **hits −0.13 / dmg-per-hit 1.13 / overkill −0.01 / leftover 0.01**; next audits incoming punch vs start HP; do not rewrite 2Q; #29/#33–#45 HOLD |
 | 3C | [`sim_fidelity_phase_3c.md`](sim_fidelity_phase_3c.md) | Attacker-punch attribution (`3c_v1`): **HOLD `jointly_explained_rank_largest`** — 3B +0.939 is **atk-strength 0.55 / synth 0.21 / pairing 0.11 / leftover 0.13**; next isolates board-strength / allocation of attacker-attack mix; do not rewrite 2Q; #29/#33–#46 HOLD |
 | 3D | [`sim_fidelity_phase_3d.md`](sim_fidelity_phase_3d.md) | Attacker-punch source (`3d_v1`): **HOLD `board_pool_magnitude_dominates`** — 3C A +0.512 is **pool mag 0.82 / concentration 0.51 / combat Δ 0 / leftover 0.16**; next audits why opposing board-level synthetic strength differs across arms; do not rewrite 2Q; #29/#33–#47 HOLD |
+| 3E | [`sim_fidelity_phase_3e.md`](sim_fidelity_phase_3e.md) | Board-pool lifecycle (`3e_v1`): **HOLD `carry_history_dominates`** — 3D A1 +0.422 is **carry 0.72 / scale-add 0.56 / replace 0.45 / leftover 0.06**; next traces when the pool divergence first appears; do not rewrite 2Q; #29/#33–#47/#50 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.

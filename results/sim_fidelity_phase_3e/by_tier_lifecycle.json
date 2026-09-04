@@ -1,0 +1,158 @@
+{
+  "control": {
+    "1": {
+      "n_start": 11468,
+      "mean_opp_board_pool": 1258.0207534007673,
+      "mean_opp_carry": 796.8142657830484,
+      "mean_opp_scale_add": 459.7055284269271,
+      "mean_opp_replace_loss": 0.2733693756539937,
+      "mean_opp_board_size": 6.995901639344262,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 1.4803149606299213
+    },
+    "2": {
+      "n_start": 16104,
+      "mean_opp_board_pool": 1262.1423869846,
+      "mean_opp_carry": 796.220566318927,
+      "mean_opp_scale_add": 465.87468951813213,
+      "mean_opp_replace_loss": 0.2687531048186786,
+      "mean_opp_board_size": 6.996274217585693,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 2.078740157480315
+    },
+    "3": {
+      "n_start": 14914,
+      "mean_opp_board_pool": 1269.5137454740511,
+      "mean_opp_carry": 799.5625586697063,
+      "mean_opp_scale_add": 469.55022126860666,
+      "mean_opp_replace_loss": 0.2812122837602253,
+      "mean_opp_board_size": 6.995641678959367,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 1.925132309281012
+    },
+    "4": {
+      "n_start": 11249,
+      "mean_opp_board_pool": 1317.4096364121256,
+      "mean_opp_carry": 833.295048448751,
+      "mean_opp_scale_add": 484.39496844163926,
+      "mean_opp_replace_loss": 0.28038047826473467,
+      "mean_opp_board_size": 6.996621921948618,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 1.4520459532722345
+    },
+    "5": {
+      "n_start": 488,
+      "mean_opp_board_pool": 2128.0881147540986,
+      "mean_opp_carry": 1352.7909836065573,
+      "mean_opp_scale_add": 775.6434426229508,
+      "mean_opp_replace_loss": 0.3463114754098361,
+      "mean_opp_board_size": 7.0,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 0.06299212598425197
+    },
+    "6": {
+      "n_start": 0,
+      "mean_opp_board_pool": null,
+      "mean_opp_carry": null,
+      "mean_opp_scale_add": null,
+      "mean_opp_replace_loss": null,
+      "mean_opp_board_size": null,
+      "p_flow_ok": null,
+      "mean_per_hit": 0.0
+    }
+  },
+  "treatment": {
+    "1": {
+      "n_start": 5261,
+      "mean_opp_board_pool": 118.1455996958753,
+      "mean_opp_carry": 65.01900779319521,
+      "mean_opp_scale_add": 53.71013115377305,
+      "mean_opp_replace_loss": 0.6112906291579547,
+      "mean_opp_board_size": 6.995057973769246,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 0.7345713487852555
+    },
+    "2": {
+      "n_start": 8789,
+      "mean_opp_board_pool": 198.13221071794288,
+      "mean_opp_carry": 104.90544999431107,
+      "mean_opp_scale_add": 94.36773239276368,
+      "mean_opp_replace_loss": 1.1492775059733757,
+      "mean_opp_board_size": 6.996131528046422,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 1.227171181234292
+    },
+    "3": {
+      "n_start": 12120,
+      "mean_opp_board_pool": 441.5744224422442,
+      "mean_opp_carry": 223.2645214521452,
+      "mean_opp_scale_add": 220.58382838283828,
+      "mean_opp_replace_loss": 2.279950495049505,
+      "mean_opp_board_size": 6.9967821782178214,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 1.6922647305222005
+    },
+    "4": {
+      "n_start": 14966,
+      "mean_opp_board_pool": 1061.5732994788186,
+      "mean_opp_carry": 616.9516236803421,
+      "mean_opp_scale_add": 446.4466791393826,
+      "mean_opp_replace_loss": 1.8396365094213551,
+      "mean_opp_board_size": 6.99819591073099,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 2.089639765428651
+    },
+    "5": {
+      "n_start": 6014,
+      "mean_opp_board_pool": 2368.105586963751,
+      "mean_opp_carry": 1458.0014965081477,
+      "mean_opp_scale_add": 905.118722979714,
+      "mean_opp_replace_loss": -4.985367475889591,
+      "mean_opp_board_size": 7.0,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 0.8397095783300754
+    },
+    "6": {
+      "n_start": 2966,
+      "mean_opp_board_pool": 4268.064733648011,
+      "mean_opp_carry": 2960.569453809845,
+      "mean_opp_scale_add": 1281.2521915037087,
+      "mean_opp_replace_loss": -26.24308833445718,
+      "mean_opp_board_size": 7.0,
+      "p_flow_ok": 1.0,
+      "mean_per_hit": 0.41413013124825465
+    }
+  },
+  "delta_mean_opp_board_pool": {
+    "1": -1139.875153704892,
+    "2": -1064.0101762666573,
+    "3": -827.9393230318069,
+    "4": -255.83633693330694,
+    "5": 240.01747220965262,
+    "6": null
+  },
+  "delta_mean_opp_carry": {
+    "1": -731.7952579898532,
+    "2": -691.3151163246159,
+    "3": -576.298037217561,
+    "4": -216.3434247684089,
+    "5": 105.21051290159039,
+    "6": null
+  },
+  "delta_mean_opp_scale_add": {
+    "1": -405.9953972731541,
+    "2": -371.50695712536844,
+    "3": -248.96639288576839,
+    "4": -37.94828930225668,
+    "5": 129.47528035676316,
+    "6": null
+  },
+  "delta_mean_opp_replace_loss": {
+    "1": 0.337921253503961,
+    "2": 0.8805244011546971,
+    "3": 1.9987382112892795,
+    "4": 1.5592560311566204,
+    "5": -5.331678951299427,
+    "6": null
+  }
+}
