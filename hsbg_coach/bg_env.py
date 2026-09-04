@@ -401,6 +401,9 @@ class BGEnv:
         # Optional observational hook for residual scaling intermediates.
         # Signature: (env, player, seat, audit_dict) -> None. Must not mutate.
         self.scaling_audit_hook: Optional[Callable] = None
+        # Optional observational hook for resolved combats. Must not mutate.
+        # Signature: (env, fight_dict) -> None. Phase 2T measurement only.
+        self.combat_audit_hook: Optional[Callable] = None
 
     MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
 
@@ -827,6 +830,13 @@ class BGEnv:
         avg_tier = (sum(m.tier for m in board) / len(board)) if board else 1.0
         return tier + max(1, round(survivors * avg_tier))
 
+    def _emit_combat_audit(self, fight: Dict) -> None:
+        """Observational only. Default-off; must not mutate env or consume RNG."""
+        hook = self.combat_audit_hook
+        if hook is None:
+            return
+        hook(self, fight)
+
     def _run_combat(self) -> None:
         alive = [p for p in self.players if p.alive]
         order = alive[:]
@@ -839,18 +849,69 @@ class BGEnv:
 
         dead_boards = [p.last_board for p in self.players
                        if not p.alive and p.last_board]
+        audit = self.combat_audit_hook is not None
         for a, b in pairs:
             if b is None:
                 if not dead_boards:
+                    if audit:
+                        self._emit_combat_audit({
+                            "turn": self.turn,
+                            "kind": "bye",
+                            "ghost": False,
+                            "seat_a": a.idx,
+                            "seat_b": None,
+                            "raw": 0,
+                            "applied": 0,
+                            "pre_hp_a": a.hp,
+                            "post_hp_a": a.hp,
+                            "pre_hp_b": None,
+                            "post_hp_b": None,
+                            "winner_seat": None,
+                            "loser_seat": None,
+                            "winner_board": list(a.board),
+                            "loser_board": [],
+                            "winner_tier": a.tier,
+                            "loser_tier": None,
+                        })
                     continue
                 ghost = self.rng.choice(dead_boards)
                 ghost_tier = max((g.tier for g in ghost), default=1)
+                pre_a = a.hp
                 dmg = simulate_once(self._combatants(a.board),
                                     self._combatants(ghost), self.rng,
                                     tier_a=a.tier, tier_b=ghost_tier)
                 if dmg < 0:
                     a.hp -= self._hero_damage(dmg, ghost_tier, ghost)
+                if audit:
+                    self._emit_combat_audit({
+                        "turn": self.turn,
+                        "kind": "ghost",
+                        "ghost": True,
+                        "seat_a": a.idx,
+                        "seat_b": None,
+                        "raw": int(dmg),
+                        "applied": int(pre_a - a.hp),
+                        "pre_hp_a": pre_a,
+                        "post_hp_a": a.hp,
+                        "pre_hp_b": None,
+                        "post_hp_b": None,
+                        "winner_seat": a.idx if dmg > 0 else None,
+                        "loser_seat": a.idx if dmg < 0 else None,
+                        "winner_board": (
+                            list(a.board) if dmg > 0 else list(ghost)
+                        ),
+                        "loser_board": (
+                            list(ghost) if dmg > 0 else list(a.board)
+                        ),
+                        "winner_tier": (
+                            a.tier if dmg > 0 else ghost_tier
+                        ),
+                        "loser_tier": (
+                            ghost_tier if dmg > 0 else a.tier
+                        ),
+                    })
                 continue
+            pre_a, pre_b = a.hp, b.hp
             dmg = simulate_once(self._combatants(a.board),
                                 self._combatants(b.board), self.rng,
                                 tier_a=a.tier, tier_b=b.tier)
@@ -858,6 +919,34 @@ class BGEnv:
                 b.hp -= self._hero_damage(dmg, a.tier, a.board)
             elif dmg < 0:
                 a.hp -= self._hero_damage(dmg, b.tier, b.board)
+            if audit:
+                self._emit_combat_audit({
+                    "turn": self.turn,
+                    "kind": "live",
+                    "ghost": False,
+                    "seat_a": a.idx,
+                    "seat_b": b.idx,
+                    "raw": int(dmg),
+                    "applied": int((pre_a - a.hp) + (pre_b - b.hp)),
+                    "pre_hp_a": pre_a,
+                    "post_hp_a": a.hp,
+                    "pre_hp_b": pre_b,
+                    "post_hp_b": b.hp,
+                    "winner_seat": (
+                        a.idx if dmg > 0 else (b.idx if dmg < 0 else None)
+                    ),
+                    "loser_seat": (
+                        b.idx if dmg > 0 else (a.idx if dmg < 0 else None)
+                    ),
+                    "winner_board": (
+                        list(a.board) if dmg >= 0 else list(b.board)
+                    ),
+                    "loser_board": (
+                        list(b.board) if dmg >= 0 else list(a.board)
+                    ),
+                    "winner_tier": a.tier if dmg >= 0 else b.tier,
+                    "loser_tier": b.tier if dmg >= 0 else a.tier,
+                })
 
         # Deaths → placements (weakest dead this round takes the worst slot).
         dead = [p for p in alive if p.hp <= 0]
@@ -997,6 +1086,8 @@ class BGEnv:
             if recruit_tracer is not None and hasattr(recruit_tracer, "after_scale_all"):
                 recruit_tracer.after_scale_all(self)
             self._run_combat()
+            if recruit_tracer is not None and hasattr(recruit_tracer, "after_combat"):
+                recruit_tracer.after_combat(self)
             alive = [p for p in self.players if p.alive]
             if len(alive) <= 1 or self.turn >= MAX_TURNS:
                 self._finalize()
