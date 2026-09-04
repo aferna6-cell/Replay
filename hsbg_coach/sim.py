@@ -23,7 +23,7 @@ Input is anything with ``attack``/``health`` and a ``tags`` dict (e.g. the
 
 import random
 from dataclasses import dataclass, field, replace
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from .effects import (
     Summon,
@@ -74,6 +74,8 @@ class Combatant:
     recruit_health: Optional[int] = None
     board_slot: Optional[int] = None
     generated: bool = False
+    # Observational combat-start attack. Combat RNG/outcomes never read this.
+    start_attack: Optional[int] = None
 
     def copy(self) -> "Combatant":
         return replace(self)
@@ -232,16 +234,86 @@ def _hit_overkill(incoming: int, hp_before: int, *, poison: bool, lethal: bool) 
     return int(extra)
 
 
+def _opt_stat(raw, fallback: int) -> int:
+    try:
+        if raw in (None, ""):
+            return int(fallback)
+        return int(raw)
+    except (TypeError, ValueError):
+        return int(fallback)
+
+
+def _combat_start_attack(m: Combatant) -> int:
+    """Observational combat-start (or spawn-time) attack. Combat never reads this."""
+    stamped = getattr(m, "start_attack", None)
+    atk = int(getattr(m, "attack", 0) or 0)
+    return _opt_stat(stamped, atk)
+
+
+def _side_board_attack_stats(board: Sequence[Combatant]) -> Dict:
+    """Opposing-board recruit/pool attack totals at combat start. No RNG."""
+    rec = 0
+    pool = 0
+    size = 0
+    tiers: List[int] = []
+    shares: List[Tuple[int, str, int]] = []
+    for i, m in enumerate(board):
+        size += 1
+        atk0 = _combat_start_attack(m)
+        recruit = _opt_stat(getattr(m, "recruit_attack", None), atk0)
+        rec += recruit
+        pool += atk0 - recruit
+        try:
+            tier = int(getattr(m, "tier", 1) or 1)
+        except (TypeError, ValueError):
+            tier = 1
+        tiers.append(tier)
+        bid = str(getattr(m, "body_id", "") or "")
+        shares.append((atk0 - recruit, bid, i))
+    order = sorted(range(size), key=lambda j: (-shares[j][0], shares[j][2]))
+    rank = {shares[idx][1]: r for r, idx in enumerate(order, start=1) if shares[idx][1]}
+    hist = {str(t): 0 for t in range(1, 7)}
+    for t in tiers:
+        tt = min(6, max(1, t))
+        hist[str(tt)] += 1
+    return {
+        "recruit_attack": rec,
+        "pool_attack": pool,
+        "size": size,
+        "mean_tier": (float(sum(tiers)) / float(size)) if size else 0.0,
+        "tier_hist": hist,
+        "rank": rank,
+    }
+
+
+def _finalize_attacking_pool(rows: Sequence[dict], stats: Dict) -> Dict:
+    """After n_attacks is known: pool sitting on bodies that actually swung."""
+    attacking_pool = 0
+    n_attacked = 0
+    for row in rows:
+        if int(row.get("n_attacks") or 0) <= 0:
+            continue
+        n_attacked += 1
+        atk0 = int(row.get("start_attack") if row.get("start_attack") not in (None, "") else row.get("attack") or 0)
+        rec = int(row.get("recruit_attack") or 0)
+        attacking_pool += atk0 - rec
+    board_pool = int(stats.get("pool_attack") or 0)
+    out = dict(stats)
+    out["attacking_pool_attack"] = int(attacking_pool)
+    out["n_attacked"] = int(n_attacked)
+    out["pool_on_attackers_share"] = (
+        (float(attacking_pool) / float(board_pool)) if board_pool else 0.0
+    )
+    return out
+
+
 def _dealer_snapshot(dealer: Optional[Combatant], ctx: Optional[Dict] = None) -> Dict:
     """Observational dealer identity/stats at impact. Combat never reads this."""
     if dealer is None:
         return {}
     atk = int(getattr(dealer, "attack", 0) or 0)
     ra = getattr(dealer, "recruit_attack", None)
-    try:
-        recruit_attack = int(ra) if ra not in (None, "") else atk
-    except (TypeError, ValueError):
-        recruit_attack = atk
+    recruit_attack = _opt_stat(ra, atk)
     synth = max(0, atk - recruit_attack)
     bid = str(getattr(dealer, "body_id", "") or "")
     idx = None
@@ -257,6 +329,29 @@ def _dealer_snapshot(dealer: Optional[Combatant], ctx: Optional[Dict] = None) ->
         slot_i = None if slot is None else int(slot)
     except (TypeError, ValueError):
         slot_i = None
+    origin = str(getattr(dealer, "origin", "") or "")
+    generated = bool(
+        getattr(dealer, "generated", False) or origin in ("token", "reborn")
+    )
+    stamped = getattr(dealer, "start_attack", None)
+    start_atk = _combat_start_attack(dealer)
+    start_recruit = recruit_attack
+    start_pool = int(start_atk) - int(start_recruit)
+    combat_delta = int(atk) - int(start_atk)
+    represented = stamped is not None and origin == "starting" and not generated
+    identity_ok = int(atk) == int(start_recruit) + int(start_pool) + int(combat_delta)
+    side = bid.split(":")[0] if bid else ""
+    side_stats = ((ctx or {}).get("side_board_stats") or {}).get(side) or {}
+    board_pool = int(side_stats.get("pool_attack") or 0)
+    board_recruit = int(side_stats.get("recruit_attack") or 0)
+    board_size = int(side_stats.get("size") or 0)
+    share = (float(start_pool) / float(board_pool)) if board_pool else 0.0
+    rank_map = side_stats.get("rank") or {}
+    rank = rank_map.get(bid)
+    try:
+        rank_i = None if rank is None else int(rank)
+    except (TypeError, ValueError):
+        rank_i = None
     return {
         "attacker_id": bid,
         "attacker_name": str(getattr(dealer, "name", "") or ""),
@@ -267,6 +362,18 @@ def _dealer_snapshot(dealer: Optional[Combatant], ctx: Optional[Dict] = None) ->
         "attacker_recruit_attack": recruit_attack,
         "attacker_synth_attack": synth,
         "attacker_synth_share": (float(synth) / float(atk)) if atk else 0.0,
+        "attacker_start_attack": int(start_atk),
+        "attacker_start_recruit_attack": int(start_recruit),
+        "attacker_start_pool_attack": int(start_pool),
+        "attacker_combat_delta": int(combat_delta),
+        "attacker_attack_identity_ok": bool(identity_ok),
+        "attacker_start_represented": bool(represented),
+        "attacker_board_pool_attack": board_pool,
+        "attacker_board_recruit_attack": board_recruit,
+        "attacker_board_size": board_size,
+        "attacker_board_mean_tier": float(side_stats.get("mean_tier") or 0.0),
+        "attacker_pool_share_of_board": float(share),
+        "attacker_pool_rank": rank_i,
         "attacker_golden": bool(getattr(dealer, "golden", False)),
         "attacker_generated": bool(
             getattr(dealer, "generated", False)
@@ -506,6 +613,8 @@ def _record_created(tok: Combatant, board: List[Combatant],
     if tok.origin == "starting" or not tok.origin:
         tok.origin = "token"
     tok.generated = True
+    if getattr(tok, "start_attack", None) is None:
+        tok.start_attack = int(getattr(tok, "attack", 0) or 0)
     if ctx is None:
         return
     ctx["n"] = int(ctx.get("n") or 0) + 1
@@ -763,6 +872,33 @@ def _annotate_attacker_punch(row: dict, events: Sequence[dict]) -> None:
     row["mean_attacker_recruit_attack"] = _mean_key("attacker_recruit_attack") or 0.0
     row["mean_attacker_synth_attack"] = _mean_key("attacker_synth_attack") or 0.0
     row["mean_attacker_synth_share"] = _mean_key("attacker_synth_share") or 0.0
+    row["mean_attacker_start_attack"] = _mean_key("attacker_start_attack") or 0.0
+    row["mean_attacker_start_recruit"] = (
+        _mean_key("attacker_start_recruit_attack") or 0.0
+    )
+    row["mean_attacker_start_pool"] = _mean_key("attacker_start_pool_attack") or 0.0
+    row["mean_attacker_combat_delta"] = _mean_key("attacker_combat_delta") or 0.0
+    row["mean_attacker_pool_share_of_board"] = (
+        _mean_key("attacker_pool_share_of_board") or 0.0
+    )
+    row["mean_attacker_pool_rank"] = _mean_key("attacker_pool_rank")
+    row["mean_attacker_board_pool"] = _mean_key("attacker_board_pool_attack") or 0.0
+    row["mean_attacker_board_recruit"] = (
+        _mean_key("attacker_board_recruit_attack") or 0.0
+    )
+    row["mean_attacker_board_size"] = _mean_key("attacker_board_size")
+    row["mean_attacker_board_mean_tier"] = _mean_key("attacker_board_mean_tier")
+    n_id = n_id_ok = n_repr = 0
+    for e in damaging:
+        n_id += 1
+        if e.get("attacker_attack_identity_ok") is True:
+            n_id_ok += 1
+        if e.get("attacker_start_represented"):
+            n_repr += 1
+    row["n_attack_identity"] = n_id
+    row["n_attack_identity_ok"] = n_id_ok
+    row["n_attacker_start_represented"] = n_repr
+    row["attack_identity_ok"] = (n_id == n_id_ok) if n_id else True
     row["mean_attacker_tier"] = _mean_key("attacker_tier")
     row["mean_attacker_slot"] = _mean_key("attacker_slot")
     row["mean_relative_slot"] = (
@@ -986,6 +1122,8 @@ def combatant_trace_row(m: Combatant) -> dict:
         "health": hp,
         "recruit_attack": recruit_attack,
         "recruit_health": recruit_health,
+        "start_attack": _combat_start_attack(m),
+        "start_pool_attack": _combat_start_attack(m) - recruit_attack,
         "combat_raw": atk + hp,
         "recruit_raw": recruit_attack + recruit_health,
         "golden": bool(getattr(m, "golden", False)),
@@ -1047,13 +1185,43 @@ def fill_combat_survivor_trace(
     _annotate_attack_rows(created, attacks, first_attack, targeted, ctx)
     if winner_side == "a":
         starting_winner = list(trace.get("starting_a") or [])
+        starting_loser = list(trace.get("starting_b") or [])
         created_winner = [c for c in created if c.get("side") == "a"]
     elif winner_side == "b":
         starting_winner = list(trace.get("starting_b") or [])
+        starting_loser = list(trace.get("starting_a") or [])
         created_winner = [c for c in created if c.get("side") == "b"]
     else:
         starting_winner = []
+        starting_loser = []
         created_winner = []
+    stats_a = _finalize_attacking_pool(
+        list(trace.get("starting_a") or []),
+        dict((ctx.get("side_board_stats") or {}).get("a") or {}),
+    )
+    stats_b = _finalize_attacking_pool(
+        list(trace.get("starting_b") or []),
+        dict((ctx.get("side_board_stats") or {}).get("b") or {}),
+    )
+    if winner_side == "a":
+        opp_stats = stats_b
+    elif winner_side == "b":
+        opp_stats = stats_a
+    else:
+        opp_stats = {}
+    for row in starting_winner:
+        row["opp_board_pool_attack"] = int(opp_stats.get("pool_attack") or 0)
+        row["opp_board_recruit_attack"] = int(opp_stats.get("recruit_attack") or 0)
+        row["opp_board_size"] = int(opp_stats.get("size") or 0)
+        row["opp_board_mean_tier"] = float(opp_stats.get("mean_tier") or 0.0)
+        row["opp_board_tier_hist"] = dict(opp_stats.get("tier_hist") or {})
+        row["opp_attacking_pool_attack"] = int(
+            opp_stats.get("attacking_pool_attack") or 0
+        )
+        row["opp_n_attacked"] = int(opp_stats.get("n_attacked") or 0)
+        row["opp_pool_on_attackers_share"] = float(
+            opp_stats.get("pool_on_attackers_share") or 0.0
+        )
     start_all = list(trace.get("starting_a") or []) + list(trace.get("starting_b") or [])
     all_bodies = start_all + created
     n_attacks_sum = int(sum(int(r.get("n_attacks") or 0) for r in all_bodies))
@@ -1132,6 +1300,16 @@ def fill_combat_survivor_trace(
     n_poison_kind_sum = int(sum(int(r.get("n_poison_kind") or 0) for r in all_bodies))
     n_ordinary_mismatch_bodies = sum(
         1 for r in all_bodies if r.get("ordinary_hp_loss_ok") is False
+    )
+    n_identity_sum = int(sum(int(r.get("n_attack_identity") or 0) for r in all_bodies))
+    n_identity_ok_sum = int(
+        sum(int(r.get("n_attack_identity_ok") or 0) for r in all_bodies)
+    )
+    n_identity_repr_sum = int(
+        sum(int(r.get("n_attacker_start_represented") or 0) for r in all_bodies)
+    )
+    n_identity_mismatch_bodies = sum(
+        1 for r in all_bodies if r.get("attack_identity_ok") is False
     )
     event_counts = {
         "n_attacks_events": n_attacks_events,
@@ -1228,6 +1406,14 @@ def fill_combat_survivor_trace(
             n_ordinary_kind_events == n_ordinary_ok_events
             and n_ordinary_mismatch_bodies == 0
         ),
+        "n_attack_identity_sum": n_identity_sum,
+        "n_attack_identity_ok_sum": n_identity_ok_sum,
+        "n_attacker_start_represented_sum": n_identity_repr_sum,
+        "n_attack_identity_mismatch_bodies": n_identity_mismatch_bodies,
+        "attack_identity_reconcile": (
+            n_identity_sum == n_identity_ok_sum
+            and n_identity_mismatch_bodies == 0
+        ),
     }
     trace.update({
         "winner_side": winner_side,
@@ -1242,6 +1428,9 @@ def fill_combat_survivor_trace(
         ),
         "created": created,
         "starting_winner": starting_winner,
+        "starting_loser": starting_loser,
+        "starting_a": list(trace.get("starting_a") or []),
+        "starting_b": list(trace.get("starting_b") or []),
         "created_winner": created_winner,
         "attacks": attacks,
         "side_first": ctx.get("first_side_label"),
@@ -1291,6 +1480,10 @@ def simulate_once(
         }
         trace["starting_a"] = [combatant_trace_row(m) for m in a]
         trace["starting_b"] = [combatant_trace_row(m) for m in b]
+        _TRACE_CTX["side_board_stats"] = {
+            "a": _side_board_attack_stats(a),
+            "b": _side_board_attack_stats(b),
+        }
     else:
         _TRACE_CTX = None
 
@@ -1359,6 +1552,7 @@ def _stamp_starting_bodies(board: List[Combatant], side: str) -> None:
         m.body_id = f"{side}:start:{i}"
         m.origin = "starting"
         m.generated = False
+        m.start_attack = int(getattr(m, "attack", 0) or 0)
         if m.board_slot is None:
             m.board_slot = i
 
