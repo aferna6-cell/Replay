@@ -127,6 +127,8 @@ class EnvMinion:
                 "attack": self.attack, "health": self.health,
                 "recruit_attack": self.recruit_attack,
                 "recruit_health": self.recruit_health,
+                "golden": self.golden,
+                "tribes": list(self.tribes),
                 "tags": self.tags()}
 
     def copy(self) -> "EnvMinion":
@@ -839,11 +841,19 @@ class BGEnv:
                 "survivors": [],
                 "survivor_count_actual": 0,
                 "survivor_tier_sum": 0,
+                "starting_winner": [],
+                "created_winner": [],
+                "created_bodies": [],
+                "winner_side": None,
             }
         return {
             "survivors": list(trace.get("survivors") or []),
             "survivor_count_actual": int(trace.get("survivor_count") or 0),
             "survivor_tier_sum": int(trace.get("survivor_tier_sum") or 0),
+            "starting_winner": list(trace.get("starting_winner") or []),
+            "created_winner": list(trace.get("created_winner") or []),
+            "created_bodies": list(trace.get("created") or []),
+            "winner_side": trace.get("winner_side"),
         }
 
     def _emit_combat_audit(self, fight: Dict) -> None:
