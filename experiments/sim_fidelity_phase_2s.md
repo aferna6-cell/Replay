@@ -29,13 +29,18 @@ so 2S OFF and 2S ON stay bit-identical until a board membership change.
 
 ## This hour (implementation + unit/smoke)
 
-- Focused conservation tests in `tests/test_phase_2s.py`
-- Existing 2Q / 2R / 2S suites
-- Tiny **non-evaluative** smoke (8 lobbies, 14200–14207) for runtime /
-  accounting only — **not** the preregistered 500-lobby DEV
+- Focused conservation tests in `tests/test_phase_2s.py` — **passed**
+- Existing 2Q / 2R / 2S + residual / `bg_env` suites — **passed**
+- Tiny **non-evaluative** smoke (8 lobbies, 14200–14207): mid-replace
+  painted-vs-pool assert clean; worst drift **0.0**. Artifacts:
+  [`results/sim_fidelity_phase_2s_smoke/`](../results/sim_fidelity_phase_2s_smoke/)
+  (`SMOKE_NON_EVALUATIVE.md`). **Not** the preregistered 500-lobby DEV.
 
-Do **not** treat smoke gates as a route. Next hour, if pool accounting and
-tests are clean: `python -m ml.fidelity_phase_2s` (500 lobbies, 14200–14699).
+Pool conservation / accounting is clean, so the next hour should run
+`python -m ml.fidelity_phase_2s` (500 lobbies, 14200–14699). Do **not** treat
+the 8-lobby numbers as a route. Note: 2R `mean_combat_loss_per_replacement`
+still uses sold-body pre-sell combat; under 2S use `net_board_combat_delta`
+for post-realloc board change.
 
 ## Seeds
 
