@@ -1,0 +1,228 @@
+{
+  "turns": [
+    12,
+    13,
+    14
+  ],
+  "trace_from_turn": 7,
+  "hp_walk_from_turn": 1,
+  "n_same_seat_earlier": 287,
+  "n_same_outcome_damage": 164,
+  "published_same_seat_earlier": 2082,
+  "published_same_outcome_damage": 1059,
+  "same_seat_earlier_reproduced": false,
+  "same_outcome_damage_reproduced": true,
+  "first_divergence_3m": {
+    "counts": {
+      "prior_alive_set_or_pairing": 64,
+      "same_outcome_damage": 164,
+      "same_pairing_outcome_flip": 59
+    },
+    "shares": {
+      "prior_alive_set_or_pairing": 0.2229965156794425,
+      "same_pairing_outcome_flip": 0.20557491289198607,
+      "same_outcome_damage": 0.5714285714285714,
+      "inherited_hp_carry": 0.0,
+      "unreconciled": 0.0
+    },
+    "first_divergence_turn_counts": {
+      "6": 82,
+      "5": 183,
+      "7": 22
+    },
+    "reconciliation_ok": true,
+    "row_divergence_ok": true
+  },
+  "first_divergence_turn_counts": {
+    "6": 23,
+    "5": 134,
+    "7": 7
+  },
+  "delta_applied_total": -102.0,
+  "attributed": {
+    "winner_tavern_tier": 0.0,
+    "survivor_count": -72.91666666666657,
+    "survivor_composition": 68.91666666666661,
+    "proxy_formula_error": -98.0,
+    "residual": 0.0
+  },
+  "reconstructed_delta_applied": -101.99999999999996,
+  "reconciliation_gap": -4.263256414560601e-14,
+  "reconciliation_ok": true,
+  "n_row_checked": 164,
+  "n_row_reconciled": 164,
+  "n_row_hp_flow_ok": 164,
+  "n_row_cf_ok": 164,
+  "n_row_five_way_ok": 164,
+  "row_damage_ok": true,
+  "row_hp_flow_ok": true,
+  "row_cf_ok": true,
+  "row_five_way_ok": true,
+  "share_winner_tavern_tier": -0.0,
+  "share_survivor_count": 0.7148692810457508,
+  "share_survivor_composition": -0.6756535947712413,
+  "share_proxy_formula_error": 0.9607843137254902,
+  "share_residual": -0.0,
+  "source_totals": {
+    "pre_fight_board": -84.49999999999997,
+    "within_fight_survival": 80.50000000000003,
+    "proxy_formula_error": -98.0,
+    "residual": 0.0
+  },
+  "share_pre_fight_board": 0.8284313725490193,
+  "share_within_fight_survival": -0.7892156862745101,
+  "control": {
+    "n": 164,
+    "mean_applied": 8.152439024390244,
+    "mean_counterfactual": 7.878048780487805,
+    "mean_proxy_error": 0.27439024390243905,
+    "mean_winner_tavern_tier": 3.182926829268293,
+    "mean_survivor_count": 2.4390243902439024,
+    "mean_survivor_tier_sum": 4.695121951219512,
+    "mean_winner_start_tier_sum": 8.329268292682928,
+    "mean_combat_margin_raw": -1.8414634146341464,
+    "start_combat_tier_histogram": {
+      "1": 1.1768292682926829,
+      "2": 1.829268292682927,
+      "3": 0.9939024390243902,
+      "4": 0.12804878048780488,
+      "5": 0.0,
+      "6": 0.0
+    },
+    "survival_prob_by_tier": {
+      "1": 0.6580310880829016,
+      "2": 0.61,
+      "3": 0.50920245398773,
+      "4": 0.3333333333333333,
+      "5": null,
+      "6": null
+    },
+    "mean_surv_generated_tier_sum": 0.0
+  },
+  "treatment": {
+    "n": 164,
+    "mean_applied": 7.530487804878049,
+    "mean_counterfactual": 7.853658536585366,
+    "mean_proxy_error": -0.3231707317073171,
+    "mean_winner_tavern_tier": 3.182926829268293,
+    "mean_survivor_count": 2.2134146341463414,
+    "mean_survivor_tier_sum": 4.670731707317073,
+    "mean_winner_start_tier_sum": 8.329268292682928,
+    "mean_combat_margin_raw": -2.274390243902439,
+    "start_combat_tier_histogram": {
+      "1": 1.1768292682926829,
+      "2": 1.829268292682927,
+      "3": 0.9939024390243902,
+      "4": 0.12804878048780488,
+      "5": 0.0,
+      "6": 0.0
+    },
+    "survival_prob_by_tier": {
+      "1": 0.35233160621761656,
+      "2": 0.67,
+      "3": 0.49079754601226994,
+      "4": 0.6666666666666666,
+      "5": null,
+      "6": null
+    },
+    "mean_surv_generated_tier_sum": 0.0
+  },
+  "kitagawa": {
+    "method": "kitagawa_common_support_exclusive_to_fielded",
+    "exclusive_support_assigned_to_A": 0.0,
+    "observed_survivor_tier_sum_delta": -0.024390243902439046,
+    "phase_2u_survivor_tier_sum_delta": 4.009722998772222,
+    "fielded_composition_A": 0.0,
+    "within_tier_survival_B": -0.02439024390243874,
+    "token_generated_C": 0.0,
+    "starting_origin_gap": -0.024390243902438657,
+    "explained_A_plus_B_plus_C": -0.02439024390243874,
+    "residual": -3.0531133177191805e-16,
+    "share_fielded_composition": -0.0,
+    "share_within_tier_survival": 0.9999999999999875,
+    "share_token_generated": -0.0,
+    "share_dominant_threshold": 0.55,
+    "sequential_fielded_A": 0.0,
+    "sequential_survival_B": -0.02439024390243874,
+    "sequential_explained": -0.02439024390243874,
+    "per_tier": {
+      "1": {
+        "n_start_control": 1.1768292682926829,
+        "n_start_treatment": 1.1768292682926829,
+        "p_survive_control": 0.6580310880829016,
+        "p_survive_treatment": 0.35233160621761656,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": -0.35975609756097565,
+        "starting_origin_tier_sum_delta": -0.3597560975609756,
+        "exclusive_support": false
+      },
+      "2": {
+        "n_start_control": 1.829268292682927,
+        "n_start_treatment": 1.829268292682927,
+        "p_survive_control": 0.61,
+        "p_survive_treatment": 0.67,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.21951219512195141,
+        "starting_origin_tier_sum_delta": 0.21951219512195141,
+        "exclusive_support": false
+      },
+      "3": {
+        "n_start_control": 0.9939024390243902,
+        "n_start_treatment": 0.9939024390243902,
+        "p_survive_control": 0.50920245398773,
+        "p_survive_treatment": 0.49079754601226994,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": -0.05487804878048765,
+        "starting_origin_tier_sum_delta": -0.05487804878048763,
+        "exclusive_support": false
+      },
+      "4": {
+        "n_start_control": 0.12804878048780488,
+        "n_start_treatment": 0.12804878048780488,
+        "p_survive_control": 0.3333333333333333,
+        "p_survive_treatment": 0.6666666666666666,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.17073170731707316,
+        "starting_origin_tier_sum_delta": 0.17073170731707316,
+        "exclusive_support": false
+      },
+      "5": {
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.0,
+        "p_survive_control": null,
+        "p_survive_treatment": null,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.0,
+        "starting_origin_tier_sum_delta": 0.0,
+        "exclusive_support": true
+      },
+      "6": {
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.0,
+        "p_survive_control": null,
+        "p_survive_treatment": null,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.0,
+        "starting_origin_tier_sum_delta": 0.0,
+        "exclusive_support": true
+      }
+    }
+  },
+  "kitagawa_source": {
+    "pre_fight_board": 0.0,
+    "within_fight_survival": -3.9999999999999534,
+    "proxy_formula_error": -98.0,
+    "residual": -4.263256414560601e-14
+  },
+  "share_pre_fight_board_kitagawa": -0.0,
+  "share_within_fight_survival_kitagawa": 0.039215686274509345,
+  "share_proxy_formula_error_kitagawa": 0.9607843137254902,
+  "n_matched_pre_fight_board": 164,
+  "matched_board_delta_applied": -102.0,
+  "share_matched_board_of_delta": 1.0,
+  "candidate_choice_ok": true,
+  "matchmaking_reconciliation_ok": true,
+  "timing_reconciliation_ok": true,
+  "chain_reconciliation_ok": true,
+  "first_divergence_reconciliation_ok": true
+}
