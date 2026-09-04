@@ -1,0 +1,282 @@
+{
+  "deltas": {
+    "full_board_replace_rate": 0.13775529801167627,
+    "n_completed_replacements": 6341.0,
+    "sum_combat_strength_removed": 2449279.0,
+    "sum_recruit_value_gain": 15184.0,
+    "sum_residual_scaling_added": -1083318.732914891,
+    "net_combat_removed_after_residual": 3532597.732914891,
+    "mean_combat_loss_per_replacement": 51.610831632166935,
+    "post_scale_over_firestone_t10": 0.04144301475729839,
+    "post_scale_over_firestone_t14": 0.24527007612137197,
+    "mean_game_length": -1.0919999999999987,
+    "treatment_post_stats_deficit_t10": -66.35441092791052,
+    "excess_mean_net_loss_t10": -20.4095812266753,
+    "cumulative_excess_net_loss_t8_t10": 5.51668367737922,
+    "residual_scaling_delta_t10": 30.29528762545044,
+    "churn_explains_fraction_t10_same_turn": null,
+    "churn_explains_fraction_t10": null
+  },
+  "control": {
+    "full_board_replace_rate": 0.0669966103852703,
+    "n_completed_replacements": 4207,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": 1263817.0,
+      "sum_recruit_value_gain": 8321.0,
+      "sum_residual_scaling_added": 19505062.06045428,
+      "net_combat_removed_after_residual": -18241245.06045428,
+      "mean_combat_loss_per_replacement": 300.4081293082957,
+      "mean_recruit_gain_per_replacement": 1.9778939862134537,
+      "source_counts": {
+        "hand": 634,
+        "shop": 3573
+      }
+    },
+    "post_scale_over_firestone_t10": 0.8874760497319384,
+    "post_scale_over_firestone_t14": 1.53698916832498,
+    "mean_game_length": 15.062,
+    "mean_combat_loss_per_replacement": 300.4081293082957,
+    "replacement_loss_distribution": {
+      "n": 4207,
+      "mean": 300.4081293082957,
+      "median": 76.0,
+      "p10": 0.0,
+      "p25": 10.0,
+      "p75": 255.0,
+      "p90": 840.8000000000002,
+      "p95": 1508.3999999999996,
+      "min": -11.0,
+      "max": 6024.0,
+      "share_positive_loss": 0.8985024958402662,
+      "share_loss_ge_20": 0.6657951033990968,
+      "share_loss_ge_50": 0.5526503446636558
+    }
+  },
+  "treatment": {
+    "full_board_replace_rate": 0.20475190839694657,
+    "n_completed_replacements": 10548,
+    "headline_t8_t14": {
+      "sum_combat_strength_removed": 3713096.0,
+      "sum_recruit_value_gain": 23505.0,
+      "sum_residual_scaling_added": 18421743.327539388,
+      "net_combat_removed_after_residual": -14708647.327539388,
+      "mean_combat_loss_per_replacement": 352.01896094046265,
+      "mean_recruit_gain_per_replacement": 2.2283845278725827,
+      "source_counts": {
+        "shop": 6715,
+        "hand": 3833
+      }
+    },
+    "post_scale_over_firestone_t10": 0.9289190644892368,
+    "post_scale_over_firestone_t14": 1.7822592444463519,
+    "mean_game_length": 13.97,
+    "mean_combat_loss_per_replacement": 352.01896094046265,
+    "replacement_loss_distribution": {
+      "n": 10548,
+      "mean": 352.01896094046265,
+      "median": 153.0,
+      "p10": 22.0,
+      "p25": 31.0,
+      "p75": 461.0,
+      "p90": 1045.0,
+      "p95": 1456.0,
+      "min": -5.0,
+      "max": 3983.0,
+      "share_positive_loss": 0.9999051952976867,
+      "share_loss_ge_20": 0.9386613576033371,
+      "share_loss_ge_50": 0.6084565794463406
+    }
+  },
+  "paired_post_scale_firestone_ratios": {
+    "8": {
+      "control": 1.0266380013107206,
+      "treatment": 1.0268673600142364,
+      "delta": 0.000229358703515814
+    },
+    "9": {
+      "control": 1.1743409288545732,
+      "treatment": 1.2002135864595598,
+      "delta": 0.025872657604986582
+    },
+    "10": {
+      "control": 0.8874760497319384,
+      "treatment": 0.9289190644892368,
+      "delta": 0.04144301475729839
+    },
+    "11": {
+      "control": 1.0122782438651656,
+      "treatment": 1.122098754431539,
+      "delta": 0.10982051056637343
+    },
+    "12": {
+      "control": 1.1889261668357876,
+      "treatment": 1.4052092976183677,
+      "delta": 0.2162831307825801
+    },
+    "13": {
+      "control": 1.407454966350077,
+      "treatment": 1.6943326769604568,
+      "delta": 0.2868777106103797
+    },
+    "14": {
+      "control": 1.53698916832498,
+      "treatment": 1.7822592444463519,
+      "delta": 0.24527007612137197
+    }
+  },
+  "paired_alive_curve": {
+    "8": {
+      "control": 6.955075845974329,
+      "treatment": 6.995366348103099,
+      "delta": 0.04029050212877028
+    },
+    "9": {
+      "control": 6.06213921901528,
+      "treatment": 6.0882749326145555,
+      "delta": 0.02613571359927569
+    },
+    "10": {
+      "control": 5.175,
+      "treatment": 4.9706005879882404,
+      "delta": -0.20439941201175937
+    },
+    "11": {
+      "control": 4.3235004916420845,
+      "treatment": 3.9488972565895644,
+      "delta": -0.37460323505252013
+    },
+    "12": {
+      "control": 3.5904990980156346,
+      "treatment": 3.1548117154811717,
+      "delta": -0.43568738253446293
+    },
+    "13": {
+      "control": 2.8953040800615857,
+      "treatment": 2.604696673189824,
+      "delta": -0.2906074068717617
+    },
+    "14": {
+      "control": 2.505759162303665,
+      "treatment": 2.3099041533546325,
+      "delta": -0.19585500894903252
+    }
+  },
+  "per_turn_decomposition_delta": {
+    "8": {
+      "replacements_per_seat_turn": -0.005345917050466997,
+      "mean_combat_strength_removed": 0.0915705518445564,
+      "mean_recruit_value_gain": 0.02229522566918794,
+      "mean_residual_scaling_added": -0.3139554338158064,
+      "mean_net_after_residual": 0.40552598566036124,
+      "mean_post_scaling_stats": 0.07032137849790843
+    },
+    "9": {
+      "replacements_per_seat_turn": 0.9913962859064887,
+      "mean_combat_strength_removed": 37.04939581912786,
+      "mean_recruit_value_gain": 3.882426013298615,
+      "mean_residual_scaling_added": 11.528656900733722,
+      "mean_net_after_residual": 25.52073891839416,
+      "mean_post_scaling_stats": 18.66970972775823
+    },
+    "10": {
+      "replacements_per_seat_turn": 0.07406263971494763,
+      "mean_combat_strength_removed": 9.885706398775252,
+      "mean_recruit_value_gain": 0.11122647708336156,
+      "mean_residual_scaling_added": 30.29528762545044,
+      "mean_net_after_residual": -20.4095812266753,
+      "mean_post_scaling_stats": 66.35441092791052
+    },
+    "11": {
+      "replacements_per_seat_turn": 0.8203938108635183,
+      "mean_combat_strength_removed": 167.51757957646316,
+      "mean_recruit_value_gain": 1.9985369747112427,
+      "mean_residual_scaling_added": 190.84852404050798,
+      "mean_net_after_residual": -23.330944464044933,
+      "mean_post_scaling_stats": 349.4598466732573
+    },
+    "12": {
+      "replacements_per_seat_turn": 0.7151004175713767,
+      "mean_combat_strength_removed": 406.98989324631344,
+      "mean_recruit_value_gain": 0.4384709121573739,
+      "mean_residual_scaling_added": 581.5964879590106,
+      "mean_net_after_residual": -174.6065947126972,
+      "mean_post_scaling_stats": 1156.4659002944554
+    },
+    "13": {
+      "replacements_per_seat_turn": 0.6920934212528378,
+      "mean_combat_strength_removed": 877.8191578950541,
+      "mean_recruit_value_gain": -0.11240318836256702,
+      "mean_residual_scaling_added": 687.2920071519911,
+      "mean_net_after_residual": 190.52715074306298,
+      "mean_post_scaling_stats": 2047.9339127343192
+    },
+    "14": {
+      "replacements_per_seat_turn": 0.650949266513892,
+      "mean_combat_strength_removed": 1265.079047555325,
+      "mean_recruit_value_gain": -0.2244551126574444,
+      "mean_residual_scaling_added": -174.61242319524627,
+      "mean_net_after_residual": 1439.6914707505714,
+      "mean_post_scaling_stats": 2034.1228493049857
+    }
+  },
+  "directional_macro_policy_harm": {
+    "definition": {
+      "name": "directional_macro_policy_harm",
+      "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+      "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+    },
+    "by_turn": {
+      "10": {
+        "greedy_ratio": 0.8874760497319384,
+        "treatment_ratio": 0.9289190644892368,
+        "greedy_distance": 0.11252395026806161,
+        "treatment_distance": 0.07108093551076322,
+        "macro_policy_harm": -0.04144301475729839,
+        "treatment_closer_to_firestone": true
+      },
+      "12": {
+        "greedy_ratio": 1.1889261668357876,
+        "treatment_ratio": 1.4052092976183677,
+        "greedy_distance": 0.18892616683578756,
+        "treatment_distance": 0.40520929761836766,
+        "macro_policy_harm": 0.2162831307825801,
+        "treatment_closer_to_firestone": false
+      },
+      "14": {
+        "greedy_ratio": 1.53698916832498,
+        "treatment_ratio": 1.7822592444463519,
+        "greedy_distance": 0.5369891683249799,
+        "treatment_distance": 0.7822592444463519,
+        "macro_policy_harm": 0.24527007612137197,
+        "treatment_closer_to_firestone": false
+      }
+    },
+    "applied_to_2n_v3": false
+  },
+  "churn_explains_threshold": 0.55,
+  "treatment_net_board_combat_loss": {
+    "n_events": 10548,
+    "n_with_net_board_combat_delta": 10548,
+    "mean_net_board_combat_delta": 2.2283845278725827,
+    "mean_replacement_combat_loss_net_board": -2.2283845278725827,
+    "net_board_loss_distribution": {
+      "n": 10548,
+      "mean": -2.2283845278725827,
+      "median": -2.0,
+      "p10": -6.2999999999999545,
+      "p25": -4.0,
+      "p75": -0.0,
+      "p90": 2.0,
+      "p95": 4.0,
+      "min": -16.0,
+      "max": 14.0,
+      "share_positive_loss": 0.17652635570724307,
+      "share_loss_ge_20": 0.0,
+      "share_loss_ge_50": 0.0
+    },
+    "sold_body_mean_combat_loss": 352.01896094046265,
+    "gate_max": 20.0,
+    "gate_pass": true,
+    "note": "2S replacement loss = -net_board_combat_delta (post-realloc board combat change). Sold-body combat_strength_loss is the 2R metric and is report-only here."
+  }
+}
