@@ -50,7 +50,7 @@ tuning on the current simulator.
 | 2W | [`sim_fidelity_phase_2w.md`](sim_fidelity_phase_2w.md) | Firestone final-board vs 2Q (`2w_v1`): **HOLD `mixed_or_undershoots_firestone`** — treatment last-alive T5+ **0.695 vs 0.697**; T6 0.377 vs 0.343; mean tier +0.15; printed raw −1.27; do **not** rewrite 2Q; leftover is 2V B=0.42; #29/#33–#40 HOLD |
 | 2X | [`sim_fidelity_phase_2x.md`](sim_fidelity_phase_2x.md) | Synthetic allocation vs within-tier survival (`2x_v1`): **HOLD `position_combat_order_dominates`** — 2V B +1.678 is **synth 0.16 / residual 0.82 / recruit-mix 0.03**; T4–T5 sit earlier and attack more; next is positioning / combat fidelity; do not retune total scaling; #29/#33–#41 HOLD |
 | 2Y | [`sim_fidelity_phase_2y.md`](sim_fidelity_phase_2y.md) | Slot/attack-order vs teammate protection (`2y_v1`): **HOLD `unexplained_combat_mechanics`** — 2X residual +1.372 is **slot −0.24 / teammate 0.55 / leftover 0.69**; neither A nor B ≥70%; next isolates taunt/targeting/deathrattle/attack-cursor; do not rewrite 2Q; #29/#33–#42 HOLD |
-| 2Z | [`sim_fidelity_phase_2z.md`](sim_fidelity_phase_2z.md) | Targeting / cursor / represented DR (`2z_v1`): measurement stacked on #43; splits 2Y leftover +0.946; DEV 14200–14699 reused; #29/#33–#43 HOLD |
+| 2Z | [`sim_fidelity_phase_2z.md`](sim_fidelity_phase_2z.md) | Targeting / cursor / represented DR (`2z_v1`): **HOLD `ranked_residual_needs_next_observable`** — 2Y leftover +0.946 is **target 0.05 / cursor 0.03 / gen-DR 0.07 / unsupported 0 / leftover 0.85**; none ≥70%; next records DS/poison/cleave/SOC lethal cause; do not rewrite 2Q; #29/#33–#43 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
