@@ -969,6 +969,86 @@ def _late_t1t3_rows(rows: Sequence[Dict], turns=None) -> List[Dict]:
     ]
 
 
+def _treatment_turn_index(treatment_raw: Dict) -> Dict[Tuple[int, int, int], Dict]:
+    return {
+        (int(r["seed"]), int(r["seat"]), int(r["turn"])): r
+        for r in (treatment_raw.get("turn_rows") or [])
+        if r.get("seed") not in (None, "") and r.get("seat") not in (None, "")
+        and r.get("turn") not in (None, "")
+    }
+
+
+def classify_control_late_row(
+    row: Dict,
+    t_rows: Dict[Tuple[int, int, int], Dict],
+    t_loss: Dict[Tuple[int, int], Dict],
+) -> str:
+    """Exclusive 3H lifecycle class for one control late T1–T3 punch row."""
+    seed = row.get("seed")
+    winner = row.get("winner_seat")
+    turn = row.get("turn")
+    try:
+        seed_i = int(seed)
+        seat_i = int(winner)
+        turn_i = int(turn)
+    except (TypeError, ValueError):
+        return "leftover"
+    tr = t_rows.get((seed_i, seat_i, turn_i))
+    t1 = _t1t3_from_row(tr)
+    if tr is None or (tr.get("alive_at_combat") is False) or (
+        tr.get("alive_at_recruit") is False and t1 is None
+    ):
+        # Treatment seat missing at this turn → dead / not recruiting.
+        loss = t_loss.get((seed_i, seat_i))
+        if loss and loss.get("class") in LIFECYCLE_COMPONENTS:
+            return str(loss["class"])
+        return "alive_elimination"
+    if t1 is not None and t1 > 0:
+        return "leftover"
+    loss = t_loss.get((seed_i, seat_i))
+    if loss and loss.get("class") in LIFECYCLE_COMPONENTS:
+        return str(loss["class"])
+    # Last T1–T3 gone but class unrecorded — infer from replacements.
+    if int(tr.get("n_replacements") or 0) > 0:
+        shop_n = int(tr.get("shop_t1t3_offers_recruit_start") or 0)
+        return "tavern_offer_shift" if shop_n <= 0 else "full_board_2q_replacement"
+    return "leftover"
+
+
+def collect_3h_leftover_rows(
+    control_raw: Dict,
+    treatment_raw: Dict,
+    *,
+    control_punch: Sequence[Dict],
+    turns=None,
+    still_fields_t1t3: bool = True,
+) -> List[Dict]:
+    """3H leftover control late T1–T3 punch rows.
+
+    Default ``still_fields_t1t3`` keeps only rows whose treatment counterpart
+    seat is present and still fields ≥1 T1–T3 body (the published 7155-row
+    leftover). Set False to include parse / unrecorded leftover as well.
+    """
+    window = tuple(turns or LATE_TURNS)
+    c_late = _late_t1t3_rows(control_punch, window)
+    t_rows = _treatment_turn_index(treatment_raw)
+    t_loss = _index_losses(treatment_raw.get("last_t1t3_losses") or [])
+    leftover: List[Dict] = []
+    for row in c_late:
+        if classify_control_late_row(row, t_rows, t_loss) != "leftover":
+            continue
+        if still_fields_t1t3:
+            try:
+                key = (int(row["seed"]), int(row["winner_seat"]), int(row["turn"]))
+            except (KeyError, TypeError, ValueError):
+                continue
+            t1 = _t1t3_from_row(t_rows.get(key))
+            if t1 is None or t1 <= 0:
+                continue
+        leftover.append(row)
+    return leftover
+
+
 def attribute_late_t1t3_collapse(
     control_raw: Dict,
     treatment_raw: Dict,
@@ -985,55 +1065,12 @@ def attribute_late_t1t3_collapse(
     n_t = len(t_late)
     collapse = float(n_c - n_t)
 
-    t_rows = {
-        (int(r["seed"]), int(r["seat"]), int(r["turn"])): r
-        for r in (treatment_raw.get("turn_rows") or [])
-        if r.get("seed") not in (None, "") and r.get("seat") not in (None, "")
-        and r.get("turn") not in (None, "")
-    }
+    t_rows = _treatment_turn_index(treatment_raw)
     t_loss = _index_losses(treatment_raw.get("last_t1t3_losses") or [])
-    t_alive_keys = set(t_rows)
 
     counts = Counter()
     for row in c_late:
-        seed = row.get("seed")
-        winner = row.get("winner_seat")
-        turn = row.get("turn")
-        try:
-            seed_i = int(seed)
-            seat_i = int(winner)
-            turn_i = int(turn)
-        except (TypeError, ValueError):
-            counts["leftover"] += 1
-            continue
-        tr = t_rows.get((seed_i, seat_i, turn_i))
-        t1 = _t1t3_from_row(tr)
-        if tr is None or (tr.get("alive_at_combat") is False) or (
-            tr.get("alive_at_recruit") is False and t1 is None
-        ):
-            # Treatment seat missing at this turn → dead / not recruiting.
-            loss = t_loss.get((seed_i, seat_i))
-            if loss and loss.get("class") in LIFECYCLE_COMPONENTS:
-                counts[loss["class"]] += 1
-            else:
-                counts["alive_elimination"] += 1
-            continue
-        if t1 is not None and t1 > 0:
-            counts["leftover"] += 1
-            continue
-        loss = t_loss.get((seed_i, seat_i))
-        if loss and loss.get("class") in LIFECYCLE_COMPONENTS:
-            counts[loss["class"]] += 1
-        else:
-            # Last T1–T3 gone but class unrecorded — infer from replacements.
-            if int(tr.get("n_replacements") or 0) > 0:
-                shop_n = int(tr.get("shop_t1t3_offers_recruit_start") or 0)
-                counts[
-                    "tavern_offer_shift" if shop_n <= 0 else "full_board_2q_replacement"
-                ] += 1
-            else:
-                counts["leftover"] += 1
-
+        counts[classify_control_late_row(row, t_rows, t_loss)] += 1
     attributed = {name: float(counts.get(name, 0)) for name in LIFECYCLE_COMPONENTS}
     leftover = float(counts.get("leftover", 0))
     # Collapse identity: attributed + leftover − treatment_still_present_offset.

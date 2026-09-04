@@ -1,0 +1,37 @@
+{
+  "turns": [
+    12,
+    13,
+    14
+  ],
+  "n_leftover": 936,
+  "n_unparseable": 7,
+  "n_control_fights_matched": 174,
+  "n_treatment_fights_matched": 174,
+  "n_same_pairing_keys": 32,
+  "n_keys": 175,
+  "counts": {
+    "pairing_schedule": 755,
+    "residual": 24,
+    "survivor_substitution": 77,
+    "outcome_flip": 80
+  },
+  "pairing_schedule_subtypes": {
+    "different_opponent": 619,
+    "kind_mismatch": 136
+  },
+  "attributed": {
+    "pairing_schedule": 755.0,
+    "outcome_flip": 80.0,
+    "survivor_substitution": 77.0,
+    "residual": 24.0
+  },
+  "reconstructed_leftover_rows": 936.0,
+  "reconciliation_gap": 0.0,
+  "reconciliation_ok": true,
+  "share_pairing_schedule": 0.8066239316239316,
+  "share_outcome_flip": 0.08547008547008547,
+  "share_survivor_substitution": 0.08226495726495726,
+  "share_residual": 0.02564102564102564,
+  "n_fight_summaries": 174
+}
