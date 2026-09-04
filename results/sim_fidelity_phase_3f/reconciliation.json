@@ -1,0 +1,40 @@
+{
+  "history_link_identity": "punch.opp_carry = seat_history[turn].attack_pool_recruit_start",
+  "pool_flow_identity": "post = pre + add - represented_loss_or_transfer",
+  "history_link_control": {
+    "identity": "punch.opp_carry = seat_history[turn].attack_pool_recruit_start",
+    "n_punch_rows": 49960,
+    "n_skipped_ghost_or_no_loser": 7,
+    "n_ok": 49960,
+    "n_missing_turn_row": 0,
+    "n_carry_mismatch": 0,
+    "n_scale_add_mismatch": 0,
+    "n_history_gap": 0,
+    "n_flow_bad": 0,
+    "p_ok": 1.0,
+    "examples": []
+  },
+  "history_link_treatment": {
+    "identity": "punch.opp_carry = seat_history[turn].attack_pool_recruit_start",
+    "n_punch_rows": 46426,
+    "n_skipped_ghost_or_no_loser": 7,
+    "n_ok": 46426,
+    "n_missing_turn_row": 0,
+    "n_carry_mismatch": 0,
+    "n_scale_add_mismatch": 0,
+    "n_history_gap": 0,
+    "n_flow_bad": 0,
+    "p_ok": 1.0,
+    "examples": []
+  },
+  "history_link_mismatches_control": 0,
+  "history_link_mismatches_treatment": 0,
+  "flow_abs_tol": 1.0,
+  "phase_3d_board_pool_magnitude": 0.4216721428553852,
+  "phase_3e_carry_share_of_a1": 0.7236353954551374,
+  "e_flow_abs_tol": 1.0,
+  "reproduced_3d_board_pool_magnitude": 0.4216721428553852,
+  "reproduced_3e_carry_share": 0.7236353954551374,
+  "flow_mismatches_control": 0,
+  "flow_mismatches_treatment": 0
+}
