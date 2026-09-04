@@ -1,0 +1,503 @@
+[
+  {
+    "first_separation_turn": 9,
+    "control_punch_turn": 10,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 9,
+    "seat": 0,
+    "treatment_punch_turn": 9,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 4.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": -4.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "9": {
+        "delta": 17.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "10": {
+        "delta": 130.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "11": {
+        "delta": 264.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "12": {
+        "delta": 327.0,
+        "both_alive": true,
+        "separated": true
+      }
+    }
+  },
+  {
+    "first_separation_turn": null,
+    "control_punch_turn": 7,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 7,
+    "seat": 1,
+    "treatment_punch_turn": 7,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": -1.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": null,
+    "control_punch_turn": 7,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 7,
+    "seat": 2,
+    "treatment_punch_turn": 7,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 4.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "9": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 7,
+    "control_punch_turn": 7,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 7,
+    "seat": 3,
+    "treatment_punch_turn": 11,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 12.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "8": {
+        "delta": 20.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": 66.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "10": {
+        "delta": 226.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "11": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "12": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "13": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "14": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 8,
+    "control_punch_turn": 10,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 7,
+    "seat": 4,
+    "treatment_punch_turn": 7,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": -4.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": -14.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": -17.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "10": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "11": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "12": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "13": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 10,
+    "control_punch_turn": 8,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 8,
+    "seat": 5,
+    "treatment_punch_turn": 8,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 6.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": 0.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "9": {
+        "delta": 3.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "10": {
+        "delta": 38.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "11": {
+        "delta": 73.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "12": {
+        "delta": 462.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "13": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "14": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 8,
+    "control_punch_turn": null,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 10,
+    "seat": 6,
+    "treatment_punch_turn": 10,
+    "low_winner_start": false,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 0.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": -30.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": -37.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "10": {
+        "delta": -112.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "11": {
+        "delta": -245.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "12": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "13": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 8,
+    "control_punch_turn": 9,
+    "seed": 14200,
+    "later_punch_included": true,
+    "first_punch_turn": 9,
+    "seat": 7,
+    "treatment_punch_turn": 9,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": -3.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": 16.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": 10.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "10": {
+        "delta": 38.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "11": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 7,
+    "control_punch_turn": null,
+    "seed": 14201,
+    "later_punch_included": true,
+    "first_punch_turn": 10,
+    "seat": 0,
+    "treatment_punch_turn": 10,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 11.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "8": {
+        "delta": 10.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "9": {
+        "delta": 17.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "10": {
+        "delta": 33.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "11": {
+        "delta": -65.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "12": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "13": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 7,
+    "control_punch_turn": 8,
+    "seed": 14201,
+    "later_punch_included": true,
+    "first_punch_turn": 7,
+    "seat": 1,
+    "treatment_punch_turn": 7,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 8.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "8": {
+        "delta": 25.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": 30.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "10": {
+        "delta": 166.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "11": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "12": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "13": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "14": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 8,
+    "control_punch_turn": 8,
+    "seed": 14201,
+    "later_punch_included": true,
+    "first_punch_turn": 8,
+    "seat": 2,
+    "treatment_punch_turn": 8,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": 3.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": 18.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "10": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      },
+      "11": {
+        "delta": null,
+        "both_alive": false,
+        "separated": false
+      }
+    }
+  },
+  {
+    "first_separation_turn": 8,
+    "control_punch_turn": 7,
+    "seed": 14201,
+    "later_punch_included": true,
+    "first_punch_turn": 7,
+    "seat": 3,
+    "treatment_punch_turn": 8,
+    "low_winner_start": true,
+    "eventual_outcome": "loss",
+    "turns": {
+      "7": {
+        "delta": -7.0,
+        "both_alive": true,
+        "separated": false
+      },
+      "8": {
+        "delta": -13.0,
+        "both_alive": true,
+        "separated": true
+      },
+      "9": {
+        "delta": -15.0,
+        "both_alive": true,
+        "separated": true
+      }
+    }
+  }
+]
