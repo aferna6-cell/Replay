@@ -171,5 +171,5 @@ python -m pytest tests/test_phase_2w.py tests/test_phase_2v.py tests/test_sim.py
 python -m ml.fidelity_phase_2w          # reused 14200–14699
 ```
 
-Working tree was clean at contract time (`790692d`, 35.53s). Tracer is
-observational.
+Working tree was clean at contract time (`790692d`, 35.53s). Artifacts
+landed at `3c68b5a`. Tracer is observational.
