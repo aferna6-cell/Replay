@@ -1,0 +1,18 @@
+{
+  "proxy_amplification_delta_when_hit": 2.7756345999047585,
+  "counterfactual_amplification_delta_when_hit": 3.634521467751053,
+  "phase_2t_amp_delta_when_hit": 2.7756345999047585,
+  "amp_delta_disappeared": -0.8588868678462944,
+  "share_of_amp_delta_remaining": 1.3094380174810352,
+  "share_of_amp_delta_removed": -0.30943801748103517,
+  "share_removed_most_threshold": 0.55,
+  "applied_when_hit_delta": 3.0773363297039023,
+  "counterfactual_when_hit_delta": 3.9362231975501984,
+  "count_only_when_hit_delta": 0.3017017297991451,
+  "lethal_flip_n_control": 260,
+  "lethal_flip_n_treatment": 191,
+  "lethal_overkill_proxy_n_control": 163,
+  "lethal_overkill_proxy_n_treatment": 41,
+  "survivor_count_matches_raw_control": true,
+  "survivor_count_matches_raw_treatment": true
+}
