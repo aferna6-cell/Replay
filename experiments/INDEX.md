@@ -44,6 +44,7 @@ tuning on the current simulator.
 | 2R | [`sim_fidelity_phase_2r.md`](sim_fidelity_phase_2r.md) | Replacement churn (`2r_v1`): **HOLD** — churn/loss explains collapse (frac 0.994); preserve combat on replace; #29/#33 HOLD |
 | 2R QA | [`sim_fidelity_phase_2r_qa.md`](sim_fidelity_phase_2r_qa.md) | Independent recompute **0.9938 survives**; sell→buy→play / residual / carry clean |
 | 2S | [`sim_fidelity_phase_2s.md`](sim_fidelity_phase_2s.md) | Board-level abstract scaling (`2s_v1`): **HOLD `inconclusive`** — replace 0.298 + T10 1.007 recover; net-board loss **−3.46**; game length Δ **−2.18**; #29/#33/#34/#35/#36 HOLD |
+| 2T | [`sim_fidelity_phase_2t.md`](sim_fidelity_phase_2t.md) | Game-length / damage attribution (`2t_v1`): **HOLD `damage_model_fidelity`** — amp share **0.79** of extra dpt; combat outcome 0.18; 2S post-scale still ≥ control; next is damage-model fidelity, not recruit/scaling; #29/#33/#34/#35/#36/#37 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
