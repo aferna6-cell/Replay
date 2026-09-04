@@ -1,28 +1,15 @@
-# Simulator Fidelity Phase 2S — board-level abstract scaling (preregistration)
+# Simulator Fidelity Phase 2S — board-level abstract scaling
 
-Date: 2026-09-03 · Status: **`2s_v0_prereg` — not run** ·
-Depends on: [Phase 2R QA](sim_fidelity_phase_2r_qa.md) (attribution survives)
+Date: 2026-09-04 · Status: **`2s_v1` implemented, default OFF — smoke only, not
+the 500-lobby DEV** ·
+Depends on: [Phase 2S prereg](sim_fidelity_phase_2s.md) / [Phase 2R QA](sim_fidelity_phase_2r_qa.md)
 
-**No simulator behavior in this commit.** Spec + gate locks only.
+Stacked on PR #35 (`cursor/phase-2s-prereg-3cad`). Keep **#29 / #33 / #34 / #35
+HOLD**. Do **not** merge. Confirm **11500–11699** reserved. No α / residual
+retune. `PHASE_2Q_RECRUIT_VALUE_STATS` stays the treatment selector and default
+**OFF**. `PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING` is wired and default **OFF**.
 
-## Hold / freeze
-
-Keep **#29 / #33 / #34 HOLD**. Do **not** merge. Confirm **11500–11699**
-reserved. Do **not** retune residual/ratio scaling or Phase 2J **α=0.5**.
-`PHASE_2Q_RECRUIT_VALUE_STATS` stays default **OFF**. Proposed
-`PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING` stays default **OFF** until a later
-implementation PR.
-
-## Why this representation
-
-2R (independent recompute **0.9938**): recruit-value selection unblocks
-replaces, then selling a combat-inflated minion **destroys the synthetic
-scaling that was sitting on that body**. Residual, being growth-on-current,
-undershoots the crater. T10 post-scale / Firestone 0.954 → 0.468.
-
-2S proposes: **unscaled recruit value still drives selection**; the
-**synthetic abstract scaling component is a board/player pool**, redistributed
-after sells, not deleted with the sold minion.
+## Representation
 
 ```text
 minion.recruit_*     printed + golden + modeled real buffs   ← selection, sell loss
@@ -30,21 +17,30 @@ player.abstract_pool residual/ratio budget already applied   ← held across rep
 minion.combat        recruit_* + share of abstract_pool      ← combat only
 ```
 
-On **sell**, lose that minion's **real / base / golden** recruit stats.
-Do **not** subtract its combat−recruit gap from `abstract_pool`. Remaining
-(and newly played) minions are re-allocated the same pool.
+On **sell**, lose that minion's **real / base / golden** recruit stats. Do
+**not** subtract its combat−recruit gap from `abstract_pool`. Remaining (and
+newly played) minions are re-allocated the same pool.
 
-On **play**, the recruit enters at printed/golden only; combat display picks
-up a share of the surviving pool. Residual **budget math is unchanged** —
-only the storage of already-applied abstract stats moves from "on the minion"
-to "on the player/board".
+On **play**, the recruit enters at printed/golden only; combat display picks up
+a share of the surviving pool. Residual **budget math is unchanged** — only
+the storage of already-applied abstract stats moves from "on the minion" to
+"on the player/board". No-replacement boards are not re-painted after scale,
+so 2S OFF and 2S ON stay bit-identical until a board membership change.
 
-## Out of scope
+## This hour (implementation + unit/smoke)
 
-- No α search, no Firestone-curve retune, no residual-clamp retune
-- No confirm burn, no 11500–11699 touch
-- No default-ON
-- Implementation + DEV measurement land in a later PR, not here
+- Focused conservation tests in `tests/test_phase_2s.py` — **passed**
+- Existing 2Q / 2R / 2S + residual / `bg_env` suites — **passed**
+- Tiny **non-evaluative** smoke (8 lobbies, 14200–14207): mid-replace
+  painted-vs-pool assert clean; worst drift **0.0**. Artifacts:
+  [`results/sim_fidelity_phase_2s_smoke/`](../results/sim_fidelity_phase_2s_smoke/)
+  (`SMOKE_NON_EVALUATIVE.md`). **Not** the preregistered 500-lobby DEV.
+
+Pool conservation / accounting is clean, so the next hour should run
+`python -m ml.fidelity_phase_2s` (500 lobbies, 14200–14699). Do **not** treat
+the 8-lobby numbers as a route. Note: 2R `mean_combat_loss_per_replacement`
+still uses sold-body pre-sell combat; under 2S use `net_board_combat_delta`
+for post-realloc board change.
 
 ## Seeds
 
@@ -52,11 +48,12 @@ to "on the player/board".
 |---|---|---|
 | Confirmation | **11500–11699** | **reserved** |
 | 2N–2R DEV | 11700–14199 | consumed |
-| **2S DEV** | **14200–14699** | **predeclared** (>14199) |
+| **2S smoke** | 14200–14207 | non-evaluative runtime check |
+| **2S DEV** | **14200–14699** | **predeclared, not run this hour** |
 
 ## Predeclared gates (greedy, 500 lobbies, 14200–14699)
 
-Control: 2Q toggle OFF, 2S toggle OFF (today's default).
+Control: 2Q toggle OFF, 2S toggle OFF.
 Treatment: 2Q recruit-value selection ON **and** 2S board-level pool ON.
 Phase 2J α=0.5 report-only, no retune.
 
@@ -68,21 +65,19 @@ Phase 2J α=0.5 report-only, no retune.
 | Game length | treatment − control **≥ −0.50** |
 | Replace combat loss contained | treatment mean loss / replace **≤ 20** |
 
-T12/T14 post-scale ratios and alive-curve Δ are report-only (directional
-macro-harm vs Firestone, not a 2n_v3 rewrite).
-
-## Routing
+## Routing (evaluative DEV only)
 
 | Outcome | Route |
 |---|---|
-| All 5 gates pass | `board_level_scaling_recovers_macro` — still **HOLD** #29/#33/#34; no merge; no confirm |
+| All 5 gates pass | `board_level_scaling_recovers_macro` — still **HOLD** #29/#33/#34/#35; no merge; no confirm |
 | Replace held, T10 still collapsed | `representation_insufficient` — HOLD; do not retune α/scaling |
 | Replace rate collapses | `selection_regressed` — HOLD; 2S must not re-block 2Q |
 | Mixed / missing | `inconclusive` |
 
-## Protocol (when implemented)
+## Protocol
 
 ```bash
-pytest tests/test_phase_2r.py tests/test_phase_2s.py
-# later: python -m ml.fidelity_phase_2s   # 14200–14699 — not in this PR
+pytest tests/test_phase_2q.py tests/test_phase_2r.py tests/test_phase_2s.py
+python -m ml.fidelity_phase_2s --non-evaluative --skip-phase-2j   # smoke only
+# later: python -m ml.fidelity_phase_2s   # 14200–14699 evaluative DEV
 ```

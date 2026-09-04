@@ -37,6 +37,7 @@ from hsbg_coach.bg_env import (
     N_BUY,
     N_PLAY,
     N_SELL,
+    board_level_abstract_scaling_enabled,
     combat_raw,
     greedy_policy,
     recruit_raw,
@@ -381,6 +382,22 @@ class ReplacementChurnTracer:
             ),
         }
         self.replacement_events.append(event)
+        from hsbg_coach.bg_env import (
+            PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING,
+            board_synthetic_total,
+        )
+        if (
+            PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING
+            and player is not None
+            and getattr(player, "board", None)
+        ):
+            painted = float(board_synthetic_total(player.board))
+            pool = float(getattr(player, "abstract_pool", 0.0) or 0.0)
+            if abs(painted - pool) > max(1.0, float(len(player.board))):
+                raise RuntimeError(
+                    f"Phase 2S mid-replace accounting failed seat {seat} "
+                    f"turn {turn}: painted={painted} pool={pool}"
+                )
         acc = self._acc(seat, turn)
         acc["replacements"] += 1
         acc["combat_removed"] += combat_loss
@@ -466,6 +483,44 @@ class ReplacementChurnTracer:
         self._pending.clear()
 
 
+def check_abstract_pool_accounting(env: BGEnv) -> Dict:
+    """Post-lobby pool vs painted synthetic. Raises on a material mismatch."""
+    from hsbg_coach.bg_env import (
+        PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING,
+        board_synthetic_total,
+    )
+
+    seats = []
+    worst = 0.0
+    if not PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+        return {"checked": False, "worst_abs_drift": 0.0, "seats": seats}
+    for p in env.players:
+        painted = float(board_synthetic_total(p.board))
+        pool = float(getattr(p, "abstract_pool", 0.0) or 0.0)
+        if not p.board:
+            # Latent pool on an empty board is allowed (nothing to paint).
+            seats.append({
+                "seat": p.idx, "board": 0, "pool": pool, "painted": 0.0,
+                "drift": 0.0,
+            })
+            continue
+        drift = abs(painted - pool)
+        worst = max(worst, drift)
+        seats.append({
+            "seat": p.idx, "board": len(p.board), "pool": pool,
+            "painted": painted, "drift": drift,
+        })
+        # After end-of-game scale+sync, painted must match the pool exactly.
+        # Allow 1 stat of integer slack per body in case a mid-turn paint
+        # raced a later residual apply; anything larger is an accounting bug.
+        if drift > max(1.0, float(len(p.board))):
+            raise RuntimeError(
+                f"Phase 2S pool accounting failed seat {p.idx}: "
+                f"painted={painted} pool={pool} drift={drift}"
+            )
+    return {"checked": True, "worst_abs_drift": worst, "seats": seats}
+
+
 def run_churn_arm(
     lobbies: int,
     seed: int,
@@ -475,6 +530,8 @@ def run_churn_arm(
     policy_factory: Optional[Callable[[int], Sequence[Callable]]] = None,
     policy: Optional[Callable] = None,
     scaling_mode: str = "residual",
+    board_level_abstract_scaling: bool = False,
+    check_pool_accounting: bool = False,
 ) -> Dict:
     assert_seed_range_allowed(seed, lobbies)
     all_records: List[Dict] = []
@@ -485,43 +542,50 @@ def run_churn_arm(
     full_board_sells = 0
     incomplete_abandons = 0
     policy_objects: List = []
+    accounting: List[Dict] = []
 
     with recruit_value_stats_enabled(recruit_value_stats):
-        for i in range(lobbies):
-            if policy_factory is not None:
-                policies = list(policy_factory(i))
-            else:
-                pol = policy or greedy_policy
-                policies = [pol] * 8
-            policy_objects.extend(p for p in policies if hasattr(p, "stats"))
-            tracer = ReplacementChurnTracer(i, seed + i, arm)
-            env = BGEnv(seed=seed + i, scaling_mode=scaling_mode)
-            tracer.attach_to_env(env)
-            recs = env.play_scripted(policies, recruit_tracer=tracer)
-            game_length = max((r["turn"] for r in recs), default=0)
-            for r in recs:
-                s = r["state"]
-                rows.append({
-                    "lobby": i,
-                    "seed": seed + i,
-                    "seat": r["seat"],
-                    "turn": r["turn"],
-                    "game_length": game_length,
-                    "tavern_tier": float(s["tavern_tier"]),
-                    "gold": float(s.get("gold") or 0),
-                    "board_size": float(len(s.get("board") or [])),
-                    "board_stats": float(board_stats(s)),
-                    "players_alive": float(s["players_alive"]),
-                    "placement": r.get("placement"),
-                    "arm": arm,
-                })
-            all_records.extend(tracer.scaling.records)
-            all_events.extend(tracer.replacement_events)
-            all_turn_rows.extend(tracer.turn_rows)
-            full_board_decisions += tracer.full_board_decisions
-            full_board_sells += tracer.full_board_sells
-            incomplete_abandons += tracer.incomplete_abandons
-            del env
+        with board_level_abstract_scaling_enabled(board_level_abstract_scaling):
+            for i in range(lobbies):
+                if policy_factory is not None:
+                    policies = list(policy_factory(i))
+                else:
+                    pol = policy or greedy_policy
+                    policies = [pol] * 8
+                policy_objects.extend(p for p in policies if hasattr(p, "stats"))
+                tracer = ReplacementChurnTracer(i, seed + i, arm)
+                env = BGEnv(seed=seed + i, scaling_mode=scaling_mode)
+                tracer.attach_to_env(env)
+                recs = env.play_scripted(policies, recruit_tracer=tracer)
+                if check_pool_accounting:
+                    snap = check_abstract_pool_accounting(env)
+                    snap["lobby"] = i
+                    snap["seed"] = seed + i
+                    accounting.append(snap)
+                game_length = max((r["turn"] for r in recs), default=0)
+                for r in recs:
+                    s = r["state"]
+                    rows.append({
+                        "lobby": i,
+                        "seed": seed + i,
+                        "seat": r["seat"],
+                        "turn": r["turn"],
+                        "game_length": game_length,
+                        "tavern_tier": float(s["tavern_tier"]),
+                        "gold": float(s.get("gold") or 0),
+                        "board_size": float(len(s.get("board") or [])),
+                        "board_stats": float(board_stats(s)),
+                        "players_alive": float(s["players_alive"]),
+                        "placement": r.get("placement"),
+                        "arm": arm,
+                    })
+                all_records.extend(tracer.scaling.records)
+                all_events.extend(tracer.replacement_events)
+                all_turn_rows.extend(tracer.turn_rows)
+                full_board_decisions += tracer.full_board_decisions
+                full_board_sells += tracer.full_board_sells
+                incomplete_abandons += tracer.incomplete_abandons
+                del env
 
     replace_rate = (
         full_board_sells / full_board_decisions if full_board_decisions else None
@@ -529,6 +593,7 @@ def run_churn_arm(
     return {
         "arm": arm,
         "recruit_value_stats": bool(recruit_value_stats),
+        "board_level_abstract_scaling": bool(board_level_abstract_scaling),
         "n_lobbies": lobbies,
         "seed_base": seed,
         "records": all_records,
@@ -540,6 +605,7 @@ def run_churn_arm(
         "full_board_replace_rate": replace_rate,
         "incomplete_abandons": incomplete_abandons,
         "policy_objects": policy_objects,
+        "pool_accounting": accounting,
     }
 
 
@@ -553,6 +619,17 @@ def run_greedy_control(lobbies: int, seed: int) -> Dict:
 def run_greedy_treatment(lobbies: int, seed: int) -> Dict:
     return run_churn_arm(
         lobbies, seed, arm="greedy_treatment", recruit_value_stats=True,
+        policy=greedy_policy,
+    )
+
+
+def run_greedy_2s_treatment(lobbies: int, seed: int) -> Dict:
+    """2Q recruit-value selection + 2S board-level abstract pool."""
+    return run_churn_arm(
+        lobbies, seed, arm="greedy_2s_treatment",
+        recruit_value_stats=True,
+        board_level_abstract_scaling=True,
+        check_pool_accounting=True,
         policy=greedy_policy,
     )
 
@@ -718,6 +795,9 @@ def summarize_churn_arm(raw: Dict) -> Dict:
     return {
         "arm": raw["arm"],
         "recruit_value_stats": raw["recruit_value_stats"],
+        "board_level_abstract_scaling": raw.get(
+            "board_level_abstract_scaling", False
+        ),
         "n_lobbies": raw["n_lobbies"],
         "seed_base": raw["seed_base"],
         "full_board_replace_rate": raw["full_board_replace_rate"],

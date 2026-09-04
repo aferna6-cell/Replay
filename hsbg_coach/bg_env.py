@@ -59,6 +59,13 @@ PHASE_2N_FREEZE_TOPUP = True   # incomplete frozen shops refill to SHOP_SLOTS
 # Default OFF = control (pre-2Q contaminated valuation).
 PHASE_2Q_RECRUIT_VALUE_STATS = False
 
+# Phase 2S: already-applied synthetic combat−recruit delta lives in a
+# player/board pool and is reallocated after sell/play, so replacement
+# keeps abstract strength while still losing the sold minion's recruit
+# (printed / golden / modeled) stats. Residual/ratio *budget math* is
+# unchanged. Default OFF = today's on-body storage (2Q crater).
+PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING = False
+
 TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
           "Pirate", "Naga", "Undead", "Quilboar"]
 
@@ -176,6 +183,108 @@ def recruit_value_stats_enabled(enabled: bool = True):
         PHASE_2Q_RECRUIT_VALUE_STATS = prev
 
 
+@contextmanager
+def board_level_abstract_scaling_enabled(enabled: bool = True):
+    """Temporarily set Phase 2S board-level abstract-pool toggle."""
+    global PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING
+    prev = PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING
+    PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING = bool(enabled)
+    try:
+        yield
+    finally:
+        PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING = prev
+
+
+def minion_recruit_stats(m: "EnvMinion") -> int:
+    return int(m.recruit_attack) + int(m.recruit_health)
+
+
+def minion_combat_stats(m: "EnvMinion") -> int:
+    return int(m.attack) + int(m.health)
+
+
+def minion_synthetic_delta(m: "EnvMinion") -> int:
+    """Already-applied abstract scaling sitting on this body."""
+    return minion_combat_stats(m) - minion_recruit_stats(m)
+
+
+def board_synthetic_total(board: Sequence["EnvMinion"]) -> int:
+    return sum(minion_synthetic_delta(m) for m in board)
+
+
+def ensure_abstract_pool_current(p: "PlayerState") -> None:
+    """Absorb on-body synthetic into the player pool without shrinking it.
+
+    Empty-board residual pool (latent after selling the last body) must
+    survive — we only raise the pool when the board is carrying untracked
+    synthetic, never sync downward from an empty board.
+    """
+    if not p.board:
+        return
+    on_board = float(board_synthetic_total(p.board))
+    if on_board > float(p.abstract_pool) + 1e-9:
+        p.abstract_pool = on_board
+
+
+def sync_abstract_pool_from_board(p: "PlayerState") -> None:
+    """After residual/ratio apply: pool := sum(combat − recruit) on board.
+
+    Does not run on an empty board, so a latent pool survives a board-wipe.
+    """
+    if not p.board:
+        return
+    p.abstract_pool = float(board_synthetic_total(p.board))
+
+
+def reallocate_abstract_pool(p: "PlayerState") -> None:
+    """Paint combat = recruit + share of ``p.abstract_pool``.
+
+    Largest-remainder integer split so
+    ``sum(combat) == sum(recruit) + round(pool)`` on a non-empty board.
+    Attack/health split of each share follows recruit proportions.
+    Empty board leaves the pool latent (nothing to paint).
+    """
+    board = p.board
+    if not board:
+        return
+    recs = []
+    for m in board:
+        ra = int(m.recruit_attack)
+        rh = int(m.recruit_health)
+        recs.append(ra + rh)
+        m.attack = ra
+        m.health = rh
+    pool_int = int(round(float(p.abstract_pool)))
+    if pool_int <= 0:
+        return
+    weights = [r if r > 0 else 1 for r in recs]
+    total_w = sum(weights)
+    raw = [pool_int * w / total_w for w in weights]
+    adds = [int(x) for x in raw]
+    leftover = pool_int - sum(adds)
+    order = sorted(range(len(board)), key=lambda i: (-(raw[i] - adds[i]), i))
+    step = 1 if leftover > 0 else -1
+    for j in range(abs(leftover)):
+        adds[order[j % len(order)]] += step
+    for m, add, rec in zip(board, adds, recs):
+        if add == 0:
+            continue
+        if rec <= 0:
+            m.health = int(m.health) + add
+            continue
+        atk_add = int(round(add * int(m.recruit_attack) / rec))
+        atk_add = max(0, min(add, atk_add)) if add > 0 else max(add, min(0, atk_add))
+        hp_add = add - atk_add
+        m.attack = int(m.recruit_attack) + atk_add
+        m.health = int(m.recruit_health) + hp_add
+    painted = board_synthetic_total(board)
+    if painted != pool_int:
+        raise RuntimeError(
+            f"Phase 2S reallocate conservation failed: "
+            f"painted={painted} pool={pool_int} n={len(board)}"
+        )
+
+
 def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
                lobby_tribes: Optional[Sequence[str]] = None
                ) -> List[EnvMinion]:
@@ -242,6 +351,9 @@ class PlayerState:
     alive: bool = True
     placement: Optional[int] = None
     last_board: List[EnvMinion] = field(default_factory=list)  # ghost fights
+    # Phase 2S: already-applied synthetic combat−recruit total. Unused when
+    # PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING is OFF.
+    abstract_pool: float = 0.0
 
     def level_cost(self) -> Optional[int]:
         if self.tier >= MAX_TIER:
@@ -250,6 +362,9 @@ class PlayerState:
 
     def strength(self) -> int:
         return sum(m.attack + m.health for m in self.board)
+
+    def recruit_strength(self) -> int:
+        return sum(minion_recruit_stats(m) for m in self.board)
 
 
 class BGEnv:
@@ -514,11 +629,23 @@ class BGEnv:
         return mask
 
     # -- recruit actions ----------------------------------------------------------
+    def _maybe_reallocate_after_board_change(
+        self, p: PlayerState, board_ids_before: List[int]
+    ) -> None:
+        """Re-paint combat from recruit + pool only when board membership changed."""
+        if not PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+            return
+        if [id(m) for m in p.board] != board_ids_before:
+            reallocate_abstract_pool(p)
+
     def _apply(self, seat: int, action: int) -> bool:
         """Apply one recruit action. Returns True when the seat's turn ends."""
         p = self.players[seat]
         if not self.legal_mask(seat)[action]:
             return False                          # illegal = no-op (masked anyway)
+        board_before = [id(m) for m in p.board]
+        if PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+            ensure_abstract_pool_current(p)
         if A_BUY0 <= action < A_BUY0 + N_BUY:
             m = p.shop.pop(action - A_BUY0)
             p.gold -= BUY_COST
@@ -545,6 +672,7 @@ class BGEnv:
             p.frozen = not p.frozen
         elif action == A_END:
             return True
+        self._maybe_reallocate_after_board_change(p, board_before)
         return False
 
     def _check_triple(self, p: PlayerState, name: str) -> None:
@@ -675,6 +803,10 @@ class BGEnv:
             self._end_of_turn_scaling_residual(p)
         else:                                          # pragma: no cover
             raise ValueError(f"unknown scaling_mode: {self.scaling_mode!r}")
+        # Absorb newly applied residual/ratio into the player pool. Do not
+        # re-paint here — no-replacement boards must stay bit-identical.
+        if PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+            sync_abstract_pool_from_board(p)
 
     def _scale_all(self) -> None:
         for p in self.players:

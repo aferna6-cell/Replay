@@ -1,0 +1,39 @@
+{
+  "methodology_version": "2s_v1",
+  "primary_finding": "implementation_smoke_non_evaluative",
+  "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+  "feature_toggle_default_off": true,
+  "phase_2s_seed": 14200,
+  "phase_2s_lobbies": 500,
+  "keep_hold_prs": [
+    29,
+    33,
+    34,
+    35
+  ],
+  "no_merge": true,
+  "evaluative": false,
+  "2q_remains_treatment_selector": true,
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "gates": {
+    "replacement_rate_held": true,
+    "post_scale_t10_near_firestone": true,
+    "post_scale_t10_not_materially_worse": true,
+    "game_length_not_shortened": false,
+    "combat_loss_on_replace_contained": false
+  },
+  "gates_passed": 3,
+  "gates_total": 5,
+  "route": "inconclusive",
+  "keep_pr_29_hold": true,
+  "keep_pr_33_hold": true,
+  "keep_pr_34_hold": true,
+  "keep_pr_35_hold": true,
+  "confirm_seeds_reserved": "11500\u201311699",
+  "frozen_alpha": 0.5,
+  "note": "tiny smoke only; do not route the 500-lobby DEV from this measurement",
+  "pool_accounting_worst_abs_drift": 0.0,
+  "pool_accounting_lobbies_checked": 8,
+  "skip_phase_2j": true
+}

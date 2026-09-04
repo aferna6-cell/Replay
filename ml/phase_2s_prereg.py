@@ -1,20 +1,25 @@
-"""Phase 2S preregistration — board-level abstract scaling (spec only).
+"""Phase 2S — board-level abstract scaling (implementation + gate locks).
 
-No simulator behavior. Constants lock the default-OFF representation, frozen
-α / residual math, fresh DEV band, and routing gates before any implementation.
+Default-OFF ``PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING`` moves already-applied
+synthetic combat−recruit delta into a player/board pool. Residual/ratio budget
+math, Phase 2Q recruit-value selection, and α=0.5 stay frozen.
+
+Full evaluative DEV is 500 lobbies on 14200–14699. This module also names the
+tiny non-evaluative smoke band used to catch runtime/accounting errors only.
 """
 
 from __future__ import annotations
 
 from typing import Dict, Optional
 
-# Proposed toggle — must not exist on BGEnv until a later implementation PR.
 FEATURE_TOGGLE = "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING"
 FEATURE_TOGGLE_DEFAULT = False
 
-METHODOLOGY_VERSION = "2s_v0_prereg"
+METHODOLOGY_VERSION = "2s_v1"
 PHASE_2S_SEED = 14200
 PHASE_2S_LOBBIES = 500
+SMOKE_SEED = 14200
+SMOKE_LOBBIES = 8
 FROZEN_ALPHA = 0.5
 
 # Confirm remains reserved. 2N–2R DEV bands are consumed. 2S starts above 14199.
@@ -39,8 +44,8 @@ GATE_T10_POST_SCALE_DELTA_FLOOR = -0.10  # treatment − control
 GATE_GAME_LENGTH_DELTA_FLOOR = -0.50
 GATE_MEAN_COMBAT_LOSS_MAX = 20.0
 
-# Hold stack — 2S must not merge or un-HOLD these.
-HOLD_PRS = (29, 33, 34)
+# Hold stack — 2S must not merge or un-HOLD these (including this PR's base).
+HOLD_PRS = (29, 33, 34, 35)
 
 
 def assert_seed_range_allowed(seed: int, lobbies: int) -> None:
@@ -99,6 +104,7 @@ def evaluate_phase_2s_gates(greedy_cmp: Dict) -> Dict:
         "keep_pr_29_hold": True,
         "keep_pr_33_hold": True,
         "keep_pr_34_hold": True,
+        "keep_pr_35_hold": True,
         "feature_toggle_default_off": True,
         "no_scaling_retune": True,
         "no_alpha_retune": True,
@@ -107,18 +113,36 @@ def evaluate_phase_2s_gates(greedy_cmp: Dict) -> Dict:
     }
 
 
-def diagnose_phase_2s(greedy_cmp: Optional[Dict] = None) -> Dict:
-    """Prereg routing stub — no measurement until an implementation PR."""
+def diagnose_phase_2s(
+    greedy_cmp: Optional[Dict] = None,
+    *,
+    non_evaluative: bool = False,
+) -> Dict:
+    """Route 2S measurement. Tiny smokes must pass ``non_evaluative=True``."""
     out = {
         "methodology_version": METHODOLOGY_VERSION,
-        "primary_finding": "preregistered_not_run",
+        "primary_finding": "implemented_not_evaluated",
         "feature_toggle": FEATURE_TOGGLE,
         "feature_toggle_default_off": True,
         "phase_2s_seed": PHASE_2S_SEED,
         "phase_2s_lobbies": PHASE_2S_LOBBIES,
         "keep_hold_prs": list(HOLD_PRS),
         "no_merge": True,
+        "evaluative": False,
+        "2q_remains_treatment_selector": True,
+        "no_scaling_retune": True,
+        "no_alpha_retune": True,
     }
     if greedy_cmp is not None:
         out.update(evaluate_phase_2s_gates(greedy_cmp))
+        if non_evaluative or greedy_cmp.get("non_evaluative"):
+            out["primary_finding"] = "implementation_smoke_non_evaluative"
+            out["evaluative"] = False
+            out["note"] = (
+                "tiny smoke only; do not route the 500-lobby DEV from this "
+                "measurement"
+            )
+        else:
+            out["primary_finding"] = out.get("route") or "inconclusive"
+            out["evaluative"] = True
     return out
