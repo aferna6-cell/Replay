@@ -1,0 +1,78 @@
+{
+  "identity": "paired (seed, seat) in both arms; first_loss_turn is the first instrumented turn the seat's combat-start T1\u2013T3 count hits 0",
+  "n_paired_seats": 3893,
+  "n_control_traj": 3925,
+  "n_treatment_traj": 3942,
+  "n_control_only": 32,
+  "n_treatment_only": 49,
+  "n_both_had_t1t3_at_t7": 3893,
+  "n_retained_control": 3893,
+  "n_retained_treatment": 2582,
+  "mean_first_loss_turn_control": null,
+  "mean_first_loss_turn_treatment": 11.774980930587338,
+  "n_first_loss_control": 0,
+  "n_first_loss_treatment": 1311,
+  "last_loss_class_control": {},
+  "last_loss_class_treatment": {
+    "tavern_offer_shift": 1311
+  },
+  "by_turn": {
+    "7": {
+      "n_paired_alive": 3893,
+      "control_mean_t1t3": 5.4361674800924735,
+      "treatment_mean_t1t3": 5.444644233239147,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 1.0
+    },
+    "8": {
+      "n_paired_alive": 3305,
+      "control_mean_t1t3": 5.631164901664145,
+      "treatment_mean_t1t3": 5.6408472012102875,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 1.0
+    },
+    "9": {
+      "n_paired_alive": 2581,
+      "control_mean_t1t3": 5.430453312669508,
+      "treatment_mean_t1t3": 3.513366912049593,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 0.9941882991088725
+    },
+    "10": {
+      "n_paired_alive": 1819,
+      "control_mean_t1t3": 5.40131940626718,
+      "treatment_mean_t1t3": 3.192963166575041,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 0.9928532160527762
+    },
+    "11": {
+      "n_paired_alive": 1262,
+      "control_mean_t1t3": 5.411251980982567,
+      "treatment_mean_t1t3": 1.5919175911251982,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 0.8050713153724247
+    },
+    "12": {
+      "n_paired_alive": 813,
+      "control_mean_t1t3": 5.412054120541206,
+      "treatment_mean_t1t3": 0.5817958179581796,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 0.4132841328413284
+    },
+    "13": {
+      "n_paired_alive": 464,
+      "control_mean_t1t3": 5.456896551724138,
+      "treatment_mean_t1t3": 0.2025862068965517,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 0.1788793103448276
+    },
+    "14": {
+      "n_paired_alive": 215,
+      "control_mean_t1t3": 5.4511627906976745,
+      "treatment_mean_t1t3": 0.06046511627906977,
+      "control_p_has_t1t3": 1.0,
+      "treatment_p_has_t1t3": 0.06046511627906977
+    }
+  },
+  "pairs_n": 3893
+}

@@ -1,0 +1,194 @@
+{
+  "methodology_version": "3h_v1",
+  "primary_finding": "mixed_route_to_larger",
+  "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+  "feature_toggle_default_off": true,
+  "phase_3h_seed": 14200,
+  "phase_3h_lobbies": 500,
+  "reused_seed_range": "14200\u201314699",
+  "keep_hold_prs": [
+    29,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    50,
+    51,
+    52,
+    53
+  ],
+  "no_merge": true,
+  "evaluative": true,
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "no_hero_damage_retune": true,
+  "no_gate_change": true,
+  "no_behavior_change": true,
+  "no_2q_rewrite": true,
+  "no_scaling_constant_change": true,
+  "share_dominant": 0.7,
+  "confirm_seeds_reserved": "11500\u201311699",
+  "frozen_alpha": 0.5,
+  "phase_3d_board_pool_magnitude": 0.4216721428553852,
+  "phase_3e_carry_delta": 0.30513688784757187,
+  "phase_3e_carry_share_of_a1": 0.7236353954551374,
+  "phase_3e_punch_delta_carry": -196.33317557443002,
+  "phase_3f_uncond_share": 0.09084015396406948,
+  "phase_3f_selection_share": 0.9091598460359305,
+  "phase_3g_mixture": -196.52943934946725,
+  "phase_3g_mixture_share": 1.0009996465165045,
+  "phase_3g_within_share": -0.0009996465165047867,
+  "phase_3g_mix_role_share": 0.8158532590211308,
+  "instrument_turns": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "low_tiers": [
+    1,
+    2,
+    3
+  ],
+  "early_turns": [
+    7,
+    8,
+    9
+  ],
+  "late_turns": [
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "very_late_turns": [
+    12,
+    13,
+    14
+  ],
+  "lifecycle_components": [
+    "full_board_2q_replacement",
+    "open_slot_fill",
+    "tavern_offer_shift",
+    "generated_transform_triple",
+    "alive_elimination"
+  ],
+  "unsupported_marked_not_approximated": true,
+  "venomous_equals_poisonous_in_sim": true,
+  "ordinary_hp_loss_identity": "min(pre_hit_hp, effective_incoming_attack)",
+  "impact_attack_identity": "impact_attack = start_recruit + start_pool_share + combat_delta",
+  "pool_flow_identity": "post = pre + add - represented_loss_or_transfer",
+  "history_link_identity": "punch.opp_carry = seat_history[turn].attack_pool_recruit_start",
+  "weight_reconciliation_identity": "sum_k n_arm(k) = N_arm; sum_k w_arm(k) = 1; mixture + within_cell + leftover = unpaired_punch_delta_carry",
+  "lineage_identity": "t1t3_end = t1t3_start + t1t3_added - t1t3_removed",
+  "paired_seat_identity": "paired (seed, seat) in both arms; first_loss_turn is the first instrumented turn the seat's combat-start T1\u2013T3 count hits 0",
+  "recommended_next_step": "No single lifecycle class clears ~70% of the late T1\u2013T3 punch-row collapse (top=leftover). Rank components and pursue the largest. Do not apply a scaling correction; do not rewrite 2Q; do not change `_hero_damage`; do not retune scaling constants; do not burn confirm.",
+  "ranked_residual": [
+    {
+      "component": "leftover",
+      "share": 0.5241374258296095,
+      "abs_share": 0.5241374258296095
+    },
+    {
+      "component": "alive_elimination",
+      "share": 0.479818328327595,
+      "abs_share": 0.479818328327595
+    },
+    {
+      "component": "tavern_offer_shift",
+      "share": 0.30906160720826314,
+      "abs_share": 0.30906160720826314
+    },
+    {
+      "component": "full_board_2q_replacement",
+      "share": 0.0,
+      "abs_share": 0.0
+    },
+    {
+      "component": "open_slot_fill",
+      "share": 0.0,
+      "abs_share": 0.0
+    },
+    {
+      "component": "generated_transform_triple",
+      "share": 0.0,
+      "abs_share": 0.0
+    }
+  ],
+  "share_full_board_2q_replacement": 0.0,
+  "share_open_slot_fill": 0.0,
+  "share_tavern_offer_shift": 0.30906160720826314,
+  "share_generated_transform_triple": 0.0,
+  "share_alive_elimination": 0.479818328327595,
+  "share_leftover": 0.5241374258296095,
+  "attribution": {
+    "turns": [
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "n_control_late_t1t3_punch": 17924,
+    "n_treatment_late_t1t3_punch": 4273,
+    "collapse": 13651.0,
+    "counts": {
+      "leftover": 7155,
+      "alive_elimination": 6550,
+      "tavern_offer_shift": 4219
+    },
+    "attributed": {
+      "full_board_2q_replacement": 0.0,
+      "open_slot_fill": 0.0,
+      "tavern_offer_shift": 4219.0,
+      "generated_transform_triple": 0.0,
+      "alive_elimination": 6550.0
+    },
+    "leftover": 7155.0,
+    "reconstructed_control_rows": 17924.0,
+    "reconciliation_gap": 0.0,
+    "reconciliation_ok": true,
+    "share_full_board_2q_replacement": 0.0,
+    "share_open_slot_fill": 0.0,
+    "share_tavern_offer_shift": 0.30906160720826314,
+    "share_generated_transform_triple": 0.0,
+    "share_alive_elimination": 0.479818328327595,
+    "share_leftover": 0.5241374258296095
+  },
+  "keep_pr_29_hold": true,
+  "keep_pr_33_hold": true,
+  "keep_pr_34_hold": true,
+  "keep_pr_35_hold": true,
+  "keep_pr_36_hold": true,
+  "keep_pr_37_hold": true,
+  "keep_pr_38_hold": true,
+  "keep_pr_39_hold": true,
+  "keep_pr_40_hold": true,
+  "keep_pr_41_hold": true,
+  "keep_pr_42_hold": true,
+  "keep_pr_43_hold": true,
+  "keep_pr_44_hold": true,
+  "keep_pr_45_hold": true,
+  "keep_pr_46_hold": true,
+  "keep_pr_47_hold": true,
+  "keep_pr_50_hold": true,
+  "keep_pr_51_hold": true,
+  "keep_pr_52_hold": true,
+  "keep_pr_53_hold": true
+}
