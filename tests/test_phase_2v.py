@@ -265,6 +265,11 @@ def test_kitagawa_adds_to_starting_origin_gap():
         - (d["fielded_composition_A"] + d["within_tier_survival_B"]
            + d["token_generated_C"])
     ) < 1e-9
+    # Control never fields T6 — exclusive support is composition, not survival.
+    t6 = d["per_tier"]["6"]
+    assert t6["exclusive_support"] is True
+    assert t6["kitagawa_survival"] == 0.0
+    assert abs(t6["kitagawa_fielded"] - t6["starting_origin_tier_sum_delta"]) < 1e-9
 
 
 def test_diagnose_routes_three_ways():

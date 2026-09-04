@@ -509,6 +509,7 @@ def decompose_gap(
     a_seq = 0.0
     b_seq = 0.0
     start_gap = 0.0
+    exclusive_to_a = 0.0
     per_tier = {}
     for tier in TIERS:
         k = str(tier)
@@ -518,21 +519,31 @@ def decompose_gap(
         pt = p_t.get(k)
         pc_f = float(pc) if pc is not None else 0.0
         pt_f = float(pt) if pt is not None else 0.0
-        dn = nt - nc
-        dp = pt_f - pc_f
-        p_bar = 0.5 * (pc_f + pt_f)
-        n_bar = 0.5 * (nc + nt)
-        a_t = float(tier) * dn * p_bar
-        b_t = float(tier) * n_bar * dp
-        a_s = float(tier) * dn * pc_f
-        b_s = float(tier) * nt * dp
+        start_c = nc * pc_f * float(tier)
+        start_t = nt * pt_f * float(tier)
+        gap_t = start_t - start_c
+        start_gap += gap_t
+        # Same-tier survival is only defined when both arms field the tier.
+        exclusive = nc < 1e-12 or nt < 1e-12
+        if exclusive:
+            a_t = gap_t
+            b_t = 0.0
+            a_s = gap_t
+            b_s = 0.0
+            exclusive_to_a += gap_t
+        else:
+            dn = nt - nc
+            dp = pt_f - pc_f
+            p_bar = 0.5 * (pc_f + pt_f)
+            n_bar = 0.5 * (nc + nt)
+            a_t = float(tier) * dn * p_bar
+            b_t = float(tier) * n_bar * dp
+            a_s = float(tier) * dn * pc_f
+            b_s = float(tier) * nt * dp
         a_kit += a_t
         b_kit += b_t
         a_seq += a_s
         b_seq += b_s
-        start_c = nc * pc_f * float(tier)
-        start_t = nt * pt_f * float(tier)
-        start_gap += start_t - start_c
         per_tier[k] = {
             "n_start_control": nc,
             "n_start_treatment": nt,
@@ -540,7 +551,8 @@ def decompose_gap(
             "p_survive_treatment": pt,
             "kitagawa_fielded": a_t,
             "kitagawa_survival": b_t,
-            "starting_origin_tier_sum_delta": start_t - start_c,
+            "starting_origin_tier_sum_delta": gap_t,
+            "exclusive_support": exclusive,
         }
 
     c_gap = _delta(
@@ -564,7 +576,8 @@ def decompose_gap(
         return float(part) / obs_f
 
     return {
-        "method": "kitagawa_midpoint_plus_generated",
+        "method": "kitagawa_common_support_exclusive_to_fielded",
+        "exclusive_support_assigned_to_A": exclusive_to_a,
         "observed_survivor_tier_sum_delta": obs_f,
         "phase_2u_survivor_tier_sum_delta": PHASE_2U_SURVIVOR_TIER_SUM_DELTA,
         "fielded_composition_A": a_kit,
