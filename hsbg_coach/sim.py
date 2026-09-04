@@ -22,8 +22,8 @@ Input is anything with ``attack``/``health`` and a ``tags`` dict (e.g. the
 """
 
 import random
-from dataclasses import dataclass, field
-from typing import List, Optional, Sequence
+from dataclasses import dataclass, field, replace
+from typing import Dict, List, Optional, Sequence
 
 from .effects import Summon, StartOfCombat, effects_for
 
@@ -55,13 +55,21 @@ class Combatant:
     start_of_combat: Optional[StartOfCombat] = None
     card_id: str = ""                 # needed by the Firestone bridge for effects
     death_burst: Optional["object"] = None   # AOE-damage deathrattle (Tunnel Blaster)
+    # Observational tavern tier. Combat RNG/outcomes never read this.
+    # Carried so a resolved fight can report actual survivor identities/tiers.
+    tier: int = 1
+    # Observational body identity / composition. Combat never reads these.
+    body_id: str = ""
+    origin: str = "starting"          # starting | token | reborn
+    golden: bool = False
+    tribes: tuple = ()
+    recruit_attack: Optional[int] = None
+    recruit_health: Optional[int] = None
+    board_slot: Optional[int] = None
+    generated: bool = False
 
     def copy(self) -> "Combatant":
-        return Combatant(
-            self.attack, self.health, self.divine_shield, self.taunt,
-            self.poisonous, self.reborn, self.windfury, self.cleave,
-            self.name, self.deathrattle, self.start_of_combat, self.card_id,
-            self.death_burst)
+        return replace(self)
 
     @classmethod
     def from_minion(cls, m) -> "Combatant":
@@ -83,9 +91,37 @@ class Combatant:
                 return True
             return str(tags.get(_KW_TAGS[key], "")).strip() not in ("", "0", "False")
 
+        raw_tier = get("tier", None)
+        if raw_tier is None and isinstance(tags, dict):
+            raw_tier = tags.get("TECH_LEVEL")
+        try:
+            tier = int(raw_tier) if raw_tier not in (None, "") else 1
+        except (TypeError, ValueError):
+            tier = 1
+
+        golden = bool(get("golden", False))
+        if not golden and isinstance(tags, dict):
+            golden = str(tags.get("PREMIUM", "")).strip() not in ("", "0", "False")
+        tribes_raw = get("tribes", None) or ()
+        try:
+            tribes = tuple(str(t) for t in tribes_raw)
+        except TypeError:
+            tribes = ()
+
+        def _opt_int(key, fallback):
+            raw = get(key, None)
+            if raw in (None, ""):
+                return int(fallback)
+            try:
+                return int(raw)
+            except (TypeError, ValueError):
+                return int(fallback)
+
+        atk = int(get("attack", 0) or 0)
+        hp = int(get("health", 0) or 0)
         return cls(
-            attack=int(get("attack", 0) or 0),
-            health=int(get("health", 0) or 0),
+            attack=atk,
+            health=hp,
             divine_shield=flag("divine_shield"),
             taunt=flag("taunt"),
             poisonous=flag("poisonous"),
@@ -97,6 +133,13 @@ class Combatant:
             start_of_combat=eff.start_of_combat if eff else None,
             card_id=get("card_id", "") or "",
             death_burst=eff.death_burst if eff else None,
+            tier=max(1, tier),
+            golden=golden,
+            tribes=tribes,
+            recruit_attack=_opt_int("recruit_attack", atk),
+            recruit_health=_opt_int("recruit_health", hp),
+            origin="starting",
+            generated=False,
         )
 
 
@@ -143,9 +186,37 @@ def _apply_damage(target: Combatant, dmg: int, poison: bool = False) -> None:
         target.health = min(target.health, 0)
 
 
+# Observational only. simulate_once sets this when ``trace`` is provided.
+_TRACE_CTX: Optional[Dict] = None
+
+
 def _make_token(s: Summon) -> Combatant:
-    return Combatant(s.attack, s.health, s.divine_shield, s.taunt, s.poisonous,
-                     s.reborn, name=s.name)
+    return Combatant(
+        s.attack, s.health, s.divine_shield, s.taunt, s.poisonous,
+        s.reborn, name=s.name, tier=int(getattr(s, "tier", 1) or 1),
+        origin="token", generated=True,
+    )
+
+
+def _record_created(tok: Combatant, board: List[Combatant]) -> None:
+    """Stamp a token/reborn body id. No-ops unless a fight trace is active."""
+    ctx = _TRACE_CTX
+    if tok.origin == "starting" or not tok.origin:
+        tok.origin = "token"
+    tok.generated = True
+    if ctx is None:
+        return
+    ctx["n"] = int(ctx.get("n") or 0) + 1
+    if board is ctx.get("a"):
+        side = "a"
+    elif board is ctx.get("b"):
+        side = "b"
+    else:
+        side = "?"
+    tok.body_id = f"{side}:{tok.origin}:{ctx['n']}"
+    row = combatant_trace_row(tok)
+    row["side"] = side
+    ctx.setdefault("created", []).append(row)
 
 
 def _pick_defender(defenders: List[Combatant], rng: random.Random) -> Combatant:
@@ -205,6 +276,7 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
                 if len(new) >= BOARD_CAP:
                     break
                 tok = _make_token(dr)
+                _record_created(tok, board)
                 new.append(tok)
                 if dr.attack_immediately:
                     immediates.append(tok)
@@ -213,6 +285,10 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
             rb.health = 1
             rb.reborn = False
             rb.divine_shield = False
+            rb.origin = "reborn"
+            rb.generated = True
+            rb.body_id = ""
+            _record_created(rb, board)
             new.append(rb)
     board[:] = new
 
@@ -261,6 +337,95 @@ def _damage_to_hero(winner: List[Combatant], tavern_tier: int) -> int:
     return len(_living(winner)) + max(tavern_tier, 1)
 
 
+def combatant_trace_row(m: Combatant) -> dict:
+    """Slim observational identity for a living combatant. No RNG."""
+    atk = int(getattr(m, "attack", 0) or 0)
+    hp = int(getattr(m, "health", 0) or 0)
+    ra = getattr(m, "recruit_attack", None)
+    rh = getattr(m, "recruit_health", None)
+    try:
+        recruit_attack = int(ra) if ra not in (None, "") else atk
+        recruit_health = int(rh) if rh not in (None, "") else hp
+    except (TypeError, ValueError):
+        recruit_attack, recruit_health = atk, hp
+    origin = str(getattr(m, "origin", "") or "starting")
+    generated = bool(getattr(m, "generated", False) or origin in ("token", "reborn"))
+    tribes = tuple(getattr(m, "tribes", ()) or ())
+    return {
+        "body_id": str(getattr(m, "body_id", "") or ""),
+        "name": str(getattr(m, "name", "") or ""),
+        "card_id": str(getattr(m, "card_id", "") or ""),
+        "tier": int(getattr(m, "tier", 1) or 1),
+        "attack": atk,
+        "health": hp,
+        "recruit_attack": recruit_attack,
+        "recruit_health": recruit_health,
+        "combat_raw": atk + hp,
+        "recruit_raw": recruit_attack + recruit_health,
+        "golden": bool(getattr(m, "golden", False)),
+        "tribes": list(tribes),
+        "archetype": str(tribes[0]) if tribes else (
+            "token" if origin == "token" else "tribeless"
+        ),
+        "origin": origin,
+        "generated": generated,
+        "token": origin == "token",
+        "board_slot": getattr(m, "board_slot", None),
+    }
+
+
+def fill_combat_survivor_trace(
+    trace: dict,
+    board_a: List[Combatant],
+    board_b: List[Combatant],
+    result: int,
+    tier_a: int,
+    tier_b: int,
+) -> dict:
+    """Populate ``trace`` with actual combat survivors. Observational; no RNG."""
+    survivors_a = [combatant_trace_row(m) for m in _living(board_a)]
+    survivors_b = [combatant_trace_row(m) for m in _living(board_b)]
+    if result > 0:
+        survivors = survivors_a
+        winner_tavern = int(tier_a)
+        winner_side = "a"
+    elif result < 0:
+        survivors = survivors_b
+        winner_tavern = int(tier_b)
+        winner_side = "b"
+    else:
+        survivors = []
+        winner_tavern = None
+        winner_side = None
+    tier_sum = int(sum(int(s["tier"]) for s in survivors))
+    created = list(((_TRACE_CTX or {}).get("created")) or [])
+    if winner_side == "a":
+        starting_winner = list(trace.get("starting_a") or [])
+        created_winner = [c for c in created if c.get("side") == "a"]
+    elif winner_side == "b":
+        starting_winner = list(trace.get("starting_b") or [])
+        created_winner = [c for c in created if c.get("side") == "b"]
+    else:
+        starting_winner = []
+        created_winner = []
+    trace.update({
+        "winner_side": winner_side,
+        "survivors": survivors,
+        "survivors_a": survivors_a,
+        "survivors_b": survivors_b,
+        "survivor_count": len(survivors),
+        "survivor_tier_sum": tier_sum,
+        "winner_tavern_tier": winner_tavern,
+        "rules_faithful_damage": (
+            None if winner_tavern is None else int(winner_tavern) + tier_sum
+        ),
+        "created": created,
+        "starting_winner": starting_winner,
+        "created_winner": created_winner,
+    })
+    return trace
+
+
 def simulate_once(
     board_a: Sequence[Combatant],
     board_b: Sequence[Combatant],
@@ -268,44 +433,77 @@ def simulate_once(
     tier_a: int = 1,
     tier_b: int = 1,
     max_steps: int = 500,
+    trace: Optional[dict] = None,
 ) -> int:
-    """Return signed damage: >0 if A wins (dmg to B's hero), <0 if B wins, 0 tie."""
+    """Return signed damage: >0 if A wins (dmg to B's hero), <0 if B wins, 0 tie.
+
+    Optional ``trace`` is filled after the fight with actual surviving minion
+    identities/tiers plus starting/created body ids. Must not consume RNG or
+    change the returned damage.
+    """
+    global _TRACE_CTX
     a = [m.copy() for m in board_a]
     b = [m.copy() for m in board_b]
+    _stamp_starting_bodies(a, "a")
+    _stamp_starting_bodies(b, "b")
     boards = {0: a, 1: b}
-
-    la, lb = len(_living(a)), len(_living(b))
-    if la > lb:
-        turn = 0
-    elif lb > la:
-        turn = 1
+    prev_ctx = _TRACE_CTX
+    if trace is not None:
+        _TRACE_CTX = {"a": a, "b": b, "created": [], "n": 0}
+        trace["starting_a"] = [combatant_trace_row(m) for m in a]
+        trace["starting_b"] = [combatant_trace_row(m) for m in b]
     else:
-        turn = rng.randint(0, 1)
+        _TRACE_CTX = None
 
-    # Start-of-combat resolves for the first-attacking side first.
-    for side in (turn, 1 - turn):
-        _resolve_start_of_combat(boards[side], boards[1 - side], rng)
-    _resolve_deaths(a, b, rng)
-    _resolve_deaths(b, a, rng)
+    try:
+        la, lb = len(_living(a)), len(_living(b))
+        if la > lb:
+            turn = 0
+        elif lb > la:
+            turn = 1
+        else:
+            turn = rng.randint(0, 1)
 
-    pos = {0: 0, 1: 0}
-    for _ in range(max_steps):
-        if not _living(a) or not _living(b):
-            break
-        atk_board, def_board = boards[turn], boards[1 - turn]
-        living = _living(atk_board)
-        idx = pos[turn] % len(living)
-        attacker = living[idx]
-        pos[turn] = idx + 1
-        _do_attack(attacker, atk_board, def_board, rng)
-        turn ^= 1
+        # Start-of-combat resolves for the first-attacking side first.
+        for side in (turn, 1 - turn):
+            _resolve_start_of_combat(boards[side], boards[1 - side], rng)
+        _resolve_deaths(a, b, rng)
+        _resolve_deaths(b, a, rng)
 
-    a_alive, b_alive = bool(_living(a)), bool(_living(b))
-    if a_alive and not b_alive:
-        return _damage_to_hero(a, tier_a)
-    if b_alive and not a_alive:
-        return -_damage_to_hero(b, tier_b)
-    return 0
+        pos = {0: 0, 1: 0}
+        for _ in range(max_steps):
+            if not _living(a) or not _living(b):
+                break
+            atk_board, def_board = boards[turn], boards[1 - turn]
+            living = _living(atk_board)
+            idx = pos[turn] % len(living)
+            attacker = living[idx]
+            pos[turn] = idx + 1
+            _do_attack(attacker, atk_board, def_board, rng)
+            turn ^= 1
+
+        a_alive, b_alive = bool(_living(a)), bool(_living(b))
+        if a_alive and not b_alive:
+            result = _damage_to_hero(a, tier_a)
+        elif b_alive and not a_alive:
+            result = -_damage_to_hero(b, tier_b)
+        else:
+            result = 0
+        if trace is not None:
+            fill_combat_survivor_trace(trace, a, b, result, tier_a, tier_b)
+        return result
+    finally:
+        _TRACE_CTX = prev_ctx
+
+
+def _stamp_starting_bodies(board: List[Combatant], side: str) -> None:
+    """Assign stable observational ids to starting combat copies. No RNG."""
+    for i, m in enumerate(board):
+        m.body_id = f"{side}:start:{i}"
+        m.origin = "starting"
+        m.generated = False
+        if m.board_slot is None:
+            m.board_slot = i
 
 
 def simulate(

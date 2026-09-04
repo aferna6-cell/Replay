@@ -39,7 +39,7 @@ def test_rejects_reserved_seeds():
 
 
 def test_card_tier_lookup():
-    t = card_tier("Alleycat")
+    t = card_tier("Flittering Bat")
     assert t == 1
 
 
@@ -48,18 +48,18 @@ def test_exact_catalogue_matches_build_pool():
     names = exact_catalogue_names(tuple(tribes))
     pool_names = {m.name for m in build_pool(lobby_tribes=tribes)}
     assert names == pool_names
-    assert "Alleycat" in names
+    assert "Flittering Bat" in names
 
 
 def test_tribe_eligible_filter():
-    assert tribe_eligible("Alleycat", ["Beast", "Murloc", "Mech",
+    assert tribe_eligible("Flittering Bat", ["Beast", "Murloc", "Mech",
                                        "Demon", "Pirate"]) is True
 
 
 def test_catalogue_exclusion_reasons():
     tribes = ["Beast", "Murloc", "Mech", "Demon", "Pirate"]
     cat = set(exact_catalogue_names(tuple(tribes)))
-    assert catalogue_exclusion_reason("Alleycat", tribes, cat) is None
+    assert catalogue_exclusion_reason("Flittering Bat", tribes, cat) is None
     assert catalogue_exclusion_reason(
         "__not_a_real_card__", tribes, cat) == "MISSING_KB_OR_TIER_OR_STATS"
 
@@ -67,7 +67,7 @@ def test_catalogue_exclusion_reasons():
 def test_slot_draw_and_p_zero():
     tribes = ["Beast", "Murloc", "Mech", "Demon", "Pirate"]
     catalogue = list(build_pool(lobby_tribes=tribes))
-    p = slot_draw_probability("Alleycat", tavern_tier=1, catalogue=catalogue)
+    p = slot_draw_probability("Flittering Bat", tavern_tier=1, catalogue=catalogue)
     assert 0.0 < p <= 1.0
     assert expected_raw_one_deal(p, 3) == 3 * p
     pz = p_zero_one_deal(p, 3)

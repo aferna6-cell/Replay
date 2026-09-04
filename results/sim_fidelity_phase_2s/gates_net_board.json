@@ -1,0 +1,28 @@
+{
+  "gates": {
+    "replacement_rate_held": true,
+    "post_scale_t10_near_firestone": true,
+    "post_scale_t10_not_materially_worse": true,
+    "game_length_not_shortened": false,
+    "combat_loss_on_replace_contained": true
+  },
+  "gates_passed": 4,
+  "gates_total": 5,
+  "route": "inconclusive",
+  "keep_pr_29_hold": true,
+  "keep_pr_33_hold": true,
+  "keep_pr_34_hold": true,
+  "keep_pr_35_hold": true,
+  "feature_toggle_default_off": true,
+  "no_scaling_retune": true,
+  "no_alpha_retune": true,
+  "confirm_seeds_reserved": "11500\u201311699",
+  "frozen_alpha": 0.5,
+  "combat_loss_metric": "net_board_combat_delta",
+  "mean_replacement_combat_loss_net_board": -3.461300682456845,
+  "sold_body_mean_combat_loss": 296.81300682456845,
+  "keep_pr_36_hold": true,
+  "evaluative": true,
+  "phase_2s_seed": 14200,
+  "phase_2s_lobbies": 500
+}

@@ -1,0 +1,29 @@
+{
+  "note": "2S locked combat-loss gate uses -net_board_combat_delta. Sold-body combat_strength_loss is the 2R metric and is not the gate.",
+  "sold_body_combat_strength_loss": {
+    "control": {
+      "n": 1466,
+      "mean": -0.6186903137789904,
+      "median": 0.0,
+      "p90": 5.0,
+      "share_loss_ge_20": 0.0
+    },
+    "treatment": {
+      "n": 24910,
+      "mean": 296.81300682456845,
+      "median": 151.0,
+      "p90": 934.0,
+      "share_loss_ge_20": 0.9416700120433561
+    }
+  },
+  "net_board_combat_delta_loss": {
+    "treatment": {
+      "n": 24910,
+      "mean": -3.461300682456845,
+      "median": -3.0,
+      "p90": -1.0,
+      "share_loss_ge_20": 0.0,
+      "share_positive_loss": 0.008871938980329185
+    }
+  }
+}

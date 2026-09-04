@@ -1,0 +1,134 @@
+{
+  "last_alive": {
+    "control": {
+      "t4_plus_share": 0.22885697488872092,
+      "t5_plus_share": 0.01595700008398421,
+      "t6_plus_share": 8.398421096833795e-05,
+      "t6_share": 8.398421096833795e-05,
+      "mean_printed_tier": 2.532291929117326,
+      "mean_printed_raw": 7.588729318888049,
+      "golden_share": 0.0011757789535567313,
+      "mean_board_size": 7.0,
+      "n_boards": 1701,
+      "n_minions": 11907
+    },
+    "treatment": {
+      "t4_plus_share": 0.9693877551020409,
+      "t5_plus_share": 0.6951664876476906,
+      "t6_plus_share": 0.37733619763694953,
+      "t6_share": 0.37733619763694953,
+      "mean_printed_tier": 5.038023630504833,
+      "mean_printed_raw": 13.80343716433942,
+      "golden_share": 0.02234156820622986,
+      "mean_board_size": 7.0,
+      "n_boards": 1330,
+      "n_minions": 9310
+    },
+    "firestone": {
+      "t4_plus_share": 0.880541208174264,
+      "t5_plus_share": 0.6972715023579604,
+      "t6_plus_share": 0.3547608353918705,
+      "t6_share": 0.3429148888389848,
+      "mean_printed_tier": 4.888547046934652,
+      "mean_printed_raw": 15.076981810015726,
+      "golden_share": 0.527262519649674,
+      "mean_board_size": 6.801069110347461
+    },
+    "t4_share_treatment_minus_control": 0.74053078021332,
+    "t4_share_treatment_minus_firestone": 0.08884654692777694,
+    "t4_share_control_minus_firestone": -0.651684233285543,
+    "mean_printed_tier_treatment_minus_control": 2.505731701387507,
+    "mean_printed_tier_treatment_minus_firestone": 0.14947658357018145,
+    "mean_printed_raw_treatment_minus_control": 6.21470784545137,
+    "mean_printed_raw_treatment_minus_firestone": -1.2735446456763064,
+    "t6_share_treatment_minus_control": 0.3772522134259812,
+    "t6_share_treatment_minus_firestone": 0.034421308797964734,
+    "golden_share_treatment_minus_firestone": -0.5049209514434441
+  },
+  "late": {
+    "12": {
+      "t4_share_treatment_minus_control": 0.6949883527160051,
+      "t4_share_treatment_minus_firestone": 0.043304119430462085,
+      "mean_printed_tier_treatment_minus_control": 2.2207692953724703,
+      "mean_printed_tier_treatment_minus_firestone": -0.1354858224448554,
+      "mean_printed_raw_treatment_minus_firestone": -2.644650982948056,
+      "control": {
+        "t4_plus_share": 0.22885697488872092,
+        "mean_printed_tier": 2.532291929117326,
+        "mean_printed_raw": 7.588729318888049,
+        "n_boards": 1701,
+        "golden_share": 0.0011757789535567313
+      },
+      "treatment": {
+        "t4_plus_share": 0.923845327604726,
+        "mean_printed_tier": 4.753061224489796,
+        "mean_printed_raw": 12.43233082706767,
+        "n_boards": 1330,
+        "golden_share": 0.012459720730397422
+      }
+    },
+    "13": {
+      "t4_share_treatment_minus_control": 0.7496270970038855,
+      "t4_share_treatment_minus_firestone": 0.09845038846439147,
+      "mean_printed_tier_treatment_minus_control": 2.518615520602802,
+      "mean_printed_tier_treatment_minus_firestone": 0.16591319870206434,
+      "mean_printed_raw_treatment_minus_firestone": -1.492140181056449,
+      "control": {
+        "t4_plus_share": 0.2293644996347699,
+        "mean_printed_tier": 2.5358447250339142,
+        "mean_printed_raw": 7.6022122508609,
+        "n_boards": 1369,
+        "golden_share": 0.0010435145570280705
+      },
+      "treatment": {
+        "t4_plus_share": 0.9789915966386554,
+        "mean_printed_tier": 5.054460245636716,
+        "mean_printed_raw": 13.584841628959277,
+        "n_boards": 884,
+        "golden_share": 0.016645119586296057
+      }
+    },
+    "14": {
+      "t4_share_treatment_minus_control": 0.7635387936582967,
+      "t4_share_treatment_minus_firestone": 0.10963560911453762,
+      "mean_printed_tier_treatment_minus_control": 2.6864125652328967,
+      "mean_printed_tier_treatment_minus_firestone": 0.33008893398030725,
+      "mean_printed_raw_treatment_minus_firestone": -0.5002206536867888,
+      "control": {
+        "t4_plus_share": 0.22663802363050484,
+        "mean_printed_tier": 2.532223415682062,
+        "mean_printed_raw": 7.5922395273899035,
+        "n_boards": 1064,
+        "golden_share": 0.0010741138560687433
+      },
+      "treatment": {
+        "t4_plus_share": 0.9901768172888016,
+        "mean_printed_tier": 5.218635980914959,
+        "mean_printed_raw": 14.576761156328937,
+        "n_boards": 509,
+        "golden_share": 0.024978950322761716
+      }
+    }
+  },
+  "overlap": {
+    "control": {
+      "jaccard_top20": 0.0,
+      "overlap_count": 0,
+      "cosine_top20": 0.0,
+      "shared_names": []
+    },
+    "treatment": {
+      "jaccard_top20": 0.05263157894736842,
+      "overlap_count": 2,
+      "cosine_top20": 0.04541389280392428,
+      "shared_names": [
+        "Crimson Vindicator",
+        "Gatekeeper Amalgam"
+      ]
+    }
+  },
+  "replace_rate": {
+    "control": 0.013253774523099178,
+    "treatment": 0.28269051941726075
+  }
+}

@@ -1,0 +1,581 @@
+{
+  "methodology_version": "2n_v3",
+  "phase_2j_methodology_version": "2j_v1",
+  "evaluation_seed_base": 11700,
+  "n_lobbies": 500,
+  "frozen_alpha": 0.5,
+  "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951",
+  "policy_config": {
+    "policy_id": "board_opportunity_cost_policy",
+    "methodology_version": "2j_v1",
+    "purpose": "Phase 2J board-relative multi-turn opportunity-cost policy",
+    "alpha": 0.5,
+    "lambda_build": null,
+    "seeded_trigger": "infer_target(board).core_have >= 1",
+    "transition_model": "raw_loss=max(0,repl_raw-cand_raw); relative_tempo_loss=raw_loss/max(board_total_raw,1); opportunity_cost=relative_tempo_loss*persistence_weight; build_delta=cand_build-repl_build; score=build_delta-alpha*opportunity_cost; commit iff score>0; free-slot opportunity_cost=0; hand full-board: sell\u2192play; shop full-board: sell\u2192buy\u2192play",
+    "persistence_prior": {
+      "methodology_version": "2j_v1",
+      "survival_horizon": 2,
+      "weight_1": 0.5,
+      "weight_2": 0.5,
+      "fit_seed_base": 7000,
+      "fit_lobbies": 300,
+      "n_cells": 18,
+      "global_p_survive_1": 0.9890604074152393,
+      "global_p_survive_2": 0.9757806442517798,
+      "prior_hash_sha256": "9b31c93a8d89f3d9a1e4301ea7926ec6ed7c1f659ed6939c5705977141721951"
+    },
+    "acquisition_gain": "missing core vs board+hand (shop buys)",
+    "deployment_gain": "missing core vs board only (hand\u2192board)",
+    "tier_commitment": "hsbg_coach.build_path._TIER_COMMIT schedule",
+    "control_policy_id": "greedy_policy",
+    "oracle_stress_policy_id": "seeded_core_deploy_stress_greedy_policy",
+    "persistence_fit": "seeds 7000\u20137299",
+    "calibration_screen": "seeds 7300\u20137399",
+    "calibration_replication": "seeds 7400\u20137799",
+    "confirmation": "seeds 8000\u20138199",
+    "alpha_candidates": [
+      0.5,
+      1.0,
+      2.0
+    ]
+  },
+  "greedy": {
+    "label": "greedy",
+    "mechanism": {
+      "methodology_version": "2c_v3",
+      "sim_final_winner_coverage_mean": 0.05597713517040913,
+      "seeded_current_target": {
+        "legally_buyable_exposures": 6321,
+        "fulfilled_exposures": 100,
+        "rejected_exposures": 6221,
+        "fulfillment_rate": 0.0158202816010125,
+        "rejection_rate": 0.9841797183989875,
+        "reached_2_core": 67,
+        "reached_4_core": 2,
+        "mean_max_core_pieces": 1.1815856777493605,
+        "exposure_accounting_valid": true
+      },
+      "committed_current_target": {
+        "n_lobby_archetype_states": 63,
+        "distinct_core_legally_available": 504,
+        "shop_generations_with_buyable_core": 1031,
+        "legally_buyable_exposures": 1205,
+        "fulfilled_exposures": 19,
+        "rejected_exposures": 1186,
+        "core_purchase_actions": 146,
+        "exposure_accounting_valid": true,
+        "rejection_rate": 0.9842323651452282,
+        "fulfillment_rate": 0.015767634854771784,
+        "played": 141,
+        "retained_2_turns": 123,
+        "reached_2_core": 57,
+        "reached_4_core": 2,
+        "pct_lobbies_2plus_distinct_core_available": 0.8412698412698413,
+        "pct_lobbies_4plus_distinct_core_available": 0.8095238095238095,
+        "mean_final_coverage_winner": 0.16295766337855244,
+        "mean_max_core_pieces": 2.0793650793650795
+      },
+      "final_target_hindsight": {
+        "legally_buyable_exposures": 12266,
+        "fulfilled_exposures": 366,
+        "rejected_exposures": 11900,
+        "fulfillment_rate": 0.029838578183596934
+      },
+      "broad_current_target_exploratory": {
+        "legally_buyable_exposures": 12132,
+        "fulfilled_exposures": 207,
+        "rejected_exposures": 11925
+      }
+    },
+    "lifecycle": {
+      "n_fulfilled_purchases": 100,
+      "funnel": {
+        "fulfilled_purchases": 100,
+        "played": 71,
+        "coexist_with_seed_core": 73,
+        "survive_end_of_recruit": 66,
+        "survive_1_turn": 66,
+        "survive_2_turns": 64
+      },
+      "board_full_summary": {
+        "fulfilled_purchases": 100,
+        "board_full_at_purchase": 43,
+        "stuck_in_hand": 24,
+        "stuck_in_hand_and_board_full": 24,
+        "played": 71,
+        "sold_after_play": 12,
+        "persistent_two_core": 68
+      },
+      "fate_totals": {
+        "H_TWO_CORE_PERSISTENT": 68,
+        "A_BOUGHT_STUCK_IN_HAND": 24,
+        "C_PLAYED_NO_PERSISTENT_ASSEMBLY": 1,
+        "D_TARGET_SWITCH": 1,
+        "G_TWO_CORE_TRANSIENT": 5,
+        "B_PLAYED_THEN_SOLD_SAME_TURN": 1
+      }
+    },
+    "committed_states": 63,
+    "seeded_reached_2_core": 67,
+    "seeded_reached_4_core": 2,
+    "headline_divergence": {
+      "stats_ratio_turn_1": 1.3328048780487807,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.8958196721311477,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9860162601626016,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.9847165991902835,
+      "tier_error_turn_4": 0.20000000000000018,
+      "stats_ratio_turn_5": 1.0517922374429225,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 1.0068366093366092,
+      "tier_error_turn_6": 0.20000000000000018,
+      "stats_ratio_turn_7": 0.8401875409593027,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.8121092451961135,
+      "tier_error_turn_8": 0.20000000000000018,
+      "stats_ratio_turn_9": 0.5003467936605027,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.6018154512493227,
+      "tier_error_turn_10": 0.5,
+      "stats_ratio_turn_11": 0.4923316549706178,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.71724686095329,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 1.1146738512925634,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 1.5195776639163523,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "tier_breakdown": null,
+    "lobby_dynamics": {
+      "avg_game_length": 15.942,
+      "median_game_length": 16.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.855538540071465,
+        "8": 7.194998595110986,
+        "9": 6.242692939244663,
+        "10": 5.29905808477237,
+        "11": 4.435049598488427,
+        "12": 3.7091954022988505,
+        "13": 3.1569444444444446,
+        "14": 2.745674740484429,
+        "15": 2.536557930258718,
+        "16": 2.3883495145631066,
+        "17": 2.316708229426434,
+        "18": 2.2614107883817427,
+        "19": 2.230769230769231,
+        "20": 2.1578947368421053
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    }
+  },
+  "treatment": {
+    "label": "board_opportunity",
+    "mechanism": {
+      "methodology_version": "2c_v3",
+      "sim_final_winner_coverage_mean": 0.15556341078751712,
+      "seeded_current_target": {
+        "legally_buyable_exposures": 1881,
+        "fulfilled_exposures": 818,
+        "rejected_exposures": 1063,
+        "fulfillment_rate": 0.4348750664540138,
+        "rejection_rate": 0.5651249335459861,
+        "reached_2_core": 157,
+        "reached_4_core": 137,
+        "mean_max_core_pieces": 4.937888198757764,
+        "exposure_accounting_valid": true
+      },
+      "committed_current_target": {
+        "n_lobby_archetype_states": 138,
+        "distinct_core_legally_available": 977,
+        "shop_generations_with_buyable_core": 1458,
+        "legally_buyable_exposures": 1715,
+        "fulfilled_exposures": 670,
+        "rejected_exposures": 1045,
+        "core_purchase_actions": 970,
+        "exposure_accounting_valid": true,
+        "rejection_rate": 0.60932944606414,
+        "fulfillment_rate": 0.39067055393586003,
+        "played": 965,
+        "retained_2_turns": 706,
+        "reached_2_core": 138,
+        "reached_4_core": 135,
+        "pct_lobbies_2plus_distinct_core_available": 0.9710144927536232,
+        "pct_lobbies_4plus_distinct_core_available": 0.9057971014492754,
+        "mean_final_coverage_winner": 0.5450653583981881,
+        "mean_max_core_pieces": 5.36231884057971
+      },
+      "final_target_hindsight": {
+        "legally_buyable_exposures": 8944,
+        "fulfilled_exposures": 939,
+        "rejected_exposures": 8005,
+        "fulfillment_rate": 0.1049865831842576
+      },
+      "broad_current_target_exploratory": {
+        "legally_buyable_exposures": 8914,
+        "fulfilled_exposures": 906,
+        "rejected_exposures": 8008
+      }
+    },
+    "lifecycle": {
+      "n_fulfilled_purchases": 818,
+      "funnel": {
+        "fulfilled_purchases": 818,
+        "played": 812,
+        "coexist_with_seed_core": 818,
+        "survive_end_of_recruit": 807,
+        "survive_1_turn": 670,
+        "survive_2_turns": 539
+      },
+      "board_full_summary": {
+        "fulfilled_purchases": 818,
+        "board_full_at_purchase": 0,
+        "stuck_in_hand": 0,
+        "stuck_in_hand_and_board_full": 0,
+        "played": 812,
+        "sold_after_play": 197,
+        "persistent_two_core": 816
+      },
+      "fate_totals": {
+        "H_TWO_CORE_PERSISTENT": 816,
+        "G_TWO_CORE_TRANSIENT": 2
+      }
+    },
+    "committed_states": 138,
+    "seeded_reached_2_core": 157,
+    "seeded_reached_4_core": 137,
+    "headline_divergence": {
+      "stats_ratio_turn_1": 1.3328048780487807,
+      "tier_error_turn_1": 0.0,
+      "stats_ratio_turn_2": 0.8958196721311477,
+      "tier_error_turn_2": 0.3999999999999999,
+      "stats_ratio_turn_3": 0.9635975609756097,
+      "tier_error_turn_3": -0.20000000000000018,
+      "stats_ratio_turn_4": 0.9631882591093117,
+      "tier_error_turn_4": 0.1955,
+      "stats_ratio_turn_5": 0.9774372146118723,
+      "tier_error_turn_5": -0.2999999999999998,
+      "stats_ratio_turn_6": 0.9369041769041768,
+      "tier_error_turn_6": 0.16875000000000018,
+      "stats_ratio_turn_7": 0.7473172415280744,
+      "tier_error_turn_7": -0.2999999999999998,
+      "stats_ratio_turn_8": 0.7264475809075814,
+      "tier_error_turn_8": 0.18810904872389766,
+      "stats_ratio_turn_9": 0.45395538297548343,
+      "tier_error_turn_9": -0.20000000000000018,
+      "stats_ratio_turn_10": 0.5439432848735297,
+      "tier_error_turn_10": 0.4244676576938531,
+      "stats_ratio_turn_11": 0.4425155994119886,
+      "tier_error_turn_11": 0.20000000000000018,
+      "stats_ratio_turn_12": 0.5881242389770708,
+      "tier_error_turn_12": 0.0,
+      "stats_ratio_turn_13": 0.8786956843528603,
+      "tier_error_turn_13": 0.0,
+      "stats_ratio_turn_14": 1.20541452427451,
+      "tier_error_turn_14": 0.0,
+      "stats_ratio_turn_15": null,
+      "tier_error_turn_15": null,
+      "stats_ratio_turn_16": null,
+      "tier_error_turn_16": null
+    },
+    "tier_breakdown": {
+      "tier_le4": {
+        "seeded_exposures": 60,
+        "fulfilled": 48,
+        "rejected": 12,
+        "reached_2_core_states": 29,
+        "committed_states": 28
+      },
+      "tier_5": {
+        "seeded_exposures": 262,
+        "fulfilled": 212,
+        "rejected": 50,
+        "reached_2_core_states": 105,
+        "committed_states": 90
+      },
+      "tier_6": {
+        "seeded_exposures": 1559,
+        "fulfilled": 558,
+        "rejected": 1001,
+        "reached_2_core_states": 23,
+        "committed_states": 19
+      }
+    },
+    "policy_stats": {
+      "compound_transitions_planned": 3922,
+      "compound_transitions_completed": 3922,
+      "compound_transitions_abandoned": 0,
+      "compound_transitions_completion_rate": 1.0,
+      "replacement_sells": 3922,
+      "replacement_transitions": 3922,
+      "tempo_selected_buys": 7468,
+      "tempo_selected_deploys": 7506,
+      "target_core_buys": 7468,
+      "target_core_deploys": 7506,
+      "mean_raw_stat_sacrifice_completed": 430.4115247322795,
+      "mean_build_gain_completed": 0.4595040158082604,
+      "mean_relative_tempo_loss": 0.10711042590404495,
+      "p95_relative_tempo_loss": 0.37493135639758374,
+      "mean_persistence_weight": 0.9715624940471566,
+      "mean_opportunity_cost": 0.10600377303485517
+    },
+    "action_deviation_rate_vs_greedy": 0.2562148395925194,
+    "alpha": 0.5,
+    "lobby_dynamics": {
+      "avg_game_length": 14.976,
+      "median_game_length": 15.0,
+      "sim_alive_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 7.692287581699347,
+        "8": 6.987819025522041,
+        "9": 6.104857621440536,
+        "10": 5.169546002410606,
+        "11": 4.264197530864197,
+        "12": 3.5027522935779816,
+        "13": 2.9086614173228345,
+        "14": 2.5032537960954446,
+        "15": 2.2793388429752066,
+        "16": 2.195767195767196,
+        "17": 2.1384615384615384,
+        "18": 2.1176470588235294,
+        "19": 2.066666666666667,
+        "20": 2.111111111111111
+      },
+      "reference_alive_prior_by_turn": {
+        "1": 8.0,
+        "2": 8.0,
+        "3": 8.0,
+        "4": 8.0,
+        "5": 8.0,
+        "6": 8.0,
+        "7": 8.0,
+        "8": 8.0,
+        "9": 7.0,
+        "10": 5.0,
+        "11": 4.0,
+        "12": 3.0,
+        "13": 2.0,
+        "14": 2.0,
+        "15": 1.0,
+        "16": 1.0
+      },
+      "n_lobbies": 500
+    },
+    "macro_fidelity_vs_reference": {
+      "pace_headline": {
+        "stats_ratio_turn_10": 0.5439432848735297,
+        "stats_ratio_turn_12": 0.5881242389770708,
+        "stats_ratio_turn_14": 1.20541452427451,
+        "avg_game_length": 14.976,
+        "sim_tavern_tier_turn_10": 5.924467657693853,
+        "real_tavern_tier_turn_10": 5.5
+      },
+      "macro_fidelity_pass": false
+    }
+  },
+  "macro_regression_delta_treatment_minus_greedy": {
+    "turn_10_stats_ratio_delta": -0.057872166375792955,
+    "turn_14_stats_ratio_delta": -0.3141631396418423,
+    "turn_10_tier_error_delta": -0.07553234230614692,
+    "turn_14_tier_error_delta": 0.0,
+    "turn_10_alive_error_delta": -0.1295120823617637,
+    "game_length_delta": -0.9659999999999993,
+    "control_avg_game_length": 15.942,
+    "treatment_avg_game_length": 14.976
+  },
+  "phase_2j_acceptance": {
+    "methodology_version": "2j_v1",
+    "thresholds": {
+      "persistent_2_core_min_delta": 5,
+      "played_rate_min_delta": 0.25,
+      "coverage_improvement_min": 0.003,
+      "macro_turn_14_stats_ratio_max_abs_delta": 0.25,
+      "macro_tier_error_turn_10_max_abs_delta": 0.35,
+      "macro_game_length_max_abs_delta": 1.5,
+      "macro_alive_turn_10_max_abs_delta": 1.0,
+      "mean_relative_tempo_loss_max": 0.35,
+      "p95_relative_tempo_loss_max": 0.7
+    },
+    "deltas_treatment_minus_greedy": {
+      "reached_2_core_states": 90,
+      "final_winner_coverage": 0.09958627561710799,
+      "played_rate": 0.2826650366748167,
+      "committed_states": 75,
+      "seeded_fulfilled_exposures": 718,
+      "treatment_fulfilled_purchases": 818,
+      "meaningful_fulfilled_cohort": true
+    },
+    "board_sacrifice": {
+      "mean_relative_tempo_loss": 0.10711042590404495,
+      "p95_relative_tempo_loss": 0.37493135639758374,
+      "replacement_transitions": 3922,
+      "mean_persistence_weight": 0.9715624940471566,
+      "mean_raw_stat_sacrifice_completed": 430.4115247322795
+    },
+    "flags": {
+      "macro_regression_ok": false,
+      "mechanism_up": true,
+      "coverage_up": true,
+      "fulfillment_up": true,
+      "board_sacrifice_ok": true,
+      "accept_phase_2j_policy": false
+    },
+    "relative_to_oracle_reference": {
+      "persistent_2_core_lift_relative_to_oracle_reference": -1.3432835820895523,
+      "coverage_lift_relative_to_oracle_reference": -1.7790527384786872,
+      "note": "Phase 2E+2G is a causal stress-test reference, not an upper bound; ratios may exceed 1.0."
+    }
+  },
+  "phase_2j_mechanism_decision": {
+    "decision_branch": "macro_regression",
+    "recommended_next_step": "Reject policy \u2014 macro fidelity regressed vs raw greedy.",
+    "acceptance": {
+      "methodology_version": "2j_v1",
+      "thresholds": {
+        "persistent_2_core_min_delta": 5,
+        "played_rate_min_delta": 0.25,
+        "coverage_improvement_min": 0.003,
+        "macro_turn_14_stats_ratio_max_abs_delta": 0.25,
+        "macro_tier_error_turn_10_max_abs_delta": 0.35,
+        "macro_game_length_max_abs_delta": 1.5,
+        "macro_alive_turn_10_max_abs_delta": 1.0,
+        "mean_relative_tempo_loss_max": 0.35,
+        "p95_relative_tempo_loss_max": 0.7
+      },
+      "deltas_treatment_minus_greedy": {
+        "reached_2_core_states": 90,
+        "final_winner_coverage": 0.09958627561710799,
+        "played_rate": 0.2826650366748167,
+        "committed_states": 75,
+        "seeded_fulfilled_exposures": 718,
+        "treatment_fulfilled_purchases": 818,
+        "meaningful_fulfilled_cohort": true
+      },
+      "board_sacrifice": {
+        "mean_relative_tempo_loss": 0.10711042590404495,
+        "p95_relative_tempo_loss": 0.37493135639758374,
+        "replacement_transitions": 3922,
+        "mean_persistence_weight": 0.9715624940471566,
+        "mean_raw_stat_sacrifice_completed": 430.4115247322795
+      },
+      "flags": {
+        "macro_regression_ok": false,
+        "mechanism_up": true,
+        "coverage_up": true,
+        "fulfillment_up": true,
+        "board_sacrifice_ok": true,
+        "accept_phase_2j_policy": false
+      },
+      "relative_to_oracle_reference": {
+        "persistent_2_core_lift_relative_to_oracle_reference": -1.3432835820895523,
+        "coverage_lift_relative_to_oracle_reference": -1.7790527384786872,
+        "note": "Phase 2E+2G is a causal stress-test reference, not an upper bound; ratios may exceed 1.0."
+      }
+    }
+  },
+  "phase_2j_mechanism_regression_pass": false,
+  "macro_fidelity_vs_reference": {
+    "methodology_version": "2n_v3",
+    "success_thresholds_path": "results/sim_fidelity_v1/success_thresholds.json",
+    "success_thresholds_sha256": "a62e66d07b5ef035be1de61938333af1d2bc4913b2f8d83cc66aee267c18b6e0",
+    "gates": {
+      "turn_14_primary": {
+        "value": 1.20541452427451,
+        "max_allowed": 2.033,
+        "passed": true,
+        "unmeasured": false
+      },
+      "turn_12_secondary": {
+        "value": 0.5881242389770708,
+        "max_allowed": 1.37,
+        "passed": true,
+        "unmeasured": false,
+        "note": "Absolute envelope only; Phase 2B's 'improve vs v1' clause does not apply to unpaired candidate evaluation."
+      },
+      "turn_10_regression": {
+        "value": 0.5439432848735297,
+        "baseline_center": 1.033,
+        "allowed_abs_delta": 0.057,
+        "passed": false,
+        "unmeasured": false
+      },
+      "tavern_tier_unchanged": {
+        "passed": true
+      },
+      "alive_curve_unchanged": {
+        "passed": true
+      },
+      "game_length": {
+        "value": 14.976,
+        "median": 15.0,
+        "monitored_only": true
+      },
+      "nontermination": {
+        "max_turns": 20,
+        "n_lobbies": 500,
+        "n_hit_max_turns": 13,
+        "nontermination_rate": 0.026,
+        "passed": true
+      }
+    },
+    "pace_headline": {
+      "stats_ratio_turn_10": 0.5439432848735297,
+      "stats_ratio_turn_12": 0.5881242389770708,
+      "stats_ratio_turn_14": 1.20541452427451,
+      "avg_game_length": 14.976,
+      "sim_tavern_tier_turn_10": 5.924467657693853,
+      "real_tavern_tier_turn_10": 5.5
+    },
+    "macro_fidelity_pass": false,
+    "note": "Compared against frozen Firestone reference curves using the Phase 2B absolute envelope. No thresholds were retuned."
+  },
+  "macro_fidelity_pass": false,
+  "panel_pass": false,
+  "confirmation_thresholds": {
+    "persistent_2_core_min_delta": 5,
+    "played_rate_min_delta": 0.25,
+    "coverage_improvement_min": 0.003,
+    "macro_turn_14_stats_ratio_max_abs_delta": 0.25,
+    "macro_tier_error_turn_10_max_abs_delta": 0.35,
+    "macro_game_length_max_abs_delta": 1.5,
+    "macro_alive_turn_10_max_abs_delta": 1.0,
+    "mean_relative_tempo_loss_max": 0.35,
+    "p95_relative_tempo_loss_max": 0.7
+  }
+}

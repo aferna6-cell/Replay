@@ -1,0 +1,36 @@
+{
+  "greedy": {
+    "turn": 10,
+    "n": 2595,
+    "firestone_target": 1601.1,
+    "start_of_recruit": 960.0150289017341,
+    "end_recruit": 960.0150289017341,
+    "recruit_contribution": 0.0,
+    "scaling_contribution": 563.6678227360309,
+    "ratio_add": 578.7252614998698,
+    "residual_add": 563.6806447331594,
+    "pace_target": 1156.581476458685,
+    "over": 15.044616766710506,
+    "post_scale": 1523.682851637765,
+    "unfilled_target_gap": 77.41714836223498,
+    "pre_scale_over_firestone": 0.5995971700092025,
+    "post_scale_over_firestone": 0.9516475246004403
+  },
+  "phase_2j": {
+    "turn": 10,
+    "n": 2502,
+    "firestone_target": 1601.1,
+    "start_of_recruit": 877.2110311750599,
+    "end_recruit": 870.67585931255,
+    "recruit_contribution": -6.535171862509992,
+    "scaling_contribution": 547.4784172661871,
+    "ratio_add": 555.1897357691255,
+    "residual_add": 547.4929600203496,
+    "pace_target": 1184.9282647496757,
+    "over": 7.696775748775844,
+    "post_scale": 1418.154276578737,
+    "unfilled_target_gap": 182.9457234212629,
+    "pre_scale_over_firestone": 0.543798550566829,
+    "post_scale_over_firestone": 0.8857374783453482
+  }
+}

@@ -1,0 +1,527 @@
+{
+  "control": [
+    {
+      "lobby": 0,
+      "turn": 7,
+      "kind": "live",
+      "raw": 6,
+      "applied_hp_loss": 9,
+      "count_only_damage": 6,
+      "counterfactual_damage": 10,
+      "proxy_minus_counterfactual": -1,
+      "amplification": 3,
+      "cf_amplification": 4,
+      "winner_tavern_tier": 4,
+      "actual_survivor_count": 2,
+      "actual_survivor_tier_sum": 6,
+      "winner_minion_tier_mean": 2.7142857142857144,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Lurking Lionfish",
+          "card_id": "BG36_201",
+          "tier": 2
+        },
+        {
+          "name": "Heroic Underdog",
+          "card_id": "BG34_604",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 7,
+      "kind": "live",
+      "raw": 7,
+      "applied_hp_loss": 10,
+      "count_only_damage": 7,
+      "counterfactual_damage": 13,
+      "proxy_minus_counterfactual": -3,
+      "amplification": 3,
+      "cf_amplification": 6,
+      "winner_tavern_tier": 4,
+      "actual_survivor_count": 3,
+      "actual_survivor_tier_sum": 9,
+      "winner_minion_tier_mean": 2.142857142857143,
+      "lethal": true,
+      "lethal_counterfactual": true,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Intrepid Botanist",
+          "card_id": "BG32_237",
+          "tier": 2
+        },
+        {
+          "name": "Accord-o-Tron",
+          "card_id": "BG26_147",
+          "tier": 3
+        },
+        {
+          "name": "Headhunter Gryphon",
+          "card_id": "BG36_204",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 7,
+      "kind": "live",
+      "raw": -8,
+      "applied_hp_loss": 15,
+      "count_only_damage": 8,
+      "counterfactual_damage": 16,
+      "proxy_minus_counterfactual": -1,
+      "amplification": 7,
+      "cf_amplification": 8,
+      "winner_tavern_tier": 4,
+      "actual_survivor_count": 4,
+      "actual_survivor_tier_sum": 12,
+      "winner_minion_tier_mean": 2.7142857142857144,
+      "lethal": false,
+      "lethal_counterfactual": true,
+      "lethal_flip": true,
+      "actual_survivors": [
+        {
+          "name": "Sellemental",
+          "card_id": "BGS_115",
+          "tier": 2
+        },
+        {
+          "name": "Fruit Vendor",
+          "card_id": "BG36_346",
+          "tier": 3
+        },
+        {
+          "name": "Flaming Enforcer",
+          "card_id": "BG34_500",
+          "tier": 4
+        },
+        {
+          "name": "Meteorite Crasher",
+          "card_id": "BG31_843",
+          "tier": 3
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 8,
+      "kind": "live",
+      "raw": -6,
+      "applied_hp_loss": 8,
+      "count_only_damage": 6,
+      "counterfactual_damage": 6,
+      "proxy_minus_counterfactual": 2,
+      "amplification": 2,
+      "cf_amplification": 0,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 1,
+      "winner_minion_tier_mean": 2.7142857142857144,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Aureate Laureate",
+          "card_id": "BG32_236",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 8,
+      "kind": "live",
+      "raw": -6,
+      "applied_hp_loss": 7,
+      "count_only_damage": 6,
+      "counterfactual_damage": 6,
+      "proxy_minus_counterfactual": 1,
+      "amplification": 1,
+      "cf_amplification": 0,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 1,
+      "winner_minion_tier_mean": 2.142857142857143,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Molten Rock",
+          "card_id": "BGS_127",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 9,
+      "kind": "live",
+      "raw": 7,
+      "applied_hp_loss": 10,
+      "count_only_damage": 7,
+      "counterfactual_damage": 12,
+      "proxy_minus_counterfactual": -2,
+      "amplification": 3,
+      "cf_amplification": 5,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 2,
+      "actual_survivor_tier_sum": 7,
+      "winner_minion_tier_mean": 2.4285714285714284,
+      "lethal": true,
+      "lethal_counterfactual": true,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Intrepid Botanist",
+          "card_id": "BG32_237",
+          "tier": 2
+        },
+        {
+          "name": "Deft Deserter",
+          "card_id": "BG36_621",
+          "tier": 5
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 9,
+      "kind": "live",
+      "raw": -6,
+      "applied_hp_loss": 8,
+      "count_only_damage": 6,
+      "counterfactual_damage": 6,
+      "proxy_minus_counterfactual": 2,
+      "amplification": 2,
+      "cf_amplification": 0,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 1,
+      "winner_minion_tier_mean": 2.7142857142857144,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Aureate Laureate",
+          "card_id": "BG32_236",
+          "tier": 1
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 9,
+      "kind": "live",
+      "raw": 9,
+      "applied_hp_loss": 15,
+      "count_only_damage": 9,
+      "counterfactual_damage": 13,
+      "proxy_minus_counterfactual": 2,
+      "amplification": 6,
+      "cf_amplification": 4,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 4,
+      "actual_survivor_tier_sum": 8,
+      "winner_minion_tier_mean": 2.5714285714285716,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Molten Rock",
+          "card_id": "BGS_127",
+          "tier": 1
+        },
+        {
+          "name": "Intrepid Botanist",
+          "card_id": "BG32_237",
+          "tier": 2
+        },
+        {
+          "name": "Headhunter Gryphon",
+          "card_id": "BG36_204",
+          "tier": 4
+        },
+        {
+          "name": "Wrath Weaver",
+          "card_id": "BGS_004",
+          "tier": 1
+        }
+      ]
+    }
+  ],
+  "treatment": [
+    {
+      "lobby": 0,
+      "turn": 7,
+      "kind": "live",
+      "raw": 7,
+      "applied_hp_loss": 12,
+      "count_only_damage": 7,
+      "counterfactual_damage": 12,
+      "proxy_minus_counterfactual": 0,
+      "amplification": 5,
+      "cf_amplification": 5,
+      "winner_tavern_tier": 4,
+      "actual_survivor_count": 3,
+      "actual_survivor_tier_sum": 8,
+      "winner_minion_tier_mean": 2.5714285714285716,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Lurking Lionfish",
+          "card_id": "BG36_201",
+          "tier": 2
+        },
+        {
+          "name": "Gearfin",
+          "card_id": "BG36_764",
+          "tier": 4
+        },
+        {
+          "name": "Decoy Conjurer",
+          "card_id": "BG36_354",
+          "tier": 2
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 7,
+      "kind": "live",
+      "raw": 9,
+      "applied_hp_loss": 18,
+      "count_only_damage": 9,
+      "counterfactual_damage": 18,
+      "proxy_minus_counterfactual": 0,
+      "amplification": 9,
+      "cf_amplification": 9,
+      "winner_tavern_tier": 4,
+      "actual_survivor_count": 5,
+      "actual_survivor_tier_sum": 14,
+      "winner_minion_tier_mean": 2.857142857142857,
+      "lethal": true,
+      "lethal_counterfactual": true,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Aureate Laureate",
+          "card_id": "BG32_236",
+          "tier": 1
+        },
+        {
+          "name": "Fruit Vendor",
+          "card_id": "BG36_346",
+          "tier": 3
+        },
+        {
+          "name": "Lurking Lionfish",
+          "card_id": "BG36_201",
+          "tier": 2
+        },
+        {
+          "name": "Gearfin",
+          "card_id": "BG36_764",
+          "tier": 4
+        },
+        {
+          "name": "Bigwig Bandit",
+          "card_id": "BG33_822",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 7,
+      "kind": "live",
+      "raw": 7,
+      "applied_hp_loss": 13,
+      "count_only_damage": 7,
+      "counterfactual_damage": 15,
+      "proxy_minus_counterfactual": -2,
+      "amplification": 6,
+      "cf_amplification": 8,
+      "winner_tavern_tier": 4,
+      "actual_survivor_count": 3,
+      "actual_survivor_tier_sum": 11,
+      "winner_minion_tier_mean": 3.0,
+      "lethal": false,
+      "lethal_counterfactual": true,
+      "lethal_flip": true,
+      "actual_survivors": [
+        {
+          "name": "Sprightly Scarab",
+          "card_id": "BG27_084",
+          "tier": 3
+        },
+        {
+          "name": "Banana Slamma",
+          "card_id": "BG26_802",
+          "tier": 4
+        },
+        {
+          "name": "Clunker Junker",
+          "card_id": "BG29_503",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 8,
+      "kind": "live",
+      "raw": -9,
+      "applied_hp_loss": 15,
+      "count_only_damage": 9,
+      "counterfactual_damage": 15,
+      "proxy_minus_counterfactual": 0,
+      "amplification": 6,
+      "cf_amplification": 6,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 4,
+      "actual_survivor_tier_sum": 10,
+      "winner_minion_tier_mean": 2.5714285714285716,
+      "lethal": true,
+      "lethal_counterfactual": true,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Ancestral Automaton",
+          "card_id": "BG_TTN_401",
+          "tier": 2
+        },
+        {
+          "name": "Snow Baller",
+          "card_id": "BG31_818",
+          "tier": 2
+        },
+        {
+          "name": "Tortollan Blue Shell",
+          "card_id": "BG24_018",
+          "tier": 4
+        },
+        {
+          "name": "Decoy Conjurer",
+          "card_id": "BG36_354",
+          "tier": 2
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 8,
+      "kind": "live",
+      "raw": -6,
+      "applied_hp_loss": 8,
+      "count_only_damage": 6,
+      "counterfactual_damage": 9,
+      "proxy_minus_counterfactual": -1,
+      "amplification": 2,
+      "cf_amplification": 3,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 4,
+      "winner_minion_tier_mean": 3.0,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Banana Slamma",
+          "card_id": "BG26_802",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 9,
+      "kind": "live",
+      "raw": -6,
+      "applied_hp_loss": 9,
+      "count_only_damage": 6,
+      "counterfactual_damage": 9,
+      "proxy_minus_counterfactual": 0,
+      "amplification": 3,
+      "cf_amplification": 3,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 4,
+      "winner_minion_tier_mean": 3.7142857142857144,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Maritime Extortionist",
+          "card_id": "BG36_524",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 9,
+      "kind": "live",
+      "raw": 6,
+      "applied_hp_loss": 9,
+      "count_only_damage": 6,
+      "counterfactual_damage": 9,
+      "proxy_minus_counterfactual": 0,
+      "amplification": 3,
+      "cf_amplification": 3,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 4,
+      "winner_minion_tier_mean": 3.7142857142857144,
+      "lethal": true,
+      "lethal_counterfactual": true,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "En-Djinn Blazer",
+          "card_id": "BG34_865",
+          "tier": 4
+        }
+      ]
+    },
+    {
+      "lobby": 0,
+      "turn": 9,
+      "kind": "live",
+      "raw": -6,
+      "applied_hp_loss": 9,
+      "count_only_damage": 6,
+      "counterfactual_damage": 9,
+      "proxy_minus_counterfactual": 0,
+      "amplification": 3,
+      "cf_amplification": 3,
+      "winner_tavern_tier": 5,
+      "actual_survivor_count": 1,
+      "actual_survivor_tier_sum": 4,
+      "winner_minion_tier_mean": 4.0,
+      "lethal": false,
+      "lethal_counterfactual": false,
+      "lethal_flip": false,
+      "actual_survivors": [
+        {
+          "name": "Banana Slamma",
+          "card_id": "BG26_802",
+          "tier": 4
+        }
+      ]
+    }
+  ]
+}

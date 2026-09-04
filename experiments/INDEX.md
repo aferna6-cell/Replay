@@ -37,6 +37,16 @@ tuning on the current simulator.
 | 2K | [`sim_fidelity_phase_2k.md`](sim_fidelity_phase_2k.md) | Post-assembly gap (**merged**; 92% never-available) |
 | 2L | [`sim_fidelity_phase_2l.md`](sim_fidelity_phase_2l.md) | Availability decomp (`2l_v2`: **63% A3** → approve; Phase 2M pool audit) |
 | 2M | [`sim_fidelity_phase_2m.md`](sim_fidelity_phase_2m.md) | Shop/pool audit (`2m_v2`: multi-mismatch; mild draw undershoot) |
+| 2N | [`sim_fidelity_phase_2n.md`](sim_fidelity_phase_2n.md) | Active Tavern-pool OK; **HOLD v1.x** (`2n_v3` macro gates fail; confirm 11500 reserved) |
+| 2O | [`sim_fidelity_phase_2o.md`](sim_fidelity_phase_2o.md) | Midgame scaling budget (`2o_v1`): **pre-scale hole, post-scale ~OK at T10; recruit Δ≈0**; #29 still HOLD |
+| 2P | [`sim_fidelity_phase_2p.md`](sim_fidelity_phase_2p.md) | Replacement-value contamination (`2p_v2`): **confirmed** (golden fix; weakest-golden share 0); #29 HOLD |
+| 2Q | [`sim_fidelity_phase_2q.md`](sim_fidelity_phase_2q.md) | Recruit vs combat split (`2q_v1`): **HOLD** — replaces unblocked; post-scale macro collapses; #29 HOLD |
+| 2R | [`sim_fidelity_phase_2r.md`](sim_fidelity_phase_2r.md) | Replacement churn (`2r_v1`): **HOLD** — churn/loss explains collapse (frac 0.994); preserve combat on replace; #29/#33 HOLD |
+| 2R QA | [`sim_fidelity_phase_2r_qa.md`](sim_fidelity_phase_2r_qa.md) | Independent recompute **0.9938 survives**; sell→buy→play / residual / carry clean |
+| 2S | [`sim_fidelity_phase_2s.md`](sim_fidelity_phase_2s.md) | Board-level abstract scaling (`2s_v1`): **HOLD `inconclusive`** — replace 0.298 + T10 1.007 recover; net-board loss **−3.46**; game length Δ **−2.18**; #29/#33/#34/#35/#36 HOLD |
+| 2T | [`sim_fidelity_phase_2t.md`](sim_fidelity_phase_2t.md) | Game-length / damage attribution (`2t_v1`): **HOLD `damage_model_fidelity`** — amp share **0.79** of extra dpt; combat outcome 0.18; 2S post-scale still ≥ control; next is damage-model fidelity, not recruit/scaling; #29/#33/#34/#35/#36/#37 HOLD |
+| 2U | [`sim_fidelity_phase_2u.md`](sim_fidelity_phase_2u.md) | Survivor-tier damage fidelity (`2u_v1`): **HOLD `isolate_survivor_composition`** — actual-survivor CF **widens** amp Δ to **+3.63** (proxy +2.78); treatment survivors 3.56 vs board 3.33; do not change `_hero_damage` yet; #29/#33–#38 HOLD |
+| 2V | [`sim_fidelity_phase_2v.md`](sim_fidelity_phase_2v.md) | Survivor-composition attribution (`2v_v1`): **HOLD `fielded_composition_dominates`** — +4.01 survivor-tier-sum is **(A) 0.58** fielded / **(B) 0.42** within-tier survival / **(C) ~0** tokens; T6 exclusive to treatment; next is 2Q vs Firestone composition; #29/#33–#39 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
