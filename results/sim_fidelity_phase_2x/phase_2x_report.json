@@ -1,0 +1,1594 @@
+{
+  "methodology_version": "2x_v1",
+  "non_evaluative": false,
+  "decision": {
+    "methodology_version": "2x_v1",
+    "primary_finding": "position_combat_order_dominates",
+    "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+    "feature_toggle_default_off": true,
+    "phase_2x_seed": 14200,
+    "phase_2x_lobbies": 500,
+    "reused_seed_range": "14200\u201314699",
+    "keep_hold_prs": [
+      29,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "no_merge": true,
+    "evaluative": true,
+    "no_scaling_retune": true,
+    "no_alpha_retune": true,
+    "no_hero_damage_retune": true,
+    "no_gate_change": true,
+    "no_behavior_change": true,
+    "no_2q_rewrite": true,
+    "share_synthetic_dominant": 0.7,
+    "confirm_seeds_reserved": "11500\u201311699",
+    "frozen_alpha": 0.5,
+    "phase_2v_within_tier_B": 1.6782901818400895,
+    "phase_2v_share_within_tier": 0.4185551426754372,
+    "instrument_turns": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "recommended_next_step": "Most of the leftover 2V within-tier survival term remains after holding tier + recruit/raw and synthetic share fixed \u2014 residual combat-order / board-slot effects. Next hour: diagnose positioning / combat fidelity. Do not rewrite 2Q; do not change `_hero_damage`; do not burn confirm.",
+    "reweighting": {
+      "method": "nested_kitagawa_tier_then_recruit_decile_then_synthetic_decile",
+      "n_deciles": 10,
+      "within_tier_B": 1.6782901818425806,
+      "phase_2v_within_tier_B": 1.6782901818400895,
+      "observed_B_used_for_shares": 1.6782901818400895,
+      "recruit_mix": 0.042685065794637524,
+      "synthetic_allocation": 0.2636603477116788,
+      "residual_position": 1.3719447683362298,
+      "explained_mix_plus_synth_plus_resid": 1.6782901818425462,
+      "residual_vs_direct_B": 3.441691376337985e-14,
+      "share_of_B_recruit_mix": 0.02543366234070279,
+      "share_of_B_synthetic": 0.1571005720968943,
+      "share_of_B_residual_position": 0.8174657655638667,
+      "share_synthetic_of_standardized": 0.16120049095270494,
+      "per_tier": {
+        "1": {
+          "exclusive_support": false,
+          "n_start_control": 1.4803149606301989,
+          "n_start_treatment": 0.7345713487852,
+          "p_survive_control": 0.3801883501917377,
+          "p_survive_treatment": 0.2212507127922624,
+          "within_tier_B": -0.17601439856346335,
+          "recruit_mix": -0.001093444189286042,
+          "synthetic_allocation": -0.12612582863406302,
+          "residual_position": -0.04879512574014789,
+          "nested_residual": 3.359118538881489e-14,
+          "recruit_deciles": {
+            "0": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.0007350784622743522,
+              "delta_p_rate": -0.013942408613312918,
+              "synthetic_allocation_dp": -0.08034361333523776,
+              "residual_position_dp": -0.029724594922080676
+            },
+            "1": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.003979088029196126,
+              "delta_p_rate": -0.04546598342537529,
+              "synthetic_allocation_dp": -0.20353506501644672,
+              "residual_position_dp": -0.003445978875430432
+            },
+            "2": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.00874226883431785,
+              "delta_p_rate": -0.08375554016442036,
+              "synthetic_allocation_dp": -0.10358654041871448,
+              "residual_position_dp": -0.06101775999522217
+            },
+            "3": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.003179585521280872,
+              "delta_p_rate": -0.014611178648156848,
+              "synthetic_allocation_dp": -0.0419981348901371,
+              "residual_position_dp": -0.06082173660563894
+            },
+            "4": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.0013313145443016826,
+              "delta_p_rate": -0.0001751673464129196,
+              "synthetic_allocation_dp": -0.11965811965811957,
+              "residual_position_dp": 0.05555555555555553
+            }
+          }
+        },
+        "2": {
+          "exclusive_support": false,
+          "n_start_control": 2.0787401574809117,
+          "n_start_treatment": 1.2271711812340729,
+          "p_survive_control": 0.347677595628287,
+          "p_survive_treatment": 0.31789737171471266,
+          "within_tier_B": -0.09845077990535649,
+          "recruit_mix": 0.005234175380994327,
+          "synthetic_allocation": -0.0648068274581309,
+          "residual_position": -0.03887812782835667,
+          "nested_residual": 1.3676559884601147e-13,
+          "recruit_deciles": {
+            "0": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.004573625879663044,
+              "delta_p_rate": 0.003945978429156695,
+              "synthetic_allocation_dp": 5.068132370229794e-05,
+              "residual_position_dp": 0.033708419986877576
+            },
+            "1": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.004522549721392102,
+              "delta_p_rate": -0.00175198184344903,
+              "synthetic_allocation_dp": 0.029039147745871772,
+              "residual_position_dp": -0.04617322396889374
+            },
+            "2": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.004662728085888938,
+              "delta_p_rate": -0.027345080032140433,
+              "synthetic_allocation_dp": -0.03609324000182549,
+              "residual_position_dp": -0.007440061340219309
+            },
+            "3": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.004029082908428467,
+              "delta_p_rate": -0.00779318010641339,
+              "synthetic_allocation_dp": -0.003591648658459047,
+              "residual_position_dp": -0.04864926430279192
+            },
+            "4": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.0019876422100109327,
+              "delta_p_rate": 0.0015807620359828281,
+              "synthetic_allocation_dp": 0.1775157232704396,
+              "residual_position_dp": 0.2686551979282278
+            }
+          }
+        },
+        "3": {
+          "exclusive_support": false,
+          "n_start_control": 1.9251323092816275,
+          "n_start_treatment": 1.6922647305218266,
+          "p_survive_control": 0.2794689553438616,
+          "p_survive_treatment": 0.37095709570964114,
+          "within_tier_B": 0.49642339220444065,
+          "recruit_mix": 0.0694894055302712,
+          "synthetic_allocation": 0.0771937855734172,
+          "residual_position": 0.3497402011007025,
+          "nested_residual": 4.973799150320701e-14,
+          "recruit_deciles": {
+            "0": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.027974704033551276,
+              "delta_p_rate": 0.015958506436885157,
+              "synthetic_allocation_dp": 0.05153129408159576,
+              "residual_position_dp": 0.02456094852981001
+            },
+            "1": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.005281455845197855,
+              "delta_p_rate": 0.022915550285943134,
+              "synthetic_allocation_dp": -0.004409149439427523,
+              "residual_position_dp": 0.0787261047938897
+            },
+            "2": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.019391004575910514,
+              "delta_p_rate": 0.024901630735680642,
+              "synthetic_allocation_dp": 0.0011163282463259316,
+              "residual_position_dp": 0.0919264211249666
+            },
+            "3": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.023778464934480482,
+              "delta_p_rate": 0.014096716911222048,
+              "synthetic_allocation_dp": 0.019588476743833926,
+              "residual_position_dp": 0.0477128295471953
+            },
+            "4": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.0028932111466333328,
+              "delta_p_rate": 0.0008092152177690788,
+              "synthetic_allocation_dp": 0.07797931235431141,
+              "residual_position_dp": 0.08948863636363633
+            }
+          }
+        },
+        "4": {
+          "exclusive_support": false,
+          "n_start_control": 1.4520459532724905,
+          "n_start_treatment": 2.0896397654282874,
+          "p_survive_control": 0.27895812961145294,
+          "p_survive_treatment": 0.4220900708272318,
+          "within_tier_B": 1.0138567041876867,
+          "recruit_mix": 0.009859450706993182,
+          "synthetic_allocation": 0.1923831681782039,
+          "residual_position": 0.8116140853027123,
+          "nested_residual": -2.2259971643734389e-13,
+          "recruit_deciles": {
+            "0": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.0302409057022233,
+              "delta_p_rate": 0.01250117272025459,
+              "synthetic_allocation_dp": 0.010887487171302716,
+              "residual_position_dp": 0.08712032402701293
+            },
+            "1": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.01605034333231942,
+              "delta_p_rate": 0.018028359297334963,
+              "synthetic_allocation_dp": 0.04625476638334008,
+              "residual_position_dp": 0.07101602143072824
+            },
+            "2": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.0007924094602238531,
+              "delta_p_rate": 0.04576478867018611,
+              "synthetic_allocation_dp": 0.020168364599197335,
+              "residual_position_dp": 0.1575959041816566
+            },
+            "3": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.0103712512172869,
+              "delta_p_rate": 0.01322211506969268,
+              "synthetic_allocation_dp": 0.02397827639741538,
+              "residual_position_dp": 0.08242933759311522
+            },
+            "4": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.018539971412861844,
+              "delta_p_rate": 0.02827878333189274,
+              "synthetic_allocation_dp": 0.032652287034129694,
+              "residual_position_dp": 0.154497710771783
+            },
+            "5": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.018608935272429034,
+              "delta_p_rate": 0.020043996438135456,
+              "synthetic_allocation_dp": 0.04386099913382066,
+              "residual_position_dp": 0.12721210847178135
+            },
+            "6": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.0009554155572763799,
+              "delta_p_rate": 0.003900810723227154,
+              "synthetic_allocation_dp": 0.006045533817639065,
+              "residual_position_dp": 0.050701506816205534
+            }
+          }
+        },
+        "5": {
+          "exclusive_support": false,
+          "n_start_control": 0.06299212598425225,
+          "n_start_treatment": 0.8397095783299849,
+          "p_survive_control": 0.24590163934426046,
+          "p_survive_treatment": 0.44196873960764677,
+          "within_tier_B": 0.4424752639192731,
+          "recruit_mix": -0.04080452163433514,
+          "synthetic_allocation": 0.1850160500522516,
+          "residual_position": 0.2982637355013196,
+          "nested_residual": 3.702593787124897e-14,
+          "recruit_deciles": {
+            "0": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.052465296013417095,
+              "delta_p_rate": -0.003736101292894726,
+              "synthetic_allocation_dp": 0.036914782748122696,
+              "residual_position_dp": -0.0838283629950303
+            },
+            "1": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.028938018770462422,
+              "delta_p_rate": 0.020563962944340625,
+              "synthetic_allocation_dp": 0.06656359063132977,
+              "residual_position_dp": 0.1098906934001298
+            },
+            "2": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.06957618923387411,
+              "delta_p_rate": 0.035472413207436354,
+              "synthetic_allocation_dp": 0.06314672425857665,
+              "residual_position_dp": 0.13663637280547788
+            },
+            "3": {
+              "exclusive_support": false,
+              "delta_p_mix": 0.029215733873933652,
+              "delta_p_rate": 0.018457182327068035,
+              "synthetic_allocation_dp": 0.037928100016764096,
+              "residual_position_dp": 0.18011701276519596
+            },
+            "4": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.017139511321018982,
+              "delta_p_rate": 0.03350296926341919,
+              "synthetic_allocation_dp": 0.06564118217193037,
+              "residual_position_dp": 0.2402583305984492
+            },
+            "5": {
+              "exclusive_support": false,
+              "delta_p_mix": -0.18379725101209338,
+              "delta_p_rate": 0.1098877393262575,
+              "synthetic_allocation_dp": 0.11536087204646786,
+              "residual_position_dp": 0.13983605467596613
+            },
+            "6": {
+              "exclusive_support": true,
+              "delta_p_mix": 0.0026604589291655675,
+              "delta_p_rate": 0.0,
+              "synthetic_allocation_dp": 0.0,
+              "residual_position_dp": 0.0
+            }
+          }
+        },
+        "6": {
+          "exclusive_support": true,
+          "n_start_control": 0.0,
+          "n_start_treatment": 0.41413013124827164,
+          "p_survive_control": null,
+          "p_survive_treatment": 0.45178691840861807,
+          "within_tier_B": 0.0,
+          "recruit_mix": 0.0,
+          "synthetic_allocation": 0.0,
+          "residual_position": 0.0
+        }
+      }
+    },
+    "share_of_B_synthetic": 0.1571005720968943,
+    "share_of_B_residual_position": 0.8174657655638667,
+    "share_of_B_recruit_mix": 0.02543366234070279,
+    "within_tier_B": 1.6782901818425806,
+    "keep_pr_29_hold": true,
+    "keep_pr_33_hold": true,
+    "keep_pr_34_hold": true,
+    "keep_pr_35_hold": true,
+    "keep_pr_36_hold": true,
+    "keep_pr_37_hold": true,
+    "keep_pr_38_hold": true,
+    "keep_pr_39_hold": true,
+    "keep_pr_40_hold": true,
+    "keep_pr_41_hold": true
+  },
+  "contract": {
+    "runtime_fingerprint_error": "No module named 'torch'",
+    "evaluation_seed": 14200,
+    "lobbies": 500,
+    "evaluation": {
+      "policy": "greedy control (2Q/2S OFF) vs greedy treatment (2Q recruit-value + 2S board-level pool)",
+      "lobbies": 500,
+      "base_seed": 14200,
+      "note": "Phase 2X reuses consumed 2S\u20132W DEV 14200\u201314699. Measurement only; no new seeds. Do not rewrite 2Q.",
+      "non_evaluative": false,
+      "reused_phase_2s_dev": true,
+      "stacked_on_phase_2w": true
+    },
+    "phase": "2X synthetic allocation vs within-tier survival",
+    "phase_2x_methodology_version": "2x_v1",
+    "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+    "simulator_version_label": "Simulator v1.1",
+    "frozen_alpha": 0.5,
+    "forbidden_seed_ranges": [
+      "8000\u20138199",
+      "9000\u20139999",
+      "10000\u201310199",
+      "10200\u201310699",
+      "11000\u201311499",
+      "11500\u201311699",
+      "11700\u201312199",
+      "12200\u201312699",
+      "12700\u201313199",
+      "13200\u201313699",
+      "13700\u201314199"
+    ],
+    "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+    "feature_toggle_default": false,
+    "phase_2q_toggle_default": false,
+    "hold_prs": [
+      29,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "no_merge": true,
+    "no_hero_damage_change": true,
+    "no_gate_change": true,
+    "no_behavior_change": true,
+    "no_2q_rewrite": true,
+    "code_commit": "870fe3f8dbc6a87be04d888b243a0f95d959d785",
+    "working_tree_clean": true,
+    "runtime_sec": 46.6
+  },
+  "greedy_control": {
+    "n_hits": 7747,
+    "mean_survivor_count": 2.249903188330967,
+    "mean_start_n": 6.9992255066477345,
+    "mean_survivor_tier_sum": 5.336130114883181,
+    "mean_start_tier_sum": 17.536336646443786,
+    "mean_surv_starting_tier_sum": 5.319994836710985,
+    "mean_surv_generated_tier_sum": 0.016135278172195688,
+    "mean_counterfactual": 10.542274428811153,
+    "mean_winner_tavern_tier": 5.206144313927972,
+    "start_tier_histogram": {
+      "1": 1.4803149606299213,
+      "2": 2.078740157480315,
+      "3": 1.925132309281012,
+      "4": 1.4520459532722345,
+      "5": 0.06299212598425197,
+      "6": 0.0
+    },
+    "start_combat_tier_histogram": {
+      "1": 1.4803149606299213,
+      "2": 2.078740157480315,
+      "3": 1.925132309281012,
+      "4": 1.4520459532722345,
+      "5": 0.06299212598425197,
+      "6": 0.0
+    },
+    "survivor_tier_histogram": {
+      "1": 0.5627985026461856,
+      "2": 0.7240222021427649,
+      "3": 0.5425325932619078,
+      "4": 0.40506002323480056,
+      "5": 0.01548986704530786,
+      "6": 0.0
+    },
+    "surv_starting_tier_histogram": {
+      "1": 0.5627985026461856,
+      "2": 0.7227313798889893,
+      "3": 0.538014715373693,
+      "4": 0.40506002323480056,
+      "5": 0.01548986704530786,
+      "6": 0.0
+    },
+    "surv_generated_tier_histogram": {
+      "1": 0.0,
+      "2": 0.001290822253775655,
+      "3": 0.0045178778882147925,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0
+    },
+    "start_board_share_by_tier": {
+      "1": 0.21149696623204176,
+      "2": 0.29699573981520755,
+      "3": 0.27504933330874354,
+      "4": 0.20745808974051605,
+      "5": 0.008999870903491138,
+      "6": 0.0
+    },
+    "survivor_share_by_tier": {
+      "1": 0.25014343086632246,
+      "2": 0.3218014916810098,
+      "3": 0.2411359724612737,
+      "4": 0.1800344234079174,
+      "5": 0.0068846815834767644,
+      "6": 0.0
+    },
+    "survival_prob_by_tier": {
+      "1": 0.3801883501918381,
+      "2": 0.3476775956284153,
+      "3": 0.2794689553439721,
+      "4": 0.278958129611521,
+      "5": 0.2459016393442623,
+      "6": null
+    },
+    "high_tier_survivor_share": 0.18691910499139414,
+    "high_tier_start_share": 0.21645796064400716,
+    "chaff_survivor_share": 0.5719449225473322,
+    "token_survivor_share": 0.0,
+    "generated_survivor_share": 0.0025817555938037863,
+    "golden_survivor_share": 0.0009753298909925414,
+    "golden_start_share": 0.0009774449956660458,
+    "tier_contrib_to_survivor_tier_sum": {
+      "1": 0.5627985026461856,
+      "2": 1.4480444042855298,
+      "3": 1.6275977797857235,
+      "4": 1.6202400929392022,
+      "5": 0.07744933522653931,
+      "6": 0.0
+    },
+    "tier_share_of_survivor_tier_sum": {
+      "1": 0.10546941145165582,
+      "2": 0.27136602240015484,
+      "3": 0.30501463509035054,
+      "4": 0.30363579186724404,
+      "5": 0.014514139190594839,
+      "6": 0.0
+    },
+    "mean_survivor_recruit_raw": 7.314285714285714,
+    "mean_survivor_combat_raw": 384.17768215720025,
+    "mean_start_recruit_raw": 7.451358279696808,
+    "mean_start_combat_raw": 475.88329675598914,
+    "survivor_archetype_share": {
+      "tribeless": 0.2095811818703385,
+      "Dragon": 0.13029259896729775,
+      "Murloc": 0.10246701090074584,
+      "Naga": 0.0895582329317269,
+      "Beast": 0.08605851979345955,
+      "Elemental": 0.08600114744693058,
+      "Quilboar": 0.06970740103270223,
+      "Undead": 0.06477337923121056,
+      "Mech": 0.061790017211703956,
+      "Pirate": 0.05484796328169822,
+      "Demon": 0.04492254733218588
+    },
+    "start_archetype_share": {
+      "tribeless": 0.1884993452962765,
+      "Dragon": 0.11087545875366542,
+      "Murloc": 0.10888368404551574,
+      "Elemental": 0.09820555852682442,
+      "Naga": 0.08970363130037069,
+      "Beast": 0.07581653541854932,
+      "Quilboar": 0.07325304759972705,
+      "Undead": 0.07087398336499272,
+      "Mech": 0.06984121129410029,
+      "Pirate": 0.06392121424487764,
+      "Demon": 0.04533131696881397,
+      "All": 0.004795013186286262
+    },
+    "n_tier_bucket_mismatch": 0,
+    "n_subset_mismatch": 0,
+    "n_start_env_combat_n_mismatch": 0,
+    "arm": "greedy_control",
+    "recruit_value_stats": false,
+    "board_level_abstract_scaling": false,
+    "n_lobbies": 500,
+    "seed_base": 14200,
+    "mean_game_length": 15.692,
+    "n_fights_t7_t14": 10482,
+    "n_decisive": 9473,
+    "survivor_count_matches_raw": true,
+    "n_start_minions": 54223,
+    "by_tier": {
+      "1": {
+        "n_start": 11468,
+        "n_survived": 4360,
+        "n_died": 7108,
+        "mean_per_hit": 1.4803149606299213,
+        "p_survive": 0.38018835019183816,
+        "mean_synthetic_share": 716.7760725497035,
+        "mean_recruit_raw": 5.627397976979421,
+        "mean_combat_raw": 722.4034705266829,
+        "mean_synthetic_share_of_combat": 0.9331048126356923,
+        "survivor_tier_sum_contrib_per_hit": 0.5627985026461856,
+        "p_attacked": 0.8611789326822462,
+        "p_attacked_given_died": 0.8325830050647158,
+        "p_attacked_given_survived": 0.9077981651376147,
+        "mean_board_slot": 1.043250784792466,
+        "golden_share": 0.0005231949773282176
+      },
+      "2": {
+        "n_start": 16104,
+        "n_survived": 5599,
+        "n_died": 10505,
+        "mean_per_hit": 2.078740157480315,
+        "p_survive": 0.3476775956284153,
+        "mean_synthetic_share": 608.359910581222,
+        "mean_recruit_raw": 6.742734724292101,
+        "mean_combat_raw": 615.1026453055141,
+        "mean_synthetic_share_of_combat": 0.8929119862604102,
+        "survivor_tier_sum_contrib_per_hit": 1.4454627597779786,
+        "p_attacked": 0.6993293591654247,
+        "p_attacked_given_died": 0.6650166587339362,
+        "p_attacked_given_survived": 0.7637078049651723,
+        "mean_board_slot": 2.635618479880775,
+        "golden_share": 0.001055638350720318
+      },
+      "3": {
+        "n_start": 14914,
+        "n_survived": 4168,
+        "n_died": 10746,
+        "mean_per_hit": 1.925132309281012,
+        "p_survive": 0.2794689553439721,
+        "mean_synthetic_share": 329.1406061418801,
+        "mean_recruit_raw": 7.929596352420544,
+        "mean_combat_raw": 337.07020249430064,
+        "mean_synthetic_share_of_combat": 0.8495108658029309,
+        "survivor_tier_sum_contrib_per_hit": 1.614044146121079,
+        "p_attacked": 0.5877028295561217,
+        "p_attacked_given_died": 0.5830076307463242,
+        "p_attacked_given_survived": 0.5998080614203455,
+        "mean_board_slot": 3.4723749497116803,
+        "golden_share": 0.0017433284162531849
+      },
+      "4": {
+        "n_start": 11249,
+        "n_survived": 3138,
+        "n_died": 8111,
+        "mean_per_hit": 1.4520459532722345,
+        "p_survive": 0.278958129611521,
+        "mean_synthetic_share": 211.48875455596053,
+        "mean_recruit_raw": 9.381989510178682,
+        "mean_combat_raw": 220.87074406613922,
+        "mean_synthetic_share_of_combat": 0.7809137620438141,
+        "survivor_tier_sum_contrib_per_hit": 1.6202400929392022,
+        "p_attacked": 0.4204818206062761,
+        "p_attacked_given_died": 0.45210208359018617,
+        "p_attacked_given_survived": 0.3387507966857871,
+        "mean_board_slot": 4.763178949239933,
+        "golden_share": 0.00035558716330340474
+      },
+      "5": {
+        "n_start": 488,
+        "n_survived": 120,
+        "n_died": 368,
+        "mean_per_hit": 0.06299212598425197,
+        "p_survive": 0.2459016393442623,
+        "mean_synthetic_share": 194.5266393442623,
+        "mean_recruit_raw": 14.579918032786885,
+        "mean_combat_raw": 209.10655737704917,
+        "mean_synthetic_share_of_combat": 0.8120175856582156,
+        "survivor_tier_sum_contrib_per_hit": 0.07744933522653931,
+        "p_attacked": 0.2766393442622951,
+        "p_attacked_given_died": 0.3125,
+        "p_attacked_given_survived": 0.16666666666666666,
+        "mean_board_slot": 5.891393442622951,
+        "golden_share": 0.0
+      },
+      "6": {
+        "n_start": 0,
+        "n_survived": 0,
+        "n_died": 0,
+        "mean_per_hit": 0.0,
+        "p_survive": null,
+        "mean_synthetic_share": null,
+        "mean_recruit_raw": null,
+        "mean_combat_raw": null,
+        "mean_synthetic_share_of_combat": null,
+        "survivor_tier_sum_contrib_per_hit": 0.0,
+        "p_attacked": null,
+        "p_attacked_given_died": null,
+        "p_attacked_given_survived": null,
+        "mean_board_slot": null,
+        "golden_share": null
+      }
+    },
+    "mean_synthetic_share": 468.4319384762924,
+    "mean_synthetic_share_of_combat": 0.8655122210438514,
+    "p_survive": 0.32062040093687183,
+    "p_attacked": 0.641203917156926,
+    "p_attacked_given_died": 0.6230251370867039,
+    "n_share_pool_mismatch": 0,
+    "n_expected_paint_mismatch": 7747,
+    "_n_hits": 7747
+  },
+  "greedy_treatment": {
+    "n_hits": 7162,
+    "mean_survivor_count": 2.6251047193521364,
+    "mean_start_n": 6.99748673554873,
+    "mean_survivor_tier_sum": 9.345853113655403,
+    "mean_start_tier_sum": 23.30759564367495,
+    "mean_surv_starting_tier_sum": 9.332309410779112,
+    "mean_surv_generated_tier_sum": 0.013543702876291539,
+    "mean_counterfactual": 14.478497626361351,
+    "mean_winner_tavern_tier": 5.132644512705948,
+    "start_tier_histogram": {
+      "1": 0.7345713487852555,
+      "2": 1.227171181234292,
+      "3": 1.6922647305222005,
+      "4": 2.089639765428651,
+      "5": 0.8397095783300754,
+      "6": 0.41413013124825465
+    },
+    "start_combat_tier_histogram": {
+      "1": 0.7345713487852555,
+      "2": 1.227171181234292,
+      "3": 1.6922647305222005,
+      "4": 2.089639765428651,
+      "5": 0.8397095783300754,
+      "6": 0.41413013124825465
+    },
+    "survivor_tier_histogram": {
+      "1": 0.16252443451549847,
+      "2": 0.3908126221725775,
+      "3": 0.6312482546774644,
+      "4": 0.8820161965931305,
+      "5": 0.37112538397095785,
+      "6": 0.1873778274225077
+    },
+    "surv_starting_tier_histogram": {
+      "1": 0.16252443451549847,
+      "2": 0.3901144931583357,
+      "3": 0.6277576096062553,
+      "4": 0.8820161965931305,
+      "5": 0.37112538397095785,
+      "6": 0.18709857581681094
+    },
+    "surv_generated_tier_histogram": {
+      "1": 0.0,
+      "2": 0.0006981290142418319,
+      "3": 0.0034906450712091593,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.00027925160569673273
+    },
+    "start_board_share_by_tier": {
+      "1": 0.10497645462526939,
+      "2": 0.17537313432835822,
+      "3": 0.24183893367387663,
+      "4": 0.2986271849309602,
+      "5": 0.12000159629659192,
+      "6": 0.05918269614494373
+    },
+    "survivor_share_by_tier": {
+      "1": 0.061911600446784745,
+      "2": 0.1488750598372427,
+      "3": 0.2404659326631562,
+      "4": 0.33599276634221587,
+      "5": 0.14137545875219404,
+      "6": 0.07137918195840647
+    },
+    "survival_prob_by_tier": {
+      "1": 0.2212507127922448,
+      "2": 0.31789737171464333,
+      "3": 0.37095709570957097,
+      "4": 0.4220900708272084,
+      "5": 0.4419687396075823,
+      "6": 0.45178691840863117
+    },
+    "high_tier_survivor_share": 0.5487474070528163,
+    "high_tier_start_share": 0.47781147737249574,
+    "chaff_survivor_share": 0.21078666028402746,
+    "token_survivor_share": 0.0,
+    "generated_survivor_share": 0.0017020371256848037,
+    "golden_survivor_share": 0.00861656294877932,
+    "golden_start_share": 0.005706760316066725,
+    "tier_contrib_to_survivor_tier_sum": {
+      "1": 0.16252443451549847,
+      "2": 0.781625244345155,
+      "3": 1.8937447640323932,
+      "4": 3.528064786372522,
+      "5": 1.8556269198547892,
+      "6": 1.124266964535046
+    },
+    "tier_share_of_survivor_tier_sum": {
+      "1": 0.017390005228953464,
+      "2": 0.0836333756629566,
+      "3": 0.20262941659819228,
+      "4": 0.3775005602450138,
+      "5": 0.1985508328975872,
+      "6": 0.12029580936729663
+    },
+    "mean_survivor_recruit_raw": 9.577682038189458,
+    "mean_survivor_combat_raw": 296.83250890910057,
+    "mean_start_recruit_raw": 9.172459893048128,
+    "mean_start_combat_raw": 402.86702849389417,
+    "survivor_archetype_share": {
+      "tribeless": 0.20780809531407904,
+      "Dragon": 0.1086644327429392,
+      "Beast": 0.10265411414286474,
+      "Murloc": 0.09940960587202809,
+      "Elemental": 0.0807403861496729,
+      "Pirate": 0.07318759640444657,
+      "Naga": 0.07084729535662997,
+      "Quilboar": 0.07079410669645232,
+      "Undead": 0.0672836551247274,
+      "Demon": 0.05999680868038934,
+      "Mech": 0.05489069730333493,
+      "All": 0.0037232062124355086
+    },
+    "start_archetype_share": {
+      "tribeless": 0.19752174954106472,
+      "Murloc": 0.11046372415994891,
+      "Dragon": 0.09563811956261474,
+      "Beast": 0.08987149812435151,
+      "Elemental": 0.08957219251336898,
+      "Naga": 0.07861760715140872,
+      "Pirate": 0.07287093942054433,
+      "Quilboar": 0.07285098571314551,
+      "Undead": 0.06550802139037433,
+      "Mech": 0.06167690956979807,
+      "Demon": 0.059881075903902944,
+      "All": 0.005527176949477213
+    },
+    "n_tier_bucket_mismatch": 0,
+    "n_subset_mismatch": 0,
+    "n_start_env_combat_n_mismatch": 0,
+    "arm": "greedy_2s_treatment",
+    "recruit_value_stats": true,
+    "board_level_abstract_scaling": true,
+    "n_lobbies": 500,
+    "seed_base": 14200,
+    "mean_game_length": 13.51,
+    "n_fights_t7_t14": 9338,
+    "n_decisive": 8573,
+    "survivor_count_matches_raw": true,
+    "n_start_minions": 50116,
+    "by_tier": {
+      "1": {
+        "n_start": 5261,
+        "n_survived": 1164,
+        "n_died": 4097,
+        "mean_per_hit": 0.7345713487852555,
+        "p_survive": 0.2212507127922448,
+        "mean_synthetic_share": 36.09750997909143,
+        "mean_recruit_raw": 5.668884242539441,
+        "mean_combat_raw": 41.76639422163087,
+        "mean_synthetic_share_of_combat": 0.8406139568217976,
+        "survivor_tier_sum_contrib_per_hit": 0.16252443451549847,
+        "p_attacked": 0.8429956282075651,
+        "p_attacked_given_died": 0.8752745911642665,
+        "p_attacked_given_survived": 0.729381443298969,
+        "mean_board_slot": 1.2410188177152632,
+        "golden_share": 0.004942026230754609
+      },
+      "2": {
+        "n_start": 8789,
+        "n_survived": 2794,
+        "n_died": 5995,
+        "mean_per_hit": 1.227171181234292,
+        "p_survive": 0.31789737171464333,
+        "mean_synthetic_share": 67.03720559790648,
+        "mean_recruit_raw": 6.8525429514165435,
+        "mean_combat_raw": 73.88974854932302,
+        "mean_synthetic_share_of_combat": 0.8636876261934614,
+        "survivor_tier_sum_contrib_per_hit": 0.7802289863166714,
+        "p_attacked": 0.6851746501308453,
+        "p_attacked_given_died": 0.7367806505421184,
+        "p_attacked_given_survived": 0.5744452397995705,
+        "mean_board_slot": 2.5168961201501876,
+        "golden_share": 0.006030265104107407
+      },
+      "3": {
+        "n_start": 12120,
+        "n_survived": 4496,
+        "n_died": 7624,
+        "mean_per_hit": 1.6922647305222005,
+        "p_survive": 0.37095709570957097,
+        "mean_synthetic_share": 163.2388613861386,
+        "mean_recruit_raw": 8.441831683168317,
+        "mean_combat_raw": 171.68069306930693,
+        "mean_synthetic_share_of_combat": 0.8919566417785522,
+        "survivor_tier_sum_contrib_per_hit": 1.8832728288187657,
+        "p_attacked": 0.7296204620462046,
+        "p_attacked_given_died": 0.7775445960125918,
+        "p_attacked_given_survived": 0.6483540925266904,
+        "mean_board_slot": 2.921947194719472,
+        "golden_share": 0.007920792079207921
+      },
+      "4": {
+        "n_start": 14966,
+        "n_survived": 6317,
+        "n_died": 8649,
+        "mean_per_hit": 2.089639765428651,
+        "p_survive": 0.42209007082720834,
+        "mean_synthetic_share": 413.2130161699853,
+        "mean_recruit_raw": 10.224575704931178,
+        "mean_combat_raw": 423.43759187491645,
+        "mean_synthetic_share_of_combat": 0.9230326233415165,
+        "survivor_tier_sum_contrib_per_hit": 3.528064786372522,
+        "p_attacked": 0.6955766403848723,
+        "p_attacked_given_died": 0.7423979650826685,
+        "p_attacked_given_survived": 0.6314706347949977,
+        "mean_board_slot": 3.457303220633436,
+        "golden_share": 0.0054122678070292665
+      },
+      "5": {
+        "n_start": 6014,
+        "n_survived": 2658,
+        "n_died": 3356,
+        "mean_per_hit": 0.8397095783300754,
+        "p_survive": 0.4419687396075823,
+        "mean_synthetic_share": 924.9532756900566,
+        "mean_recruit_raw": 11.896075823079482,
+        "mean_combat_raw": 936.8493515131361,
+        "mean_synthetic_share_of_combat": 0.9734841193444764,
+        "survivor_tier_sum_contrib_per_hit": 1.8556269198547892,
+        "p_attacked": 0.6779181908879282,
+        "p_attacked_given_died": 0.7300357568533969,
+        "p_attacked_given_survived": 0.6121143717080512,
+        "mean_board_slot": 3.84137013634852,
+        "golden_share": 0.0029930162953109413
+      },
+      "6": {
+        "n_start": 2966,
+        "n_survived": 1340,
+        "n_died": 1626,
+        "mean_per_hit": 0.41413013124825465,
+        "p_survive": 0.45178691840863117,
+        "mean_synthetic_share": 1761.9784221173297,
+        "mean_recruit_raw": 14.415711395819285,
+        "mean_combat_raw": 1776.394133513149,
+        "mean_synthetic_share_of_combat": 0.9901654233759566,
+        "survivor_tier_sum_contrib_per_hit": 1.1225914549008658,
+        "p_attacked": 0.6702629804450438,
+        "p_attacked_given_died": 0.7521525215252153,
+        "p_attacked_given_survived": 0.5708955223880597,
+        "mean_board_slot": 3.8388401888064734,
+        "golden_share": 0.004045853000674309
+      }
+    },
+    "mean_synthetic_share": 393.694568600846,
+    "mean_synthetic_share_of_combat": 0.9064850636964197,
+    "p_survive": 0.37451113416872855,
+    "p_attacked": 0.7138438821933115,
+    "p_attacked_given_died": 0.7664210291255942,
+    "n_share_pool_mismatch": 0,
+    "n_expected_paint_mismatch": 6885,
+    "_n_hits": 7162
+  },
+  "reweighting": {
+    "method": "nested_kitagawa_tier_then_recruit_decile_then_synthetic_decile",
+    "n_deciles": 10,
+    "within_tier_B": 1.6782901818425806,
+    "phase_2v_within_tier_B": 1.6782901818400895,
+    "observed_B_used_for_shares": 1.6782901818400895,
+    "recruit_mix": 0.042685065794637524,
+    "synthetic_allocation": 0.2636603477116788,
+    "residual_position": 1.3719447683362298,
+    "explained_mix_plus_synth_plus_resid": 1.6782901818425462,
+    "residual_vs_direct_B": 3.441691376337985e-14,
+    "share_of_B_recruit_mix": 0.02543366234070279,
+    "share_of_B_synthetic": 0.1571005720968943,
+    "share_of_B_residual_position": 0.8174657655638667,
+    "share_synthetic_of_standardized": 0.16120049095270494,
+    "per_tier": {
+      "1": {
+        "exclusive_support": false,
+        "n_start_control": 1.4803149606301989,
+        "n_start_treatment": 0.7345713487852,
+        "p_survive_control": 0.3801883501917377,
+        "p_survive_treatment": 0.2212507127922624,
+        "within_tier_B": -0.17601439856346335,
+        "recruit_mix": -0.001093444189286042,
+        "synthetic_allocation": -0.12612582863406302,
+        "residual_position": -0.04879512574014789,
+        "nested_residual": 3.359118538881489e-14,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.0007350784622743522,
+            "delta_p_rate": -0.013942408613312918,
+            "synthetic_allocation_dp": -0.08034361333523776,
+            "residual_position_dp": -0.029724594922080676
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.003979088029196126,
+            "delta_p_rate": -0.04546598342537529,
+            "synthetic_allocation_dp": -0.20353506501644672,
+            "residual_position_dp": -0.003445978875430432
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.00874226883431785,
+            "delta_p_rate": -0.08375554016442036,
+            "synthetic_allocation_dp": -0.10358654041871448,
+            "residual_position_dp": -0.06101775999522217
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.003179585521280872,
+            "delta_p_rate": -0.014611178648156848,
+            "synthetic_allocation_dp": -0.0419981348901371,
+            "residual_position_dp": -0.06082173660563894
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0013313145443016826,
+            "delta_p_rate": -0.0001751673464129196,
+            "synthetic_allocation_dp": -0.11965811965811957,
+            "residual_position_dp": 0.05555555555555553
+          }
+        }
+      },
+      "2": {
+        "exclusive_support": false,
+        "n_start_control": 2.0787401574809117,
+        "n_start_treatment": 1.2271711812340729,
+        "p_survive_control": 0.347677595628287,
+        "p_survive_treatment": 0.31789737171471266,
+        "within_tier_B": -0.09845077990535649,
+        "recruit_mix": 0.005234175380994327,
+        "synthetic_allocation": -0.0648068274581309,
+        "residual_position": -0.03887812782835667,
+        "nested_residual": 1.3676559884601147e-13,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.004573625879663044,
+            "delta_p_rate": 0.003945978429156695,
+            "synthetic_allocation_dp": 5.068132370229794e-05,
+            "residual_position_dp": 0.033708419986877576
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.004522549721392102,
+            "delta_p_rate": -0.00175198184344903,
+            "synthetic_allocation_dp": 0.029039147745871772,
+            "residual_position_dp": -0.04617322396889374
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.004662728085888938,
+            "delta_p_rate": -0.027345080032140433,
+            "synthetic_allocation_dp": -0.03609324000182549,
+            "residual_position_dp": -0.007440061340219309
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.004029082908428467,
+            "delta_p_rate": -0.00779318010641339,
+            "synthetic_allocation_dp": -0.003591648658459047,
+            "residual_position_dp": -0.04864926430279192
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0019876422100109327,
+            "delta_p_rate": 0.0015807620359828281,
+            "synthetic_allocation_dp": 0.1775157232704396,
+            "residual_position_dp": 0.2686551979282278
+          }
+        }
+      },
+      "3": {
+        "exclusive_support": false,
+        "n_start_control": 1.9251323092816275,
+        "n_start_treatment": 1.6922647305218266,
+        "p_survive_control": 0.2794689553438616,
+        "p_survive_treatment": 0.37095709570964114,
+        "within_tier_B": 0.49642339220444065,
+        "recruit_mix": 0.0694894055302712,
+        "synthetic_allocation": 0.0771937855734172,
+        "residual_position": 0.3497402011007025,
+        "nested_residual": 4.973799150320701e-14,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.027974704033551276,
+            "delta_p_rate": 0.015958506436885157,
+            "synthetic_allocation_dp": 0.05153129408159576,
+            "residual_position_dp": 0.02456094852981001
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.005281455845197855,
+            "delta_p_rate": 0.022915550285943134,
+            "synthetic_allocation_dp": -0.004409149439427523,
+            "residual_position_dp": 0.0787261047938897
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.019391004575910514,
+            "delta_p_rate": 0.024901630735680642,
+            "synthetic_allocation_dp": 0.0011163282463259316,
+            "residual_position_dp": 0.0919264211249666
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.023778464934480482,
+            "delta_p_rate": 0.014096716911222048,
+            "synthetic_allocation_dp": 0.019588476743833926,
+            "residual_position_dp": 0.0477128295471953
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0028932111466333328,
+            "delta_p_rate": 0.0008092152177690788,
+            "synthetic_allocation_dp": 0.07797931235431141,
+            "residual_position_dp": 0.08948863636363633
+          }
+        }
+      },
+      "4": {
+        "exclusive_support": false,
+        "n_start_control": 1.4520459532724905,
+        "n_start_treatment": 2.0896397654282874,
+        "p_survive_control": 0.27895812961145294,
+        "p_survive_treatment": 0.4220900708272318,
+        "within_tier_B": 1.0138567041876867,
+        "recruit_mix": 0.009859450706993182,
+        "synthetic_allocation": 0.1923831681782039,
+        "residual_position": 0.8116140853027123,
+        "nested_residual": -2.2259971643734389e-13,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.0302409057022233,
+            "delta_p_rate": 0.01250117272025459,
+            "synthetic_allocation_dp": 0.010887487171302716,
+            "residual_position_dp": 0.08712032402701293
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.01605034333231942,
+            "delta_p_rate": 0.018028359297334963,
+            "synthetic_allocation_dp": 0.04625476638334008,
+            "residual_position_dp": 0.07101602143072824
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.0007924094602238531,
+            "delta_p_rate": 0.04576478867018611,
+            "synthetic_allocation_dp": 0.020168364599197335,
+            "residual_position_dp": 0.1575959041816566
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0103712512172869,
+            "delta_p_rate": 0.01322211506969268,
+            "synthetic_allocation_dp": 0.02397827639741538,
+            "residual_position_dp": 0.08242933759311522
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.018539971412861844,
+            "delta_p_rate": 0.02827878333189274,
+            "synthetic_allocation_dp": 0.032652287034129694,
+            "residual_position_dp": 0.154497710771783
+          },
+          "5": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.018608935272429034,
+            "delta_p_rate": 0.020043996438135456,
+            "synthetic_allocation_dp": 0.04386099913382066,
+            "residual_position_dp": 0.12721210847178135
+          },
+          "6": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.0009554155572763799,
+            "delta_p_rate": 0.003900810723227154,
+            "synthetic_allocation_dp": 0.006045533817639065,
+            "residual_position_dp": 0.050701506816205534
+          }
+        }
+      },
+      "5": {
+        "exclusive_support": false,
+        "n_start_control": 0.06299212598425225,
+        "n_start_treatment": 0.8397095783299849,
+        "p_survive_control": 0.24590163934426046,
+        "p_survive_treatment": 0.44196873960764677,
+        "within_tier_B": 0.4424752639192731,
+        "recruit_mix": -0.04080452163433514,
+        "synthetic_allocation": 0.1850160500522516,
+        "residual_position": 0.2982637355013196,
+        "nested_residual": 3.702593787124897e-14,
+        "recruit_deciles": {
+          "0": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.052465296013417095,
+            "delta_p_rate": -0.003736101292894726,
+            "synthetic_allocation_dp": 0.036914782748122696,
+            "residual_position_dp": -0.0838283629950303
+          },
+          "1": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.028938018770462422,
+            "delta_p_rate": 0.020563962944340625,
+            "synthetic_allocation_dp": 0.06656359063132977,
+            "residual_position_dp": 0.1098906934001298
+          },
+          "2": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.06957618923387411,
+            "delta_p_rate": 0.035472413207436354,
+            "synthetic_allocation_dp": 0.06314672425857665,
+            "residual_position_dp": 0.13663637280547788
+          },
+          "3": {
+            "exclusive_support": false,
+            "delta_p_mix": 0.029215733873933652,
+            "delta_p_rate": 0.018457182327068035,
+            "synthetic_allocation_dp": 0.037928100016764096,
+            "residual_position_dp": 0.18011701276519596
+          },
+          "4": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.017139511321018982,
+            "delta_p_rate": 0.03350296926341919,
+            "synthetic_allocation_dp": 0.06564118217193037,
+            "residual_position_dp": 0.2402583305984492
+          },
+          "5": {
+            "exclusive_support": false,
+            "delta_p_mix": -0.18379725101209338,
+            "delta_p_rate": 0.1098877393262575,
+            "synthetic_allocation_dp": 0.11536087204646786,
+            "residual_position_dp": 0.13983605467596613
+          },
+          "6": {
+            "exclusive_support": true,
+            "delta_p_mix": 0.0026604589291655675,
+            "delta_p_rate": 0.0,
+            "synthetic_allocation_dp": 0.0,
+            "residual_position_dp": 0.0
+          }
+        }
+      },
+      "6": {
+        "exclusive_support": true,
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.41413013124827164,
+        "p_survive_control": null,
+        "p_survive_treatment": 0.45178691840861807,
+        "within_tier_B": 0.0,
+        "recruit_mix": 0.0,
+        "synthetic_allocation": 0.0,
+        "residual_position": 0.0
+      }
+    }
+  },
+  "by_tier": {
+    "control": {
+      "1": {
+        "n_start": 11468,
+        "n_survived": 4360,
+        "n_died": 7108,
+        "mean_per_hit": 1.4803149606299213,
+        "p_survive": 0.38018835019183816,
+        "mean_synthetic_share": 716.7760725497035,
+        "mean_recruit_raw": 5.627397976979421,
+        "mean_combat_raw": 722.4034705266829,
+        "mean_synthetic_share_of_combat": 0.9331048126356923,
+        "survivor_tier_sum_contrib_per_hit": 0.5627985026461856,
+        "p_attacked": 0.8611789326822462,
+        "p_attacked_given_died": 0.8325830050647158,
+        "p_attacked_given_survived": 0.9077981651376147,
+        "mean_board_slot": 1.043250784792466,
+        "golden_share": 0.0005231949773282176
+      },
+      "2": {
+        "n_start": 16104,
+        "n_survived": 5599,
+        "n_died": 10505,
+        "mean_per_hit": 2.078740157480315,
+        "p_survive": 0.3476775956284153,
+        "mean_synthetic_share": 608.359910581222,
+        "mean_recruit_raw": 6.742734724292101,
+        "mean_combat_raw": 615.1026453055141,
+        "mean_synthetic_share_of_combat": 0.8929119862604102,
+        "survivor_tier_sum_contrib_per_hit": 1.4454627597779786,
+        "p_attacked": 0.6993293591654247,
+        "p_attacked_given_died": 0.6650166587339362,
+        "p_attacked_given_survived": 0.7637078049651723,
+        "mean_board_slot": 2.635618479880775,
+        "golden_share": 0.001055638350720318
+      },
+      "3": {
+        "n_start": 14914,
+        "n_survived": 4168,
+        "n_died": 10746,
+        "mean_per_hit": 1.925132309281012,
+        "p_survive": 0.2794689553439721,
+        "mean_synthetic_share": 329.1406061418801,
+        "mean_recruit_raw": 7.929596352420544,
+        "mean_combat_raw": 337.07020249430064,
+        "mean_synthetic_share_of_combat": 0.8495108658029309,
+        "survivor_tier_sum_contrib_per_hit": 1.614044146121079,
+        "p_attacked": 0.5877028295561217,
+        "p_attacked_given_died": 0.5830076307463242,
+        "p_attacked_given_survived": 0.5998080614203455,
+        "mean_board_slot": 3.4723749497116803,
+        "golden_share": 0.0017433284162531849
+      },
+      "4": {
+        "n_start": 11249,
+        "n_survived": 3138,
+        "n_died": 8111,
+        "mean_per_hit": 1.4520459532722345,
+        "p_survive": 0.278958129611521,
+        "mean_synthetic_share": 211.48875455596053,
+        "mean_recruit_raw": 9.381989510178682,
+        "mean_combat_raw": 220.87074406613922,
+        "mean_synthetic_share_of_combat": 0.7809137620438141,
+        "survivor_tier_sum_contrib_per_hit": 1.6202400929392022,
+        "p_attacked": 0.4204818206062761,
+        "p_attacked_given_died": 0.45210208359018617,
+        "p_attacked_given_survived": 0.3387507966857871,
+        "mean_board_slot": 4.763178949239933,
+        "golden_share": 0.00035558716330340474
+      },
+      "5": {
+        "n_start": 488,
+        "n_survived": 120,
+        "n_died": 368,
+        "mean_per_hit": 0.06299212598425197,
+        "p_survive": 0.2459016393442623,
+        "mean_synthetic_share": 194.5266393442623,
+        "mean_recruit_raw": 14.579918032786885,
+        "mean_combat_raw": 209.10655737704917,
+        "mean_synthetic_share_of_combat": 0.8120175856582156,
+        "survivor_tier_sum_contrib_per_hit": 0.07744933522653931,
+        "p_attacked": 0.2766393442622951,
+        "p_attacked_given_died": 0.3125,
+        "p_attacked_given_survived": 0.16666666666666666,
+        "mean_board_slot": 5.891393442622951,
+        "golden_share": 0.0
+      },
+      "6": {
+        "n_start": 0,
+        "n_survived": 0,
+        "n_died": 0,
+        "mean_per_hit": 0.0,
+        "p_survive": null,
+        "mean_synthetic_share": null,
+        "mean_recruit_raw": null,
+        "mean_combat_raw": null,
+        "mean_synthetic_share_of_combat": null,
+        "survivor_tier_sum_contrib_per_hit": 0.0,
+        "p_attacked": null,
+        "p_attacked_given_died": null,
+        "p_attacked_given_survived": null,
+        "mean_board_slot": null,
+        "golden_share": null
+      }
+    },
+    "treatment": {
+      "1": {
+        "n_start": 5261,
+        "n_survived": 1164,
+        "n_died": 4097,
+        "mean_per_hit": 0.7345713487852555,
+        "p_survive": 0.2212507127922448,
+        "mean_synthetic_share": 36.09750997909143,
+        "mean_recruit_raw": 5.668884242539441,
+        "mean_combat_raw": 41.76639422163087,
+        "mean_synthetic_share_of_combat": 0.8406139568217976,
+        "survivor_tier_sum_contrib_per_hit": 0.16252443451549847,
+        "p_attacked": 0.8429956282075651,
+        "p_attacked_given_died": 0.8752745911642665,
+        "p_attacked_given_survived": 0.729381443298969,
+        "mean_board_slot": 1.2410188177152632,
+        "golden_share": 0.004942026230754609
+      },
+      "2": {
+        "n_start": 8789,
+        "n_survived": 2794,
+        "n_died": 5995,
+        "mean_per_hit": 1.227171181234292,
+        "p_survive": 0.31789737171464333,
+        "mean_synthetic_share": 67.03720559790648,
+        "mean_recruit_raw": 6.8525429514165435,
+        "mean_combat_raw": 73.88974854932302,
+        "mean_synthetic_share_of_combat": 0.8636876261934614,
+        "survivor_tier_sum_contrib_per_hit": 0.7802289863166714,
+        "p_attacked": 0.6851746501308453,
+        "p_attacked_given_died": 0.7367806505421184,
+        "p_attacked_given_survived": 0.5744452397995705,
+        "mean_board_slot": 2.5168961201501876,
+        "golden_share": 0.006030265104107407
+      },
+      "3": {
+        "n_start": 12120,
+        "n_survived": 4496,
+        "n_died": 7624,
+        "mean_per_hit": 1.6922647305222005,
+        "p_survive": 0.37095709570957097,
+        "mean_synthetic_share": 163.2388613861386,
+        "mean_recruit_raw": 8.441831683168317,
+        "mean_combat_raw": 171.68069306930693,
+        "mean_synthetic_share_of_combat": 0.8919566417785522,
+        "survivor_tier_sum_contrib_per_hit": 1.8832728288187657,
+        "p_attacked": 0.7296204620462046,
+        "p_attacked_given_died": 0.7775445960125918,
+        "p_attacked_given_survived": 0.6483540925266904,
+        "mean_board_slot": 2.921947194719472,
+        "golden_share": 0.007920792079207921
+      },
+      "4": {
+        "n_start": 14966,
+        "n_survived": 6317,
+        "n_died": 8649,
+        "mean_per_hit": 2.089639765428651,
+        "p_survive": 0.42209007082720834,
+        "mean_synthetic_share": 413.2130161699853,
+        "mean_recruit_raw": 10.224575704931178,
+        "mean_combat_raw": 423.43759187491645,
+        "mean_synthetic_share_of_combat": 0.9230326233415165,
+        "survivor_tier_sum_contrib_per_hit": 3.528064786372522,
+        "p_attacked": 0.6955766403848723,
+        "p_attacked_given_died": 0.7423979650826685,
+        "p_attacked_given_survived": 0.6314706347949977,
+        "mean_board_slot": 3.457303220633436,
+        "golden_share": 0.0054122678070292665
+      },
+      "5": {
+        "n_start": 6014,
+        "n_survived": 2658,
+        "n_died": 3356,
+        "mean_per_hit": 0.8397095783300754,
+        "p_survive": 0.4419687396075823,
+        "mean_synthetic_share": 924.9532756900566,
+        "mean_recruit_raw": 11.896075823079482,
+        "mean_combat_raw": 936.8493515131361,
+        "mean_synthetic_share_of_combat": 0.9734841193444764,
+        "survivor_tier_sum_contrib_per_hit": 1.8556269198547892,
+        "p_attacked": 0.6779181908879282,
+        "p_attacked_given_died": 0.7300357568533969,
+        "p_attacked_given_survived": 0.6121143717080512,
+        "mean_board_slot": 3.84137013634852,
+        "golden_share": 0.0029930162953109413
+      },
+      "6": {
+        "n_start": 2966,
+        "n_survived": 1340,
+        "n_died": 1626,
+        "mean_per_hit": 0.41413013124825465,
+        "p_survive": 0.45178691840863117,
+        "mean_synthetic_share": 1761.9784221173297,
+        "mean_recruit_raw": 14.415711395819285,
+        "mean_combat_raw": 1776.394133513149,
+        "mean_synthetic_share_of_combat": 0.9901654233759566,
+        "survivor_tier_sum_contrib_per_hit": 1.1225914549008658,
+        "p_attacked": 0.6702629804450438,
+        "p_attacked_given_died": 0.7521525215252153,
+        "p_attacked_given_survived": 0.5708955223880597,
+        "mean_board_slot": 3.8388401888064734,
+        "golden_share": 0.004045853000674309
+      }
+    },
+    "delta_mean_synthetic_share": {
+      "1": -680.678562570612,
+      "2": -541.3227049833156,
+      "3": -165.90174475574148,
+      "4": 201.72426161402475,
+      "5": 730.4266363457942,
+      "6": null
+    },
+    "delta_mean_synthetic_share_of_combat": {
+      "1": -0.09249085581389471,
+      "2": -0.02922436006694884,
+      "3": 0.04244577597562127,
+      "4": 0.14211886129770235,
+      "5": 0.16146653368626085,
+      "6": null
+    },
+    "delta_p_survive": {
+      "1": -0.15893763739959335,
+      "2": -0.029780223913771997,
+      "3": 0.09148814036559888,
+      "4": 0.14313194121568734,
+      "5": 0.19606710026332003,
+      "6": null
+    },
+    "delta_survivor_tier_sum_contrib": {
+      "1": -0.4002740681306871,
+      "2": -0.6652337734613072,
+      "3": 0.2692286826976866,
+      "4": 1.9078246934333196,
+      "5": 1.77817758462825,
+      "6": 1.1225914549008658
+    }
+  },
+  "decomposition": {
+    "method": "kitagawa_common_support_exclusive_to_fielded",
+    "exclusive_support_assigned_to_A": 1.1225914549008658,
+    "observed_survivor_tier_sum_delta": 4.009722998772222,
+    "phase_2u_survivor_tier_sum_delta": 4.009722998772222,
+    "fielded_composition_A": 2.3340243922280384,
+    "within_tier_survival_B": 1.6782901818400895,
+    "token_generated_C": -0.002591575295904149,
+    "starting_origin_gap": 4.012314574068128,
+    "explained_A_plus_B_plus_C": 4.009722998772224,
+    "residual": -1.7763568394002505e-15,
+    "share_fielded_composition": 0.582091180099652,
+    "share_within_tier_survival": 0.4185551426754372,
+    "share_token_generated": -0.0006463227750888751,
+    "share_dominant_threshold": 0.55,
+    "sequential_fielded_A": 1.718116119553806,
+    "sequential_survival_B": 2.294198454514322,
+    "sequential_explained": 4.009722998772224,
+    "per_tier": {
+      "1": {
+        "n_start_control": 1.4803149606299213,
+        "n_start_treatment": 0.7345713487852555,
+        "p_survive_control": 0.3801883501918381,
+        "p_survive_treatment": 0.2212507127922448,
+        "kitagawa_fielded": -0.2242596695671107,
+        "kitagawa_survival": -0.1760143985635764,
+        "starting_origin_tier_sum_delta": -0.4002740681306871,
+        "exclusive_support": false
+      },
+      "2": {
+        "n_start_control": 2.078740157480315,
+        "n_start_treatment": 1.227171181234292,
+        "p_survive_control": 0.3476775956284153,
+        "p_survive_treatment": 0.31789737171464333,
+        "kitagawa_fielded": -0.5667829935553085,
+        "kitagawa_survival": -0.09845077990599872,
+        "starting_origin_tier_sum_delta": -0.6652337734613072,
+        "exclusive_support": false
+      },
+      "3": {
+        "n_start_control": 1.925132309281012,
+        "n_start_treatment": 1.6922647305222005,
+        "p_survive_control": 0.2794689553439721,
+        "p_survive_treatment": 0.37095709570957097,
+        "kitagawa_fielded": -0.22719470950574053,
+        "kitagawa_survival": 0.49642339220342735,
+        "starting_origin_tier_sum_delta": 0.26922868269768685,
+        "exclusive_support": false
+      },
+      "4": {
+        "n_start_control": 1.4520459532722345,
+        "n_start_treatment": 2.089639765428651,
+        "p_survive_control": 0.278958129611521,
+        "p_survive_treatment": 0.4220900708272084,
+        "kitagawa_fielded": 0.8939679892462503,
+        "kitagawa_survival": 1.0138567041870694,
+        "starting_origin_tier_sum_delta": 1.9078246934333196,
+        "exclusive_support": false
+      },
+      "5": {
+        "n_start_control": 0.06299212598425197,
+        "n_start_treatment": 0.8397095783300754,
+        "p_survive_control": 0.2459016393442623,
+        "p_survive_treatment": 0.4419687396075823,
+        "kitagawa_fielded": 1.3357023207090821,
+        "kitagawa_survival": 0.44247526391916775,
+        "starting_origin_tier_sum_delta": 1.77817758462825,
+        "exclusive_support": false
+      },
+      "6": {
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.41413013124825465,
+        "p_survive_control": null,
+        "p_survive_treatment": 0.45178691840863117,
+        "kitagawa_fielded": 1.1225914549008658,
+        "kitagawa_survival": 0.0,
+        "starting_origin_tier_sum_delta": 1.1225914549008658,
+        "exclusive_support": true
+      }
+    }
+  },
+  "reconciliation": {
+    "tier_bucket_mismatch_control": 0,
+    "tier_bucket_mismatch_treatment": 0,
+    "subset_mismatch_control": 0,
+    "subset_mismatch_treatment": 0,
+    "start_env_combat_n_mismatch_control": 0,
+    "start_env_combat_n_mismatch_treatment": 0,
+    "decomp_residual": -1.7763568394002505e-15,
+    "share_pool_mismatch_control": 0,
+    "share_pool_mismatch_treatment": 0,
+    "expected_paint_mismatch_control": 7747,
+    "expected_paint_mismatch_treatment": 6885,
+    "phase_2v_survivor_tier_sum_delta": 4.009722998772222,
+    "phase_2v_within_tier_B": 1.6782901818400895,
+    "reproduced_within_tier_B": 1.6782901818400895,
+    "reweight_direct_B": 1.6782901818425806
+  },
+  "deltas": {
+    "mean_game_length": -2.1820000000000004,
+    "n_hits": -585.0,
+    "mean_survivor_count": 0.3752015310211694,
+    "mean_start_n": -0.0017387710990046656,
+    "mean_survivor_tier_sum": 4.009722998772222,
+    "mean_start_tier_sum": 5.771258997231165,
+    "mean_surv_starting_tier_sum": 4.012314574068127,
+    "mean_surv_generated_tier_sum": -0.002591575295904149,
+    "mean_counterfactual": 3.9362231975501984,
+    "mean_winner_tavern_tier": -0.07349980122202382,
+    "high_tier_survivor_share": 0.3618283020614222,
+    "high_tier_start_share": 0.2613535167284886,
+    "chaff_survivor_share": -0.3611582622633047,
+    "token_survivor_share": 0.0,
+    "generated_survivor_share": -0.0008797184681189826,
+    "golden_survivor_share": 0.007641233057786779,
+    "golden_start_share": 0.0047293153204006795,
+    "mean_survivor_recruit_raw": 2.263396323903744,
+    "mean_survivor_combat_raw": -87.34517324809968,
+    "mean_start_recruit_raw": 1.72110161335132,
+    "mean_start_combat_raw": -73.01626826209497
+  }
+}

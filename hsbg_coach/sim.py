@@ -317,6 +317,27 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
         _resolve_deaths(board, enemy, rng, process_immediates=False)
 
 
+def _record_attack(attacker: Combatant) -> None:
+    """Count a combat-loop swing. No-ops unless a fight trace is active."""
+    ctx = _TRACE_CTX
+    if ctx is None:
+        return
+    bid = str(getattr(attacker, "body_id", "") or "")
+    if not bid:
+        return
+    attacks = ctx.setdefault("attacks", {})
+    attacks[bid] = int(attacks.get(bid) or 0) + 1
+
+
+def _annotate_attack_rows(rows: Sequence[dict], attacks: Dict) -> None:
+    """Stamp observational attacked/n_attacks onto already-built trace rows."""
+    for row in rows:
+        bid = str(row.get("body_id") or "")
+        n = int(attacks.get(bid) or 0)
+        row["n_attacks"] = n
+        row["attacked"] = n > 0
+
+
 def _do_attack(attacker: Combatant, atk_board: List[Combatant],
                def_board: List[Combatant], rng: random.Random) -> None:
     swings = 2 if attacker.windfury else 1
@@ -326,6 +347,7 @@ def _do_attack(attacker: Combatant, atk_board: List[Combatant],
         defenders = _living(def_board)
         if not defenders:
             return
+        _record_attack(attacker)
         _exchange(attacker, _pick_defender(defenders, rng), def_board)
         _resolve_deaths(def_board, atk_board, rng)
         _resolve_deaths(atk_board, def_board, rng)
@@ -398,7 +420,14 @@ def fill_combat_survivor_trace(
         winner_tavern = None
         winner_side = None
     tier_sum = int(sum(int(s["tier"]) for s in survivors))
-    created = list(((_TRACE_CTX or {}).get("created")) or [])
+    ctx = _TRACE_CTX or {}
+    created = list(ctx.get("created") or [])
+    attacks = dict(ctx.get("attacks") or {})
+    _annotate_attack_rows(survivors_a, attacks)
+    _annotate_attack_rows(survivors_b, attacks)
+    _annotate_attack_rows(trace.get("starting_a") or [], attacks)
+    _annotate_attack_rows(trace.get("starting_b") or [], attacks)
+    _annotate_attack_rows(created, attacks)
     if winner_side == "a":
         starting_winner = list(trace.get("starting_a") or [])
         created_winner = [c for c in created if c.get("side") == "a"]
@@ -422,6 +451,7 @@ def fill_combat_survivor_trace(
         "created": created,
         "starting_winner": starting_winner,
         "created_winner": created_winner,
+        "attacks": attacks,
     })
     return trace
 
@@ -449,7 +479,7 @@ def simulate_once(
     boards = {0: a, 1: b}
     prev_ctx = _TRACE_CTX
     if trace is not None:
-        _TRACE_CTX = {"a": a, "b": b, "created": [], "n": 0}
+        _TRACE_CTX = {"a": a, "b": b, "created": [], "n": 0, "attacks": {}}
         trace["starting_a"] = [combatant_trace_row(m) for m in a]
         trace["starting_b"] = [combatant_trace_row(m) for m in b]
     else:
