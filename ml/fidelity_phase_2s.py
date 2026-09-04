@@ -139,7 +139,18 @@ def run_phase_2s(
         },
     )
 
-    contract = build_simulator_v1_1_contract(evaluation_seed=seed, lobbies=lobbies)
+    try:
+        contract = build_simulator_v1_1_contract(
+            evaluation_seed=seed, lobbies=lobbies
+        )
+    except ModuleNotFoundError as exc:
+        # Torch is optional for this accounting smoke (same 2R persist-first
+        # reason). Keep a usable contract without the runtime fingerprint.
+        contract = {
+            "runtime_fingerprint_error": str(exc),
+            "evaluation_seed": seed,
+            "lobbies": lobbies,
+        }
     contract["evaluation"] = {
         "policy": (
             "greedy control (2Q/2S OFF) vs greedy treatment "

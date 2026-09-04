@@ -277,6 +277,12 @@ def reallocate_abstract_pool(p: "PlayerState") -> None:
         hp_add = add - atk_add
         m.attack = int(m.recruit_attack) + atk_add
         m.health = int(m.recruit_health) + hp_add
+    painted = board_synthetic_total(board)
+    if painted != pool_int:
+        raise RuntimeError(
+            f"Phase 2S reallocate conservation failed: "
+            f"painted={painted} pool={pool_int} n={len(board)}"
+        )
 
 
 def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,

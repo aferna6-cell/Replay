@@ -382,6 +382,22 @@ class ReplacementChurnTracer:
             ),
         }
         self.replacement_events.append(event)
+        from hsbg_coach.bg_env import (
+            PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING,
+            board_synthetic_total,
+        )
+        if (
+            PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING
+            and player is not None
+            and getattr(player, "board", None)
+        ):
+            painted = float(board_synthetic_total(player.board))
+            pool = float(getattr(player, "abstract_pool", 0.0) or 0.0)
+            if abs(painted - pool) > max(1.0, float(len(player.board))):
+                raise RuntimeError(
+                    f"Phase 2S mid-replace accounting failed seat {seat} "
+                    f"turn {turn}: painted={painted} pool={pool}"
+                )
         acc = self._acc(seat, turn)
         acc["replacements"] += 1
         acc["combat_removed"] += combat_loss
