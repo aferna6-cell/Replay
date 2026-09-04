@@ -78,3 +78,30 @@ def test_deterministic_given_seed():
     r1 = simulate([m.copy() for m in a], [m.copy() for m in b], runs=300, seed=42)
     r2 = simulate([m.copy() for m in a], [m.copy() for m in b], runs=300, seed=42)
     assert (r1.wins, r1.ties, r1.losses) == (r2.wins, r2.ties, r2.losses)
+
+
+def test_impact_attack_reconciles_to_start_recruit_pool_delta():
+    rng = random.Random(9)
+    trace = {}
+    simulate_once(
+        [C(6, 4, recruit_attack=2, name="painted")],
+        [C(2, 10, recruit_attack=2, name="target")],
+        rng,
+        trace=trace,
+    )
+    counts = trace.get("event_counts") or {}
+    assert counts.get("attack_identity_reconcile") is True
+    start = list(trace.get("starting_a") or []) + list(trace.get("starting_b") or [])
+    n_ok = 0
+    for row in start:
+        assert row.get("attack_identity_ok") is True
+        for ev in row.get("hit_events") or []:
+            if not ev.get("damaging"):
+                continue
+            assert ev["attacker_attack"] == (
+                int(ev["attacker_start_recruit_attack"])
+                + int(ev["attacker_start_pool_attack"])
+                + int(ev["attacker_combat_delta"])
+            )
+            n_ok += 1
+    assert n_ok >= 1

@@ -59,6 +59,33 @@ class CardEffects:
     grants: tuple = ()                 # extra keywords the card itself has, e.g. ("poisonous",)
 
 
+# Known-missing or known-approximate effects. Measurement must mark these
+# rather than treating the stub/fixed-count as a faithful mechanic.
+PLACEHOLDER_DEATHRATTLE_NAMES = frozenset({
+    "Kaboom Bot",        # damage deathrattle stub (Summon 0/0 count=0)
+    "Spawn of N'Zoth",   # stat-buff deathrattle stub
+})
+APPROXIMATE_DEATHRATTLE_NAMES = frozenset({
+    "Rat Pack",          # true DR summons Attack 1/1s; registry uses count=3
+})
+UNSUPPORTED_EFFECT_NAMES = (
+    PLACEHOLDER_DEATHRATTLE_NAMES | APPROXIMATE_DEATHRATTLE_NAMES
+)
+
+
+def is_placeholder_summon(dr: Optional[Summon]) -> bool:
+    """True when a registry Summon does not actually create a body."""
+    if dr is None:
+        return False
+    if int(getattr(dr, "count", 0) or 0) <= 0:
+        return True
+    atk = int(getattr(dr, "attack", 0) or 0)
+    hp = int(getattr(dr, "health", 0) or 0)
+    if atk == 0 and hp == 0 and not bool(getattr(dr, "attack_immediately", False)):
+        return True
+    return False
+
+
 # Representative registry (keyed by minion name; extend from card data).
 # Stats reflect base (un-tripled) tokens. Golden/triple handling is a later pass.
 REGISTRY: Dict[str, CardEffects] = {

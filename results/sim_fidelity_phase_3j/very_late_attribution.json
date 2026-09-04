@@ -1,0 +1,38 @@
+{
+  "turns": [
+    12,
+    13,
+    14
+  ],
+  "n_pairing_schedule": 755,
+  "n_leftover_input": 936,
+  "published_pairing_schedule": 5952,
+  "pairing_schedule_reproduced": false,
+  "counts": {
+    "eligibility": 727,
+    "rng_order": 28
+  },
+  "subtype_x_class": {
+    "different_opponent:eligibility": 602,
+    "different_opponent:rng_order": 17,
+    "kind_mismatch:eligibility": 125,
+    "kind_mismatch:rng_order": 11
+  },
+  "attributed": {
+    "eligibility": 727.0,
+    "history_legal": 0.0,
+    "rng_order": 28.0,
+    "unreconciled": 0.0
+  },
+  "reconstructed_schedule_rows": 755.0,
+  "reconciliation_gap": 0.0,
+  "reconciliation_ok": true,
+  "candidate_choice_n_checked": 755,
+  "candidate_choice_n_ok": 755,
+  "candidate_choice_ok": true,
+  "share_eligibility": 0.9629139072847682,
+  "share_history_legal": 0.0,
+  "share_rng_order": 0.03708609271523179,
+  "share_unreconciled": 0.0,
+  "n_compared_kept": 55
+}

@@ -1,0 +1,194 @@
+{
+  "control": {
+    "1": {
+      "n_start": 11468,
+      "p_survive": 0.38018835019183816,
+      "mean_attacker_attack": 225.4821736785329,
+      "mean_attacker_recruit_attack": 3.1914419273642576,
+      "mean_attacker_synth_share": 0.8759101403849517,
+      "mean_pairing_order": 3.053989572096368,
+      "mean_hp_loss": 155.4628446002637,
+      "p_attacker_survived_swing": 0.2860032362459547,
+      "p_hit_was_counterattack": 0.602391226177634,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 1.4803149606299213
+    },
+    "2": {
+      "n_start": 16104,
+      "p_survive": 0.3476775956284153,
+      "mean_attacker_attack": 237.68250066376174,
+      "mean_attacker_recruit_attack": 3.182532758593762,
+      "mean_attacker_synth_share": 0.8827503989564041,
+      "mean_pairing_order": 2.9469440956441613,
+      "mean_hp_loss": 151.77809937684486,
+      "p_attacker_survived_swing": 0.38264075653219637,
+      "p_hit_was_counterattack": 0.49651126833153725,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 2.078740157480315
+    },
+    "3": {
+      "n_start": 14914,
+      "p_survive": 0.2794689553439721,
+      "mean_attacker_attack": 238.9284459870905,
+      "mean_attacker_recruit_attack": 3.214999391060772,
+      "mean_attacker_synth_share": 0.8820335101986616,
+      "mean_pairing_order": 2.7602947874802095,
+      "mean_hp_loss": 116.75687370600414,
+      "p_attacker_survived_swing": 0.5136986968700523,
+      "p_hit_was_counterattack": 0.4954049445865303,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 1.925132309281012
+    },
+    "4": {
+      "n_start": 11249,
+      "p_survive": 0.278958129611521,
+      "mean_attacker_attack": 261.7527015662777,
+      "mean_attacker_recruit_attack": 3.1606590980763167,
+      "mean_attacker_synth_share": 0.892112199456761,
+      "mean_pairing_order": 2.7346432075405587,
+      "mean_hp_loss": 103.80414870878447,
+      "p_attacker_survived_swing": 0.696229720733032,
+      "p_hit_was_counterattack": 0.3910876344651179,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 1.4520459532722345
+    },
+    "5": {
+      "n_start": 488,
+      "p_survive": 0.2459016393442623,
+      "mean_attacker_attack": 395.64375,
+      "mean_attacker_recruit_attack": 3.2129166666666666,
+      "mean_attacker_synth_share": 0.9654742498625372,
+      "mean_pairing_order": 2.6894583333333335,
+      "mean_hp_loss": 110.39875,
+      "p_attacker_survived_swing": 0.84125,
+      "p_hit_was_counterattack": 0.3020833333333333,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 0.06299212598425197
+    },
+    "6": {
+      "n_start": 0,
+      "p_survive": null,
+      "mean_attacker_attack": null,
+      "mean_attacker_recruit_attack": null,
+      "mean_attacker_synth_share": null,
+      "mean_pairing_order": null,
+      "mean_hp_loss": null,
+      "p_attacker_survived_swing": null,
+      "p_hit_was_counterattack": null,
+      "p_ordinary_hp_loss_ok": null,
+      "mean_per_hit": 0.0
+    }
+  },
+  "treatment": {
+    "1": {
+      "n_start": 5261,
+      "p_survive": 0.2212507127922448,
+      "mean_attacker_attack": 20.181553526531694,
+      "mean_attacker_recruit_attack": 3.2371311366944555,
+      "mean_attacker_synth_share": 0.8135470139486375,
+      "mean_pairing_order": 2.5282982665078735,
+      "mean_hp_loss": 14.024827974063783,
+      "p_attacker_survived_swing": 0.514919941775837,
+      "p_hit_was_counterattack": 0.6961426491994177,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 0.7345713487852555
+    },
+    "2": {
+      "n_start": 8789,
+      "p_survive": 0.31789737171464333,
+      "mean_attacker_attack": 32.36772738356498,
+      "mean_attacker_recruit_attack": 3.3926847110460865,
+      "mean_attacker_synth_share": 0.8413071619469862,
+      "mean_pairing_order": 3.406505831910916,
+      "mean_hp_loss": 24.764222140941232,
+      "p_attacker_survived_swing": 0.4324554986588637,
+      "p_hit_was_counterattack": 0.5281862147443713,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 1.227171181234292
+    },
+    "3": {
+      "n_start": 12120,
+      "p_survive": 0.37095709570957097,
+      "mean_attacker_attack": 68.05495312223599,
+      "mean_attacker_recruit_attack": 3.684402087387228,
+      "mean_attacker_synth_share": 0.8757853512342781,
+      "mean_pairing_order": 3.537225293354561,
+      "mean_hp_loss": 52.90109086620674,
+      "p_attacker_survived_swing": 0.3472964207795271,
+      "p_hit_was_counterattack": 0.5619464591072587,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 1.6922647305222005
+    },
+    "4": {
+      "n_start": 14966,
+      "p_survive": 0.42209007082720834,
+      "mean_attacker_attack": 161.25604554865424,
+      "mean_attacker_recruit_attack": 4.1197868712702475,
+      "mean_attacker_synth_share": 0.9137222468158929,
+      "mean_pairing_order": 3.8400858604311288,
+      "mean_hp_loss": 129.2130507855316,
+      "p_attacker_survived_swing": 0.34849522417662715,
+      "p_hit_was_counterattack": 0.4981357760495502,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 2.089639765428651
+    },
+    "5": {
+      "n_start": 6014,
+      "p_survive": 0.4419687396075823,
+      "mean_attacker_attack": 352.70818395799387,
+      "mean_attacker_recruit_attack": 4.926456032349568,
+      "mean_attacker_synth_share": 0.9697693627167263,
+      "mean_pairing_order": 3.908562073752188,
+      "mean_hp_loss": 286.93501720079666,
+      "p_attacker_survived_swing": 0.3121703180638542,
+      "p_hit_was_counterattack": 0.5072454583861428,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 0.8397095783300754
+    },
+    "6": {
+      "n_start": 2966,
+      "p_survive": 0.45178691840863117,
+      "mean_attacker_attack": 622.1091514246609,
+      "mean_attacker_recruit_attack": 5.671388577827548,
+      "mean_attacker_synth_share": 0.9887846775527558,
+      "mean_pairing_order": 3.8909670897100908,
+      "mean_hp_loss": 509.4940214010203,
+      "p_attacker_survived_swing": 0.27107129525942514,
+      "p_hit_was_counterattack": 0.5011198208286675,
+      "p_ordinary_hp_loss_ok": 1.0,
+      "mean_per_hit": 0.41413013124825465
+    }
+  },
+  "delta_mean_attacker_attack": {
+    "1": -205.3006201520012,
+    "2": -205.31477328019676,
+    "3": -170.8734928648545,
+    "4": -100.49665601762348,
+    "5": -42.935566042006144,
+    "6": null
+  },
+  "delta_mean_attacker_synth_share": {
+    "1": -0.06236312643631425,
+    "2": -0.04144323700941788,
+    "3": -0.006248158964383466,
+    "4": 0.021610047359131856,
+    "5": 0.004295112854189154,
+    "6": null
+  },
+  "delta_mean_pairing_order": {
+    "1": -0.5256913055884946,
+    "2": 0.45956173626675456,
+    "3": 0.7769305058743514,
+    "4": 1.10544265289057,
+    "5": 1.2191037404188543,
+    "6": null
+  },
+  "delta_p_survive": {
+    "1": -0.15893763739959335,
+    "2": -0.029780223913771997,
+    "3": 0.09148814036559888,
+    "4": 0.14313194121568734,
+    "5": 0.19606710026332003,
+    "6": null
+  }
+}

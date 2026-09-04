@@ -1,0 +1,34 @@
+{
+  "turns": [
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "n_control_late_t1t3_punch": 17924,
+  "n_treatment_late_t1t3_punch": 4273,
+  "collapse": 13651.0,
+  "counts": {
+    "leftover": 7155,
+    "alive_elimination": 6550,
+    "tavern_offer_shift": 4219
+  },
+  "attributed": {
+    "full_board_2q_replacement": 0.0,
+    "open_slot_fill": 0.0,
+    "tavern_offer_shift": 4219.0,
+    "generated_transform_triple": 0.0,
+    "alive_elimination": 6550.0
+  },
+  "leftover": 7155.0,
+  "reconstructed_control_rows": 17924.0,
+  "reconciliation_gap": 0.0,
+  "reconciliation_ok": true,
+  "share_full_board_2q_replacement": 0.0,
+  "share_open_slot_fill": 0.0,
+  "share_tavern_offer_shift": 0.30906160720826314,
+  "share_generated_transform_triple": 0.0,
+  "share_alive_elimination": 0.479818328327595,
+  "share_leftover": 0.5241374258296095
+}

@@ -26,6 +26,7 @@ Stdlib only, like the rest of the core package.
 """
 
 import random
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
@@ -43,10 +44,27 @@ ROLL_COST = 1
 START_HP = 30
 MAX_TURNS = 20
 SHOP_SLOTS = {1: 3, 2: 4, 3: 4, 4: 5, 5: 5, 6: 6}
-POOL_COPIES = {1: 15, 2: 15, 3: 13, 4: 11, 5: 9, 6: 6}
+# Phase 2N-C: current Battlegrounds reference uses 7 copies at Tier 6.
+POOL_COPIES = {1: 15, 2: 15, 3: 13, 4: 11, 5: 9, 6: 7}
 UPGRADE_COST = {1: 5, 2: 7, 3: 8, 4: 9, 5: 10}
 VALID_SCALING_MODES = frozenset({"ratio", "residual"})
 N_LOBBY_TRIBES = 5
+
+# Phase 2N lifecycle toggles (independent; default ON after 2N-B).
+PHASE_2N_DEATH_RETURN = True   # eliminated players return board/hand/shop
+PHASE_2N_FREEZE_TOPUP = True   # incomplete frozen shops refill to SHOP_SLOTS
+
+# Phase 2Q: recruit/replacement valuation uses recruit_* stats (excludes
+# synthetic residual/ratio scaling) while combat keeps live attack/health.
+# Default OFF = control (pre-2Q contaminated valuation).
+PHASE_2Q_RECRUIT_VALUE_STATS = False
+
+# Phase 2S: already-applied synthetic combat−recruit delta lives in a
+# player/board pool and is reallocated after sell/play, so replacement
+# keeps abstract strength while still losing the sold minion's recruit
+# (printed / golden / modeled) stats. Residual/ratio *budget math* is
+# unchanged. Default OFF = today's on-body storage (2Q crater).
+PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING = False
 
 TRIBES = ["Beast", "Mech", "Murloc", "Dragon", "Demon", "Elemental",
           "Pirate", "Naga", "Undead", "Quilboar"]
@@ -84,6 +102,16 @@ class EnvMinion:
     tribes: List[str] = field(default_factory=list)
     keywords: List[str] = field(default_factory=list)
     golden: bool = False
+    # Recruit-value stats: printed + golden + future modeled buffs.
+    # Combat uses attack/health (those plus abstract fidelity scaling).
+    recruit_attack: Optional[int] = None
+    recruit_health: Optional[int] = None
+
+    def __post_init__(self) -> None:
+        if self.recruit_attack is None:
+            self.recruit_attack = int(self.attack)
+        if self.recruit_health is None:
+            self.recruit_health = int(self.health)
 
     def tags(self) -> Dict[str, str]:
         t = {kw_tag: "1" for kw, kw_tag in _KW_TO_TAG.items() if kw in self.keywords}
@@ -95,13 +123,169 @@ class EnvMinion:
     def view(self) -> Dict:
         """The dict shape the rest of the package reads (MinionView-like)."""
         return {"name": self.name, "card_id": self.card_id,
+                "tier": self.tier,
                 "attack": self.attack, "health": self.health,
+                "recruit_attack": self.recruit_attack,
+                "recruit_health": self.recruit_health,
+                "golden": self.golden,
+                "tribes": list(self.tribes),
                 "tags": self.tags()}
 
+    def copy(self) -> "EnvMinion":
+        return EnvMinion(
+            self.card_id, self.name, self.tier,
+            self.attack, self.health,
+            list(self.tribes), list(self.keywords), self.golden,
+            self.recruit_attack, self.recruit_health,
+        )
+
     def as_golden(self) -> "EnvMinion":
-        return EnvMinion(self.card_id, self.name, self.tier,
-                         self.attack * 2, self.health * 2,
-                         list(self.tribes), list(self.keywords), golden=True)
+        return EnvMinion(
+            self.card_id, self.name, self.tier,
+            self.attack * 2, self.health * 2,
+            list(self.tribes), list(self.keywords), True,
+            int(self.recruit_attack) * 2, int(self.recruit_health) * 2,
+        )
+
+
+def combat_raw(m: Dict) -> float:
+    """Live combat stats (include abstract scaling)."""
+    return float((m.get("attack") or 0) + (m.get("health") or 0))
+
+
+def recruit_raw(m: Dict) -> float:
+    """Recruit-value stats (exclude abstract scaling when tracked)."""
+    ra = m.get("recruit_attack")
+    rh = m.get("recruit_health")
+    if ra is not None and rh is not None:
+        return float(ra) + float(rh)
+    return combat_raw(m)
+
+
+def valuation_raw(m: Dict) -> float:
+    """Stats used for recruit / replacement valuation.
+
+    When ``PHASE_2Q_RECRUIT_VALUE_STATS`` is on, uses recruit-value stats
+    (printed + golden + modeled buffs). Otherwise uses live combat stats
+    (legacy contaminated behavior).
+    """
+    if PHASE_2Q_RECRUIT_VALUE_STATS:
+        return recruit_raw(m)
+    return combat_raw(m)
+
+
+@contextmanager
+def recruit_value_stats_enabled(enabled: bool = True):
+    """Temporarily set Phase 2Q recruit-value valuation toggle."""
+    global PHASE_2Q_RECRUIT_VALUE_STATS
+    prev = PHASE_2Q_RECRUIT_VALUE_STATS
+    PHASE_2Q_RECRUIT_VALUE_STATS = bool(enabled)
+    try:
+        yield
+    finally:
+        PHASE_2Q_RECRUIT_VALUE_STATS = prev
+
+
+@contextmanager
+def board_level_abstract_scaling_enabled(enabled: bool = True):
+    """Temporarily set Phase 2S board-level abstract-pool toggle."""
+    global PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING
+    prev = PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING
+    PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING = bool(enabled)
+    try:
+        yield
+    finally:
+        PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING = prev
+
+
+def minion_recruit_stats(m: "EnvMinion") -> int:
+    return int(m.recruit_attack) + int(m.recruit_health)
+
+
+def minion_combat_stats(m: "EnvMinion") -> int:
+    return int(m.attack) + int(m.health)
+
+
+def minion_synthetic_delta(m: "EnvMinion") -> int:
+    """Already-applied abstract scaling sitting on this body."""
+    return minion_combat_stats(m) - minion_recruit_stats(m)
+
+
+def board_synthetic_total(board: Sequence["EnvMinion"]) -> int:
+    return sum(minion_synthetic_delta(m) for m in board)
+
+
+def ensure_abstract_pool_current(p: "PlayerState") -> None:
+    """Absorb on-body synthetic into the player pool without shrinking it.
+
+    Empty-board residual pool (latent after selling the last body) must
+    survive — we only raise the pool when the board is carrying untracked
+    synthetic, never sync downward from an empty board.
+    """
+    if not p.board:
+        return
+    on_board = float(board_synthetic_total(p.board))
+    if on_board > float(p.abstract_pool) + 1e-9:
+        p.abstract_pool = on_board
+
+
+def sync_abstract_pool_from_board(p: "PlayerState") -> None:
+    """After residual/ratio apply: pool := sum(combat − recruit) on board.
+
+    Does not run on an empty board, so a latent pool survives a board-wipe.
+    """
+    if not p.board:
+        return
+    p.abstract_pool = float(board_synthetic_total(p.board))
+
+
+def reallocate_abstract_pool(p: "PlayerState") -> None:
+    """Paint combat = recruit + share of ``p.abstract_pool``.
+
+    Largest-remainder integer split so
+    ``sum(combat) == sum(recruit) + round(pool)`` on a non-empty board.
+    Attack/health split of each share follows recruit proportions.
+    Empty board leaves the pool latent (nothing to paint).
+    """
+    board = p.board
+    if not board:
+        return
+    recs = []
+    for m in board:
+        ra = int(m.recruit_attack)
+        rh = int(m.recruit_health)
+        recs.append(ra + rh)
+        m.attack = ra
+        m.health = rh
+    pool_int = int(round(float(p.abstract_pool)))
+    if pool_int <= 0:
+        return
+    weights = [r if r > 0 else 1 for r in recs]
+    total_w = sum(weights)
+    raw = [pool_int * w / total_w for w in weights]
+    adds = [int(x) for x in raw]
+    leftover = pool_int - sum(adds)
+    order = sorted(range(len(board)), key=lambda i: (-(raw[i] - adds[i]), i))
+    step = 1 if leftover > 0 else -1
+    for j in range(abs(leftover)):
+        adds[order[j % len(order)]] += step
+    for m, add, rec in zip(board, adds, recs):
+        if add == 0:
+            continue
+        if rec <= 0:
+            m.health = int(m.health) + add
+            continue
+        atk_add = int(round(add * int(m.recruit_attack) / rec))
+        atk_add = max(0, min(add, atk_add)) if add > 0 else max(add, min(0, atk_add))
+        hp_add = add - atk_add
+        m.attack = int(m.recruit_attack) + atk_add
+        m.health = int(m.recruit_health) + hp_add
+    painted = board_synthetic_total(board)
+    if painted != pool_int:
+        raise RuntimeError(
+            f"Phase 2S reallocate conservation failed: "
+            f"painted={painted} pool={pool_int} n={len(board)}"
+        )
 
 
 def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
@@ -111,17 +295,28 @@ def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
 
     Prefers cards that have a card2vec embedding (meta-relevant, meaningful to
     the learned models); tiers that would end up too thin fall back to the full
-    knowledge base. Restricted to the lobby's tribes + tribeless/All minions.
+    *active* knowledge-base slice. Restricted to:
+
+      active Tavern-pool manifest  (Phase 2N-D)
+      ∩ lobby tribe eligibility (+ tribeless / All)
+      ∩ valid tier/stats, non-skin
+
+    The general KB may still contain tokens, removed, Duos-only, and T7 cards
+    for knowledge/effect lookup — they must not enter Bob's shared pool.
     """
+    from .active_tavern_pool import active_tavern_card_ids
+
     kb = kb if kb is not None else cards_mod.load_kb()
     allowed = set(lobby_tribes or TRIBES)
+    active_ids = active_tavern_card_ids()
 
     def in_lobby(ck) -> bool:
         trs = ck.tribes or []
         return (not trs) or ("All" in trs) or any(t in allowed for t in trs)
 
     def usable(ck) -> bool:
-        return (ck.tier is not None and 1 <= ck.tier <= MAX_TIER
+        return (ck.card_id in active_ids
+                and ck.tier is not None and 1 <= ck.tier <= MAX_TIER
                 and ck.attack is not None and ck.health is not None
                 and "_SKIN_" not in ck.card_id and in_lobby(ck))
 
@@ -136,7 +331,7 @@ def build_pool(kb: Optional[Dict] = None, emb_names: Optional[set] = None,
     catalogue: List[EnvMinion] = []
     for tier in range(1, MAX_TIER + 1):
         chosen = [ck for ck in pref.values() if ck.tier == tier]
-        if len(chosen) < 6:                       # too thin — widen to the full KB
+        if len(chosen) < 6:                       # too thin — widen within active pool
             chosen = [ck for ck in all_ok.values() if ck.tier == tier]
         for ck in chosen:
             catalogue.append(EnvMinion(ck.card_id, ck.name, ck.tier,
@@ -159,6 +354,9 @@ class PlayerState:
     alive: bool = True
     placement: Optional[int] = None
     last_board: List[EnvMinion] = field(default_factory=list)  # ghost fights
+    # Phase 2S: already-applied synthetic combat−recruit total. Unused when
+    # PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING is OFF.
+    abstract_pool: float = 0.0
 
     def level_cost(self) -> Optional[int]:
         if self.tier >= MAX_TIER:
@@ -167,6 +365,9 @@ class PlayerState:
 
     def strength(self) -> int:
         return sum(m.attack + m.health for m in self.board)
+
+    def recruit_strength(self) -> int:
+        return sum(minion_recruit_stats(m) for m in self.board)
 
 
 class BGEnv:
@@ -200,6 +401,16 @@ class BGEnv:
         # Must not mutate env. Used by Phase 2M shop/pool audit only.
         self.pool_deal_hook: Optional[Callable] = None
         self._deal_reason: str = "unknown"
+        # Optional observational hook for residual scaling intermediates.
+        # Signature: (env, player, seat, audit_dict) -> None. Must not mutate.
+        self.scaling_audit_hook: Optional[Callable] = None
+        # Optional observational hook for resolved combats. Must not mutate.
+        # Signature: (env, fight_dict) -> None. Phase 2T/2U measurement only.
+        self.combat_audit_hook: Optional[Callable] = None
+        # Optional observational hook for the pre-combat pairing decision.
+        # Signature: (env, pairing_dict) -> None. Must not mutate or consume RNG.
+        # Phase 3J matchmaking attribution only.
+        self.pairing_audit_hook: Optional[Callable] = None
 
     MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
 
@@ -211,6 +422,7 @@ class BGEnv:
         catalogue = build_pool(self._kb, self._emb_names, self.lobby_tribes)
         self._catalogue = {m.name: m for m in catalogue}
         self._pool = {m.name: POOL_COPIES[m.tier] for m in catalogue}
+        self._pool_initial_total = int(sum(self._pool.values()))
         self.players = [PlayerState(idx=i) for i in range(self.n_players)]
         self.turn = 1
         self._done = False
@@ -241,9 +453,99 @@ class BGEnv:
         # Golden minions were built from 3 copies; return them all.
         self._pool[m.name] = self._pool.get(m.name, 0) + (3 if m.golden else 1)
 
+    def _return_player_holdings_to_pool(self, p: PlayerState) -> None:
+        """Return board, hand, and shop copies to the shared pool (Phase 2N-B)."""
+        for m in list(p.board) + list(p.hand) + list(p.shop):
+            self._return_to_pool(m)
+        p.board = []
+        p.hand = []
+        p.shop = []
+
+    def pool_conservation_snapshot(self) -> Dict:
+        """Pool + live holdings (+ 3× golden) vs initialized shared-pool copies.
+
+        With Phase 2N-B death-return enabled, this should remain balanced for
+        the whole lobby after every lifecycle transition.
+        """
+        pool_copies = int(sum(self._pool.values()))
+        live_nongolden = 0
+        golden_holdings = 0
+        for p in self.players:
+            if not p.alive:
+                continue
+            for m in list(p.board) + list(p.hand) + list(p.shop):
+                if m.golden:
+                    golden_holdings += 1
+                else:
+                    live_nongolden += 1
+        holdings_as_copies = live_nongolden + 3 * golden_holdings
+        initialized = int(getattr(self, "_pool_initial_total", pool_copies))
+        total = pool_copies + holdings_as_copies
+        return {
+            "pool_copies": pool_copies,
+            "live_nongolden_holdings": live_nongolden,
+            "golden_holdings": golden_holdings,
+            "holdings_as_copies": holdings_as_copies,
+            "initialized_copies": initialized,
+            "accounted_copies": total,
+            "balanced": total == initialized,
+            "delta": total - initialized,
+        }
+
+    def assert_pool_conservation(self) -> None:
+        snap = self.pool_conservation_snapshot()
+        if not snap["balanced"]:
+            raise AssertionError(
+                "pool conservation broken: "
+                f"pool({snap['pool_copies']}) + holdings({snap['holdings_as_copies']}) "
+                f"= {snap['accounted_copies']} != initialized {snap['initialized_copies']} "
+                f"(delta={snap['delta']})"
+            )
+
     def _deal_shop(self, p: PlayerState) -> None:
         """Deal shop slots. Optional ``pool_deal_hook`` is observational only."""
         if p.frozen:
+            p.frozen = False
+            if PHASE_2N_FREEZE_TOPUP:
+                # Keep frozen minions; top up to current tier slot count.
+                target = int(SHOP_SLOTS[p.tier])
+                track = getattr(self, "_pool_audit_track_names", None)
+                pre_draw_remaining: Dict[str, int] = {}
+                eligible = self._names_at_or_below(p.tier)
+                eligible_total = sum(self._pool[n] for n in eligible)
+                if track is not None:
+                    pre_draw_remaining = {
+                        n: int(self._pool.get(n, 0)) for n in track
+                        if n in self._catalogue}
+                elif self.pool_deal_hook is not None:
+                    pre_draw_remaining = {
+                        n: int(c) for n, c in self._pool.items()}
+                kept_names: List[str] = [m.name for m in p.shop]
+                newly_dealt_names: List[str] = []
+                n_new = 0
+                while len(p.shop) < target:
+                    m = self._draw(p.tier)
+                    if m is None:
+                        break
+                    p.shop.append(m)
+                    newly_dealt_names.append(m.name)
+                    n_new += 1
+                if self.pool_deal_hook is not None:
+                    self.pool_deal_hook(self, p, {
+                        "reason": self._deal_reason,
+                        "frozen_skip": n_new == 0,
+                        "freeze_topup": True,
+                        "tavern_tier": p.tier,
+                        "n_slots": n_new,
+                        # Calibration must count only newly drawn cards.
+                        "dealt_names": list(newly_dealt_names),
+                        "kept_names": list(kept_names),
+                        "newly_dealt_names": list(newly_dealt_names),
+                        "card_remaining": pre_draw_remaining,
+                        "eligible_total_copies": int(eligible_total),
+                    })
+                return
+            # Legacy: preserve shop verbatim, no top-up.
             if self.pool_deal_hook is not None:
                 self.pool_deal_hook(self, p, {
                     "reason": self._deal_reason,
@@ -254,13 +556,12 @@ class BGEnv:
                     "card_remaining": {},
                     "eligible_total_copies": 0,
                 })
-            p.frozen = False
             return
         for m in p.shop:
             self._return_to_pool(m)
         p.shop = []
         # Snapshot *after* return-to-pool, *before* draws (exact live draw state).
-        pre_draw_remaining: Dict[str, int] = {}
+        pre_draw_remaining = {}
         eligible = self._names_at_or_below(p.tier)
         eligible_total = sum(self._pool[n] for n in eligible)
         n_slots = int(SHOP_SLOTS[p.tier])
@@ -272,7 +573,7 @@ class BGEnv:
             # Default: snapshot all catalogue remaining counts (heavy; prefer track).
             pre_draw_remaining = {n: int(c) for n, c in self._pool.items()}
 
-        dealt_names: List[str] = []
+        dealt_names = []
         for _ in range(n_slots):
             m = self._draw(p.tier)
             if m is not None:
@@ -338,11 +639,23 @@ class BGEnv:
         return mask
 
     # -- recruit actions ----------------------------------------------------------
+    def _maybe_reallocate_after_board_change(
+        self, p: PlayerState, board_ids_before: List[int]
+    ) -> None:
+        """Re-paint combat from recruit + pool only when board membership changed."""
+        if not PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+            return
+        if [id(m) for m in p.board] != board_ids_before:
+            reallocate_abstract_pool(p)
+
     def _apply(self, seat: int, action: int) -> bool:
         """Apply one recruit action. Returns True when the seat's turn ends."""
         p = self.players[seat]
         if not self.legal_mask(seat)[action]:
             return False                          # illegal = no-op (masked anyway)
+        board_before = [id(m) for m in p.board]
+        if PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+            ensure_abstract_pool_current(p)
         if A_BUY0 <= action < A_BUY0 + N_BUY:
             m = p.shop.pop(action - A_BUY0)
             p.gold -= BUY_COST
@@ -369,6 +682,7 @@ class BGEnv:
             p.frozen = not p.frozen
         elif action == A_END:
             return True
+        self._maybe_reallocate_after_board_change(p, board_before)
         return False
 
     def _check_triple(self, p: PlayerState, name: str) -> None:
@@ -420,8 +734,49 @@ class BGEnv:
         g = ratio * self._scaling_growth_factor(p)
         g = max(1.0, g)
         for m in p.board:
+            # Combat only — recruit-value stats exclude abstract scaling.
             m.attack = max(1, round(m.attack * g))
             m.health = max(1, round(m.health * g))
+
+    def _residual_scaling_budget(self, p: PlayerState
+                                 ) -> Optional[Dict[str, float]]:
+        """Compute residual scaling intermediates without mutating the board.
+
+        Measurement helper for Phase 2O. Math matches
+        ``_end_of_turn_scaling_residual`` exactly (including RNG for factor).
+        """
+        if not p.board:
+            return None
+        current = float(p.strength())
+        prev = _curve_at(self._scaling, max(1, self.turn - 1)) or 1.0
+        cur = _curve_at(self._scaling, self.turn) or prev
+        ratio = (cur / prev) if prev else 1.0
+        factor = self._scaling_growth_factor(p)
+        ratio_g = max(1.0, ratio * factor)
+        ratio_add = current * (ratio_g - 1)
+        pace_target = cur * factor
+        over = max(0.0, current - pace_target)
+        residual_clamp_active = self.turn >= 10
+        if residual_clamp_active:
+            residual_add = max(0.0, ratio_add - over)
+        else:
+            residual_add = ratio_add
+        return {
+            "end_of_recruit_pre_scaling_stats": current,
+            "firestone_target": float(cur),
+            "firestone_prev": float(prev),
+            "curve_ratio": float(ratio),
+            "growth_factor": float(factor),
+            "ratio_g": float(ratio_g),
+            "ratio_add": float(ratio_add),
+            "pace_target": float(pace_target),
+            "over": float(over),
+            "residual_add": float(residual_add),
+            "residual_clamp_active": float(1.0 if residual_clamp_active else 0.0),
+            "just_leveled": float(1.0 if p.turns_since_level == 0 else 0.0),
+            "tavern_tier": float(p.tier),
+            "turns_since_level": float(p.turns_since_level),
+        }
 
     def _end_of_turn_scaling_residual(self, p: PlayerState) -> None:
         """Apply only unexplained abstract growth once boards exceed the pace curve.
@@ -431,21 +786,14 @@ class BGEnv:
         board stats already above the Firestone pace target from the ratio-mode
         abstract buff budget instead of multiplying the full board again.
         """
-        if not p.board:
+        budget = self._residual_scaling_budget(p)
+        if budget is None:
             return
-        current = p.strength()
-        prev = _curve_at(self._scaling, max(1, self.turn - 1)) or 1.0
-        cur = _curve_at(self._scaling, self.turn) or prev
-        ratio = (cur / prev) if prev else 1.0
-        factor = self._scaling_growth_factor(p)
-        ratio_g = max(1.0, ratio * factor)
-        ratio_add = current * (ratio_g - 1)
-        if self.turn >= 10:
-            pace_target = cur * factor
-            over = max(0.0, current - pace_target)
-            residual_add = max(0.0, ratio_add - over)
-        else:
-            residual_add = ratio_add
+        current = budget["end_of_recruit_pre_scaling_stats"]
+        residual_add = budget["residual_add"]
+        if self.scaling_audit_hook is not None:
+            seat = next((i for i, pl in enumerate(self.players) if pl is p), -1)
+            self.scaling_audit_hook(self, p, seat, dict(budget))
         if residual_add <= 0:
             return
         for m in p.board:
@@ -454,6 +802,7 @@ class BGEnv:
             total = m.attack + m.health
             if total <= 0:
                 continue
+            # Combat only — recruit-value stats exclude abstract scaling.
             m.attack = max(1, round(m.attack + add * m.attack / total))
             m.health = max(1, round(m.health + add * m.health / total))
 
@@ -464,6 +813,10 @@ class BGEnv:
             self._end_of_turn_scaling_residual(p)
         else:                                          # pragma: no cover
             raise ValueError(f"unknown scaling_mode: {self.scaling_mode!r}")
+        # Absorb newly applied residual/ratio into the player pool. Do not
+        # re-paint here — no-replacement boards must stay bit-identical.
+        if PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING:
+            sync_abstract_pool_from_board(p)
 
     def _scale_all(self) -> None:
         for p in self.players:
@@ -484,37 +837,192 @@ class BGEnv:
         avg_tier = (sum(m.tier for m in board) / len(board)) if board else 1.0
         return tier + max(1, round(survivors * avg_tier))
 
+    @staticmethod
+    def _survivor_audit_fields(trace: Optional[Dict]) -> Dict:
+        """Pack actual combat-survivor identities/tiers into the audit fight."""
+        if not trace:
+            return {
+                "survivors": [],
+                "survivor_count_actual": 0,
+                "survivor_tier_sum": 0,
+                "starting_winner": [],
+                "starting_loser": [],
+                "starting_a": [],
+                "starting_b": [],
+                "created_winner": [],
+                "created_bodies": [],
+                "winner_side": None,
+                "event_counts": {},
+                "side_first": None,
+                "n_board_generated_represented": 0,
+            }
+        return {
+            "survivors": list(trace.get("survivors") or []),
+            "survivor_count_actual": int(trace.get("survivor_count") or 0),
+            "survivor_tier_sum": int(trace.get("survivor_tier_sum") or 0),
+            "starting_winner": list(trace.get("starting_winner") or []),
+            "starting_loser": list(trace.get("starting_loser") or []),
+            "starting_a": list(trace.get("starting_a") or []),
+            "starting_b": list(trace.get("starting_b") or []),
+            "created_winner": list(trace.get("created_winner") or []),
+            "created_bodies": list(trace.get("created") or []),
+            "winner_side": trace.get("winner_side"),
+            "event_counts": dict(trace.get("event_counts") or {}),
+            "side_first": trace.get("side_first"),
+            "n_board_generated_represented": int(
+                trace.get("n_board_generated_represented") or 0
+            ),
+        }
+
+    def _emit_combat_audit(self, fight: Dict) -> None:
+        """Observational only. Default-off; must not mutate env or consume RNG."""
+        hook = self.combat_audit_hook
+        if hook is None:
+            return
+        hook(self, fight)
+
     def _run_combat(self) -> None:
         alive = [p for p in self.players if p.alive]
         order = alive[:]
+        pairing_hook = self.pairing_audit_hook
+        pre_pair = None
+        if pairing_hook is not None:
+            # Snapshot only. getstate() does not consume RNG.
+            pre_pair = {
+                "turn": int(self.turn),
+                "alive_seats": [int(p.idx) for p in alive],
+                "dead_with_board_seats": [
+                    int(p.idx) for p in self.players
+                    if (not p.alive) and p.last_board
+                ],
+                "rng_state_pre": self.rng.getstate(),
+            }
         self.rng.shuffle(order)
         pairs: List[Tuple[PlayerState, Optional[PlayerState]]] = []
         for i in range(0, len(order) - 1, 2):
             pairs.append((order[i], order[i + 1]))
         if len(order) % 2 == 1:
             pairs.append((order[-1], None))       # fights a ghost
+        if pairing_hook is not None and pre_pair is not None:
+            pairing_hook(self, {
+                **pre_pair,
+                "shuffled_order": [int(p.idx) for p in order],
+                "pairs": [
+                    (int(a.idx), None if b is None else int(b.idx))
+                    for a, b in pairs
+                ],
+                "rng_state_post": self.rng.getstate(),
+            })
 
         dead_boards = [p.last_board for p in self.players
                        if not p.alive and p.last_board]
+        audit = self.combat_audit_hook is not None
         for a, b in pairs:
             if b is None:
                 if not dead_boards:
+                    if audit:
+                        self._emit_combat_audit({
+                            "turn": self.turn,
+                            "kind": "bye",
+                            "ghost": False,
+                            "seat_a": a.idx,
+                            "seat_b": None,
+                            "raw": 0,
+                            "applied": 0,
+                            "pre_hp_a": a.hp,
+                            "post_hp_a": a.hp,
+                            "pre_hp_b": None,
+                            "post_hp_b": None,
+                            "winner_seat": None,
+                            "loser_seat": None,
+                            "winner_board": list(a.board),
+                            "loser_board": [],
+                            "winner_tier": a.tier,
+                            "loser_tier": None,
+                            "survivors": [],
+                            "survivor_count_actual": 0,
+                            "survivor_tier_sum": 0,
+                        })
                     continue
                 ghost = self.rng.choice(dead_boards)
                 ghost_tier = max((g.tier for g in ghost), default=1)
+                pre_a = a.hp
+                ghost_trace: Dict = {} if audit else None
                 dmg = simulate_once(self._combatants(a.board),
                                     self._combatants(ghost), self.rng,
-                                    tier_a=a.tier, tier_b=ghost_tier)
+                                    tier_a=a.tier, tier_b=ghost_tier,
+                                    trace=ghost_trace)
                 if dmg < 0:
                     a.hp -= self._hero_damage(dmg, ghost_tier, ghost)
+                if audit:
+                    self._emit_combat_audit({
+                        "turn": self.turn,
+                        "kind": "ghost",
+                        "ghost": True,
+                        "seat_a": a.idx,
+                        "seat_b": None,
+                        "raw": int(dmg),
+                        "applied": int(pre_a - a.hp),
+                        "pre_hp_a": pre_a,
+                        "post_hp_a": a.hp,
+                        "pre_hp_b": None,
+                        "post_hp_b": None,
+                        "winner_seat": a.idx if dmg > 0 else None,
+                        "loser_seat": a.idx if dmg < 0 else None,
+                        "winner_board": (
+                            list(a.board) if dmg > 0 else list(ghost)
+                        ),
+                        "loser_board": (
+                            list(ghost) if dmg > 0 else list(a.board)
+                        ),
+                        "winner_tier": (
+                            a.tier if dmg > 0 else ghost_tier
+                        ),
+                        "loser_tier": (
+                            ghost_tier if dmg > 0 else a.tier
+                        ),
+                        **self._survivor_audit_fields(ghost_trace),
+                    })
                 continue
+            pre_a, pre_b = a.hp, b.hp
+            live_trace: Dict = {} if audit else None
             dmg = simulate_once(self._combatants(a.board),
                                 self._combatants(b.board), self.rng,
-                                tier_a=a.tier, tier_b=b.tier)
+                                tier_a=a.tier, tier_b=b.tier,
+                                trace=live_trace)
             if dmg > 0:
                 b.hp -= self._hero_damage(dmg, a.tier, a.board)
             elif dmg < 0:
                 a.hp -= self._hero_damage(dmg, b.tier, b.board)
+            if audit:
+                self._emit_combat_audit({
+                    "turn": self.turn,
+                    "kind": "live",
+                    "ghost": False,
+                    "seat_a": a.idx,
+                    "seat_b": b.idx,
+                    "raw": int(dmg),
+                    "applied": int((pre_a - a.hp) + (pre_b - b.hp)),
+                    "pre_hp_a": pre_a,
+                    "post_hp_a": a.hp,
+                    "pre_hp_b": pre_b,
+                    "post_hp_b": b.hp,
+                    "winner_seat": (
+                        a.idx if dmg > 0 else (b.idx if dmg < 0 else None)
+                    ),
+                    "loser_seat": (
+                        b.idx if dmg > 0 else (a.idx if dmg < 0 else None)
+                    ),
+                    "winner_board": (
+                        list(a.board) if dmg >= 0 else list(b.board)
+                    ),
+                    "loser_board": (
+                        list(b.board) if dmg >= 0 else list(a.board)
+                    ),
+                    "winner_tier": a.tier if dmg >= 0 else b.tier,
+                    "loser_tier": b.tier if dmg >= 0 else a.tier,
+                    **self._survivor_audit_fields(live_trace),
+                })
 
         # Deaths → placements (weakest dead this round takes the worst slot).
         dead = [p for p in alive if p.hp <= 0]
@@ -523,10 +1031,9 @@ class BGEnv:
             for p in sorted(dead, key=lambda x: (x.hp, x.strength())):
                 p.alive = False
                 p.placement = place
-                p.last_board = [EnvMinion(m.card_id, m.name, m.tier, m.attack,
-                                          m.health, list(m.tribes),
-                                          list(m.keywords), m.golden)
-                                for m in p.board]
+                p.last_board = [m.copy() for m in p.board]
+                if PHASE_2N_DEATH_RETURN:
+                    self._return_player_holdings_to_pool(p)
                 place -= 1
 
     def _finalize(self) -> None:
@@ -534,6 +1041,11 @@ class BGEnv:
                            key=lambda p: (-p.hp, -p.strength()))
         for i, p in enumerate(survivors):
             p.placement = i + 1
+            # End-of-lobby: return remaining holdings so the shared pool
+            # conservation invariant closes (Phase 2N-B/D).
+            if PHASE_2N_DEATH_RETURN:
+                p.last_board = [m.copy() for m in p.board]
+                self._return_player_holdings_to_pool(p)
             p.alive = False
         self._done = True
 
@@ -647,7 +1159,11 @@ class BGEnv:
                 records.append({"seat": seat, "turn": self.turn,
                                 "state": self.snapshot(seat)})
             self._scale_all()
+            if recruit_tracer is not None and hasattr(recruit_tracer, "after_scale_all"):
+                recruit_tracer.after_scale_all(self)
             self._run_combat()
+            if recruit_tracer is not None and hasattr(recruit_tracer, "after_combat"):
+                recruit_tracer.after_combat(self)
             alive = [p for p in self.players if p.alive]
             if len(alive) <= 1 or self.turn >= MAX_TURNS:
                 self._finalize()
@@ -751,10 +1267,8 @@ def _greedy(obs: Dict, mask: List[bool], rng: random.Random,
             best = max(buys, key=lambda i: buy_scorer(obs, i))
         bval = buy_scorer(obs, best)
         weakest = min(range(len(obs["board"])),
-                      key=lambda i: (obs["board"][i].get("attack") or 0)
-                      + (obs["board"][i].get("health") or 0))
-        wval = ((obs["board"][weakest].get("attack") or 0)
-                + (obs["board"][weakest].get("health") or 0))
+                      key=lambda i: valuation_raw(obs["board"][i]))
+        wval = valuation_raw(obs["board"][weakest])
         if bval > wval and mask[A_SELL0 + weakest]:
             return A_SELL0 + weakest
     if mask[A_ROLL] and obs["gold"] >= BUY_COST + ROLL_COST:

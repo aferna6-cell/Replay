@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "source": "Firestone (static.zerotoheroes.com/api/bgs)",
+    "fetched": "2026-09-01",
+    "mmr": 10,
+    "period": "past-seven",
+    "hero_data_points": 58561,
+    "n_archetypes": 19,
+    "is_final_board_data": true,
+    "compare_to": "simulated last/alive late-game boards (plus T12\u2013T14), not early turns"
+  },
+  "coverage": {
+    "join_rate": 1.0,
+    "n_example_boards": 57,
+    "n_unique_joined_cards": 113,
+    "n_unique_card_ids": 158,
+    "n_minions": 392,
+    "n_unresolved": 0,
+    "pool_name_rate": 0.9668367346938775,
+    "pool_id_or_name_rate": 0.9668367346938775,
+    "weight_reconcile": true,
+    "is_final_board_data": true,
+    "examples_per_archetype": 3,
+    "note": "57 example boards (3 per archetype) joined at card-ID/name. Adequate for tier / printed-raw / golden / tribe mix. Card-frequency overlap is noisier (3 boards/arch)."
+  },
+  "weighted": {
+    "weighting": "boardCount_per_example",
+    "n_example_boards": 57,
+    "n_minions": 392,
+    "n_joined": 392,
+    "join_rate": 1.0,
+    "pool_id_or_name_rate": 0.9668367346938775,
+    "n_unique_card_ids": 158,
+    "n_unique_joined_cards": 113,
+    "sum_board_count": 4365.0,
+    "sum_example_weight": 4365.0,
+    "weight_reconcile": true,
+    "tier_histogram": {
+      "1": 0.013979339770940931,
+      "2": 0.027913766000449123,
+      "3": 0.07756568605434536,
+      "4": 0.18326970581630356,
+      "5": 0.3425106669660899,
+      "6": 0.3429148888389848,
+      "7plus": 0.011845946552885685
+    },
+    "t4_plus_share": 0.880541208174264,
+    "t5_plus_share": 0.6972715023579604,
+    "t6_plus_share": 0.3547608353918705,
+    "t6_share": 0.3429148888389848,
+    "t7_plus_share": 0.011845946552885685,
+    "mean_printed_tier": 4.888547046934652,
+    "mean_printed_raw": 15.076981810015726,
+    "printed_raw": {
+      "mean": 15.076981810015718,
+      "median": 13.0,
+      "p25": 8.0,
+      "p75": 20.0,
+      "n": 392
+    },
+    "golden_share": 0.527262519649674,
+    "mean_board_size": 6.801069110347461,
+    "tribe_mix": {
+      "tribeless": 0.21775207725129117,
+      "Pirate": 0.11265439029867501,
+      "Demon": 0.10810689422860989,
+      "Elemental": 0.10084212890186385,
+      "Beast": 0.09539636200314383,
+      "Dragon": 0.09272400628789579,
+      "Murloc": 0.06775207725129119,
+      "Mech": 0.05620929710307651,
+      "Naga": 0.0561980687177184,
+      "Undead": 0.04703570626543901,
+      "All": 0.031315966763979325,
+      "Quilboar": 0.014013024927015488
+    },
+    "card_frequency_top20": [
+      {
+        "name": "Leeroy the Reckless",
+        "share": 0.05427801482146865,
+        "weight": 1611.3333333333335
+      },
+      {
+        "name": "Balinda Stonehearth",
+        "share": 0.05363799685605208,
+        "weight": 1592.3333333333335
+      },
+      {
+        "name": "Unbound Tempest",
+        "share": 0.048708735683808645,
+        "weight": 1446.0
+      },
+      {
+        "name": "Brann Bronzebeard",
+        "share": 0.04693465079721533,
+        "weight": 1393.3333333333333
+      },
+      {
+        "name": "Enterprising Escapee",
+        "share": 0.038300022456770694,
+        "weight": 1137.0
+      },
+      {
+        "name": "Hooktusk, Master Marauder",
+        "share": 0.03826633730069614,
+        "weight": 1136.0
+      },
+      {
+        "name": "Gatekeeper Amalgam",
+        "share": 0.029699079272400612,
+        "weight": 881.6666666666666
+      },
+      {
+        "name": "Warpwing",
+        "share": 0.02867729620480574,
+        "weight": 851.3333333333335
+      },
+      {
+        "name": "Felfire Conjurer",
+        "share": 0.02672355715248146,
+        "weight": 793.3333333333334
+      },
+      {
+        "name": "Devilish Distractor",
+        "share": 0.024612620705142585,
+        "weight": 730.6666666666666
+      },
+      {
+        "name": "Imp-lusionist",
+        "share": 0.024612620705142585,
+        "weight": 730.6666666666666
+      },
+      {
+        "name": "Felboar",
+        "share": 0.018459465528856942,
+        "weight": 548.0
+      },
+      {
+        "name": "Titus Rivendare",
+        "share": 0.018010330114529516,
+        "weight": 534.6666666666665
+      },
+      {
+        "name": "Fauna Whisperer",
+        "share": 0.017583651470918473,
+        "weight": 522.0
+      },
+      {
+        "name": "Deathstrider",
+        "share": 0.01611273298899617,
+        "weight": 478.33333333333326
+      },
+      {
+        "name": "Blade Collector",
+        "share": 0.015001122838535812,
+        "weight": 445.33333333333337
+      },
+      {
+        "name": "Choral Mrrrglr",
+        "share": 0.014641814507073875,
+        "weight": 434.6666666666667
+      },
+      {
+        "name": "Crimson Vindicator",
+        "share": 0.01424882101953738,
+        "weight": 422.99999999999994
+      },
+      {
+        "name": "Drakkari Enchanter",
+        "share": 0.013676173366269924,
+        "weight": 406.0
+      },
+      {
+        "name": "Moat Custodian",
+        "share": 0.01358634628340444,
+        "weight": 403.33333333333337
+      }
+    ],
+    "in_active_pool_share": 0.9802268133842357
+  },
+  "unweighted": {
+    "weighting": "equal_per_example",
+    "n_example_boards": 57,
+    "n_minions": 392,
+    "n_joined": 392,
+    "join_rate": 1.0,
+    "pool_id_or_name_rate": 0.9668367346938775,
+    "n_unique_card_ids": 158,
+    "n_unique_joined_cards": 113,
+    "sum_board_count": 4365.0,
+    "sum_example_weight": 4365.0,
+    "weight_reconcile": true,
+    "tier_histogram": {
+      "1": 0.03316326530612245,
+      "2": 0.025510204081632654,
+      "3": 0.08928571428571429,
+      "4": 0.22193877551020408,
+      "5": 0.288265306122449,
+      "6": 0.32142857142857145,
+      "7plus": 0.02040816326530612
+    },
+    "t4_plus_share": 0.8520408163265307,
+    "t5_plus_share": 0.6301020408163266,
+    "t6_plus_share": 0.3418367346938776,
+    "t6_share": 0.32142857142857145,
+    "t7_plus_share": 0.02040816326530612,
+    "mean_printed_tier": 4.752551020408164,
+    "mean_printed_raw": 14.372448979591837,
+    "printed_raw": {
+      "mean": 14.372448979591837,
+      "median": 13.0,
+      "p25": 8.0,
+      "p75": 20.0,
+      "n": 392
+    },
+    "golden_share": 0.4846938775510204,
+    "mean_board_size": 6.87719298245614,
+    "tribe_mix": {
+      "tribeless": 0.18112244897959184,
+      "Beast": 0.14030612244897958,
+      "Dragon": 0.10459183673469388,
+      "Murloc": 0.08928571428571429,
+      "Demon": 0.08673469387755102,
+      "Elemental": 0.08673469387755102,
+      "Mech": 0.07653061224489796,
+      "Naga": 0.06377551020408163,
+      "Pirate": 0.05102040816326531,
+      "Undead": 0.05102040816326531,
+      "Quilboar": 0.04081632653061224,
+      "All": 0.02806122448979592
+    },
+    "card_frequency_top20": [
+      {
+        "name": "Brann Bronzebeard",
+        "share": 0.04336734693877551,
+        "weight": 17.0
+      },
+      {
+        "name": "Balinda Stonehearth",
+        "share": 0.03571428571428571,
+        "weight": 14.0
+      },
+      {
+        "name": "Leeroy the Reckless",
+        "share": 0.03571428571428571,
+        "weight": 14.0
+      },
+      {
+        "name": "Warpwing",
+        "share": 0.025510204081632654,
+        "weight": 10.0
+      },
+      {
+        "name": "Ravaging Scorpid",
+        "share": 0.025510204081632654,
+        "weight": 10.0
+      },
+      {
+        "name": "Unbound Tempest",
+        "share": 0.02295918367346939,
+        "weight": 9.0
+      },
+      {
+        "name": "Unleashed Mana Surge",
+        "share": 0.02295918367346939,
+        "weight": 9.0
+      },
+      {
+        "name": "Gatekeeper Amalgam",
+        "share": 0.02040816326530612,
+        "weight": 8.0
+      },
+      {
+        "name": "Heroic Underdog",
+        "share": 0.02040816326530612,
+        "weight": 8.0
+      },
+      {
+        "name": "Turquoise Skitterer",
+        "share": 0.02040816326530612,
+        "weight": 8.0
+      },
+      {
+        "name": "Bramble Tunneler",
+        "share": 0.02040816326530612,
+        "weight": 8.0
+      },
+      {
+        "name": "Polarizing Beatboxer",
+        "share": 0.017857142857142856,
+        "weight": 7.0
+      },
+      {
+        "name": "Titus Rivendare",
+        "share": 0.017857142857142856,
+        "weight": 7.0
+      },
+      {
+        "name": "Deathstrider",
+        "share": 0.017857142857142856,
+        "weight": 7.0
+      },
+      {
+        "name": "Groundbreaker",
+        "share": 0.017857142857142856,
+        "weight": 7.0
+      },
+      {
+        "name": "Banana Slamma",
+        "share": 0.017857142857142856,
+        "weight": 7.0
+      },
+      {
+        "name": "Crimson Vindicator",
+        "share": 0.015306122448979591,
+        "weight": 6.0
+      },
+      {
+        "name": "Felfire Conjurer",
+        "share": 0.015306122448979591,
+        "weight": 6.0
+      },
+      {
+        "name": "Enterprising Escapee",
+        "share": 0.015306122448979591,
+        "weight": 6.0
+      },
+      {
+        "name": "Hooktusk, Master Marauder",
+        "share": 0.015306122448979591,
+        "weight": 6.0
+      }
+    ],
+    "in_active_pool_share": 0.9668367346938775
+  },
+  "reconciliation": {
+    "n_minions": 392,
+    "n_joined": 392,
+    "n_unresolved": 0,
+    "join_plus_unresolved": 392,
+    "sum_board_count": 4365.0,
+    "sum_example_weight": 4365.0,
+    "weight_delta": 0.0
+  }
+}

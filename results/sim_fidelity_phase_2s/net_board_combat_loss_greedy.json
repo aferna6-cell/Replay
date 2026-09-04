@@ -1,0 +1,347 @@
+{
+  "n_events": 24910,
+  "n_with_net_board_combat_delta": 24910,
+  "mean_net_board_combat_delta": 3.461300682456845,
+  "mean_replacement_combat_loss_net_board": -3.461300682456845,
+  "net_board_loss_distribution": {
+    "n": 24910,
+    "mean": -3.461300682456845,
+    "median": -3.0,
+    "p10": -7.0,
+    "p25": -5.0,
+    "p75": -1.0,
+    "p90": -1.0,
+    "p95": -0.0,
+    "min": -15.0,
+    "max": 4.0,
+    "share_positive_loss": 0.008871938980329185,
+    "share_loss_ge_20": 0.0,
+    "share_loss_ge_50": 0.0
+  },
+  "sold_body_mean_combat_loss": 296.81300682456845,
+  "gate_max": 20.0,
+  "gate_pass": true,
+  "note": "2S replacement loss = -net_board_combat_delta (post-realloc board combat change). Sold-body combat_strength_loss is the 2R metric and is report-only here.",
+  "example_events": [
+    {
+      "turn": 9,
+      "combat_strength_loss": 11.0,
+      "net_board_combat_delta": 5.0,
+      "recruit_value_gain": 5.0,
+      "board_combat_before": 327.0,
+      "board_combat_after_play": 332.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 14.0,
+      "net_board_combat_delta": 10.0,
+      "recruit_value_gain": 10.0,
+      "board_combat_before": 332.0,
+      "board_combat_after_play": 342.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 21.0,
+      "net_board_combat_delta": 4.0,
+      "recruit_value_gain": 4.0,
+      "board_combat_before": 342.0,
+      "board_combat_after_play": 346.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 31.0,
+      "net_board_combat_delta": -1.0,
+      "recruit_value_gain": -1.0,
+      "board_combat_before": 346.0,
+      "board_combat_after_play": 345.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 19.0,
+      "net_board_combat_delta": 5.0,
+      "recruit_value_gain": 5.0,
+      "board_combat_before": 359.0,
+      "board_combat_after_play": 364.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 32.0,
+      "net_board_combat_delta": 7.0,
+      "recruit_value_gain": 7.0,
+      "board_combat_before": 364.0,
+      "board_combat_after_play": 371.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 32.0,
+      "net_board_combat_delta": 2.0,
+      "recruit_value_gain": 2.0,
+      "board_combat_before": 371.0,
+      "board_combat_after_play": 373.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 32.0,
+      "net_board_combat_delta": 1.0,
+      "recruit_value_gain": 1.0,
+      "board_combat_before": 373.0,
+      "board_combat_after_play": 374.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 14.0,
+      "net_board_combat_delta": 3.0,
+      "recruit_value_gain": 3.0,
+      "board_combat_before": 257.0,
+      "board_combat_after_play": 260.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 16.0,
+      "net_board_combat_delta": 6.0,
+      "recruit_value_gain": 6.0,
+      "board_combat_before": 260.0,
+      "board_combat_after_play": 266.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 13.0,
+      "net_board_combat_delta": 6.0,
+      "recruit_value_gain": 6.0,
+      "board_combat_before": 266.0,
+      "board_combat_after_play": 272.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 17.0,
+      "net_board_combat_delta": 4.0,
+      "recruit_value_gain": 4.0,
+      "board_combat_before": 272.0,
+      "board_combat_after_play": 276.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 17.0,
+      "net_board_combat_delta": 9.0,
+      "recruit_value_gain": 9.0,
+      "board_combat_before": 320.0,
+      "board_combat_after_play": 329.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 25.0,
+      "net_board_combat_delta": 3.0,
+      "recruit_value_gain": 3.0,
+      "board_combat_before": 329.0,
+      "board_combat_after_play": 332.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 24.0,
+      "net_board_combat_delta": 3.0,
+      "recruit_value_gain": 3.0,
+      "board_combat_before": 332.0,
+      "board_combat_after_play": 335.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 25.0,
+      "net_board_combat_delta": 1.0,
+      "recruit_value_gain": 1.0,
+      "board_combat_before": 335.0,
+      "board_combat_after_play": 336.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 16.0,
+      "net_board_combat_delta": 4.0,
+      "recruit_value_gain": 4.0,
+      "board_combat_before": 339.0,
+      "board_combat_after_play": 343.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 20.0,
+      "net_board_combat_delta": 10.0,
+      "recruit_value_gain": 10.0,
+      "board_combat_before": 343.0,
+      "board_combat_after_play": 353.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 23.0,
+      "net_board_combat_delta": 2.0,
+      "recruit_value_gain": 2.0,
+      "board_combat_before": 353.0,
+      "board_combat_after_play": 355.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 28.0,
+      "net_board_combat_delta": 0.0,
+      "recruit_value_gain": 0.0,
+      "board_combat_before": 355.0,
+      "board_combat_after_play": 355.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 6.0,
+      "net_board_combat_delta": 11.0,
+      "recruit_value_gain": 11.0,
+      "board_combat_before": 295.0,
+      "board_combat_after_play": 306.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 7.0,
+      "net_board_combat_delta": 11.0,
+      "recruit_value_gain": 11.0,
+      "board_combat_before": 306.0,
+      "board_combat_after_play": 317.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 8.0,
+      "net_board_combat_delta": 7.0,
+      "recruit_value_gain": 7.0,
+      "board_combat_before": 317.0,
+      "board_combat_after_play": 324.0
+    },
+    {
+      "turn": 9,
+      "combat_strength_loss": 22.0,
+      "net_board_combat_delta": 2.0,
+      "recruit_value_gain": 2.0,
+      "board_combat_before": 324.0,
+      "board_combat_after_play": 326.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 143.0,
+      "net_board_combat_delta": 7.0,
+      "recruit_value_gain": 7.0,
+      "board_combat_before": 1562.0,
+      "board_combat_after_play": 1569.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 153.0,
+      "net_board_combat_delta": 2.0,
+      "recruit_value_gain": 2.0,
+      "board_combat_before": 1569.0,
+      "board_combat_after_play": 1571.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 186.0,
+      "net_board_combat_delta": 0.0,
+      "recruit_value_gain": 0.0,
+      "board_combat_before": 1564.0,
+      "board_combat_after_play": 1564.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 178.0,
+      "net_board_combat_delta": 4.0,
+      "recruit_value_gain": 4.0,
+      "board_combat_before": 1564.0,
+      "board_combat_after_play": 1568.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 169.0,
+      "net_board_combat_delta": 2.0,
+      "recruit_value_gain": 2.0,
+      "board_combat_before": 1568.0,
+      "board_combat_after_play": 1570.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 187.0,
+      "net_board_combat_delta": 0.0,
+      "recruit_value_gain": 0.0,
+      "board_combat_before": 1570.0,
+      "board_combat_after_play": 1570.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 145.0,
+      "net_board_combat_delta": 0.0,
+      "recruit_value_gain": 0.0,
+      "board_combat_before": 1388.0,
+      "board_combat_after_play": 1388.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 138.0,
+      "net_board_combat_delta": 6.0,
+      "recruit_value_gain": 6.0,
+      "board_combat_before": 1388.0,
+      "board_combat_after_play": 1394.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 143.0,
+      "net_board_combat_delta": 7.0,
+      "recruit_value_gain": 7.0,
+      "board_combat_before": 1394.0,
+      "board_combat_after_play": 1401.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 113.0,
+      "net_board_combat_delta": 4.0,
+      "recruit_value_gain": 4.0,
+      "board_combat_before": 1262.0,
+      "board_combat_after_play": 1266.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 110.0,
+      "net_board_combat_delta": 3.0,
+      "recruit_value_gain": 3.0,
+      "board_combat_before": 1266.0,
+      "board_combat_after_play": 1269.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 116.0,
+      "net_board_combat_delta": 8.0,
+      "recruit_value_gain": 8.0,
+      "board_combat_before": 1269.0,
+      "board_combat_after_play": 1277.0
+    },
+    {
+      "turn": 11,
+      "combat_strength_loss": 110.0,
+      "net_board_combat_delta": 2.0,
+      "recruit_value_gain": 2.0,
+      "board_combat_before": 1277.0,
+      "board_combat_after_play": 1279.0
+    },
+    {
+      "turn": 12,
+      "combat_strength_loss": 384.0,
+      "net_board_combat_delta": 1.0,
+      "recruit_value_gain": 1.0,
+      "board_combat_before": 3467.0,
+      "board_combat_after_play": 3468.0
+    },
+    {
+      "turn": 12,
+      "combat_strength_loss": 417.0,
+      "net_board_combat_delta": 1.0,
+      "recruit_value_gain": 1.0,
+      "board_combat_before": 3468.0,
+      "board_combat_after_play": 3469.0
+    },
+    {
+      "turn": 12,
+      "combat_strength_loss": 440.0,
+      "net_board_combat_delta": 6.0,
+      "recruit_value_gain": 6.0,
+      "board_combat_before": 3642.0,
+      "board_combat_after_play": 3648.0
+    }
+  ]
+}

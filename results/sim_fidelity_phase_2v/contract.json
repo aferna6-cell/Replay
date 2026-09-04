@@ -1,0 +1,52 @@
+{
+  "runtime_fingerprint_error": "No module named 'torch'",
+  "evaluation_seed": 14200,
+  "lobbies": 500,
+  "evaluation": {
+    "policy": "greedy control (2Q/2S OFF) vs greedy treatment (2Q recruit-value + 2S board-level pool)",
+    "lobbies": 500,
+    "base_seed": 14200,
+    "note": "Phase 2V reuses consumed 2S/2T/2U DEV 14200\u201314699. Measurement only; no new seeds.",
+    "non_evaluative": false,
+    "reused_phase_2s_dev": true,
+    "stacked_on_phase_2u": true
+  },
+  "phase": "2V survivor-composition attribution",
+  "phase_2v_methodology_version": "2v_v1",
+  "fidelity_benchmark_version": "Replay Simulator Fidelity Benchmark v1",
+  "simulator_version_label": "Simulator v1.1",
+  "frozen_alpha": 0.5,
+  "forbidden_seed_ranges": [
+    "8000\u20138199",
+    "9000\u20139999",
+    "10000\u201310199",
+    "10200\u201310699",
+    "11000\u201311499",
+    "11500\u201311699",
+    "11700\u201312199",
+    "12200\u201312699",
+    "12700\u201313199",
+    "13200\u201313699",
+    "13700\u201314199"
+  ],
+  "feature_toggle": "PHASE_2S_BOARD_LEVEL_ABSTRACT_SCALING",
+  "feature_toggle_default": false,
+  "phase_2q_toggle_default": false,
+  "hold_prs": [
+    29,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "no_merge": true,
+  "no_hero_damage_change": true,
+  "no_gate_change": true,
+  "no_behavior_change": true,
+  "code_commit": "2595f144cc9d43145be139f50a08b99af583863b",
+  "working_tree_clean": true,
+  "runtime_sec": 39.42
+}

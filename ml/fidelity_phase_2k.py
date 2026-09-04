@@ -132,9 +132,10 @@ def finals_fingerprint(lobbies: int, seed: int, prior: PersistencePrior, *,
             env = BGEnv(seed=seed + i, scaling_mode="residual")
             env.play_scripted(list(policies))
             for seat, p in enumerate(env.players):
+                src = p.board if p.board else p.last_board
                 board = [{"name": m.name, "attack": m.attack,
                           "health": m.health, "golden": m.golden}
-                         for m in p.board]
+                         for m in src]
                 rows.append((i, seat, p.placement, board_fingerprint(board)))
             del env
     return sorted(rows)

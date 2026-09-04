@@ -1,0 +1,42 @@
+{
+  "control": {
+    "n": 1466,
+    "mean_delta_printed_tier": 1.7244201909959072,
+    "mean_delta_printed_raw": 6.914733969986357,
+    "median_delta_printed_tier": 2.0,
+    "median_delta_printed_raw": 8.0,
+    "share_increase_tier": 0.8458390177353342,
+    "share_increase_raw": 1.0,
+    "share_cand_t4_plus": 0.9536152796725784,
+    "mean_cand_tier": 4.573669849931787,
+    "mean_inc_tier": 2.84924965893588,
+    "mean_cand_printed_raw": 13.509549795361528,
+    "mean_inc_printed_raw": 6.5948158253751705,
+    "share_cand_tier_above_firestone": 0.6207366984993179,
+    "share_cand_raw_above_firestone": 0.34106412005457026,
+    "disproportionate_tier_upgrade": false,
+    "disproportionate_raw_upgrade": false
+  },
+  "treatment": {
+    "n": 25536,
+    "mean_delta_printed_tier": 1.6366306390977443,
+    "mean_delta_printed_raw": 3.709782268170426,
+    "median_delta_printed_tier": 2.0,
+    "median_delta_printed_raw": 3.0,
+    "share_increase_tier": 0.793937969924812,
+    "share_increase_raw": 1.0,
+    "share_cand_t4_plus": 0.8442590852130326,
+    "mean_cand_tier": 4.547540726817043,
+    "mean_inc_tier": 2.9109100877192984,
+    "mean_cand_printed_raw": 11.404644423558898,
+    "mean_inc_printed_raw": 7.6948621553884715,
+    "share_cand_tier_above_firestone": 0.537750626566416,
+    "share_cand_raw_above_firestone": 0.14223057644110276,
+    "disproportionate_tier_upgrade": false,
+    "disproportionate_raw_upgrade": false
+  },
+  "replace_rate": {
+    "control": 0.013253774523099178,
+    "treatment": 0.28269051941726075
+  }
+}

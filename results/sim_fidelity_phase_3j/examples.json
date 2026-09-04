@@ -1,0 +1,2651 @@
+{
+  "eligibility": [
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 6,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 4,
+      "treatment_fight_opponent": 5,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          5,
+          7
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          0,
+          1,
+          5,
+          5
+        ],
+        "history_constrained_candidates": [
+          3,
+          4
+        ],
+        "chosen": 4,
+        "choice_in_candidates": true,
+        "pairing_index": 1
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          5,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          3,
+          4,
+          5,
+          7
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 5,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 6,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 4,
+      "treatment_fight_opponent": 5,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          5,
+          7
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          0,
+          1,
+          5,
+          5
+        ],
+        "history_constrained_candidates": [
+          3,
+          4
+        ],
+        "chosen": 4,
+        "choice_in_candidates": true,
+        "pairing_index": 1
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          5,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          3,
+          4,
+          5,
+          7
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 5,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 6,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 4,
+      "treatment_fight_opponent": 5,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          5,
+          7
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          0,
+          1,
+          5,
+          5
+        ],
+        "history_constrained_candidates": [
+          3,
+          4
+        ],
+        "chosen": 4,
+        "choice_in_candidates": true,
+        "pairing_index": 1
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          5,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          3,
+          4,
+          5,
+          7
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 5,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 6,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 4,
+      "treatment_fight_opponent": 5,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          5,
+          7
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          0,
+          1,
+          5,
+          5
+        ],
+        "history_constrained_candidates": [
+          3,
+          4
+        ],
+        "chosen": 4,
+        "choice_in_candidates": true,
+        "pairing_index": 1
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          5,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          3,
+          4,
+          5,
+          7
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 5,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 6,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 4,
+      "treatment_fight_opponent": 5,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          5,
+          7
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          0,
+          1,
+          5,
+          5
+        ],
+        "history_constrained_candidates": [
+          3,
+          4
+        ],
+        "chosen": 4,
+        "choice_in_candidates": true,
+        "pairing_index": 1
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          5,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          0,
+          7,
+          1,
+          7,
+          3,
+          4,
+          5,
+          7
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 5,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 5,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 6,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          6,
+          7
+        ],
+        "prior_opponents": [
+          4,
+          7,
+          4,
+          0,
+          0,
+          1,
+          4,
+          6,
+          6
+        ],
+        "history_constrained_candidates": [
+          3
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          4,
+          7,
+          4,
+          0,
+          0,
+          4,
+          3,
+          6,
+          4
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 6,
+        "choice_in_candidates": true,
+        "pairing_index": 3
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 5,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 6,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          6,
+          7
+        ],
+        "prior_opponents": [
+          4,
+          7,
+          4,
+          0,
+          0,
+          1,
+          4,
+          6,
+          6
+        ],
+        "history_constrained_candidates": [
+          3
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          4,
+          7,
+          4,
+          0,
+          0,
+          4,
+          3,
+          6,
+          4
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 6,
+        "choice_in_candidates": true,
+        "pairing_index": 3
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14200,
+      "turn": 10,
+      "leftover_seat": 5,
+      "class": "eligibility",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 6,
+      "control": {
+        "alive_seats": [
+          0,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2
+        ],
+        "n_alive": 6,
+        "odd_alive": false,
+        "ghost_eligible": false,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "2075923effe78344b898575342912c2849feffe66986ac7b7dd68564ea9db67f",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          4,
+          6,
+          5,
+          3,
+          7,
+          0
+        ],
+        "pairs": [
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          4,
+          6,
+          7
+        ],
+        "prior_opponents": [
+          4,
+          7,
+          4,
+          0,
+          0,
+          1,
+          4,
+          6,
+          6
+        ],
+        "history_constrained_candidates": [
+          3
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          3,
+          5,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          1,
+          2,
+          4
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "d31f4559f93c4585e1ad76248890ba94d0b3deef56c77d47ca128eb8242968c4",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          4206941472,
+          1210940001,
+          361437419,
+          1073930783
+        ],
+        "shuffled_order": [
+          3,
+          7,
+          6,
+          5,
+          0
+        ],
+        "pairs": [
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            0,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          4,
+          7,
+          4,
+          0,
+          0,
+          4,
+          3,
+          6,
+          4
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 6,
+        "choice_in_candidates": true,
+        "pairing_index": 3
+      },
+      "alive_sets_equal": false,
+      "ghost_bye_eligible_equal": false,
+      "legal_candidates_equal": false,
+      "candidate_sets_identical": false,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    }
+  ],
+  "history_legal": [],
+  "rng_order": [
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 0,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 3,
+      "treatment_fight_opponent": 1,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          4,
+          1,
+          1,
+          6
+        ],
+        "history_constrained_candidates": [
+          3,
+          "ghost"
+        ],
+        "chosen": 3,
+        "choice_in_candidates": true,
+        "pairing_index": 0
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          1,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          1,
+          7,
+          2,
+          1,
+          1,
+          2,
+          4,
+          2,
+          1
+        ],
+        "history_constrained_candidates": [
+          3,
+          6,
+          "ghost"
+        ],
+        "chosen": 1,
+        "choice_in_candidates": true,
+        "pairing_index": 2
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    },
+    {
+      "seed": 14204,
+      "turn": 10,
+      "leftover_seat": 1,
+      "class": "rng_order",
+      "pairing_schedule_subtype": "different_opponent",
+      "control_kind": "live",
+      "treatment_kind": "live",
+      "control_fight_opponent": 7,
+      "treatment_fight_opponent": 0,
+      "control": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "ad59dfbc8192b5871b4cd612397cbb87fa7556e6ca0c5e7206a1d1e169deadc5",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          0,
+          3,
+          7,
+          1,
+          6
+        ],
+        "pairs": [
+          [
+            0,
+            3
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            6,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          6,
+          5,
+          0,
+          0,
+          5,
+          0,
+          0
+        ],
+        "history_constrained_candidates": [
+          3,
+          7,
+          "ghost"
+        ],
+        "chosen": 7,
+        "choice_in_candidates": true,
+        "pairing_index": 3
+      },
+      "treatment": {
+        "alive_seats": [
+          0,
+          1,
+          3,
+          6,
+          7
+        ],
+        "dead_with_board_seats": [
+          2,
+          4,
+          5
+        ],
+        "n_alive": 5,
+        "odd_alive": true,
+        "ghost_eligible": true,
+        "bye_eligible": false,
+        "history_filters_applied": false,
+        "rng_state_digest_pre": "521681a63b9816c685abface0a6bfb87c7f42fa808cc50f6904bc396c8e9bcc1",
+        "rng_index_pre": null,
+        "rng_state_head_pre": [
+          2313026139,
+          1080863159,
+          4235709524,
+          1748179577
+        ],
+        "shuffled_order": [
+          6,
+          3,
+          0,
+          1,
+          7
+        ],
+        "pairs": [
+          [
+            6,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "legal_candidates": [
+          0,
+          3,
+          6,
+          7,
+          "ghost"
+        ],
+        "prior_opponents": [
+          0,
+          6,
+          5,
+          0,
+          0,
+          3,
+          7,
+          6,
+          0
+        ],
+        "history_constrained_candidates": [
+          "ghost"
+        ],
+        "chosen": 0,
+        "choice_in_candidates": true,
+        "pairing_index": 3
+      },
+      "alive_sets_equal": true,
+      "ghost_bye_eligible_equal": true,
+      "legal_candidates_equal": true,
+      "candidate_sets_identical": true,
+      "chosen_equal": false,
+      "choice_in_candidates_control": true,
+      "choice_in_candidates_treatment": true,
+      "choice_reconciled": true
+    }
+  ],
+  "unreconciled": []
+}

@@ -1,0 +1,11 @@
+[2S] DEV greedy CONTROL — 500 lobbies, seeds 14200–14699
+[2S] greedy TREATMENT (2Q recruit-value + 2S pool) — same seeds
+[2S] primary_finding=inconclusive pool_drift=0.0 evaluative=True
+[2S] wrote results/sim_fidelity_phase_2s/ (34.97s)
+[2S-post] re-run greedy 2S TREATMENT for net_board_combat_delta (500 lobbies, 14200–14699)
+[2S-post] mean net-board loss=-3.461300682456845 sold-body=296.81300682456845 pass=True
+[2S-post] gates 4/5 route=inconclusive
+[2S-post] Phase 2J CONTROL α=0.5 (report-only)
+[2S-post] Phase 2J TREATMENT 2Q+2S α=0.5 (report-only)
+[2S-post] 2J replace 0.067→0.205 T10 0.887→0.929 len 15.062→13.97
+[2S-post] done in 450.31s

@@ -1,0 +1,67 @@
+{
+  "control": {
+    "persistent_2_plus": null,
+    "committed_states": null,
+    "fulfilled_exposures": null,
+    "played": null,
+    "played_rate": null,
+    "coverage_mean": null,
+    "replacement_transitions": 4125,
+    "mean_relative_tempo_loss": 0.10644141573136148,
+    "p95_relative_tempo_loss": 0.3798151001540832
+  },
+  "treatment": {
+    "persistent_2_plus": null,
+    "committed_states": null,
+    "fulfilled_exposures": null,
+    "played": null,
+    "played_rate": null,
+    "coverage_mean": null,
+    "replacement_transitions": 6445,
+    "mean_relative_tempo_loss": 0.009386972107757114,
+    "p95_relative_tempo_loss": 0.0625
+  },
+  "deltas": {
+    "persistent_2_plus": null,
+    "committed_states": null,
+    "played_rate": null,
+    "coverage_mean": null,
+    "replacement_transitions": 2320.0,
+    "mean_relative_tempo_loss": -0.09705444362360437
+  },
+  "directional_macro_policy_harm": {
+    "definition": {
+      "name": "directional_macro_policy_harm",
+      "definition": "macro_policy_harm = |treatment_ratio - 1| - |greedy_ratio - 1|; harmful when treatment moves substantially farther from Firestone than greedy, not merely when it differs from greedy.",
+      "note": "Do not retroactively pass/fail 2n_v3 with this metric. Predeclare for the next fresh evaluation after any Phase 2P fix."
+    },
+    "by_turn": {
+      "10": {
+        "greedy_ratio": 0.888976187969,
+        "treatment_ratio": 0.6516538732409275,
+        "greedy_distance": 0.11102381203099998,
+        "treatment_distance": 0.3483461267590725,
+        "macro_policy_harm": 0.23732231472807253,
+        "treatment_closer_to_firestone": false
+      },
+      "12": {
+        "greedy_ratio": 1.188508598341299,
+        "treatment_ratio": 0.5409926371848239,
+        "greedy_distance": 0.18850859834129907,
+        "treatment_distance": 0.45900736281517607,
+        "macro_policy_harm": 0.270498764473877,
+        "treatment_closer_to_firestone": false
+      },
+      "14": {
+        "greedy_ratio": 1.5402318769869934,
+        "treatment_ratio": 0.4757424559215814,
+        "greedy_distance": 0.5402318769869934,
+        "treatment_distance": 0.5242575440784186,
+        "macro_policy_harm": -0.01597433290857475,
+        "treatment_closer_to_firestone": true
+      }
+    },
+    "applied_to_2n_v3": false
+  },
+  "note": "\u03b1=0.5 frozen without retune; input value space changed so numerical optimality is not required \u2014 mechanism survival only. Composition-trace persistent-2+/coverage omitted from this DEV pass for memory; policy_stats replacement/tempo reported."
+}

@@ -1,0 +1,2376 @@
+{
+ "_source": "HearthstoneJSON",
+ "_flag": "isBattlegroundsPoolMinion",
+ "_cards_url": "https://api.hearthstonejson.com/v1/latest/enUS/cards.json",
+ "_patch_context": "Season 14 / current HSJSON latest at Phase 2N-D freeze. KB may retain historical/token cards; build_pool must intersect this manifest.",
+ "_rules": {
+  "include": "isBattlegroundsPoolMinion && type==MINION && !battlegroundsNormalDbfId",
+  "solo_sim_eligible": "not duos_exclusive && 1 <= tier <= 6",
+  "max_tier_sim": 6,
+  "exclude_from_solo_build_pool": [
+   "duos_exclusive",
+   "tier>=7",
+   "tokens",
+   "removed",
+   "generated-only"
+  ]
+ },
+ "n_pool_minions_all": 275,
+ "n_solo_sim_eligible": 235,
+ "n_duos_exclusive": 28,
+ "n_tier7": 13,
+ "tier_counts_solo": {
+  "1": 22,
+  "2": 34,
+  "3": 43,
+  "4": 55,
+  "5": 46,
+  "6": 35
+ },
+ "minions": [
+  {
+   "card_id": "BG32_236",
+   "name": "Aureate Laureate",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_803",
+   "name": "Buzzing Vermin",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_611",
+   "name": "Cord Puller",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_119",
+   "name": "Crackling Cyclone",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_921",
+   "name": "Fleeing Fugitive",
+   "tier": 1,
+   "attack": 5,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_330",
+   "name": "Flighty Scout",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_200",
+   "name": "Flittering Bat",
+   "tier": 1,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_888",
+   "name": "Glim Guardian",
+   "tier": 1,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_300",
+   "name": "Harmless Bonehead",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_146",
+   "name": "Lullabot",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_000",
+   "name": "Mini-Myrmidon",
+   "tier": 1,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_127",
+   "name": "Molten Rock",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_330",
+   "name": "Ominous Seer",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG20_100",
+   "name": "Razorfen Geomancer",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_001",
+   "name": "Risen Rider",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_140",
+   "name": "River Skipper",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_013",
+   "name": "Rot Hide Gnoll",
+   "tier": 1,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_814",
+   "name": "Scarlet Survivor",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_135",
+   "name": "Southsea Busker",
+   "tier": 1,
+   "attack": 3,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_345",
+   "name": "Suspicious Prisonguard",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_886",
+   "name": "Tusked Camper",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_004",
+   "name": "Wrath Weaver",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG_TTN_401",
+   "name": "Ancestral Automaton",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_520",
+   "name": "Bilgewater Breakout",
+   "tier": 2,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_342",
+   "name": "Clever Castaway",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_320",
+   "name": "Crater Miner",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_354",
+   "name": "Decoy Conjurer",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_963",
+   "name": "Electric Synthesizer",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_008",
+   "name": "Eternal Knight",
+   "tier": 2,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_140",
+   "name": "Expert Aviator",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_816",
+   "name": "Fire Baller",
+   "tier": 2,
+   "attack": 4,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_801",
+   "name": "Forest Rover",
+   "tier": 2,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_805",
+   "name": "Humming Bird",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_237",
+   "name": "Intrepid Botanist",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_150",
+   "name": "Laboratory Assistant",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_009",
+   "name": "Lava Lurker",
+   "tier": 2,
+   "attack": 2,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_201",
+   "name": "Lurking Lionfish",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_177",
+   "name": "Mechagnome Interpreter",
+   "tier": 2,
+   "attack": 3,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_170",
+   "name": "Metallic Hunter",
+   "tier": 2,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_357",
+   "name": "Mind Muck",
+   "tier": 2,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_011",
+   "name": "Nerubian Deathswarmer",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG27_002",
+   "name": "Oozeling Gladiator",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG24_715",
+   "name": "Patient Scout",
+   "tier": 2,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_430",
+   "name": "Prodigious Tusker",
+   "tier": 2,
+   "attack": 1,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG20_101",
+   "name": "Roadboar",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_022",
+   "name": "Scarlet Skull",
+   "tier": 2,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_115",
+   "name": "Sellemental",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_002",
+   "name": "Shell Collector",
+   "tier": 2,
+   "attack": 4,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_818",
+   "name": "Snow Baller",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_174",
+   "name": "Soul Rewinder",
+   "tier": 2,
+   "attack": 4,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_235",
+   "name": "Surfing Sylvar",
+   "tier": 2,
+   "attack": 1,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG22_202",
+   "name": "Tad",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG21_015",
+   "name": "Tarecgosa",
+   "tier": 2,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_924",
+   "name": "Thaumaturgist",
+   "tier": 2,
+   "attack": 1,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_810",
+   "name": "Thousandth Paper Drake",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_300",
+   "name": "Very Hungry Winterfinner",
+   "tier": 2,
+   "attack": 2,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_147",
+   "name": "Accord-o-Tron",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG24_500",
+   "name": "Amber Guardian",
+   "tier": 3,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG_BOT_911",
+   "name": "Annoy-o-Module",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_830",
+   "name": "Azsharan Cutlassier",
+   "tier": 3,
+   "attack": 6,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_924",
+   "name": "Blue Whelp",
+   "tier": 3,
+   "attack": 1,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_507",
+   "name": "Breakout Mastermind",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_683",
+   "name": "Briarback Drummer",
+   "tier": 3,
+   "attack": 5,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG30_125",
+   "name": "Cadaver Caretaker",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_508",
+   "name": "Cagey Conjurer",
+   "tier": 3,
+   "attack": 5,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_131",
+   "name": "Deadly Spore",
+   "tier": 3,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_004",
+   "name": "Deep-Sea Angler",
+   "tier": 3,
+   "attack": 2,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_071",
+   "name": "Deflect-o-Bot",
+   "tier": 3,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_155",
+   "name": "Devout Hellcaller",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG27_556",
+   "name": "Diremuck Forager",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_303",
+   "name": "Disguised Graverobber",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_323",
+   "name": "Dustbone Devastator",
+   "tier": 3,
+   "attack": 2,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_346",
+   "name": "Fruit Vendor",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_326",
+   "name": "Gem Rat",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_010",
+   "name": "Handless Forsaken",
+   "tier": 3,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_240",
+   "name": "Hired Mount",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_521",
+   "name": "Locked-up Mutineer",
+   "tier": 3,
+   "attack": 6,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_524",
+   "name": "Malchezaar, Prince of Dance",
+   "tier": 3,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_140",
+   "name": "Mama Mrrglton",
+   "tier": 3,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_843",
+   "name": "Meteorite Crasher",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_309",
+   "name": "Mummifier",
+   "tier": 3,
+   "attack": 5,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_141",
+   "name": "Papa Mrrglton",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_509",
+   "name": "Private Investigator",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG_DEEP_015",
+   "name": "Prosthetic Hand",
+   "tier": 3,
+   "attack": 3,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_854",
+   "name": "Rescue Bot",
+   "tier": 3,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_816",
+   "name": "Roaring Recruiter",
+   "tier": 3,
+   "attack": 2,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_841",
+   "name": "Sand Swirler",
+   "tier": 3,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_330",
+   "name": "Sly Infiltrator",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_806",
+   "name": "Sly Raptor",
+   "tier": 3,
+   "attack": 1,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG27_084",
+   "name": "Sprightly Scarab",
+   "tier": 3,
+   "attack": 3,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_202",
+   "name": "Tasty Lobster",
+   "tier": 3,
+   "attack": 1,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG27_005",
+   "name": "Timecap'n Hooktail",
+   "tier": 3,
+   "attack": 1,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_730",
+   "name": "Trapped Clapper",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_763",
+   "name": "Treasure Parrot",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_684",
+   "name": "Trench Fighter",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_856",
+   "name": "Waveling",
+   "tier": 3,
+   "attack": 5,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_007",
+   "name": "Waverider",
+   "tier": 3,
+   "attack": 2,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_126",
+   "name": "Wildfire Elemental",
+   "tier": 3,
+   "attack": 6,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_207",
+   "name": "Wolf Pup",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_921",
+   "name": "Abyssal Bruiser",
+   "tier": 4,
+   "attack": 2,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_181",
+   "name": "Air Baller",
+   "tier": 4,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_873",
+   "name": "Ashen Corruptor",
+   "tier": 4,
+   "attack": 5,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_172",
+   "name": "Auto Assembler",
+   "tier": 4,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_802",
+   "name": "Banana Slamma",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_822",
+   "name": "Bigwig Bandit",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_817",
+   "name": "Blade Collector",
+   "tier": 4,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG20_104",
+   "name": "Bonker",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_620",
+   "name": "Boom-in-a-Box",
+   "tier": 4,
+   "attack": 5,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_331",
+   "name": "Bramble Tunneler",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_137",
+   "name": "Bream Counter",
+   "tier": 4,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_242",
+   "name": "Bronze Timewalker",
+   "tier": 4,
+   "attack": 2,
+   "health": 9,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_211",
+   "name": "Cage Gnawer",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_760",
+   "name": "Captain Cookie",
+   "tier": 4,
+   "attack": 5,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_503",
+   "name": "Clunker Junker",
+   "tier": 4,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_511",
+   "name": "Dead Bellringer",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_143",
+   "name": "Deepwater Chieftain",
+   "tier": 4,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_506",
+   "name": "Drone Duplicator",
+   "tier": 4,
+   "attack": 5,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_865",
+   "name": "En-Djinn Blazer",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_341",
+   "name": "Enchanted Sentinel",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG30_123",
+   "name": "Fearless Foodie",
+   "tier": 4,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_500",
+   "name": "Flaming Enforcer",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_880",
+   "name": "Friendly Geist",
+   "tier": 4,
+   "attack": 6,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_764",
+   "name": "Gearfin",
+   "tier": 4,
+   "attack": 6,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_853",
+   "name": "Glambot",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_842",
+   "name": "Glowing Cinder",
+   "tier": 4,
+   "attack": 4,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_810",
+   "name": "Gunpowder Courier",
+   "tier": 4,
+   "attack": 2,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_204",
+   "name": "Headhunter Gryphon",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_604",
+   "name": "Heroic Underdog",
+   "tier": 4,
+   "attack": 1,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_341",
+   "name": "Humon'gozz",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_731",
+   "name": "Imp-lusionist",
+   "tier": 4,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_525",
+   "name": "Imposing Percussionist",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_701",
+   "name": "Kelp Keeper",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_180",
+   "name": "Living Prison",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_814",
+   "name": "Lovesick Balladist",
+   "tier": 4,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_524",
+   "name": "Maritime Extortionist",
+   "tier": 4,
+   "attack": 7,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_340",
+   "name": "Maw Caster",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG27_080",
+   "name": "Motley Phalanx",
+   "tier": 4,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG29_813",
+   "name": "Persistent Poet",
+   "tier": 4,
+   "attack": 2,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_690",
+   "name": "Plaguerunner",
+   "tier": 4,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_682",
+   "name": "Razorfen Flapper",
+   "tier": 4,
+   "attack": 6,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_116",
+   "name": "Refreshing Anomaly",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_319",
+   "name": "Rimescale Priestess",
+   "tier": 4,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_245",
+   "name": "Runic Arcanist",
+   "tier": 4,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_925",
+   "name": "Seafloor Recruiter",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_016",
+   "name": "Sin'dorei Straight Shot",
+   "tier": 4,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_243",
+   "name": "Sky-hatch Runaway",
+   "tier": 4,
+   "attack": 4,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_332",
+   "name": "Snare Trapper",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_206",
+   "name": "Snarky Shark",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_503",
+   "name": "Soulkeeping Jailer",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_123",
+   "name": "Tavern Tempest",
+   "tier": 4,
+   "attack": 2,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_327",
+   "name": "Thorned Trailblazer",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG24_018",
+   "name": "Tortollan Blue Shell",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_703",
+   "name": "Twilight Tidehunter",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_505",
+   "name": "Zesty Shaker",
+   "tier": 4,
+   "attack": 6,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_858",
+   "name": "Air Revenant",
+   "tier": 5,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_514",
+   "name": "Barrier Banshee",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_318",
+   "name": "Bile Spitter",
+   "tier": 5,
+   "attack": 1,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG_LOE_077",
+   "name": "Brann Bronzebeard",
+   "tier": 5,
+   "attack": 2,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_123",
+   "name": "Cataclysmic Harbinger",
+   "tier": 5,
+   "attack": 6,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_741",
+   "name": "Charging Czarina",
+   "tier": 5,
+   "attack": 4,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_142",
+   "name": "Costume Enthusiast",
+   "tier": 5,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_142",
+   "name": "Cousin Errgl",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_162",
+   "name": "Dancing Barnstormer",
+   "tier": 5,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_920",
+   "name": "Darkcrest Strategist",
+   "tier": 5,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_621",
+   "name": "Deft Deserter",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_762",
+   "name": "Devilish Distractor",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_633",
+   "name": "Draconic Warden",
+   "tier": 5,
+   "attack": 7,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_ICC_901",
+   "name": "Drakkari Enchanter",
+   "tier": 5,
+   "attack": 1,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_324",
+   "name": "Drustfallen Butcher",
+   "tier": 5,
+   "attack": 2,
+   "health": 9,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_824",
+   "name": "Dual-Wield Corsair",
+   "tier": 5,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_523",
+   "name": "Enterprising Escapee",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_633",
+   "name": "Felboar",
+   "tier": 5,
+   "attack": 2,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_821",
+   "name": "Felfire Conjurer",
+   "tier": 5,
+   "attack": 6,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_820",
+   "name": "Firescale Hoarder",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_008",
+   "name": "Glowscale",
+   "tier": 5,
+   "attack": 4,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_210",
+   "name": "Hoarding Hyena",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG21_004",
+   "name": "Insatiable Ur'zul",
+   "tier": 5,
+   "attack": 4,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_041",
+   "name": "Kalecgos, Arcane Aspect",
+   "tier": 5,
+   "attack": 4,
+   "health": 12,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_012",
+   "name": "Kangor's Apprentice",
+   "tier": 5,
+   "attack": 3,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_318",
+   "name": "Leeroy the Reckless",
+   "tier": 5,
+   "attack": 6,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_602",
+   "name": "Lurking Leviathan",
+   "tier": 5,
+   "attack": 3,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_111",
+   "name": "Nightmare Par-tea Guest",
+   "tier": 5,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_104",
+   "name": "Nomi, Kitchen Nightmare",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_020",
+   "name": "Primalfin Lookout",
+   "tier": 5,
+   "attack": 3,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_825",
+   "name": "Proud Privateer",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_883",
+   "name": "Razorfen Vineweaver",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_550",
+   "name": "Rodeo Performer",
+   "tier": 5,
+   "attack": 3,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_885",
+   "name": "Sanguine Refiner",
+   "tier": 5,
+   "attack": 2,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_148",
+   "name": "Scrap Scraper",
+   "tier": 5,
+   "attack": 6,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_604",
+   "name": "Sewer Lord",
+   "tier": 5,
+   "attack": 4,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_704",
+   "name": "Shamanic Tidecaller",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_821",
+   "name": "Shipwrecked Rascal",
+   "tier": 5,
+   "attack": 5,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_925",
+   "name": "Showy Cyclist",
+   "tier": 5,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_851",
+   "name": "Spark Snapper",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_523",
+   "name": "Tichondrius",
+   "tier": 5,
+   "attack": 3,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_354",
+   "name": "Titus Rivendare",
+   "tier": 5,
+   "attack": 1,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_835",
+   "name": "Tranquil Meditative",
+   "tier": 5,
+   "attack": 3,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_809",
+   "name": "Turquoise Skitterer",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_510",
+   "name": "Vigilant Bristlemane",
+   "tier": 5,
+   "attack": 3,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_152",
+   "name": "Void Pup Trainer",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_883",
+   "name": "Balinda Stonehearth",
+   "tier": 6,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_354",
+   "name": "Choral Mrrrglr",
+   "tier": 6,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_241",
+   "name": "Crimson Vindicator",
+   "tier": 6,
+   "attack": 8,
+   "health": 9,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_835",
+   "name": "Deathly Striker",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_208",
+   "name": "Deathstrider",
+   "tier": 6,
+   "attack": 10,
+   "health": 11,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_175",
+   "name": "Elemental of Surprise",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_733",
+   "name": "Eredar Escapist",
+   "tier": 6,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG25_009",
+   "name": "Eternal Summoner",
+   "tier": 6,
+   "attack": 8,
+   "health": 1,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_342",
+   "name": "Falling Sky Golem",
+   "tier": 6,
+   "attack": 4,
+   "health": 2,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_837",
+   "name": "Fauna Whisperer",
+   "tier": 6,
+   "attack": 4,
+   "health": 9,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_822",
+   "name": "Fire-forged Evoker",
+   "tier": 6,
+   "attack": 8,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG34_692",
+   "name": "Forsaken Weaver",
+   "tier": 6,
+   "attack": 3,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_640",
+   "name": "Gatekeeper Amalgam",
+   "tier": 6,
+   "attack": 6,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_121",
+   "name": "Gentle Djinni",
+   "tier": 6,
+   "attack": 5,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BGS_018",
+   "name": "Goldrinn, the Great Wolf",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_035",
+   "name": "Groundbreaker",
+   "tier": 6,
+   "attack": 6,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_344",
+   "name": "Hooktusk, Master Marauder",
+   "tier": 6,
+   "attack": 4,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG28_595",
+   "name": "Ignition Specialist",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_891",
+   "name": "Magicfin Mycologist",
+   "tier": 6,
+   "attack": 4,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_351",
+   "name": "Moat Custodian",
+   "tier": 6,
+   "attack": 5,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_893",
+   "name": "Primitive Painter",
+   "tier": 6,
+   "attack": 3,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_209",
+   "name": "Ravaging Scorpid",
+   "tier": 6,
+   "attack": 6,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG23_017",
+   "name": "Sanguine Champion",
+   "tier": 6,
+   "attack": 9,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_343",
+   "name": "Silent Deliverer",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG33_823",
+   "name": "Sky Admiral Rogers",
+   "tier": 6,
+   "attack": 4,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_515",
+   "name": "Snazzy Phantom",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_622",
+   "name": "Torrential Ruiner",
+   "tier": 6,
+   "attack": 6,
+   "health": 3,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG31_323",
+   "name": "Turbo Hogrider",
+   "tier": 6,
+   "attack": 5,
+   "health": 7,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG35_155",
+   "name": "Twisted Wrathguard",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_356",
+   "name": "Tyrael",
+   "tier": 6,
+   "attack": 10,
+   "health": 10,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_352",
+   "name": "Unbound Tempest",
+   "tier": 6,
+   "attack": 3,
+   "health": 12,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG32_846",
+   "name": "Unleashed Mana Surge",
+   "tier": 6,
+   "attack": 6,
+   "health": 5,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG26_152",
+   "name": "Utility Drone",
+   "tier": 6,
+   "attack": 4,
+   "health": 6,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG36_341",
+   "name": "Veteran Brigand",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "duos_exclusive": false,
+   "buddy": false
+  },
+  {
+   "card_id": "BG24_004",
+   "name": "Warpwing",
+   "tier": 6,
+   "attack": 12,
+   "health": 4,
+   "duos_exclusive": false,
+   "buddy": false
+  }
+ ],
+ "excluded_duos_exclusive": [
+  {
+   "card_id": "BGDUO33_140",
+   "name": "Bottom Feeder",
+   "tier": 3
+  },
+  {
+   "card_id": "BGDUO33_150",
+   "name": "Dark Dazzler",
+   "tier": 6
+  },
+  {
+   "card_id": "BGDUO_107",
+   "name": "Doting Dracthyr",
+   "tier": 3
+  },
+  {
+   "card_id": "BGDUO_110",
+   "name": "Feisty Freshwater",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_104",
+   "name": "Friendly Saloonkeeper",
+   "tier": 2
+  },
+  {
+   "card_id": "BGDUO31_201",
+   "name": "Gathering Stormer",
+   "tier": 2
+  },
+  {
+   "card_id": "BGDUO_111",
+   "name": "Generous Geomancer",
+   "tier": 2
+  },
+  {
+   "card_id": "BGDUO_112",
+   "name": "Grave Narrator",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_115",
+   "name": "Jumping Jack",
+   "tier": 3
+  },
+  {
+   "card_id": "BGDUO31_202",
+   "name": "Loyal Mobster",
+   "tier": 6
+  },
+  {
+   "card_id": "BGDUO_121",
+   "name": "Man'ari Messenger",
+   "tier": 5
+  },
+  {
+   "card_id": "BGDUO31_212",
+   "name": "Mantid King",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_108",
+   "name": "Mirror Monster",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_119",
+   "name": "Orc-estra Conductor",
+   "tier": 3
+  },
+  {
+   "card_id": "BGDUO_114",
+   "name": "Passenger",
+   "tier": 1
+  },
+  {
+   "card_id": "BGDUO_118",
+   "name": "Plunder Pal",
+   "tier": 3
+  },
+  {
+   "card_id": "BGDUO31_209",
+   "name": "Private Chef",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_117",
+   "name": "Puddle Prancer",
+   "tier": 3
+  },
+  {
+   "card_id": "BGDUO31_208",
+   "name": "San'layn Scribe",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_125",
+   "name": "Sandy",
+   "tier": 7
+  },
+  {
+   "card_id": "BGDUO31_205",
+   "name": "Selfless Sightseer",
+   "tier": 5
+  },
+  {
+   "card_id": "BGDUO31_203",
+   "name": "Shifty Snake",
+   "tier": 4
+  },
+  {
+   "card_id": "BGDUO_122",
+   "name": "Storm Splitter",
+   "tier": 5
+  },
+  {
+   "card_id": "BGDUO_109",
+   "name": "Support System",
+   "tier": 5
+  },
+  {
+   "card_id": "BGDUO31_211",
+   "name": "Transport Reactor",
+   "tier": 6
+  },
+  {
+   "card_id": "BGDUO_100",
+   "name": "Wanderer Cho",
+   "tier": 2
+  },
+  {
+   "card_id": "BGDUO_120",
+   "name": "Well Wisher",
+   "tier": 5
+  },
+  {
+   "card_id": "BGDUO31_207",
+   "name": "Wheeled Crewmate",
+   "tier": 3
+  }
+ ],
+ "excluded_tier7": [
+  {
+   "card_id": "BG25_034",
+   "name": "Captain Sanders",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG27_016",
+   "name": "Champion of Sargeras",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG34_145",
+   "name": "Futurefin",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG34_319",
+   "name": "Highkeeper Ra",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG36_333",
+   "name": "Jailbird Juggernaut",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG27_017",
+   "name": "Obsidian Ravager",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG26_149",
+   "name": "Polarizing Beatboxer",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BGDUO_125",
+   "name": "Sandy",
+   "tier": 7,
+   "duos_exclusive": true
+  },
+  {
+   "card_id": "BG27_514",
+   "name": "Sea Witch Zar'jira",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG34_322",
+   "name": "Stalwart Kodo",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG31_999",
+   "name": "Stitched Salvager",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG34_950",
+   "name": "Stone Age Slab",
+   "tier": 7,
+   "duos_exclusive": false
+  },
+  {
+   "card_id": "BG34_320",
+   "name": "The Last One Standing",
+   "tier": 7,
+   "duos_exclusive": false
+  }
+ ],
+ "known_non_pool_examples": [
+  {
+   "card_id": "BG36_200t",
+   "name": "Foraging Bat",
+   "reason": "token_not_tavern_pool"
+  }
+ ]
+}

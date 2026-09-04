@@ -1,0 +1,202 @@
+{
+  "control": {
+    "1": {
+      "n_start": 11468,
+      "p_survive": 0.38018835019183816,
+      "mean_start_health": 363.68678060690615,
+      "mean_n_damaging_hits": 2.010289501220788,
+      "mean_incoming": 423.5824032089292,
+      "mean_incoming_per_hit": 219.4306693989071,
+      "mean_hp_margin": 4.8101415187927214,
+      "mean_overkill": 116.47148587373562,
+      "p_any_damaging_hit": 0.9700034879665155,
+      "p_overkill": 0.6054237879316359,
+      "mean_per_hit": 1.4803149606299213
+    },
+    "2": {
+      "n_start": 16104,
+      "p_survive": 0.3476775956284153,
+      "mean_start_health": 349.06898907103823,
+      "mean_n_damaging_hits": 1.8817685047193244,
+      "mean_incoming": 412.973609041232,
+      "mean_incoming_per_hit": 225.00432952179878,
+      "mean_hp_margin": 7.784586005504165,
+      "mean_overkill": 119.01055638350721,
+      "p_any_damaging_hit": 0.946659215101838,
+      "p_overkill": 0.6363636363636364,
+      "mean_per_hit": 2.078740157480315
+    },
+    "3": {
+      "n_start": 14914,
+      "p_survive": 0.2794689553439721,
+      "mean_start_health": 174.44421349067989,
+      "mean_n_damaging_hits": 1.3219793482633766,
+      "mean_incoming": 291.5827410486791,
+      "mean_incoming_per_hit": 219.65124491529212,
+      "mean_hp_margin": 11.650159045048696,
+      "mean_overkill": 138.47726967949578,
+      "p_any_damaging_hit": 0.9175942067855706,
+      "p_overkill": 0.7022260962853695,
+      "mean_per_hit": 1.925132309281012
+    },
+    "4": {
+      "n_start": 11249,
+      "p_survive": 0.278958129611521,
+      "mean_start_health": 125.96888612321095,
+      "mean_n_damaging_hits": 1.0595608498533202,
+      "mean_incoming": 275.1509467508223,
+      "mean_incoming_per_hit": 227.94049396983436,
+      "mean_hp_margin": 15.684102915551236,
+      "mean_overkill": 149.52626900168903,
+      "p_any_damaging_hit": 0.8456751711263223,
+      "p_overkill": 0.7040625833407415,
+      "mean_per_hit": 1.4520459532722345
+    },
+    "5": {
+      "n_start": 488,
+      "p_survive": 0.2459016393442623,
+      "mean_start_health": 121.01024590163935,
+      "mean_n_damaging_hits": 0.9016393442622951,
+      "mean_incoming": 347.76024590163934,
+      "mean_incoming_per_hit": 324.5010245901639,
+      "mean_hp_margin": 21.155764591287753,
+      "mean_overkill": 250.3360655737705,
+      "p_any_damaging_hit": 0.819672131147541,
+      "p_overkill": 0.7397540983606558,
+      "mean_per_hit": 0.06299212598425197
+    },
+    "6": {
+      "n_start": 0,
+      "p_survive": null,
+      "mean_start_health": null,
+      "mean_n_damaging_hits": null,
+      "mean_incoming": null,
+      "mean_incoming_per_hit": null,
+      "mean_hp_margin": null,
+      "mean_overkill": null,
+      "p_any_damaging_hit": null,
+      "p_overkill": null,
+      "mean_per_hit": 0.0
+    }
+  },
+  "treatment": {
+    "1": {
+      "n_start": 5261,
+      "p_survive": 0.2212507127922448,
+      "mean_start_health": 20.687321801938793,
+      "mean_n_damaging_hits": 1.4314769055312677,
+      "mean_incoming": 27.54381296331496,
+      "mean_incoming_per_hit": 19.452417157701323,
+      "mean_hp_margin": 2.048507925329679,
+      "mean_overkill": 8.57004371792435,
+      "p_any_damaging_hit": 0.9576126211746816,
+      "p_overkill": 0.7314198821516822,
+      "mean_per_hit": 0.7345713487852555
+    },
+    "2": {
+      "n_start": 8789,
+      "p_survive": 0.31789737171464333,
+      "mean_start_health": 41.80361815906247,
+      "mean_n_damaging_hits": 1.567755148481056,
+      "mean_incoming": 48.52508817840482,
+      "mean_incoming_per_hit": 30.205950620093297,
+      "mean_hp_margin": 3.7007121650502985,
+      "mean_overkill": 12.711002389350325,
+      "p_any_damaging_hit": 0.9332119695073388,
+      "p_overkill": 0.6506997383092502,
+      "mean_per_hit": 1.227171181234292
+    },
+    "3": {
+      "n_start": 12120,
+      "p_survive": 0.37095709570957097,
+      "mean_start_health": 92.35957095709571,
+      "mean_n_damaging_hits": 1.5646039603960396,
+      "mean_incoming": 101.32797029702971,
+      "mean_incoming_per_hit": 63.53657590759076,
+      "mean_hp_margin": 6.872249461791791,
+      "mean_overkill": 25.49075907590759,
+      "p_any_damaging_hit": 0.9328382838283829,
+      "p_overkill": 0.6058580858085808,
+      "mean_per_hit": 1.6922647305222005
+    },
+    "4": {
+      "n_start": 14966,
+      "p_survive": 0.42209007082720834,
+      "mean_start_health": 249.60196445275957,
+      "mean_n_damaging_hits": 1.7132166243485234,
+      "mean_incoming": 277.354603768542,
+      "mean_incoming_per_hit": 149.63277874292842,
+      "mean_hp_margin": 14.39552620788845,
+      "mean_overkill": 62.89122009889082,
+      "p_any_damaging_hit": 0.9144059869036483,
+      "p_overkill": 0.5649472136843512,
+      "mean_per_hit": 2.089639765428651
+    },
+    "5": {
+      "n_start": 6014,
+      "p_survive": 0.4419687396075823,
+      "mean_start_health": 539.6501496508148,
+      "mean_n_damaging_hits": 1.630196208846026,
+      "mean_incoming": 543.2645493847689,
+      "mean_incoming_per_hit": 324.2747145549274,
+      "mean_hp_margin": 41.732743783956266,
+      "mean_overkill": 120.45527103425341,
+      "p_any_damaging_hit": 0.9183571666112404,
+      "p_overkill": 0.5533754572663785,
+      "mean_per_hit": 0.8397095783300754
+    },
+    "6": {
+      "n_start": 2966,
+      "p_survive": 0.45178691840863117,
+      "mean_start_health": 932.6598111935266,
+      "mean_n_damaging_hits": 1.505057316250843,
+      "mean_incoming": 955.518206338503,
+      "mean_incoming_per_hit": 575.4014947179141,
+      "mean_hp_margin": 74.04775361828565,
+      "mean_overkill": 198.8981793661497,
+      "p_any_damaging_hit": 0.9032366824005394,
+      "p_overkill": 0.547875927174646,
+      "mean_per_hit": 0.41413013124825465
+    }
+  },
+  "delta_mean_n_damaging_hits": {
+    "1": -0.5788125956895205,
+    "2": -0.31401335623826854,
+    "3": 0.24262461213266295,
+    "4": 0.6536557744952032,
+    "5": 0.7285568645837309,
+    "6": null
+  },
+  "delta_mean_incoming_per_hit": {
+    "1": -199.97825224120578,
+    "2": -194.7983789017055,
+    "3": -156.11466900770137,
+    "4": -78.30771522690594,
+    "5": -0.2263100352365086,
+    "6": null
+  },
+  "delta_mean_hp_margin": {
+    "1": -2.7616335934630425,
+    "2": -4.083873840453867,
+    "3": -4.777909583256905,
+    "4": -1.288576707662786,
+    "5": 20.576979192668514,
+    "6": null
+  },
+  "delta_mean_overkill": {
+    "1": -107.90144215581127,
+    "2": -106.29955399415688,
+    "3": -112.98651060358819,
+    "4": -86.63504890279822,
+    "5": -129.88079453951707,
+    "6": null
+  },
+  "delta_p_survive": {
+    "1": -0.15893763739959335,
+    "2": -0.029780223913771997,
+    "3": 0.09148814036559888,
+    "4": 0.14313194121568734,
+    "5": 0.19606710026332003,
+    "6": null
+  }
+}

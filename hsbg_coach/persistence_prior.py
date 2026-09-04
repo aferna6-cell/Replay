@@ -42,7 +42,12 @@ def report_tier_band(tier: int) -> str:
 
 
 def raw_stats(m: Dict) -> float:
-    return float((m.get("attack") or 0) + (m.get("health") or 0))
+    """Replacement / tempo raw used by recruit policies.
+
+    Respects Phase 2Q ``PHASE_2Q_RECRUIT_VALUE_STATS`` via ``valuation_raw``.
+    """
+    from .bg_env import valuation_raw
+    return valuation_raw(m)
 
 
 def minion_key(m: Dict) -> Tuple:
