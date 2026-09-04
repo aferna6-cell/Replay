@@ -1,0 +1,98 @@
+{
+  "turns": [
+    12,
+    13,
+    14
+  ],
+  "trace_from_turn": 7,
+  "n_pairing_schedule": 755,
+  "n_eligibility": 727,
+  "n_third_party": 506,
+  "n_leftover_input": 936,
+  "published_third_party": 3701,
+  "third_party_reproduced": false,
+  "published_eligibility": 5648,
+  "eligibility_reproduced": false,
+  "published_pairing_schedule": 5952,
+  "pairing_schedule_reproduced": false,
+  "timing_3k_counts": {
+    "treatment_eliminated_earlier": 168,
+    "ghost_bye_third_party": 506,
+    "control_opponent_eliminated_earlier": 53
+  },
+  "matchmaking_counts": {
+    "eligibility": 727,
+    "rng_order": 28
+  },
+  "counts": {
+    "different_seat_alive_set_cascade": 77,
+    "same_seat_earlier_elimination": 287,
+    "same_fight_outcome_flip": 44,
+    "same_outcome_damage_threshold": 98
+  },
+  "hp_counts": {
+    "accumulated_prior_hp": 277,
+    "current_fight_hit": 5,
+    "current_fight_damage_magnitude": 5
+  },
+  "subtype_x_class": {
+    "different_opponent:different_seat_alive_set_cascade": 61,
+    "different_opponent:same_seat_earlier_elimination": 237,
+    "kind_mismatch:same_fight_outcome_flip": 16,
+    "different_opponent:same_outcome_damage_threshold": 86,
+    "kind_mismatch:same_outcome_damage_threshold": 12,
+    "different_opponent:same_fight_outcome_flip": 28,
+    "kind_mismatch:same_seat_earlier_elimination": 50,
+    "kind_mismatch:different_seat_alive_set_cascade": 16
+  },
+  "first_divergence_turn_counts": {
+    "9": 131,
+    "8": 283,
+    "7": 59,
+    "10": 33
+  },
+  "causal_elimination_turn_counts": {
+    "8": 131,
+    "7": 283,
+    "6": 59,
+    "9": 33
+  },
+  "attributed": {
+    "same_seat_earlier_elimination": 287.0,
+    "different_seat_alive_set_cascade": 77.0,
+    "same_fight_outcome_flip": 44.0,
+    "same_outcome_damage_threshold": 98.0,
+    "unreconciled": 0.0
+  },
+  "hp_attributed": {
+    "accumulated_prior_hp": 277.0,
+    "current_fight_hit": 5.0,
+    "current_fight_damage_magnitude": 5.0,
+    "hp_unreconciled": 0.0
+  },
+  "reconstructed_third_party_rows": 506.0,
+  "reconciliation_gap": 0.0,
+  "reconciliation_ok": true,
+  "hp_reconstructed_earlier_rows": 287.0,
+  "hp_reconciliation_gap": 0.0,
+  "hp_reconciliation_ok": true,
+  "n_same_seat_earlier": 287,
+  "n_row_elim_checked": 506,
+  "n_causal_elimination_linked": 506,
+  "n_row_hp_flow_ok": 506,
+  "row_elim_ok": true,
+  "row_hp_flow_ok": true,
+  "share_same_seat_earlier_elimination": 0.567193675889328,
+  "share_different_seat_alive_set_cascade": 0.15217391304347827,
+  "share_same_fight_outcome_flip": 0.08695652173913043,
+  "share_same_outcome_damage_threshold": 0.19367588932806323,
+  "share_unreconciled": 0.0,
+  "share_accumulated_prior_hp": 0.9651567944250871,
+  "share_current_fight_hit": 0.017421602787456445,
+  "share_current_fight_damage_magnitude": 0.017421602787456445,
+  "share_hp_unreconciled": 0.0,
+  "n_compared_kept": 64,
+  "candidate_choice_ok": true,
+  "matchmaking_reconciliation_ok": true,
+  "timing_reconciliation_ok": true
+}
