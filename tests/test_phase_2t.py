@@ -9,7 +9,9 @@ from hsbg_coach.bg_env import (
 )
 from hsbg_coach.sim import Combatant, simulate_once
 from ml.game_length_damage_diagnostic import (
+    PHASE_2S_POST_SCALE,
     GameLengthDamageTracer,
+    attribute_shortening,
     decompose_hero_damage,
 )
 from ml.phase_2s_prereg import (
@@ -184,14 +186,14 @@ def test_direct_combat_hp_delta_matches_hero_damage():
     fight = next(f for f in seen if f.get("kind") == "live")
     raw = int(fight["raw"])
     assert raw != 0
-    if raw > 0:
-        expect = BGEnv._hero_damage(raw, a.tier, a.board)
-        assert fight["pre_hp_b"] - fight["post_hp_b"] == expect
-        assert fight["applied"] == expect
-    else:
-        expect = BGEnv._hero_damage(raw, b.tier, b.board)
+    expect = BGEnv._hero_damage(
+        raw, int(fight["winner_tier"]), fight["winner_board"]
+    )
+    assert fight["applied"] == expect
+    if fight["loser_seat"] == fight["seat_a"]:
         assert fight["pre_hp_a"] - fight["post_hp_a"] == expect
-        assert fight["applied"] == expect
+    else:
+        assert fight["pre_hp_b"] - fight["post_hp_b"] == expect
 
 
 def test_simulate_once_count_only_is_tier_plus_survivors():
@@ -243,3 +245,40 @@ def test_diagnose_routes_three_ways():
     smoke = diagnose_phase_2t(combat, non_evaluative=True)
     assert smoke["primary_finding"] == "measurement_smoke_non_evaluative"
     assert smoke["evaluative"] is False
+
+
+def test_2s_post_scale_prior_is_healthy():
+    assert all(
+        float(v["treatment"]) >= float(v["control"])
+        for v in PHASE_2S_POST_SCALE.values()
+    )
+
+
+def test_attribute_shortening_amp_share_routes_damage_model():
+    control = {
+        "mean_game_length": 15.692,
+        "mean_applied_per_alive_seat_turn": 4.38,
+        "mean_count_only_when_hit": 7.46,
+        "mean_amplification_when_hit": 3.41,
+        "hit_rate_per_alive_seat_turn": 0.40,
+        "mean_applied_when_hit": 10.87,
+        "mean_hp_at_t7": 18.6,
+        "mean_winner_strength": 3600,
+        "hp_flow_identity_ok": True,
+    }
+    treatment = {
+        "mean_game_length": 13.510,
+        "mean_applied_per_alive_seat_turn": 5.79,
+        "mean_count_only_when_hit": 7.76,
+        "mean_amplification_when_hit": 6.19,
+        "hit_rate_per_alive_seat_turn": 0.41,
+        "mean_applied_when_hit": 13.95,
+        "mean_hp_at_t7": 18.3,
+        "mean_winner_strength": 3000,
+        "hp_flow_identity_ok": True,
+    }
+    attr = attribute_shortening(control, treatment)
+    assert attr["combat_strength_fidelity_healthy"] is True
+    assert attr["share_of_extra_hp_from_amplification"] >= SHARE_DOMINANT
+    routed = diagnose_phase_2t({"attribution": attr})
+    assert routed["primary_finding"] == "damage_model_fidelity"

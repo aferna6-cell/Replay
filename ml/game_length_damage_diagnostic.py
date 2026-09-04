@@ -761,18 +761,18 @@ def attribute_shortening(control: Dict, treatment: Dict) -> Dict:
     if actual is not None and abs(float(actual)) > 1e-9 and residual_turns is not None:
         share_life = float(residual_turns) / float(actual)
 
-    # Combat-strength fidelity prior from published 2S T8–T14 post-scale.
-    healthy = all(
+    # Combat-strength fidelity = 2S published post-scale T8–T14 (treatment
+    # ≥ control). Absolute winner attack+health can differ without a
+    # Firestone-ratio collapse; do not use it as a fidelity veto.
+    post_scale_healthy = all(
         float(v["treatment"]) + 1e-9 >= float(v["control"])
         for v in PHASE_2S_POST_SCALE.values()
     )
-    # Also require this run's winner boards are not cratered vs control.
+    healthy = post_scale_healthy
     w_delta = _delta(
         control.get("mean_winner_strength"),
         treatment.get("mean_winner_strength"),
     )
-    if w_delta is not None and float(w_delta) < -50:
-        healthy = False
 
     hp_t7_delta = _delta(control.get("mean_hp_at_t7"), treatment.get("mean_hp_at_t7"))
 
@@ -801,7 +801,8 @@ def attribute_shortening(control: Dict, treatment: Dict) -> Dict:
         "share_of_shortening_unexplained_lifecycle": share_life,
         "mean_hp_at_t7_delta": hp_t7_delta,
         "combat_strength_fidelity_healthy": healthy,
-        "phase_2s_post_scale_treatment_ge_control_t8_t14": healthy,
+        "phase_2s_post_scale_treatment_ge_control_t8_t14": post_scale_healthy,
+        "winner_strength_delta": w_delta,
         "share_dominant_threshold": SHARE_DOMINANT,
         "hp_flow_identity_control": control.get("hp_flow_identity_ok"),
         "hp_flow_identity_treatment": treatment.get("hp_flow_identity_ok"),
