@@ -845,6 +845,9 @@ class BGEnv:
                 "created_winner": [],
                 "created_bodies": [],
                 "winner_side": None,
+                "event_counts": {},
+                "side_first": None,
+                "n_board_generated_represented": 0,
             }
         return {
             "survivors": list(trace.get("survivors") or []),
@@ -854,6 +857,11 @@ class BGEnv:
             "created_winner": list(trace.get("created_winner") or []),
             "created_bodies": list(trace.get("created") or []),
             "winner_side": trace.get("winner_side"),
+            "event_counts": dict(trace.get("event_counts") or {}),
+            "side_first": trace.get("side_first"),
+            "n_board_generated_represented": int(
+                trace.get("n_board_generated_represented") or 0
+            ),
         }
 
     def _emit_combat_audit(self, fight: Dict) -> None:

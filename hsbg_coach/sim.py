@@ -25,7 +25,14 @@ import random
 from dataclasses import dataclass, field, replace
 from typing import Dict, List, Optional, Sequence
 
-from .effects import Summon, StartOfCombat, effects_for
+from .effects import (
+    Summon,
+    StartOfCombat,
+    effects_for,
+    APPROXIMATE_DEATHRATTLE_NAMES,
+    PLACEHOLDER_DEATHRATTLE_NAMES,
+    is_placeholder_summon,
+)
 
 BOARD_CAP = 7
 
@@ -175,15 +182,65 @@ def _living(board: List[Combatant]) -> List[Combatant]:
     return [m for m in board if m.health > 0]
 
 
-def _apply_damage(target: Combatant, dmg: int, poison: bool = False) -> None:
+def classify_effect_status(m: Combatant) -> str:
+    """Mark represented vs unsupported effects. Never invent a missing mechanic."""
+    name = str(getattr(m, "name", "") or "")
+    if name in APPROXIMATE_DEATHRATTLE_NAMES:
+        return "represented_approximate"
+    if name in PLACEHOLDER_DEATHRATTLE_NAMES:
+        return "unsupported_placeholder"
+    dr = getattr(m, "deathrattle", None)
+    if is_placeholder_summon(dr):
+        return "unsupported_placeholder"
+    if dr is not None and int(getattr(dr, "count", 0) or 0) > 0:
+        return "represented"
+    if getattr(m, "death_burst", None) is not None:
+        return "represented"
+    if getattr(m, "start_of_combat", None) is not None:
+        return "represented"
+    if bool(getattr(m, "reborn", False)):
+        return "represented"
+    return "unregistered"
+
+
+def has_represented_generated_effect(m: Combatant) -> bool:
+    """Faithful deathrattle-summon / death-burst / reborn — not SOC, not stubs."""
+    status = classify_effect_status(m)
+    if status != "represented":
+        return False
+    dr = getattr(m, "deathrattle", None)
+    if dr is not None and int(getattr(dr, "count", 0) or 0) > 0:
+        return True
+    if getattr(m, "death_burst", None) is not None:
+        return True
+    return bool(getattr(m, "reborn", False))
+
+
+def _apply_damage(target: Combatant, dmg: int, poison: bool = False,
+                  cause: str = "attack") -> None:
     if dmg <= 0:
         return
+    ctx = _TRACE_CTX
+    pre = int(target.health)
+    bid = str(getattr(target, "body_id", "") or "")
     if target.divine_shield:
         target.divine_shield = False     # shield eats the hit (and any poison)
+        if ctx is not None:
+            ctx["n_damage"] = int(ctx.get("n_damage") or 0) + 1
+            if bid:
+                ctx.setdefault("end_health", {})[bid] = int(target.health)
         return
     target.health -= dmg
     if poison:
         target.health = min(target.health, 0)
+    if ctx is not None:
+        ctx["n_damage"] = int(ctx.get("n_damage") or 0) + 1
+        if bid:
+            ctx.setdefault("end_health", {})[bid] = int(target.health)
+            if pre > 0 and target.health <= 0:
+                ctx.setdefault("death_cause", {})[bid] = cause
+                ctx.setdefault("killed_by", {})[bid] = ctx.get("pending_attacker_id")
+                ctx["n_deaths"] = int(ctx.get("n_deaths") or 0) + 1
 
 
 # Observational only. simulate_once sets this when ``trace`` is provided.
@@ -198,7 +255,8 @@ def _make_token(s: Summon) -> Combatant:
     )
 
 
-def _record_created(tok: Combatant, board: List[Combatant]) -> None:
+def _record_created(tok: Combatant, board: List[Combatant],
+                    parent: Optional[Combatant] = None) -> None:
     """Stamp a token/reborn body id. No-ops unless a fight trace is active."""
     ctx = _TRACE_CTX
     if tok.origin == "starting" or not tok.origin:
@@ -207,6 +265,7 @@ def _record_created(tok: Combatant, board: List[Combatant]) -> None:
     if ctx is None:
         return
     ctx["n"] = int(ctx.get("n") or 0) + 1
+    ctx["n_created"] = int(ctx.get("n_created") or 0) + 1
     if board is ctx.get("a"):
         side = "a"
     elif board is ctx.get("b"):
@@ -216,19 +275,38 @@ def _record_created(tok: Combatant, board: List[Combatant]) -> None:
     tok.body_id = f"{side}:{tok.origin}:{ctx['n']}"
     row = combatant_trace_row(tok)
     row["side"] = side
+    parent_id = str(getattr(parent, "body_id", "") or "") if parent else ""
+    row["parent_body_id"] = parent_id
+    parent_status = classify_effect_status(parent) if parent else "unregistered"
+    represented = parent_status == "represented"
+    row["represented_generated"] = represented
+    row["parent_effect_status"] = parent_status
+    if parent_id and represented:
+        spawned = ctx.setdefault("spawned_represented", {})
+        spawned[parent_id] = int(spawned.get(parent_id) or 0) + 1
     ctx.setdefault("created", []).append(row)
 
 
 def _pick_defender(defenders: List[Combatant], rng: random.Random) -> Combatant:
     taunts = [m for m in defenders if m.taunt]
+    forced = bool(taunts)
     chosen = rng.choice(taunts or defenders)
     # Observational targeting exposure. Choice already consumed RNG.
     ctx = _TRACE_CTX
     if ctx is not None:
         bid = str(getattr(chosen, "body_id", "") or "")
+        ctx["n_targets"] = int(ctx.get("n_targets") or 0) + 1
+        if forced:
+            ctx["n_targets_forced"] = int(ctx.get("n_targets_forced") or 0) + 1
+        else:
+            ctx["n_targets_open"] = int(ctx.get("n_targets_open") or 0) + 1
         if bid:
             targeted = ctx.setdefault("targeted", {})
             targeted[bid] = int(targeted.get(bid) or 0) + 1
+            bucket_name = "targeted_forced" if forced else "targeted_open"
+            bucket = ctx.setdefault(bucket_name, {})
+            bucket[bid] = int(bucket.get(bid) or 0) + 1
+            ctx.setdefault("last_attacker", {})[bid] = ctx.get("pending_attacker_id")
     return chosen
 
 
@@ -242,7 +320,7 @@ def _resolve_start_of_combat(side: List[Combatant], enemy: List[Combatant],
             living = _living(enemy)
             if not living:
                 break
-            _apply_damage(rng.choice(living), soc.damage)
+            _apply_damage(rng.choice(living), soc.damage, cause="start_of_combat")
 
 
 def _exchange(attacker: Combatant, defender: Combatant,
@@ -253,12 +331,16 @@ def _exchange(attacker: Combatant, defender: Combatant,
         di = def_board.index(defender)
     except ValueError:
         di = -1
-    _apply_damage(defender, a_dmg, attacker.poisonous)
+    cause = "poison" if attacker.poisonous else "attack"
+    _apply_damage(defender, a_dmg, attacker.poisonous, cause=cause)
     if attacker.cleave and di >= 0:
         for nb in (di - 1, di + 1):
             if 0 <= nb < len(def_board) and def_board[nb] is not defender:
-                _apply_damage(def_board[nb], a_dmg, attacker.poisonous)
-    _apply_damage(attacker, d_dmg, defender.poisonous)
+                _apply_damage(
+                    def_board[nb], a_dmg, attacker.poisonous, cause="cleave",
+                )
+    back = "poison" if defender.poisonous else "counterattack"
+    _apply_damage(attacker, d_dmg, defender.poisonous, cause=back)
 
 
 def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
@@ -284,7 +366,7 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
                 if len(new) >= BOARD_CAP:
                     break
                 tok = _make_token(dr)
-                _record_created(tok, board)
+                _record_created(tok, board, parent=m)
                 new.append(tok)
                 if dr.attack_immediately:
                     immediates.append(tok)
@@ -296,7 +378,7 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
             rb.origin = "reborn"
             rb.generated = True
             rb.body_id = ""
-            _record_created(rb, board)
+            _record_created(rb, board, parent=m)
             new.append(rb)
     board[:] = new
 
@@ -308,7 +390,7 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
             rng.shuffle(targets)
             targets = targets[:max(1, getattr(burst, "targets", 1))]
         for t in targets:
-            _apply_damage(t, burst.damage)
+            _apply_damage(t, burst.damage, cause="death_burst")
         if targets:
             _resolve_deaths(enemy, board, rng, process_immediates=False)
 
@@ -320,6 +402,11 @@ def _resolve_deaths(board: List[Combatant], enemy: List[Combatant],
         defenders = _living(enemy)
         if not defenders:
             continue
+        ctx = _TRACE_CTX
+        if ctx is not None:
+            ctx["pending_attacker_id"] = str(getattr(tok, "body_id", "") or "")
+            ctx["n_immediate_attacks"] = int(ctx.get("n_immediate_attacks") or 0) + 1
+        _record_attack(tok)
         _exchange(tok, _pick_defender(defenders, rng), enemy)
         _resolve_deaths(enemy, board, rng, process_immediates=False)
         _resolve_deaths(board, enemy, rng, process_immediates=False)
@@ -347,10 +434,21 @@ def _annotate_attack_rows(
     attacks: Dict,
     first_attack: Optional[Dict] = None,
     targeted: Optional[Dict] = None,
+    ctx: Optional[Dict] = None,
 ) -> None:
     """Stamp observational attack/target fields onto already-built trace rows."""
     first_attack = first_attack or {}
     targeted = targeted or {}
+    ctx = ctx or {}
+    forced = ctx.get("targeted_forced") or {}
+    opened = ctx.get("targeted_open") or {}
+    death_cause = ctx.get("death_cause") or {}
+    killed_by = ctx.get("killed_by") or {}
+    end_health = ctx.get("end_health") or {}
+    spawned = ctx.get("spawned_represented") or {}
+    wrap_before = ctx.get("wrap_before_first") or {}
+    first_label = str(ctx.get("first_side_label") or "")
+    last_attacker = ctx.get("last_attacker") or {}
     for row in rows:
         bid = str(row.get("body_id") or "")
         n = int(attacks.get(bid) or 0)
@@ -361,6 +459,34 @@ def _annotate_attack_rows(
         nt = int(targeted.get(bid) or 0)
         row["n_targeted"] = nt
         row["was_targeted"] = nt > 0
+        nf = int(forced.get(bid) or 0)
+        no = int(opened.get(bid) or 0)
+        row["n_targeted_forced"] = nf
+        row["n_targeted_open"] = no
+        row["taunt_forced_target"] = nf > 0
+        row["open_target"] = no > 0 and nf == 0
+        row["death_cause"] = death_cause.get(bid)
+        row["killed_by_body_id"] = killed_by.get(bid)
+        row["last_attacker_id"] = last_attacker.get(bid)
+        start_hp = int(row.get("health") or 0)
+        row["start_health"] = start_hp
+        if bid in end_health:
+            row["end_health"] = int(end_health[bid])
+        elif row.get("death_cause"):
+            row["end_health"] = 0
+        else:
+            row["end_health"] = start_hp
+        row["spawned_represented"] = int(spawned.get(bid) or 0)
+        row["cursor_wrapped_before_first"] = bool(wrap_before.get(bid))
+        side = bid.split(":")[0] if bid else ""
+        row["side_first"] = bool(first_label) and side == first_label
+        row["effect_status"] = row.get("effect_status") or "unregistered"
+        row["has_unsupported_effect"] = row.get("effect_status") in (
+            "unsupported_placeholder", "represented_approximate",
+        )
+        row["has_represented_generated_effect"] = bool(
+            row.get("has_represented_generated_effect")
+        )
 
 
 def _do_attack(attacker: Combatant, atk_board: List[Combatant],
@@ -372,6 +498,9 @@ def _do_attack(attacker: Combatant, atk_board: List[Combatant],
         defenders = _living(def_board)
         if not defenders:
             return
+        ctx = _TRACE_CTX
+        if ctx is not None:
+            ctx["pending_attacker_id"] = str(getattr(attacker, "body_id", "") or "")
         _record_attack(attacker)
         _exchange(attacker, _pick_defender(defenders, rng), def_board)
         _resolve_deaths(def_board, atk_board, rng)
@@ -398,6 +527,7 @@ def combatant_trace_row(m: Combatant) -> dict:
     origin = str(getattr(m, "origin", "") or "starting")
     generated = bool(getattr(m, "generated", False) or origin in ("token", "reborn"))
     tribes = tuple(getattr(m, "tribes", ()) or ())
+    status = classify_effect_status(m)
     return {
         "body_id": str(getattr(m, "body_id", "") or ""),
         "name": str(getattr(m, "name", "") or ""),
@@ -419,6 +549,12 @@ def combatant_trace_row(m: Combatant) -> dict:
         "token": origin == "token",
         "board_slot": getattr(m, "board_slot", None),
         "taunt": bool(getattr(m, "taunt", False)),
+        "effect_status": status,
+        "has_unsupported_effect": status in (
+            "unsupported_placeholder", "represented_approximate",
+        ),
+        "has_represented_generated_effect": has_represented_generated_effect(m),
+        "start_health": hp,
     }
 
 
@@ -451,11 +587,11 @@ def fill_combat_survivor_trace(
     attacks = dict(ctx.get("attacks") or {})
     first_attack = dict(ctx.get("first_attack_index") or {})
     targeted = dict(ctx.get("targeted") or {})
-    _annotate_attack_rows(survivors_a, attacks, first_attack, targeted)
-    _annotate_attack_rows(survivors_b, attacks, first_attack, targeted)
-    _annotate_attack_rows(trace.get("starting_a") or [], attacks, first_attack, targeted)
-    _annotate_attack_rows(trace.get("starting_b") or [], attacks, first_attack, targeted)
-    _annotate_attack_rows(created, attacks, first_attack, targeted)
+    _annotate_attack_rows(survivors_a, attacks, first_attack, targeted, ctx)
+    _annotate_attack_rows(survivors_b, attacks, first_attack, targeted, ctx)
+    _annotate_attack_rows(trace.get("starting_a") or [], attacks, first_attack, targeted, ctx)
+    _annotate_attack_rows(trace.get("starting_b") or [], attacks, first_attack, targeted, ctx)
+    _annotate_attack_rows(created, attacks, first_attack, targeted, ctx)
     if winner_side == "a":
         starting_winner = list(trace.get("starting_a") or [])
         created_winner = [c for c in created if c.get("side") == "a"]
@@ -465,6 +601,61 @@ def fill_combat_survivor_trace(
     else:
         starting_winner = []
         created_winner = []
+    start_all = list(trace.get("starting_a") or []) + list(trace.get("starting_b") or [])
+    all_bodies = start_all + created
+    n_attacks_sum = int(sum(int(r.get("n_attacks") or 0) for r in all_bodies))
+    n_targets_sum = int(sum(int(r.get("n_targeted") or 0) for r in all_bodies))
+    n_forced_sum = int(sum(int(r.get("n_targeted_forced") or 0) for r in all_bodies))
+    n_open_sum = int(sum(int(r.get("n_targeted_open") or 0) for r in all_bodies))
+    n_living_end = len(_living(board_a)) + len(_living(board_b))
+    n_start = len(start_all)
+    n_created = len(created)
+    n_deaths_expected = n_start + n_created - n_living_end
+    n_attacks_events = int(ctx.get("n_swings") or 0)
+    n_targets_events = int(ctx.get("n_targets") or 0)
+    n_forced_events = int(ctx.get("n_targets_forced") or 0)
+    n_open_events = int(ctx.get("n_targets_open") or 0)
+    n_death_events = int(ctx.get("n_deaths") or 0)
+    n_created_events = int(ctx.get("n_created") or 0)
+    n_cursor_advance = int(ctx.get("n_cursor_advance") or 0)
+    n_cursor_wrap = int(ctx.get("n_cursor_wrap") or 0)
+    n_placeholder = sum(
+        1 for r in start_all
+        if r.get("effect_status") in (
+            "unsupported_placeholder", "represented_approximate",
+        )
+    )
+    n_created_represented = sum(
+        1 for c in created if c.get("represented_generated")
+    )
+    event_counts = {
+        "n_attacks_events": n_attacks_events,
+        "n_attacks_sum": n_attacks_sum,
+        "n_targets_events": n_targets_events,
+        "n_targets_sum": n_targets_sum,
+        "n_targets_forced_events": n_forced_events,
+        "n_targets_forced_sum": n_forced_sum,
+        "n_targets_open_events": n_open_events,
+        "n_targets_open_sum": n_open_sum,
+        "n_deaths_events": n_death_events,
+        "n_deaths_expected": n_deaths_expected,
+        "n_created_events": n_created_events,
+        "n_created": n_created,
+        "n_created_represented": n_created_represented,
+        "n_cursor_advance": n_cursor_advance,
+        "n_cursor_wrap": n_cursor_wrap,
+        "n_cursor_reset": n_cursor_wrap,
+        "n_damage": int(ctx.get("n_damage") or 0),
+        "n_immediate_attacks": int(ctx.get("n_immediate_attacks") or 0),
+        "n_unsupported_placeholders": n_placeholder,
+        "n_living_end": n_living_end,
+        "n_start": n_start,
+        "attacks_reconcile": n_attacks_events == n_attacks_sum,
+        "targets_reconcile": n_targets_events == n_targets_sum,
+        "forced_open_reconcile": (n_forced_events + n_open_events) == n_targets_events,
+        "created_reconcile": n_created_events == n_created,
+        "deaths_reconcile": n_death_events == n_deaths_expected,
+    }
     trace.update({
         "winner_side": winner_side,
         "survivors": survivors,
@@ -480,6 +671,9 @@ def fill_combat_survivor_trace(
         "starting_winner": starting_winner,
         "created_winner": created_winner,
         "attacks": attacks,
+        "side_first": ctx.get("first_side_label"),
+        "event_counts": event_counts,
+        "n_board_generated_represented": n_created_represented,
     })
     return trace
 
@@ -510,7 +704,14 @@ def simulate_once(
         _TRACE_CTX = {
             "a": a, "b": b, "created": [], "n": 0,
             "attacks": {}, "first_attack_index": {},
-            "targeted": {}, "n_swings": 0,
+            "targeted": {}, "targeted_forced": {}, "targeted_open": {},
+            "n_swings": 0, "n_targets": 0, "n_targets_forced": 0,
+            "n_targets_open": 0, "n_damage": 0, "n_deaths": 0,
+            "n_created": 0, "n_cursor_advance": 0, "n_cursor_wrap": 0,
+            "n_immediate_attacks": 0,
+            "death_cause": {}, "killed_by": {}, "end_health": {},
+            "spawned_represented": {}, "wrap_before_first": {},
+            "last_attacker": {},
         }
         trace["starting_a"] = [combatant_trace_row(m) for m in a]
         trace["starting_b"] = [combatant_trace_row(m) for m in b]
@@ -533,14 +734,32 @@ def simulate_once(
         _resolve_deaths(b, a, rng)
 
         pos = {0: 0, 1: 0}
+        if trace is not None:
+            _TRACE_CTX["first_side"] = int(turn)
+            _TRACE_CTX["first_side_label"] = "a" if turn == 0 else "b"
         for _ in range(max_steps):
             if not _living(a) or not _living(b):
                 break
             atk_board, def_board = boards[turn], boards[1 - turn]
             living = _living(atk_board)
-            idx = pos[turn] % len(living)
+            n_liv = len(living)
+            pos_before = pos[turn]
+            wrapped = pos_before >= n_liv
+            idx = pos_before % n_liv
             attacker = living[idx]
             pos[turn] = idx + 1
+            if trace is not None:
+                _TRACE_CTX["n_cursor_advance"] = (
+                    int(_TRACE_CTX.get("n_cursor_advance") or 0) + 1
+                )
+                if wrapped:
+                    _TRACE_CTX["n_cursor_wrap"] = (
+                        int(_TRACE_CTX.get("n_cursor_wrap") or 0) + 1
+                    )
+                    bid = str(getattr(attacker, "body_id", "") or "")
+                    first = _TRACE_CTX.setdefault("first_attack_index", {})
+                    if bid and bid not in first:
+                        _TRACE_CTX.setdefault("wrap_before_first", {})[bid] = True
             _do_attack(attacker, atk_board, def_board, rng)
             turn ^= 1
 
