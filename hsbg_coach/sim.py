@@ -55,13 +55,16 @@ class Combatant:
     start_of_combat: Optional[StartOfCombat] = None
     card_id: str = ""                 # needed by the Firestone bridge for effects
     death_burst: Optional["object"] = None   # AOE-damage deathrattle (Tunnel Blaster)
+    # Observational tavern tier. Combat RNG/outcomes never read this.
+    # Carried so a resolved fight can report actual survivor identities/tiers.
+    tier: int = 1
 
     def copy(self) -> "Combatant":
         return Combatant(
             self.attack, self.health, self.divine_shield, self.taunt,
             self.poisonous, self.reborn, self.windfury, self.cleave,
             self.name, self.deathrattle, self.start_of_combat, self.card_id,
-            self.death_burst)
+            self.death_burst, self.tier)
 
     @classmethod
     def from_minion(cls, m) -> "Combatant":
@@ -83,6 +86,14 @@ class Combatant:
                 return True
             return str(tags.get(_KW_TAGS[key], "")).strip() not in ("", "0", "False")
 
+        raw_tier = get("tier", None)
+        if raw_tier is None and isinstance(tags, dict):
+            raw_tier = tags.get("TECH_LEVEL")
+        try:
+            tier = int(raw_tier) if raw_tier not in (None, "") else 1
+        except (TypeError, ValueError):
+            tier = 1
+
         return cls(
             attack=int(get("attack", 0) or 0),
             health=int(get("health", 0) or 0),
@@ -97,6 +108,7 @@ class Combatant:
             start_of_combat=eff.start_of_combat if eff else None,
             card_id=get("card_id", "") or "",
             death_burst=eff.death_burst if eff else None,
+            tier=max(1, tier),
         )
 
 
@@ -144,8 +156,10 @@ def _apply_damage(target: Combatant, dmg: int, poison: bool = False) -> None:
 
 
 def _make_token(s: Summon) -> Combatant:
-    return Combatant(s.attack, s.health, s.divine_shield, s.taunt, s.poisonous,
-                     s.reborn, name=s.name)
+    return Combatant(
+        s.attack, s.health, s.divine_shield, s.taunt, s.poisonous,
+        s.reborn, name=s.name, tier=int(getattr(s, "tier", 1) or 1),
+    )
 
 
 def _pick_defender(defenders: List[Combatant], rng: random.Random) -> Combatant:
@@ -261,6 +275,56 @@ def _damage_to_hero(winner: List[Combatant], tavern_tier: int) -> int:
     return len(_living(winner)) + max(tavern_tier, 1)
 
 
+def combatant_trace_row(m: Combatant) -> dict:
+    """Slim observational identity for a living combatant. No RNG."""
+    return {
+        "name": str(getattr(m, "name", "") or ""),
+        "card_id": str(getattr(m, "card_id", "") or ""),
+        "tier": int(getattr(m, "tier", 1) or 1),
+        "attack": int(getattr(m, "attack", 0) or 0),
+        "health": int(getattr(m, "health", 0) or 0),
+    }
+
+
+def fill_combat_survivor_trace(
+    trace: dict,
+    board_a: List[Combatant],
+    board_b: List[Combatant],
+    result: int,
+    tier_a: int,
+    tier_b: int,
+) -> dict:
+    """Populate ``trace`` with actual combat survivors. Observational; no RNG."""
+    survivors_a = [combatant_trace_row(m) for m in _living(board_a)]
+    survivors_b = [combatant_trace_row(m) for m in _living(board_b)]
+    if result > 0:
+        survivors = survivors_a
+        winner_tavern = int(tier_a)
+        winner_side = "a"
+    elif result < 0:
+        survivors = survivors_b
+        winner_tavern = int(tier_b)
+        winner_side = "b"
+    else:
+        survivors = []
+        winner_tavern = None
+        winner_side = None
+    tier_sum = int(sum(int(s["tier"]) for s in survivors))
+    trace.update({
+        "winner_side": winner_side,
+        "survivors": survivors,
+        "survivors_a": survivors_a,
+        "survivors_b": survivors_b,
+        "survivor_count": len(survivors),
+        "survivor_tier_sum": tier_sum,
+        "winner_tavern_tier": winner_tavern,
+        "rules_faithful_damage": (
+            None if winner_tavern is None else int(winner_tavern) + tier_sum
+        ),
+    })
+    return trace
+
+
 def simulate_once(
     board_a: Sequence[Combatant],
     board_b: Sequence[Combatant],
@@ -268,8 +332,13 @@ def simulate_once(
     tier_a: int = 1,
     tier_b: int = 1,
     max_steps: int = 500,
+    trace: Optional[dict] = None,
 ) -> int:
-    """Return signed damage: >0 if A wins (dmg to B's hero), <0 if B wins, 0 tie."""
+    """Return signed damage: >0 if A wins (dmg to B's hero), <0 if B wins, 0 tie.
+
+    Optional ``trace`` is filled after the fight with actual surviving minion
+    identities/tiers. Must not consume RNG or change the returned damage.
+    """
     a = [m.copy() for m in board_a]
     b = [m.copy() for m in board_b]
     boards = {0: a, 1: b}
@@ -302,10 +371,14 @@ def simulate_once(
 
     a_alive, b_alive = bool(_living(a)), bool(_living(b))
     if a_alive and not b_alive:
-        return _damage_to_hero(a, tier_a)
-    if b_alive and not a_alive:
-        return -_damage_to_hero(b, tier_b)
-    return 0
+        result = _damage_to_hero(a, tier_a)
+    elif b_alive and not a_alive:
+        result = -_damage_to_hero(b, tier_b)
+    else:
+        result = 0
+    if trace is not None:
+        fill_combat_survivor_trace(trace, a, b, result, tier_a, tier_b)
+    return result
 
 
 def simulate(

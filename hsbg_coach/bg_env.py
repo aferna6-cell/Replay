@@ -123,6 +123,7 @@ class EnvMinion:
     def view(self) -> Dict:
         """The dict shape the rest of the package reads (MinionView-like)."""
         return {"name": self.name, "card_id": self.card_id,
+                "tier": self.tier,
                 "attack": self.attack, "health": self.health,
                 "recruit_attack": self.recruit_attack,
                 "recruit_health": self.recruit_health,
@@ -402,7 +403,7 @@ class BGEnv:
         # Signature: (env, player, seat, audit_dict) -> None. Must not mutate.
         self.scaling_audit_hook: Optional[Callable] = None
         # Optional observational hook for resolved combats. Must not mutate.
-        # Signature: (env, fight_dict) -> None. Phase 2T measurement only.
+        # Signature: (env, fight_dict) -> None. Phase 2T/2U measurement only.
         self.combat_audit_hook: Optional[Callable] = None
 
     MAX_ACTIONS_PER_TURN = 40                  # same cap scripted seats get
@@ -830,6 +831,21 @@ class BGEnv:
         avg_tier = (sum(m.tier for m in board) / len(board)) if board else 1.0
         return tier + max(1, round(survivors * avg_tier))
 
+    @staticmethod
+    def _survivor_audit_fields(trace: Optional[Dict]) -> Dict:
+        """Pack actual combat-survivor identities/tiers into the audit fight."""
+        if not trace:
+            return {
+                "survivors": [],
+                "survivor_count_actual": 0,
+                "survivor_tier_sum": 0,
+            }
+        return {
+            "survivors": list(trace.get("survivors") or []),
+            "survivor_count_actual": int(trace.get("survivor_count") or 0),
+            "survivor_tier_sum": int(trace.get("survivor_tier_sum") or 0),
+        }
+
     def _emit_combat_audit(self, fight: Dict) -> None:
         """Observational only. Default-off; must not mutate env or consume RNG."""
         hook = self.combat_audit_hook
@@ -872,14 +888,19 @@ class BGEnv:
                             "loser_board": [],
                             "winner_tier": a.tier,
                             "loser_tier": None,
+                            "survivors": [],
+                            "survivor_count_actual": 0,
+                            "survivor_tier_sum": 0,
                         })
                     continue
                 ghost = self.rng.choice(dead_boards)
                 ghost_tier = max((g.tier for g in ghost), default=1)
                 pre_a = a.hp
+                ghost_trace: Dict = {} if audit else None
                 dmg = simulate_once(self._combatants(a.board),
                                     self._combatants(ghost), self.rng,
-                                    tier_a=a.tier, tier_b=ghost_tier)
+                                    tier_a=a.tier, tier_b=ghost_tier,
+                                    trace=ghost_trace)
                 if dmg < 0:
                     a.hp -= self._hero_damage(dmg, ghost_tier, ghost)
                 if audit:
@@ -909,12 +930,15 @@ class BGEnv:
                         "loser_tier": (
                             ghost_tier if dmg > 0 else a.tier
                         ),
+                        **self._survivor_audit_fields(ghost_trace),
                     })
                 continue
             pre_a, pre_b = a.hp, b.hp
+            live_trace: Dict = {} if audit else None
             dmg = simulate_once(self._combatants(a.board),
                                 self._combatants(b.board), self.rng,
-                                tier_a=a.tier, tier_b=b.tier)
+                                tier_a=a.tier, tier_b=b.tier,
+                                trace=live_trace)
             if dmg > 0:
                 b.hp -= self._hero_damage(dmg, a.tier, a.board)
             elif dmg < 0:
@@ -946,6 +970,7 @@ class BGEnv:
                     ),
                     "winner_tier": a.tier if dmg >= 0 else b.tier,
                     "loser_tier": b.tier if dmg >= 0 else a.tier,
+                    **self._survivor_audit_fields(live_trace),
                 })
 
         # Deaths → placements (weakest dead this round takes the worst slot).
