@@ -14,7 +14,6 @@ from ml.analyze_benchmark import compare_pair, load_result
 from ml.model_fingerprint import checkpoint_fingerprint
 from ml.seeds import (DEV_SEED_START, DEV_SEED_END, EVAL_SEED_START, EVAL_SEED_END,
                       overlaps_dev_range, overlaps_eval_range, ppo_episode_seed)
-from scripts.ppo_multiseed_report import classify_ushape
 from tests.ml_testutil import write_tiny_policy_checkpoint
 
 BASE_DIR = "results/ppo_multiseed_v1"
@@ -187,6 +186,9 @@ def test_within_seed_paired_comparisons_math():
 
 def test_ushape_classification_logic():
     """Unit test the descriptive U-shape classification function with synthetic inputs."""
+    pytest.importorskip("numpy")  # scripts.ppo_multiseed_report imports numpy
+    from scripts.ppo_multiseed_report import classify_ushape
+
     # 1. Synthetic U-shape: improves at iter 80, regresses at iter 320
     synth_u = {
         "iter040_vs_iter000": {"ci95": [-0.1, 0.1], "mean_diff": 0.0},
