@@ -52,6 +52,7 @@ tuning on the current simulator.
 | 2Y | [`sim_fidelity_phase_2y.md`](sim_fidelity_phase_2y.md) | Slot/attack-order vs teammate protection (`2y_v1`): **HOLD `unexplained_combat_mechanics`** — 2X residual +1.372 is **slot −0.24 / teammate 0.55 / leftover 0.69**; neither A nor B ≥70%; next isolates taunt/targeting/deathrattle/attack-cursor; do not rewrite 2Q; #29/#33–#42 HOLD |
 | 2Z | [`sim_fidelity_phase_2z.md`](sim_fidelity_phase_2z.md) | Targeting / cursor / represented DR (`2z_v1`): **HOLD `ranked_residual_needs_next_observable`** — 2Y leftover +0.946 is **target 0.05 / cursor 0.03 / gen-DR 0.07 / unsupported 0 / leftover 0.85**; none ≥70%; next records DS/poison/cleave/SOC lethal cause; do not rewrite 2Q; #29/#33–#43 HOLD |
 | 3A | [`sim_fidelity_phase_3a.md`](sim_fidelity_phase_3a.md) | Lethal-cause / keyword attribution (`3a_v1`): **HOLD `ranked_residual_needs_next_observable`** — 2Z leftover +0.799 is **DS −0.02 / poison −0.01 / cleave 0 / SOC 0 / ordinary 0 / leftover 1.04**; represented jointly −3.5%; next records per-hit remaining HP / overkill / hit count; do not rewrite 2Q; #29/#33–#44 HOLD |
+| 3B | [`sim_fidelity_phase_3b.md`](sim_fidelity_phase_3b.md) | HP depletion / overkill / hit-count (`3b_v1`): **HOLD `damage_per_hit_dominates`** — 3A leftover +0.828 is **hits −0.13 / dmg-per-hit 1.13 / overkill −0.01 / leftover 0.01**; next audits incoming punch vs start HP; do not rewrite 2Q; #29/#33–#45 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.
