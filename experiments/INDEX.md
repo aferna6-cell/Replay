@@ -49,6 +49,7 @@ tuning on the current simulator.
 | 2V | [`sim_fidelity_phase_2v.md`](sim_fidelity_phase_2v.md) | Survivor-composition attribution (`2v_v1`): **HOLD `fielded_composition_dominates`** — +4.01 survivor-tier-sum is **(A) 0.58** fielded / **(B) 0.42** within-tier survival / **(C) ~0** tokens; T6 exclusive to treatment; next is 2Q vs Firestone composition; #29/#33–#39 HOLD |
 | 2W | [`sim_fidelity_phase_2w.md`](sim_fidelity_phase_2w.md) | Firestone final-board vs 2Q (`2w_v1`): **HOLD `mixed_or_undershoots_firestone`** — treatment last-alive T5+ **0.695 vs 0.697**; T6 0.377 vs 0.343; mean tier +0.15; printed raw −1.27; do **not** rewrite 2Q; leftover is 2V B=0.42; #29/#33–#40 HOLD |
 | 2X | [`sim_fidelity_phase_2x.md`](sim_fidelity_phase_2x.md) | Synthetic allocation vs within-tier survival (`2x_v1`): **HOLD `position_combat_order_dominates`** — 2V B +1.678 is **synth 0.16 / residual 0.82 / recruit-mix 0.03**; T4–T5 sit earlier and attack more; next is positioning / combat fidelity; do not retune total scaling; #29/#33–#41 HOLD |
+| 2Y | [`sim_fidelity_phase_2y.md`](sim_fidelity_phase_2y.md) | Slot/attack-order vs teammate protection (`2y_v1`): **HOLD `unexplained_combat_mechanics`** — 2X residual +1.372 is **slot −0.24 / teammate 0.55 / leftover 0.69**; neither A nor B ≥70%; next isolates taunt/targeting/deathrattle/attack-cursor; do not rewrite 2Q; #29/#33–#42 HOLD |
 
 **Replay Benchmark v2** — define only after Simulator v1.x is frozen; retrain all
 agents from scratch. Keep Benchmark v1 TEST untouched.

@@ -1,0 +1,668 @@
+{
+  "edges": {
+    "1": [
+      228.0,
+      293.0,
+      610.7999999999993,
+      1895.800000000032
+    ],
+    "2": [
+      235.0,
+      313.0,
+      810.0,
+      1820.6000000000022
+    ],
+    "3": [
+      256.0,
+      364.0,
+      1014.0,
+      3021.0
+    ],
+    "4": [
+      291.0,
+      835.0,
+      1405.0,
+      4165.0
+    ],
+    "5": [
+      1114.0,
+      3086.0,
+      5899.799999999998,
+      10242.400000000001
+    ],
+    "6": [
+      6060.0,
+      8512.0,
+      11669.0,
+      13783.0
+    ]
+  },
+  "control": {
+    "1": {
+      "0": {
+        "n": 2141,
+        "p_survive": 0.3661840261560019,
+        "mean_key": 192.5866417561887
+      },
+      "1": {
+        "n": 1551,
+        "p_survive": 0.39587362991618313,
+        "mean_key": 258.67246937459703
+      },
+      "2": {
+        "n": 1332,
+        "p_survive": 0.3933933933933934,
+        "mean_key": 368.6501501501501
+      },
+      "3": {
+        "n": 3112,
+        "p_survive": 0.38046272493573263,
+        "mean_key": 1025.7355398457585
+      },
+      "4": {
+        "n": 3332,
+        "p_survive": 0.37635054021608644,
+        "mean_key": 7363.30912364946
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "2": {
+      "0": {
+        "n": 2866,
+        "p_survive": 0.37229588276343334,
+        "mean_key": 195.2599441730635
+      },
+      "1": {
+        "n": 2433,
+        "p_survive": 0.34854089601315247,
+        "mean_key": 270.68434032059184
+      },
+      "2": {
+        "n": 2759,
+        "p_survive": 0.3320043494019572,
+        "mean_key": 512.0268213120696
+      },
+      "3": {
+        "n": 3199,
+        "p_survive": 0.3401062832135042,
+        "mean_key": 1177.0150046889653
+      },
+      "4": {
+        "n": 4847,
+        "p_survive": 0.34660614813286567,
+        "mean_key": 7509.101299773056
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "3": {
+      "0": {
+        "n": 2428,
+        "p_survive": 0.25658978583196046,
+        "mean_key": 222.00700164744646
+      },
+      "1": {
+        "n": 2772,
+        "p_survive": 0.28535353535353536,
+        "mean_key": 306.13059163059165
+      },
+      "2": {
+        "n": 2784,
+        "p_survive": 0.2834051724137931,
+        "mean_key": 690.3767959770115
+      },
+      "3": {
+        "n": 2699,
+        "p_survive": 0.2867728788440163,
+        "mean_key": 1509.6331974805485
+      },
+      "4": {
+        "n": 4231,
+        "p_survive": 0.2814937367052706,
+        "mean_key": 8752.645237532499
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "4": {
+      "0": {
+        "n": 2262,
+        "p_survive": 0.27320954907161804,
+        "mean_key": 242.10256410256412
+      },
+      "1": {
+        "n": 2557,
+        "p_survive": 0.28079780993351583,
+        "mean_key": 421.5338287055143
+      },
+      "2": {
+        "n": 1862,
+        "p_survive": 0.27175080558539205,
+        "mean_key": 1064.796992481203
+      },
+      "3": {
+        "n": 1949,
+        "p_survive": 0.28937916880451514,
+        "mean_key": 2493.7316572601335
+      },
+      "4": {
+        "n": 2619,
+        "p_survive": 0.27949599083619703,
+        "mean_key": 10540.07751050019
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "5": {
+      "0": {
+        "n": 122,
+        "p_survive": 0.22950819672131148,
+        "mean_key": 885.0245901639345
+      },
+      "1": {
+        "n": 134,
+        "p_survive": 0.26119402985074625,
+        "mean_key": 1601.8805970149253
+      },
+      "2": {
+        "n": 74,
+        "p_survive": 0.22972972972972974,
+        "mean_key": 4134.7027027027025
+      },
+      "3": {
+        "n": 61,
+        "p_survive": 0.2459016393442623,
+        "mean_key": 8069.786885245901
+      },
+      "4": {
+        "n": 97,
+        "p_survive": 0.25773195876288657,
+        "mean_key": 14301.680412371134
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "6": {
+      "0": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "1": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "2": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "3": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "4": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    }
+  },
+  "treatment": {
+    "1": {
+      "0": {
+        "n": 1217,
+        "p_survive": 0.18077239112571897,
+        "mean_key": 206.71980279375512
+      },
+      "1": {
+        "n": 1818,
+        "p_survive": 0.22387238723872388,
+        "mean_key": 257.54180418041807
+      },
+      "2": {
+        "n": 1978,
+        "p_survive": 0.25075834175935285,
+        "mean_key": 354.4519716885743
+      },
+      "3": {
+        "n": 234,
+        "p_survive": 0.1581196581196581,
+        "mean_key": 1155.854700854701
+      },
+      "4": {
+        "n": 14,
+        "p_survive": 0.2857142857142857,
+        "mean_key": 4295.071428571428
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "2": {
+      "0": {
+        "n": 2155,
+        "p_survive": 0.28306264501160094,
+        "mean_key": 208.62412993039442
+      },
+      "1": {
+        "n": 2512,
+        "p_survive": 0.3403662420382166,
+        "mean_key": 270.4339171974522
+      },
+      "2": {
+        "n": 2213,
+        "p_survive": 0.37641211025756893,
+        "mean_key": 406.4265702666064
+      },
+      "3": {
+        "n": 1777,
+        "p_survive": 0.2543612830613393,
+        "mean_key": 1206.8210467079348
+      },
+      "4": {
+        "n": 132,
+        "p_survive": 0.3333333333333333,
+        "mean_key": 3382.4545454545455
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "3": {
+      "0": {
+        "n": 2989,
+        "p_survive": 0.37203077952492475,
+        "mean_key": 218.43793911007026
+      },
+      "1": {
+        "n": 2637,
+        "p_survive": 0.4069017823284035,
+        "mean_key": 305.0257868790292
+      },
+      "2": {
+        "n": 2613,
+        "p_survive": 0.3693073096058171,
+        "mean_key": 737.0371220818982
+      },
+      "3": {
+        "n": 2706,
+        "p_survive": 0.36437546193643755,
+        "mean_key": 1473.378048780488
+      },
+      "4": {
+        "n": 1175,
+        "p_survive": 0.30638297872340425,
+        "mean_key": 5217.427234042553
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "4": {
+      "0": {
+        "n": 2996,
+        "p_survive": 0.47630173564753003,
+        "mean_key": 228.44225634178906
+      },
+      "1": {
+        "n": 2679,
+        "p_survive": 0.46248600223964165,
+        "mean_key": 523.0138111235535
+      },
+      "2": {
+        "n": 3374,
+        "p_survive": 0.42649673977474806,
+        "mean_key": 1064.963544754001
+      },
+      "3": {
+        "n": 3297,
+        "p_survive": 0.4030937215650591,
+        "mean_key": 2533.821959356991
+      },
+      "4": {
+        "n": 2620,
+        "p_survive": 0.3370229007633588,
+        "mean_key": 9290.243511450382
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "5": {
+      "0": {
+        "n": 1182,
+        "p_survive": 0.49323181049069376,
+        "mean_key": 879.5211505922166
+      },
+      "1": {
+        "n": 1164,
+        "p_survive": 0.47766323024054985,
+        "mean_key": 1700.9613402061855
+      },
+      "2": {
+        "n": 1225,
+        "p_survive": 0.4579591836734694,
+        "mean_key": 3931.494693877551
+      },
+      "3": {
+        "n": 1239,
+        "p_survive": 0.38821630347054076,
+        "mean_key": 8001.213882163035
+      },
+      "4": {
+        "n": 1204,
+        "p_survive": 0.3961794019933555,
+        "mean_key": 13220.5573089701
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    },
+    "6": {
+      "0": {
+        "n": 594,
+        "p_survive": 0.5,
+        "mean_key": 3785.06734006734
+      },
+      "1": {
+        "n": 593,
+        "p_survive": 0.46037099494097805,
+        "mean_key": 7446.93760539629
+      },
+      "2": {
+        "n": 593,
+        "p_survive": 0.45531197301854975,
+        "mean_key": 10167.80944350759
+      },
+      "3": {
+        "n": 594,
+        "p_survive": 0.3888888888888889,
+        "mean_key": 12731.897306397306
+      },
+      "4": {
+        "n": 592,
+        "p_survive": 0.4543918918918919,
+        "mean_key": 15148.059121621622
+      },
+      "5": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "6": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "7": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "8": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      },
+      "9": {
+        "n": 0,
+        "p_survive": null,
+        "mean_key": null
+      }
+    }
+  }
+}
