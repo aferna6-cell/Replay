@@ -265,6 +265,10 @@ def test_reweight_assigns_extra_synthetic_not_position():
     assert rw["share_of_B_synthetic"] is not None
     assert rw["share_of_B_synthetic"] > 0.70
     assert (rw["share_of_B_residual_position"] or 0.0) < 0.20
+    assert abs(
+        rw["recruit_mix"] + rw["synthetic_allocation"] + rw["residual_position"]
+        - rw["within_tier_B"]
+    ) < 1e-9
 
 
 def test_reweight_assigns_residual_when_synth_and_recruit_match():
@@ -288,6 +292,10 @@ def test_reweight_assigns_residual_when_synth_and_recruit_match():
     assert rw["share_of_B_residual_position"] is not None
     assert rw["share_of_B_residual_position"] > 0.70
     assert (rw["share_of_B_synthetic"] or 0.0) < 0.20
+    assert abs(
+        rw["recruit_mix"] + rw["synthetic_allocation"] + rw["residual_position"]
+        - rw["within_tier_B"]
+    ) < 1e-9
 
 
 def test_diagnose_routes_three_ways():

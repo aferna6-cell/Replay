@@ -369,6 +369,27 @@ def _kitagawa_two(
     return scale * dn * p_bar, scale * n_bar * dp, gap, False
 
 
+def _cond_p(surv: float, n: float) -> Optional[float]:
+    return None if n < 1e-15 else float(surv) / float(n)
+
+
+def _kitagawa_prob_delta(
+    p_x_c: float,
+    p_x_t: float,
+    p_surv_c: Optional[float],
+    p_surv_t: Optional[float],
+) -> Tuple[float, float, bool]:
+    """Split ΔP into mix(x) + rate | x. Exclusive x → all mix."""
+    pc = float(p_surv_c) if p_surv_c is not None else 0.0
+    pt = float(p_surv_t) if p_surv_t is not None else 0.0
+    exclusive = p_x_c < 1e-15 or p_x_t < 1e-15
+    if exclusive:
+        return (p_x_t * pt - p_x_c * pc), 0.0, True
+    mix = (p_x_t - p_x_c) * 0.5 * (pc + pt)
+    rate = 0.5 * (p_x_c + p_x_t) * (pt - pc)
+    return mix, rate, False
+
+
 def reweight_within_tier(
     control_rows: Sequence[Dict],
     treatment_rows: Sequence[Dict],
@@ -379,9 +400,10 @@ def reweight_within_tier(
 ) -> Dict:
     """Hold tier + recruit/raw fixed; split leftover B into synth vs residual.
 
-    Nested Kitagawa, exclusive support assigned to the outer mix term
-    (recruit-mix at the recruit-decile layer; synthetic at the synth layer).
-    Scale is printed tier / n_hits so units match 2V's per-hit tier-sum.
+    2V B is Σ_t t · n̄_t · ΔP(survive|t). This splits ΔP(survive|t) with
+    nested Kitagawa on P(recruit-decile|t) then P(synth-decile|t,r).
+    Exclusive-tier support stays in 2V A (not B). Exclusive inner cells
+    assign to the outer mix (recruit-mix, then synthetic).
     """
     pooled_by_tier: Dict[int, List[float]] = {t: [] for t in TIERS}
     for r in list(control_rows) + list(treatment_rows):
@@ -401,7 +423,6 @@ def reweight_within_tier(
             synth_edges[(t, rb)] = decile_edges(vs)
 
     def _arm_cells(rows: Sequence[Dict], n_hits: int):
-        # counts and survival at (tier,), (tier, recruit_bin), (tier, r, s)
         n_t = {t: 0.0 for t in TIERS}
         s_t = {t: 0.0 for t in TIERS}
         n_tr: Dict[Tuple[int, int], float] = defaultdict(float)
@@ -435,9 +456,9 @@ def reweight_within_tier(
     per_tier = {}
     for tier in TIERS:
         nc, nt = n_c[tier], n_t[tier]
-        pc = _safe_div(s_c[tier], nc)
-        pt = _safe_div(s_t[tier], nt)
-        mix_t, rate_t, gap_t, excl_t = _kitagawa_two(
+        pc = _cond_p(s_c[tier], nc)
+        pt = _cond_p(s_t[tier], nt)
+        _mix_t, rate_t, _gap_t, excl_t = _kitagawa_two(
             nc, nt, pc, pt, float(tier)
         )
         # 2V assigns exclusive-tier support (T6) to fielded A, not B.
@@ -454,61 +475,64 @@ def reweight_within_tier(
                 "residual_position": 0.0,
             }
             continue
+        n_bar = 0.5 * (nc + nt)
         b_direct += rate_t
 
         n_r_bins = len(recruit_edges[tier]) + 1
-        rec_mix = 0.0
-        rec_rate = 0.0
-        synth_part = 0.0
-        resid_part = 0.0
+        rec_mix_dp = 0.0
+        synth_dp = 0.0
+        resid_dp = 0.0
         per_r = {}
         for rb in range(n_r_bins):
             ncr = n_cr[(tier, rb)]
             ntr = n_tr[(tier, rb)]
-            pcr = _safe_div(s_cr[(tier, rb)], ncr)
-            ptr = _safe_div(s_tr[(tier, rb)], ntr)
-            m_r, r_r, g_r, excl_r = _kitagawa_two(
-                ncr, ntr, pcr, ptr, float(tier)
+            p_r_c = (ncr / nc) if nc > 1e-15 else 0.0
+            p_r_t = (ntr / nt) if nt > 1e-15 else 0.0
+            pcr = _cond_p(s_cr[(tier, rb)], ncr)
+            ptr = _cond_p(s_tr[(tier, rb)], ntr)
+            mix_r, rate_r, excl_r = _kitagawa_prob_delta(
+                p_r_c, p_r_t, pcr, ptr
             )
-            rec_mix += m_r
+            rec_mix_dp += mix_r
             if excl_r:
-                # Exclusive recruit cell: leftover rate is recruit-mix, not synth.
                 per_r[str(rb)] = {
                     "exclusive_support": True,
-                    "kitagawa_mix": m_r,
-                    "kitagawa_rate": 0.0,
-                    "synthetic_allocation": 0.0,
-                    "residual_position": 0.0,
+                    "delta_p_mix": mix_r,
+                    "delta_p_rate": 0.0,
+                    "synthetic_allocation_dp": 0.0,
+                    "residual_position_dp": 0.0,
                 }
                 continue
-            rec_rate += r_r
             n_s_bins = len(synth_edges[(tier, rb)]) + 1
-            s_mix = 0.0
-            s_rate = 0.0
+            s_mix_dp = 0.0
+            s_rate_dp = 0.0
             for sb in range(n_s_bins):
                 ncs = n_crs[(tier, rb, sb)]
                 nts = n_trs[(tier, rb, sb)]
-                pcs = _safe_div(s_crs[(tier, rb, sb)], ncs)
-                pts = _safe_div(s_trs[(tier, rb, sb)], nts)
-                m_s, r_s, _g_s, excl_s = _kitagawa_two(
-                    ncs, nts, pcs, pts, float(tier)
+                p_s_c = (ncs / ncr) if ncr > 1e-15 else 0.0
+                p_s_t = (nts / ntr) if ntr > 1e-15 else 0.0
+                pcs = _cond_p(s_crs[(tier, rb, sb)], ncs)
+                pts = _cond_p(s_trs[(tier, rb, sb)], nts)
+                mix_s, rate_s, _excl_s = _kitagawa_prob_delta(
+                    p_s_c, p_s_t, pcs, pts
                 )
-                if excl_s:
-                    s_mix += m_s
-                else:
-                    s_mix += m_s
-                    s_rate += r_s
-            synth_part += s_mix
-            resid_part += s_rate
+                s_mix_dp += mix_s
+                s_rate_dp += rate_s
+            p_r_bar = 0.5 * (p_r_c + p_r_t)
+            synth_dp += p_r_bar * s_mix_dp
+            resid_dp += p_r_bar * s_rate_dp
             per_r[str(rb)] = {
                 "exclusive_support": False,
-                "kitagawa_mix": m_r,
-                "kitagawa_rate": r_r,
-                "synthetic_allocation": s_mix,
-                "residual_position": s_rate,
+                "delta_p_mix": mix_r,
+                "delta_p_rate": rate_r,
+                "synthetic_allocation_dp": s_mix_dp,
+                "residual_position_dp": s_rate_dp,
             }
-        # rec_rate should ≈ synth + resid (nested).
-        b_recruit += rec_mix
+
+        rec_part = float(tier) * n_bar * rec_mix_dp
+        synth_part = float(tier) * n_bar * synth_dp
+        resid_part = float(tier) * n_bar * resid_dp
+        b_recruit += rec_part
         b_synth += synth_part
         b_resid += resid_part
         per_tier[str(tier)] = {
@@ -518,12 +542,11 @@ def reweight_within_tier(
             "p_survive_control": pc,
             "p_survive_treatment": pt,
             "within_tier_B": rate_t,
-            "recruit_mix": rec_mix,
-            "within_recruit_rate": rec_rate,
+            "recruit_mix": rec_part,
             "synthetic_allocation": synth_part,
             "residual_position": resid_part,
             "nested_residual": (
-                rate_t - rec_mix - synth_part - resid_part
+                rate_t - rec_part - synth_part - resid_part
             ),
             "recruit_deciles": per_r,
         }
