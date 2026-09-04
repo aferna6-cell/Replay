@@ -292,13 +292,15 @@ def test_pair_trajectories_date_divergence_and_condition():
     for seat in (0, 1):
         control_fights.append(_fight(14200, 10, winner=3, loser=seat, start_tier=1, carry=110.0))
         treat_fights.append(_fight(14200, 10, winner=3, loser=seat, start_tier=1, carry=20.0))
-        # overwrite T10 carry so the pair actually diverges
+        # overwrite T10 carry/add so the pair diverges and history-link closes
         for row in treat_turns:
             if row["seat"] == seat and row["turn"] == 10:
                 row["attack_pool_recruit_start"] = 20.0
+                row["scale_add_attack"] = 20.0
         for row in control_turns:
             if row["seat"] == seat and row["turn"] == 10:
                 row["attack_pool_recruit_start"] = 110.0
+                row["scale_add_attack"] = 20.0
 
     c_traj = build_seat_trajectories(control_turns, control_fights)
     t_traj = build_seat_trajectories(treat_turns, treat_fights)

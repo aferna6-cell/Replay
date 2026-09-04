@@ -289,7 +289,11 @@ def diagnose_phase_3f(
             "rewrite 2Q; do not change `_hero_damage`; do not retune scaling "
             "constants; do not burn confirm."
         )
-    elif pre_f is not None and sel_f is not None:
+    elif (
+        pre_f is not None
+        and sel_f is not None
+        and max(pre_f, sel_f) >= 0.30
+    ):
         primary = "mixed_route_to_larger"
         larger = "paired pre-conditioning divergence" if (
             pre_f >= sel_f
