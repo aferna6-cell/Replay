@@ -1,0 +1,73 @@
+{
+  "turns": [
+    12,
+    13,
+    14
+  ],
+  "trace_from_turn": 7,
+  "n_pairing_schedule": 755,
+  "n_eligibility": 727,
+  "n_leftover_input": 936,
+  "published_eligibility": 5648,
+  "eligibility_reproduced": false,
+  "published_pairing_schedule": 5952,
+  "pairing_schedule_reproduced": false,
+  "matchmaking_counts": {
+    "eligibility": 727,
+    "rng_order": 28
+  },
+  "counts": {
+    "treatment_eliminated_earlier": 168,
+    "ghost_bye_third_party": 506,
+    "control_opponent_eliminated_earlier": 53
+  },
+  "hp_counts": {
+    "accumulated_prior_hp": 204,
+    "current_fight_hit": 6,
+    "current_fight_damage_magnitude": 11
+  },
+  "subtype_x_class": {
+    "different_opponent:treatment_eliminated_earlier": 147,
+    "different_opponent:ghost_bye_third_party": 412,
+    "kind_mismatch:treatment_eliminated_earlier": 21,
+    "kind_mismatch:ghost_bye_third_party": 94,
+    "different_opponent:control_opponent_eliminated_earlier": 43,
+    "kind_mismatch:control_opponent_eliminated_earlier": 10
+  },
+  "first_divergence_turn_counts": {
+    "8": 395,
+    "9": 177,
+    "7": 93,
+    "10": 62
+  },
+  "attributed": {
+    "treatment_eliminated_earlier": 168.0,
+    "control_opponent_eliminated_earlier": 53.0,
+    "ghost_bye_third_party": 506.0,
+    "unreconciled": 0.0
+  },
+  "hp_attributed": {
+    "accumulated_prior_hp": 204.0,
+    "current_fight_hit": 6.0,
+    "current_fight_damage_magnitude": 11.0,
+    "hp_unreconciled": 0.0
+  },
+  "reconstructed_eligibility_rows": 727.0,
+  "reconciliation_gap": 0.0,
+  "reconciliation_ok": true,
+  "hp_reconstructed_named_rows": 221.0,
+  "hp_reconciliation_gap": 0.0,
+  "hp_reconciliation_ok": true,
+  "n_named_eliminations": 221,
+  "share_treatment_eliminated_earlier": 0.2310866574965612,
+  "share_control_opponent_eliminated_earlier": 0.07290233837689133,
+  "share_ghost_bye_third_party": 0.6960110041265475,
+  "share_unreconciled": 0.0,
+  "share_accumulated_prior_hp": 0.9230769230769231,
+  "share_current_fight_hit": 0.027149321266968326,
+  "share_current_fight_damage_magnitude": 0.049773755656108594,
+  "share_hp_unreconciled": 0.0,
+  "n_compared_kept": 64,
+  "candidate_choice_ok": true,
+  "matchmaking_reconciliation_ok": true
+}
