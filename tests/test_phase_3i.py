@@ -520,6 +520,15 @@ def test_leftover_collect_matches_3h_still_fields():
         control_punch=punches,
     )
     assert dead == []
+    unrecorded = collect_3h_leftover_rows(
+        {"turn_rows": c_rows, "last_t1t3_losses": []},
+        {"turn_rows": [{
+            **_turn(14200, 0, t, 0), "n_replacements": 0,
+        } for t in LATE_TURNS], "last_t1t3_losses": []},
+        control_punch=punches,
+        still_fields_t1t3=False,
+    )
+    assert len(unrecorded) == len(punches)
 
 
 def test_compare_pairing_reproduces_3g_on_synthetic():

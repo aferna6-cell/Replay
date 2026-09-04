@@ -469,6 +469,7 @@ def attribute_leftover_pairing(
         grouped[key].append(row)
 
     counts = Counter()
+    pairing_sub = Counter()
     n_same_pairing = 0
     n_ctrl_fight = 0
     n_treat_fight = 0
@@ -514,6 +515,13 @@ def attribute_leftover_pairing(
             )
             rec["treatment_t1t3_punches"] = t_n
             rec["uncovered"] = uncovered
+            if cls == "pairing_schedule":
+                if c_fight is None or t_fight is None:
+                    pairing_sub["missing_fight"] += 1
+                elif _kind_of(c_fight) != "live" or _kind_of(t_fight) != "live":
+                    pairing_sub["kind_mismatch"] += 1
+                else:
+                    pairing_sub["different_opponent"] += 1
             if len(examples[cls]) < _N_EXAMPLES:
                 examples[cls].append(rec)
             if i == 0:
@@ -535,6 +543,7 @@ def attribute_leftover_pairing(
         "n_same_pairing_keys": n_same_pairing,
         "n_keys": len(grouped),
         "counts": dict(counts),
+        "pairing_schedule_subtypes": dict(pairing_sub),
         "attributed": attributed,
         "reconstructed_leftover_rows": reconstructed,
         "reconciliation_gap": leftover_n - reconstructed,
@@ -557,6 +566,7 @@ def _lock_3h(late: Dict) -> Dict:
         "published_late_treatment": PHASE_3H_LATE_TREATMENT,
         "published_collapse": PHASE_3H_COLLAPSE,
         "published_share_leftover": PHASE_3H_SHARE_LEFTOVER,
+        "leftover_still_fields_n": None,
         "leftover_reproduced": (
             late.get("leftover") is not None
             and abs(float(late["leftover"]) - float(PHASE_3H_LEFTOVER)) < 1e-9
@@ -601,6 +611,11 @@ def compare_pairing(
     t_punch = collect_punch_sample_rows(treatment_raw.get("fights") or [])
     leftover_rows = collect_3h_leftover_rows(
         control_raw, treatment_raw, control_punch=c_punch, turns=LATE_TURNS,
+        still_fields_t1t3=False,
+    )
+    leftover_still = collect_3h_leftover_rows(
+        control_raw, treatment_raw, control_punch=c_punch, turns=LATE_TURNS,
+        still_fields_t1t3=True,
     )
     late = attribute_late_t1t3_collapse(
         control_raw, treatment_raw,
@@ -608,6 +623,7 @@ def compare_pairing(
     )
     very_late_rows = collect_3h_leftover_rows(
         control_raw, treatment_raw, control_punch=c_punch, turns=VERY_LATE_TURNS,
+        still_fields_t1t3=False,
     )
     late_attr = attribute_leftover_pairing(
         control_raw, treatment_raw,
@@ -639,6 +655,7 @@ def compare_pairing(
         "history_link_mismatches_treatment": int(hist_t["n_punch_rows"] - hist_t["n_ok"]),
         "leftover_reconciliation_ok": late_attr.get("reconciliation_ok"),
         "leftover_n": late_attr.get("n_leftover"),
+        "leftover_still_fields_n": len(leftover_still),
         "leftover_matches_3h_attr": (
             late.get("leftover") is not None
             and abs(float(late["leftover"]) - float(late_attr.get("n_leftover") or 0)) < 1e-9
@@ -675,7 +692,11 @@ def compare_pairing(
         "methodology_version": METHODOLOGY_VERSION,
         "attribution": late_attr,
         "very_late_attribution": very_late_attr,
-        "leftover_3h": _lock_3h(late),
+        "leftover_3h": {
+            **_lock_3h(late),
+            "leftover_still_fields_n": len(leftover_still),
+            "leftover_decomposed_n": late_attr.get("n_leftover"),
+        },
         "attribution_3h": late,
         "reconciliation": rec,
         "decomposition_3g": decomp,
