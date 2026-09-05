@@ -61,3 +61,27 @@ jobs:
           --lobbies 8
           --seed 14200
           --non-evaluative
+
+  full-dev:
+    name: phase3t-full-reused-dev
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Preregistered evaluative reused-DEV measurement 14200-14699
+        run: >-
+          uv run --isolated --extra dev python -m ml.fidelity_phase_3t_aligned
+          --lobbies 500
+          --seed 14200
+          --out-dir results/sim_fidelity_phase_3t
+      - name: Upload Phase 3T measurement artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3t-reused-dev-${{ github.sha }}
+          path: results/sim_fidelity_phase_3t/
+          if-no-files-found: error
