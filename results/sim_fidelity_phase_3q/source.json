@@ -1,0 +1,97 @@
+{
+  "share_pre_fight_board": 0.0,
+  "share_within_fight_survival": 14.58,
+  "share_proxy_formula_error": -13.58,
+  "share_residual": 0.0,
+  "kitagawa": {
+    "method": "kitagawa_common_support_exclusive_to_fielded",
+    "exclusive_support_assigned_to_A": 0.0,
+    "observed_survivor_tier_sum_delta": 0.6883852691218131,
+    "phase_2u_survivor_tier_sum_delta": 4.009722998772222,
+    "fielded_composition_A": 0.0,
+    "within_tier_survival_B": 0.6883852691218131,
+    "token_generated_C": 0.0,
+    "starting_origin_gap": 0.6883852691218131,
+    "explained_A_plus_B_plus_C": 0.6883852691218131,
+    "residual": 0.0,
+    "share_fielded_composition": 0.0,
+    "share_within_tier_survival": 1.0,
+    "share_token_generated": 0.0,
+    "share_dominant_threshold": 0.55,
+    "sequential_fielded_A": 0.0,
+    "sequential_survival_B": 0.6883852691218131,
+    "sequential_explained": 0.6883852691218131,
+    "per_tier": {
+      "1": {
+        "n_start_control": 1.2681775259678942,
+        "n_start_treatment": 1.2681775259678942,
+        "p_survive_control": 0.6589724497393894,
+        "p_survive_treatment": 0.4058078927773641,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": -0.32105760151085927,
+        "starting_origin_tier_sum_delta": -0.32105760151085927,
+        "exclusive_support": false
+      },
+      "2": {
+        "n_start_control": 1.695939565627951,
+        "n_start_treatment": 1.695939565627951,
+        "p_survive_control": 0.49443207126948774,
+        "p_survive_treatment": 0.5489977728285078,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.18508026440037784,
+        "starting_origin_tier_sum_delta": 0.18508026440037773,
+        "exclusive_support": false
+      },
+      "3": {
+        "n_start_control": 1.045325779036827,
+        "n_start_treatment": 1.045325779036827,
+        "p_survive_control": 0.3748870822041554,
+        "p_survive_treatment": 0.6124661246612466,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.7450424929178469,
+        "starting_origin_tier_sum_delta": 0.745042492917847,
+        "exclusive_support": false
+      },
+      "4": {
+        "n_start_control": 0.06421152030217187,
+        "n_start_treatment": 0.06421152030217187,
+        "p_survive_control": 0.3088235294117647,
+        "p_survive_treatment": 0.6176470588235294,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.0793201133144476,
+        "starting_origin_tier_sum_delta": 0.0793201133144476,
+        "exclusive_support": false
+      },
+      "5": {
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.0,
+        "p_survive_control": null,
+        "p_survive_treatment": null,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.0,
+        "starting_origin_tier_sum_delta": 0.0,
+        "exclusive_support": true
+      },
+      "6": {
+        "n_start_control": 0.0,
+        "n_start_treatment": 0.0,
+        "p_survive_control": null,
+        "p_survive_treatment": null,
+        "kitagawa_fielded": 0.0,
+        "kitagawa_survival": 0.0,
+        "starting_origin_tier_sum_delta": 0.0,
+        "exclusive_support": true
+      }
+    }
+  },
+  "kitagawa_source": {
+    "pre_fight_board": 0.0,
+    "within_fight_survival": 729.0,
+    "proxy_formula_error": -679.0,
+    "residual": 0.0
+  },
+  "n_matched_pre_fight_board": 1059,
+  "matched_board_delta_applied": 50.0,
+  "row_fielded_share_pre_fight_board": 1.6242857142857157,
+  "row_fielded_share_within_fight_survival": 12.955714285714295
+}

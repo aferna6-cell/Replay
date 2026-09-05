@@ -1,0 +1,69 @@
+{
+  "method": "within_tier_abs_mass_play_lifecycle_identity",
+  "n_pairs": 4132,
+  "abs_delta_synth": 6.347531461761859,
+  "component_abs_mass": {
+    "same_state_repaint": 1886.0,
+    "replacement_lifecycle": 11754.0,
+    "subsequent_scaling": 12588.0,
+    "residual": 0.0
+  },
+  "total_abs_mass": 26228.0,
+  "same_state_repaint": 0.4564375605033882,
+  "replacement_lifecycle": 2.844627299128751,
+  "subsequent_scaling": 3.046466602129719,
+  "residual": 0.0,
+  "share_of_delta_same_state_repaint": 0.07190788470337045,
+  "share_of_delta_replacement_lifecycle": 0.4481470184535611,
+  "share_of_delta_subsequent_scaling": 0.47994509684306846,
+  "share_of_delta_residual": 0.0,
+  "lifecycle_components": [
+    "same_state_repaint",
+    "replacement_lifecycle",
+    "subsequent_scaling",
+    "residual"
+  ],
+  "n_unpaired_control": 0,
+  "n_unpaired_treatment": 0,
+  "n_primary_fights": 1033,
+  "n_snapshots_complete": 4132,
+  "n_missing_play": 0,
+  "pooled_signed_delta_synth": 0.022749273959341725,
+  "pooled_signed": {
+    "method": "exact_play_lifecycle_paired_slot_identity",
+    "n_pairs": 4132,
+    "n_unpaired_control": 0,
+    "n_unpaired_treatment": 0,
+    "n_primary_fights": 1033,
+    "n_snapshots_complete": 4132,
+    "n_missing_play": 0,
+    "delta_synth": 0.022749273959341725,
+    "same_state_repaint": 0.0,
+    "replacement_lifecycle": 0.0,
+    "subsequent_scaling": 0.022749273959341725,
+    "residual": 0.0,
+    "explained_all_parts": 0.022749273959341725,
+    "residual_vs_delta": 0.0,
+    "share_of_delta_same_state_repaint": 0.0,
+    "share_of_delta_replacement_lifecycle": 0.0,
+    "share_of_delta_subsequent_scaling": 1.0,
+    "share_of_delta_residual": 0.0,
+    "lifecycle_components": [
+      "same_state_repaint",
+      "replacement_lifecycle",
+      "subsequent_scaling",
+      "residual"
+    ]
+  },
+  "residual_vs_delta": 0.0,
+  "subtype_abs_mass": {
+    "open_slot": 17658.0,
+    "sell_buy_play": 0.0,
+    "sell_play": 0.0,
+    "triple": 0.0
+  },
+  "share_of_lifecycle_open_slot": 1.0,
+  "share_of_lifecycle_sell_buy_play": 0.0,
+  "share_of_lifecycle_sell_play": 0.0,
+  "share_of_lifecycle_triple": 0.0
+}

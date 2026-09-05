@@ -1,0 +1,50 @@
+{
+  "1": {
+    "n_pairs": 1307,
+    "delta_synth": -7.6059678653404745,
+    "same_state_repaint": -0.6189747513389442,
+    "replacement_lifecycle": -3.3251721499617446,
+    "subsequent_scaling": -3.661820964039786,
+    "residual": 0.0,
+    "share_of_delta_same_state_repaint": 0.08138014284277237,
+    "share_of_delta_replacement_lifecycle": 0.43717935821345943,
+    "share_of_delta_subsequent_scaling": 0.4814404989437682,
+    "share_of_delta_residual": -0.0,
+    "subtype_mismatch_rate": 0.0
+  },
+  "2": {
+    "n_pairs": 1739,
+    "delta_synth": -1.7975848188614145,
+    "same_state_repaint": -0.07705577918343876,
+    "replacement_lifecycle": -0.8803910293271996,
+    "subsequent_scaling": -0.8401380103507763,
+    "residual": 0.0,
+    "share_of_delta_same_state_repaint": 0.04286628278950736,
+    "share_of_delta_replacement_lifecycle": 0.4897632757517595,
+    "share_of_delta_subsequent_scaling": 0.4673704414587332,
+    "share_of_delta_residual": -0.0,
+    "subtype_mismatch_rate": 0.0
+  },
+  "3": {
+    "n_pairs": 1086,
+    "delta_synth": 12.11878453038674,
+    "same_state_repaint": 0.8683241252302025,
+    "replacement_lifecycle": 5.411602209944752,
+    "subsequent_scaling": 5.838858195211786,
+    "residual": 0.0,
+    "share_of_delta_same_state_repaint": 0.07165109034267912,
+    "share_of_delta_replacement_lifecycle": 0.4465466149988603,
+    "share_of_delta_subsequent_scaling": 0.4818022946584606,
+    "share_of_delta_residual": 0.0,
+    "subtype_mismatch_rate": 0.0
+  },
+  "4": {
+    "n_pairs": 0
+  },
+  "5": {
+    "n_pairs": 0
+  },
+  "6": {
+    "n_pairs": 0
+  }
+}

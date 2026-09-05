@@ -1,0 +1,197 @@
+{
+  "methodology_version": "3q_v1",
+  "n_same_outcome_damage": 1059,
+  "n_primary_class3": 1033,
+  "n_primary_class3_treatment": 1033,
+  "published_same_outcome_damage": 1059,
+  "published_primary_n": 1033,
+  "published_3p_n_pairs": 4132,
+  "published_3p_n_fights": 1033,
+  "same_outcome_damage_reproduced": true,
+  "phase_3n_within_tier_B": 0.6883852691218131,
+  "phase_3n_B_reproduced": true,
+  "phase_3o_t5t6_B": 0.6166505324298197,
+  "phase_3o_B_reproduced": true,
+  "phase_3o_share_start_stats": 1.2098231585111623,
+  "phase_3o_share_synth": 1.1847200887085545,
+  "phase_3p_share_timing": 0.9857690083784691,
+  "phase_3p_share_pool": 0.006333231838752983,
+  "phase_3p_share_weight": 0.0,
+  "phase_3p_share_rounding": 0.007897759782777772,
+  "t1_synth_control": 22.23794950267789,
+  "t1_synth_treatment": 14.631981637337415,
+  "t3_synth_control": 7.066298342541437,
+  "t3_synth_treatment": 19.185082872928177,
+  "t1_synth_reproduced": true,
+  "t3_synth_reproduced": true,
+  "primary": {
+    "method": "within_tier_abs_mass_play_lifecycle_identity",
+    "n_pairs": 4132,
+    "abs_delta_synth": 6.347531461761859,
+    "component_abs_mass": {
+      "same_state_repaint": 1886.0,
+      "replacement_lifecycle": 11754.0,
+      "subsequent_scaling": 12588.0,
+      "residual": 0.0
+    },
+    "total_abs_mass": 26228.0,
+    "same_state_repaint": 0.4564375605033882,
+    "replacement_lifecycle": 2.844627299128751,
+    "subsequent_scaling": 3.046466602129719,
+    "residual": 0.0,
+    "share_of_delta_same_state_repaint": 0.07190788470337045,
+    "share_of_delta_replacement_lifecycle": 0.4481470184535611,
+    "share_of_delta_subsequent_scaling": 0.47994509684306846,
+    "share_of_delta_residual": 0.0,
+    "lifecycle_components": [
+      "same_state_repaint",
+      "replacement_lifecycle",
+      "subsequent_scaling",
+      "residual"
+    ],
+    "n_unpaired_control": 0,
+    "n_unpaired_treatment": 0,
+    "n_primary_fights": 1033,
+    "n_snapshots_complete": 4132,
+    "n_missing_play": 0,
+    "pooled_signed_delta_synth": 0.022749273959341725,
+    "pooled_signed": {
+      "method": "exact_play_lifecycle_paired_slot_identity",
+      "n_pairs": 4132,
+      "n_unpaired_control": 0,
+      "n_unpaired_treatment": 0,
+      "n_primary_fights": 1033,
+      "n_snapshots_complete": 4132,
+      "n_missing_play": 0,
+      "delta_synth": 0.022749273959341725,
+      "same_state_repaint": 0.0,
+      "replacement_lifecycle": 0.0,
+      "subsequent_scaling": 0.022749273959341725,
+      "residual": 0.0,
+      "explained_all_parts": 0.022749273959341725,
+      "residual_vs_delta": 0.0,
+      "share_of_delta_same_state_repaint": 0.0,
+      "share_of_delta_replacement_lifecycle": 0.0,
+      "share_of_delta_subsequent_scaling": 1.0,
+      "share_of_delta_residual": 0.0,
+      "lifecycle_components": [
+        "same_state_repaint",
+        "replacement_lifecycle",
+        "subsequent_scaling",
+        "residual"
+      ]
+    },
+    "residual_vs_delta": 0.0,
+    "subtype_abs_mass": {
+      "open_slot": 17658.0,
+      "sell_buy_play": 0.0,
+      "sell_play": 0.0,
+      "triple": 0.0
+    },
+    "share_of_lifecycle_open_slot": 1.0,
+    "share_of_lifecycle_sell_buy_play": 0.0,
+    "share_of_lifecycle_sell_play": 0.0,
+    "share_of_lifecycle_triple": 0.0
+  },
+  "per_tier": {
+    "1": {
+      "n_pairs": 1307,
+      "delta_synth": -7.6059678653404745,
+      "same_state_repaint": -0.6189747513389442,
+      "replacement_lifecycle": -3.3251721499617446,
+      "subsequent_scaling": -3.661820964039786,
+      "residual": 0.0,
+      "share_of_delta_same_state_repaint": 0.08138014284277237,
+      "share_of_delta_replacement_lifecycle": 0.43717935821345943,
+      "share_of_delta_subsequent_scaling": 0.4814404989437682,
+      "share_of_delta_residual": -0.0,
+      "subtype_mismatch_rate": 0.0
+    },
+    "2": {
+      "n_pairs": 1739,
+      "delta_synth": -1.7975848188614145,
+      "same_state_repaint": -0.07705577918343876,
+      "replacement_lifecycle": -0.8803910293271996,
+      "subsequent_scaling": -0.8401380103507763,
+      "residual": 0.0,
+      "share_of_delta_same_state_repaint": 0.04286628278950736,
+      "share_of_delta_replacement_lifecycle": 0.4897632757517595,
+      "share_of_delta_subsequent_scaling": 0.4673704414587332,
+      "share_of_delta_residual": -0.0,
+      "subtype_mismatch_rate": 0.0
+    },
+    "3": {
+      "n_pairs": 1086,
+      "delta_synth": 12.11878453038674,
+      "same_state_repaint": 0.8683241252302025,
+      "replacement_lifecycle": 5.411602209944752,
+      "subsequent_scaling": 5.838858195211786,
+      "residual": 0.0,
+      "share_of_delta_same_state_repaint": 0.07165109034267912,
+      "share_of_delta_replacement_lifecycle": 0.4465466149988603,
+      "share_of_delta_subsequent_scaling": 0.4818022946584606,
+      "share_of_delta_residual": 0.0,
+      "subtype_mismatch_rate": 0.0
+    },
+    "4": {
+      "n_pairs": 0
+    },
+    "5": {
+      "n_pairs": 0
+    },
+    "6": {
+      "n_pairs": 0
+    }
+  },
+  "plays_control": {
+    "n_plays": 1393,
+    "n_open_slot": 1341,
+    "n_sell_buy_play": 21,
+    "n_sell_play": 31,
+    "n_triple": 0,
+    "p_open_slot": 0.9626704953338119,
+    "p_sell_buy_play": 0.01507537688442211,
+    "p_sell_play": 0.022254127781765973,
+    "p_triple": 0.0,
+    "mean_incoming_recruit_raw": 7.203876525484565,
+    "mean_incoming_tier": 2.442211055276382,
+    "cf_a_share_mismatches": 0,
+    "actual_share_mismatches": 0
+  },
+  "plays_treatment": {
+    "n_plays": 2401,
+    "n_open_slot": 1362,
+    "n_sell_buy_play": 724,
+    "n_sell_play": 315,
+    "n_triple": 0,
+    "p_open_slot": 0.5672636401499376,
+    "p_sell_buy_play": 0.30154102457309456,
+    "p_sell_play": 0.13119533527696792,
+    "p_triple": 0.0,
+    "mean_incoming_recruit_raw": 8.890462307371928,
+    "mean_incoming_tier": 3.301124531445231,
+    "cf_a_share_mismatches": 0,
+    "actual_share_mismatches": 0
+  },
+  "paint_reconciliation": {
+    "cf_a_n_share_mismatch": 0,
+    "actual_n_share_mismatch": 0,
+    "paint_ok": true,
+    "nested_ok": true,
+    "identity": "\u03a3 body synthetic shares = painted_pool on CF-A and on treatment post-reallocation; sticky boards conserve implicit on-body pool",
+    "same_state_identity": "(A) control post-play board painted by 2S largest-remainder on the implicit/on-body pool; (B) treatment post-play board keeps incumbent and incoming synth with no repaint",
+    "nested_identity": "delta_synth = same_state_repaint + replacement_lifecycle + subsequent_scaling + residual"
+  },
+  "allocation_3p": {
+    "n_pairs": 4132,
+    "share_timing": 0.9857690083784691,
+    "t1_synth_reproduced": true,
+    "t3_synth_reproduced": true
+  },
+  "mechanics_3o": {
+    "n_primary_class3": 1033,
+    "phase_3n_B_reproduced": true,
+    "primary_share_start_stats": 1.2098231585111623,
+    "primary_share_synth": 1.1847200887085545
+  }
+}
