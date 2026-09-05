@@ -137,8 +137,21 @@ def board_membership_key(slots: Optional[Sequence[Dict]]) -> Tuple:
     return tuple(sorted(rows))
 
 
+def board_state_key(slots: Optional[Sequence[Dict]]) -> Tuple:
+    """Sorted identity plus incumbent synth — pre-play composition."""
+    rows = []
+    for s in slots or []:
+        rows.append((
+            str(s.get("card_id") or s.get("name") or ""),
+            int(s.get("tier") or 1),
+            int(s.get("recruit_raw") or 0),
+            int(s.get("synthetic_share") or 0),
+        ))
+    return tuple(sorted(rows))
+
+
 def board_composition_key(slots: Optional[Sequence[Dict]]) -> Tuple:
-    """Slot-ordered identity; placement-sensitive composition."""
+    """Slot-ordered identity + synth; placement-sensitive composition."""
     ordered = sorted(
         list(slots or []),
         key=lambda r: int(r.get("slot") if r.get("slot") is not None
@@ -149,6 +162,7 @@ def board_composition_key(slots: Optional[Sequence[Dict]]) -> Tuple:
             str(s.get("card_id") or s.get("name") or ""),
             int(s.get("tier") or 1),
             int(s.get("recruit_raw") or 0),
+            int(s.get("synthetic_share") or 0),
         )
         for s in ordered
     )
@@ -290,6 +304,7 @@ def first_formation_component(
     t_pre = treatment_play.get("pre_play") or []
     if (
         board_membership_key(c_pre) != board_membership_key(t_pre)
+        or board_state_key(c_pre) != board_state_key(t_pre)
         or board_composition_key(c_pre) != board_composition_key(t_pre)
         or _safe_int(control_play.get("board_len_before"), 0)
         != _safe_int(treatment_play.get("board_len_before"), 0)
@@ -340,6 +355,8 @@ def earliest_membership_diverge_turn(
     for turn in sorted(set(by_turn_c) | set(by_turn_t)):
         c = by_turn_c.get(turn) or {}
         t = by_turn_t.get(turn) or {}
+        if board_state_key(c.get("pre_play")) != board_state_key(t.get("pre_play")):
+            return int(turn)
         if board_membership_key(c.get("pre_play")) != board_membership_key(
             t.get("pre_play")
         ):
@@ -402,6 +419,16 @@ def decompose_formation_pair(
         "control_subtype": q.get("control_subtype"),
         "treatment_subtype": q.get("treatment_subtype"),
         "subtype_mismatch": q.get("subtype_mismatch"),
+        "same_pre_play_identity": (
+            False if not control_play or not treatment_play
+            else board_membership_key(control_play.get("pre_play"))
+            == board_membership_key(treatment_play.get("pre_play"))
+        ),
+        "same_pre_play_state": (
+            False if not control_play or not treatment_play
+            else board_state_key(control_play.get("pre_play"))
+            == board_state_key(treatment_play.get("pre_play"))
+        ),
         "control_opening": None if not control_play else control_play.get(
             "slot_opening_cause"
         ),
@@ -1092,6 +1119,14 @@ def attribute_open_slot_formation(
             float(sum(1 for p in complete if p.get("treatment_subtype") == "open_slot")),
             float(len(complete)),
         ),
+        "same_pre_play_identity_rate": _safe_div(
+            float(sum(1 for p in complete if p.get("same_pre_play_identity"))),
+            float(len(complete)),
+        ),
+        "same_pre_play_state_rate": _safe_div(
+            float(sum(1 for p in complete if p.get("same_pre_play_state"))),
+            float(len(complete)),
+        ),
     })
 
     life_attr = (lifecycle or {}).get("attribution") or lifecycle or {}
@@ -1381,6 +1416,7 @@ __all__ = [
     "attribute_open_slot_formation",
     "board_composition_key",
     "board_membership_key",
+    "board_state_key",
     "buy_play_order_key",
     "classify_slot_opening_cause",
     "compare_open_slot_formation",

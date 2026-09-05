@@ -80,6 +80,7 @@ from ml.open_slot_formation_diagnostic import (
     OpenSlotFormationTracer,
     board_composition_key,
     board_membership_key,
+    board_state_key,
     classify_slot_opening_cause,
     decompose_formation_pair,
     earliest_membership_diverge_turn,
@@ -222,10 +223,16 @@ def test_board_and_incoming_keys_ignore_synth():
         {"slot": 0, "card_id": "a", "tier": 1, "recruit_raw": 4, "synthetic_share": 1},
     ]
     assert board_membership_key(a) == board_membership_key(b)
-    assert board_composition_key(a) == board_composition_key(b)
+    assert board_state_key(a) != board_state_key(b)
+    same_synth = [
+        {"slot": 1, "card_id": "b", "tier": 3, "recruit_raw": 8, "synthetic_share": 6},
+        {"slot": 0, "card_id": "a", "tier": 1, "recruit_raw": 4, "synthetic_share": 20},
+    ]
+    assert board_state_key(a) == board_state_key(same_synth)
+    assert board_composition_key(a) == board_composition_key(same_synth)
     swapped = [
-        {"slot": 0, "card_id": "b", "tier": 3, "recruit_raw": 8},
-        {"slot": 1, "card_id": "a", "tier": 1, "recruit_raw": 4},
+        {"slot": 0, "card_id": "b", "tier": 3, "recruit_raw": 8, "synthetic_share": 6},
+        {"slot": 1, "card_id": "a", "tier": 1, "recruit_raw": 4, "synthetic_share": 20},
     ]
     assert board_membership_key(a) == board_membership_key(swapped)
     assert board_composition_key(a) != board_composition_key(swapped)
@@ -330,6 +337,15 @@ def test_first_formation_component_exclusive_rank():
     other_order["gold"] = 6
     assert first_formation_component(control, other_order) == "buy_play_order"
 
+    same_ids_diff_synth = dict(same)
+    same_ids_diff_synth["pre_play"] = [
+        {"slot": 0, "card_id": "a", "tier": 1, "recruit_raw": 4,
+         "synthetic_share": 99},
+    ]
+    assert first_formation_component(control, same_ids_diff_synth) == (
+        "pre_play_membership"
+    )
+
 
 def _play_pair(life_c, life_t, sticky_c=20, sticky_t=20, start_c=None, start_t=None):
     if start_c is None:
@@ -410,10 +426,22 @@ def test_decompose_pre_play_membership_only():
     assert parts["formation_component"] == "pre_play_membership"
 
 
+def test_decompose_same_ids_different_incumbent_synth():
+    c0, t0, cp, tp = _play_pair(10, 18, sticky_c=10, sticky_t=18)
+    # identities match; incumbent synth already differs
+    parts = decompose_formation_pair(c0, t0, cp, tp)
+    assert parts["same_pre_play_identity"] is True
+    assert parts["same_pre_play_state"] is False
+    assert parts["formation_component"] == "pre_play_membership"
+    assert abs(parts["pre_play_membership"] - 8.0) < 1e-12
+    assert abs(parts["residual"]) < 1e-12
+
+
 def test_decompose_incoming_identity_only():
     c0, t0, cp, tp = _play_pair(10, 18, sticky_c=10, sticky_t=18)
-    # same pre-play membership; incoming differs. Lifecycle is still the
-    # sticky occupant synth gap (the paired slot is the incumbent here).
+    # pin pre-play synth so composition matches; incoming differs
+    cp["pre_play"][0]["synthetic_share"] = 10
+    tp["pre_play"][0]["synthetic_share"] = 10
     tp["incoming"] = {"card_id": "d", "tier": 4, "recruit_raw": 14}
     parts = decompose_formation_pair(c0, t0, cp, tp)
     assert parts["formation_component"] == "incoming_identity"
@@ -424,6 +452,8 @@ def test_decompose_incoming_identity_only():
 
 def test_decompose_slot_opening_only():
     c0, t0, cp, tp = _play_pair(10, 14, sticky_c=10, sticky_t=14)
+    cp["pre_play"][0]["synthetic_share"] = 10
+    tp["pre_play"][0]["synthetic_share"] = 10
     tp["slot_opening_cause"] = "death_cleanup"
     tp["slot_opening_turn"] = 4
     tp["turns_open"] = 1
@@ -436,6 +466,8 @@ def test_decompose_slot_opening_only():
 
 def test_decompose_buy_play_order_only():
     c0, t0, cp, tp = _play_pair(12, 16, sticky_c=12, sticky_t=16)
+    cp["pre_play"][0]["synthetic_share"] = 12
+    tp["pre_play"][0]["synthetic_share"] = 12
     tp["buy_play_order"] = ["sell", "buy", "play"]
     tp["gold"] = 1
     parts = decompose_formation_pair(c0, t0, cp, tp)
@@ -446,16 +478,20 @@ def test_decompose_buy_play_order_only():
 
 def test_earliest_membership_diverge_is_first_turn():
     c_plays = [
-        {"turn": 3, "pre_play": [{"card_id": "a", "tier": 1, "recruit_raw": 4}],
-         "incoming": {"card_id": "x", "tier": 1, "recruit_raw": 3}},
-        {"turn": 5, "pre_play": [{"card_id": "b", "tier": 2, "recruit_raw": 6}],
-         "incoming": {"card_id": "y", "tier": 2, "recruit_raw": 5}},
+        {"turn": 3, "pre_play": [
+            {"card_id": "a", "tier": 1, "recruit_raw": 4, "synthetic_share": 8},
+        ], "incoming": {"card_id": "x", "tier": 1, "recruit_raw": 3}},
+        {"turn": 5, "pre_play": [
+            {"card_id": "b", "tier": 2, "recruit_raw": 6, "synthetic_share": 10},
+        ], "incoming": {"card_id": "y", "tier": 2, "recruit_raw": 5}},
     ]
     t_plays = [
-        {"turn": 3, "pre_play": [{"card_id": "a", "tier": 1, "recruit_raw": 4}],
-         "incoming": {"card_id": "x", "tier": 1, "recruit_raw": 3}},
-        {"turn": 5, "pre_play": [{"card_id": "z", "tier": 4, "recruit_raw": 12}],
-         "incoming": {"card_id": "y", "tier": 2, "recruit_raw": 5}},
+        {"turn": 3, "pre_play": [
+            {"card_id": "a", "tier": 1, "recruit_raw": 4, "synthetic_share": 8},
+        ], "incoming": {"card_id": "x", "tier": 1, "recruit_raw": 3}},
+        {"turn": 5, "pre_play": [
+            {"card_id": "b", "tier": 2, "recruit_raw": 6, "synthetic_share": 22},
+        ], "incoming": {"card_id": "y", "tier": 2, "recruit_raw": 5}},
     ]
     assert earliest_membership_diverge_turn(c_plays, t_plays, 6) == 5
 
