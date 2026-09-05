@@ -1,0 +1,59 @@
+{
+  "1": {
+    "n_pairs": 1307,
+    "subsequent_scaling": -3.661820964039786,
+    "pre_sync_input_state": -0.0592979105205766,
+    "sync_timing_count": 0.0,
+    "membership_allocation": -3.6076127593222047,
+    "rounding_residue": 0.005089705802975317,
+    "residual": -4.383129921243923e-17,
+    "share_of_delta_pre_sync_input_state": 0.016193558096613794,
+    "share_of_delta_sync_timing_count": -0.0,
+    "share_of_delta_membership_allocation": 0.9851963803665109,
+    "share_of_delta_rounding_residue": -0.0013899384631192518,
+    "share_of_delta_residual": 1.1969809458975779e-17,
+    "same_sync_turn_rate": 1.0,
+    "same_sync_count_rate": 1.0
+  },
+  "2": {
+    "n_pairs": 1739,
+    "subsequent_scaling": -0.8401380103507763,
+    "pre_sync_input_state": -0.024643411721649335,
+    "sync_timing_count": 0.0,
+    "membership_allocation": -0.9229319034551724,
+    "rounding_residue": 0.10743730482604415,
+    "residual": -1.787593139131937e-18,
+    "share_of_delta_pre_sync_input_state": 0.029332575622141133,
+    "share_of_delta_sync_timing_count": -0.0,
+    "share_of_delta_membership_allocation": 1.0985479672200855,
+    "share_of_delta_rounding_residue": -0.12788054284222503,
+    "share_of_delta_residual": 2.127737487303517e-18,
+    "same_sync_turn_rate": 1.0,
+    "same_sync_count_rate": 1.0
+  },
+  "3": {
+    "n_pairs": 1086,
+    "subsequent_scaling": 5.838858195211786,
+    "pre_sync_input_state": -0.027347516812918277,
+    "sync_timing_count": 0.0,
+    "membership_allocation": 5.819639462746433,
+    "rounding_residue": 0.04656624927826248,
+    "residual": 2.1263940066485504e-17,
+    "share_of_delta_pre_sync_input_state": -0.0046837097080632785,
+    "share_of_delta_sync_timing_count": 0.0,
+    "share_of_delta_membership_allocation": 0.9967084776127781,
+    "share_of_delta_rounding_residue": 0.00797523209528356,
+    "share_of_delta_residual": 3.6417976521374006e-18,
+    "same_sync_turn_rate": 1.0,
+    "same_sync_count_rate": 1.0
+  },
+  "4": {
+    "n_pairs": 0
+  },
+  "5": {
+    "n_pairs": 0
+  },
+  "6": {
+    "n_pairs": 0
+  }
+}
