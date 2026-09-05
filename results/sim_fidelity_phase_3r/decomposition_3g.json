@@ -1,0 +1,3613 @@
+{
+  "methodology_version": "3g_v1",
+  "n_control": 54223,
+  "n_treatment": 50116,
+  "mean_control_carry": 0.0,
+  "mean_treatment_carry": 0.0,
+  "observed_delta": 0.0,
+  "unpaired_punch_delta_carry": 0.0,
+  "mixture_turn_winner_tier": 0.0,
+  "within_cell_opponent_carry": 0.0,
+  "role_alive_selection": 0.0,
+  "within_after_role": 0.0,
+  "inner_exclusive": 0.0,
+  "leftover": 0.0,
+  "share_mixture_turn_winner_tier": null,
+  "share_within_cell_opponent_carry": null,
+  "share_role_alive_selection": null,
+  "share_leftover": null,
+  "share_mixture_plus_role": null,
+  "outer_kitagawa": {
+    "mixture": 0.0,
+    "rate": 0.0,
+    "exclusive": 0.0,
+    "leftover": 0.0,
+    "observed_delta": 0.0,
+    "reconciliation_gap": 0.0
+  },
+  "nested_role_alive": {
+    "role_alive_selection": 0.0,
+    "within_after_role": 0.0,
+    "inner_exclusive": 0.0,
+    "reconstructed_outer_rate": 0.0
+  },
+  "by_turn_winner_tier": {
+    "T7_W1": {
+      "turn": 7,
+      "winner_start_tier": 1,
+      "n_control": 2618,
+      "n_treatment": 2730,
+      "weight_control": 0.048282094314220904,
+      "weight_treatment": 0.05447362119881874,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T7_W2": {
+      "turn": 7,
+      "winner_start_tier": 2,
+      "n_control": 3693,
+      "n_treatment": 3610,
+      "weight_control": 0.06810762960367371,
+      "weight_treatment": 0.07203288370979329,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T7_W3": {
+      "turn": 7,
+      "winner_start_tier": 3,
+      "n_control": 3367,
+      "n_treatment": 3427,
+      "weight_control": 0.062095420762407094,
+      "weight_treatment": 0.06838135525580653,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T7_W4": {
+      "turn": 7,
+      "winner_start_tier": 4,
+      "n_control": 2369,
+      "n_treatment": 2475,
+      "weight_control": 0.04368994707043137,
+      "weight_treatment": 0.04938542581211589,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T7_W5": {
+      "turn": 7,
+      "winner_start_tier": 5,
+      "n_control": 1,
+      "n_treatment": 4,
+      "weight_control": 1.8442358408793316e-05,
+      "weight_treatment": 7.981482959533881e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T7_W6": {
+      "turn": 7,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 0,
+      "weight_control": 0.0,
+      "weight_treatment": 0.0,
+      "mean_control_carry": null,
+      "mean_treatment_carry": null,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": null,
+      "p50_treatment": null,
+      "p75_treatment": null
+    },
+    "T8_W1": {
+      "turn": 8,
+      "winner_start_tier": 1,
+      "n_control": 2237,
+      "n_treatment": 2283,
+      "weight_control": 0.04125555576047065,
+      "weight_treatment": 0.04555431399153963,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T8_W2": {
+      "turn": 8,
+      "winner_start_tier": 2,
+      "n_control": 3107,
+      "n_treatment": 3022,
+      "weight_control": 0.057300407576120836,
+      "weight_treatment": 0.060300103759278474,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T8_W3": {
+      "turn": 8,
+      "winner_start_tier": 3,
+      "n_control": 2853,
+      "n_treatment": 2901,
+      "weight_control": 0.052616048540287334,
+      "weight_treatment": 0.057885705164019474,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T8_W4": {
+      "turn": 8,
+      "winner_start_tier": 4,
+      "n_control": 2064,
+      "n_treatment": 2051,
+      "weight_control": 0.0380650277557494,
+      "weight_treatment": 0.04092505387500998,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T8_W5": {
+      "turn": 8,
+      "winner_start_tier": 5,
+      "n_control": 1,
+      "n_treatment": 5,
+      "weight_control": 1.8442358408793316e-05,
+      "weight_treatment": 9.976853699417352e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T8_W6": {
+      "turn": 8,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 0,
+      "weight_control": 0.0,
+      "weight_treatment": 0.0,
+      "mean_control_carry": null,
+      "mean_treatment_carry": null,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": null,
+      "p50_treatment": null,
+      "p75_treatment": null
+    },
+    "T9_W1": {
+      "turn": 9,
+      "winner_start_tier": 1,
+      "n_control": 1823,
+      "n_treatment": 134,
+      "weight_control": 0.033620419379230215,
+      "weight_treatment": 0.00267379679144385,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T9_W2": {
+      "turn": 9,
+      "winner_start_tier": 2,
+      "n_control": 2518,
+      "n_treatment": 1210,
+      "weight_control": 0.04643785847334157,
+      "weight_treatment": 0.024143985952589993,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T9_W3": {
+      "turn": 9,
+      "winner_start_tier": 3,
+      "n_control": 2346,
+      "n_treatment": 2580,
+      "weight_control": 0.04326577282702912,
+      "weight_treatment": 0.051480565088993534,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T9_W4": {
+      "turn": 9,
+      "winner_start_tier": 4,
+      "n_control": 1833,
+      "n_treatment": 3535,
+      "weight_control": 0.03380484296331815,
+      "weight_treatment": 0.07053635565488067,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T9_W5": {
+      "turn": 9,
+      "winner_start_tier": 5,
+      "n_control": 139,
+      "n_treatment": 1220,
+      "weight_control": 0.002563487818822271,
+      "weight_treatment": 0.02434352302657834,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T9_W6": {
+      "turn": 9,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 8,
+      "weight_control": 0.0,
+      "weight_treatment": 0.00015962965919067763,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T10_W1": {
+      "turn": 10,
+      "winner_start_tier": 1,
+      "n_control": 1472,
+      "n_treatment": 106,
+      "weight_control": 0.02714715157774376,
+      "weight_treatment": 0.0021150929842764787,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T10_W2": {
+      "turn": 10,
+      "winner_start_tier": 2,
+      "n_control": 2064,
+      "n_treatment": 887,
+      "weight_control": 0.0380650277557494,
+      "weight_treatment": 0.01769893846276638,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T10_W3": {
+      "turn": 10,
+      "winner_start_tier": 3,
+      "n_control": 1930,
+      "n_treatment": 1932,
+      "weight_control": 0.0355937517289711,
+      "weight_treatment": 0.038550562694548644,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T10_W4": {
+      "turn": 10,
+      "winner_start_tier": 4,
+      "n_control": 1500,
+      "n_treatment": 2680,
+      "weight_control": 0.027663537613189976,
+      "weight_treatment": 0.053475935828877004,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T10_W5": {
+      "turn": 10,
+      "winner_start_tier": 5,
+      "n_control": 104,
+      "n_treatment": 922,
+      "weight_control": 0.0019180052745145048,
+      "weight_treatment": 0.018397318221725596,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T10_W6": {
+      "turn": 10,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 4,
+      "weight_control": 0.0,
+      "weight_treatment": 7.981482959533881e-05,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T11_W1": {
+      "turn": 11,
+      "winner_start_tier": 1,
+      "n_control": 1113,
+      "n_treatment": 5,
+      "weight_control": 0.02052634490898696,
+      "weight_treatment": 9.976853699417352e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T11_W2": {
+      "turn": 11,
+      "winner_start_tier": 2,
+      "n_control": 1598,
+      "n_treatment": 47,
+      "weight_control": 0.02947088873725172,
+      "weight_treatment": 0.0009378242477452311,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T11_W3": {
+      "turn": 11,
+      "winner_start_tier": 3,
+      "n_control": 1499,
+      "n_treatment": 960,
+      "weight_control": 0.02764509525478118,
+      "weight_treatment": 0.019155559102881314,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T11_W4": {
+      "turn": 11,
+      "winner_start_tier": 4,
+      "n_control": 1185,
+      "n_treatment": 2072,
+      "weight_control": 0.02185419471442008,
+      "weight_treatment": 0.04134408173038551,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T11_W5": {
+      "turn": 11,
+      "winner_start_tier": 5,
+      "n_control": 79,
+      "n_treatment": 1364,
+      "weight_control": 0.001456946314294672,
+      "weight_treatment": 0.027216856892010536,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T11_W6": {
+      "turn": 11,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 515,
+      "weight_control": 0.0,
+      "weight_treatment": 0.010276159310399872,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T12_W1": {
+      "turn": 12,
+      "winner_start_tier": 1,
+      "n_control": 885,
+      "n_treatment": 2,
+      "weight_control": 0.016321487191782086,
+      "weight_treatment": 3.990741479766941e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T12_W2": {
+      "turn": 12,
+      "winner_start_tier": 2,
+      "n_control": 1278,
+      "n_treatment": 9,
+      "weight_control": 0.023569334046437858,
+      "weight_treatment": 0.00017958336658951233,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T12_W3": {
+      "turn": 12,
+      "winner_start_tier": 3,
+      "n_control": 1199,
+      "n_treatment": 265,
+      "weight_control": 0.022112387732143187,
+      "weight_treatment": 0.005287732460691197,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T12_W4": {
+      "turn": 12,
+      "winner_start_tier": 4,
+      "n_control": 942,
+      "n_treatment": 1162,
+      "weight_control": 0.017372701621083304,
+      "weight_treatment": 0.023186207997445925,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T12_W5": {
+      "turn": 12,
+      "winner_start_tier": 5,
+      "n_control": 64,
+      "n_treatment": 1250,
+      "weight_control": 0.0011803109381627722,
+      "weight_treatment": 0.024942134248543378,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T12_W6": {
+      "turn": 12,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 868,
+      "weight_control": 0.0,
+      "weight_treatment": 0.017319818022188523,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T13_W1": {
+      "turn": 13,
+      "winner_start_tier": 1,
+      "n_control": 741,
+      "n_treatment": 1,
+      "weight_control": 0.013665787580915847,
+      "weight_treatment": 1.9953707398834704e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T13_W2": {
+      "turn": 13,
+      "winner_start_tier": 2,
+      "n_control": 1064,
+      "n_treatment": 3,
+      "weight_control": 0.019622669346956088,
+      "weight_treatment": 5.986112219650411e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T13_W3": {
+      "turn": 13,
+      "winner_start_tier": 3,
+      "n_control": 997,
+      "n_treatment": 42,
+      "weight_control": 0.018387031333566936,
+      "weight_treatment": 0.0008380557107510575,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T13_W4": {
+      "turn": 13,
+      "winner_start_tier": 4,
+      "n_control": 776,
+      "n_treatment": 645,
+      "weight_control": 0.014311270125223614,
+      "weight_treatment": 0.012870141272248383,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T13_W5": {
+      "turn": 13,
+      "winner_start_tier": 5,
+      "n_control": 55,
+      "n_treatment": 826,
+      "weight_control": 0.0010143297124836324,
+      "weight_treatment": 0.016481762311437467,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T13_W6": {
+      "turn": 13,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 877,
+      "weight_control": 0.0,
+      "weight_treatment": 0.017499401388778035,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T14_W1": {
+      "turn": 14,
+      "winner_start_tier": 1,
+      "n_control": 579,
+      "n_treatment": 0,
+      "weight_control": 0.01067812551869133,
+      "weight_treatment": 0.0,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": null,
+      "delta_treatment_minus_control": null,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": null,
+      "p50_treatment": null,
+      "p75_treatment": null
+    },
+    "T14_W2": {
+      "turn": 14,
+      "winner_start_tier": 2,
+      "n_control": 782,
+      "n_treatment": 1,
+      "weight_control": 0.014421924275676373,
+      "weight_treatment": 1.9953707398834704e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T14_W3": {
+      "turn": 14,
+      "winner_start_tier": 3,
+      "n_control": 723,
+      "n_treatment": 13,
+      "weight_control": 0.013333825129557568,
+      "weight_treatment": 0.0002593981961848511,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T14_W4": {
+      "turn": 14,
+      "winner_start_tier": 4,
+      "n_control": 580,
+      "n_treatment": 346,
+      "weight_control": 0.010696567877100124,
+      "weight_treatment": 0.006903982759996807,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T14_W5": {
+      "turn": 14,
+      "winner_start_tier": 5,
+      "n_control": 45,
+      "n_treatment": 423,
+      "weight_control": 0.0008299061283956993,
+      "weight_treatment": 0.00844041822970708,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": 0.0,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "T14_W6": {
+      "turn": 14,
+      "winner_start_tier": 6,
+      "n_control": 0,
+      "n_treatment": 694,
+      "weight_control": 0.0,
+      "weight_treatment": 0.013847872934791285,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "delta_treatment_minus_control": null,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    }
+  },
+  "low_tier_early": {
+    "verdict": "insufficient_low_tier_rows",
+    "control": {
+      "n": 42486,
+      "p_early": 0.578119851245116,
+      "mean_turn": 9.424775220072494,
+      "mean_carry": 0.0,
+      "mean_carry_early": 0.0,
+      "mean_carry_late": 0.0
+    },
+    "treatment": {
+      "n": 26170,
+      "p_early": 0.8367214367596485,
+      "mean_turn": 8.170462361482613,
+      "mean_carry": 0.0,
+      "mean_carry_early": 0.0,
+      "mean_carry_late": 0.0
+    },
+    "early_weight_shift_treatment_minus_control": 0.2586015855145325,
+    "raw_delta": 0.0,
+    "turn_mixture": 0.0,
+    "within_turn_rate": 0.0,
+    "exclusive": 0.0,
+    "share_of_t1t3_delta_from_turn_mixture": null,
+    "share_of_t1t3_delta_from_within_turn": null,
+    "by_turn": {
+      "10": {
+        "key": [
+          10
+        ],
+        "n_control": 5466,
+        "n_treatment": 2925,
+        "weight_control": 0.12865414489478888,
+        "weight_treatment": 0.11176920137562094,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": -0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "11": {
+        "key": [
+          11
+        ],
+        "n_control": 4210,
+        "n_treatment": 1012,
+        "weight_control": 0.09909146542390435,
+        "weight_treatment": 0.038670233091325945,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": -0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "12": {
+        "key": [
+          12
+        ],
+        "n_control": 3362,
+        "n_treatment": 276,
+        "weight_control": 0.07913194934802052,
+        "weight_treatment": 0.010546427206725257,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": -0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "13": {
+        "key": [
+          13
+        ],
+        "n_control": 2802,
+        "n_treatment": 46,
+        "weight_control": 0.06595113684507838,
+        "weight_treatment": 0.0017577378677875429,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": -0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "14": {
+        "key": [
+          14
+        ],
+        "n_control": 2084,
+        "n_treatment": 14,
+        "weight_control": 0.04905145224309184,
+        "weight_treatment": 0.0005349636988918609,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": -0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "7": {
+        "key": [
+          7
+        ],
+        "n_control": 9678,
+        "n_treatment": 9767,
+        "weight_control": 0.22779268464906086,
+        "weight_treatment": 0.373213603362629,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": 0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "8": {
+        "key": [
+          8
+        ],
+        "n_control": 8197,
+        "n_treatment": 8206,
+        "weight_control": 0.19293414301181566,
+        "weight_treatment": 0.3135651509361865,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": 0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      },
+      "9": {
+        "key": [
+          9
+        ],
+        "n_control": 6687,
+        "n_treatment": 3924,
+        "weight_control": 0.1573930235842395,
+        "weight_treatment": 0.149942682460833,
+        "mean_control_carry": 0.0,
+        "mean_treatment_carry": 0.0,
+        "mixture": -0.0,
+        "rate": 0.0,
+        "gap": 0.0,
+        "exclusive_support": false,
+        "p25_control": 0.0,
+        "p50_control": 0.0,
+        "p75_control": 0.0,
+        "p25_treatment": 0.0,
+        "p50_treatment": 0.0,
+        "p75_treatment": 0.0
+      }
+    }
+  },
+  "reconciliation": {
+    "identity": "sum_k n_arm(k) = N_arm; sum_k w_arm(k) = 1; mixture + within_cell + leftover = unpaired_punch_delta_carry",
+    "n_control": 54223,
+    "n_treatment": 50116,
+    "sum_n_control_cells": 54223,
+    "sum_n_treatment_cells": 50116,
+    "counts_match_control": true,
+    "counts_match_treatment": true,
+    "weight_sum_control": 1.0,
+    "weight_sum_treatment": 1.0,
+    "weights_sum_to_one_control": true,
+    "weights_sum_to_one_treatment": true,
+    "observed_delta": 0.0,
+    "unpaired_punch_delta_carry": 0.0,
+    "mixture": 0.0,
+    "within_cell": 0.0,
+    "role_alive": 0.0,
+    "leftover": 0.0,
+    "reconstructed": 0.0,
+    "reconciliation_gap": 0.0,
+    "reconciliation_ok": true,
+    "nested_rate_gap": 0.0
+  },
+  "outer_cells": {
+    "10x1": {
+      "key": [
+        10,
+        1
+      ],
+      "n_control": 1472,
+      "n_treatment": 106,
+      "weight_control": 0.02714715157774376,
+      "weight_treatment": 0.0021150929842764787,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "10x2": {
+      "key": [
+        10,
+        2
+      ],
+      "n_control": 2064,
+      "n_treatment": 887,
+      "weight_control": 0.0380650277557494,
+      "weight_treatment": 0.01769893846276638,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "10x3": {
+      "key": [
+        10,
+        3
+      ],
+      "n_control": 1930,
+      "n_treatment": 1932,
+      "weight_control": 0.0355937517289711,
+      "weight_treatment": 0.038550562694548644,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "10x4": {
+      "key": [
+        10,
+        4
+      ],
+      "n_control": 1500,
+      "n_treatment": 2680,
+      "weight_control": 0.027663537613189976,
+      "weight_treatment": 0.053475935828877004,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "10x5": {
+      "key": [
+        10,
+        5
+      ],
+      "n_control": 104,
+      "n_treatment": 922,
+      "weight_control": 0.0019180052745145048,
+      "weight_treatment": 0.018397318221725596,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "10x6": {
+      "key": [
+        10,
+        6
+      ],
+      "n_control": 0,
+      "n_treatment": 4,
+      "weight_control": 0.0,
+      "weight_treatment": 7.981482959533881e-05,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "11x1": {
+      "key": [
+        11,
+        1
+      ],
+      "n_control": 1113,
+      "n_treatment": 5,
+      "weight_control": 0.02052634490898696,
+      "weight_treatment": 9.976853699417352e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "11x2": {
+      "key": [
+        11,
+        2
+      ],
+      "n_control": 1598,
+      "n_treatment": 47,
+      "weight_control": 0.02947088873725172,
+      "weight_treatment": 0.0009378242477452311,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "11x3": {
+      "key": [
+        11,
+        3
+      ],
+      "n_control": 1499,
+      "n_treatment": 960,
+      "weight_control": 0.02764509525478118,
+      "weight_treatment": 0.019155559102881314,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "11x4": {
+      "key": [
+        11,
+        4
+      ],
+      "n_control": 1185,
+      "n_treatment": 2072,
+      "weight_control": 0.02185419471442008,
+      "weight_treatment": 0.04134408173038551,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "11x5": {
+      "key": [
+        11,
+        5
+      ],
+      "n_control": 79,
+      "n_treatment": 1364,
+      "weight_control": 0.001456946314294672,
+      "weight_treatment": 0.027216856892010536,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "11x6": {
+      "key": [
+        11,
+        6
+      ],
+      "n_control": 0,
+      "n_treatment": 515,
+      "weight_control": 0.0,
+      "weight_treatment": 0.010276159310399872,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "12x1": {
+      "key": [
+        12,
+        1
+      ],
+      "n_control": 885,
+      "n_treatment": 2,
+      "weight_control": 0.016321487191782086,
+      "weight_treatment": 3.990741479766941e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "12x2": {
+      "key": [
+        12,
+        2
+      ],
+      "n_control": 1278,
+      "n_treatment": 9,
+      "weight_control": 0.023569334046437858,
+      "weight_treatment": 0.00017958336658951233,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "12x3": {
+      "key": [
+        12,
+        3
+      ],
+      "n_control": 1199,
+      "n_treatment": 265,
+      "weight_control": 0.022112387732143187,
+      "weight_treatment": 0.005287732460691197,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "12x4": {
+      "key": [
+        12,
+        4
+      ],
+      "n_control": 942,
+      "n_treatment": 1162,
+      "weight_control": 0.017372701621083304,
+      "weight_treatment": 0.023186207997445925,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "12x5": {
+      "key": [
+        12,
+        5
+      ],
+      "n_control": 64,
+      "n_treatment": 1250,
+      "weight_control": 0.0011803109381627722,
+      "weight_treatment": 0.024942134248543378,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "12x6": {
+      "key": [
+        12,
+        6
+      ],
+      "n_control": 0,
+      "n_treatment": 868,
+      "weight_control": 0.0,
+      "weight_treatment": 0.017319818022188523,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "13x1": {
+      "key": [
+        13,
+        1
+      ],
+      "n_control": 741,
+      "n_treatment": 1,
+      "weight_control": 0.013665787580915847,
+      "weight_treatment": 1.9953707398834704e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "13x2": {
+      "key": [
+        13,
+        2
+      ],
+      "n_control": 1064,
+      "n_treatment": 3,
+      "weight_control": 0.019622669346956088,
+      "weight_treatment": 5.986112219650411e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "13x3": {
+      "key": [
+        13,
+        3
+      ],
+      "n_control": 997,
+      "n_treatment": 42,
+      "weight_control": 0.018387031333566936,
+      "weight_treatment": 0.0008380557107510575,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "13x4": {
+      "key": [
+        13,
+        4
+      ],
+      "n_control": 776,
+      "n_treatment": 645,
+      "weight_control": 0.014311270125223614,
+      "weight_treatment": 0.012870141272248383,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "13x5": {
+      "key": [
+        13,
+        5
+      ],
+      "n_control": 55,
+      "n_treatment": 826,
+      "weight_control": 0.0010143297124836324,
+      "weight_treatment": 0.016481762311437467,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "13x6": {
+      "key": [
+        13,
+        6
+      ],
+      "n_control": 0,
+      "n_treatment": 877,
+      "weight_control": 0.0,
+      "weight_treatment": 0.017499401388778035,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "14x1": {
+      "key": [
+        14,
+        1
+      ],
+      "n_control": 579,
+      "n_treatment": 0,
+      "weight_control": 0.01067812551869133,
+      "weight_treatment": 0.0,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": null,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": null,
+      "p50_treatment": null,
+      "p75_treatment": null
+    },
+    "14x2": {
+      "key": [
+        14,
+        2
+      ],
+      "n_control": 782,
+      "n_treatment": 1,
+      "weight_control": 0.014421924275676373,
+      "weight_treatment": 1.9953707398834704e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "14x3": {
+      "key": [
+        14,
+        3
+      ],
+      "n_control": 723,
+      "n_treatment": 13,
+      "weight_control": 0.013333825129557568,
+      "weight_treatment": 0.0002593981961848511,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "14x4": {
+      "key": [
+        14,
+        4
+      ],
+      "n_control": 580,
+      "n_treatment": 346,
+      "weight_control": 0.010696567877100124,
+      "weight_treatment": 0.006903982759996807,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "14x5": {
+      "key": [
+        14,
+        5
+      ],
+      "n_control": 45,
+      "n_treatment": 423,
+      "weight_control": 0.0008299061283956993,
+      "weight_treatment": 0.00844041822970708,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "14x6": {
+      "key": [
+        14,
+        6
+      ],
+      "n_control": 0,
+      "n_treatment": 694,
+      "weight_control": 0.0,
+      "weight_treatment": 0.013847872934791285,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "7x1": {
+      "key": [
+        7,
+        1
+      ],
+      "n_control": 2618,
+      "n_treatment": 2730,
+      "weight_control": 0.048282094314220904,
+      "weight_treatment": 0.05447362119881874,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "7x2": {
+      "key": [
+        7,
+        2
+      ],
+      "n_control": 3693,
+      "n_treatment": 3610,
+      "weight_control": 0.06810762960367371,
+      "weight_treatment": 0.07203288370979329,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "7x3": {
+      "key": [
+        7,
+        3
+      ],
+      "n_control": 3367,
+      "n_treatment": 3427,
+      "weight_control": 0.062095420762407094,
+      "weight_treatment": 0.06838135525580653,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "7x4": {
+      "key": [
+        7,
+        4
+      ],
+      "n_control": 2369,
+      "n_treatment": 2475,
+      "weight_control": 0.04368994707043137,
+      "weight_treatment": 0.04938542581211589,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "7x5": {
+      "key": [
+        7,
+        5
+      ],
+      "n_control": 1,
+      "n_treatment": 4,
+      "weight_control": 1.8442358408793316e-05,
+      "weight_treatment": 7.981482959533881e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "8x1": {
+      "key": [
+        8,
+        1
+      ],
+      "n_control": 2237,
+      "n_treatment": 2283,
+      "weight_control": 0.04125555576047065,
+      "weight_treatment": 0.04555431399153963,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "8x2": {
+      "key": [
+        8,
+        2
+      ],
+      "n_control": 3107,
+      "n_treatment": 3022,
+      "weight_control": 0.057300407576120836,
+      "weight_treatment": 0.060300103759278474,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "8x3": {
+      "key": [
+        8,
+        3
+      ],
+      "n_control": 2853,
+      "n_treatment": 2901,
+      "weight_control": 0.052616048540287334,
+      "weight_treatment": 0.057885705164019474,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "8x4": {
+      "key": [
+        8,
+        4
+      ],
+      "n_control": 2064,
+      "n_treatment": 2051,
+      "weight_control": 0.0380650277557494,
+      "weight_treatment": 0.04092505387500998,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "8x5": {
+      "key": [
+        8,
+        5
+      ],
+      "n_control": 1,
+      "n_treatment": 5,
+      "weight_control": 1.8442358408793316e-05,
+      "weight_treatment": 9.976853699417352e-05,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "9x1": {
+      "key": [
+        9,
+        1
+      ],
+      "n_control": 1823,
+      "n_treatment": 134,
+      "weight_control": 0.033620419379230215,
+      "weight_treatment": 0.00267379679144385,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "9x2": {
+      "key": [
+        9,
+        2
+      ],
+      "n_control": 2518,
+      "n_treatment": 1210,
+      "weight_control": 0.04643785847334157,
+      "weight_treatment": 0.024143985952589993,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": -0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "9x3": {
+      "key": [
+        9,
+        3
+      ],
+      "n_control": 2346,
+      "n_treatment": 2580,
+      "weight_control": 0.04326577282702912,
+      "weight_treatment": 0.051480565088993534,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "9x4": {
+      "key": [
+        9,
+        4
+      ],
+      "n_control": 1833,
+      "n_treatment": 3535,
+      "weight_control": 0.03380484296331815,
+      "weight_treatment": 0.07053635565488067,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "9x5": {
+      "key": [
+        9,
+        5
+      ],
+      "n_control": 139,
+      "n_treatment": 1220,
+      "weight_control": 0.002563487818822271,
+      "weight_treatment": 0.02434352302657834,
+      "mean_control_carry": 0.0,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": false,
+      "p25_control": 0.0,
+      "p50_control": 0.0,
+      "p75_control": 0.0,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    },
+    "9x6": {
+      "key": [
+        9,
+        6
+      ],
+      "n_control": 0,
+      "n_treatment": 8,
+      "weight_control": 0.0,
+      "weight_treatment": 0.00015962965919067763,
+      "mean_control_carry": null,
+      "mean_treatment_carry": 0.0,
+      "mixture": 0.0,
+      "rate": 0.0,
+      "gap": 0.0,
+      "exclusive_support": true,
+      "p25_control": null,
+      "p50_control": null,
+      "p75_control": null,
+      "p25_treatment": 0.0,
+      "p50_treatment": 0.0,
+      "p75_treatment": 0.0
+    }
+  },
+  "nested_cells": {
+    "10x1": {
+      "scale": 0.01463112228101012,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1472,
+        "n_treatment": 106,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1472,
+            "n_treatment": 106,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "10x2": {
+      "scale": 0.027881983109257893,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2064,
+        "n_treatment": 887,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2064,
+            "n_treatment": 887,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "10x3": {
+      "scale": 0.03707215721175987,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1930,
+        "n_treatment": 1932,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1930,
+            "n_treatment": 1932,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "10x4": {
+      "scale": 0.04056973672103349,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1500,
+        "n_treatment": 2680,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1500,
+            "n_treatment": 2680,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "10x5": {
+      "scale": 0.01015766174812005,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 104,
+        "n_treatment": 922,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 104,
+            "n_treatment": 922,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "11x1": {
+      "scale": 0.010313056722990568,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1113,
+        "n_treatment": 5,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1113,
+            "n_treatment": 5,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "11x2": {
+      "scale": 0.015204356492498475,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1598,
+        "n_treatment": 47,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1598,
+            "n_treatment": 47,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "11x3": {
+      "scale": 0.023400327178831247,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1499,
+        "n_treatment": 960,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1499,
+            "n_treatment": 960,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "11x4": {
+      "scale": 0.03159913822240279,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1185,
+        "n_treatment": 2072,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1185,
+            "n_treatment": 2072,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "11x5": {
+      "scale": 0.014336901603152603,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 79,
+        "n_treatment": 1364,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 79,
+            "n_treatment": 1364,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "12x1": {
+      "scale": 0.008180697303289878,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 885,
+        "n_treatment": 2,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 885,
+            "n_treatment": 2,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "12x2": {
+      "scale": 0.011874458706513685,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1278,
+        "n_treatment": 9,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1278,
+            "n_treatment": 9,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "12x3": {
+      "scale": 0.013700060096417192,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1199,
+        "n_treatment": 265,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1199,
+            "n_treatment": 265,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "12x4": {
+      "scale": 0.020279454809264616,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 942,
+        "n_treatment": 1162,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 942,
+            "n_treatment": 1162,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "12x5": {
+      "scale": 0.013061222593353076,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 64,
+        "n_treatment": 1250,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 64,
+            "n_treatment": 1250,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "13x1": {
+      "scale": 0.006842870644157341,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 741,
+        "n_treatment": 1,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 741,
+            "n_treatment": 1,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "13x2": {
+      "scale": 0.009841265234576296,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1064,
+        "n_treatment": 3,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1064,
+            "n_treatment": 3,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "13x3": {
+      "scale": 0.009612543522158996,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 997,
+        "n_treatment": 42,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 997,
+            "n_treatment": 42,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "13x4": {
+      "scale": 0.013590705698735998,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 776,
+        "n_treatment": 645,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 776,
+            "n_treatment": 645,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "13x5": {
+      "scale": 0.00874804601196055,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 55,
+        "n_treatment": 826,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 55,
+            "n_treatment": 826,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "14x2": {
+      "scale": 0.007220938991537604,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 782,
+        "n_treatment": 1,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 781,
+            "n_treatment": 1,
+            "weight_control": 0.9987212276214834,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          },
+          "alive_2_3xwinner_tavern_low": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_low"
+            ],
+            "n_control": 1,
+            "n_treatment": 0,
+            "weight_control": 0.0012787723785166241,
+            "weight_treatment": 0.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": null,
+            "mixture": null,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": true,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": null,
+            "p50_treatment": null,
+            "p75_treatment": null
+          }
+        }
+      }
+    },
+    "14x3": {
+      "scale": 0.0067966116628712095,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 723,
+        "n_treatment": 13,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 721,
+            "n_treatment": 13,
+            "weight_control": 0.9972337482710927,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          },
+          "alive_2_3xwinner_tavern_low": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_low"
+            ],
+            "n_control": 2,
+            "n_treatment": 0,
+            "weight_control": 0.0027662517289073307,
+            "weight_treatment": 0.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": null,
+            "mixture": null,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": true,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": null,
+            "p50_treatment": null,
+            "p75_treatment": null
+          }
+        }
+      }
+    },
+    "14x4": {
+      "scale": 0.008800275318548465,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 580,
+        "n_treatment": 346,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 580,
+            "n_treatment": 346,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "14x5": {
+      "scale": 0.004635162179051389,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 45,
+        "n_treatment": 423,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 45,
+            "n_treatment": 423,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "7x1": {
+      "scale": 0.05137785775651982,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2618,
+        "n_treatment": 2730,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2618,
+            "n_treatment": 2730,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "7x2": {
+      "scale": 0.0700702566567335,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 3693,
+        "n_treatment": 3610,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 3693,
+            "n_treatment": 3610,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "7x3": {
+      "scale": 0.0652383880091068,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 3367,
+        "n_treatment": 3427,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 3367,
+            "n_treatment": 3427,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "7x4": {
+      "scale": 0.04653768644127363,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2369,
+        "n_treatment": 2475,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2369,
+            "n_treatment": 2475,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "7x5": {
+      "scale": 4.912859400206606e-05,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1,
+        "n_treatment": 4,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1,
+            "n_treatment": 4,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "8x1": {
+      "scale": 0.043404934876005136,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2237,
+        "n_treatment": 2283,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2237,
+            "n_treatment": 2283,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "8x2": {
+      "scale": 0.058800255667699655,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 3107,
+        "n_treatment": 3022,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 3107,
+            "n_treatment": 3022,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "8x3": {
+      "scale": 0.05525087685215341,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2853,
+        "n_treatment": 2901,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2853,
+            "n_treatment": 2901,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "8x4": {
+      "scale": 0.03949504081537969,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2064,
+        "n_treatment": 2051,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2064,
+            "n_treatment": 2051,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "8x5": {
+      "scale": 5.9105447701483414e-05,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1,
+        "n_treatment": 5,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1,
+            "n_treatment": 5,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "9x1": {
+      "scale": 0.01814710808533703,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1823,
+        "n_treatment": 134,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1823,
+            "n_treatment": 134,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "9x2": {
+      "scale": 0.035290922212965786,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2518,
+        "n_treatment": 1210,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2518,
+            "n_treatment": 1210,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "9x3": {
+      "scale": 0.04737316895801133,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 2346,
+        "n_treatment": 2580,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 2346,
+            "n_treatment": 2580,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "9x4": {
+      "scale": 0.05217059930909941,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 1833,
+        "n_treatment": 3535,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 1833,
+            "n_treatment": 3535,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    },
+    "9x5": {
+      "scale": 0.013453505422700305,
+      "delta_mu": 0.0,
+      "role_alive": 0.0,
+      "within_after_role": 0.0,
+      "inner_exclusive": 0.0,
+      "inner": {
+        "mixture": 0.0,
+        "rate": 0.0,
+        "leftover": 0.0,
+        "n_control": 139,
+        "n_treatment": 1220,
+        "cells": {
+          "alive_2_3xwinner_tavern_high": {
+            "key": [
+              "alive_2_3",
+              "winner_tavern_high"
+            ],
+            "n_control": 139,
+            "n_treatment": 1220,
+            "weight_control": 1.0,
+            "weight_treatment": 1.0,
+            "mean_control_carry": 0.0,
+            "mean_treatment_carry": 0.0,
+            "mixture": 0.0,
+            "rate": 0.0,
+            "gap": 0.0,
+            "exclusive_support": false,
+            "p25_control": 0.0,
+            "p50_control": 0.0,
+            "p75_control": 0.0,
+            "p25_treatment": 0.0,
+            "p50_treatment": 0.0,
+            "p75_treatment": 0.0
+          }
+        }
+      }
+    }
+  }
+}

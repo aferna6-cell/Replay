@@ -1,0 +1,172 @@
+{
+  "t5_t6_class3": [
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 1,
+      "subsequent_scaling": -3.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": -3.934000385544329,
+      "rounding_residue": 0.93400038554433,
+      "residual": -8.881784197001252e-16,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 2,
+      "subsequent_scaling": -4.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": -3.9340003855443304,
+      "rounding_residue": -0.06599961445567004,
+      "residual": 0.0,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 3,
+      "subsequent_scaling": 6.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": 5.507600539762062,
+      "rounding_residue": 0.4923994602379391,
+      "residual": -8.881784197001252e-16,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 3,
+      "subsequent_scaling": 3.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": 2.360400231326598,
+      "rounding_residue": 0.6395997686734018,
+      "residual": 0.0,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 1,
+      "subsequent_scaling": -3.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": -3.934000385544329,
+      "rounding_residue": 0.93400038554433,
+      "residual": -8.881784197001252e-16,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 2,
+      "subsequent_scaling": -4.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": -3.9340003855443304,
+      "rounding_residue": -0.06599961445567004,
+      "residual": 0.0,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 3,
+      "subsequent_scaling": 6.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": 5.507600539762062,
+      "rounding_residue": 0.4923994602379391,
+      "residual": -8.881784197001252e-16,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    },
+    {
+      "seed": 14207,
+      "causal_seat": 3,
+      "first_divergence_turn": 5,
+      "tier": 3,
+      "subsequent_scaling": 3.0,
+      "pre_sync_input_state": 0.0,
+      "sync_timing_count": 0.0,
+      "membership_allocation": 2.360400231326598,
+      "rounding_residue": 0.6395997686734018,
+      "residual": 0.0,
+      "n_syncs_control": 1,
+      "n_syncs_treatment": 1,
+      "sync_turns_control": [
+        5
+      ],
+      "sync_turns_treatment": [
+        5
+      ],
+      "first_input_diverge_field": "abstract_pool_entering"
+    }
+  ]
+}

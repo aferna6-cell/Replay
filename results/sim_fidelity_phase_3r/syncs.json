@@ -1,0 +1,26 @@
+{
+  "control": {
+    "n_syncs": 768,
+    "mean_board_recruit_raw": 21.86328125,
+    "mean_abstract_pool_entering": 0.0,
+    "mean_synth_pool_entering": 113.21875,
+    "mean_firestone_target": 192.67786458333333,
+    "mean_residual_add": 108.13264709152688,
+    "mean_applied_board_increment": 108.09895833333333,
+    "mean_board_size": 3.421875,
+    "n_board_flow_mismatch": 0,
+    "max_abs_board_flow_gap": 0.0
+  },
+  "treatment": {
+    "n_syncs": 798,
+    "mean_board_recruit_raw": 24.89097744360902,
+    "mean_abstract_pool_entering": 271.5112781954887,
+    "mean_synth_pool_entering": 271.5112781954887,
+    "mean_firestone_target": 310.2520050125313,
+    "mean_residual_add": 157.35043658273145,
+    "mean_applied_board_increment": 157.33082706766916,
+    "mean_board_size": 3.556390977443609,
+    "n_board_flow_mismatch": 0,
+    "max_abs_board_flow_gap": 0.0
+  }
+}
