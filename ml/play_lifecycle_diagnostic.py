@@ -23,6 +23,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 from hsbg_coach.bg_env import (
     A_PLAY0,
+    A_SELL0,
     MAX_BOARD,
     BGEnv,
     board_level_abstract_scaling_enabled,
