@@ -1,0 +1,56 @@
+{
+  "1": {
+    "n_pairs": 1307,
+    "delta_synth": -7.6059678653404745,
+    "pool_magnitude": 0.01354356489601525,
+    "weight_composition": 0.0,
+    "timing_membership": -7.599081866870696,
+    "integer_rounding": -0.02042956336579336,
+    "residual": -6.149972990272481e-17,
+    "share_of_delta_pool_magnitude": -0.0017806497655257953,
+    "share_of_delta_weight_composition": -0.0,
+    "share_of_delta_timing_membership": 0.9990946584850618,
+    "share_of_delta_integer_rounding": 0.002685991280463929,
+    "share_of_delta_residual": 8.085720448934849e-18,
+    "event_kind_mismatch_rate": 0.0
+  },
+  "2": {
+    "n_pairs": 1739,
+    "delta_synth": -1.7975848188614145,
+    "pool_magnitude": 0.06590663365539912,
+    "weight_composition": 0.0,
+    "timing_membership": -1.924669350201265,
+    "integer_rounding": 0.06117789768445153,
+    "residual": 7.456817094664652e-17,
+    "share_of_delta_pool_magnitude": -0.036663991019430284,
+    "share_of_delta_weight_composition": -0.0,
+    "share_of_delta_timing_membership": 1.0706973768394115,
+    "share_of_delta_integer_rounding": -0.03403338581998119,
+    "share_of_delta_residual": -4.148242139354392e-17,
+    "event_kind_mismatch_rate": 0.0
+  },
+  "3": {
+    "n_pairs": 1086,
+    "delta_synth": 12.11878453038674,
+    "pool_magnitude": -0.035279074811999676,
+    "weight_composition": 0.0,
+    "timing_membership": 12.22744014732965,
+    "integer_rounding": -0.07337654213091055,
+    "residual": 1.27583640398913e-16,
+    "share_of_delta_pool_magnitude": -0.0029111066975025944,
+    "share_of_delta_weight_composition": 0.0,
+    "share_of_delta_timing_membership": 1.0089658840513638,
+    "share_of_delta_integer_rounding": -0.006054777353861322,
+    "share_of_delta_residual": 1.0527758792889562e-17,
+    "event_kind_mismatch_rate": 0.0
+  },
+  "4": {
+    "n_pairs": 0
+  },
+  "5": {
+    "n_pairs": 0
+  },
+  "6": {
+    "n_pairs": 0
+  }
+}
