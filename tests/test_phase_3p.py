@@ -65,6 +65,7 @@ from ml.allocation_input_diagnostic import (
     paint_weight,
     painted_pool_from_abstract,
     reconstruct_board_paint,
+    tier_mass_primary,
 )
 from ml.synthetic_allocation_diagnostic import largest_remainder_shares
 from ml.survivor_tier_damage_diagnostic import rules_faithful_hero_damage
@@ -332,6 +333,35 @@ def test_decompose_sticky_timing_only():
     assert abs(parts["timing_membership"] - (-10.0)) < 1e-12
     assert abs(parts["integer_rounding"]) < 1e-12
     assert abs(parts["residual"]) < 1e-12
+
+
+def test_tier_mass_primary_does_not_cancel_t1_t3():
+    """Opposite-signed T1/T3 synth moves must not collapse to a tiny pool term."""
+    per_tier = {
+        "1": {
+            "n_pairs": 1307,
+            "delta_synth": -7.6,
+            "pool_magnitude": 0.01,
+            "weight_composition": 0.0,
+            "timing_membership": -7.6,
+            "integer_rounding": 0.0,
+            "residual": 0.0,
+        },
+        "3": {
+            "n_pairs": 1086,
+            "delta_synth": 12.1,
+            "pool_magnitude": -0.03,
+            "weight_composition": 0.0,
+            "timing_membership": 12.1,
+            "integer_rounding": 0.0,
+            "residual": 0.0,
+        },
+    }
+    primary = tier_mass_primary(per_tier)
+    assert primary["share_of_delta_timing_membership"] > 0.70
+    assert (primary["share_of_delta_pool_magnitude"] or 0.0) < 0.10
+    routed = diagnose_phase_3p({"primary": primary})
+    assert routed["primary_finding"] == "timing_membership_dominates"
 
 
 def test_unhooked_simulate_once_unchanged():

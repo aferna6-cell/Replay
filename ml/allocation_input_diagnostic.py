@@ -664,6 +664,48 @@ def _sum_parts(pairs: Sequence[Dict]) -> Dict[str, float]:
     return totals
 
 
+def tier_mass_primary(per_tier: Dict[str, Dict]) -> Dict:
+    """Decision shares from within-tier |parts| so T1↓ / T3↑ cannot cancel.
+
+    Signed pooled ΔS ≈ 0 because 2S moves the same pool off T1 onto T3.
+    The 3O leftover is that cross-tier move, so primary shares weight each
+    printed-tier component by n_pairs · |component|.
+    """
+    mass = {name: 0.0 for name in ALLOCATION_COMPONENTS}
+    n_used = 0
+    abs_delta = 0.0
+    for cell in (per_tier or {}).values():
+        n = int(cell.get("n_pairs") or 0)
+        if n <= 0:
+            continue
+        n_used += n
+        abs_delta += n * abs(float(cell.get("delta_synth") or 0.0))
+        for name in ALLOCATION_COMPONENTS:
+            mass[name] += n * abs(float(cell.get(name) or 0.0))
+    total_mass = sum(mass.values())
+
+    def _share(part: float) -> Optional[float]:
+        if total_mass < 1e-12:
+            return None
+        return float(part) / total_mass
+
+    return {
+        "method": "within_tier_abs_mass_paint_identity",
+        "n_pairs": n_used,
+        "abs_delta_synth": (
+            None if n_used <= 0 else float(abs_delta) / float(n_used)
+        ),
+        "component_abs_mass": mass,
+        "total_abs_mass": total_mass,
+        **{name: (
+            None if n_used <= 0 else float(mass[name]) / float(n_used)
+        ) for name in ALLOCATION_COMPONENTS},
+        **{f"share_of_delta_{name}": _share(mass[name])
+           for name in ALLOCATION_COMPONENTS},
+        "allocation_components": list(ALLOCATION_COMPONENTS),
+    }
+
+
 def attribute_allocation_inputs(
     control_raw: Dict,
     treatment_raw: Dict,
@@ -734,7 +776,7 @@ def attribute_allocation_inputs(
             return None
         return float(part) / obs_delta
 
-    primary = {
+    pooled_signed = {
         "method": "exact_paint_equation_paired_slot_identity",
         "n_pairs": len(pairs),
         "n_unpaired_control": len(unpaired_c),
@@ -778,8 +820,42 @@ def attribute_allocation_inputs(
             ),
         }
 
+    primary = tier_mass_primary(per_tier)
+    primary.update({
+        "n_unpaired_control": len(unpaired_c),
+        "n_unpaired_treatment": len(unpaired_t),
+        "n_primary_fights": n_fights,
+        "pooled_signed_delta_synth": pooled_signed["delta_synth"],
+        "pooled_signed": pooled_signed,
+        "residual_vs_delta": pooled_signed["residual_vs_delta"],
+        "last_membership_event_play_rate_control": None,
+        "last_membership_event_play_rate_treatment": None,
+        "event_kind_mismatch_rate": _safe_div(
+            float(sum(1 for p in pairs if p.get("event_kind_mismatch"))),
+            float(len(pairs)),
+        ),
+    })
+
     c_by = _by_tier_synth(rows_c)
     t_by = _by_tier_synth(rows_t)
+    play_c = [
+        float((c_by[str(t)] or {}).get("p_last_event_play") or 0.0)
+        * int((c_by[str(t)] or {}).get("n_start") or 0)
+        for t in TIERS if (c_by.get(str(t)) or {}).get("n_start")
+    ]
+    play_t = [
+        float((t_by[str(t)] or {}).get("p_last_event_play") or 0.0)
+        * int((t_by[str(t)] or {}).get("n_start") or 0)
+        for t in TIERS if (t_by.get(str(t)) or {}).get("n_start")
+    ]
+    n_c_ev = sum(int((c_by[str(t)] or {}).get("n_start") or 0) for t in TIERS)
+    n_t_ev = sum(int((t_by[str(t)] or {}).get("n_start") or 0) for t in TIERS)
+    primary["last_membership_event_play_rate_control"] = (
+        None if n_c_ev <= 0 else float(sum(play_c)) / float(n_c_ev)
+    )
+    primary["last_membership_event_play_rate_treatment"] = (
+        None if n_t_ev <= 0 else float(sum(play_t)) / float(n_t_ev)
+    )
     t1_c = (c_by.get("1") or {}).get("mean_synthetic_share")
     t1_t = (t_by.get("1") or {}).get("mean_synthetic_share")
     t3_c = (c_by.get("3") or {}).get("mean_synthetic_share")
@@ -969,4 +1045,5 @@ __all__ = [
     "reconstruct_board_paint",
     "run_greedy_2s_treatment_allocation",
     "run_greedy_control_allocation",
+    "tier_mass_primary",
 ]
