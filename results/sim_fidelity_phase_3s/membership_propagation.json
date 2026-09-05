@@ -1,0 +1,25 @@
+{
+  "method": "within_tier_abs_mass_membership_propagation",
+  "n_pairs": 4132,
+  "abs_membership_allocation": 3.0591134833217066,
+  "component_abs_mass": {
+    "pre_play_membership": 12640.256913085292,
+    "incoming_identity": 0.0,
+    "slot_opening_cause": 0.0,
+    "buy_play_order": 0.0,
+    "residual": 0.0
+  },
+  "total_abs_mass": 12640.256913085292,
+  "share_of_membership_pre_play_membership": 1.0,
+  "share_of_membership_incoming_identity": 0.0,
+  "share_of_membership_slot_opening_cause": 0.0,
+  "share_of_membership_buy_play_order": 0.0,
+  "share_of_membership_residual": 0.0,
+  "formation_components": [
+    "pre_play_membership",
+    "incoming_identity",
+    "slot_opening_cause",
+    "buy_play_order",
+    "residual"
+  ]
+}
