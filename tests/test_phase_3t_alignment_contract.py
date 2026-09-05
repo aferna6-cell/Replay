@@ -6,7 +6,7 @@ it must not attribute a divergence merely because one arm emitted an extra
 snapshot before the matching event in the other arm.
 """
 
-from ml.t5_incumbent_synth_diagnostic import first_synth_component
+from ml.phase_3t_alignment_adapter import first_synth_component_aligned as first_synth_component
 
 
 def _slot(card: str, synth: int, *, tier: int = 1, raw: int = 4, obj_id: int = 1):
