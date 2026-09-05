@@ -44,3 +44,20 @@ jobs:
           tests/test_phase_2q.py
           tests/test_sim.py
           tests/test_sim_effects.py
+
+  smoke:
+    name: phase3t-8-lobby-smoke
+    needs: focused
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Preregistered non-evaluative reused-DEV smoke 14200-14207
+        run: >-
+          uv run --isolated --extra dev python -m ml.fidelity_phase_3t_aligned
+          --lobbies 8
+          --seed 14200
+          --non-evaluative
