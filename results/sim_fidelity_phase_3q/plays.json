@@ -1,0 +1,32 @@
+{
+  "control": {
+    "n_plays": 1393,
+    "n_open_slot": 1341,
+    "n_sell_buy_play": 21,
+    "n_sell_play": 31,
+    "n_triple": 0,
+    "p_open_slot": 0.9626704953338119,
+    "p_sell_buy_play": 0.01507537688442211,
+    "p_sell_play": 0.022254127781765973,
+    "p_triple": 0.0,
+    "mean_incoming_recruit_raw": 7.203876525484565,
+    "mean_incoming_tier": 2.442211055276382,
+    "cf_a_share_mismatches": 0,
+    "actual_share_mismatches": 0
+  },
+  "treatment": {
+    "n_plays": 2401,
+    "n_open_slot": 1362,
+    "n_sell_buy_play": 724,
+    "n_sell_play": 315,
+    "n_triple": 0,
+    "p_open_slot": 0.5672636401499376,
+    "p_sell_buy_play": 0.30154102457309456,
+    "p_sell_play": 0.13119533527696792,
+    "p_triple": 0.0,
+    "mean_incoming_recruit_raw": 8.890462307371928,
+    "mean_incoming_tier": 3.301124531445231,
+    "cf_a_share_mismatches": 0,
+    "actual_share_mismatches": 0
+  }
+}
