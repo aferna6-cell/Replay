@@ -1,0 +1,46 @@
+# Focused validation for draft Phase 3T measurement work.
+# Kept branch-local so PR #49's general CI lane remains separate.
+name: Phase 3T Focused
+
+"on":
+  push:
+    branches:
+      - cursor/phase-3t-t5-incumbent-synth-27cf
+  pull_request:
+    branches:
+      - cursor/phase-3s-open-slot-attribution-c72b
+
+concurrency:
+  group: phase3t-focused-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  focused:
+    name: phase3t-focused
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Phase 3T causal-alignment and dependency regression suite
+        run: >-
+          uv run --isolated --extra dev pytest -q
+          tests/test_phase_3t.py
+          tests/test_phase_3t_alignment_contract.py
+          tests/test_phase_3t_causal_alignment_helper.py
+          tests/test_phase_3t_alignment_adapter.py
+          tests/test_phase_3t_aligned_entrypoint.py
+          tests/test_phase_3s.py
+          tests/test_phase_3r.py
+          tests/test_phase_3q.py
+          tests/test_phase_3p.py
+          tests/test_phase_3o.py
+          tests/test_phase_2s.py
+          tests/test_phase_2q.py
+          tests/test_sim.py
+          tests/test_sim_effects.py
