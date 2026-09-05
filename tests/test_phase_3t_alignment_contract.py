@@ -83,3 +83,62 @@ def test_unmatched_control_membership_event_keeps_membership_attribution():
     treatment = [_event("turn_start", -2, a10)]
 
     assert first_synth_component(control, treatment) == "earlier_t5_membership"
+
+
+def test_same_logical_event_with_shifted_sequence_index_is_not_a_divergence():
+    """Raw seq drift alone cannot become a scientific first-difference cause."""
+    a10 = [_slot("a", 10)]
+    ab10 = [
+        _slot("a", 10),
+        {**_slot("b", 0, tier=2, raw=6, obj_id=2), "slot": 1},
+    ]
+
+    control = [
+        _event("turn_start", -2, a10),
+        _event("play", 2, ab10, subtype="open_slot"),
+    ]
+    treatment = [
+        _event("turn_start", -2, a10),
+        _event("play", 7, ab10, subtype="open_slot"),
+    ]
+
+    assert first_synth_component(control, treatment) == "residual"
+
+
+def test_common_prefix_then_noop_then_real_paint_attributes_real_paint():
+    """A no-op insertion must not hide the later first real state divergence."""
+    a10 = [_slot("a", 10)]
+    a20 = [_slot("a", 20)]
+
+    control = [
+        _event("turn_start", -2, a10),
+        _event("paint", 4, a20, subtype="real_repaint"),
+    ]
+    treatment = [
+        _event("turn_start", -2, a10),
+        _event("paint", 1, a10, subtype="noop_repaint"),
+        _event("paint", 4, a20, subtype="real_repaint"),
+    ]
+
+    assert first_synth_component(control, treatment) == "residual"
+
+
+def test_identical_state_changing_streams_reconcile_to_residual():
+    """Identical causal streams must not manufacture an attribution class."""
+    a10 = [_slot("a", 10)]
+    ab10 = [
+        _slot("a", 10),
+        {**_slot("b", 0, tier=2, raw=6, obj_id=2), "slot": 1},
+    ]
+    ab20 = [
+        _slot("a", 20),
+        {**_slot("b", 0, tier=2, raw=6, obj_id=2), "slot": 1},
+    ]
+
+    stream = [
+        _event("turn_start", -2, a10),
+        _event("play", 2, ab10, subtype="open_slot"),
+        _event("paint", 3, ab20, subtype="2s_repaint"),
+    ]
+
+    assert first_synth_component(stream, list(stream)) == "residual"
