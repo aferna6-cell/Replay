@@ -1,0 +1,79 @@
+{
+  "method": "within_tier_abs_mass_open_slot_formation_identity",
+  "n_pairs": 4132,
+  "abs_replacement_lifecycle": 2.844627299128751,
+  "component_abs_mass": {
+    "pre_play_membership": 11754.0,
+    "incoming_identity": 0.0,
+    "slot_opening_cause": 0.0,
+    "buy_play_order": 0.0,
+    "residual": 0.0
+  },
+  "total_abs_mass": 11754.0,
+  "pre_play_membership": 2.844627299128751,
+  "incoming_identity": 0.0,
+  "slot_opening_cause": 0.0,
+  "buy_play_order": 0.0,
+  "residual": 0.0,
+  "share_of_delta_pre_play_membership": 1.0,
+  "share_of_delta_incoming_identity": 0.0,
+  "share_of_delta_slot_opening_cause": 0.0,
+  "share_of_delta_buy_play_order": 0.0,
+  "share_of_delta_residual": 0.0,
+  "formation_components": [
+    "pre_play_membership",
+    "incoming_identity",
+    "slot_opening_cause",
+    "buy_play_order",
+    "residual"
+  ],
+  "n_unpaired_control": 0,
+  "n_unpaired_treatment": 0,
+  "n_primary_fights": 1033,
+  "n_snapshots_complete": 4132,
+  "n_missing_play": 0,
+  "pooled_signed_replacement_lifecycle": 0.0,
+  "pooled_signed": {
+    "method": "exact_open_slot_formation_paired_slot_identity",
+    "n_pairs": 4132,
+    "n_unpaired_control": 0,
+    "n_unpaired_treatment": 0,
+    "n_primary_fights": 1033,
+    "n_snapshots_complete": 4132,
+    "n_missing_play": 0,
+    "replacement_lifecycle": 0.0,
+    "pre_play_membership": 0.0,
+    "incoming_identity": 0.0,
+    "slot_opening_cause": 0.0,
+    "buy_play_order": 0.0,
+    "residual": 0.0,
+    "explained_all_parts": 0.0,
+    "residual_vs_delta": 0.0,
+    "share_of_delta_pre_play_membership": null,
+    "share_of_delta_incoming_identity": null,
+    "share_of_delta_slot_opening_cause": null,
+    "share_of_delta_buy_play_order": null,
+    "share_of_delta_residual": null,
+    "formation_components": [
+      "pre_play_membership",
+      "incoming_identity",
+      "slot_opening_cause",
+      "buy_play_order",
+      "residual"
+    ]
+  },
+  "residual_vs_delta": 0.0,
+  "modal_slot_opening_cause": "normal_underfill",
+  "slot_opening_cause_counts": {
+    "normal_underfill": 4132
+  },
+  "modal_earliest_membership_diverge_turn": 5,
+  "earliest_membership_diverge_counts": {
+    "5": 4132
+  },
+  "n_event_board_flow_mismatch": 0,
+  "open_slot_rate_control": 1.0,
+  "open_slot_rate_treatment": 1.0,
+  "same_pre_play_identity_rate": 1.0,
+  "same_pre_play_state_rate": 0.0
+}

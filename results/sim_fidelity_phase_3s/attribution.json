@@ -1,0 +1,253 @@
+{
+  "methodology_version": "3s_v1",
+  "n_same_outcome_damage": 1059,
+  "n_primary_class3": 1033,
+  "n_primary_class3_treatment": 1033,
+  "published_same_outcome_damage": 1059,
+  "published_primary_n": 1033,
+  "published_3p_n_pairs": 4132,
+  "published_3p_n_fights": 1033,
+  "published_3q_n_pairs": 4132,
+  "published_3q_n_fights": 1033,
+  "published_3q_share_lifecycle": 0.4481470184535611,
+  "published_3r_n_pairs": 4132,
+  "published_3r_n_fights": 1033,
+  "published_3r_share_membership": 0.969763531093672,
+  "same_outcome_damage_reproduced": true,
+  "phase_3n_within_tier_B": 0.6883852691218131,
+  "phase_3n_B_reproduced": true,
+  "phase_3o_t5t6_B": 0.6166505324298197,
+  "phase_3o_B_reproduced": true,
+  "phase_3o_share_start_stats": 1.2098231585111623,
+  "phase_3o_share_synth": 1.1847200887085545,
+  "phase_3p_share_timing": 0.9857690083784691,
+  "phase_3p_share_pool": 0.006333231838752983,
+  "phase_3p_share_weight": 0.0,
+  "phase_3p_share_rounding": 0.007897759782777772,
+  "phase_3q_share_same_state": 0.07190788470337045,
+  "phase_3q_share_lifecycle": 0.4481470184535611,
+  "phase_3q_share_scaling": 0.47994509684306846,
+  "phase_3q_share_residual": 0.0,
+  "phase_3q_lifecycle_reproduced": true,
+  "phase_3r_share_membership": 0.969763531093672,
+  "phase_3r_membership_reproduced": true,
+  "t1_synth_control": 22.23794950267789,
+  "t1_synth_treatment": 14.631981637337415,
+  "t3_synth_control": 7.066298342541437,
+  "t3_synth_treatment": 19.185082872928177,
+  "t1_synth_reproduced": true,
+  "t3_synth_reproduced": true,
+  "primary": {
+    "method": "within_tier_abs_mass_open_slot_formation_identity",
+    "n_pairs": 4132,
+    "abs_replacement_lifecycle": 2.844627299128751,
+    "component_abs_mass": {
+      "pre_play_membership": 11754.0,
+      "incoming_identity": 0.0,
+      "slot_opening_cause": 0.0,
+      "buy_play_order": 0.0,
+      "residual": 0.0
+    },
+    "total_abs_mass": 11754.0,
+    "pre_play_membership": 2.844627299128751,
+    "incoming_identity": 0.0,
+    "slot_opening_cause": 0.0,
+    "buy_play_order": 0.0,
+    "residual": 0.0,
+    "share_of_delta_pre_play_membership": 1.0,
+    "share_of_delta_incoming_identity": 0.0,
+    "share_of_delta_slot_opening_cause": 0.0,
+    "share_of_delta_buy_play_order": 0.0,
+    "share_of_delta_residual": 0.0,
+    "formation_components": [
+      "pre_play_membership",
+      "incoming_identity",
+      "slot_opening_cause",
+      "buy_play_order",
+      "residual"
+    ],
+    "n_unpaired_control": 0,
+    "n_unpaired_treatment": 0,
+    "n_primary_fights": 1033,
+    "n_snapshots_complete": 4132,
+    "n_missing_play": 0,
+    "pooled_signed_replacement_lifecycle": 0.0,
+    "pooled_signed": {
+      "method": "exact_open_slot_formation_paired_slot_identity",
+      "n_pairs": 4132,
+      "n_unpaired_control": 0,
+      "n_unpaired_treatment": 0,
+      "n_primary_fights": 1033,
+      "n_snapshots_complete": 4132,
+      "n_missing_play": 0,
+      "replacement_lifecycle": 0.0,
+      "pre_play_membership": 0.0,
+      "incoming_identity": 0.0,
+      "slot_opening_cause": 0.0,
+      "buy_play_order": 0.0,
+      "residual": 0.0,
+      "explained_all_parts": 0.0,
+      "residual_vs_delta": 0.0,
+      "share_of_delta_pre_play_membership": null,
+      "share_of_delta_incoming_identity": null,
+      "share_of_delta_slot_opening_cause": null,
+      "share_of_delta_buy_play_order": null,
+      "share_of_delta_residual": null,
+      "formation_components": [
+        "pre_play_membership",
+        "incoming_identity",
+        "slot_opening_cause",
+        "buy_play_order",
+        "residual"
+      ]
+    },
+    "residual_vs_delta": 0.0,
+    "modal_slot_opening_cause": "normal_underfill",
+    "slot_opening_cause_counts": {
+      "normal_underfill": 4132
+    },
+    "modal_earliest_membership_diverge_turn": 5,
+    "earliest_membership_diverge_counts": {
+      "5": 4132
+    },
+    "n_event_board_flow_mismatch": 0,
+    "open_slot_rate_control": 1.0,
+    "open_slot_rate_treatment": 1.0,
+    "same_pre_play_identity_rate": 1.0,
+    "same_pre_play_state_rate": 0.0
+  },
+  "membership_propagation": {
+    "method": "within_tier_abs_mass_membership_propagation",
+    "n_pairs": 4132,
+    "abs_membership_allocation": 3.0591134833217066,
+    "component_abs_mass": {
+      "pre_play_membership": 12640.256913085292,
+      "incoming_identity": 0.0,
+      "slot_opening_cause": 0.0,
+      "buy_play_order": 0.0,
+      "residual": 0.0
+    },
+    "total_abs_mass": 12640.256913085292,
+    "share_of_membership_pre_play_membership": 1.0,
+    "share_of_membership_incoming_identity": 0.0,
+    "share_of_membership_slot_opening_cause": 0.0,
+    "share_of_membership_buy_play_order": 0.0,
+    "share_of_membership_residual": 0.0,
+    "formation_components": [
+      "pre_play_membership",
+      "incoming_identity",
+      "slot_opening_cause",
+      "buy_play_order",
+      "residual"
+    ]
+  },
+  "per_tier": {
+    "1": {
+      "n_pairs": 1307,
+      "replacement_lifecycle": -3.3251721499617446,
+      "membership_allocation": -3.6076127593222047,
+      "pre_play_membership": -3.3251721499617446,
+      "incoming_identity": 0.0,
+      "slot_opening_cause": 0.0,
+      "buy_play_order": 0.0,
+      "residual": 0.0,
+      "membership_pre_play_membership": -3.6076127593222047,
+      "membership_incoming_identity": 0.0,
+      "membership_slot_opening_cause": 0.0,
+      "membership_buy_play_order": 0.0,
+      "membership_residual": 0.0,
+      "share_of_delta_pre_play_membership": 1.0,
+      "share_of_delta_incoming_identity": -0.0,
+      "share_of_delta_slot_opening_cause": -0.0,
+      "share_of_delta_buy_play_order": -0.0,
+      "share_of_delta_residual": -0.0,
+      "opening_mismatch_rate": 0.0
+    },
+    "2": {
+      "n_pairs": 1739,
+      "replacement_lifecycle": -0.8803910293271996,
+      "membership_allocation": -0.9229319034551724,
+      "pre_play_membership": -0.8803910293271996,
+      "incoming_identity": 0.0,
+      "slot_opening_cause": 0.0,
+      "buy_play_order": 0.0,
+      "residual": 0.0,
+      "membership_pre_play_membership": -0.9229319034551724,
+      "membership_incoming_identity": 0.0,
+      "membership_slot_opening_cause": 0.0,
+      "membership_buy_play_order": 0.0,
+      "membership_residual": 0.0,
+      "share_of_delta_pre_play_membership": 1.0,
+      "share_of_delta_incoming_identity": -0.0,
+      "share_of_delta_slot_opening_cause": -0.0,
+      "share_of_delta_buy_play_order": -0.0,
+      "share_of_delta_residual": -0.0,
+      "opening_mismatch_rate": 0.0
+    },
+    "3": {
+      "n_pairs": 1086,
+      "replacement_lifecycle": 5.411602209944752,
+      "membership_allocation": 5.819639462746433,
+      "pre_play_membership": 5.411602209944752,
+      "incoming_identity": 0.0,
+      "slot_opening_cause": 0.0,
+      "buy_play_order": 0.0,
+      "residual": 0.0,
+      "membership_pre_play_membership": 5.819639462746433,
+      "membership_incoming_identity": 0.0,
+      "membership_slot_opening_cause": 0.0,
+      "membership_buy_play_order": 0.0,
+      "membership_residual": 0.0,
+      "share_of_delta_pre_play_membership": 1.0,
+      "share_of_delta_incoming_identity": 0.0,
+      "share_of_delta_slot_opening_cause": 0.0,
+      "share_of_delta_buy_play_order": 0.0,
+      "share_of_delta_residual": 0.0,
+      "opening_mismatch_rate": 0.0
+    },
+    "4": {
+      "n_pairs": 0
+    },
+    "5": {
+      "n_pairs": 0
+    },
+    "6": {
+      "n_pairs": 0
+    }
+  },
+  "opening_causes": {
+    "control": {
+      "normal_underfill": 4132
+    },
+    "treatment": {
+      "normal_underfill": 4132
+    }
+  },
+  "formation_reconciliation": {
+    "nested_ok": true,
+    "event_board_flow_ok": true,
+    "n_event_board_flow_mismatch": 0,
+    "identity": "replacement_lifecycle = pre_play_membership + incoming_identity + slot_opening_cause + buy_play_order + residual",
+    "flow_identity": "last-play sticky occupant synth = incoming synth if the play landed in that slot else incumbent pre-play synth; \u03a3 sticky shares = implicit on-body pool; unrefilled vacancy board_len_after + intervening fills = pre-play board_len",
+    "exclusive_identity": "each paired body assigns its full 3Q replacement_lifecycle to the first differing formation field: pre-play membership, then incoming identity/tier/raw, then slot-opening cause/timing, then buy/play order or affordability, else residual",
+    "membership_identity": "3R membership_allocation on the same paired body is tagged with the same exclusive formation component; within-tier |mass| of those tagged increments is the propagation share"
+  },
+  "modal_slot_opening_cause": "normal_underfill",
+  "modal_earliest_membership_diverge_turn": 5,
+  "lifecycle_3q": {
+    "n_pairs": 4132,
+    "share_same_state": 0.07190788470337045,
+    "share_lifecycle": 0.4481470184535611,
+    "share_scaling": 0.47994509684306846,
+    "share_residual": 0.0,
+    "n_snapshots_complete": 4132
+  },
+  "scale_3r": {
+    "n_pairs": 4132,
+    "share_input": 0.011512383221278037,
+    "share_timing": 0.0,
+    "share_membership": 0.969763531093672,
+    "share_rounding": 0.018724085685049907,
+    "n_snapshots_complete": 4132
+  }
+}
