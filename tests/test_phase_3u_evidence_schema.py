@@ -22,7 +22,12 @@ def _row(index=1, *, pool=10):
 
 
 def _source(**overrides):
-    source = {"generated_by": "external_log_parser", "independent": True}
+    source = {
+        "generated_by": "external_log_parser",
+        "independent": True,
+        "source_reference": "external://phase3u/observations-v1",
+        "source_sha256": "b" * 64,
+    }
     source.update(overrides)
     return source
 
@@ -35,6 +40,9 @@ def test_valid_external_transition_is_schema_ready_but_not_ranking_ready():
     assert out["ranking_blocker"] == "admission_thresholds_not_yet_satisfied"
     assert out["candidate_scoring_performed"] is False
     assert out["persistent_entity_links"] == 2
+    assert out["source_reference"] == "external://phase3u/observations-v1"
+    assert out["source_sha256"] == "b" * 64
+    assert out["source_provenance_verified"] is True
 
 
 def test_single_complete_row_cannot_prematurely_authorize_ranking():
@@ -59,6 +67,17 @@ def test_replay_or_candidate_generated_evidence_is_rejected():
     with pytest.raises(ValueError, match="independent"):
         validate_external_transition_evidence(
             [_row()], source=_source(independent=False)
+        )
+
+
+def test_external_source_requires_reference_and_digest():
+    with pytest.raises(ValueError, match="source_reference"):
+        validate_external_transition_evidence(
+            [_row()], source=_source(source_reference="")
+        )
+    with pytest.raises(ValueError, match="source_sha256"):
+        validate_external_transition_evidence(
+            [_row()], source=_source(source_sha256="not-a-digest")
         )
 
 
