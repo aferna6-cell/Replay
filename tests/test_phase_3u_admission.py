@@ -19,6 +19,9 @@ def _plan(**overrides):
         "material_effect_metric": "paired_body_stat_error_delta",
         "material_effect_threshold": 2.0,
         "threshold_basis": "independent_calibration",
+        "threshold_basis_reference": "external://phase3u/calibration-v1",
+        "threshold_basis_method": "double-entry reconstruction error on held-out observed transitions",
+        "threshold_basis_sha256": "a" * 64,
         "frozen_before_candidate_scoring": True,
     }
     plan.update(overrides)
@@ -40,6 +43,24 @@ def test_thresholds_must_be_frozen_before_scoring():
 def test_threshold_basis_must_be_independent():
     result = validate_admission_plan(_plan(threshold_basis="candidate_score_separation"))
     assert result == {"valid": False, "blocker": "threshold_basis_not_independent"}
+
+
+def test_threshold_basis_requires_reference_and_method():
+    assert validate_admission_plan(_plan(threshold_basis_reference="")) == {
+        "valid": False,
+        "blocker": "threshold_basis_reference_missing",
+    }
+    assert validate_admission_plan(_plan(threshold_basis_method="  ")) == {
+        "valid": False,
+        "blocker": "threshold_basis_method_missing",
+    }
+
+
+def test_threshold_basis_requires_sha256_digest():
+    assert validate_admission_plan(_plan(threshold_basis_sha256="candidate-result")) == {
+        "valid": False,
+        "blocker": "threshold_basis_digest_invalid",
+    }
 
 
 def test_incomplete_conserved_pool_evidence_holds():
@@ -65,6 +86,17 @@ def test_complete_prospectively_frozen_plan_can_admit_ranking():
     assert result["ranking_ready"] is True
     assert result["blockers"] == []
     assert result["candidate_scores_examined"] is False
+    assert result["threshold_basis_provenance_verified"] is True
+
+
+def test_invalid_provenance_keeps_ranking_closed():
+    result = evaluate_ranking_admission(
+        schema_result=_schema(),
+        plan=_plan(threshold_basis_sha256="0" * 63),
+    )
+    assert result["ranking_ready"] is False
+    assert "threshold_basis_digest_invalid" in result["blockers"]
+    assert result["threshold_basis_provenance_verified"] is False
 
 
 def test_nonpositive_numeric_thresholds_are_rejected():
