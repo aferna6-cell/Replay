@@ -3,13 +3,16 @@
 Measurement-only hardening layered on :mod:`ml.phase_3u_admission`.  v4 requires
 an overlap-proof reference/digest and a declared zero overlap count.  v5 does
 not trust that count alone: it recomputes calibration/evaluation overlap from
-stable observation identities carried by immutable source-bound manifests.
+stable observation identities carried by immutable source-bound manifests and
+cryptographically binds each manifest digest to its canonical contents.
 
 No candidate scores are accepted here and no simulator behavior is changed.
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from typing import Dict, Iterable, Mapping, Optional
 
@@ -36,19 +39,32 @@ def _stable_ids(values: Iterable[object]) -> tuple[str, ...]:
     return ids
 
 
+def compute_manifest_sha256(manifest: Mapping) -> str:
+    """Hash canonical manifest contents, excluding only the digest field itself.
+
+    JSON keys are sorted, separators are fixed, UTF-8 is explicit, and the
+    observation-ID list order is preserved.  This makes a supplied
+    ``manifest_sha256`` verifiable against the exact manifest content rather
+    than a self-asserted opaque string.
+    """
+    payload = {key: value for key, value in manifest.items() if key != "manifest_sha256"}
+    canonical = json.dumps(
+        payload,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
 def verify_overlap_manifests(
     *,
     calibration_manifest: Optional[Mapping],
     evidence_manifest: Optional[Mapping],
     plan: Mapping,
 ) -> Dict:
-    """Recompute calibration/evaluation overlap from immutable observation IDs.
-
-    Each manifest must identify the exact source reference/digest already frozen
-    in the admission plan and expose unique stable ``observation_ids``.  The
-    verifier computes set intersection directly; a declared overlap count is
-    only accepted when it equals that independently recomputed count.
-    """
+    """Recompute manifest integrity and calibration/evaluation observation overlap."""
     if not calibration_manifest or not evidence_manifest:
         return {"valid": False, "blocker": "observation_manifests_missing"}
 
@@ -63,6 +79,21 @@ def verify_overlap_manifests(
             return {"valid": False, "blocker": f"{label}_manifest_digest_invalid"}
         if not _valid_digest(manifest["source_sha256"]):
             return {"valid": False, "blocker": f"{label}_manifest_source_digest_invalid"}
+        try:
+            computed_manifest_sha256 = compute_manifest_sha256(manifest)
+        except (TypeError, ValueError) as exc:
+            return {
+                "valid": False,
+                "blocker": f"{label}_manifest_not_canonicalizable",
+                "detail": str(exc),
+            }
+        if str(manifest["manifest_sha256"]).lower() != computed_manifest_sha256:
+            return {
+                "valid": False,
+                "blocker": f"{label}_manifest_content_digest_mismatch",
+                "declared_manifest_sha256": str(manifest["manifest_sha256"]).lower(),
+                "computed_manifest_sha256": computed_manifest_sha256,
+            }
 
     if calibration_manifest["source_reference"] != plan.get("calibration_source_reference"):
         return {"valid": False, "blocker": "calibration_manifest_source_reference_mismatch"}
@@ -105,6 +136,7 @@ def verify_overlap_manifests(
         "calibration_manifest_sha256": calibration_manifest["manifest_sha256"].lower(),
         "evidence_manifest_reference": evidence_manifest["manifest_reference"].strip(),
         "evidence_manifest_sha256": evidence_manifest["manifest_sha256"].lower(),
+        "manifest_contents_cryptographically_bound": True,
     }
 
 
