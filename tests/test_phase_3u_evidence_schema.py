@@ -27,18 +27,27 @@ def _source(**overrides):
     return source
 
 
-def test_valid_external_transition_is_admitted_but_not_scored():
+def test_valid_external_transition_is_schema_ready_but_not_ranking_ready():
     out = validate_external_transition_evidence([_row()], source=_source())
     assert out["valid"] is True
-    assert out["ranking_ready"] is True
+    assert out["schema_ready"] is True
+    assert out["ranking_ready"] is False
+    assert out["ranking_blocker"] == "admission_thresholds_not_yet_satisfied"
     assert out["candidate_scoring_performed"] is False
     assert out["persistent_entity_links"] == 2
 
 
-def test_missing_conserved_pool_keeps_evidence_not_ranking_ready():
+def test_single_complete_row_cannot_prematurely_authorize_ranking():
+    out = validate_external_transition_evidence([_row()], source=_source())
+    assert out["conserved_pool_complete"] is True
+    assert out["ranking_ready"] is False
+
+
+def test_missing_conserved_pool_keeps_evidence_not_schema_or_ranking_ready():
     out = validate_external_transition_evidence([_row(pool=None)], source=_source())
     assert out["valid"] is True
     assert out["conserved_pool_complete"] is False
+    assert out["schema_ready"] is False
     assert out["ranking_ready"] is False
 
 
