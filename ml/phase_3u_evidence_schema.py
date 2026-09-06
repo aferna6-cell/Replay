@@ -79,7 +79,9 @@ def validate_external_transition_evidence(
 
     Conserved-pool reconciliation is deliberately not inferred here: an admitted
     dataset must carry an independently observed or externally reconstructed
-    ``conserved_pool`` value on every row before it can be used for ranking.
+    ``conserved_pool`` value on every row before it can advance to the separate
+    Phase 3U admission-threshold gate. Schema validity alone never authorizes
+    candidate ranking.
     """
     generated_by = source.get("generated_by")
     independent = bool(source.get("independent"))
@@ -154,7 +156,9 @@ def validate_external_transition_evidence(
         "event_order_valid": True,
         "complete_pre_post_boards": True,
         "conserved_pool_complete": pool_complete,
-        "ranking_ready": pool_complete,
+        "schema_ready": pool_complete,
+        "ranking_ready": False,
+        "ranking_blocker": "admission_thresholds_not_yet_satisfied",
         "candidate_scoring_performed": False,
         "simulator_outcome_labels_used": False,
     }
