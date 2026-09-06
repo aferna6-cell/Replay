@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from ml.phase_3u_evidence_schema import validate_external_transition_evidence
@@ -7,8 +9,9 @@ def _body(entity_id, attack, health):
     return {"entity_id": entity_id, "attack": attack, "health": health}
 
 
-def _row(index=1, *, pool=10):
+def _row(index=1, *, pool=10, observation_id=None):
     row = {
+        "observation_id": observation_id or f"obs-{index}",
         "game_id": "g1",
         "player_id": "p1",
         "event_index": index,
@@ -35,11 +38,15 @@ def _source(**overrides):
 def test_valid_external_transition_is_schema_ready_but_not_ranking_ready():
     out = validate_external_transition_evidence([_row()], source=_source())
     assert out["valid"] is True
+    assert out["schema_version"] == "3u_evidence_v3"
     assert out["schema_ready"] is True
     assert out["ranking_ready"] is False
     assert out["ranking_blocker"] == "admission_thresholds_not_yet_satisfied"
     assert out["candidate_scoring_performed"] is False
     assert out["persistent_entity_links"] == 2
+    assert out["observation_ids"] == ["obs-1"]
+    assert out["observation_ids_unique"] is True
+    assert out["per_body_stats_finite"] is True
     assert out["source_reference"] == "external://phase3u/observations-v1"
     assert out["source_sha256"] == "b" * 64
     assert out["source_provenance_verified"] is True
@@ -100,7 +107,8 @@ def test_stable_entity_identity_is_required():
 def test_event_order_must_be_strictly_increasing_per_trajectory():
     with pytest.raises(ValueError, match="strictly increasing"):
         validate_external_transition_evidence(
-            [_row(2), _row(2)], source=_source()
+            [_row(2, observation_id="obs-a"), _row(2, observation_id="obs-b")],
+            source=_source(),
         )
 
 
@@ -130,3 +138,63 @@ def test_unsupported_event_kind_is_rejected():
     row["event_kind"] = "combat_result"
     with pytest.raises(ValueError, match="unsupported membership event_kind"):
         validate_external_transition_evidence([row], source=_source())
+
+
+def test_observation_ids_are_required_nonempty_and_unique():
+    missing = _row()
+    del missing["observation_id"]
+    with pytest.raises(ValueError, match="observation_id"):
+        validate_external_transition_evidence([missing], source=_source())
+
+    blank = _row()
+    blank["observation_id"] = "  "
+    with pytest.raises(ValueError, match="observation_id must be non-empty"):
+        validate_external_transition_evidence([blank], source=_source())
+
+    with pytest.raises(ValueError, match="duplicate observation_id"):
+        validate_external_transition_evidence(
+            [_row(1, observation_id="same"), _row(2, observation_id="same")],
+            source=_source(),
+        )
+
+
+def test_trajectory_ids_must_be_nonempty():
+    row = _row()
+    row["game_id"] = ""
+    with pytest.raises(ValueError, match="game_id must be non-empty"):
+        validate_external_transition_evidence([row], source=_source())
+
+    row = _row()
+    row["player_id"] = "   "
+    with pytest.raises(ValueError, match="player_id must be non-empty"):
+        validate_external_transition_evidence([row], source=_source())
+
+
+def test_event_index_must_be_exact_nonnegative_integer():
+    for invalid in (1.5, "2", True, -1):
+        row = _row()
+        row["event_index"] = invalid
+        with pytest.raises(ValueError, match="event_index"):
+            validate_external_transition_evidence([row], source=_source())
+
+
+def test_body_stats_and_conserved_pool_must_be_finite():
+    for invalid in (math.nan, math.inf, -math.inf):
+        row = _row()
+        row["post_board"][0]["health"] = invalid
+        with pytest.raises(ValueError, match="health must be finite"):
+            validate_external_transition_evidence([row], source=_source())
+
+        row = _row(pool=invalid)
+        with pytest.raises(ValueError, match="conserved_pool must be finite"):
+            validate_external_transition_evidence([row], source=_source())
+
+
+def test_boards_and_rows_require_structured_mappings():
+    row = _row()
+    row["pre_board"] = "not-a-board"
+    with pytest.raises(ValueError, match="board must be a sequence"):
+        validate_external_transition_evidence([row], source=_source())
+
+    with pytest.raises(ValueError, match="transition rows must be mappings"):
+        validate_external_transition_evidence(["not-a-row"], source=_source())
