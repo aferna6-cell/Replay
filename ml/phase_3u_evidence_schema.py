@@ -7,13 +7,16 @@ rules and does not change simulator behavior.
 
 from __future__ import annotations
 
+import math
 import re
+from numbers import Integral, Real
 from typing import Dict, Iterable, Mapping, Sequence
 
-SCHEMA_VERSION = "3u_evidence_v2"
+SCHEMA_VERSION = "3u_evidence_v3"
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 REQUIRED_EVENT_FIELDS = (
+    "observation_id",
     "game_id",
     "player_id",
     "event_index",
@@ -47,15 +50,33 @@ ALLOWED_EVENT_KINDS = {
 }
 
 
+def _nonempty_id(value: object, field: str) -> str:
+    text = str(value).strip()
+    if not text:
+        raise ValueError(f"{field} must be non-empty")
+    return text
+
+
+def _finite_number(value: object, field: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, Real):
+        raise ValueError(f"{field} must be an observed numeric value")
+    numeric = float(value)
+    if not math.isfinite(numeric):
+        raise ValueError(f"{field} must be finite")
+    return numeric
+
+
 def _body_map(board: Sequence[Mapping]) -> Dict[str, Mapping]:
+    if isinstance(board, (str, bytes)) or not isinstance(board, Sequence):
+        raise ValueError("board must be a sequence of body mappings")
     out: Dict[str, Mapping] = {}
     for body in board:
+        if not isinstance(body, Mapping):
+            raise ValueError("board entries must be body mappings")
         missing = [field for field in REQUIRED_BODY_FIELDS if field not in body]
         if missing:
             raise ValueError(f"body missing required fields: {missing}")
-        entity_id = str(body["entity_id"])
-        if not entity_id:
-            raise ValueError("entity_id must be non-empty")
+        entity_id = _nonempty_id(body["entity_id"], "entity_id")
         if entity_id in out:
             raise ValueError(f"duplicate entity_id in board: {entity_id}")
         out[entity_id] = body
@@ -82,9 +103,9 @@ def validate_external_transition_evidence(
 
     Required properties:
     - external/non-simulator provenance, including immutable source reference+digest;
-    - stable body entity IDs;
-    - strictly increasing event ordering within each game/player trajectory;
-    - complete pre/post boards with independently observed per-body ATK/HP;
+    - stable, unique observation IDs suitable for immutable split manifests;
+    - non-empty game/player/body identity and exact integral event ordering;
+    - complete pre/post boards with independently observed finite per-body ATK/HP;
     - at least one persistent entity across each transition, so pre/post body
       changes are longitudinal rather than two unrelated snapshots;
     - no simulator-derived candidate-selection labels.
@@ -110,20 +131,37 @@ def validate_external_transition_evidence(
         raise ValueError("Phase 3U evidence set must contain at least one transition")
 
     last_index: Dict[tuple[str, str], int] = {}
+    observation_ids: list[str] = []
+    seen_observation_ids: set[str] = set()
     persistent_entities = 0
     conserved_pool_rows = 0
 
     for row in materialized:
+        if not isinstance(row, Mapping):
+            raise ValueError("transition rows must be mappings")
         missing = [field for field in REQUIRED_EVENT_FIELDS if field not in row]
         if missing:
             raise ValueError(f"transition missing required fields: {missing}")
+
+        observation_id = _nonempty_id(row["observation_id"], "observation_id")
+        if observation_id in seen_observation_ids:
+            raise ValueError(f"duplicate observation_id: {observation_id}")
+        seen_observation_ids.add(observation_id)
+        observation_ids.append(observation_id)
 
         event_kind = str(row["event_kind"])
         if event_kind not in ALLOWED_EVENT_KINDS:
             raise ValueError(f"unsupported membership event_kind: {event_kind}")
 
-        trajectory = (str(row["game_id"]), str(row["player_id"]))
-        event_index = int(row["event_index"])
+        game_id = _nonempty_id(row["game_id"], "game_id")
+        player_id = _nonempty_id(row["player_id"], "player_id")
+        trajectory = (game_id, player_id)
+        raw_event_index = row["event_index"]
+        if isinstance(raw_event_index, bool) or not isinstance(raw_event_index, Integral):
+            raise ValueError("event_index must be an exact integer")
+        event_index = int(raw_event_index)
+        if event_index < 0:
+            raise ValueError("event_index must be non-negative")
         prior = last_index.get(trajectory)
         if prior is not None and event_index <= prior:
             raise ValueError(
@@ -142,19 +180,13 @@ def validate_external_transition_evidence(
             raise ValueError("transition has no stable entity_id across pre/post boards")
         persistent_entities += len(shared)
 
-        # ATK/HP values must be directly observed numeric values, not absent or
-        # symbolic placeholders. bool is rejected because it is an int subtype.
         for board in (pre, post):
             for body in board.values():
-                for field in ("attack", "health"):
-                    value = body[field]
-                    if isinstance(value, bool) or not isinstance(value, (int, float)):
-                        raise ValueError(f"{field} must be an observed numeric value")
+                _finite_number(body["attack"], "attack")
+                _finite_number(body["health"], "health")
 
         if "conserved_pool" in row:
-            pool = row["conserved_pool"]
-            if isinstance(pool, bool) or not isinstance(pool, (int, float)):
-                raise ValueError("conserved_pool must be numeric when provided")
+            _finite_number(row["conserved_pool"], "conserved_pool")
             conserved_pool_rows += 1
 
     pool_complete = conserved_pool_rows == len(materialized)
@@ -162,6 +194,8 @@ def validate_external_transition_evidence(
         "schema_version": SCHEMA_VERSION,
         "valid": True,
         "row_count": len(materialized),
+        "observation_ids": observation_ids,
+        "observation_ids_unique": True,
         "trajectory_count": len(last_index),
         "persistent_entity_links": persistent_entities,
         "independent_source": True,
@@ -169,6 +203,7 @@ def validate_external_transition_evidence(
         "source_sha256": source_sha256,
         "source_provenance_verified": True,
         "per_body_stats_observed": True,
+        "per_body_stats_finite": True,
         "event_order_valid": True,
         "complete_pre_post_boards": True,
         "conserved_pool_complete": pool_complete,
