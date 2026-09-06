@@ -45,20 +45,36 @@ def _ids_for(source_bytes, rows):
     return [derive_observation_id(row, source_sha256=source_sha) for row in rows]
 
 
+def _binding_kwargs():
+    artifact = b"provider-parser-implementation-v1"
+    config = b'{"format":"provider-v1","strict":true}'
+    return {
+        "parser_artifact_bytes": artifact,
+        "expected_parser_artifact_sha256": hashlib.sha256(artifact).hexdigest(),
+        "parser_config_bytes": config,
+        "expected_parser_config_sha256": hashlib.sha256(config).hexdigest(),
+    }
+
+
 def test_exact_source_parser_identity_manifest_chain_reconciles():
     source = b"real-provider-artifact-placeholder-format-v1"
     rows = [_base_row(1), _base_row(2)]
+    binding = _binding_kwargs()
     result = reconcile_parser_output_to_manifest(
         source,
         parser=_parser_for(rows),
         parser_version="provider-parser-v1",
         expected_manifest_observation_ids=_ids_for(source, rows),
+        **binding,
     )
     assert result["reconciliation_version"] == PARSER_RECONCILIATION_VERSION
     assert result["parser_version"] == "provider-parser-v1"
+    assert result["parser_artifact_sha256"] == binding["expected_parser_artifact_sha256"]
+    assert result["parser_config_sha256"] == binding["expected_parser_config_sha256"]
     assert result["source_sha256"] == hashlib.sha256(source).hexdigest()
     assert result["row_count"] == 2
     assert result["source_parser_identity_manifest_bound"] is True
+    assert result["parser_artifact_config_bound"] is True
     assert result["candidate_scoring_performed"] is False
 
 
@@ -72,6 +88,7 @@ def test_source_byte_change_breaks_frozen_manifest_binding():
             parser=_parser_for(rows),
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=frozen,
+            **_binding_kwargs(),
         )
 
 
@@ -90,6 +107,7 @@ def test_independently_supplied_observation_id_is_rejected():
             parser=parser,
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=["externally-picked-label"],
+            **_binding_kwargs(),
         )
 
 
@@ -104,6 +122,7 @@ def test_missing_extra_or_reordered_observations_fail_closed():
             parser=_parser_for(rows[:1]),
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=ids,
+            **_binding_kwargs(),
         )
 
     with pytest.raises(ValueError, match="exactly match frozen manifest"):
@@ -112,6 +131,7 @@ def test_missing_extra_or_reordered_observations_fail_closed():
             parser=_parser_for(rows),
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=list(reversed(ids)),
+            **_binding_kwargs(),
         )
 
 
@@ -127,6 +147,7 @@ def test_parser_version_and_manifest_contract_fail_closed():
             parser=parser,
             parser_version=" ",
             expected_manifest_observation_ids=ids,
+            **_binding_kwargs(),
         )
 
     with pytest.raises(ValueError, match="duplicate observation_id"):
@@ -135,6 +156,62 @@ def test_parser_version_and_manifest_contract_fail_closed():
             parser=parser,
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=[ids[0], ids[0]],
+            **_binding_kwargs(),
+        )
+
+
+def test_parser_artifact_or_config_tamper_is_rejected_before_execution():
+    source = b"artifact-v1"
+    rows = [_base_row()]
+    ids = _ids_for(source, rows)
+    binding = _binding_kwargs()
+    parser_called = False
+
+    def parser(source_bytes):
+        nonlocal parser_called
+        parser_called = True
+        return _parser_for(rows)(source_bytes)
+
+    bad_artifact = dict(binding)
+    bad_artifact["parser_artifact_bytes"] = binding["parser_artifact_bytes"] + b"-tampered"
+    with pytest.raises(ValueError, match="parser artifact bytes"):
+        reconcile_parser_output_to_manifest(
+            source,
+            parser=parser,
+            parser_version="provider-parser-v1",
+            expected_manifest_observation_ids=ids,
+            **bad_artifact,
+        )
+    assert parser_called is False
+
+    bad_config = dict(binding)
+    bad_config["parser_config_bytes"] = binding["parser_config_bytes"] + b" "
+    with pytest.raises(ValueError, match="parser config bytes"):
+        reconcile_parser_output_to_manifest(
+            source,
+            parser=parser,
+            parser_version="provider-parser-v1",
+            expected_manifest_observation_ids=ids,
+            **bad_config,
+        )
+    assert parser_called is False
+
+
+def test_invalid_frozen_parser_digests_fail_closed():
+    source = b"artifact-v1"
+    rows = [_base_row()]
+    ids = _ids_for(source, rows)
+    binding = _binding_kwargs()
+
+    bad = dict(binding)
+    bad["expected_parser_artifact_sha256"] = "not-a-sha"
+    with pytest.raises(ValueError, match="64-hex SHA-256"):
+        reconcile_parser_output_to_manifest(
+            source,
+            parser=_parser_for(rows),
+            parser_version="provider-parser-v1",
+            expected_manifest_observation_ids=ids,
+            **bad,
         )
 
 
@@ -145,6 +222,7 @@ def test_non_bytes_or_malformed_parser_output_is_rejected():
             parser=lambda _: [],
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=["x"],
+            **_binding_kwargs(),
         )
 
     with pytest.raises(ValueError, match="mappings"):
@@ -153,4 +231,5 @@ def test_non_bytes_or_malformed_parser_output_is_rejected():
             parser=lambda _: ["not-a-row"],
             parser_version="provider-parser-v1",
             expected_manifest_observation_ids=["x"],
+            **_binding_kwargs(),
         )
