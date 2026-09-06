@@ -1,4 +1,8 @@
-from ml.phase_3u_admission_v5 import evaluate_ranking_admission_v5, verify_overlap_manifests
+from ml.phase_3u_admission_v5 import (
+    compute_manifest_sha256,
+    evaluate_ranking_admission_v5,
+    verify_overlap_manifests,
+)
 
 
 def _schema():
@@ -38,16 +42,20 @@ def _plan(**overrides):
     return plan
 
 
+def _with_digest(out):
+    out["manifest_sha256"] = compute_manifest_sha256(out)
+    return out
+
+
 def _cal(ids=("cal-1", "cal-2"), **overrides):
     out = {
         "source_reference": "external://phase3u/calibration-observations-v1",
         "source_sha256": "c" * 64,
         "manifest_reference": "external://phase3u/calibration-manifest-v1",
-        "manifest_sha256": "e" * 64,
         "observation_ids": list(ids),
     }
     out.update(overrides)
-    return out
+    return _with_digest(out)
 
 
 def _eval(ids=("eval-1", "eval-2"), **overrides):
@@ -55,11 +63,10 @@ def _eval(ids=("eval-1", "eval-2"), **overrides):
         "source_reference": "external://phase3u/observations-v1",
         "source_sha256": "b" * 64,
         "manifest_reference": "external://phase3u/evidence-manifest-v1",
-        "manifest_sha256": "f" * 64,
         "observation_ids": list(ids),
     }
     out.update(overrides)
-    return out
+    return _with_digest(out)
 
 
 def test_v5_requires_observation_manifests_even_when_v4_plan_passes():
@@ -77,6 +84,7 @@ def test_disjoint_source_bound_manifests_can_clear_v5_overlap_gate():
     )
     assert proof["valid"] is True
     assert proof["computed_overlap_count"] == 0
+    assert proof["manifest_contents_cryptographically_bound"] is True
     out = evaluate_ranking_admission_v5(
         schema_result=_schema(), plan=_plan(), calibration_manifest=_cal(), evidence_manifest=_eval()
     )
@@ -126,3 +134,35 @@ def test_duplicate_or_blank_observation_ids_are_rejected():
     )
     assert blank["valid"] is False
     assert blank["blocker"] == "invalid_observation_manifest_ids"
+
+
+def test_manifest_digest_is_recomputed_from_actual_contents():
+    calibration = _cal()
+    calibration["observation_ids"].append("tampered-after-freeze")
+    proof = verify_overlap_manifests(
+        calibration_manifest=calibration,
+        evidence_manifest=_eval(),
+        plan=_plan(),
+    )
+    assert proof["valid"] is False
+    assert proof["blocker"] == "calibration_manifest_content_digest_mismatch"
+    assert proof["computed_manifest_sha256"] != proof["declared_manifest_sha256"]
+
+
+def test_manifest_digest_preserves_observation_order_in_canonical_hash():
+    first = _cal(("cal-1", "cal-2"))
+    second = _cal(("cal-2", "cal-1"))
+    assert first["manifest_sha256"] != second["manifest_sha256"]
+
+
+def test_noncanonical_manifest_content_is_rejected():
+    calibration = _cal()
+    calibration["unsupported"] = float("nan")
+    calibration["manifest_sha256"] = "e" * 64
+    proof = verify_overlap_manifests(
+        calibration_manifest=calibration,
+        evidence_manifest=_eval(),
+        plan=_plan(),
+    )
+    assert proof["valid"] is False
+    assert proof["blocker"] == "calibration_manifest_not_canonicalizable"
