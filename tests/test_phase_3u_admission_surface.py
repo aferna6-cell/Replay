@@ -1,9 +1,16 @@
-"""Guard against bypassing the executable Phase 3U v6 admission gate.
+"""Guard against bypassing the executable Phase 3U ranking/admission boundary.
 
 The legacy v4/v5 evaluators remain tested as lower-level contracts, but
 production measurement code must not call/import them directly. v6 is the
 canonical ranking admission surface because it both recomputes manifest overlap
 and verifies source SHA-256 values from the exact immutable artifact bytes.
+
+The current parser reconciliation helper is deliberately *not* ranking-admissible:
+it accepts an arbitrary Python callable after separately hash-checking parser
+artifact/config bytes, so it cannot prove the executed callable originated from
+those bytes. Until a real preregistered loader/entrypoint wrapper exists, production
+``ml`` code must not import that helper at all. This makes the documented HOLD an
+executable repository contract rather than a review convention.
 """
 
 from __future__ import annotations
@@ -20,6 +27,9 @@ V5_MODULE = "ml.phase_3u_admission_v5"
 V5_NAME = "evaluate_ranking_admission_v5"
 V5_BRIDGE = ML_DIR / "phase_3u_admission_v5.py"
 V6_BRIDGE = ML_DIR / "phase_3u_admission_v6.py"
+PARSER_RECONCILIATION_MODULE = "ml.phase_3u_parser_reconciliation"
+PARSER_RECONCILIATION_NAME = "reconcile_parser_output_to_manifest"
+PARSER_RECONCILIATION_IMPLEMENTATION = "phase_3u_parser_reconciliation.py"
 
 
 def _uses(path: Path, module: str, name: str) -> list[str]:
@@ -37,7 +47,7 @@ def _uses(path: Path, module: str, name: str) -> list[str]:
     return uses
 
 
-def _offenders(module: str, name: str, allowed: Path, implementation: str) -> dict[str, list[str]]:
+def _offenders(module: str, name: str, allowed: Path | None, implementation: str) -> dict[str, list[str]]:
     offenders: dict[str, list[str]] = {}
     for path in sorted(ML_DIR.rglob("*.py")):
         if path.name == implementation:
@@ -59,6 +69,20 @@ def test_only_v6_bridge_may_import_v5_ranking_evaluator():
         "Phase 3U ranking admission must go through "
         "ml.phase_3u_admission_v6.evaluate_ranking_admission_v6; "
         f"v5 bypasses found: {offenders}"
+    )
+
+
+def test_untrusted_callable_reconciliation_is_not_imported_by_production_ml():
+    offenders = _offenders(
+        PARSER_RECONCILIATION_MODULE,
+        PARSER_RECONCILIATION_NAME,
+        None,
+        PARSER_RECONCILIATION_IMPLEMENTATION,
+    )
+    assert offenders == {}, (
+        "Phase 3U callable-based parser reconciliation is not ranking-admissible until "
+        "a reviewed wrapper loads/executes the exact digest-bound parser artifact/config; "
+        f"production imports found: {offenders}"
     )
 
 
