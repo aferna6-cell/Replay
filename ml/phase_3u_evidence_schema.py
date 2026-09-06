@@ -7,9 +7,11 @@ rules and does not change simulator behavior.
 
 from __future__ import annotations
 
+import re
 from typing import Dict, Iterable, Mapping, Sequence
 
-SCHEMA_VERSION = "3u_evidence_v1"
+SCHEMA_VERSION = "3u_evidence_v2"
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 REQUIRED_EVENT_FIELDS = (
     "game_id",
@@ -60,6 +62,16 @@ def _body_map(board: Sequence[Mapping]) -> Dict[str, Mapping]:
     return out
 
 
+def _validate_source_provenance(source: Mapping) -> tuple[str, str]:
+    reference = source.get("source_reference")
+    digest = source.get("source_sha256")
+    if not isinstance(reference, str) or not reference.strip():
+        raise ValueError("external evidence source_reference must be non-empty")
+    if not isinstance(digest, str) or not _SHA256_RE.fullmatch(digest.lower()):
+        raise ValueError("external evidence source_sha256 must be a 64-hex digest")
+    return reference.strip(), digest.lower()
+
+
 def validate_external_transition_evidence(
     rows: Iterable[Mapping],
     *,
@@ -69,7 +81,7 @@ def validate_external_transition_evidence(
     """Validate independent real-log transition evidence for Phase 3U.
 
     Required properties:
-    - external/non-simulator provenance;
+    - external/non-simulator provenance, including immutable source reference+digest;
     - stable body entity IDs;
     - strictly increasing event ordering within each game/player trajectory;
     - complete pre/post boards with independently observed per-body ATK/HP;
@@ -87,6 +99,7 @@ def validate_external_transition_evidence(
     independent = bool(source.get("independent"))
     if generated_by in {"replay_simulator", "candidate_rule"} or not independent:
         raise ValueError("Phase 3U evidence must be independent of Replay/candidate rules")
+    source_reference, source_sha256 = _validate_source_provenance(source)
 
     forbidden = sorted(set(selection_labels) & FORBIDDEN_SELECTION_LABELS)
     if forbidden:
@@ -152,6 +165,9 @@ def validate_external_transition_evidence(
         "trajectory_count": len(last_index),
         "persistent_entity_links": persistent_entities,
         "independent_source": True,
+        "source_reference": source_reference,
+        "source_sha256": source_sha256,
+        "source_provenance_verified": True,
         "per_body_stats_observed": True,
         "event_order_valid": True,
         "complete_pre_post_boards": True,
