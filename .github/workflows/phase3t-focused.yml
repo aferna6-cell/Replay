@@ -39,6 +39,7 @@ jobs:
           tests/test_phase_3u_evidence_schema.py
           tests/test_phase_3u_admission.py
           tests/test_phase_3u_admission_v5.py
+          tests/test_phase_3u_admission_v6.py
           tests/test_phase_3u_admission_surface.py
           tests/test_phase_3s.py
           tests/test_phase_3r.py
