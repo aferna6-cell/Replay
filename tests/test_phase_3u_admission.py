@@ -24,9 +24,14 @@ def _plan(**overrides):
         "material_effect_metric": "paired_body_stat_error_delta",
         "material_effect_threshold": 2.0,
         "threshold_basis": "independent_calibration",
-        "threshold_basis_reference": "external://phase3u/calibration-v1",
+        "threshold_basis_reference": "external://phase3u/calibration-plan-v1",
         "threshold_basis_method": "double-entry reconstruction error on held-out observed transitions",
         "threshold_basis_sha256": "a" * 64,
+        "calibration_source_reference": "external://phase3u/calibration-observations-v1",
+        "calibration_source_sha256": "c" * 64,
+        "calibration_evidence_overlap_count": 0,
+        "overlap_check_reference": "external://phase3u/split-overlap-proof-v1",
+        "overlap_check_sha256": "d" * 64,
         "evidence_source_reference": "external://phase3u/observations-v1",
         "evidence_source_sha256": "b" * 64,
         "frozen_before_candidate_scoring": True,
@@ -70,6 +75,46 @@ def test_threshold_basis_requires_sha256_digest():
     }
 
 
+def test_calibration_source_provenance_is_required():
+    assert validate_admission_plan(_plan(calibration_source_reference="")) == {
+        "valid": False,
+        "blocker": "calibration_source_reference_missing",
+    }
+    assert validate_admission_plan(_plan(calibration_source_sha256="bad")) == {
+        "valid": False,
+        "blocker": "calibration_source_digest_invalid",
+    }
+
+
+def test_overlap_proof_is_required_and_must_show_zero_overlap():
+    assert validate_admission_plan(_plan(overlap_check_reference="")) == {
+        "valid": False,
+        "blocker": "overlap_check_reference_missing",
+    }
+    assert validate_admission_plan(_plan(overlap_check_sha256="bad")) == {
+        "valid": False,
+        "blocker": "overlap_check_digest_invalid",
+    }
+    assert validate_admission_plan(_plan(calibration_evidence_overlap_count=1)) == {
+        "valid": False,
+        "blocker": "calibration_evidence_overlap_detected",
+    }
+    assert validate_admission_plan(_plan(calibration_evidence_overlap_count=-1)) == {
+        "valid": False,
+        "blocker": "invalid_calibration_evidence_overlap_count",
+    }
+
+
+def test_calibration_and_ranking_sources_must_be_distinct():
+    same_ref = validate_admission_plan(
+        _plan(calibration_source_reference="external://phase3u/observations-v1")
+    )
+    assert same_ref == {"valid": False, "blocker": "calibration_source_not_independent"}
+
+    same_digest = validate_admission_plan(_plan(calibration_source_sha256="b" * 64))
+    assert same_digest == {"valid": False, "blocker": "calibration_source_not_independent"}
+
+
 def test_evidence_source_binding_fields_are_required():
     assert validate_admission_plan(_plan(evidence_source_reference="")) == {
         "valid": False,
@@ -105,6 +150,7 @@ def test_complete_prospectively_frozen_plan_can_admit_ranking():
     assert result["blockers"] == []
     assert result["candidate_scores_examined"] is False
     assert result["threshold_basis_provenance_verified"] is True
+    assert result["calibration_evidence_independence_verified"] is True
     assert result["evidence_source_binding_verified"] is True
 
 
@@ -116,6 +162,7 @@ def test_invalid_provenance_keeps_ranking_closed():
     assert result["ranking_ready"] is False
     assert "threshold_basis_digest_invalid" in result["blockers"]
     assert result["threshold_basis_provenance_verified"] is False
+    assert result["calibration_evidence_independence_verified"] is False
 
 
 def test_missing_schema_source_provenance_keeps_ranking_closed():
@@ -138,7 +185,7 @@ def test_evidence_source_reference_or_digest_mismatch_keeps_ranking_closed():
     assert ref_result["evidence_source_binding_verified"] is False
 
     digest_result = evaluate_ranking_admission(
-        schema_result=_schema(source_sha256="c" * 64),
+        schema_result=_schema(source_sha256="e" * 64),
         plan=_plan(),
     )
     assert digest_result["ranking_ready"] is False
