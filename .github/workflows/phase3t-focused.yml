@@ -1,4 +1,4 @@
-# Focused validation for draft Phase 3T measurement work.
+# Focused validation for draft Phase 3T/3U measurement work.
 # Kept branch-local so PR #49's general CI lane remains separate.
 name: Phase 3T Focused
 
@@ -27,7 +27,7 @@ jobs:
       - uses: astral-sh/setup-uv@v6
         with:
           python-version: "3.12"
-      - name: Phase 3T causal-alignment and dependency regression suite
+      - name: Phase 3T/3U causal-alignment and dependency regression suite
         run: >-
           uv run --isolated --extra dev pytest -q
           tests/test_phase_3t.py
@@ -35,6 +35,8 @@ jobs:
           tests/test_phase_3t_causal_alignment_helper.py
           tests/test_phase_3t_alignment_adapter.py
           tests/test_phase_3t_aligned_entrypoint.py
+          tests/test_phase_3u_prereg.py
+          tests/test_phase_3u_evidence_schema.py
           tests/test_phase_3s.py
           tests/test_phase_3r.py
           tests/test_phase_3q.py
