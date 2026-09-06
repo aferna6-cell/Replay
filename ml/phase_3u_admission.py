@@ -3,8 +3,9 @@
 This gate deliberately does not invent numeric thresholds. Sample-size, noise,
 and material-effect criteria must be frozen from independent calibration or a
 prospective power analysis before candidate allocation scores are visible.
-The basis must also carry machine-checkable provenance and be explicitly bound
-to the immutable external evidence source admitted by the Phase 3U schema.
+The basis must carry machine-checkable provenance, be bound to the immutable
+external evidence source admitted by the Phase 3U schema, and prove that the
+observations used to calibrate thresholds are disjoint from ranking evidence.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ from __future__ import annotations
 import re
 from typing import Dict, Mapping, Optional
 
-ADMISSION_VERSION = "3u_admission_v3"
+ADMISSION_VERSION = "3u_admission_v4"
 REQUIRED_PLAN_FIELDS = (
     "minimum_transitions",
     "minimum_trajectories",
@@ -24,6 +25,11 @@ REQUIRED_PLAN_FIELDS = (
     "threshold_basis_reference",
     "threshold_basis_method",
     "threshold_basis_sha256",
+    "calibration_source_reference",
+    "calibration_source_sha256",
+    "calibration_evidence_overlap_count",
+    "overlap_check_reference",
+    "overlap_check_sha256",
     "evidence_source_reference",
     "evidence_source_sha256",
     "frozen_before_candidate_scoring",
@@ -37,6 +43,10 @@ _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 def _nonempty_text(value: object) -> bool:
     return isinstance(value, str) and bool(value.strip())
+
+
+def _valid_digest(value: object) -> bool:
+    return isinstance(value, str) and bool(_SHA256_RE.fullmatch(value.lower()))
 
 
 def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
@@ -55,13 +65,38 @@ def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
     if not _nonempty_text(plan["threshold_basis_method"]):
         return {"valid": False, "blocker": "threshold_basis_method_missing"}
     digest = plan["threshold_basis_sha256"]
-    if not isinstance(digest, str) or not _SHA256_RE.fullmatch(digest.lower()):
+    if not _valid_digest(digest):
         return {"valid": False, "blocker": "threshold_basis_digest_invalid"}
+
+    if not _nonempty_text(plan["calibration_source_reference"]):
+        return {"valid": False, "blocker": "calibration_source_reference_missing"}
+    calibration_digest = plan["calibration_source_sha256"]
+    if not _valid_digest(calibration_digest):
+        return {"valid": False, "blocker": "calibration_source_digest_invalid"}
+    if not _nonempty_text(plan["overlap_check_reference"]):
+        return {"valid": False, "blocker": "overlap_check_reference_missing"}
+    overlap_digest = plan["overlap_check_sha256"]
+    if not _valid_digest(overlap_digest):
+        return {"valid": False, "blocker": "overlap_check_digest_invalid"}
+    overlap_count = plan["calibration_evidence_overlap_count"]
+    if isinstance(overlap_count, bool) or not isinstance(overlap_count, int) or overlap_count < 0:
+        return {"valid": False, "blocker": "invalid_calibration_evidence_overlap_count"}
+    if overlap_count != 0:
+        return {"valid": False, "blocker": "calibration_evidence_overlap_detected"}
+
     if not _nonempty_text(plan["evidence_source_reference"]):
         return {"valid": False, "blocker": "evidence_source_reference_missing"}
     evidence_digest = plan["evidence_source_sha256"]
-    if not isinstance(evidence_digest, str) or not _SHA256_RE.fullmatch(evidence_digest.lower()):
+    if not _valid_digest(evidence_digest):
         return {"valid": False, "blocker": "evidence_source_digest_invalid"}
+
+    calibration_reference = plan["calibration_source_reference"].strip()
+    evidence_reference = plan["evidence_source_reference"].strip()
+    if calibration_reference == evidence_reference:
+        return {"valid": False, "blocker": "calibration_source_not_independent"}
+    if calibration_digest.lower() == evidence_digest.lower():
+        return {"valid": False, "blocker": "calibration_source_not_independent"}
+
     for field in ("minimum_transitions", "minimum_trajectories"):
         value = plan[field]
         if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
@@ -76,7 +111,12 @@ def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
         "admission_version": ADMISSION_VERSION,
         "threshold_basis_reference": plan["threshold_basis_reference"],
         "threshold_basis_sha256": digest.lower(),
-        "evidence_source_reference": plan["evidence_source_reference"].strip(),
+        "calibration_source_reference": calibration_reference,
+        "calibration_source_sha256": calibration_digest.lower(),
+        "calibration_evidence_overlap_count": overlap_count,
+        "overlap_check_reference": plan["overlap_check_reference"].strip(),
+        "overlap_check_sha256": overlap_digest.lower(),
+        "evidence_source_reference": evidence_reference,
         "evidence_source_sha256": evidence_digest.lower(),
     }
 
@@ -120,6 +160,7 @@ def evaluate_ranking_admission(*, schema_result: Mapping, plan: Optional[Mapping
         "candidate_scores_examined": False,
         "thresholds_require_independent_basis": True,
         "threshold_basis_provenance_verified": bool(plan_result["valid"]),
+        "calibration_evidence_independence_verified": bool(plan_result["valid"]),
         "evidence_source_binding_verified": bool(plan_result["valid"]) and not any(
             blocker.startswith("evidence_source_") for blocker in blockers
         ),
