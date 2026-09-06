@@ -3,8 +3,8 @@
 This gate deliberately does not invent numeric thresholds. Sample-size, noise,
 and material-effect criteria must be frozen from independent calibration or a
 prospective power analysis before candidate allocation scores are visible.
-The basis must also carry machine-checkable provenance so merely labelling a
-threshold "independent" cannot authorize ranking.
+The basis must also carry machine-checkable provenance and be explicitly bound
+to the immutable external evidence source admitted by the Phase 3U schema.
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from typing import Dict, Mapping, Optional
 
-ADMISSION_VERSION = "3u_admission_v2"
+ADMISSION_VERSION = "3u_admission_v3"
 REQUIRED_PLAN_FIELDS = (
     "minimum_transitions",
     "minimum_trajectories",
@@ -24,6 +24,8 @@ REQUIRED_PLAN_FIELDS = (
     "threshold_basis_reference",
     "threshold_basis_method",
     "threshold_basis_sha256",
+    "evidence_source_reference",
+    "evidence_source_sha256",
     "frozen_before_candidate_scoring",
 )
 ALLOWED_THRESHOLD_BASES = {
@@ -55,6 +57,11 @@ def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
     digest = plan["threshold_basis_sha256"]
     if not isinstance(digest, str) or not _SHA256_RE.fullmatch(digest.lower()):
         return {"valid": False, "blocker": "threshold_basis_digest_invalid"}
+    if not _nonempty_text(plan["evidence_source_reference"]):
+        return {"valid": False, "blocker": "evidence_source_reference_missing"}
+    evidence_digest = plan["evidence_source_sha256"]
+    if not isinstance(evidence_digest, str) or not _SHA256_RE.fullmatch(evidence_digest.lower()):
+        return {"valid": False, "blocker": "evidence_source_digest_invalid"}
     for field in ("minimum_transitions", "minimum_trajectories"):
         value = plan[field]
         if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
@@ -69,6 +76,8 @@ def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
         "admission_version": ADMISSION_VERSION,
         "threshold_basis_reference": plan["threshold_basis_reference"],
         "threshold_basis_sha256": digest.lower(),
+        "evidence_source_reference": plan["evidence_source_reference"].strip(),
+        "evidence_source_sha256": evidence_digest.lower(),
     }
 
 
@@ -84,8 +93,17 @@ def evaluate_ranking_admission(*, schema_result: Mapping, plan: Optional[Mapping
         blockers.append("schema_invalid")
     if not bool(schema_result.get("schema_ready")):
         blockers.append("conserved_pool_evidence_incomplete")
+    if not bool(schema_result.get("source_provenance_verified")):
+        blockers.append("evidence_source_provenance_missing")
     if not plan_result["valid"]:
         blockers.append(plan_result["blocker"])
+
+    if plan_result["valid"]:
+        if schema_result.get("source_reference") != plan_result["evidence_source_reference"]:
+            blockers.append("evidence_source_reference_mismatch")
+        schema_digest = str(schema_result.get("source_sha256", "")).lower()
+        if schema_digest != plan_result["evidence_source_sha256"]:
+            blockers.append("evidence_source_digest_mismatch")
 
     row_count = int(schema_result.get("row_count", 0))
     trajectory_count = int(schema_result.get("trajectory_count", 0))
@@ -102,4 +120,7 @@ def evaluate_ranking_admission(*, schema_result: Mapping, plan: Optional[Mapping
         "candidate_scores_examined": False,
         "thresholds_require_independent_basis": True,
         "threshold_basis_provenance_verified": bool(plan_result["valid"]),
+        "evidence_source_binding_verified": bool(plan_result["valid"]) and not any(
+            blocker.startswith("evidence_source_") for blocker in blockers
+        ),
     }
