@@ -3,13 +3,16 @@
 This gate deliberately does not invent numeric thresholds. Sample-size, noise,
 and material-effect criteria must be frozen from independent calibration or a
 prospective power analysis before candidate allocation scores are visible.
+The basis must also carry machine-checkable provenance so merely labelling a
+threshold "independent" cannot authorize ranking.
 """
 
 from __future__ import annotations
 
+import re
 from typing import Dict, Mapping, Optional
 
-ADMISSION_VERSION = "3u_admission_v1"
+ADMISSION_VERSION = "3u_admission_v2"
 REQUIRED_PLAN_FIELDS = (
     "minimum_transitions",
     "minimum_trajectories",
@@ -18,12 +21,20 @@ REQUIRED_PLAN_FIELDS = (
     "material_effect_metric",
     "material_effect_threshold",
     "threshold_basis",
+    "threshold_basis_reference",
+    "threshold_basis_method",
+    "threshold_basis_sha256",
     "frozen_before_candidate_scoring",
 )
 ALLOWED_THRESHOLD_BASES = {
     "independent_calibration",
     "prospective_power_analysis",
 }
+_SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def _nonempty_text(value: object) -> bool:
+    return isinstance(value, str) and bool(value.strip())
 
 
 def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
@@ -37,6 +48,13 @@ def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
         return {"valid": False, "blocker": "thresholds_not_frozen_prospectively"}
     if plan["threshold_basis"] not in ALLOWED_THRESHOLD_BASES:
         return {"valid": False, "blocker": "threshold_basis_not_independent"}
+    if not _nonempty_text(plan["threshold_basis_reference"]):
+        return {"valid": False, "blocker": "threshold_basis_reference_missing"}
+    if not _nonempty_text(plan["threshold_basis_method"]):
+        return {"valid": False, "blocker": "threshold_basis_method_missing"}
+    digest = plan["threshold_basis_sha256"]
+    if not isinstance(digest, str) or not _SHA256_RE.fullmatch(digest.lower()):
+        return {"valid": False, "blocker": "threshold_basis_digest_invalid"}
     for field in ("minimum_transitions", "minimum_trajectories"):
         value = plan[field]
         if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
@@ -45,7 +63,13 @@ def validate_admission_plan(plan: Optional[Mapping]) -> Dict:
         value = plan[field]
         if isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0:
             return {"valid": False, "blocker": f"invalid_{field}"}
-    return {"valid": True, "blocker": None, "admission_version": ADMISSION_VERSION}
+    return {
+        "valid": True,
+        "blocker": None,
+        "admission_version": ADMISSION_VERSION,
+        "threshold_basis_reference": plan["threshold_basis_reference"],
+        "threshold_basis_sha256": digest.lower(),
+    }
 
 
 def evaluate_ranking_admission(*, schema_result: Mapping, plan: Optional[Mapping]) -> Dict:
@@ -77,4 +101,5 @@ def evaluate_ranking_admission(*, schema_result: Mapping, plan: Optional[Mapping
         "blockers": blockers,
         "candidate_scores_examined": False,
         "thresholds_require_independent_basis": True,
+        "threshold_basis_provenance_verified": bool(plan_result["valid"]),
     }
