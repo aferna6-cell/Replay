@@ -1,0 +1,95 @@
+# Focused validation for draft Phase 3T/3U measurement work.
+# Kept branch-local so PR #49's general CI lane remains separate.
+name: Phase 3T Focused
+
+"on":
+  push:
+    branches:
+      - cursor/phase-3t-t5-incumbent-synth-27cf
+  pull_request:
+    branches:
+      - cursor/phase-3s-open-slot-attribution-c72b
+
+concurrency:
+  group: phase3t-focused-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  focused:
+    name: phase3t-focused
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Phase 3T/3U causal-alignment and dependency regression suite
+        run: >-
+          uv run --isolated --extra dev pytest -q
+          tests/test_phase_3t.py
+          tests/test_phase_3t_alignment_contract.py
+          tests/test_phase_3t_causal_alignment_helper.py
+          tests/test_phase_3t_alignment_adapter.py
+          tests/test_phase_3t_aligned_entrypoint.py
+          tests/test_phase_3u_prereg.py
+          tests/test_phase_3u_evidence_schema.py
+          tests/test_phase_3u_observation_identity.py
+          tests/test_phase_3u_parser_reconciliation.py
+          tests/test_phase_3u_admission.py
+          tests/test_phase_3u_admission_v5.py
+          tests/test_phase_3u_admission_v6.py
+          tests/test_phase_3u_admission_surface.py
+          tests/test_phase_3s.py
+          tests/test_phase_3r.py
+          tests/test_phase_3q.py
+          tests/test_phase_3p.py
+          tests/test_phase_3o.py
+          tests/test_phase_2s.py
+          tests/test_phase_2q.py
+          tests/test_sim.py
+          tests/test_sim_effects.py
+
+  smoke:
+    name: phase3t-8-lobby-smoke
+    needs: focused
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Preregistered non-evaluative reused-DEV smoke 14200-14207
+        run: >-
+          uv run --isolated --extra dev python -m ml.fidelity_phase_3t_aligned
+          --lobbies 8
+          --seed 14200
+          --non-evaluative
+
+  full-dev:
+    name: phase3t-full-reused-dev
+    needs: smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Preregistered evaluative reused-DEV measurement 14200-14699
+        run: >-
+          uv run --isolated --extra dev python -m ml.fidelity_phase_3t_aligned
+          --lobbies 500
+          --seed 14200
+          --out-dir results/sim_fidelity_phase_3t
+      - name: Upload Phase 3T measurement artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3t-reused-dev-${{ github.sha }}
+          path: results/sim_fidelity_phase_3t/
+          if-no-files-found: error
