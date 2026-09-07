@@ -1,16 +1,16 @@
 """Forward-only Phase 3U Power.log post-ZONE observability probe.
 
-This measurement-only probe asks a narrow question left open by the conservative
-pre-state recovery audit: when a numeric ZONE transition lacks recoverable
-pre-change state, does the canonical log explicitly reveal the entity's new
-ZONE_POSITION (and any previously missing CardID) before that entity changes
-ZONE again?
+Measurement only. For numeric ZONE transitions whose pre-state is incomplete,
+measure whether the canonical log explicitly reveals post-change ZONE_POSITION
+before the same entity changes ZONE again. Keep provenance channels separate:
+(1) direct ZONE_POSITION TAG_CHANGE and (2) later bracketed entity descriptors
+whose descriptor zone matches the pending post-ZONE value. Their union is the
+explicit post-position ceiling; contradictions are counted, never reconciled.
 
-Observations are forward-only. A later ZONE_POSITION is evidence about post-change
-state only and is never used to repair or relabel the transition's pre-state.
-State, PlayerID validity, and pending intervals are CREATE_GAME-local. The probe
-never defines board-membership semantics, constructs Phase 3U evidence rows,
-reconstructs conserved pools, scores candidates, or authorizes ranking.
+Future observations never repair pre-state. State, PlayerID validity, and pending
+intervals are CREATE_GAME-local. This probe never defines board-membership
+semantics, constructs Phase 3U evidence rows, reconstructs conserved pools,
+scores candidates, or authorizes ranking.
 """
 
 from __future__ import annotations
@@ -18,7 +18,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 from pathlib import Path
 from typing import Dict
 
@@ -40,7 +39,7 @@ from ml.phase_3u_powerlog_state_recovery import (
     _missing_pre_state_fields,
 )
 
-PROBE_VERSION = "3u_powerlog_post_state_v1"
+PROBE_VERSION = "3u_powerlog_post_state_v2"
 
 
 def _coverage(numerator: int, denominator: int) -> float | None:
@@ -48,11 +47,11 @@ def _coverage(numerator: int, denominator: int) -> float | None:
 
 
 def _canonical_payloads(text: str) -> list[str]:
-    payloads: list[str] = []
-    for line in text.splitlines():
-        if _CANONICAL_POWER_MARKER in line:
-            payloads.append(line.split(_CANONICAL_POWER_MARKER, 1)[1])
-    return payloads
+    return [
+        line.split(_CANONICAL_POWER_MARKER, 1)[1]
+        for line in text.splitlines()
+        if _CANONICAL_POWER_MARKER in line
+    ]
 
 
 def _split_game_segments(payloads: list[str]) -> list[list[str]]:
@@ -72,9 +71,91 @@ def _descriptor_card_id(descriptor: str | None) -> str | None:
     if descriptor is None:
         return None
     match = _DESCRIPTOR_CARD_ID_RE.search(descriptor)
-    if match and match.group(1):
-        return match.group(1)
-    return None
+    return match.group(1) if match and match.group(1) else None
+
+
+def _descriptor_zone(descriptor: str | None) -> str | None:
+    if descriptor is None:
+        return None
+    match = _DESCRIPTOR_ZONE_RE.search(descriptor)
+    return match.group(1) if match else None
+
+
+def _descriptor_zone_pos(descriptor: str | None) -> int | None:
+    if descriptor is None:
+        return None
+    match = _DESCRIPTOR_ZONE_POS_RE.search(descriptor)
+    if not match:
+        return None
+    try:
+        return int(match.group(1))
+    except (TypeError, ValueError):
+        return None
+
+
+def _new_pending_event(
+    *, segment_index: int, entity_id: str, ordinal: int, post_zone: str, missing: list[str]
+) -> dict:
+    return {
+        "segment_index": segment_index,
+        "entity_id": entity_id,
+        "zone_ordinal": ordinal,
+        "post_zone": post_zone,
+        "missing_pre_state_fields": missing,
+        "post_zone_position_observed": False,
+        "post_zone_position": None,
+        "post_zone_position_distance": None,
+        "post_zone_position_source": None,
+        "tag_zone_position_observed": False,
+        "tag_zone_position": None,
+        "tag_zone_position_distance": None,
+        "descriptor_zone_position_observed": False,
+        "descriptor_zone_position": None,
+        "descriptor_zone_position_distance": None,
+        "descriptor_zone_mismatch_count": 0,
+        "position_contradiction": False,
+        "card_id_observed_after_distance": None,
+        "closed_by_next_zone": False,
+        "next_zone_distance": None,
+    }
+
+
+def _record_tag_position(event: dict, *, zone_pos: int, distance: int) -> None:
+    if not event["tag_zone_position_observed"]:
+        event["tag_zone_position_observed"] = True
+        event["tag_zone_position"] = zone_pos
+        event["tag_zone_position_distance"] = distance
+    if event["descriptor_zone_position_observed"] and event["descriptor_zone_position"] != zone_pos:
+        event["position_contradiction"] = True
+    if not event["post_zone_position_observed"]:
+        event["post_zone_position_observed"] = True
+        event["post_zone_position"] = zone_pos
+        event["post_zone_position_distance"] = distance
+        event["post_zone_position_source"] = "tag"
+
+
+def _record_descriptor_position(
+    event: dict, *, descriptor: str | None, distance: int
+) -> None:
+    descriptor_zone = _descriptor_zone(descriptor)
+    descriptor_pos = _descriptor_zone_pos(descriptor)
+    if descriptor_zone != event["post_zone"]:
+        if descriptor_pos is not None:
+            event["descriptor_zone_mismatch_count"] += 1
+        return
+    if descriptor_pos is None:
+        return
+    if not event["descriptor_zone_position_observed"]:
+        event["descriptor_zone_position_observed"] = True
+        event["descriptor_zone_position"] = descriptor_pos
+        event["descriptor_zone_position_distance"] = distance
+    if event["tag_zone_position_observed"] and event["tag_zone_position"] != descriptor_pos:
+        event["position_contradiction"] = True
+    if not event["post_zone_position_observed"]:
+        event["post_zone_position_observed"] = True
+        event["post_zone_position"] = descriptor_pos
+        event["post_zone_position_distance"] = distance
+        event["post_zone_position_source"] = "descriptor"
 
 
 def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
@@ -144,31 +225,28 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
             missing = [] if recoverable else _missing_pre_state_fields(state)
             if not has_descriptor and not recoverable:
                 unresolved_numeric_zone_events += 1
-                pending[entity_id] = {
-                    "segment_index": segment_index,
-                    "entity_id": entity_id,
-                    "zone_ordinal": ordinal,
-                    "post_zone": value,
-                    "missing_pre_state_fields": missing,
-                    "post_zone_position_observed": False,
-                    "post_zone_position": None,
-                    "post_zone_position_distance": None,
-                    "card_id_observed_after_distance": None,
-                    "closed_by_next_zone": False,
-                    "next_zone_distance": None,
-                }
+                pending[entity_id] = _new_pending_event(
+                    segment_index=segment_index,
+                    entity_id=entity_id,
+                    ordinal=ordinal,
+                    post_zone=value,
+                    missing=missing,
+                )
 
             state["zone"] = value
             state["zone_pos"] = None
             continue
 
+        event = pending.get(entity_id)
         if has_descriptor:
+            if event is not None:
+                distance = ordinal - event["zone_ordinal"]
+                _record_descriptor_position(event, descriptor=descriptor, distance=distance)
+                if event["card_id_observed_after_distance"] is None:
+                    card_id = _descriptor_card_id(descriptor)
+                    if card_id:
+                        event["card_id_observed_after_distance"] = distance
             _apply_descriptor(state, descriptor)
-            event = pending.get(entity_id)
-            if event is not None and event["card_id_observed_after_distance"] is None:
-                card_id = _descriptor_card_id(descriptor)
-                if card_id:
-                    event["card_id_observed_after_distance"] = ordinal - event["zone_ordinal"]
 
         if tag == "ZONE_POSITION":
             try:
@@ -177,17 +255,23 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
                 state["zone_pos"] = None
                 continue
             state["zone_pos"] = zone_pos
-            event = pending.get(entity_id)
-            if event is not None and not event["post_zone_position_observed"]:
-                event["post_zone_position_observed"] = True
-                event["post_zone_position"] = zone_pos
-                event["post_zone_position_distance"] = ordinal - event["zone_ordinal"]
+            if event is not None:
+                _record_tag_position(
+                    event,
+                    zone_pos=zone_pos,
+                    distance=ordinal - event["zone_ordinal"],
+                )
 
-    for event in pending.values():
-        intervals.append(event)
-
+    intervals.extend(pending.values())
     intervals.sort(key=lambda row: row["zone_ordinal"])
-    with_post_pos = sum(bool(row["post_zone_position_observed"]) for row in intervals)
+
+    tag_count = sum(bool(row["tag_zone_position_observed"]) for row in intervals)
+    descriptor_count = sum(bool(row["descriptor_zone_position_observed"]) for row in intervals)
+    union_count = sum(bool(row["post_zone_position_observed"]) for row in intervals)
+    contradiction_count = sum(bool(row["position_contradiction"]) for row in intervals)
+    descriptor_mismatch_events = sum(
+        bool(row["descriptor_zone_mismatch_count"]) for row in intervals
+    )
     missing_card_pre = [row for row in intervals if "card_id" in row["missing_pre_state_fields"]]
     missing_card_pre_with_forward_card = sum(
         row["card_id_observed_after_distance"] is not None for row in missing_card_pre
@@ -202,8 +286,14 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
         "canonical_payloads": len(payloads),
         "observed_player_ids": sorted(observed_player_ids),
         "unresolved_numeric_zone_events": unresolved_numeric_zone_events,
-        "post_zone_position_observed_before_next_zone": with_post_pos,
-        "post_zone_position_coverage": _coverage(with_post_pos, unresolved_numeric_zone_events),
+        "tag_zone_position_observed_before_next_zone": tag_count,
+        "tag_zone_position_coverage": _coverage(tag_count, unresolved_numeric_zone_events),
+        "descriptor_zone_position_observed_before_next_zone": descriptor_count,
+        "descriptor_zone_position_coverage": _coverage(descriptor_count, unresolved_numeric_zone_events),
+        "post_zone_position_observed_before_next_zone": union_count,
+        "post_zone_position_coverage": _coverage(union_count, unresolved_numeric_zone_events),
+        "position_contradictions": contradiction_count,
+        "descriptor_zone_mismatch_events": descriptor_mismatch_events,
         "missing_card_id_pre_events": len(missing_card_pre),
         "missing_card_id_pre_with_forward_card_id": missing_card_pre_with_forward_card,
         "forward_card_id_coverage_for_missing_pre_card": _coverage(
@@ -230,7 +320,13 @@ def audit_powerlog_post_state(source_content: bytes) -> Dict:
         for index, segment in enumerate(_split_game_segments(payloads))
     ]
     unresolved = sum(game["unresolved_numeric_zone_events"] for game in per_game)
-    with_post_pos = sum(game["post_zone_position_observed_before_next_zone"] for game in per_game)
+    tag_count = sum(game["tag_zone_position_observed_before_next_zone"] for game in per_game)
+    descriptor_count = sum(
+        game["descriptor_zone_position_observed_before_next_zone"] for game in per_game
+    )
+    union_count = sum(game["post_zone_position_observed_before_next_zone"] for game in per_game)
+    contradictions = sum(game["position_contradictions"] for game in per_game)
+    descriptor_mismatch_events = sum(game["descriptor_zone_mismatch_events"] for game in per_game)
     missing_card = sum(game["missing_card_id_pre_events"] for game in per_game)
     forward_card = sum(game["missing_card_id_pre_with_forward_card_id"] for game in per_game)
     closed_without_pos = sum(game["closed_by_next_zone_without_post_position"] for game in per_game)
@@ -244,8 +340,14 @@ def audit_powerlog_post_state(source_content: bytes) -> Dict:
         "game_segments": len(per_game),
         "per_game": per_game,
         "unresolved_numeric_zone_events": unresolved,
-        "post_zone_position_observed_before_next_zone": with_post_pos,
-        "post_zone_position_coverage": _coverage(with_post_pos, unresolved),
+        "tag_zone_position_observed_before_next_zone": tag_count,
+        "tag_zone_position_coverage": _coverage(tag_count, unresolved),
+        "descriptor_zone_position_observed_before_next_zone": descriptor_count,
+        "descriptor_zone_position_coverage": _coverage(descriptor_count, unresolved),
+        "post_zone_position_observed_before_next_zone": union_count,
+        "post_zone_position_coverage": _coverage(union_count, unresolved),
+        "position_contradictions": contradictions,
+        "descriptor_zone_mismatch_events": descriptor_mismatch_events,
         "missing_card_id_pre_events": missing_card,
         "missing_card_id_pre_with_forward_card_id": forward_card,
         "forward_card_id_coverage_for_missing_pre_card": _coverage(forward_card, missing_card),
