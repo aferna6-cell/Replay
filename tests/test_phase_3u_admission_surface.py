@@ -39,11 +39,29 @@ PARSER_RECONCILIATION_IMPLEMENTATION = "phase_3u_parser_reconciliation.py"
 def _uses(path: Path, module: str, name: str) -> list[str]:
     tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
     uses: list[str] = []
+    module_parent, module_leaf = module.rsplit(".", 1)
+
     for node in ast.walk(tree):
-        if isinstance(node, ast.ImportFrom) and node.module == module:
-            for alias in node.names:
-                if alias.name == name:
-                    uses.append(f"import:{alias.asname or alias.name}")
+        if isinstance(node, ast.ImportFrom):
+            imported_from = node.module
+            # Production files live in the ``ml`` package. Resolve the relative
+            # forms that can otherwise bypass an exact absolute-module check.
+            if node.level:
+                if node.module:
+                    imported_from = f"ml.{node.module}"
+                else:
+                    imported_from = "ml"
+
+            if imported_from == module:
+                for alias in node.names:
+                    if alias.name in (name, "*"):
+                        uses.append(f"import:{alias.asname or alias.name}")
+            elif imported_from == module_parent:
+                # ``from ml import phase_3u_admission_v6`` (and the relative
+                # ``from . import ...`` form) imports the whole forbidden module.
+                for alias in node.names:
+                    if alias.name == module_leaf:
+                        uses.append(f"module-from:{alias.asname or alias.name}")
         elif isinstance(node, ast.Import):
             for alias in node.names:
                 if alias.name == module:
@@ -96,6 +114,23 @@ def test_untrusted_callable_reconciliation_is_not_imported_by_production_ml():
         "a reviewed wrapper loads/executes the exact digest-bound parser artifact/config; "
         f"production imports found: {offenders}"
     )
+
+
+def test_import_scanner_catches_whole_module_and_relative_bypass_forms(tmp_path):
+    cases = {
+        "absolute_from.py": "from ml import phase_3u_admission_v6 as old\n",
+        "relative_from.py": "from . import phase_3u_admission_v6 as old\n",
+        "relative_symbol.py": (
+            "from .phase_3u_admission_v6 import "
+            "evaluate_ranking_admission_v6 as old\n"
+        ),
+        "star.py": "from ml.phase_3u_admission_v6 import *\n",
+        "module.py": "import ml.phase_3u_admission_v6 as old\n",
+    }
+    for filename, source in cases.items():
+        path = tmp_path / filename
+        path.write_text(source, encoding="utf-8")
+        assert _uses(path, V6_MODULE, V6_NAME), f"scanner missed {filename}"
 
 
 def test_v5_bridge_is_explicitly_the_single_v4_importer():
