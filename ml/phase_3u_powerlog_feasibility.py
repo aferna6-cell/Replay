@@ -27,7 +27,7 @@ import re
 from pathlib import Path
 from typing import Dict
 
-PROBE_VERSION = "3u_powerlog_feasibility_v3"
+PROBE_VERSION = "3u_powerlog_feasibility_v4"
 
 _CANONICAL_POWER_MARKER = "GameState.DebugPrintPower() -"
 _NONCANONICAL_POWER_MARKER = "PowerTaskList.DebugPrintPower() -"
@@ -46,6 +46,12 @@ _DESCRIPTOR_ZONE_RE = re.compile(r"\bzone=([A-Z_]+)\b")
 _DESCRIPTOR_ZONE_POS_RE = re.compile(r"\bzonePos=(-?\d+)\b")
 _DESCRIPTOR_CARD_ID_RE = re.compile(r"\bcardId=([^\s\]]*)")
 _DESCRIPTOR_PLAYER_RE = re.compile(r"\bplayer=(\d+)\b")
+
+
+def _coverage(numerator: int, denominator: int) -> float | None:
+    if denominator == 0:
+        return None
+    return numerator / denominator
 
 
 def audit_powerlog_observability(source_content: bytes) -> Dict:
@@ -75,11 +81,6 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
     zone_changes = 0
     changed_entities: set[str] = set()
 
-    # Descriptor coverage is a pure syntax measurement. For bracketed
-    # TAG_CHANGE entities, the descriptor records the entity state immediately
-    # before the change according to the client log. Measuring its coverage is
-    # useful for deciding whether a deterministic state tracker is feasible,
-    # but does not define which ZONE transitions are Phase 3U membership events.
     bracketed_tag_changes = 0
     numeric_tag_changes = 0
     zone_changes_with_descriptor = 0
@@ -87,6 +88,7 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
     zone_changes_with_zone_position = 0
     zone_changes_with_card_id = 0
     zone_changes_with_player = 0
+    zone_changes_with_complete_descriptor = 0
     attack_changes_with_descriptor = 0
     health_changes_with_descriptor = 0
 
@@ -124,13 +126,18 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
             if tag == "HEALTH" and has_descriptor:
                 health_changes_with_descriptor += 1
             if tag == "ZONE" and has_descriptor:
+                has_pre_zone = bool(_DESCRIPTOR_ZONE_RE.search(descriptor))
+                has_zone_position = bool(_DESCRIPTOR_ZONE_POS_RE.search(descriptor))
+                has_card_id = bool(_DESCRIPTOR_CARD_ID_RE.search(descriptor))
+                has_player = bool(_DESCRIPTOR_PLAYER_RE.search(descriptor))
                 zone_changes_with_descriptor += 1
-                zone_changes_with_pre_zone += bool(_DESCRIPTOR_ZONE_RE.search(descriptor))
-                zone_changes_with_zone_position += bool(
-                    _DESCRIPTOR_ZONE_POS_RE.search(descriptor)
+                zone_changes_with_pre_zone += has_pre_zone
+                zone_changes_with_zone_position += has_zone_position
+                zone_changes_with_card_id += has_card_id
+                zone_changes_with_player += has_player
+                zone_changes_with_complete_descriptor += all(
+                    (has_pre_zone, has_zone_position, has_card_id, has_player)
                 )
-                zone_changes_with_card_id += bool(_DESCRIPTOR_CARD_ID_RE.search(descriptor))
-                zone_changes_with_player += bool(_DESCRIPTOR_PLAYER_RE.search(descriptor))
 
     stable_identity_primitives = (
         player_records > 0 and full_entity_records > 0 and entity_id_tags > 0
@@ -147,6 +154,9 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
             ordered_change_primitives,
             membership_change_primitives,
         )
+    )
+    all_zone_changes_have_complete_descriptor = (
+        zone_changes > 0 and zone_changes_with_complete_descriptor == zone_changes
     )
 
     blockers = [
@@ -179,14 +189,22 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
         "bracketed_tag_changes": bracketed_tag_changes,
         "attack_changes": attack_changes,
         "attack_changes_with_descriptor": attack_changes_with_descriptor,
+        "attack_descriptor_coverage": _coverage(attack_changes_with_descriptor, attack_changes),
         "health_changes": health_changes,
         "health_changes_with_descriptor": health_changes_with_descriptor,
+        "health_descriptor_coverage": _coverage(health_changes_with_descriptor, health_changes),
         "zone_changes": zone_changes,
         "zone_changes_with_descriptor": zone_changes_with_descriptor,
         "zone_changes_with_pre_zone": zone_changes_with_pre_zone,
         "zone_changes_with_zone_position": zone_changes_with_zone_position,
         "zone_changes_with_card_id": zone_changes_with_card_id,
         "zone_changes_with_player": zone_changes_with_player,
+        "zone_changes_with_complete_descriptor": zone_changes_with_complete_descriptor,
+        "zone_descriptor_coverage": _coverage(zone_changes_with_descriptor, zone_changes),
+        "zone_complete_descriptor_coverage": _coverage(
+            zone_changes_with_complete_descriptor, zone_changes
+        ),
+        "all_zone_changes_have_complete_descriptor": all_zone_changes_have_complete_descriptor,
         "changed_entity_count": len(changed_entities),
         "stable_identity_primitives_observed": stable_identity_primitives,
         "per_body_stat_primitives_observed": per_body_stat_primitives,
