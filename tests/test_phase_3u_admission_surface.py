@@ -1,9 +1,10 @@
 """Guard against bypassing the executable Phase 3U ranking/admission boundary.
 
-The legacy v4/v5 evaluators remain tested as lower-level contracts, but
-production measurement code must not call/import them directly. v6 is the
-canonical ranking admission surface because it both recomputes manifest overlap
-and verifies source SHA-256 values from the exact immutable artifact bytes.
+Legacy evaluators remain tested as lower-level contracts, but production
+measurement code must not call/import them directly. v7 is the canonical final
+ranking surface because it composes v6's immutable plan/manifest/source-byte
+checks with explicit parser execution-provenance admission for both calibration
+and evaluation evidence.
 
 The current parser reconciliation helper is deliberately *not* ranking-admissible:
 it accepts an arbitrary Python callable after separately hash-checking parser
@@ -25,8 +26,11 @@ V4_MODULE = "ml.phase_3u_admission"
 V4_NAME = "evaluate_ranking_admission"
 V5_MODULE = "ml.phase_3u_admission_v5"
 V5_NAME = "evaluate_ranking_admission_v5"
+V6_MODULE = "ml.phase_3u_admission_v6"
+V6_NAME = "evaluate_ranking_admission_v6"
 V5_BRIDGE = ML_DIR / "phase_3u_admission_v5.py"
 V6_BRIDGE = ML_DIR / "phase_3u_admission_v6.py"
+V7_BRIDGE = ML_DIR / "phase_3u_admission_v7.py"
 PARSER_RECONCILIATION_MODULE = "ml.phase_3u_parser_reconciliation"
 PARSER_RECONCILIATION_NAME = "reconcile_parser_output_to_manifest"
 PARSER_RECONCILIATION_IMPLEMENTATION = "phase_3u_parser_reconciliation.py"
@@ -66,9 +70,17 @@ def test_only_v5_bridge_may_import_legacy_v4_ranking_evaluator():
 def test_only_v6_bridge_may_import_v5_ranking_evaluator():
     offenders = _offenders(V5_MODULE, V5_NAME, V6_BRIDGE, "phase_3u_admission_v5.py")
     assert offenders == {}, (
-        "Phase 3U ranking admission must go through "
-        "ml.phase_3u_admission_v6.evaluate_ranking_admission_v6; "
+        "Phase 3U ranking admission must go through the canonical bridge chain; "
         f"v5 bypasses found: {offenders}"
+    )
+
+
+def test_only_v7_bridge_may_import_v6_ranking_evaluator():
+    offenders = _offenders(V6_MODULE, V6_NAME, V7_BRIDGE, "phase_3u_admission_v6.py")
+    assert offenders == {}, (
+        "Phase 3U final ranking admission must go through "
+        "ml.phase_3u_admission_v7.evaluate_ranking_admission_v7; "
+        f"v6 bypasses found: {offenders}"
     )
 
 
@@ -92,3 +104,7 @@ def test_v5_bridge_is_explicitly_the_single_v4_importer():
 
 def test_v6_bridge_is_explicitly_the_single_v5_importer():
     assert _uses(V6_BRIDGE, V5_MODULE, V5_NAME) == ["import:evaluate_v5"]
+
+
+def test_v7_bridge_is_explicitly_the_single_v6_importer():
+    assert _uses(V7_BRIDGE, V6_MODULE, V6_NAME) == ["import:evaluate_v6"]
