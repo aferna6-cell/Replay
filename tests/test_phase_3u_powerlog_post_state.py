@@ -18,12 +18,78 @@ def test_forward_zone_position_is_post_state_only_and_never_admits():
 
     assert result["source_sha256"] == hashlib.sha256(source).hexdigest()
     assert result["unresolved_numeric_zone_events"] == 1
+    assert result["tag_zone_position_observed_before_next_zone"] == 1
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 0
     assert result["post_zone_position_observed_before_next_zone"] == 1
     assert result["post_zone_position_coverage"] == 1.0
-    assert result["per_game"][0]["intervals"][0]["post_zone_position_distance"] == 1
+    event = result["per_game"][0]["intervals"][0]
+    assert event["post_zone_position_distance"] == 1
+    assert event["post_zone_position_source"] == "tag"
     assert result["pre_state_repaired_from_future_events"] is False
     assert result["phase_3u_schema_ready"] is False
     assert result["ranking_ready"] is False
+
+
+def test_matching_descriptor_zonepos_counts_as_explicit_forward_channel():
+    source = b"".join(
+        [
+            _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+            _line(
+                "TAG_CHANGE Entity=[entityName=Test id=25 zone=PLAY zonePos=2 cardId=BG_TEST player=1] "
+                "tag=ATK value=5"
+            ),
+        ]
+    )
+    result = audit_powerlog_post_state(source)
+
+    assert result["tag_zone_position_observed_before_next_zone"] == 0
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 1
+    assert result["post_zone_position_observed_before_next_zone"] == 1
+    event = result["per_game"][0]["intervals"][0]
+    assert event["descriptor_zone_position"] == 2
+    assert event["post_zone_position"] == 2
+    assert event["post_zone_position_source"] == "descriptor"
+    assert event["card_id_observed_after_distance"] == 1
+
+
+def test_descriptor_zone_must_match_pending_post_zone():
+    source = b"".join(
+        [
+            _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+            _line(
+                "TAG_CHANGE Entity=[entityName=Test id=25 zone=HAND zonePos=2 cardId=BG_TEST player=1] "
+                "tag=ATK value=5"
+            ),
+        ]
+    )
+    result = audit_powerlog_post_state(source)
+
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 0
+    assert result["post_zone_position_observed_before_next_zone"] == 0
+    assert result["descriptor_zone_mismatch_events"] == 1
+
+
+def test_tag_descriptor_contradiction_is_counted_not_reconciled():
+    source = b"".join(
+        [
+            _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+            _line("TAG_CHANGE Entity=25 tag=ZONE_POSITION value=3"),
+            _line(
+                "TAG_CHANGE Entity=[entityName=Test id=25 zone=PLAY zonePos=2 cardId=BG_TEST player=1] "
+                "tag=ATK value=5"
+            ),
+        ]
+    )
+    result = audit_powerlog_post_state(source)
+
+    assert result["tag_zone_position_observed_before_next_zone"] == 1
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 1
+    assert result["post_zone_position_observed_before_next_zone"] == 1
+    assert result["position_contradictions"] == 1
+    event = result["per_game"][0]["intervals"][0]
+    assert event["post_zone_position"] == 3
+    assert event["post_zone_position_source"] == "tag"
+    assert event["position_contradiction"] is True
 
 
 def test_next_zone_closes_interval_before_late_position():
