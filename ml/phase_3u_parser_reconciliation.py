@@ -121,5 +121,8 @@ def reconcile_parser_output_to_manifest(
         "observation_ids": supplied_ids,
         "source_parser_identity_manifest_bound": True,
         "parser_artifact_config_bound": True,
+        "execution_provenance_bound": False,
+        "ranking_admissible": False,
+        "ranking_block_reason": "parser_callable_not_loaded_from_digest_bound_artifact",
         "candidate_scoring_performed": False,
     }
