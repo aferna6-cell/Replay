@@ -1,24 +1,18 @@
 """Conservative Phase 3U Power.log state-recovery probe (measurement-only).
 
-This module measures a narrower question than the main observability probe: when a
-canonical GameState TAG_CHANGE lacks an inline entity descriptor, can its pre-ZONE
-state still be recovered from *source-observed log state* without simulator or
-candidate-model assumptions?
+This probe asks whether canonical GameState records can recover pre-ZONE state from
+source-observed log state without simulator or candidate-model assumptions.
 
-Recovery is deliberately conservative. A pre-ZONE state is considered complete
-only when zone, zone position, non-empty card id, and player were all observed for
-the same entity. In addition to inline TAG_CHANGE descriptors, v3 consumes the
-canonical FULL_ENTITY creation block itself: CardID plus directly following raw
-ZONE / ZONE_POSITION / CONTROLLER tags are source-observed state. CONTROLLER is
-accepted as a player identity only when its numeric value is independently observed
-as a PlayerID anywhere in the same canonical log. PlayerIDs are therefore collected
-in a first pass, making controller validation invariant to record order. The
-FULL_ENTITY context ends at the first canonical non-tag line, preventing unrelated
-tags from being attached to a stale entity.
+Recovery is deliberately conservative. A pre-ZONE state is complete only when zone,
+zone position, non-empty card id, and player were observed for the same entity.
+FULL_ENTITY blocks may contribute CardID plus directly following ZONE,
+ZONE_POSITION, and CONTROLLER tags. CONTROLLER is accepted only when its numeric
+value is independently observed as a PlayerID in the same CREATE_GAME-bounded
+segment. Entity state and PlayerID validity are reset at every CREATE_GAME boundary,
+preventing cross-game identity leakage when numeric IDs are reused.
 
-After a ZONE change, zone position is invalidated until it is observed again,
-because the destination position is not implied by the destination zone. This
-probe never defines membership semantics, constructs Phase 3U evidence rows,
+After a ZONE change, zone position is invalidated until directly observed again.
+This probe never defines membership semantics, constructs Phase 3U evidence rows,
 reconstructs conserved pools, scores candidates, or authorizes ranking.
 """
 
@@ -31,9 +25,10 @@ import re
 from pathlib import Path
 from typing import Dict
 
-PROBE_VERSION = "3u_powerlog_state_recovery_v3"
+PROBE_VERSION = "3u_powerlog_state_recovery_v4"
 
 _CANONICAL_POWER_MARKER = "GameState.DebugPrintPower() -"
+_CREATE_GAME_RE = re.compile(r"\bCREATE_GAME\b")
 _PLAYER_RE = re.compile(r"\bPlayer EntityID=(\d+) PlayerID=(\d+)\b")
 _FULL_ENTITY_RE = re.compile(r"\bFULL_ENTITY - Creating ID=(\d+)\s+CardID=(\S*)")
 _RAW_TAG_RE = re.compile(r"^\s*tag=([A-Z0-9_]+) value=(\S+)\s*$")
@@ -129,21 +124,24 @@ def _canonical_payloads(text: str) -> list[str]:
     return payloads
 
 
-def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
-    if not isinstance(source_content, bytes):
-        raise TypeError("source_content must be exact bytes")
-    if not source_content:
-        raise ValueError("Power.log source_content must be non-empty")
-    try:
-        text = source_content.decode("utf-8")
-    except UnicodeDecodeError as exc:
-        raise ValueError("Power.log must be valid UTF-8 text") from exc
+def _split_game_segments(payloads: list[str]) -> list[list[str]]:
+    """Split canonical payloads at CREATE_GAME without discarding a leading segment."""
+    segments: list[list[str]] = []
+    current: list[str] = []
+    for payload in payloads:
+        if _CREATE_GAME_RE.search(payload) and current:
+            segments.append(current)
+            current = []
+        current.append(payload)
+    if current:
+        segments.append(current)
+    return segments
 
-    payloads = _canonical_payloads(text)
 
-    # Pass 1: PlayerID validity is a whole-source property. Collect every canonical
-    # PlayerID before interpreting any FULL_ENTITY CONTROLLER tag, so a player
-    # declaration appearing later in the log cannot change scientific recoverability.
+def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
+    # PlayerID validity is local to this CREATE_GAME-bounded segment. Collect all
+    # PlayerIDs in the segment before interpreting FULL_ENTITY CONTROLLER tags so
+    # validation is order-invariant without allowing cross-game reuse.
     observed_player_ids: set[int] = set()
     for payload in payloads:
         player_record = _PLAYER_RE.search(payload)
@@ -209,9 +207,7 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
                 full_entity_entities_with_complete_state += 1
             continue
 
-        # A creation block is contiguous: any canonical non-tag line ends it.
         active_full_entity = None
-
         change = _TAG_CHANGE_RE.search(payload)
         if not change:
             continue
@@ -254,8 +250,6 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
                     numeric_unrecoverable_missing_field_sets.get(key, 0) + 1
                 )
 
-            # Destination zone is observed, but destination zone position is not.
-            # Invalidate zone_pos rather than carrying a stale pre-transition value.
             state["zone"] = value
             state["zone_pos"] = None
         elif tag == "ZONE_POSITION":
@@ -265,12 +259,9 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
                 state["zone_pos"] = None
 
     return {
-        "probe_version": PROBE_VERSION,
-        "source_sha256": hashlib.sha256(source_content).hexdigest(),
-        "source_bytes": len(source_content),
-        "canonical_stream": "GameState.DebugPrintPower",
-        "player_id_collection_passes": 2,
-        "player_id_validation_order_invariant": True,
+        "segment_index": segment_index,
+        "has_create_game_marker": any(_CREATE_GAME_RE.search(p) for p in payloads),
+        "canonical_payloads": len(payloads),
         "observed_player_ids": sorted(observed_player_ids),
         "full_entity_records": full_entity_records,
         "full_entity_records_with_card_id": full_entity_records_with_card_id,
@@ -280,37 +271,103 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
         "bracketed_zone_changes": bracketed_zone_changes,
         "numeric_zone_changes": numeric_zone_changes,
         "zone_changes_with_recoverable_pre_state": zone_changes_with_recoverable_pre_state,
-        "zone_pre_state_recovery_coverage": _coverage(
-            zone_changes_with_recoverable_pre_state, zone_changes
-        ),
-        "bracketed_zone_changes_with_recoverable_pre_state": (
-            bracketed_zone_changes_with_recoverable_pre_state
-        ),
-        "bracketed_zone_pre_state_recovery_coverage": _coverage(
-            bracketed_zone_changes_with_recoverable_pre_state, bracketed_zone_changes
-        ),
-        "numeric_zone_changes_with_recoverable_pre_state": (
-            numeric_zone_changes_with_recoverable_pre_state
-        ),
-        "numeric_zone_changes_recovered_from_prior_state": (
-            numeric_zone_changes_recovered_from_prior_state
-        ),
-        "numeric_zone_pre_state_recovery_coverage": _coverage(
-            numeric_zone_changes_with_recoverable_pre_state, numeric_zone_changes
-        ),
-        "zone_changes_without_recoverable_pre_state": (
-            zone_changes - zone_changes_with_recoverable_pre_state
-        ),
-        "numeric_zone_changes_without_recoverable_pre_state": (
-            numeric_zone_changes - numeric_zone_changes_with_recoverable_pre_state
-        ),
+        "bracketed_zone_changes_with_recoverable_pre_state": bracketed_zone_changes_with_recoverable_pre_state,
+        "numeric_zone_changes_with_recoverable_pre_state": numeric_zone_changes_with_recoverable_pre_state,
+        "numeric_zone_changes_recovered_from_prior_state": numeric_zone_changes_recovered_from_prior_state,
+        "body_like_zone_changes": body_like_zone_changes,
         "numeric_unrecoverable_missing_zone": numeric_unrecoverable_missing_zone,
         "numeric_unrecoverable_missing_zone_pos": numeric_unrecoverable_missing_zone_pos,
         "numeric_unrecoverable_missing_card_id": numeric_unrecoverable_missing_card_id,
         "numeric_unrecoverable_missing_player": numeric_unrecoverable_missing_player,
-        "numeric_unrecoverable_missing_field_sets": dict(
-            sorted(numeric_unrecoverable_missing_field_sets.items())
+        "numeric_unrecoverable_missing_field_sets": dict(sorted(numeric_unrecoverable_missing_field_sets.items())),
+    }
+
+
+def _sum_metric(per_game: list[Dict], key: str) -> int:
+    return sum(int(game[key]) for game in per_game)
+
+
+def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
+    if not isinstance(source_content, bytes):
+        raise TypeError("source_content must be exact bytes")
+    if not source_content:
+        raise ValueError("Power.log source_content must be non-empty")
+    try:
+        text = source_content.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError("Power.log must be valid UTF-8 text") from exc
+
+    payloads = _canonical_payloads(text)
+    game_segments = _split_game_segments(payloads)
+    per_game = [
+        _audit_game_segment(segment, index)
+        for index, segment in enumerate(game_segments)
+    ]
+
+    observed_player_ids = sorted(
+        {player_id for game in per_game for player_id in game["observed_player_ids"]}
+    )
+    full_entity_records = _sum_metric(per_game, "full_entity_records")
+    full_entity_records_with_card_id = _sum_metric(per_game, "full_entity_records_with_card_id")
+    full_entity_state_tags_applied = _sum_metric(per_game, "full_entity_state_tags_applied")
+    full_entity_entities_with_complete_state = _sum_metric(per_game, "full_entity_entities_with_complete_state")
+    zone_changes = _sum_metric(per_game, "zone_changes")
+    bracketed_zone_changes = _sum_metric(per_game, "bracketed_zone_changes")
+    numeric_zone_changes = _sum_metric(per_game, "numeric_zone_changes")
+    zone_changes_with_recoverable_pre_state = _sum_metric(per_game, "zone_changes_with_recoverable_pre_state")
+    bracketed_zone_changes_with_recoverable_pre_state = _sum_metric(per_game, "bracketed_zone_changes_with_recoverable_pre_state")
+    numeric_zone_changes_with_recoverable_pre_state = _sum_metric(per_game, "numeric_zone_changes_with_recoverable_pre_state")
+    numeric_zone_changes_recovered_from_prior_state = _sum_metric(per_game, "numeric_zone_changes_recovered_from_prior_state")
+    body_like_zone_changes = _sum_metric(per_game, "body_like_zone_changes")
+    numeric_unrecoverable_missing_zone = _sum_metric(per_game, "numeric_unrecoverable_missing_zone")
+    numeric_unrecoverable_missing_zone_pos = _sum_metric(per_game, "numeric_unrecoverable_missing_zone_pos")
+    numeric_unrecoverable_missing_card_id = _sum_metric(per_game, "numeric_unrecoverable_missing_card_id")
+    numeric_unrecoverable_missing_player = _sum_metric(per_game, "numeric_unrecoverable_missing_player")
+    numeric_unrecoverable_missing_field_sets: dict[str, int] = {}
+    for game in per_game:
+        for key, value in game["numeric_unrecoverable_missing_field_sets"].items():
+            numeric_unrecoverable_missing_field_sets[key] = (
+                numeric_unrecoverable_missing_field_sets.get(key, 0) + int(value)
+            )
+
+    return {
+        "probe_version": PROBE_VERSION,
+        "source_sha256": hashlib.sha256(source_content).hexdigest(),
+        "source_bytes": len(source_content),
+        "canonical_stream": "GameState.DebugPrintPower",
+        "game_boundary_marker": "CREATE_GAME",
+        "game_segments": len(per_game),
+        "player_id_collection_passes_per_game": 2,
+        "player_id_validation_order_invariant": True,
+        "player_id_validation_game_local": True,
+        "entity_state_reset_at_game_boundary": True,
+        "observed_player_ids": observed_player_ids,
+        "per_game": per_game,
+        "full_entity_records": full_entity_records,
+        "full_entity_records_with_card_id": full_entity_records_with_card_id,
+        "full_entity_state_tags_applied": full_entity_state_tags_applied,
+        "full_entity_entities_with_complete_state": full_entity_entities_with_complete_state,
+        "zone_changes": zone_changes,
+        "bracketed_zone_changes": bracketed_zone_changes,
+        "numeric_zone_changes": numeric_zone_changes,
+        "zone_changes_with_recoverable_pre_state": zone_changes_with_recoverable_pre_state,
+        "zone_pre_state_recovery_coverage": _coverage(zone_changes_with_recoverable_pre_state, zone_changes),
+        "bracketed_zone_changes_with_recoverable_pre_state": bracketed_zone_changes_with_recoverable_pre_state,
+        "bracketed_zone_pre_state_recovery_coverage": _coverage(
+            bracketed_zone_changes_with_recoverable_pre_state, bracketed_zone_changes
         ),
+        "numeric_zone_changes_with_recoverable_pre_state": numeric_zone_changes_with_recoverable_pre_state,
+        "numeric_zone_changes_recovered_from_prior_state": numeric_zone_changes_recovered_from_prior_state,
+        "numeric_zone_pre_state_recovery_coverage": _coverage(
+            numeric_zone_changes_with_recoverable_pre_state, numeric_zone_changes
+        ),
+        "zone_changes_without_recoverable_pre_state": zone_changes - zone_changes_with_recoverable_pre_state,
+        "numeric_zone_changes_without_recoverable_pre_state": numeric_zone_changes - numeric_zone_changes_with_recoverable_pre_state,
+        "numeric_unrecoverable_missing_zone": numeric_unrecoverable_missing_zone,
+        "numeric_unrecoverable_missing_zone_pos": numeric_unrecoverable_missing_zone_pos,
+        "numeric_unrecoverable_missing_card_id": numeric_unrecoverable_missing_card_id,
+        "numeric_unrecoverable_missing_player": numeric_unrecoverable_missing_player,
+        "numeric_unrecoverable_missing_field_sets": dict(sorted(numeric_unrecoverable_missing_field_sets.items())),
         "body_like_zone_changes": body_like_zone_changes,
         "full_entity_state_recovery_enabled": True,
         "state_recovery_only": True,
