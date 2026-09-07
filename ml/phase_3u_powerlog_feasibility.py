@@ -2,18 +2,18 @@
 
 This module answers a deliberately narrow question: does a concrete Hearthstone
 Power.log contain the raw primitives needed to justify building a real external
-measurement adapter?  It does *not* convert log lines into Phase 3U transition
+measurement adapter? It does *not* convert log lines into Phase 3U transition
 rows, does not score allocation candidates, and never authorizes ranking.
 
 The probe is grounded in the committed Power.log syntax (DebugPrintPower,
-FULL_ENTITY, Player, and TAG_CHANGE records).  Scientifically meaningful
+FULL_ENTITY, Player, and TAG_CHANGE records). Scientifically meaningful
 membership-event semantics, complete pre/post board reconstruction, conserved-
 pool reconstruction, calibration/evaluation splitting, measurement-error
 characterization, and digest-bound parser execution remain separate gates.
 
 Power.log mirrors many power events through both GameState.DebugPrintPower() and
-PowerTaskList.DebugPrintPower().  Primitive counts therefore use only the
-GameState stream so the same event is not counted twice.  Entity IDs are
+PowerTaskList.DebugPrintPower(). Primitive counts therefore use only the
+GameState stream so the same event is not counted twice. Entity IDs are
 normalized from either numeric Entity=25 or bracketed Entity=[... id=25 ...]
 forms before changed-entity counting.
 """
@@ -27,7 +27,7 @@ import re
 from pathlib import Path
 from typing import Dict
 
-PROBE_VERSION = "3u_powerlog_feasibility_v2"
+PROBE_VERSION = "3u_powerlog_feasibility_v3"
 
 _CANONICAL_POWER_MARKER = "GameState.DebugPrintPower() -"
 _NONCANONICAL_POWER_MARKER = "PowerTaskList.DebugPrintPower() -"
@@ -39,18 +39,17 @@ _ATK_RE = re.compile(r"\btag=ATK value=(-?\d+)\b")
 _HEALTH_RE = re.compile(r"\btag=HEALTH value=(-?\d+)\b")
 _ZONE_RE = re.compile(r"\btag=ZONE value=([A-Z_]+)\b")
 _TAG_CHANGE_RE = re.compile(
-    r"\bTAG_CHANGE Entity=(?:(\d+)|\[[^\]]*\bid=(\d+)\b[^\]]*\]) "
+    r"\bTAG_CHANGE Entity=(?:(\d+)|\[([^\]]*\bid=(\d+)\b[^\]]*)\]) "
     r"tag=([A-Z0-9_]+) value=(\S+)"
 )
+_DESCRIPTOR_ZONE_RE = re.compile(r"\bzone=([A-Z_]+)\b")
+_DESCRIPTOR_ZONE_POS_RE = re.compile(r"\bzonePos=(-?\d+)\b")
+_DESCRIPTOR_CARD_ID_RE = re.compile(r"\bcardId=([^\s\]]*)")
+_DESCRIPTOR_PLAYER_RE = re.compile(r"\bplayer=(\d+)\b")
 
 
 def audit_powerlog_observability(source_content: bytes) -> Dict:
-    """Report raw Power.log observability while keeping Phase 3U fail-closed.
-
-    ``source_content`` must be the exact immutable bytes to be audited.  The
-    returned SHA-256 is useful for later source binding, but this function is
-    intentionally *not* a parser-provenance or ranking-admission surface.
-    """
+    """Report raw Power.log observability while keeping Phase 3U fail-closed."""
     if not isinstance(source_content, bytes):
         raise TypeError("source_content must be exact bytes")
     if not source_content:
@@ -76,6 +75,21 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
     zone_changes = 0
     changed_entities: set[str] = set()
 
+    # Descriptor coverage is a pure syntax measurement. For bracketed
+    # TAG_CHANGE entities, the descriptor records the entity state immediately
+    # before the change according to the client log. Measuring its coverage is
+    # useful for deciding whether a deterministic state tracker is feasible,
+    # but does not define which ZONE transitions are Phase 3U membership events.
+    bracketed_tag_changes = 0
+    numeric_tag_changes = 0
+    zone_changes_with_descriptor = 0
+    zone_changes_with_pre_zone = 0
+    zone_changes_with_zone_position = 0
+    zone_changes_with_card_id = 0
+    zone_changes_with_player = 0
+    attack_changes_with_descriptor = 0
+    health_changes_with_descriptor = 0
+
     for line in text.splitlines():
         if _NONCANONICAL_POWER_MARKER in line:
             ignored_noncanonical_power_lines += 1
@@ -93,13 +107,30 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
 
         change = _TAG_CHANGE_RE.search(line)
         if change:
-            numeric_entity, bracketed_entity, tag, _value = change.groups()
+            numeric_entity, descriptor, bracketed_entity, tag, _value = change.groups()
             entity_id = numeric_entity or bracketed_entity
+            has_descriptor = descriptor is not None
+
             tag_changes += 1
             changed_entities.add(entity_id)
+            numeric_tag_changes += not has_descriptor
+            bracketed_tag_changes += has_descriptor
             attack_changes += tag == "ATK"
             health_changes += tag == "HEALTH"
             zone_changes += tag == "ZONE"
+
+            if tag == "ATK" and has_descriptor:
+                attack_changes_with_descriptor += 1
+            if tag == "HEALTH" and has_descriptor:
+                health_changes_with_descriptor += 1
+            if tag == "ZONE" and has_descriptor:
+                zone_changes_with_descriptor += 1
+                zone_changes_with_pre_zone += bool(_DESCRIPTOR_ZONE_RE.search(descriptor))
+                zone_changes_with_zone_position += bool(
+                    _DESCRIPTOR_ZONE_POS_RE.search(descriptor)
+                )
+                zone_changes_with_card_id += bool(_DESCRIPTOR_CARD_ID_RE.search(descriptor))
+                zone_changes_with_player += bool(_DESCRIPTOR_PLAYER_RE.search(descriptor))
 
     stable_identity_primitives = (
         player_records > 0 and full_entity_records > 0 and entity_id_tags > 0
@@ -144,9 +175,18 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
         "health_tags": health_tags,
         "zone_tags": zone_tags,
         "tag_changes": tag_changes,
+        "numeric_tag_changes": numeric_tag_changes,
+        "bracketed_tag_changes": bracketed_tag_changes,
         "attack_changes": attack_changes,
+        "attack_changes_with_descriptor": attack_changes_with_descriptor,
         "health_changes": health_changes,
+        "health_changes_with_descriptor": health_changes_with_descriptor,
         "zone_changes": zone_changes,
+        "zone_changes_with_descriptor": zone_changes_with_descriptor,
+        "zone_changes_with_pre_zone": zone_changes_with_pre_zone,
+        "zone_changes_with_zone_position": zone_changes_with_zone_position,
+        "zone_changes_with_card_id": zone_changes_with_card_id,
+        "zone_changes_with_player": zone_changes_with_player,
         "changed_entity_count": len(changed_entities),
         "stable_identity_primitives_observed": stable_identity_primitives,
         "per_body_stat_primitives_observed": per_body_stat_primitives,
