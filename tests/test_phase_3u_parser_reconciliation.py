@@ -56,7 +56,7 @@ def _binding_kwargs():
     }
 
 
-def test_exact_source_parser_identity_manifest_chain_reconciles():
+def test_exact_source_parser_identity_manifest_chain_reconciles_but_is_not_ranking_admissible():
     source = b"real-provider-artifact-placeholder-format-v1"
     rows = [_base_row(1), _base_row(2)]
     binding = _binding_kwargs()
@@ -75,6 +75,9 @@ def test_exact_source_parser_identity_manifest_chain_reconciles():
     assert result["row_count"] == 2
     assert result["source_parser_identity_manifest_bound"] is True
     assert result["parser_artifact_config_bound"] is True
+    assert result["execution_provenance_bound"] is False
+    assert result["ranking_admissible"] is False
+    assert result["ranking_block_reason"] == "parser_callable_not_loaded_from_digest_bound_artifact"
     assert result["candidate_scoring_performed"] is False
 
 
