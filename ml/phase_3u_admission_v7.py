@@ -6,10 +6,11 @@ ranking-admission contract, but parser reconciliation is a separate boundary.
 A source may therefore be byte-bound while the executable parser that produced
 its admitted observations is still untrusted.
 
-v7 is the final ranking surface: both calibration and evaluation sources must
-carry reconciliation results that explicitly prove execution provenance and
-ranking admissibility, and those results must reconcile to the exact source SHA
-and ordered observation IDs already admitted by v6.
+v7 is the final ranking surface. Reconciliation mappings may be checked for
+internal consistency against the frozen source/manifests, but their provenance
+booleans are still caller-supplied claims until a reviewed digest-bound loader
+constructs the executed parser from the frozen artifact/config. Therefore v7
+must fail closed today even when those claims are all true.
 
 No candidate scores are accepted here and no simulator behavior is changed.
 """
@@ -22,6 +23,8 @@ from typing import Dict, Optional
 from ml.phase_3u_admission_v6 import evaluate_ranking_admission_v6 as evaluate_v6
 
 ADMISSION_VERSION = "3u_admission_v7"
+EXECUTION_PROVENANCE_GATE_IMPLEMENTED = False
+EXECUTION_PROVENANCE_BLOCKER = "digest_bound_parser_loader_not_implemented"
 
 
 def _validate_reconciliation(
@@ -30,7 +33,7 @@ def _validate_reconciliation(
     result: Optional[Mapping],
     manifest: Optional[Mapping],
 ) -> Dict:
-    """Validate one parser-provenance result against its frozen manifest."""
+    """Validate one parser-provenance claim against its frozen manifest."""
     if not result:
         return {"valid": False, "blocker": f"{label}_parser_reconciliation_missing"}
     if not manifest:
@@ -66,8 +69,8 @@ def _validate_reconciliation(
         "blocker": None,
         "source_sha256": result_sha,
         "observation_count": len(result_ids),
-        "execution_provenance_bound": True,
-        "ranking_admissible": True,
+        "execution_provenance_claimed": True,
+        "ranking_admissible_claimed": True,
     }
 
 
@@ -82,7 +85,7 @@ def evaluate_ranking_admission_v7(
     calibration_reconciliation: Optional[Mapping],
     evidence_reconciliation: Optional[Mapping],
 ) -> Dict:
-    """Authorize ranking only after v6 and both parser-provenance gates pass."""
+    """Fail closed until execution provenance is established by a real loader."""
     base = evaluate_v6(
         schema_result=schema_result,
         plan=plan,
@@ -107,6 +110,20 @@ def evaluate_ranking_admission_v7(
         if not result["valid"]:
             blockers.append(result["blocker"])
 
+    # Critical scientific boundary: the mappings above are ordinary caller-supplied
+    # data. Until a reviewed wrapper loads and executes the parser from the exact
+    # digest-bound artifact/config, True booleans inside those mappings cannot prove
+    # execution provenance. Keep ranking mechanically closed rather than allowing a
+    # synthetic/self-asserted mapping to clear the final gate.
+    if not EXECUTION_PROVENANCE_GATE_IMPLEMENTED:
+        blockers.append(EXECUTION_PROVENANCE_BLOCKER)
+
+    execution_provenance_verified = (
+        EXECUTION_PROVENANCE_GATE_IMPLEMENTED
+        and bool(calibration_parser["valid"])
+        and bool(evidence_parser["valid"])
+    )
+
     return {
         **base,
         "admission_version": ADMISSION_VERSION,
@@ -114,7 +131,6 @@ def evaluate_ranking_admission_v7(
         "blockers": blockers,
         "calibration_parser_reconciliation": calibration_parser,
         "evidence_parser_reconciliation": evidence_parser,
-        "parser_execution_provenance_verified": bool(calibration_parser["valid"])
-        and bool(evidence_parser["valid"]),
+        "parser_execution_provenance_verified": execution_provenance_verified,
         "candidate_scores_examined": False,
     }
