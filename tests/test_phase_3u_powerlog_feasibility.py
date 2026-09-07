@@ -79,8 +79,27 @@ def test_bracketed_entity_descriptor_normalizes_to_numeric_id_and_measures_metad
     assert result["zone_changes_with_zone_position"] == 1
     assert result["zone_changes_with_card_id"] == 1
     assert result["zone_changes_with_player"] == 1
+    assert result["zone_changes_with_complete_descriptor"] == 1
+    assert result["zone_descriptor_coverage"] == 1.0
+    assert result["zone_complete_descriptor_coverage"] == 1.0
+    assert result["all_zone_changes_have_complete_descriptor"] is True
     assert result["numeric_tag_changes"] == 2
     assert result["bracketed_tag_changes"] == 1
+
+
+def test_partial_zone_descriptor_is_not_counted_complete():
+    source = SAMPLE.replace(
+        b"TAG_CHANGE Entity=25 tag=ZONE value=HAND",
+        b"TAG_CHANGE Entity=[entityName=Test Minion id=25 zone=PLAY zonePos=1 cardId=BG_TEST] tag=ZONE value=HAND",
+    )
+    result = audit_powerlog_observability(source)
+
+    assert result["zone_changes_with_descriptor"] == 1
+    assert result["zone_changes_with_complete_descriptor"] == 0
+    assert result["zone_descriptor_coverage"] == 1.0
+    assert result["zone_complete_descriptor_coverage"] == 0.0
+    assert result["all_zone_changes_have_complete_descriptor"] is False
+    assert result["ranking_ready"] is False
 
 
 def test_numeric_zone_change_does_not_claim_descriptor_metadata():
@@ -92,6 +111,10 @@ def test_numeric_zone_change_does_not_claim_descriptor_metadata():
     assert result["zone_changes_with_zone_position"] == 0
     assert result["zone_changes_with_card_id"] == 0
     assert result["zone_changes_with_player"] == 0
+    assert result["zone_changes_with_complete_descriptor"] == 0
+    assert result["zone_descriptor_coverage"] == 0.0
+    assert result["zone_complete_descriptor_coverage"] == 0.0
+    assert result["all_zone_changes_have_complete_descriptor"] is False
 
 
 def test_stat_descriptor_coverage_is_measured_without_admission():
@@ -106,8 +129,26 @@ def test_stat_descriptor_coverage_is_measured_without_admission():
 
     assert result["attack_changes_with_descriptor"] == 1
     assert result["health_changes_with_descriptor"] == 1
+    assert result["attack_descriptor_coverage"] == 1.0
+    assert result["health_descriptor_coverage"] == 1.0
     assert result["ranking_ready"] is False
     assert result["candidate_scoring_performed"] is False
+
+
+def test_zero_change_coverage_is_undefined_not_fabricated_zero():
+    source = SAMPLE.replace(
+        b"D 16:42:14 GameState.DebugPrintPower() -     TAG_CHANGE Entity=25 tag=ATK value=9\n",
+        b"",
+    ).replace(
+        b"D 16:42:14 GameState.DebugPrintPower() -     TAG_CHANGE Entity=25 tag=HEALTH value=10\n",
+        b"",
+    )
+    result = audit_powerlog_observability(source)
+
+    assert result["attack_changes"] == 0
+    assert result["health_changes"] == 0
+    assert result["attack_descriptor_coverage"] is None
+    assert result["health_descriptor_coverage"] is None
 
 
 def test_missing_membership_change_primitives_fail_observability():
@@ -119,6 +160,9 @@ def test_missing_membership_change_primitives_fail_observability():
 
     assert result["membership_change_primitives_observed"] is False
     assert result["raw_observability_candidate"] is False
+    assert result["zone_descriptor_coverage"] is None
+    assert result["zone_complete_descriptor_coverage"] is None
+    assert result["all_zone_changes_have_complete_descriptor"] is False
     assert result["blockers"][0] == "required_powerlog_primitives_missing"
     assert result["ranking_ready"] is False
 
