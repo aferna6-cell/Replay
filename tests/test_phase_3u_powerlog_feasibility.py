@@ -64,7 +64,7 @@ def test_duplicate_powertasklist_mirror_is_ignored():
     assert result["ignored_noncanonical_power_lines"] == len(SAMPLE.splitlines())
 
 
-def test_bracketed_entity_descriptor_normalizes_to_numeric_id():
+def test_bracketed_entity_descriptor_normalizes_to_numeric_id_and_measures_metadata():
     source = SAMPLE.replace(
         b"TAG_CHANGE Entity=25 tag=ZONE value=HAND",
         b"TAG_CHANGE Entity=[entityName=Test Minion id=25 zone=PLAY zonePos=1 cardId=BG_TEST player=1] tag=ZONE value=HAND",
@@ -74,6 +74,40 @@ def test_bracketed_entity_descriptor_normalizes_to_numeric_id():
     assert result["zone_changes"] == 1
     assert result["changed_entity_count"] == 1
     assert result["membership_change_primitives_observed"] is True
+    assert result["zone_changes_with_descriptor"] == 1
+    assert result["zone_changes_with_pre_zone"] == 1
+    assert result["zone_changes_with_zone_position"] == 1
+    assert result["zone_changes_with_card_id"] == 1
+    assert result["zone_changes_with_player"] == 1
+    assert result["numeric_tag_changes"] == 2
+    assert result["bracketed_tag_changes"] == 1
+
+
+def test_numeric_zone_change_does_not_claim_descriptor_metadata():
+    result = audit_powerlog_observability(SAMPLE)
+
+    assert result["zone_changes"] == 1
+    assert result["zone_changes_with_descriptor"] == 0
+    assert result["zone_changes_with_pre_zone"] == 0
+    assert result["zone_changes_with_zone_position"] == 0
+    assert result["zone_changes_with_card_id"] == 0
+    assert result["zone_changes_with_player"] == 0
+
+
+def test_stat_descriptor_coverage_is_measured_without_admission():
+    source = SAMPLE.replace(
+        b"TAG_CHANGE Entity=25 tag=ATK value=9",
+        b"TAG_CHANGE Entity=[entityName=Test Minion id=25 zone=PLAY zonePos=1 cardId=BG_TEST player=1] tag=ATK value=9",
+    ).replace(
+        b"TAG_CHANGE Entity=25 tag=HEALTH value=10",
+        b"TAG_CHANGE Entity=[entityName=Test Minion id=25 zone=PLAY zonePos=1 cardId=BG_TEST player=1] tag=HEALTH value=10",
+    )
+    result = audit_powerlog_observability(source)
+
+    assert result["attack_changes_with_descriptor"] == 1
+    assert result["health_changes_with_descriptor"] == 1
+    assert result["ranking_ready"] is False
+    assert result["candidate_scoring_performed"] is False
 
 
 def test_missing_membership_change_primitives_fail_observability():
