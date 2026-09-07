@@ -28,6 +28,7 @@ def test_concrete_powerlog_primitives_are_detected_but_never_admitted():
 
     assert result["source_sha256"] == hashlib.sha256(SAMPLE).hexdigest()
     assert result["source_bytes"] == len(SAMPLE)
+    assert result["canonical_stream"] == "GameState.DebugPrintPower"
     assert result["stable_identity_primitives_observed"] is True
     assert result["per_body_stat_primitives_observed"] is True
     assert result["ordered_change_primitives_observed"] is True
@@ -40,6 +41,41 @@ def test_concrete_powerlog_primitives_are_detected_but_never_admitted():
     assert "digest_bound_parser_loader_not_implemented" in result["blockers"]
 
 
+def test_duplicate_powertasklist_mirror_is_ignored():
+    mirror = SAMPLE.replace(b"GameState.DebugPrintPower()", b"PowerTaskList.DebugPrintPower()")
+    result = audit_powerlog_observability(SAMPLE + mirror)
+    baseline = audit_powerlog_observability(SAMPLE)
+
+    for key in (
+        "create_game_count",
+        "player_records",
+        "full_entity_records",
+        "entity_id_tags",
+        "attack_tags",
+        "health_tags",
+        "zone_tags",
+        "tag_changes",
+        "attack_changes",
+        "health_changes",
+        "zone_changes",
+        "changed_entity_count",
+    ):
+        assert result[key] == baseline[key]
+    assert result["ignored_noncanonical_power_lines"] == len(SAMPLE.splitlines())
+
+
+def test_bracketed_entity_descriptor_normalizes_to_numeric_id():
+    source = SAMPLE.replace(
+        b"TAG_CHANGE Entity=25 tag=ZONE value=HAND",
+        b"TAG_CHANGE Entity=[entityName=Test Minion id=25 zone=PLAY zonePos=1 cardId=BG_TEST player=1] tag=ZONE value=HAND",
+    )
+    result = audit_powerlog_observability(source)
+
+    assert result["zone_changes"] == 1
+    assert result["changed_entity_count"] == 1
+    assert result["membership_change_primitives_observed"] is True
+
+
 def test_missing_membership_change_primitives_fail_observability():
     source = SAMPLE.replace(
         b"D 16:42:14 GameState.DebugPrintPower() -     TAG_CHANGE Entity=25 tag=ZONE value=HAND\n",
@@ -50,6 +86,15 @@ def test_missing_membership_change_primitives_fail_observability():
     assert result["membership_change_primitives_observed"] is False
     assert result["raw_observability_candidate"] is False
     assert result["blockers"][0] == "required_powerlog_primitives_missing"
+    assert result["ranking_ready"] is False
+
+
+def test_noncanonical_stream_alone_is_not_observable():
+    source = SAMPLE.replace(b"GameState.DebugPrintPower()", b"PowerTaskList.DebugPrintPower()")
+    result = audit_powerlog_observability(source)
+
+    assert result["canonical_power_lines"] == 0
+    assert result["raw_observability_candidate"] is False
     assert result["ranking_ready"] is False
 
 
