@@ -14,8 +14,11 @@ characterization, and digest-bound parser execution remain separate gates.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
+import json
 import re
+from pathlib import Path
 from typing import Dict
 
 PROBE_VERSION = "3u_powerlog_feasibility_v1"
@@ -110,6 +113,7 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
     return {
         "probe_version": PROBE_VERSION,
         "source_sha256": hashlib.sha256(source_content).hexdigest(),
+        "source_bytes": len(source_content),
         "create_game_count": create_game_count,
         "player_records": player_records,
         "full_entity_records": full_entity_records,
@@ -132,3 +136,28 @@ def audit_powerlog_observability(source_content: bytes) -> Dict:
         "candidate_scoring_performed": False,
         "blockers": blockers,
     }
+
+
+def audit_powerlog_file(source: Path) -> Dict:
+    """Audit one exact on-disk Power.log artifact without changing admission."""
+    return audit_powerlog_observability(source.read_bytes())
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Measurement-only Phase 3U Power.log observability probe"
+    )
+    parser.add_argument("--source", required=True, type=Path)
+    parser.add_argument("--out", type=Path)
+    args = parser.parse_args()
+
+    result = audit_powerlog_file(args.source)
+    payload = json.dumps(result, indent=2, sort_keys=True) + "\n"
+    if args.out is not None:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(payload, encoding="utf-8")
+    print(payload, end="")
+
+
+if __name__ == "__main__":
+    main()
