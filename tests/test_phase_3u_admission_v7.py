@@ -1,7 +1,10 @@
 import hashlib
 
 from ml.phase_3u_admission_v5 import compute_manifest_sha256
-from ml.phase_3u_admission_v7 import evaluate_ranking_admission_v7
+from ml.phase_3u_admission_v7 import (
+    EXECUTION_PROVENANCE_BLOCKER,
+    evaluate_ranking_admission_v7,
+)
 
 
 CAL_BYTES = b"independent calibration observations\nrow-1\nrow-2\n"
@@ -70,7 +73,7 @@ def _eval():
     })
 
 
-def _trusted_reconciliation(manifest):
+def _claimed_trusted_reconciliation(manifest):
     return {
         "source_parser_identity_manifest_bound": True,
         "parser_artifact_config_bound": True,
@@ -101,30 +104,32 @@ def test_v6_ready_inputs_still_hold_without_parser_execution_provenance():
     cal = _cal()
     evidence = _eval()
     untrusted = {
-        **_trusted_reconciliation(cal),
+        **_claimed_trusted_reconciliation(cal),
         "execution_provenance_bound": False,
         "ranking_admissible": False,
         "ranking_block_reason": "parser_callable_not_loaded_from_digest_bound_artifact",
     }
-    out = _evaluate(untrusted, _trusted_reconciliation(evidence), cal, evidence)
+    out = _evaluate(untrusted, _claimed_trusted_reconciliation(evidence), cal, evidence)
     assert out["ranking_ready"] is False
     assert "calibration_parser_execution_provenance_unbound" in out["blockers"]
+    assert EXECUTION_PROVENANCE_BLOCKER in out["blockers"]
     assert out["parser_execution_provenance_verified"] is False
     assert out["candidate_scores_examined"] is False
 
 
 def test_missing_reconciliation_holds_even_when_v6_would_clear():
     evidence = _eval()
-    out = _evaluate(None, _trusted_reconciliation(evidence))
+    out = _evaluate(None, _claimed_trusted_reconciliation(evidence))
     assert out["ranking_ready"] is False
     assert "calibration_parser_reconciliation_missing" in out["blockers"]
+    assert EXECUTION_PROVENANCE_BLOCKER in out["blockers"]
 
 
 def test_reconciliation_source_digest_must_match_frozen_manifest():
     cal = _cal()
     evidence = _eval()
-    tampered = {**_trusted_reconciliation(cal), "source_sha256": "0" * 64}
-    out = _evaluate(tampered, _trusted_reconciliation(evidence), cal, evidence)
+    tampered = {**_claimed_trusted_reconciliation(cal), "source_sha256": "0" * 64}
+    out = _evaluate(tampered, _claimed_trusted_reconciliation(evidence), cal, evidence)
     assert out["ranking_ready"] is False
     assert "calibration_parser_source_digest_mismatch" in out["blockers"]
 
@@ -132,8 +137,11 @@ def test_reconciliation_source_digest_must_match_frozen_manifest():
 def test_reconciliation_observation_order_must_match_frozen_manifest():
     cal = _cal()
     evidence = _eval()
-    reordered = {**_trusted_reconciliation(evidence), "observation_ids": ["eval-2", "eval-1"]}
-    out = _evaluate(_trusted_reconciliation(cal), reordered, cal, evidence)
+    reordered = {
+        **_claimed_trusted_reconciliation(evidence),
+        "observation_ids": ["eval-2", "eval-1"],
+    }
+    out = _evaluate(_claimed_trusted_reconciliation(cal), reordered, cal, evidence)
     assert out["ranking_ready"] is False
     assert "evidence_parser_manifest_observation_mismatch" in out["blockers"]
 
@@ -141,17 +149,28 @@ def test_reconciliation_observation_order_must_match_frozen_manifest():
 def test_candidate_scoring_inside_parser_provenance_gate_is_rejected():
     cal = _cal()
     evidence = _eval()
-    contaminated = {**_trusted_reconciliation(cal), "candidate_scoring_performed": True}
-    out = _evaluate(contaminated, _trusted_reconciliation(evidence), cal, evidence)
+    contaminated = {
+        **_claimed_trusted_reconciliation(cal),
+        "candidate_scoring_performed": True,
+    }
+    out = _evaluate(contaminated, _claimed_trusted_reconciliation(evidence), cal, evidence)
     assert out["ranking_ready"] is False
     assert "calibration_parser_candidate_scoring_detected" in out["blockers"]
 
 
-def test_only_fully_bound_reconciliations_can_clear_final_composition():
+def test_self_asserted_fully_bound_reconciliations_cannot_clear_final_composition():
     cal = _cal()
     evidence = _eval()
-    out = _evaluate(_trusted_reconciliation(cal), _trusted_reconciliation(evidence), cal, evidence)
-    assert out["ranking_ready"] is True
+    out = _evaluate(
+        _claimed_trusted_reconciliation(cal),
+        _claimed_trusted_reconciliation(evidence),
+        cal,
+        evidence,
+    )
+    assert out["ranking_ready"] is False
     assert out["admission_version"] == "3u_admission_v7"
-    assert out["parser_execution_provenance_verified"] is True
+    assert EXECUTION_PROVENANCE_BLOCKER in out["blockers"]
+    assert out["calibration_parser_reconciliation"]["valid"] is True
+    assert out["evidence_parser_reconciliation"]["valid"] is True
+    assert out["parser_execution_provenance_verified"] is False
     assert out["candidate_scores_examined"] is False
