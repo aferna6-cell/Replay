@@ -2,17 +2,19 @@
 
 This module measures a narrower question than the main observability probe: when a
 canonical GameState TAG_CHANGE lacks an inline entity descriptor, can its pre-ZONE
-state still be recovered from *previously observed log state* without simulator or
+state still be recovered from *source-observed log state* without simulator or
 candidate-model assumptions?
 
 Recovery is deliberately conservative. A pre-ZONE state is considered complete
 only when zone, zone position, non-empty card id, and player were all observed for
-the same entity. In addition to inline TAG_CHANGE descriptors, v2 consumes the
+the same entity. In addition to inline TAG_CHANGE descriptors, v3 consumes the
 canonical FULL_ENTITY creation block itself: CardID plus directly following raw
 ZONE / ZONE_POSITION / CONTROLLER tags are source-observed state. CONTROLLER is
-accepted as a player identity only when its numeric value was also observed as a
-PlayerID in the same log. The FULL_ENTITY context ends at the first canonical
-non-tag line, preventing unrelated tags from being attached to a stale entity.
+accepted as a player identity only when its numeric value is independently observed
+as a PlayerID anywhere in the same canonical log. PlayerIDs are therefore collected
+in a first pass, making controller validation invariant to record order. The
+FULL_ENTITY context ends at the first canonical non-tag line, preventing unrelated
+tags from being attached to a stale entity.
 
 After a ZONE change, zone position is invalidated until it is observed again,
 because the destination position is not implied by the destination zone. This
@@ -29,7 +31,7 @@ import re
 from pathlib import Path
 from typing import Dict
 
-PROBE_VERSION = "3u_powerlog_state_recovery_v2"
+PROBE_VERSION = "3u_powerlog_state_recovery_v3"
 
 _CANONICAL_POWER_MARKER = "GameState.DebugPrintPower() -"
 _PLAYER_RE = re.compile(r"\bPlayer EntityID=(\d+) PlayerID=(\d+)\b")
@@ -106,6 +108,27 @@ def _complete_body_pre_state(state: dict) -> bool:
     )
 
 
+def _missing_pre_state_fields(state: dict) -> list[str]:
+    missing = []
+    if not isinstance(state.get("zone"), str):
+        missing.append("zone")
+    if not isinstance(state.get("zone_pos"), int):
+        missing.append("zone_pos")
+    if not isinstance(state.get("card_id"), str) or not state.get("card_id"):
+        missing.append("card_id")
+    if not isinstance(state.get("player"), int):
+        missing.append("player")
+    return missing
+
+
+def _canonical_payloads(text: str) -> list[str]:
+    payloads = []
+    for line in text.splitlines():
+        if _CANONICAL_POWER_MARKER in line:
+            payloads.append(line.split(_CANONICAL_POWER_MARKER, 1)[1])
+    return payloads
+
+
 def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
     if not isinstance(source_content, bytes):
         raise TypeError("source_content must be exact bytes")
@@ -116,8 +139,18 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
     except UnicodeDecodeError as exc:
         raise ValueError("Power.log must be valid UTF-8 text") from exc
 
-    states: dict[str, dict] = {}
+    payloads = _canonical_payloads(text)
+
+    # Pass 1: PlayerID validity is a whole-source property. Collect every canonical
+    # PlayerID before interpreting any FULL_ENTITY CONTROLLER tag, so a player
+    # declaration appearing later in the log cannot change scientific recoverability.
     observed_player_ids: set[int] = set()
+    for payload in payloads:
+        player_record = _PLAYER_RE.search(payload)
+        if player_record:
+            observed_player_ids.add(int(player_record.group(2)))
+
+    states: dict[str, dict] = {}
     active_full_entity: str | None = None
     full_entity_records = 0
     full_entity_records_with_card_id = 0
@@ -133,15 +166,15 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
     numeric_zone_changes_with_recoverable_pre_state = 0
     numeric_zone_changes_recovered_from_prior_state = 0
     body_like_zone_changes = 0
+    numeric_unrecoverable_missing_zone = 0
+    numeric_unrecoverable_missing_zone_pos = 0
+    numeric_unrecoverable_missing_card_id = 0
+    numeric_unrecoverable_missing_player = 0
+    numeric_unrecoverable_missing_field_sets: dict[str, int] = {}
 
-    for line in text.splitlines():
-        if _CANONICAL_POWER_MARKER not in line:
-            continue
-        payload = line.split(_CANONICAL_POWER_MARKER, 1)[1]
-
+    for payload in payloads:
         player_record = _PLAYER_RE.search(payload)
         if player_record:
-            observed_player_ids.add(int(player_record.group(2)))
             active_full_entity = None
             continue
 
@@ -206,6 +239,20 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
                 else:
                     numeric_zone_changes_with_recoverable_pre_state += 1
                     numeric_zone_changes_recovered_from_prior_state += 1
+            elif not has_descriptor:
+                missing = _missing_pre_state_fields(state)
+                if "zone" in missing:
+                    numeric_unrecoverable_missing_zone += 1
+                if "zone_pos" in missing:
+                    numeric_unrecoverable_missing_zone_pos += 1
+                if "card_id" in missing:
+                    numeric_unrecoverable_missing_card_id += 1
+                if "player" in missing:
+                    numeric_unrecoverable_missing_player += 1
+                key = "+".join(missing)
+                numeric_unrecoverable_missing_field_sets[key] = (
+                    numeric_unrecoverable_missing_field_sets.get(key, 0) + 1
+                )
 
             # Destination zone is observed, but destination zone position is not.
             # Invalidate zone_pos rather than carrying a stale pre-transition value.
@@ -222,6 +269,8 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
         "source_sha256": hashlib.sha256(source_content).hexdigest(),
         "source_bytes": len(source_content),
         "canonical_stream": "GameState.DebugPrintPower",
+        "player_id_collection_passes": 2,
+        "player_id_validation_order_invariant": True,
         "observed_player_ids": sorted(observed_player_ids),
         "full_entity_records": full_entity_records,
         "full_entity_records_with_card_id": full_entity_records_with_card_id,
@@ -251,6 +300,16 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
         ),
         "zone_changes_without_recoverable_pre_state": (
             zone_changes - zone_changes_with_recoverable_pre_state
+        ),
+        "numeric_zone_changes_without_recoverable_pre_state": (
+            numeric_zone_changes - numeric_zone_changes_with_recoverable_pre_state
+        ),
+        "numeric_unrecoverable_missing_zone": numeric_unrecoverable_missing_zone,
+        "numeric_unrecoverable_missing_zone_pos": numeric_unrecoverable_missing_zone_pos,
+        "numeric_unrecoverable_missing_card_id": numeric_unrecoverable_missing_card_id,
+        "numeric_unrecoverable_missing_player": numeric_unrecoverable_missing_player,
+        "numeric_unrecoverable_missing_field_sets": dict(
+            sorted(numeric_unrecoverable_missing_field_sets.items())
         ),
         "body_like_zone_changes": body_like_zone_changes,
         "full_entity_state_recovery_enabled": True,
