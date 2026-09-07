@@ -53,9 +53,11 @@ def test_full_entity_block_can_ground_numeric_zone_pre_state():
     )
     result = audit_powerlog_state_recovery(source)
 
-    assert result["probe_version"] == "3u_powerlog_state_recovery_v3"
-    assert result["player_id_collection_passes"] == 2
+    assert result["probe_version"] == "3u_powerlog_state_recovery_v4"
+    assert result["player_id_collection_passes_per_game"] == 2
     assert result["player_id_validation_order_invariant"] is True
+    assert result["player_id_validation_game_local"] is True
+    assert result["entity_state_reset_at_game_boundary"] is True
     assert result["observed_player_ids"] == [1]
     assert result["full_entity_records"] == 1
     assert result["full_entity_records_with_card_id"] == 1
@@ -67,9 +69,10 @@ def test_full_entity_block_can_ground_numeric_zone_pre_state():
     assert result["ranking_ready"] is False
 
 
-def test_full_entity_controller_can_reference_player_record_later_in_same_log():
+def test_full_entity_controller_can_reference_player_record_later_in_same_game():
     source = b"".join(
         [
+            _line("CREATE_GAME"),
             _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
             _line("    tag=CONTROLLER value=1"),
             _line("    tag=ZONE value=HAND"),
@@ -80,14 +83,62 @@ def test_full_entity_controller_can_reference_player_record_later_in_same_log():
     )
     result = audit_powerlog_state_recovery(source)
 
+    assert result["game_segments"] == 1
     assert result["observed_player_ids"] == [1]
     assert result["full_entity_entities_with_complete_state"] == 1
     assert result["numeric_zone_changes_with_recoverable_pre_state"] == 1
 
 
-def test_full_entity_controller_requires_observed_player_id_anywhere_in_log():
+def test_player_id_from_prior_game_cannot_validate_reused_controller():
     source = b"".join(
         [
+            _line("CREATE_GAME"),
+            _line("Player EntityID=2 PlayerID=1 GameAccountId=[hi=1 lo=2]"),
+            _line("CREATE_GAME"),
+            _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
+            _line("    tag=CONTROLLER value=1"),
+            _line("    tag=ZONE value=HAND"),
+            _line("    tag=ZONE_POSITION value=3"),
+            _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        ]
+    )
+    result = audit_powerlog_state_recovery(source)
+
+    assert result["game_segments"] == 2
+    assert result["per_game"][0]["observed_player_ids"] == [1]
+    assert result["per_game"][1]["observed_player_ids"] == []
+    assert result["numeric_zone_changes"] == 1
+    assert result["numeric_zone_changes_with_recoverable_pre_state"] == 0
+    assert result["numeric_unrecoverable_missing_player"] == 1
+    assert result["numeric_unrecoverable_missing_field_sets"] == {"player": 1}
+
+
+def test_entity_state_does_not_cross_create_game_boundary():
+    source = b"".join(
+        [
+            _line("CREATE_GAME"),
+            _line(
+                "TAG_CHANGE Entity=[entityName=Old id=25 zone=HAND zonePos=1 cardId=BG_OLD player=1] "
+                "tag=ATK value=5"
+            ),
+            _line("CREATE_GAME"),
+            _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        ]
+    )
+    result = audit_powerlog_state_recovery(source)
+
+    assert result["game_segments"] == 2
+    assert result["numeric_zone_changes"] == 1
+    assert result["numeric_zone_changes_with_recoverable_pre_state"] == 0
+    assert result["numeric_unrecoverable_missing_field_sets"] == {
+        "zone+zone_pos+card_id+player": 1
+    }
+
+
+def test_full_entity_controller_requires_observed_player_id_in_same_game():
+    source = b"".join(
+        [
+            _line("CREATE_GAME"),
             _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
             _line("    tag=CONTROLLER value=1"),
             _line("    tag=ZONE value=HAND"),
