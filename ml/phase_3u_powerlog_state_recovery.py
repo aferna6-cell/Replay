@@ -7,10 +7,17 @@ candidate-model assumptions?
 
 Recovery is deliberately conservative. A pre-ZONE state is considered complete
 only when zone, zone position, non-empty card id, and player were all observed for
-the same entity. After a ZONE change, zone position is invalidated until it is
-observed again, because the destination position is not implied by the destination
-zone. This probe never defines membership semantics, constructs Phase 3U evidence
-rows, reconstructs conserved pools, scores candidates, or authorizes ranking.
+the same entity. In addition to inline TAG_CHANGE descriptors, v2 consumes the
+canonical FULL_ENTITY creation block itself: CardID plus directly following raw
+ZONE / ZONE_POSITION / CONTROLLER tags are source-observed state. CONTROLLER is
+accepted as a player identity only when its numeric value was also observed as a
+PlayerID in the same log. The FULL_ENTITY context ends at the first canonical
+non-tag line, preventing unrelated tags from being attached to a stale entity.
+
+After a ZONE change, zone position is invalidated until it is observed again,
+because the destination position is not implied by the destination zone. This
+probe never defines membership semantics, constructs Phase 3U evidence rows,
+reconstructs conserved pools, scores candidates, or authorizes ranking.
 """
 
 from __future__ import annotations
@@ -22,9 +29,12 @@ import re
 from pathlib import Path
 from typing import Dict
 
-PROBE_VERSION = "3u_powerlog_state_recovery_v1"
+PROBE_VERSION = "3u_powerlog_state_recovery_v2"
 
 _CANONICAL_POWER_MARKER = "GameState.DebugPrintPower() -"
+_PLAYER_RE = re.compile(r"\bPlayer EntityID=(\d+) PlayerID=(\d+)\b")
+_FULL_ENTITY_RE = re.compile(r"\bFULL_ENTITY - Creating ID=(\d+)\s+CardID=(\S*)")
+_RAW_TAG_RE = re.compile(r"^\s*tag=([A-Z0-9_]+) value=(\S+)\s*$")
 _TAG_CHANGE_RE = re.compile(
     r"\bTAG_CHANGE Entity=(?:(\d+)|\[([^\]]*\bid=(\d+)\b[^\]]*)\]) "
     r"tag=([A-Z0-9_]+) value=(\S+)"
@@ -58,6 +68,34 @@ def _apply_descriptor(state: dict, descriptor: str) -> None:
         state["player"] = int(player.group(1))
 
 
+def _apply_full_entity_tag(
+    state: dict,
+    *,
+    tag: str,
+    value: str,
+    observed_player_ids: set[int],
+) -> bool:
+    """Apply only source-observed identity/membership fields from one creation block."""
+    if tag == "ZONE":
+        state["zone"] = value
+        return True
+    if tag == "ZONE_POSITION":
+        try:
+            state["zone_pos"] = int(value)
+        except ValueError:
+            state["zone_pos"] = None
+        return True
+    if tag == "CONTROLLER":
+        try:
+            player = int(value)
+        except ValueError:
+            return False
+        if player in observed_player_ids:
+            state["player"] = player
+            return True
+    return False
+
+
 def _complete_body_pre_state(state: dict) -> bool:
     return (
         isinstance(state.get("zone"), str)
@@ -79,18 +117,69 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
         raise ValueError("Power.log must be valid UTF-8 text") from exc
 
     states: dict[str, dict] = {}
+    observed_player_ids: set[int] = set()
+    active_full_entity: str | None = None
+    full_entity_records = 0
+    full_entity_records_with_card_id = 0
+    full_entity_state_tags_applied = 0
+    full_entity_entities_with_complete_state = 0
+    full_entity_completed_entities: set[str] = set()
+
     zone_changes = 0
     bracketed_zone_changes = 0
     numeric_zone_changes = 0
     zone_changes_with_recoverable_pre_state = 0
     bracketed_zone_changes_with_recoverable_pre_state = 0
     numeric_zone_changes_with_recoverable_pre_state = 0
+    numeric_zone_changes_recovered_from_prior_state = 0
     body_like_zone_changes = 0
 
     for line in text.splitlines():
         if _CANONICAL_POWER_MARKER not in line:
             continue
-        change = _TAG_CHANGE_RE.search(line)
+        payload = line.split(_CANONICAL_POWER_MARKER, 1)[1]
+
+        player_record = _PLAYER_RE.search(payload)
+        if player_record:
+            observed_player_ids.add(int(player_record.group(2)))
+            active_full_entity = None
+            continue
+
+        full_entity = _FULL_ENTITY_RE.search(payload)
+        if full_entity:
+            entity_id, card_id = full_entity.groups()
+            state = states.setdefault(entity_id, _empty_state())
+            full_entity_records += 1
+            active_full_entity = entity_id
+            if card_id:
+                state["card_id"] = card_id
+                full_entity_records_with_card_id += 1
+            continue
+
+        raw_tag = _RAW_TAG_RE.match(payload)
+        if raw_tag and active_full_entity is not None:
+            tag, value = raw_tag.groups()
+            state = states.setdefault(active_full_entity, _empty_state())
+            full_entity_state_tags_applied += bool(
+                _apply_full_entity_tag(
+                    state,
+                    tag=tag,
+                    value=value,
+                    observed_player_ids=observed_player_ids,
+                )
+            )
+            if (
+                _complete_body_pre_state(state)
+                and active_full_entity not in full_entity_completed_entities
+            ):
+                full_entity_completed_entities.add(active_full_entity)
+                full_entity_entities_with_complete_state += 1
+            continue
+
+        # A creation block is contiguous: any canonical non-tag line ends it.
+        active_full_entity = None
+
+        change = _TAG_CHANGE_RE.search(payload)
         if not change:
             continue
 
@@ -116,6 +205,7 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
                     bracketed_zone_changes_with_recoverable_pre_state += 1
                 else:
                     numeric_zone_changes_with_recoverable_pre_state += 1
+                    numeric_zone_changes_recovered_from_prior_state += 1
 
             # Destination zone is observed, but destination zone position is not.
             # Invalidate zone_pos rather than carrying a stale pre-transition value.
@@ -132,6 +222,11 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
         "source_sha256": hashlib.sha256(source_content).hexdigest(),
         "source_bytes": len(source_content),
         "canonical_stream": "GameState.DebugPrintPower",
+        "observed_player_ids": sorted(observed_player_ids),
+        "full_entity_records": full_entity_records,
+        "full_entity_records_with_card_id": full_entity_records_with_card_id,
+        "full_entity_state_tags_applied": full_entity_state_tags_applied,
+        "full_entity_entities_with_complete_state": full_entity_entities_with_complete_state,
         "zone_changes": zone_changes,
         "bracketed_zone_changes": bracketed_zone_changes,
         "numeric_zone_changes": numeric_zone_changes,
@@ -148,6 +243,9 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
         "numeric_zone_changes_with_recoverable_pre_state": (
             numeric_zone_changes_with_recoverable_pre_state
         ),
+        "numeric_zone_changes_recovered_from_prior_state": (
+            numeric_zone_changes_recovered_from_prior_state
+        ),
         "numeric_zone_pre_state_recovery_coverage": _coverage(
             numeric_zone_changes_with_recoverable_pre_state, numeric_zone_changes
         ),
@@ -155,6 +253,7 @@ def audit_powerlog_state_recovery(source_content: bytes) -> Dict:
             zone_changes - zone_changes_with_recoverable_pre_state
         ),
         "body_like_zone_changes": body_like_zone_changes,
+        "full_entity_state_recovery_enabled": True,
         "state_recovery_only": True,
         "membership_semantics_frozen": False,
         "pre_post_board_reconstruction_performed": False,
