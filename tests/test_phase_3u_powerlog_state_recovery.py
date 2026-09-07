@@ -53,7 +53,9 @@ def test_full_entity_block_can_ground_numeric_zone_pre_state():
     )
     result = audit_powerlog_state_recovery(source)
 
-    assert result["probe_version"] == "3u_powerlog_state_recovery_v2"
+    assert result["probe_version"] == "3u_powerlog_state_recovery_v3"
+    assert result["player_id_collection_passes"] == 2
+    assert result["player_id_validation_order_invariant"] is True
     assert result["observed_player_ids"] == [1]
     assert result["full_entity_records"] == 1
     assert result["full_entity_records_with_card_id"] == 1
@@ -65,7 +67,25 @@ def test_full_entity_block_can_ground_numeric_zone_pre_state():
     assert result["ranking_ready"] is False
 
 
-def test_full_entity_controller_requires_observed_player_id():
+def test_full_entity_controller_can_reference_player_record_later_in_same_log():
+    source = b"".join(
+        [
+            _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
+            _line("    tag=CONTROLLER value=1"),
+            _line("    tag=ZONE value=HAND"),
+            _line("    tag=ZONE_POSITION value=3"),
+            _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+            _line("Player EntityID=2 PlayerID=1 GameAccountId=[hi=1 lo=2]"),
+        ]
+    )
+    result = audit_powerlog_state_recovery(source)
+
+    assert result["observed_player_ids"] == [1]
+    assert result["full_entity_entities_with_complete_state"] == 1
+    assert result["numeric_zone_changes_with_recoverable_pre_state"] == 1
+
+
+def test_full_entity_controller_requires_observed_player_id_anywhere_in_log():
     source = b"".join(
         [
             _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
@@ -80,6 +100,22 @@ def test_full_entity_controller_requires_observed_player_id():
     assert result["observed_player_ids"] == []
     assert result["full_entity_entities_with_complete_state"] == 0
     assert result["numeric_zone_changes_with_recoverable_pre_state"] == 0
+    assert result["numeric_unrecoverable_missing_player"] == 1
+    assert result["numeric_unrecoverable_missing_field_sets"] == {"player": 1}
+
+
+def test_missing_field_classification_reports_each_unobserved_requirement():
+    source = _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY")
+    result = audit_powerlog_state_recovery(source)
+
+    assert result["numeric_zone_changes_without_recoverable_pre_state"] == 1
+    assert result["numeric_unrecoverable_missing_zone"] == 1
+    assert result["numeric_unrecoverable_missing_zone_pos"] == 1
+    assert result["numeric_unrecoverable_missing_card_id"] == 1
+    assert result["numeric_unrecoverable_missing_player"] == 1
+    assert result["numeric_unrecoverable_missing_field_sets"] == {
+        "zone+zone_pos+card_id+player": 1
+    }
 
 
 def test_full_entity_context_ends_at_first_non_tag_record():
@@ -119,6 +155,7 @@ def test_zone_change_invalidates_position_until_position_is_observed_again():
     assert result["zone_changes_with_recoverable_pre_state"] == 2
     assert result["numeric_zone_changes_with_recoverable_pre_state"] == 1
     assert result["zone_changes_without_recoverable_pre_state"] == 1
+    assert result["numeric_unrecoverable_missing_zone_pos"] == 1
 
 
 def test_empty_card_id_is_not_claimed_as_body_pre_state():
@@ -133,15 +170,19 @@ def test_empty_card_id_is_not_claimed_as_body_pre_state():
     assert result["zone_pre_state_recovery_coverage"] == 0.0
 
 
-def test_noncanonical_mirror_does_not_contribute_state():
+def test_noncanonical_mirror_does_not_contribute_state_or_player_identity():
     source = (
         b"D 12:00:00 PowerTaskList.DebugPrintPower() - "
-        b"TAG_CHANGE Entity=[entityName=Test id=25 zone=HAND zonePos=1 cardId=BG_TEST player=1] "
-        b"tag=ATK value=5\n"
+        b"Player EntityID=2 PlayerID=1 GameAccountId=[hi=1 lo=2]\n"
+        + _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST")
+        + _line("    tag=CONTROLLER value=1")
+        + _line("    tag=ZONE value=HAND")
+        + _line("    tag=ZONE_POSITION value=1")
         + _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY")
     )
     result = audit_powerlog_state_recovery(source)
 
+    assert result["observed_player_ids"] == []
     assert result["zone_changes"] == 1
     assert result["zone_changes_with_recoverable_pre_state"] == 0
     assert result["numeric_zone_pre_state_recovery_coverage"] == 0.0
