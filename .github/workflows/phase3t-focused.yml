@@ -54,6 +54,17 @@ jobs:
           tests/test_phase_2q.py
           tests/test_sim.py
           tests/test_sim_effects.py
+      - name: Measure committed Power.log observability
+        run: >-
+          uv run --isolated --extra dev python -m ml.phase_3u_powerlog_feasibility
+          --source Power.log
+          --out results/phase_3u_powerlog/powerlog_probe.json
+      - name: Upload Power.log observability evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3u-powerlog-probe-${{ github.sha }}
+          path: results/phase_3u_powerlog/powerlog_probe.json
+          if-no-files-found: error
 
   smoke:
     name: phase3t-8-lobby-smoke
