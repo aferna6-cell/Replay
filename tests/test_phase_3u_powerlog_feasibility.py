@@ -1,8 +1,13 @@
 import hashlib
+import json
 
 import pytest
 
-from ml.phase_3u_powerlog_feasibility import audit_powerlog_observability
+from ml.phase_3u_powerlog_feasibility import (
+    audit_powerlog_file,
+    audit_powerlog_observability,
+    main,
+)
 
 
 SAMPLE = b"""D 16:42:13 GameState.DebugPrintPower() - CREATE_GAME
@@ -22,6 +27,7 @@ def test_concrete_powerlog_primitives_are_detected_but_never_admitted():
     result = audit_powerlog_observability(SAMPLE)
 
     assert result["source_sha256"] == hashlib.sha256(SAMPLE).hexdigest()
+    assert result["source_bytes"] == len(SAMPLE)
     assert result["stable_identity_primitives_observed"] is True
     assert result["per_body_stat_primitives_observed"] is True
     assert result["ordered_change_primitives_observed"] is True
@@ -64,3 +70,35 @@ def test_rejects_empty_and_non_utf8_sources():
         audit_powerlog_observability(b"")
     with pytest.raises(ValueError, match="UTF-8"):
         audit_powerlog_observability(b"\xff\xfe")
+
+
+def test_file_probe_reads_exact_bytes_and_remains_fail_closed(tmp_path):
+    source = tmp_path / "Power.log"
+    source.write_bytes(SAMPLE)
+
+    result = audit_powerlog_file(source)
+
+    assert result["source_sha256"] == hashlib.sha256(SAMPLE).hexdigest()
+    assert result["source_bytes"] == len(SAMPLE)
+    assert result["raw_observability_candidate"] is True
+    assert result["phase_3u_schema_ready"] is False
+    assert result["ranking_ready"] is False
+
+
+def test_cli_writes_machine_readable_measurement_artifact(tmp_path, monkeypatch, capsys):
+    source = tmp_path / "Power.log"
+    output = tmp_path / "evidence" / "powerlog_probe.json"
+    source.write_bytes(SAMPLE)
+    monkeypatch.setattr(
+        "sys.argv",
+        ["phase_3u_powerlog_feasibility", "--source", str(source), "--out", str(output)],
+    )
+
+    main()
+
+    written = json.loads(output.read_text(encoding="utf-8"))
+    printed = json.loads(capsys.readouterr().out)
+    assert written == printed
+    assert written["source_sha256"] == hashlib.sha256(SAMPLE).hexdigest()
+    assert written["candidate_scoring_performed"] is False
+    assert written["ranking_ready"] is False
