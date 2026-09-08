@@ -10,6 +10,7 @@ from importlib import metadata as importlib_metadata
 import json
 import os
 import platform
+import re
 import subprocess
 import sys
 from typing import Any, Dict, Optional
@@ -79,6 +80,39 @@ def fidelity_env_config() -> Dict[str, Any]:
             "max_turns": MAX_TURNS,
             "max_decisions": 400,
         }
+
+
+def fidelity_commit_provenance() -> Dict[str, Any]:
+    """Return execution and source commits without conflating PR merge refs.
+
+    GitHub ``pull_request`` workflows execute a synthetic merge commit, so
+    ``git rev-parse HEAD`` is the execution identity, not the PR-head source
+    identity. When a trustworthy pull-request event payload is available,
+    record its head SHA separately. Local/push runs intentionally collapse
+    source to execution so the contract remains deterministic and portable.
+    """
+    execution_commit = git_commit()
+    source_commit = execution_commit
+    source_kind = "execution_commit"
+
+    event_path = os.environ.get("GITHUB_EVENT_PATH")
+    if event_path and os.path.isfile(event_path):
+        try:
+            with open(event_path, encoding="utf-8") as f:
+                event = json.load(f)
+            candidate = event.get("pull_request", {}).get("head", {}).get("sha")
+            if isinstance(candidate, str) and re.fullmatch(r"[0-9a-fA-F]{40}", candidate):
+                source_commit = candidate.lower()
+                source_kind = "pull_request_head"
+        except (OSError, json.JSONDecodeError, TypeError, AttributeError):
+            pass
+
+    return {
+        "execution_commit": execution_commit,
+        "source_commit": source_commit,
+        "source_commit_kind": source_kind,
+    }
+
 
 FIDELITY_BENCHMARK_VERSION = "Replay Simulator Fidelity Benchmark v1"
 SIMULATOR_VERSION = "Simulator v1"
@@ -187,12 +221,16 @@ def _build_simulator_contract(*, simulator_version: str, scaling_mode: str,
     """Shared contract builder for fidelity simulator snapshots."""
     env = fidelity_env_config()
     refs = reference_fingerprints()
+    commit_provenance = fidelity_commit_provenance()
     contract: Dict[str, Any] = {
         "fidelity_benchmark_version": FIDELITY_BENCHMARK_VERSION,
         "simulator_version": simulator_version,
         "scaling_mode": scaling_mode,
         "simulator_module": "hsbg_coach.bg_env.BGEnv",
-        "code_commit": git_commit(),
+        "code_commit": commit_provenance["execution_commit"],
+        "execution_commit": commit_provenance["execution_commit"],
+        "source_commit": commit_provenance["source_commit"],
+        "source_commit_kind": commit_provenance["source_commit_kind"],
         "runtime": fidelity_runtime_fingerprint(),
         "environment": env,
         "env_config_hash_sha256": _sha256_dict(env),
