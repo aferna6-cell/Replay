@@ -19,7 +19,8 @@ def test_forward_zone_position_is_post_state_only_and_never_admits():
     assert result["post_zone_position_coverage"] == 1.0
     event = result["per_game"][0]["intervals"][0]
     assert event["position_observations"] == [
-        {"ordinal": 1, "distance": 1, "source": "tag", "position": 3}
+        {"ordinal": 1, "distance": 1, "source": "tag",
+         "temporal_side": "post", "position": 3}
     ]
     assert result["pre_state_repaired_from_future_events"] is False
     assert result["phase_3u_schema_ready"] is False
@@ -33,11 +34,13 @@ def test_matching_descriptor_zonepos_counts_as_explicit_forward_channel():
     ])
     result = audit_powerlog_post_state(source)
     assert result["descriptor_zone_position_observed_before_next_zone"] == 1
+    assert result["descriptor_pre_zone_position_observed"] == 0
     assert result["post_zone_position_observed_before_next_zone"] == 1
     event = result["per_game"][0]["intervals"][0]
     assert event["post_zone_position"] == 2
     assert event["post_zone_position_source"] == "descriptor"
     assert event["card_id_observed_after_distance"] == 1
+    assert event["position_observations"][0]["temporal_side"] == "post"
 
 
 def test_descriptor_zone_must_match_pending_post_zone():
@@ -63,9 +66,10 @@ def test_delayed_position_change_is_evolution_not_contradiction():
     assert result["position_evolution_events"] == 1
     assert event["position_evolution_events"] == 1
     assert [o["position"] for o in event["position_observations"]] == [3, 2]
+    assert [o["temporal_side"] for o in event["position_observations"]] == ["post", "post"]
 
 
-def test_same_ordinal_descriptor_tag_agreement_is_not_conflict():
+def test_same_record_descriptor_and_tag_agreement_is_pre_to_post_transition():
     source = b"".join([
         _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
         _line("TAG_CHANGE Entity=[entityName=Test id=25 zone=HAND zonePos=2 cardId=BG_TEST player=1] tag=ZONE_POSITION value=2"),
@@ -73,21 +77,62 @@ def test_same_ordinal_descriptor_tag_agreement_is_not_conflict():
     result = audit_powerlog_post_state(source)
     event = result["per_game"][0]["intervals"][0]
     assert result["same_ordinal_position_conflicts"] == 0
+    assert result["descriptor_pre_zone_position_observed"] == 1
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 0
+    assert result["tag_zone_position_observed_before_next_zone"] == 1
     assert [o["ordinal"] for o in event["position_observations"]] == [1, 1]
     assert [o["source"] for o in event["position_observations"]] == ["descriptor", "tag"]
+    assert [o["temporal_side"] for o in event["position_observations"]] == ["pre", "post"]
+    assert event["post_zone_position"] == 2
+    assert event["post_zone_position_source"] == "tag"
 
 
-def test_same_ordinal_descriptor_tag_disagreement_is_conflict():
+def test_same_record_descriptor_tag_disagreement_is_transition_not_conflict():
     source = b"".join([
         _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
         _line("TAG_CHANGE Entity=[entityName=Test id=25 zone=HAND zonePos=2 cardId=BG_TEST player=1] tag=ZONE_POSITION value=3"),
     ])
     result = audit_powerlog_post_state(source)
     event = result["per_game"][0]["intervals"][0]
-    assert result["position_contradictions"] == 1
-    assert result["same_ordinal_position_conflicts"] == 1
-    assert event["position_contradiction"] is True
-    assert event["same_ordinal_position_conflicts"] == 1
+    assert result["position_contradictions"] == 0
+    assert result["same_ordinal_position_conflicts"] == 0
+    assert result["position_evolution_events"] == 0
+    assert result["descriptor_pre_zone_position_observed"] == 1
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 0
+    assert result["post_zone_position_observed_before_next_zone"] == 1
+    assert event["position_contradiction"] is False
+    assert event["descriptor_pre_zone_position"] == 2
+    assert event["post_zone_position"] == 3
+    assert event["post_zone_position_source"] == "tag"
+    assert [(o["temporal_side"], o["position"]) for o in event["position_observations"]] == [
+        ("pre", 2), ("post", 3)
+    ]
+
+
+def test_descriptor_pre_alone_cannot_satisfy_post_coverage():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
+        _line("TAG_CHANGE Entity=[entityName=Test id=25 zone=HAND zonePos=2 cardId=BG_TEST player=1] tag=ZONE_POSITION value=not-a-number"),
+    ])
+    result = audit_powerlog_post_state(source)
+    event = result["per_game"][0]["intervals"][0]
+    assert result["descriptor_pre_zone_position_observed"] == 1
+    assert result["post_zone_position_observed_before_next_zone"] == 0
+    assert event["post_zone_position_observed"] is False
+
+
+def test_unrelated_later_descriptor_snapshot_remains_forward_evidence():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
+        _line("TAG_CHANGE Entity=[entityName=Test id=25 zone=HAND zonePos=4 cardId=BG_TEST player=1] tag=HEALTH value=6"),
+    ])
+    result = audit_powerlog_post_state(source)
+    event = result["per_game"][0]["intervals"][0]
+    assert result["descriptor_pre_zone_position_observed"] == 0
+    assert result["descriptor_zone_position_observed_before_next_zone"] == 1
+    assert result["post_zone_position_observed_before_next_zone"] == 1
+    assert event["post_zone_position"] == 4
+    assert event["position_observations"][0]["temporal_side"] == "post"
 
 
 def test_zone_summary_reports_coverage_and_closure():
@@ -172,13 +217,14 @@ def test_full_entity_raw_zone_position_counts_as_distinct_forward_channel():
         _line("    tag=ZONE_POSITION value=4"),
     ])
     result = audit_powerlog_post_state(source)
-    assert result["probe_version"] == "3u_powerlog_post_state_v4"
+    assert result["probe_version"] == "3u_powerlog_post_state_v5"
     assert result["full_entity_tag_zone_position_observed_before_next_zone"] == 1
     assert result["full_entity_tag_zone_position_coverage"] == 1.0
     event = result["per_game"][0]["intervals"][0]
     assert event["post_zone_position_source"] == "full_entity_tag"
     assert event["position_observations"] == [
-        {"ordinal": 3, "distance": 3, "source": "full_entity_tag", "position": 4}
+        {"ordinal": 3, "distance": 3, "source": "full_entity_tag",
+         "temporal_side": "post", "position": 4}
     ]
     assert result["pre_state_repaired_from_future_events"] is False
 
