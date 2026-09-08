@@ -220,6 +220,7 @@ def audit_powerlog_entity_type(source_content: bytes) -> Dict:
         ),
         "game_segments": len(per_game),
         **_summary(all_rows),
+        "per_game": per_game,
         "board_set_reconstructed": False,
         "board_order_reconstructed": False,
         "phase_3u_schema_ready": False,
