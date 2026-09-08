@@ -6,19 +6,52 @@ Records immutable Simulator v1 identity before any environment changes.
 from __future__ import annotations
 
 import hashlib
+from importlib import metadata as importlib_metadata
 import json
 import os
+import platform
 import subprocess
+import sys
 from typing import Any, Dict, Optional
 
 from hsbg_coach.pace import FIRESTONE_PACE
 
-from .experiment_contract import env_config, git_commit, runtime_fingerprint
+from .experiment_contract import env_config, git_commit
 
 
 def _sha256_dict(data: Dict[str, Any]) -> str:
     blob = json.dumps(data, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(blob).hexdigest()
+
+
+def _optional_package_version(distribution: str) -> Optional[str]:
+    """Return installed distribution version without importing the package."""
+    try:
+        return importlib_metadata.version(distribution)
+    except importlib_metadata.PackageNotFoundError:
+        return None
+
+
+def fidelity_runtime_fingerprint() -> Dict[str, Any]:
+    """Runtime provenance for simulator-only fidelity measurements.
+
+    Fidelity jobs do not require the ML training stack. Record NumPy/Torch
+    versions when their distributions are installed, but do not import either
+    package merely to construct a simulator contract. Strict ML experiments
+    continue to use ``experiment_contract.runtime_fingerprint`` and
+    ``enforce_runtime_match``.
+    """
+    return {
+        "python_version": sys.version.split()[0],
+        "python_full": sys.version,
+        "platform": platform.platform(),
+        "torch_version": _optional_package_version("torch"),
+        "numpy_version": _optional_package_version("numpy"),
+        "torch_device": None,
+        "torch_cuda_available": None,
+        "provenance_scope": "simulator_fidelity",
+        "ml_runtime_imported": False,
+    }
 
 FIDELITY_BENCHMARK_VERSION = "Replay Simulator Fidelity Benchmark v1"
 SIMULATOR_VERSION = "Simulator v1"
@@ -133,7 +166,7 @@ def _build_simulator_contract(*, simulator_version: str, scaling_mode: str,
         "scaling_mode": scaling_mode,
         "simulator_module": "hsbg_coach.bg_env.BGEnv",
         "code_commit": git_commit(),
-        "runtime": runtime_fingerprint(),
+        "runtime": fidelity_runtime_fingerprint(),
         "environment": env,
         "env_config_hash_sha256": _sha256_dict(env),
         "reference_data_fingerprints": refs,
