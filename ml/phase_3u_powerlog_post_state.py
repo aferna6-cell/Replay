@@ -27,7 +27,7 @@ from ml.phase_3u_powerlog_state_recovery import (
     _complete_body_pre_state, _empty_state, _missing_pre_state_fields,
 )
 
-PROBE_VERSION = "3u_powerlog_post_state_v3"
+PROBE_VERSION = "3u_powerlog_post_state_v4"
 
 
 def _coverage(n: int, d: int) -> float | None:
@@ -89,7 +89,11 @@ def _new_pending_event(*, segment_index: int, entity_id: str, ordinal: int,
         "tag_zone_position_distance": None,
         "descriptor_zone_position_observed": False,
         "descriptor_zone_position": None, "descriptor_zone_position_distance": None,
+        "full_entity_tag_zone_position_observed": False,
+        "full_entity_tag_zone_position": None,
+        "full_entity_tag_zone_position_distance": None,
         "descriptor_zone_mismatch_count": 0,
+        "full_entity_zone_mismatch_count": 0,
         "position_observations": [], "same_ordinal_position_conflicts": 0,
         "position_evolution_events": 0, "position_contradiction": False,
         "card_id_observed_after_distance": None,
@@ -122,6 +126,10 @@ def _append_position(event: dict, *, ordinal: int, source: str, position: int) -
         event["descriptor_zone_position_observed"] = True
         event["descriptor_zone_position"] = position
         event["descriptor_zone_position_distance"] = distance
+    if source == "full_entity_tag" and not event["full_entity_tag_zone_position_observed"]:
+        event["full_entity_tag_zone_position_observed"] = True
+        event["full_entity_tag_zone_position"] = position
+        event["full_entity_tag_zone_position_distance"] = distance
     if not event["post_zone_position_observed"]:
         event["post_zone_position_observed"] = True
         event["post_zone_position"] = position
@@ -133,6 +141,7 @@ def _summary(intervals: list[dict]) -> dict:
     unresolved = len(intervals)
     tag = sum(bool(r["tag_zone_position_observed"]) for r in intervals)
     desc = sum(bool(r["descriptor_zone_position_observed"]) for r in intervals)
+    full_entity = sum(bool(r["full_entity_tag_zone_position_observed"]) for r in intervals)
     union = sum(bool(r["post_zone_position_observed"]) for r in intervals)
     closed = sum(bool(r["closed_by_next_zone"]) and not r["post_zone_position_observed"]
                  for r in intervals)
@@ -140,10 +149,11 @@ def _summary(intervals: list[dict]) -> dict:
     evolution = sum(r["position_evolution_events"] for r in intervals)
     return {
         "unresolved": unresolved,
-        "tag": tag, "descriptor": desc, "union": union,
+        "tag": tag, "descriptor": desc, "full_entity_tag": full_entity, "union": union,
         "closed_without_position": closed,
         "tag_coverage": _coverage(tag, unresolved),
         "descriptor_coverage": _coverage(desc, unresolved),
+        "full_entity_tag_coverage": _coverage(full_entity, unresolved),
         "union_coverage": _coverage(union, unresolved),
         "same_ordinal_position_conflicts": conflicts,
         "position_evolution_events": evolution,
@@ -178,9 +188,21 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
         raw_tag = _RAW_TAG_RE.match(payload)
         if raw_tag and active_full_entity is not None:
             tag, value = raw_tag.groups()
-            _apply_full_entity_tag(states.setdefault(active_full_entity, _empty_state()),
-                                   tag=tag, value=value,
+            state = states.setdefault(active_full_entity, _empty_state())
+            _apply_full_entity_tag(state, tag=tag, value=value,
                                    observed_player_ids=observed_player_ids)
+            event = pending.get(active_full_entity)
+            if tag == "ZONE_POSITION" and event is not None:
+                try:
+                    zone_pos = int(value)
+                except ValueError:
+                    zone_pos = None
+                if zone_pos is not None:
+                    if state.get("zone") == event["post_zone"]:
+                        _append_position(event, ordinal=ordinal,
+                                         source="full_entity_tag", position=zone_pos)
+                    else:
+                        event["full_entity_zone_mismatch_count"] += 1
             continue
         active_full_entity = None
         change = _TAG_CHANGE_RE.search(payload)
@@ -253,12 +275,15 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
         "tag_zone_position_coverage": summary["tag_coverage"],
         "descriptor_zone_position_observed_before_next_zone": summary["descriptor"],
         "descriptor_zone_position_coverage": summary["descriptor_coverage"],
+        "full_entity_tag_zone_position_observed_before_next_zone": summary["full_entity_tag"],
+        "full_entity_tag_zone_position_coverage": summary["full_entity_tag_coverage"],
         "post_zone_position_observed_before_next_zone": summary["union"],
         "post_zone_position_coverage": summary["union_coverage"],
         "position_contradictions": summary["same_ordinal_position_conflicts"],
         "same_ordinal_position_conflicts": summary["same_ordinal_position_conflicts"],
         "position_evolution_events": summary["position_evolution_events"],
         "descriptor_zone_mismatch_events": sum(bool(r["descriptor_zone_mismatch_count"]) for r in intervals),
+        "full_entity_zone_mismatch_events": sum(bool(r["full_entity_zone_mismatch_count"]) for r in intervals),
         "missing_card_id_pre_events": len(missing_card),
         "missing_card_id_pre_with_forward_card_id": forward_card,
         "forward_card_id_coverage_for_missing_pre_card": _coverage(forward_card, len(missing_card)),
@@ -296,12 +321,15 @@ def audit_powerlog_post_state(source_content: bytes) -> Dict:
         "tag_zone_position_coverage": summary["tag_coverage"],
         "descriptor_zone_position_observed_before_next_zone": summary["descriptor"],
         "descriptor_zone_position_coverage": summary["descriptor_coverage"],
+        "full_entity_tag_zone_position_observed_before_next_zone": summary["full_entity_tag"],
+        "full_entity_tag_zone_position_coverage": summary["full_entity_tag_coverage"],
         "post_zone_position_observed_before_next_zone": summary["union"],
         "post_zone_position_coverage": summary["union_coverage"],
         "position_contradictions": summary["same_ordinal_position_conflicts"],
         "same_ordinal_position_conflicts": summary["same_ordinal_position_conflicts"],
         "position_evolution_events": summary["position_evolution_events"],
         "descriptor_zone_mismatch_events": sum(g["descriptor_zone_mismatch_events"] for g in per_game),
+        "full_entity_zone_mismatch_events": sum(g["full_entity_zone_mismatch_events"] for g in per_game),
         "missing_card_id_pre_events": len(missing_card),
         "missing_card_id_pre_with_forward_card_id": forward_card,
         "forward_card_id_coverage_for_missing_pre_card": _coverage(forward_card, len(missing_card)),
