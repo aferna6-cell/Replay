@@ -162,3 +162,66 @@ def test_noncanonical_mirror_cannot_supply_forward_position():
     result = audit_powerlog_post_state(source)
     assert result["unresolved_numeric_zone_events"] == 1
     assert result["post_zone_position_observed_before_next_zone"] == 0
+
+
+def test_full_entity_raw_zone_position_counts_as_distinct_forward_channel():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
+        _line("    tag=ZONE value=PLAY"),
+        _line("    tag=ZONE_POSITION value=4"),
+    ])
+    result = audit_powerlog_post_state(source)
+    assert result["probe_version"] == "3u_powerlog_post_state_v4"
+    assert result["full_entity_tag_zone_position_observed_before_next_zone"] == 1
+    assert result["full_entity_tag_zone_position_coverage"] == 1.0
+    event = result["per_game"][0]["intervals"][0]
+    assert event["post_zone_position_source"] == "full_entity_tag"
+    assert event["position_observations"] == [
+        {"ordinal": 3, "distance": 3, "source": "full_entity_tag", "position": 4}
+    ]
+    assert result["pre_state_repaired_from_future_events"] is False
+
+
+def test_full_entity_position_rejected_when_block_zone_disagrees_with_pending_post_zone():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
+        _line("    tag=ZONE value=HAND"),
+        _line("    tag=ZONE_POSITION value=4"),
+    ])
+    result = audit_powerlog_post_state(source)
+    assert result["full_entity_tag_zone_position_observed_before_next_zone"] == 0
+    assert result["full_entity_zone_mismatch_events"] == 1
+    assert result["post_zone_position_observed_before_next_zone"] == 0
+
+
+def test_full_entity_block_ends_before_unrelated_raw_position_line():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
+        _line("    tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=99 tag=ATK value=2"),
+        _line("    tag=ZONE_POSITION value=4"),
+    ])
+    result = audit_powerlog_post_state(source)
+    assert result["full_entity_tag_zone_position_observed_before_next_zone"] == 0
+    assert result["post_zone_position_observed_before_next_zone"] == 0
+
+
+def test_full_entity_forward_position_cannot_cross_next_zone_or_game_boundary():
+    source = b"".join([
+        _line("CREATE_GAME"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=GRAVEYARD"),
+        _line("CREATE_GAME"),
+        _line("FULL_ENTITY - Creating ID=25 CardID=BG_TEST"),
+        _line("    tag=ZONE value=PLAY"),
+        _line("    tag=ZONE_POSITION value=4"),
+    ])
+    result = audit_powerlog_post_state(source)
+    assert result["game_segments"] == 2
+    first_game = result["per_game"][0]
+    assert first_game["closed_by_next_zone_without_post_position"] == 1
+    first = first_game["intervals"][0]
+    assert first["post_zone_position_observed"] is False
