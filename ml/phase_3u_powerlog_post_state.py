@@ -2,9 +2,11 @@
 
 Measurement only. For numeric ZONE transitions whose pre-state is incomplete,
 measure explicit post-change ZONE_POSITION evidence before the same entity changes
-ZONE again. Preserve ordered observation provenance. A contradiction exists only
-when tag and descriptor positions disagree on the same canonical record; differing
-positions observed later are state evolution, not contradictory evidence.
+ZONE again. Preserve ordered observation provenance with temporal-side semantics.
+On descriptor-bearing ZONE_POSITION mutations, descriptor zonePos is pre-mutation
+state and the tag value is post-mutation state; that transition is not a
+contradiction. Descriptor snapshots on unrelated later TAG_CHANGE records remain
+valid forward post-state evidence.
 
 Future observations never repair pre-state. State, PlayerID validity, and pending
 intervals are CREATE_GAME-local. This probe never defines board-membership
@@ -27,7 +29,7 @@ from ml.phase_3u_powerlog_state_recovery import (
     _complete_body_pre_state, _empty_state, _missing_pre_state_fields,
 )
 
-PROBE_VERSION = "3u_powerlog_post_state_v4"
+PROBE_VERSION = "3u_powerlog_post_state_v5"
 
 
 def _coverage(n: int, d: int) -> float | None:
@@ -89,6 +91,9 @@ def _new_pending_event(*, segment_index: int, entity_id: str, ordinal: int,
         "tag_zone_position_distance": None,
         "descriptor_zone_position_observed": False,
         "descriptor_zone_position": None, "descriptor_zone_position_distance": None,
+        "descriptor_pre_zone_position_observed": False,
+        "descriptor_pre_zone_position": None,
+        "descriptor_pre_zone_position_distance": None,
         "full_entity_tag_zone_position_observed": False,
         "full_entity_tag_zone_position": None,
         "full_entity_tag_zone_position_distance": None,
@@ -101,46 +106,62 @@ def _new_pending_event(*, segment_index: int, entity_id: str, ordinal: int,
     }
 
 
-def _append_position(event: dict, *, ordinal: int, source: str, position: int) -> None:
+def _append_position(event: dict, *, ordinal: int, source: str, position: int,
+                     temporal_side: str = "post") -> None:
+    if temporal_side not in {"pre", "post"}:
+        raise ValueError("temporal_side must be pre or post")
     distance = ordinal - event["zone_ordinal"]
     observation = {"ordinal": ordinal, "distance": distance,
-                   "source": source, "position": position}
+                   "source": source, "temporal_side": temporal_side,
+                   "position": position}
     event["position_observations"].append(observation)
 
-    same_ordinal = [o for o in event["position_observations"][:-1]
-                    if o["ordinal"] == ordinal and o["source"] != source]
-    if any(o["position"] != position for o in same_ordinal):
+    same_ordinal_same_side = [
+        o for o in event["position_observations"][:-1]
+        if o["ordinal"] == ordinal
+        and o.get("temporal_side", "post") == temporal_side
+        and o["source"] != source
+    ]
+    if any(o["position"] != position for o in same_ordinal_same_side):
         event["same_ordinal_position_conflicts"] += 1
         event["position_contradiction"] = True
 
-    prior_ordinals = [o for o in event["position_observations"][:-1]
-                      if o["ordinal"] < ordinal]
-    if prior_ordinals and prior_ordinals[-1]["position"] != position:
-        event["position_evolution_events"] += 1
+    if temporal_side == "post":
+        prior_post = [
+            o for o in event["position_observations"][:-1]
+            if o.get("temporal_side", "post") == "post" and o["ordinal"] < ordinal
+        ]
+        if prior_post and prior_post[-1]["position"] != position:
+            event["position_evolution_events"] += 1
 
-    if source == "tag" and not event["tag_zone_position_observed"]:
-        event["tag_zone_position_observed"] = True
-        event["tag_zone_position"] = position
-        event["tag_zone_position_distance"] = distance
-    if source == "descriptor" and not event["descriptor_zone_position_observed"]:
-        event["descriptor_zone_position_observed"] = True
-        event["descriptor_zone_position"] = position
-        event["descriptor_zone_position_distance"] = distance
-    if source == "full_entity_tag" and not event["full_entity_tag_zone_position_observed"]:
-        event["full_entity_tag_zone_position_observed"] = True
-        event["full_entity_tag_zone_position"] = position
-        event["full_entity_tag_zone_position_distance"] = distance
-    if not event["post_zone_position_observed"]:
-        event["post_zone_position_observed"] = True
-        event["post_zone_position"] = position
-        event["post_zone_position_distance"] = distance
-        event["post_zone_position_source"] = source
+        if source == "tag" and not event["tag_zone_position_observed"]:
+            event["tag_zone_position_observed"] = True
+            event["tag_zone_position"] = position
+            event["tag_zone_position_distance"] = distance
+        if source == "descriptor" and not event["descriptor_zone_position_observed"]:
+            event["descriptor_zone_position_observed"] = True
+            event["descriptor_zone_position"] = position
+            event["descriptor_zone_position_distance"] = distance
+        if source == "full_entity_tag" and not event["full_entity_tag_zone_position_observed"]:
+            event["full_entity_tag_zone_position_observed"] = True
+            event["full_entity_tag_zone_position"] = position
+            event["full_entity_tag_zone_position_distance"] = distance
+        if not event["post_zone_position_observed"]:
+            event["post_zone_position_observed"] = True
+            event["post_zone_position"] = position
+            event["post_zone_position_distance"] = distance
+            event["post_zone_position_source"] = source
+    elif source == "descriptor" and not event["descriptor_pre_zone_position_observed"]:
+        event["descriptor_pre_zone_position_observed"] = True
+        event["descriptor_pre_zone_position"] = position
+        event["descriptor_pre_zone_position_distance"] = distance
 
 
 def _summary(intervals: list[dict]) -> dict:
     unresolved = len(intervals)
     tag = sum(bool(r["tag_zone_position_observed"]) for r in intervals)
     desc = sum(bool(r["descriptor_zone_position_observed"]) for r in intervals)
+    desc_pre = sum(bool(r["descriptor_pre_zone_position_observed"]) for r in intervals)
     full_entity = sum(bool(r["full_entity_tag_zone_position_observed"]) for r in intervals)
     union = sum(bool(r["post_zone_position_observed"]) for r in intervals)
     closed = sum(bool(r["closed_by_next_zone"]) and not r["post_zone_position_observed"]
@@ -149,10 +170,12 @@ def _summary(intervals: list[dict]) -> dict:
     evolution = sum(r["position_evolution_events"] for r in intervals)
     return {
         "unresolved": unresolved,
-        "tag": tag, "descriptor": desc, "full_entity_tag": full_entity, "union": union,
+        "tag": tag, "descriptor": desc, "descriptor_pre": desc_pre,
+        "full_entity_tag": full_entity, "union": union,
         "closed_without_position": closed,
         "tag_coverage": _coverage(tag, unresolved),
         "descriptor_coverage": _coverage(desc, unresolved),
+        "descriptor_pre_coverage": _coverage(desc_pre, unresolved),
         "full_entity_tag_coverage": _coverage(full_entity, unresolved),
         "union_coverage": _coverage(union, unresolved),
         "same_ordinal_position_conflicts": conflicts,
@@ -241,8 +264,10 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
                 if descriptor_pos is not None and descriptor_zone != event["post_zone"]:
                     event["descriptor_zone_mismatch_count"] += 1
                 elif descriptor_pos is not None:
+                    descriptor_side = "pre" if tag == "ZONE_POSITION" else "post"
                     _append_position(event, ordinal=ordinal, source="descriptor",
-                                     position=descriptor_pos)
+                                     position=descriptor_pos,
+                                     temporal_side=descriptor_side)
                 if event["card_id_observed_after_distance"] is None:
                     card_id = _descriptor_card_id(descriptor)
                     if card_id:
@@ -257,7 +282,8 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
                 continue
             state["zone_pos"] = zone_pos
             if event is not None:
-                _append_position(event, ordinal=ordinal, source="tag", position=zone_pos)
+                _append_position(event, ordinal=ordinal, source="tag", position=zone_pos,
+                                 temporal_side="post")
 
     intervals.extend(pending.values())
     intervals.sort(key=lambda r: r["zone_ordinal"])
@@ -275,6 +301,8 @@ def _audit_game_segment(payloads: list[str], segment_index: int) -> Dict:
         "tag_zone_position_coverage": summary["tag_coverage"],
         "descriptor_zone_position_observed_before_next_zone": summary["descriptor"],
         "descriptor_zone_position_coverage": summary["descriptor_coverage"],
+        "descriptor_pre_zone_position_observed": summary["descriptor_pre"],
+        "descriptor_pre_zone_position_coverage": summary["descriptor_pre_coverage"],
         "full_entity_tag_zone_position_observed_before_next_zone": summary["full_entity_tag"],
         "full_entity_tag_zone_position_coverage": summary["full_entity_tag_coverage"],
         "post_zone_position_observed_before_next_zone": summary["union"],
@@ -321,6 +349,8 @@ def audit_powerlog_post_state(source_content: bytes) -> Dict:
         "tag_zone_position_coverage": summary["tag_coverage"],
         "descriptor_zone_position_observed_before_next_zone": summary["descriptor"],
         "descriptor_zone_position_coverage": summary["descriptor_coverage"],
+        "descriptor_pre_zone_position_observed": summary["descriptor_pre"],
+        "descriptor_pre_zone_position_coverage": summary["descriptor_pre_coverage"],
         "full_entity_tag_zone_position_observed_before_next_zone": summary["full_entity_tag"],
         "full_entity_tag_zone_position_coverage": summary["full_entity_tag_coverage"],
         "post_zone_position_observed_before_next_zone": summary["union"],
