@@ -53,6 +53,33 @@ def fidelity_runtime_fingerprint() -> Dict[str, Any]:
         "ml_runtime_imported": False,
     }
 
+
+def fidelity_env_config() -> Dict[str, Any]:
+    """Environment provenance for simulator-only fidelity measurements.
+
+    ``experiment_contract.env_config`` imports ``ml.rl_common`` to read the
+    RL episode decision cap; that module imports NumPy. Simulator fidelity CI
+    intentionally does not require the ML stack, so preserve the same frozen
+    environment values when NumPy/Torch are absent instead of dropping the
+    entire contract. Any other missing dependency still fails loudly.
+    """
+    try:
+        return env_config()
+    except ModuleNotFoundError as exc:
+        if exc.name not in {"numpy", "torch"}:
+            raise
+        from hsbg_coach.bg_env import MAX_TURNS, N_ACTIONS
+
+        return {
+            "env": "hsbg_coach.bg_env.BGEnv",
+            "n_players": 8,
+            "field_size": 7,
+            "agent_seat": 0,
+            "n_actions": N_ACTIONS,
+            "max_turns": MAX_TURNS,
+            "max_decisions": 400,
+        }
+
 FIDELITY_BENCHMARK_VERSION = "Replay Simulator Fidelity Benchmark v1"
 SIMULATOR_VERSION = "Simulator v1"
 SIMULATOR_V1_1_VERSION = "Simulator v1.1"
@@ -158,7 +185,7 @@ def _build_simulator_contract(*, simulator_version: str, scaling_mode: str,
                               parent_version: Optional[str] = None
                               ) -> Dict[str, Any]:
     """Shared contract builder for fidelity simulator snapshots."""
-    env = env_config()
+    env = fidelity_env_config()
     refs = reference_fingerprints()
     contract: Dict[str, Any] = {
         "fidelity_benchmark_version": FIDELITY_BENCHMARK_VERSION,
