@@ -30,6 +30,7 @@ jobs:
       - name: Phase 3T/3U causal-alignment and dependency regression suite
         run: >-
           uv run --isolated --extra dev pytest -q
+          tests/test_fidelity_runtime_provenance.py
           tests/test_phase_3t.py
           tests/test_phase_3t_alignment_contract.py
           tests/test_phase_3t_causal_alignment_helper.py
