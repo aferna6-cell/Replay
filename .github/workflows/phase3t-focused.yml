@@ -42,6 +42,7 @@ jobs:
           tests/test_phase_3u_powerlog_feasibility.py
           tests/test_phase_3u_powerlog_state_recovery.py
           tests/test_phase_3u_powerlog_post_state.py
+          tests/test_phase_3u_powerlog_play_membership.py
           tests/test_phase_3u_admission.py
           tests/test_phase_3u_admission_v5.py
           tests/test_phase_3u_admission_v6.py
@@ -71,6 +72,11 @@ jobs:
           uv run --isolated --extra dev python -m ml.phase_3u_powerlog_post_state
           --source Power.log
           --out results/phase_3u_powerlog/powerlog_post_state.json
+      - name: Measure source-grounded PLAY membership observability
+        run: >-
+          uv run --isolated --extra dev python -m ml.phase_3u_powerlog_play_membership
+          --source Power.log
+          --out results/phase_3u_powerlog/powerlog_play_membership.json
       - name: Upload Power.log observability evidence
         uses: actions/upload-artifact@v4
         with:
