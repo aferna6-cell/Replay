@@ -37,12 +37,11 @@ jobs:
           python -m ml.phase_3u_powerlog_post_state --source Power.log --out artifacts/powerlog_post_state.json
           python -m ml.phase_3u_powerlog_play_membership --source Power.log --out artifacts/powerlog_play_membership.json
           python -m ml.phase_3u_powerlog_entity_type --source Power.log --out artifacts/powerlog_entity_type.json
-      - name: Validate fail-closed outputs and write provenance manifest
+      - name: Validate PR 66 measurement equivalence, fail-closed outputs, and provenance
         run: |
           python - <<'PY'
           import hashlib
           import json
-          import os
           import subprocess
           from pathlib import Path
 
@@ -50,8 +49,8 @@ jobs:
           reports = sorted(root.glob('powerlog_*.json'))
           if len(reports) != 5:
               raise SystemExit(f'expected 5 reports, found {len(reports)}')
-
           payloads = {p.name: json.loads(p.read_text(encoding='utf-8')) for p in reports}
+
           source_hashes = {v['source_sha256'] for v in payloads.values()}
           if len(source_hashes) != 1:
               raise SystemExit(f'source SHA disagreement: {source_hashes}')
@@ -66,6 +65,57 @@ jobs:
               if 'confirmation_seeds_consumed' in payload and payload['confirmation_seeds_consumed'] is not False:
                   raise SystemExit(f'{name}: confirmation_seeds_consumed must remain false')
 
+          state = payloads['powerlog_state_recovery.json']
+          expected_state = {
+              'zone_changes': 247,
+              'bracketed_zone_changes': 150,
+              'numeric_zone_changes': 97,
+              'zone_changes_with_recoverable_pre_state': 155,
+              'bracketed_zone_changes_with_recoverable_pre_state': 150,
+              'numeric_zone_changes_with_recoverable_pre_state': 5,
+              'numeric_zone_changes_without_recoverable_pre_state': 92,
+          }
+          for key, expected in expected_state.items():
+              if state.get(key) != expected:
+                  raise SystemExit(f'state recovery mismatch {key}: {state.get(key)} != {expected}')
+
+          post = payloads['powerlog_post_state.json']
+          expected_post = {
+              'unresolved_numeric_zone_events': 92,
+              'post_zone_position_observed_before_next_zone': 16,
+              'same_ordinal_position_conflicts': 0,
+              'position_contradictions': 0,
+          }
+          for key, expected in expected_post.items():
+              if post.get(key) != expected:
+                  raise SystemExit(f'post-state mismatch {key}: {post.get(key)} != {expected}')
+          play_post = post.get('by_zone', {}).get('PLAY', {})
+          if play_post.get('unresolved') != 34 or play_post.get('union') != 7:
+              raise SystemExit(f'PLAY post-state mismatch: {play_post}')
+
+          membership = payloads['powerlog_play_membership.json']
+          expected_membership = {
+              'play_membership_intervals': 166,
+              'identity_grounded': 142,
+              'explicit_position_grounded': 111,
+          }
+          for key, expected in expected_membership.items():
+              if membership.get(key) != expected:
+                  raise SystemExit(f'PLAY membership mismatch {key}: {membership.get(key)} != {expected}')
+
+          entity_type = payloads['powerlog_entity_type.json']
+          expected_entity_type = {
+              'play_membership_intervals': 166,
+              'cardtype_grounded': 135,
+              'explicit_minion_grounded': 33,
+              'same_game_type_conflict_intervals': 0,
+              'retrospective_cardtype_candidates': 0,
+              'retrospective_explicit_minion_candidates': 0,
+          }
+          for key, expected in expected_entity_type.items():
+              if entity_type.get(key) != expected:
+                  raise SystemExit(f'entity-type mismatch {key}: {entity_type.get(key)} != {expected}')
+
           def sha256(path: Path) -> str:
               h = hashlib.sha256()
               with path.open('rb') as f:
@@ -78,6 +128,7 @@ jobs:
               'working_tree_clean': subprocess.call(['git', 'diff', '--quiet']) == 0 and subprocess.call(['git', 'diff', '--cached', '--quiet']) == 0,
               'powerlog_git_blob': subprocess.check_output(['git', 'hash-object', 'Power.log'], text=True).strip(),
               'powerlog_source_sha256': next(iter(source_hashes)),
+              'pr66_measurement_equivalence_asserted': True,
               'probe_outputs': {p.name: sha256(p) for p in reports},
               'reserved_confirmation_seeds_consumed': False,
               'candidate_scoring_performed': False,
