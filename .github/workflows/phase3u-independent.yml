@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - chatgpt/phase-3u-powerlog-independent
+      - chatgpt/phase3u-show-entity-cardtype
   pull_request:
     branches:
       - claude/hearthstone-battlegrounds-ml-00rjn5
@@ -48,7 +49,7 @@ jobs:
           python -m ml.phase_3u_powerlog_post_state --source Power.log --out artifacts/powerlog_post_state.json
           python -m ml.phase_3u_powerlog_play_membership --source Power.log --out artifacts/powerlog_play_membership.json
           python -m ml.phase_3u_powerlog_entity_type --source Power.log --out artifacts/powerlog_entity_type.json
-      - name: Validate PR 66 measurement equivalence, fail-closed outputs, and provenance
+      - name: Validate Phase 3U measurement contract, fail-closed outputs, and provenance
         env:
           SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
           SOURCE_COMMIT_KIND: ${{ github.event_name == 'pull_request' && 'pull_request_head' || 'execution' }}
@@ -122,7 +123,7 @@ jobs:
           entity_type = payloads['powerlog_entity_type.json']
           expected_entity_type = {
               'play_membership_intervals': 166,
-              'cardtype_grounded': 135,
+              'cardtype_grounded': 162,
               'explicit_minion_grounded': 33,
               'same_game_type_conflict_intervals': 0,
               'retrospective_cardtype_candidates': 0,
@@ -152,7 +153,7 @@ jobs:
               'working_tree_clean_before_measurement': True,
               'powerlog_git_blob': subprocess.check_output(['git', 'hash-object', 'Power.log'], text=True).strip(),
               'powerlog_source_sha256': next(iter(source_hashes)),
-              'pr66_measurement_equivalence_asserted': True,
+              'phase3u_measurement_contract_asserted': True,
               'probe_outputs': {p.name: sha256(p) for p in reports},
               'reserved_confirmation_seeds_consumed': False,
               'candidate_scoring_performed': False,
