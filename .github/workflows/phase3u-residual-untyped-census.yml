@@ -1,0 +1,53 @@
+name: Phase 3U residual untyped census
+
+on:
+  push:
+    branches:
+      - chatgpt/phase3u-residual-untyped-census
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install --upgrade pytest
+      - name: Run focused parser and membership tests
+        run: >-
+          python -m pytest -q
+          tests/test_phase_3u_powerlog_play_membership.py
+          tests/test_phase_3u_powerlog_entity_type.py
+      - name: Require clean tree before measurement
+        run: test -z "$(git status --porcelain --untracked-files=all)"
+      - name: Verify frozen Power.log blob
+        run: test "$(git hash-object Power.log)" = "b5df1f2955a9b439206066119c7d1bc27b05b80c"
+      - name: Measure and print residual causally untyped PLAY intervals
+        run: |
+          mkdir -p artifacts
+          python -m ml.phase_3u_powerlog_residual_untyped_census --source Power.log --out artifacts/phase3u-residual-untyped.json
+          python - <<'PY'
+          import json
+          p=json.load(open('artifacts/phase3u-residual-untyped.json'))
+          assert p['play_membership_intervals'] == 166, p['play_membership_intervals']
+          assert p['causally_untyped_intervals'] == 4, p['causally_untyped_intervals']
+          assert p['cardtype_inference_performed'] is False
+          assert p['candidate_scoring_performed'] is False
+          assert p['ranking_ready'] is False
+          assert p['phase_3u_schema_ready'] is False
+          assert p['confirmation_seeds_consumed'] is False
+          print('RESIDUAL_UNTYPED_JSON=' + json.dumps(p, sort_keys=True))
+          PY
+      - name: Require clean tree after measurement
+        run: test -z "$(git status --porcelain --untracked-files=all -- ':!artifacts')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase3u-residual-untyped-${{ github.sha }}
+          path: artifacts/phase3u-residual-untyped.json
+          if-no-files-found: error
+          retention-days: 30
