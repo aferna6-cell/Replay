@@ -3,7 +3,9 @@
 Membership, identity and position are separate observables. Only canonical
 GameState.DebugPrintPower records are consumed; CREATE_GAME resets all state.
 Repeated ZONE=PLAY assertions for an already-open PLAY interval do not create a
-second entry. No board order is inferred and no Phase 3U admission is authorized.
+second entry. Descriptor identity on that repeated assertion can still ground the
+open interval; descriptor position is not inferred from the ZONE mutation. No
+board order is inferred and no Phase 3U admission is authorized.
 """
 from __future__ import annotations
 
@@ -19,7 +21,7 @@ from ml.phase_3u_powerlog_state_recovery import (
     _FULL_ENTITY_RE, _PLAYER_RE, _RAW_TAG_RE, _TAG_CHANGE_RE,
 )
 
-PROBE_VERSION = "3u_powerlog_play_membership_v1"
+PROBE_VERSION = "3u_powerlog_play_membership_v2"
 
 
 def _coverage(n: int, d: int) -> float | None:
@@ -212,8 +214,16 @@ def _audit_segment(payloads: list[str], segment: int) -> dict:
             state["player"] = d_player
 
         if tag == "ZONE":
+            # A repeated descriptor-bearing ZONE=PLAY assertion is still direct
+            # same-record identity evidence for the already-open interval. Capture
+            # only CardID/player from that descriptor; zonePos is the pre-mutation
+            # descriptor side and must not be promoted to post-state position.
+            duplicate_play_row = pending.get(entity) if value == "PLAY" else None
             _observe_zone(pending, completed, states, segment=segment, entity=entity,
                           ordinal=ordinal, zone=value, source="tag_change")
+            if duplicate_play_row is not None:
+                _card(duplicate_play_row, ordinal, d_card)
+                _player(duplicate_play_row, ordinal, d_player, valid_players)
             continue
 
         row = pending.get(entity)
