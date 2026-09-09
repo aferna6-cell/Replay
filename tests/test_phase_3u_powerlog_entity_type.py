@@ -29,6 +29,46 @@ def test_full_entity_cardtype_minion_before_play_is_grounded():
     assert result["phase_3u_schema_ready"] is False
 
 
+def test_show_entity_literal_cardtype_before_play_is_grounded_without_cardid_inference():
+    source = b"".join([
+        _line("SHOW_ENTITY - Updating Entity=25 CardID=BG_TEST"),
+        _line("    tag=CARDTYPE value=ENCHANTMENT"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+    ])
+    result = audit_powerlog_entity_type(source)
+    row = result["per_game"][0]["intervals"][0]
+    assert row["cardtype_grounded"] is True
+    assert row["cardtype_value"] == "ENCHANTMENT"
+    assert row["cardtype_source"] == "show_entity_tag"
+    assert row["explicit_minion_grounded"] is False
+
+
+def test_show_entity_cardid_without_literal_cardtype_does_not_ground_type():
+    source = b"".join([
+        _line("SHOW_ENTITY - Updating Entity=25 CardID=BG_TEST"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+    ])
+    result = audit_powerlog_entity_type(source)
+    row = result["per_game"][0]["intervals"][0]
+    assert row["cardtype_grounded"] is False
+    assert row["cardtype_value"] is None
+
+
+def test_show_entity_descriptor_id_is_supported_but_post_exit_type_remains_noncausal():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
+        _line("SHOW_ENTITY - Updating Entity=[entityName=x id=25 zone=HAND zonePos=1 cardId=X player=1] CardID=X"),
+        _line("    tag=CARDTYPE value=MINION"),
+    ])
+    result = audit_powerlog_entity_type(source)
+    row = result["per_game"][0]["intervals"][0]
+    assert row["cardtype_grounded"] is False
+    assert row["post_exit_cardtype"] == "MINION"
+    assert row["retrospective_cardtype_candidate"] == "MINION"
+    assert row["retrospective_candidate_is_causal_grounding"] is False
+
+
 def test_forward_cardtype_before_next_zone_is_allowed_but_later_type_is_retrospective_only():
     source = b"".join([
         _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
