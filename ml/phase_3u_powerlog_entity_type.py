@@ -5,12 +5,14 @@ Power.log itself ever explicitly identify the CARDTYPE of an entity whose
 ZONE=PLAY membership was already observed? It does not infer type from CardID
 prefixes, the card database, names, stats, position, or gameplay semantics.
 
-Only exact source-observed CARDTYPE values are reported. The string value
-``MINION`` is counted separately when it is literally present in Power.log;
-numeric/other values remain uninterpreted distributions. Evidence is bounded by
-CREATE_GAME. Causal/at-entry grounding remains bounded by the PLAY interval's
-next ZONE closure. Separately, v2 measures whether later same-game observations
-are internally consistent enough to form a *retrospective candidate*; those
+Only exact source-observed CARDTYPE values are reported. Literal CARDTYPE tags
+attached to canonical FULL_ENTITY and SHOW_ENTITY blocks are both accepted, as
+are canonical TAG_CHANGE CARDTYPE records. The string value ``MINION`` is
+counted separately only when it is literally present in Power.log; numeric/other
+values remain uninterpreted distributions. Evidence is bounded by CREATE_GAME.
+Causal/at-entry grounding remains bounded by the PLAY interval's next ZONE
+closure. Separately, v3 measures whether later same-game observations are
+internally consistent enough to form a *retrospective candidate*; those
 candidates are never promoted to causal grounding or board reconstruction.
 No ranking, candidate scoring, board order, schema admission, or confirmation
 seeds are involved.
@@ -20,6 +22,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Dict
@@ -35,33 +38,54 @@ from ml.phase_3u_powerlog_state_recovery import (
     _TAG_CHANGE_RE,
 )
 
-PROBE_VERSION = "3u_powerlog_entity_type_v2"
+PROBE_VERSION = "3u_powerlog_entity_type_v3"
+_SHOW_ENTITY_NUMERIC_RE = re.compile(r"\bSHOW_ENTITY - Updating Entity=(\d+)\b")
+_SHOW_ENTITY_DESCRIPTOR_RE = re.compile(
+    r"\bSHOW_ENTITY - Updating Entity=\[[^\]]*\bid=(\d+)\b[^\]]*\]"
+)
 
 
 def _coverage(n: int, d: int) -> float | None:
     return None if d == 0 else n / d
 
 
+def _show_entity_id(payload: str) -> str | None:
+    numeric = _SHOW_ENTITY_NUMERIC_RE.search(payload)
+    if numeric:
+        return numeric.group(1)
+    descriptor = _SHOW_ENTITY_DESCRIPTOR_RE.search(payload)
+    return descriptor.group(1) if descriptor else None
+
+
 def _type_observations(payloads: list[str]) -> dict[str, list[dict]]:
     observations: dict[str, list[dict]] = defaultdict(list)
-    active_full: str | None = None
+    active_entity: str | None = None
+    active_source: str | None = None
 
     for ordinal, payload in enumerate(payloads):
         full = _FULL_ENTITY_RE.search(payload)
         if full:
-            active_full = full.group(1)
+            active_entity = full.group(1)
+            active_source = "full_entity_tag"
+            continue
+
+        show_entity = _show_entity_id(payload)
+        if show_entity is not None:
+            active_entity = show_entity
+            active_source = "show_entity_tag"
             continue
 
         raw = _RAW_TAG_RE.match(payload)
-        if raw and active_full is not None:
+        if raw and active_entity is not None:
             tag, value = raw.groups()
             if tag == "CARDTYPE":
-                observations[active_full].append(
-                    {"ordinal": ordinal, "value": value, "source": "full_entity_tag"}
+                observations[active_entity].append(
+                    {"ordinal": ordinal, "value": value, "source": active_source}
                 )
             continue
 
-        active_full = None
+        active_entity = None
+        active_source = None
         change = _TAG_CHANGE_RE.search(payload)
         if not change:
             continue
@@ -212,7 +236,7 @@ def audit_powerlog_entity_type(source_content: bytes) -> Dict:
         "source_bytes": len(source_content),
         "canonical_stream": "GameState.DebugPrintPower",
         "game_boundary_marker": "CREATE_GAME",
-        "type_observable": "literal CARDTYPE only",
+        "type_observable": "literal CARDTYPE from FULL_ENTITY/SHOW_ENTITY raw tags or TAG_CHANGE only",
         "minion_definition": "literal CARDTYPE value MINION only; no CardID/name/database inference",
         "retrospective_contract": (
             "post-exit same-game CARDTYPE is reported only as a non-causal candidate when "
