@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  focused-tests:
+  focused-tests-and-measurement:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,3 +27,70 @@ jobs:
           tests/test_phase_3u_powerlog_post_state.py
           tests/test_phase_3u_powerlog_play_membership.py
           tests/test_phase_3u_powerlog_entity_type.py
+      - name: Verify frozen Power.log Git blob
+        run: test "$(git hash-object Power.log)" = "b5df1f2955a9b439206066119c7d1bc27b05b80c"
+      - name: Run source-grounded measurement probes
+        run: |
+          mkdir -p artifacts
+          python -m ml.phase_3u_powerlog_feasibility --source Power.log --out artifacts/powerlog_feasibility.json
+          python -m ml.phase_3u_powerlog_state_recovery --source Power.log --out artifacts/powerlog_state_recovery.json
+          python -m ml.phase_3u_powerlog_post_state --source Power.log --out artifacts/powerlog_post_state.json
+          python -m ml.phase_3u_powerlog_play_membership --source Power.log --out artifacts/powerlog_play_membership.json
+          python -m ml.phase_3u_powerlog_entity_type --source Power.log --out artifacts/powerlog_entity_type.json
+      - name: Validate fail-closed outputs and write provenance manifest
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          root = Path('artifacts')
+          reports = sorted(root.glob('powerlog_*.json'))
+          if len(reports) != 5:
+              raise SystemExit(f'expected 5 reports, found {len(reports)}')
+
+          payloads = {p.name: json.loads(p.read_text(encoding='utf-8')) for p in reports}
+          source_hashes = {v['source_sha256'] for v in payloads.values()}
+          if len(source_hashes) != 1:
+              raise SystemExit(f'source SHA disagreement: {source_hashes}')
+
+          for name, payload in payloads.items():
+              if payload.get('candidate_scoring_performed') is not False:
+                  raise SystemExit(f'{name}: candidate_scoring_performed must remain false')
+              if payload.get('ranking_ready') is not False:
+                  raise SystemExit(f'{name}: ranking_ready must remain false')
+              if payload.get('phase_3u_schema_ready') is not False:
+                  raise SystemExit(f'{name}: phase_3u_schema_ready must remain false')
+              if 'confirmation_seeds_consumed' in payload and payload['confirmation_seeds_consumed'] is not False:
+                  raise SystemExit(f'{name}: confirmation_seeds_consumed must remain false')
+
+          def sha256(path: Path) -> str:
+              h = hashlib.sha256()
+              with path.open('rb') as f:
+                  for chunk in iter(lambda: f.read(1024 * 1024), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          manifest = {
+              'execution_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+              'working_tree_clean': subprocess.call(['git', 'diff', '--quiet']) == 0 and subprocess.call(['git', 'diff', '--cached', '--quiet']) == 0,
+              'powerlog_git_blob': subprocess.check_output(['git', 'hash-object', 'Power.log'], text=True).strip(),
+              'powerlog_source_sha256': next(iter(source_hashes)),
+              'probe_outputs': {p.name: sha256(p) for p in reports},
+              'reserved_confirmation_seeds_consumed': False,
+              'candidate_scoring_performed': False,
+              'ranking_ready': False,
+              'phase_3u_schema_ready': False,
+          }
+          (root / 'manifest.json').write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          print(json.dumps(manifest, indent=2, sort_keys=True))
+          PY
+      - name: Upload immutable measurement evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3u-independent-${{ github.sha }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 30
