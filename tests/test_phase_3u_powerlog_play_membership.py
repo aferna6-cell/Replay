@@ -47,6 +47,22 @@ def test_identity_can_be_grounded_while_position_remains_unknown():
     assert row["position_grounded"] is False
 
 
+def test_repeated_descriptor_play_assertion_can_ground_identity_without_new_interval():
+    source = b"".join([
+        _line("Player EntityID=1 PlayerID=1"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=[entityName=Test id=25 zone=PLAY zonePos=2 cardId=BG_TEST player=1] tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=GRAVEYARD"),
+    ])
+    result = audit_powerlog_play_membership(source)
+    assert result["play_membership_intervals"] == 1
+    assert result["duplicate_play_assertions"] == 1
+    row = result["per_game"][0]["intervals"][0]
+    assert row["card_id_grounded"] is True
+    assert row["player_grounded"] is True
+    assert row["identity_grounded"] is True
+
+
 def test_full_entity_zone_play_is_distinct_direct_membership_source():
     source = b"".join([
         _line("Player EntityID=1 PlayerID=1"),
