@@ -23,6 +23,8 @@ def test_reference_fingerprints_present():
 
 
 def test_simulator_v1_contract_fields():
+    from tests.ml_testutil import require_ml
+    require_ml()  # runtime_fingerprint imports numpy + torch
     c = build_simulator_v1_contract(lobbies=10, evaluation_seed=0)
     assert c["fidelity_benchmark_version"] == FIDELITY_BENCHMARK_VERSION
     assert c["simulator_version"] == "Simulator v1"
@@ -67,6 +69,8 @@ def test_turn_curve_no_extrapolation():
 
 
 def test_run_benchmark_smoke():
+    from tests.ml_testutil import require_ml
+    require_ml()  # contract builder records a Torch/NumPy runtime fingerprint
     result = run_benchmark(lobbies=2, seed=0)
     assert result["benchmark"] == FIDELITY_BENCHMARK_VERSION
     assert "reference_label" in result

@@ -103,6 +103,8 @@ def test_phase_2f_decision_sell_from_flags_not_fate_c():
 
 
 def test_fidelity_phase_2f_runner_smoke(tmp_path):
+    from tests.ml_testutil import require_ml
+    require_ml()  # contract builder records a Torch/NumPy runtime fingerprint
     from ml.fidelity_phase_2f import run_phase_2f
     result = run_phase_2f(
         lobbies=2, seed=1000, out_dir=str(tmp_path / "p2f"),

@@ -9,14 +9,12 @@ import statistics as st
 
 import pytest
 
-np = pytest.importorskip("numpy")
-
 from ml import seeds
 from ml.analyze_benchmark import compare_pair, load_result
-from ml.model_fingerprint import checkpoint_fingerprint, checkpoint_parameter_sha256
+from ml.model_fingerprint import checkpoint_fingerprint
 from ml.seeds import (DEV_SEED_START, DEV_SEED_END, EVAL_SEED_START, EVAL_SEED_END,
                       overlaps_dev_range, overlaps_eval_range, ppo_episode_seed)
-from scripts.ppo_multiseed_report import classify_ushape
+from tests.ml_testutil import write_tiny_policy_checkpoint
 
 BASE_DIR = "results/ppo_multiseed_v1"
 AGG_DIR = os.path.join(BASE_DIR, "aggregate")
@@ -25,11 +23,37 @@ EXP2_DIR = "results/ppo_budget_v1"
 
 
 def test_warm_start_parameter_hash_identical_across_seeds():
-    """Verify that all seed iter_000 checkpoints match the warm-start parameter hash."""
-    warm_fp = checkpoint_fingerprint("ml/policy_bc.pt")
-    warm_sha = warm_fp["parameter_sha256"]
-    assert warm_sha is not None and len(warm_sha) == 64
+    """Seed 1–3 iter_000 parameter hashes match the BC warm start.
 
+    Generated ``*.pt`` files are gitignored. On a clean checkout the committed
+    Experiment 3 manifest is the evidence. When local checkpoints exist, the
+    same equality is re-checked against live model bytes.
+    """
+    summary_path = f"{BASE_DIR}/manifest.json"
+    assert os.path.exists(summary_path), f"Missing {summary_path}"
+    manifest = json.load(open(summary_path))
+    warm_sha = manifest["warm_start"]["parameter_sha256"]
+    assert warm_sha is not None and len(warm_sha) == 64
+    assert manifest["warm_start"]["identical_across_all_seeds"] is True
+
+    for s in [1, 2, 3]:
+        recorded = None
+        for ck in manifest["per_seed_training"][f"seed_{s}"]["checkpoints"]:
+            if ck["iteration"] == 0:
+                recorded = ck["parameter_sha256"]
+                break
+        assert recorded == warm_sha, (
+            f"Seed {s} iter_000 recorded parameter hash {recorded} "
+            f"does not match warm start {warm_sha}"
+        )
+
+    warm_path = "ml/policy_bc.pt"
+    if not os.path.isfile(warm_path):
+        return
+    from tests.ml_testutil import require_ml
+    require_ml()
+    live = checkpoint_fingerprint(warm_path)["parameter_sha256"]
+    assert live == warm_sha
     for s in [1, 2, 3]:
         ckpt_path = f"{BASE_DIR}/seed_{s}/checkpoints/iter_000.pt"
         if os.path.exists(ckpt_path):
@@ -38,6 +62,28 @@ def test_warm_start_parameter_hash_identical_across_seeds():
                 f"Seed {s} iter_000 parameter hash {fp['parameter_sha256']} "
                 f"does not match warm start {warm_sha}"
             )
+
+
+def test_warm_start_hash_identity_on_temp_fixtures(tmp_path):
+    """Live-byte stand-in for ml/policy_bc.pt vs seed iter_000.pt.
+
+    Generated checkpoints are not committed. This builds a deterministic
+    temporary PolicyNet, writes it as a warm start and as iter_000 under
+    two filenames, and asserts parameter hashes match (filename-independent).
+    """
+    from ml.model_fingerprint import checkpoint_parameter_sha256, file_sha256
+
+    warm = str(tmp_path / "policy_bc.pt")
+    iter0_a = str(tmp_path / "seed_1_iter_000.pt")
+    iter0_b = str(tmp_path / "seed_2_iter_000.pt")
+    write_tiny_policy_checkpoint(warm, seed=0, meta={"kind": "bc"})
+    write_tiny_policy_checkpoint(iter0_a, seed=0, meta={"kind": "ppo", "iter": 0})
+    write_tiny_policy_checkpoint(iter0_b, seed=0, meta={"kind": "ppo", "iter": 0})
+    h = checkpoint_parameter_sha256(warm)
+    assert checkpoint_parameter_sha256(iter0_a) == h
+    assert checkpoint_parameter_sha256(iter0_b) == h
+    # raw artifact hashes still differ across filenames (Experiment 1 bug)
+    assert file_sha256(warm) != file_sha256(iter0_a)
 
 
 def test_training_seed_metadata_and_ranges():
@@ -140,6 +186,9 @@ def test_within_seed_paired_comparisons_math():
 
 def test_ushape_classification_logic():
     """Unit test the descriptive U-shape classification function with synthetic inputs."""
+    pytest.importorskip("numpy")  # scripts.ppo_multiseed_report imports numpy
+    from scripts.ppo_multiseed_report import classify_ushape
+
     # 1. Synthetic U-shape: improves at iter 80, regresses at iter 320
     synth_u = {
         "iter040_vs_iter000": {"ci95": [-0.1, 0.1], "mean_diff": 0.0},

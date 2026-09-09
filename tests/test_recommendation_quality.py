@@ -3,6 +3,8 @@ tech cards were over-recommended, and positioning advice was always generic
 because the live opponent board wasn't threaded into the recommender.
 """
 
+import pytest
+
 from hsbg_coach import cards
 from hsbg_coach.board_value import get_scorer
 from hsbg_coach.card_roles import is_tech, tech_note
@@ -641,7 +643,7 @@ def test_whole_state_folds_into_training_features():
     # The retrain can fold the ENTIRE state (tier/gold/hp/turn/opponents/trinkets/
     # anomaly), not just the board — context features, versioned so the old
     # board-only model still works.
-    import numpy as np
+    pytest.importorskip("numpy")
     from ml.board_features import context_vector, full_vector, board_vector, CONTEXT_DIM
     from ml.board_dataset import to_arrays
     from hsbg_coach.synergy import load_embeddings

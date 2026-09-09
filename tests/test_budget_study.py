@@ -33,6 +33,7 @@ def _net(seed=0):
 def test_parameter_hash_is_filename_independent(tmp_path):
     """The exact bug Experiment 1 found: identical weights under different
     filenames must share a parameter hash even though their bytes differ."""
+    _torch()  # skip before importing the Torch-backed policy_net module
     from ml.policy_net import save_policy
     net = _net()
     a, b = str(tmp_path / "policy_ppo.pt"), str(tmp_path / "ppo_repro.pt")
@@ -91,6 +92,7 @@ def test_shaping_horizon_preserves_original_40_iteration_schedule():
 
 def test_shaping_series_matches_trainer_formula(tmp_path, monkeypatch):
     """Pin the helper above against the real trainer's logged shaping."""
+    _torch()  # skip before importing train_ppo / policy_net
     from ml.policy_net import save_policy
     from ml.train_ppo import main as ppo_main
     warm = str(tmp_path / "warm.pt")
@@ -167,6 +169,7 @@ def test_confusion_rejects_length_mismatch():
 
 # --- RL signal ----------------------------------------------------------------
 def test_rl_signal_known_values():
+    _torch()  # rl_signal lives in train_ppo, which imports torch at module load
     from ml.train_ppo import rl_signal
     adv = [1.0, -1.0, 0.0, 2.0]
     ret = [1.0, 2.0, 3.0, 4.0]
@@ -186,6 +189,7 @@ def test_rl_signal_known_values():
 
 
 def test_rl_signal_explained_variance_degenerates_safely():
+    _torch()  # rl_signal lives in train_ppo, which imports torch at module load
     from ml.train_ppo import rl_signal
     # value head predicting the mean only -> EV 0; constant returns -> None
     s = rl_signal([0.0, 0.0], [1.0, 3.0], [2.0, 2.0], [1, 2], [0.0], [0.0])

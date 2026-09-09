@@ -144,6 +144,7 @@ def test_drift_metrics_agreements():
 
 
 def test_corpus_is_deterministic_and_dev_ranged():
+    _torch()  # build_corpus → ml.bc, which imports torch at module load
     from ml.policy_drift import CORPUS_SEED_BASE, CORPUS_LOBBIES, build_corpus
     assert seeds.DEV_SEED_START <= CORPUS_SEED_BASE
     assert CORPUS_SEED_BASE + CORPUS_LOBBIES - 1 <= seeds.DEV_SEED_END
@@ -216,6 +217,7 @@ def test_ppo_checkpoint_schedule_and_training_unchanged(tmp_path):
 
 
 def test_ppo_save_iters_requires_save_dir(tmp_path):
+    _torch()  # skip before importing train_ppo
     from ml.train_ppo import main as ppo_main
     with pytest.raises(SystemExit):
         ppo_main(["--iters", "1", "--save-iters", "0"])

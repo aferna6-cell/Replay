@@ -97,6 +97,8 @@ def test_deploy_policy_matches_stress_when_no_deploy_needed():
 
 
 def test_phase_2g_smoke():
+    from tests.ml_testutil import require_ml
+    require_ml()  # contract builder records a Torch/NumPy runtime fingerprint
     from ml.fidelity_phase_2g import run_phase_2g
     result = run_phase_2g(
         lobbies=2, seed=PHASE_2G_EVAL_SEED_BASE,

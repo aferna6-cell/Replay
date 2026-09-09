@@ -71,6 +71,8 @@ def test_stress_policy_play_before_buy():
 
 
 def test_phase_2e_smoke():
+    from tests.ml_testutil import require_ml
+    require_ml()  # contract builder records a Torch/NumPy runtime fingerprint
     from ml.fidelity_phase_2e import run_phase_2e
     result = run_phase_2e(
         lobbies=2, seed=PHASE_2E_EVAL_SEED_BASE,

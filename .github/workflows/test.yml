@@ -1,0 +1,45 @@
+# PR/push CI for the integration branch.
+# Core job: stdlib + pytest only. ML tests skip.
+# ML job: declared NumPy + CPU Torch. Full suite.
+# Do not rely on packages preinstalled on the runner image.
+name: Test
+
+"on":
+  push:
+    branches:
+      - claude/hearthstone-battlegrounds-ml-00rjn5
+  pull_request:
+    branches:
+      - claude/hearthstone-battlegrounds-ml-00rjn5
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    name: core (pytest extra only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Core suite
+        run: uv run --isolated --extra dev pytest -q
+
+  ml:
+    name: ml (full extra)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - name: Full suite
+        run: uv run --isolated --extra full pytest -q
