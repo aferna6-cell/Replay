@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - chatgpt/phase-3u-powerlog-independent
+  pull_request:
+    branches:
+      - claude/hearthstone-battlegrounds-ml-00rjn5
   workflow_dispatch:
 
 permissions:
@@ -27,6 +30,14 @@ jobs:
           tests/test_phase_3u_powerlog_post_state.py
           tests/test_phase_3u_powerlog_play_membership.py
           tests/test_phase_3u_powerlog_entity_type.py
+      - name: Require clean tracked and untracked repository state before measurement
+        run: |
+          status="$(git status --porcelain --untracked-files=all)"
+          if [ -n "$status" ]; then
+            printf '%s\n' "$status"
+            echo "repository is not clean before measurement" >&2
+            exit 1
+          fi
       - name: Verify frozen Power.log Git blob
         run: test "$(git hash-object Power.log)" = "b5df1f2955a9b439206066119c7d1bc27b05b80c"
       - name: Run source-grounded measurement probes
@@ -38,10 +49,15 @@ jobs:
           python -m ml.phase_3u_powerlog_play_membership --source Power.log --out artifacts/powerlog_play_membership.json
           python -m ml.phase_3u_powerlog_entity_type --source Power.log --out artifacts/powerlog_entity_type.json
       - name: Validate PR 66 measurement equivalence, fail-closed outputs, and provenance
+        env:
+          SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+          SOURCE_COMMIT_KIND: ${{ github.event_name == 'pull_request' && 'pull_request_head' || 'execution' }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           python - <<'PY'
           import hashlib
           import json
+          import os
           import subprocess
           from pathlib import Path
 
@@ -123,9 +139,17 @@ jobs:
                       h.update(chunk)
               return h.hexdigest()
 
+          execution_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          source_commit = os.environ['SOURCE_COMMIT'].strip()
+          if len(execution_commit) != 40 or len(source_commit) != 40:
+              raise SystemExit('invalid execution/source commit provenance')
+
           manifest = {
-              'execution_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
-              'working_tree_clean': subprocess.call(['git', 'diff', '--quiet']) == 0 and subprocess.call(['git', 'diff', '--cached', '--quiet']) == 0,
+              'execution_commit': execution_commit,
+              'source_commit': source_commit,
+              'source_commit_kind': os.environ['SOURCE_COMMIT_KIND'],
+              'event_name': os.environ['EVENT_NAME'],
+              'working_tree_clean_before_measurement': True,
               'powerlog_git_blob': subprocess.check_output(['git', 'hash-object', 'Power.log'], text=True).strip(),
               'powerlog_source_sha256': next(iter(source_hashes)),
               'pr66_measurement_equivalence_asserted': True,
