@@ -107,3 +107,36 @@ def test_noncanonical_mirror_cardtype_is_ignored():
     assert result["cardtype_grounded"] == 0
     assert result["explicit_minion_grounded"] == 0
     assert result["retrospective_cardtype_candidates"] == 0
+
+
+def test_post_exit_type_stays_noncausal_for_first_interval_but_can_ground_later_reentry():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
+        _line("TAG_CHANGE Entity=25 tag=CARDTYPE value=MINION"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+    ])
+    result = audit_powerlog_entity_type(source)
+    first, second = result["per_game"][0]["intervals"]
+    assert first["cardtype_grounded"] is False
+    assert first["retrospective_cardtype_candidate"] == "MINION"
+    assert first["retrospective_candidate_is_causal_grounding"] is False
+    assert second["cardtype_known_at_entry"] == "MINION"
+    assert second["cardtype_grounded"] is True
+    assert second["explicit_minion_grounded"] is True
+
+
+def test_duplicate_play_assertion_does_not_extend_cardtype_causal_window_past_real_exit():
+    source = b"".join([
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=PLAY"),
+        _line("TAG_CHANGE Entity=25 tag=ZONE value=HAND"),
+        _line("TAG_CHANGE Entity=25 tag=CARDTYPE value=MINION"),
+    ])
+    result = audit_powerlog_entity_type(source)
+    row = result["per_game"][0]["intervals"][0]
+    assert row["duplicate_play_assertions"] == 1
+    assert row["cardtype_grounded"] is False
+    assert row["forward_cardtype"] is None
+    assert row["post_exit_cardtype"] == "MINION"
+    assert row["retrospective_cardtype_candidate"] == "MINION"
