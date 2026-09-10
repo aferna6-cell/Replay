@@ -1,6 +1,10 @@
 from copy import deepcopy
 
-from hsbg_coach.external_reference_intake import accepted, validate_manifest
+from hsbg_coach.external_reference_intake import (
+    accepted,
+    evaluation_membership_sha256,
+    validate_manifest,
+)
 
 
 HEX = "a" * 64
@@ -50,6 +54,26 @@ def _manifest(lobbies=None):
 
 def _codes(manifest, **kwargs):
     return {failure["code"] for failure in validate_manifest(manifest, **kwargs)}
+
+
+def _full_manifest():
+    lobbies = []
+    for i in range(250):
+        split = "calibration" if i < 50 else "evaluation"
+        lobby = _lobby(split, str((i % 9) + 1))
+        lobby["lobby_id"] = f"lobby-{i}"
+        lobby["session_id"] = f"session-{i}"
+        lobby["player_id"] = f"player-{i}"
+        lobby["raw_sha256"] = f"{i + 1:064x}"
+        lobby["reference_sha256"] = f"{i + 251:064x}"
+        lobby["checkpoint_sha256"] = f"{i + 501:064x}"
+        lobby["sync_sha256"] = f"{i + 751:064x}"
+        lobby["checkpoints"][0]["checkpoint_id"] = f"cp-{i}"
+        lobbies.append(lobby)
+    manifest = _manifest(lobbies)
+    manifest["evaluation_manifest_frozen"] = True
+    manifest["evaluation_inspected_before_freeze"] = False
+    return manifest
 
 
 def test_valid_dry_run_is_accepted():
@@ -146,31 +170,61 @@ def test_checkpoint_turn_must_be_t5_through_t10():
     assert "TURN_RANGE" in _codes(manifest)
 
 
-def test_full_corpus_mode_requires_exact_frozen_split_counts_and_freeze():
+def test_full_corpus_mode_requires_exact_frozen_split_counts_and_external_freeze_anchor():
     codes = _codes(_manifest(), require_full_corpus=True)
     assert {
         "CALIBRATION_COUNT",
         "EVALUATION_COUNT",
         "EVALUATION_NOT_FROZEN",
         "EVALUATION_EARLY_INSPECTION",
+        "EVALUATION_FREEZE_ANCHOR_REQUIRED",
     } <= codes
 
 
-def test_full_corpus_exact_50_200_can_pass_without_scoring_parser_output():
-    lobbies = []
-    for i in range(250):
-        split = "calibration" if i < 50 else "evaluation"
-        lobby = _lobby(split, str((i % 9) + 1))
-        lobby["lobby_id"] = f"lobby-{i}"
-        lobby["session_id"] = f"session-{i}"
-        lobby["player_id"] = f"player-{i}"
-        lobby["raw_sha256"] = f"{i + 1:064x}"
-        lobby["reference_sha256"] = f"{i + 251:064x}"
-        lobby["checkpoint_sha256"] = f"{i + 501:064x}"
-        lobby["sync_sha256"] = f"{i + 751:064x}"
-        lobby["checkpoints"][0]["checkpoint_id"] = f"cp-{i}"
-        lobbies.append(lobby)
-    manifest = _manifest(lobbies)
-    manifest["evaluation_manifest_frozen"] = True
-    manifest["evaluation_inspected_before_freeze"] = False
-    assert validate_manifest(manifest, require_full_corpus=True) == []
+def test_full_corpus_exact_50_200_passes_with_matching_external_freeze_digest():
+    manifest = _full_manifest()
+    frozen_digest = evaluation_membership_sha256(manifest)
+    assert validate_manifest(
+        manifest,
+        require_full_corpus=True,
+        expected_evaluation_membership_sha256=frozen_digest,
+    ) == []
+    assert accepted(
+        manifest,
+        require_full_corpus=True,
+        expected_evaluation_membership_sha256=frozen_digest,
+    )
+
+
+def test_evaluation_replacement_after_freeze_is_detected_even_with_same_200_count():
+    manifest = _full_manifest()
+    frozen_digest = evaluation_membership_sha256(manifest)
+    replacement = deepcopy(manifest)
+    replacement["lobbies"][50]["raw_sha256"] = "f" * 64
+    codes = _codes(
+        replacement,
+        require_full_corpus=True,
+        expected_evaluation_membership_sha256=frozen_digest,
+    )
+    assert "EVALUATION_MEMBERSHIP_CHANGED" in codes
+
+
+def test_evaluation_top_up_swap_after_freeze_is_detected():
+    manifest = _full_manifest()
+    frozen_digest = evaluation_membership_sha256(manifest)
+    changed = deepcopy(manifest)
+    changed["lobbies"][50] = _lobby("evaluation", "e")
+    changed["lobbies"][50]["lobby_id"] = "post-inspection-top-up"
+    changed["lobbies"][50]["session_id"] = "post-inspection-session"
+    changed["lobbies"][50]["player_id"] = "post-inspection-player"
+    changed["lobbies"][50]["raw_sha256"] = "e" * 64
+    changed["lobbies"][50]["reference_sha256"] = "f" * 64
+    changed["lobbies"][50]["checkpoint_sha256"] = "0" * 64
+    changed["lobbies"][50]["sync_sha256"] = "1" * 64
+    changed["lobbies"][50]["checkpoints"][0]["checkpoint_id"] = "post-inspection-cp"
+    codes = _codes(
+        changed,
+        require_full_corpus=True,
+        expected_evaluation_membership_sha256=frozen_digest,
+    )
+    assert "EVALUATION_MEMBERSHIP_CHANGED" in codes
