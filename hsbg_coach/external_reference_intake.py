@@ -8,9 +8,10 @@ in GitHub issue #67.
 
 from __future__ import annotations
 
+import math
 import re
 from collections import defaultdict
-from typing import Any, Dict, Iterable, List, Mapping, Sequence
+from typing import Any, Dict, Iterable, List, Mapping
 
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _ALLOWED_SPLITS = {"calibration", "evaluation"}
@@ -54,6 +55,10 @@ def _duplicates(values: Iterable[str]) -> set[str]:
             duplicates.add(value)
         seen.add(value)
     return duplicates
+
+
+def _nonempty_string(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
 
 
 def validate_manifest(
@@ -115,7 +120,7 @@ def validate_manifest(
             split_counts[split] += 1
 
         lobby_id = lobby.get("lobby_id")
-        if isinstance(lobby_id, str) and lobby_id:
+        if _nonempty_string(lobby_id):
             lobby_ids.append(lobby_id)
         else:
             failures.append(_failure("LOBBY_ID", loc, "lobby_id must be non-empty"))
@@ -145,9 +150,22 @@ def validate_manifest(
 
         session_id = lobby.get("session_id")
         player_id = lobby.get("player_id")
-        if isinstance(session_id, str) and session_id and split in _ALLOWED_SPLITS:
+        patch = lobby.get("patch")
+        platform = lobby.get("platform")
+        for field, value in (
+            ("session_id", session_id),
+            ("player_id", player_id),
+            ("patch", patch),
+            ("platform", platform),
+        ):
+            if not _nonempty_string(value):
+                failures.append(
+                    _failure("LOBBY_METADATA_INVALID", loc, f"{field} must be a non-empty string")
+                )
+
+        if _nonempty_string(session_id) and split in _ALLOWED_SPLITS:
             split_by_session[session_id].add(split)
-        if isinstance(player_id, str) and player_id and split in _ALLOWED_SPLITS:
+        if _nonempty_string(player_id) and split in _ALLOWED_SPLITS:
             split_by_player[player_id].add(split)
 
         checkpoints = lobby.get("checkpoints")
@@ -168,7 +186,7 @@ def validate_manifest(
                     failures.append(_failure("CHECKPOINT_FIELD_MISSING", c_loc, field))
 
             checkpoint_id = checkpoint.get("checkpoint_id")
-            if isinstance(checkpoint_id, str) and checkpoint_id:
+            if _nonempty_string(checkpoint_id):
                 checkpoint_ids.append(checkpoint_id)
             else:
                 failures.append(_failure("CHECKPOINT_ID", c_loc, "checkpoint_id must be non-empty"))
@@ -178,8 +196,15 @@ def validate_manifest(
                 failures.append(_failure("TURN_RANGE", c_loc, "turn must be integer T5-T10"))
             if checkpoint.get("kind") not in _ALLOWED_CHECKPOINT_KINDS:
                 failures.append(_failure("CHECKPOINT_KIND", c_loc, "unsupported checkpoint kind"))
-            if not isinstance(checkpoint.get("reference_timestamp"), (int, float)):
-                failures.append(_failure("REFERENCE_TIME", c_loc, "reference_timestamp must be numeric"))
+            reference_timestamp = checkpoint.get("reference_timestamp")
+            if (
+                not isinstance(reference_timestamp, (int, float))
+                or isinstance(reference_timestamp, bool)
+                or not math.isfinite(reference_timestamp)
+            ):
+                failures.append(
+                    _failure("REFERENCE_TIME", c_loc, "reference_timestamp must be a finite numeric value")
+                )
             if checkpoint.get("sync_within_tolerance") is not True:
                 failures.append(_failure("SYNC_AMBIGUOUS", c_loc, "checkpoint is not uniquely aligned"))
             if checkpoint.get("simultaneous_board") is not True:
