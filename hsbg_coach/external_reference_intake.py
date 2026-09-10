@@ -29,6 +29,10 @@ _REQUIRED_LOBBY_FIELDS = (
     "platform",
     "privacy_reviewed",
     "independent_reference",
+    "observer_passes",
+    "observer_sequence_agrees",
+    "sync_mapping_frozen_before_scoring",
+    "sync_validation_passed",
     "checkpoints",
 )
 _REQUIRED_CHECKPOINT_FIELDS = (
@@ -68,7 +72,8 @@ def validate_manifest(
 
     ``require_full_corpus=False`` is for a prospective dry run. It validates the
     same invariants but does not require 50 calibration + 200 evaluation lobbies.
-    ``require_full_corpus=True`` additionally freezes those exact split counts.
+    ``require_full_corpus=True`` additionally freezes those exact split counts
+    and requires the held-out evaluation corpus to be frozen before inspection.
     """
 
     failures: List[Dict[str, str]] = []
@@ -145,6 +150,38 @@ def validate_manifest(
                     "REFERENCE_NOT_INDEPENDENT",
                     loc,
                     "reference must be generated independently of Replay parser/state",
+                )
+            )
+        if lobby.get("observer_passes") != 2:
+            failures.append(
+                _failure(
+                    "OBSERVER_REVIEW",
+                    loc,
+                    "exactly two observer-only passes are required",
+                )
+            )
+        if lobby.get("observer_sequence_agrees") is not True:
+            failures.append(
+                _failure(
+                    "OBSERVER_SEQUENCE_MISMATCH",
+                    loc,
+                    "observer-only passes must reproduce checkpoint count/order",
+                )
+            )
+        if lobby.get("sync_mapping_frozen_before_scoring") is not True:
+            failures.append(
+                _failure(
+                    "SYNC_NOT_FROZEN",
+                    loc,
+                    "clock mapping/tolerance must be frozen before parser scoring",
+                )
+            )
+        if lobby.get("sync_validation_passed") is not True:
+            failures.append(
+                _failure(
+                    "SYNC_VALIDATION",
+                    loc,
+                    "withheld non-board synchronization anchors must pass",
                 )
             )
 
@@ -262,6 +299,22 @@ def validate_manifest(
                     "EVALUATION_COUNT",
                     "manifest",
                     f"expected exactly 200 evaluation lobbies; got {split_counts['evaluation']}",
+                )
+            )
+        if manifest.get("evaluation_manifest_frozen") is not True:
+            failures.append(
+                _failure(
+                    "EVALUATION_NOT_FROZEN",
+                    "manifest",
+                    "held-out evaluation manifest must be frozen before inspection",
+                )
+            )
+        if manifest.get("evaluation_inspected_before_freeze") is not False:
+            failures.append(
+                _failure(
+                    "EVALUATION_EARLY_INSPECTION",
+                    "manifest",
+                    "evaluation data must not be inspected before the freeze",
                 )
             )
 
