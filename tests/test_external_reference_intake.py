@@ -84,6 +84,24 @@ def test_ambiguous_sync_and_non_simultaneous_board_fail():
     assert {"SYNC_AMBIGUOUS", "NON_SIMULTANEOUS"} <= _codes(manifest)
 
 
+def test_required_split_identity_and_stratum_metadata_must_be_nonempty():
+    manifest = _manifest()
+    lobby = manifest["lobbies"][0]
+    lobby["session_id"] = ""
+    lobby["player_id"] = "   "
+    lobby["patch"] = None
+    lobby["platform"] = ""
+    assert "LOBBY_METADATA_INVALID" in _codes(manifest)
+    assert not accepted(manifest)
+
+
+def test_reference_timestamp_must_be_finite_numeric_not_bool():
+    for invalid in (True, False, float("nan"), float("inf"), float("-inf"), "1.25"):
+        manifest = _manifest()
+        manifest["lobbies"][0]["checkpoints"][0]["reference_timestamp"] = invalid
+        assert "REFERENCE_TIME" in _codes(manifest)
+
+
 def test_cross_split_session_and_player_leakage_fail():
     calibration = _lobby("calibration", "1")
     evaluation = _lobby("evaluation", "2")
@@ -117,7 +135,6 @@ def test_full_corpus_exact_50_200_can_pass_without_scoring_parser_output():
     lobbies = []
     for i in range(250):
         split = "calibration" if i < 50 else "evaluation"
-        suffix = f"{i + 1:064x}"
         lobby = _lobby(split, str((i % 9) + 1))
         lobby["lobby_id"] = f"lobby-{i}"
         lobby["session_id"] = f"session-{i}"
