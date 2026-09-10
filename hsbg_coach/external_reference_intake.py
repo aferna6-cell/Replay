@@ -8,6 +8,8 @@ in GitHub issue #67.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 import re
 from collections import defaultdict
@@ -45,6 +47,17 @@ _REQUIRED_CHECKPOINT_FIELDS = (
     "all_required_fields_resolved",
     "replay_derived_repair",
 )
+_EVALUATION_MEMBERSHIP_FIELDS = (
+    "lobby_id",
+    "raw_sha256",
+    "reference_sha256",
+    "checkpoint_sha256",
+    "sync_sha256",
+    "session_id",
+    "player_id",
+    "patch",
+    "platform",
+)
 
 
 def _failure(code: str, location: str, detail: str) -> Dict[str, str]:
@@ -65,15 +78,42 @@ def _nonempty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+def evaluation_membership_sha256(manifest: Mapping[str, Any]) -> str:
+    """Return a deterministic digest of held-out evaluation membership/provenance.
+
+    The digest intentionally excludes annotations, parser output, and scores. It
+    binds the independently acquired lobby identities and immutable source/reference
+    artifacts so a previously frozen held-out set cannot be silently replaced or
+    topped up after inspection.
+    """
+
+    lobbies = manifest.get("lobbies")
+    if not isinstance(lobbies, list):
+        return ""
+
+    membership = []
+    for lobby in lobbies:
+        if not isinstance(lobby, Mapping) or lobby.get("split") != "evaluation":
+            continue
+        membership.append({field: lobby.get(field) for field in _EVALUATION_MEMBERSHIP_FIELDS})
+    membership.sort(key=lambda row: str(row.get("lobby_id")))
+    canonical = json.dumps(membership, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
 def validate_manifest(
-    manifest: Mapping[str, Any], *, require_full_corpus: bool = False
+    manifest: Mapping[str, Any],
+    *,
+    require_full_corpus: bool = False,
+    expected_evaluation_membership_sha256: str | None = None,
 ) -> List[Dict[str, str]]:
     """Return fail-closed intake failures; an empty list means acquisition QA passes.
 
     ``require_full_corpus=False`` is for a prospective dry run. It validates the
     same invariants but does not require 50 calibration + 200 evaluation lobbies.
-    ``require_full_corpus=True`` additionally freezes those exact split counts
-    and requires the held-out evaluation corpus to be frozen before inspection.
+    ``require_full_corpus=True`` additionally freezes those exact split counts,
+    requires the held-out evaluation corpus to be frozen before inspection, and
+    requires an externally retained evaluation-membership digest from that freeze.
     """
 
     failures: List[Dict[str, str]] = []
@@ -317,11 +357,41 @@ def validate_manifest(
                     "evaluation data must not be inspected before the freeze",
                 )
             )
+        if (
+            not isinstance(expected_evaluation_membership_sha256, str)
+            or not _SHA256_RE.fullmatch(expected_evaluation_membership_sha256)
+        ):
+            failures.append(
+                _failure(
+                    "EVALUATION_FREEZE_ANCHOR_REQUIRED",
+                    "manifest",
+                    "full-corpus validation requires the externally retained freeze digest",
+                )
+            )
+        else:
+            current_digest = evaluation_membership_sha256(manifest)
+            if current_digest != expected_evaluation_membership_sha256:
+                failures.append(
+                    _failure(
+                        "EVALUATION_MEMBERSHIP_CHANGED",
+                        "manifest",
+                        "held-out evaluation membership/provenance differs from frozen digest",
+                    )
+                )
 
     return failures
 
 
-def accepted(manifest: Mapping[str, Any], *, require_full_corpus: bool = False) -> bool:
+def accepted(
+    manifest: Mapping[str, Any],
+    *,
+    require_full_corpus: bool = False,
+    expected_evaluation_membership_sha256: str | None = None,
+) -> bool:
     """Convenience predicate; acceptance means zero fail-closed acquisition errors."""
 
-    return not validate_manifest(manifest, require_full_corpus=require_full_corpus)
+    return not validate_manifest(
+        manifest,
+        require_full_corpus=require_full_corpus,
+        expected_evaluation_membership_sha256=expected_evaluation_membership_sha256,
+    )
