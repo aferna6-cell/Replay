@@ -20,6 +20,10 @@ def _lobby(split="calibration", suffix="1"):
         "platform": "windows",
         "privacy_reviewed": True,
         "independent_reference": True,
+        "observer_passes": 2,
+        "observer_sequence_agrees": True,
+        "sync_mapping_frozen_before_scoring": True,
+        "sync_validation_passed": True,
         "checkpoints": [
             {
                 "checkpoint_id": f"cp-{suffix}",
@@ -66,6 +70,22 @@ def test_reference_must_be_independent_and_privacy_reviewed():
     manifest["lobbies"][0]["independent_reference"] = False
     manifest["lobbies"][0]["privacy_reviewed"] = False
     assert {"REFERENCE_NOT_INDEPENDENT", "PRIVACY_REVIEW"} <= _codes(manifest)
+
+
+def test_observer_re_review_and_sequence_agreement_fail_closed():
+    manifest = _manifest()
+    lobby = manifest["lobbies"][0]
+    lobby["observer_passes"] = 1
+    lobby["observer_sequence_agrees"] = False
+    assert {"OBSERVER_REVIEW", "OBSERVER_SEQUENCE_MISMATCH"} <= _codes(manifest)
+
+
+def test_sync_mapping_must_be_frozen_and_withheld_validation_pass():
+    manifest = _manifest()
+    lobby = manifest["lobbies"][0]
+    lobby["sync_mapping_frozen_before_scoring"] = False
+    lobby["sync_validation_passed"] = False
+    assert {"SYNC_NOT_FROZEN", "SYNC_VALIDATION"} <= _codes(manifest)
 
 
 def test_unresolved_or_replay_repaired_checkpoint_remains_failure():
@@ -126,9 +146,14 @@ def test_checkpoint_turn_must_be_t5_through_t10():
     assert "TURN_RANGE" in _codes(manifest)
 
 
-def test_full_corpus_mode_requires_exact_frozen_split_counts():
+def test_full_corpus_mode_requires_exact_frozen_split_counts_and_freeze():
     codes = _codes(_manifest(), require_full_corpus=True)
-    assert {"CALIBRATION_COUNT", "EVALUATION_COUNT"} <= codes
+    assert {
+        "CALIBRATION_COUNT",
+        "EVALUATION_COUNT",
+        "EVALUATION_NOT_FROZEN",
+        "EVALUATION_EARLY_INSPECTION",
+    } <= codes
 
 
 def test_full_corpus_exact_50_200_can_pass_without_scoring_parser_output():
@@ -146,4 +171,6 @@ def test_full_corpus_exact_50_200_can_pass_without_scoring_parser_output():
         lobby["checkpoints"][0]["checkpoint_id"] = f"cp-{i}"
         lobbies.append(lobby)
     manifest = _manifest(lobbies)
+    manifest["evaluation_manifest_frozen"] = True
+    manifest["evaluation_inspected_before_freeze"] = False
     assert validate_manifest(manifest, require_full_corpus=True) == []
