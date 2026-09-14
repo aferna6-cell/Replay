@@ -1,0 +1,30 @@
+D 12:00:00.000 GameState.DebugPrintPower() - CREATE_GAME
+D 12:00:00.001 GameState.DebugPrintPower() -     Player EntityID=8 PlayerID=3 GameAccountId=[hi=1 lo=1]
+D 12:00:00.002 GameState.DebugPrintGame() - PlayerID=3, PlayerName=ReplaySynthetic#0001
+D 12:00:00.003 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=ReplaySynthetic#0001 id=8 zone=PLAY zonePos=0 cardId= player=3] CardID=
+D 12:00:00.004 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=ReplaySynthetic#0001 id=8 zone=PLAY zonePos=0 cardId= player=3] tag=HERO_ENTITY value=100
+D 12:00:00.005 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=ReplaySynthetic#0001 id=8 zone=PLAY zonePos=0 cardId= player=3] tag=RESOURCES value=8
+D 12:00:00.006 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=ReplaySynthetic#0001 id=8 zone=PLAY zonePos=0 cardId= player=3] tag=RESOURCES_USED value=2
+D 12:00:00.010 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] CardID=TB_BaconShop_HERO_16
+D 12:00:00.011 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=CARDTYPE value=HERO
+D 12:00:00.012 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=ZONE value=PLAY
+D 12:00:00.013 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=HEALTH value=30
+D 12:00:00.014 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=ARMOR value=5
+D 12:00:00.015 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=DAMAGE value=4
+D 12:00:00.016 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=PLAYER_TECH_LEVEL value=3
+D 12:00:00.020 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=Synthetic Board Minion id=200 zone=PLAY zonePos=1 cardId=BGS_039 player=3] CardID=BGS_039
+D 12:00:00.021 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Board Minion id=200 zone=PLAY zonePos=1 cardId=BGS_039 player=3] tag=CARDTYPE value=MINION
+D 12:00:00.022 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Board Minion id=200 zone=PLAY zonePos=1 cardId=BGS_039 player=3] tag=ZONE_POSITION value=1
+D 12:00:00.023 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Board Minion id=200 zone=PLAY zonePos=1 cardId=BGS_039 player=3] tag=ATK value=4
+D 12:00:00.024 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Board Minion id=200 zone=PLAY zonePos=1 cardId=BGS_039 player=3] tag=HEALTH value=5
+D 12:00:00.030 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=274 CardID=TB_BaconShop_DragBuy
+D 12:00:00.031 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=Synthetic Shop Minion id=300 zone=PLAY zonePos=1 cardId=BGS_010 player=14] CardID=BGS_010
+D 12:00:00.032 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Shop Minion id=300 zone=PLAY zonePos=1 cardId=BGS_010 player=14] tag=CARDTYPE value=MINION
+D 12:00:00.033 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Shop Minion id=300 zone=PLAY zonePos=1 cardId=BGS_010 player=14] tag=ZONE_POSITION value=1
+D 12:00:00.034 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Shop Minion id=300 zone=PLAY zonePos=1 cardId=BGS_010 player=14] tag=ATK value=2
+D 12:00:00.035 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Shop Minion id=300 zone=PLAY zonePos=1 cardId=BGS_010 player=14] tag=HEALTH value=3
+D 12:00:00.040 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=Synthetic Trinket id=301 zone=PLAY zonePos=2 cardId=BG30_MagicItem_001 player=14] CardID=BG30_MagicItem_001
+D 12:00:00.041 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Trinket id=301 zone=PLAY zonePos=2 cardId=BG30_MagicItem_001 player=14] tag=CARDTYPE value=BATTLEGROUND_TRINKET
+D 12:00:00.042 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Trinket id=301 zone=PLAY zonePos=2 cardId=BG30_MagicItem_001 player=14] tag=ZONE_POSITION value=2
+D 12:00:00.050 GameState.DebugPrintPower() - FULL_ENTITY - Updating [entityName=UNKNOWN ENTITY [cardType=INVALID] id=302 zone=PLAY zonePos=3 cardId= player=14] CardID=
+D 12:00:00.060 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Synthetic Hero id=100 zone=PLAY zonePos=0 cardId=TB_BaconShop_HERO_16 player=3] tag=PLAYER_TECH_LEVEL value=4
