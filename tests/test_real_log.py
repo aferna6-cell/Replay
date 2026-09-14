@@ -1,5 +1,7 @@
-"""Live-parsing regression tests built from REAL macOS Hearthstone log lines
-(captured from a player's client). These pin the calibration so it doesn't break.
+"""Live-parsing regression tests built from calibrated Hearthstone log shapes.
+
+The short inline fixture below is synthetic. The legacy full-log tests still replay
+Power.log when present until that captured fixture is replaced by a synthetic one.
 """
 
 from pathlib import Path
@@ -10,17 +12,17 @@ from hsbg_coach.bg import BGTracker
 from hsbg_coach.parser import parse_line
 from hsbg_coach.choices import ChoiceParser
 
-# Full captured client log, committed at the repo root. The end-to-end test below
-# replays it and pins the live snapshot fields (local player, board, shop, tier,
-# gold, hp). Skipped gracefully if the fixture isn't present.
+# Legacy captured client log at the repo root. The end-to-end tests below replay it
+# until the same semantic coverage is moved to a synthetic fixture.
 REAL_LOG = Path(__file__).resolve().parent.parent / "Power.log"
 
-# Verbatim lines from a real client (Battlegrounds game start + hero mulligan).
+# Synthetic lines matching calibrated Battlegrounds game-start + hero-mulligan
+# shapes. Never put a real BattleTag or GameAccountId in source fixtures.
 REAL_LINES = """\
 D 23:18:29.3 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=35 CardID=TB_BaconShop_HERO_PH
 D 23:18:29.3 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=74 CardID=TB_BaconShopBob
 D 23:18:29.3 PowerTaskList.DebugPrintPower() -     FULL_ENTITY - Updating [entityName=Bartender Bob id=74 zone=PLAY zonePos=0 cardId=TB_BaconShopBob player=14] CardID=TB_BaconShopBob
-D 23:18:29.5 GameState.DebugPrintEntityChoices() - id=1 Player=QuirkyTurtle#1118798 TaskList=7 ChoiceType=MULLIGAN CountMin=1 CountMax=1
+D 23:18:29.5 GameState.DebugPrintEntityChoices() - id=1 Player=ReplaySynthetic#0001 TaskList=7 ChoiceType=MULLIGAN CountMin=1 CountMax=1
 D 23:18:29.5 GameState.DebugPrintEntityChoices() -   Source=GameEntity
 D 23:18:29.5 GameState.DebugPrintEntityChoices() -   Entities[0]=[entityName=A. F. Kay id=113 zone=HAND zonePos=1 cardId=TB_BaconShop_HERO_16 player=6]
 D 23:18:29.5 GameState.DebugPrintEntityChoices() -   Entities[1]=[entityName=Murloc Holmes id=114 zone=HAND zonePos=2 cardId=BG23_HERO_303 player=6]
@@ -31,8 +33,8 @@ D 23:18:30.0 GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=TURN
 
 
 def test_detects_battlegrounds_from_cardids():
-    # No LoadingScreen scene line in this client — detection must come from the
-    # TB_Bacon* entity cardIds.
+    # No LoadingScreen scene line in this client shape — detection must come from
+    # the TB_Bacon* entity cardIds.
     t = BGTracker()
     for ln in REAL_LINES:
         ev = parse_line(ln)
@@ -52,8 +54,35 @@ def test_hero_select_offer_uses_log_entity_names():
     assert offer.names == ["A. F. Kay", "Murloc Holmes", "Lich Baz'hial", "Ysera"]
 
 
+def test_synthetic_account_marker_identifies_local_player_and_name():
+    """A synthetic nonzero GameAccountId marker exercises local-seat detection.
+
+    This proves the behavior does not require retaining a real account identifier
+    or BattleTag in a regression fixture.
+    """
+    lines = [
+        "D 23:18:29.0 GameState.DebugPrintPower() - CREATE_GAME",
+        (
+            "D 23:18:29.1 GameState.DebugPrintPower() -     "
+            "Player EntityID=8 PlayerID=3 GameAccountId=[hi=1 lo=1]"
+        ),
+        (
+            "D 23:18:29.2 GameState.DebugPrintGame() - "
+            "PlayerID=3, PlayerName=ReplaySynthetic#0001"
+        ),
+    ]
+    t = BGTracker()
+    for line in lines:
+        ev = parse_line(line)
+        assert ev is not None
+        t.feed(ev)
+
+    assert t.local_player == 3
+    assert t.player_names.get(3) == "ReplaySynthetic#0001"
+
+
 def _replay(tracker: BGTracker, sample_every=0):
-    """Replay the full real log, optionally collecting recruit snapshots."""
+    """Replay the full legacy log, optionally collecting recruit snapshots."""
     samples = []
     with REAL_LOG.open(errors="ignore") as f:
         for i, line in enumerate(f):
@@ -65,18 +94,17 @@ def _replay(tracker: BGTracker, sample_every=0):
     return samples
 
 
-@pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
+@pytest.mark.skipif(not REAL_LOG.exists(), reason="legacy Power.log fixture absent")
 def test_full_log_identifies_local_player_and_names():
     t = BGTracker()
     _replay(t)
-    # The human is the only seat with a real GameAccountId (hi != 0). In the
-    # captured log that's QuirkyTurtle, PlayerID 3 in the final game.
+    # Legacy fixture assertion retained until the full fixture is replaced.
     assert t.in_bg is True
     assert t.local_player == 3
-    assert t.player_names.get(3) == "QuirkyTurtle#1118798"
+    assert t.player_names.get(3) is not None
 
 
-@pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
+@pytest.mark.skipif(not REAL_LOG.exists(), reason="legacy Power.log fixture absent")
 def test_full_log_snapshot_reads_board_shop_tier_gold_hp():
     t = BGTracker()
     samples = _replay(t, sample_every=300)
@@ -125,7 +153,7 @@ def test_phase_from_events_not_turn_parity():
     assert t.phase == Phase.RECRUIT
 
 
-@pytest.mark.skipif(not REAL_LOG.exists(), reason="real Power.log fixture absent")
+@pytest.mark.skipif(not REAL_LOG.exists(), reason="legacy Power.log fixture absent")
 def test_full_log_tavern_tier_never_regresses_within_a_game():
     """Tavern tier only goes up inside a game. Catches the bug where trinkets
     (which also carry PLAYER_TECH_LEVEL) leak in and make the tier jump around."""
