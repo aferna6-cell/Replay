@@ -2,6 +2,10 @@
 /data/*.jsonl
 /data/*.jsonl.partial
 
+# Raw Hearthstone client logs may contain account identifiers / BattleTags.
+# Keep synthetic regression fixtures under tests/ with a non-.log extension.
+Power*.log
+
 # Python
 __pycache__/
 *.py[cod]
