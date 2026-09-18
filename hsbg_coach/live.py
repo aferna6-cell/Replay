@@ -21,17 +21,17 @@ from .board_value import get_scorer
 from .economy import HeroContext
 from .parser import parse_line
 from .tail import tail_latest
+from .options import OptionsTracker
 
 
 def advice_lines(snapshot: dict, kb, scorer=None,
-                 hero_ctx: Optional[HeroContext] = None, top: int = 6) -> List[str]:
+                 hero_ctx: Optional[HeroContext] = None, top: int = 1) -> List[str]:
     """Ranked one-line recommendations for a snapshot, best first — scored by
     expected FINAL placement (whole-game value), so the future is accounted for.
 
-    Returns moves whenever you can act (the recruit phase) — even before the shop
-    is parsed, roll / tier up / hero power / end are always legal, so there's
-    always a next move to show (fixes the gap right after combat). Empty only in
-    combat/hero-select, where the choice path handles it. Pure + synchronous."""
+    Primary UX contract: return the single optimal next move (top=1 default).
+    Callers may request more for debug. Empty only in combat/hero-select, where
+    the choice path handles it. Pure + synchronous."""
     if snapshot.get("phase") not in ("recruit", "unknown"):
         return []
     from .game_value import rank_actions
@@ -56,14 +56,27 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # Show the *why* (synergy / tribe / sell-for-room / tech caveat) next to each
     # move. Suppress Reposition and End-turn — you don't need to be told to pass;
     # your turn ends when you hit 0 gold. Only show real actions to take.
-    from .actions import REPOSITION, END
+    from .actions import REPOSITION, END, HERO_POWER, ACTIVATE, DARK_GIFT
     shown = [r for r in recs if r.action.kind not in (REPOSITION, END)]
-    for r in shown[:top]:
+    # Prefer clickable specials when they rank near the top so HP / Activate /
+    # Dark Gift are not buried under filler buys.
+    priority = {HERO_POWER: 0, ACTIVATE: 1, DARK_GIFT: 2}
+
+    def _key(r):
+        bump = priority.get(r.action.kind)
+        if bump is not None and shown and r.placement <= shown[0].placement + 0.6:
+            return (0, bump, r.placement)
+        return (1, 0, r.placement)
+
+    shown.sort(key=_key)
+    for r in shown:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:
             line += f" — {r.reason}"
         out.append(line)
-    return out
+    # UX contract: default top=1 → a single next move (hand lines win only if
+    # they were prepended as free tempo before ranked actions).
+    return out[: max(1, top)] if out else out
 
 
 _MAX_BG_BOARD = 7
@@ -205,9 +218,15 @@ def _key(d: dict):
     opps = tuple((p.get("controller"), p.get("hero"), p.get("strength"))
                  for p in d.get("opponent_profiles", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
+    dg = (d.get("dark_gift") or {}).get("usable")
+    act = tuple(sorted(
+        ((a.get("entity_id"), a.get("usable"), a.get("cost"))
+         for a in (d.get("activatable") or [])),
+    ))
     return (board, shop, spells, hand, hand_m, trinkets, opps, d.get("gold"),
             d.get("tavern_tier"), d.get("phase"), hp, d.get("hero_health"),
-            d.get("anomaly"), d.get("hero"))
+            d.get("anomaly"), d.get("hero"), dg, act, d.get("shop_frozen"),
+            d.get("options_fp"))
 
 
 class LiveCoach:
@@ -219,7 +238,7 @@ class LiveCoach:
 
     def __init__(self, power_log: Optional[str] = None,
                  hero_ctx: Optional[HeroContext] = None,
-                 recorder=None, from_start: bool = False, top: int = 6):
+                 recorder=None, from_start: bool = False, top: int = 1):
         self.power_log = power_log
         self.hero_ctx = hero_ctx
         self._hero_ctx_auto = hero_ctx is None   # auto-build from the detected hero
@@ -237,6 +256,7 @@ class LiveCoach:
         self._model_path = os.path.join(os.path.dirname(__file__), "..", "ml",
                                         "eval_net.pt")
         self._model_mtime = self._scorer_mtime()
+        self._scorer_fingerprint = None
         self.trainer = None
         if recorder is not None:
             try:
@@ -247,6 +267,7 @@ class LiveCoach:
         from .choices import ChoiceParser
         from .stats import StatsDB
         self.choices = ChoiceParser()
+        self.options = OptionsTracker()
         self.db = StatsDB.load()
         self._offer = None              # active hero/trinket/discover choice
         self._lock = threading.Lock()
@@ -280,7 +301,28 @@ class LiveCoach:
             return
         try:
             from .stats import build_hero_context
-            self.hero_ctx = build_hero_context(hero, self.db)
+            from .meta_strategy import lobby_tribes
+            tribes = lobby_tribes(snap) or None
+            self.hero_ctx = build_hero_context(hero, self.db, available_tribes=tribes)
+            # Soft-override target tribe toward lobby meta winner when hero is flexible.
+            try:
+                from .meta_strategy import choose_meta_prior
+                prior = choose_meta_prior(snap, hero_ctx=self.hero_ctx, db=self.db)
+                if prior.preferred_tribe and self.hero_ctx is not None:
+                    # Keep hero lean if already set to a best tribe; else adopt meta.
+                    self.hero_ctx.target_tribe = (
+                        self.hero_ctx.target_tribe or prior.preferred_tribe.title()
+                    )
+                    if not self.hero_ctx.target_tribe:
+                        self.hero_ctx.target_tribe = prior.preferred_tribe.title()
+                    # Prefer meta tribe when board uncommitted.
+                    from .meta_strategy import board_tribe_commitment
+                    board = snap.get("board") or []
+                    committed, n = board_tribe_commitment(board)
+                    if n < 2 and prior.preferred_tribe:
+                        self.hero_ctx.target_tribe = prior.preferred_tribe.title()
+            except Exception:
+                pass
             self._hero_ctx_for = hero
         except Exception:
             pass
@@ -301,8 +343,85 @@ class LiveCoach:
             try:
                 self.scorer = get_scorer()
                 self._model_mtime = m
+                self._scorer_fingerprint = self._read_model_fingerprint()
             except Exception:
                 pass
+
+    def _read_model_fingerprint(self):
+        """Short identity from eval_net.pt.meta.json (or mtime) for verify-after-retrain."""
+        try:
+            from .learn import model_sidecar
+            side = model_sidecar(self._model_path)
+            meta = side.get("meta") or {}
+            return {
+                "sha": side.get("file_sha256_12") or meta.get("file_sha256_12"),
+                "mtime": side.get("mtime"),
+                "n_personal_games": meta.get("n_personal_games"),
+                "personal_weight": meta.get("personal_weight"),
+                "scorer": getattr(self.scorer, "name", type(self.scorer).__name__),
+            }
+        except Exception:
+            return {"mtime": self._model_mtime,
+                    "scorer": getattr(self.scorer, "name", type(self.scorer).__name__)}
+
+    def scorer_info(self) -> dict:
+        """What the live coach is currently using (for `learn status` / debug)."""
+        if getattr(self, "_scorer_fingerprint", None) is None:
+            self._scorer_fingerprint = self._read_model_fingerprint()
+        return dict(self._scorer_fingerprint)
+
+
+    def _enrich_from_options(self, snap: dict) -> dict:
+        """Merge latest client Options into the snapshot so advise sees clicks."""
+        try:
+            leg = self.options.legal()
+        except Exception:
+            return snap
+        snap["options_fp"] = self.options.fingerprint()
+        for o in leg:
+            if o.is_hero_power:
+                prev = snap.get("hero_power") or {}
+                snap["hero_power"] = {
+                    "name": o.name or "Hero Power",
+                    "card_id": o.card_id,
+                    "cost": prev.get("cost") or 0,
+                    "usable": True,
+                    "entity_id": o.entity_id,
+                }
+            if o.is_dark_gift:
+                prev = snap.get("dark_gift") or {}
+                snap["dark_gift"] = {
+                    "name": o.name or "Dark Gift",
+                    "card_id": o.card_id,
+                    "cost": prev.get("cost") or 3,
+                    "usable": True,
+                    "entity_id": o.entity_id,
+                }
+        if leg:
+            by_id = {a.get("entity_id"): dict(a)
+                     for a in (snap.get("activatable") or [])}
+            local = getattr(self.tracker, "local_player", None)
+            board_ids = {
+                (m.get("entity_id") if isinstance(m, dict)
+                 else getattr(m, "entity_id", None))
+                for m in (snap.get("board") or [])
+            }
+            for o in leg:
+                if o.entity_id in by_id:
+                    by_id[o.entity_id]["usable"] = True
+                elif (o.zone == "PLAY" and o.player == local
+                      and not o.is_tavern_button and not o.is_hero_power
+                      and not o.is_dark_gift and o.card_id
+                      and "Drag" not in o.card_id and "Button" not in o.card_id
+                      and "BaconShop" not in o.card_id
+                      and o.entity_id in board_ids and o.entity_id not in by_id):
+                    by_id[o.entity_id] = {
+                        "name": o.name, "card_id": o.card_id,
+                        "entity_id": o.entity_id, "cost": 0, "usable": True,
+                    }
+            if by_id:
+                snap["activatable"] = list(by_id.values())
+        return snap
 
     def _resolve_log(self) -> Optional[str]:
         from . import config
@@ -324,6 +443,11 @@ class LiveCoach:
                 self._offer = offer
             elif "SendChoices" in line:
                 self._offer = None                 # choice resolved
+            if self.options.feed(line):
+                # Legal click set changed → force advice recompute on next frame.
+                with self._lock:
+                    self._version += 1
+                    self._cache_key = None
             ev = parse_line(line)
             if ev is None:
                 continue
@@ -331,7 +455,10 @@ class LiveCoach:
                 self.tracker.feed(ev)
                 self._version += 1            # mark state advanced (poll rebuilds)
             if self.recorder is not None and self.tracker.state.game_counter != prev_game:
-                self.recorder.start_game()
+                try:
+                    self.recorder.start_game()
+                except Exception:
+                    pass
                 prev_game = self.tracker.state.game_counter
             if self.tracker.phase != prev_phase:
                 self._on_phase(prev_phase, self.tracker.phase)
@@ -340,19 +467,23 @@ class LiveCoach:
     def _on_phase(self, old, new):
         if self.recorder is None:
             return
-        if new == Phase.COMBAT:                       # end of recruit = a decision made
-            with self._lock:
-                snap = self.tracker.snapshot()
-            self.recorder.record(snap, ActionType.END_TURN)
-        elif new == Phase.GAME_OVER:
-            self.recorder.finish_game(placement=self.tracker.placement())
-            # Game's over → fold it into the model in the background (low priority,
-            # separate process). Doesn't touch the live path.
-            if self.trainer is not None:
-                try:
-                    self.trainer.maybe_train()
-                except Exception:
-                    pass
+        # Recording must NEVER break overlay advice — swallow recorder errors.
+        try:
+            if new == Phase.COMBAT:                   # end of recruit = a decision made
+                with self._lock:
+                    snap = self.tracker.snapshot()
+                self.recorder.record(snap, ActionType.END_TURN)
+            elif new == Phase.GAME_OVER:
+                self.recorder.finish_game(placement=self.tracker.placement())
+                # Game's over → fold it into the model in the background (low
+                # priority, separate process). Doesn't touch the live path.
+                if self.trainer is not None:
+                    try:
+                        self.trainer.maybe_train()
+                    except Exception:
+                        pass
+        except Exception:
+            pass
 
     def frame(self) -> Tuple[dict, Optional[str], List[str]]:
         """(snapshot_dict, odds, recommendations) for the overlay to render."""
@@ -374,6 +505,7 @@ class LiveCoach:
                 self._snap_cache = self.tracker.snapshot().to_dict()
                 self._snap_version = version
             snap = self._snap_cache
+        snap = self._enrich_from_options(dict(snap))
         offer = self._offer
         if offer is not None:                       # a choice is on screen
             from .choices import rank_offer

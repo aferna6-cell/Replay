@@ -27,6 +27,42 @@ WEIGHTING = {
 }
 
 
+def population_weight(n_personal_games: int) -> float:
+    """Adaptive population prior weight given how many personal games you have.
+
+    Starts at WEIGHTING['population_start'] with zero personal games and decays
+    linearly toward WEIGHTING['population_floor'] by personal_full_at_games.
+    """
+    start = float(WEIGHTING["population_start"])
+    floor = float(WEIGHTING["population_floor"])
+    full_at = max(1, int(WEIGHTING["personal_full_at_games"]))
+    n = max(0, int(n_personal_games))
+    frac = min(1.0, n / full_at)
+    return max(floor, start - (start - floor) * frac)
+
+
+def personal_weight(n_personal_games: int) -> float:
+    """Complement of population_weight — grows as your recorded dataset grows."""
+    return 1.0 - population_weight(n_personal_games)
+
+
+def count_recorded_games(data_dir: Optional[str] = None) -> int:
+    """Finished (non-partial) game-*.jsonl trajectories under data/."""
+    root = data_dir or DATA_DIR
+    try:
+        return len(glob.glob(os.path.join(root, "game-*.jsonl")))
+    except OSError:
+        return 0
+
+
+def eval_net_path() -> str:
+    return os.path.join(os.path.dirname(__file__), "..", "ml", "eval_net.pt")
+
+
+def eval_net_meta_path() -> str:
+    return eval_net_path() + ".meta.json"
+
+
 def _expand(*parts: str) -> str:
     return os.path.expanduser(os.path.join(*parts))
 

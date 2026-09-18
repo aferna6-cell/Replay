@@ -200,6 +200,39 @@ def cmd_parse_file(args) -> int:
     return 0
 
 
+
+def cmd_learn(args) -> int:
+    """Fold recorded watch games into the eval net (or report status / dry-run)."""
+    from . import learn as learn_mod
+    if getattr(args, "status", False):
+        st = learn_mod.learn_status()
+        traj, model = st["trajectories"], st["model"]
+        print(f"data_dir: {traj['data_dir']}")
+        print(f"recorded games: {traj['n_games']}  rows: {traj['n_rows']}  "
+              f"with_placement: {traj['n_with_placement']}")
+        print(f"adaptive mix: population={traj['population_weight']}  "
+              f"personal={traj['personal_weight']}")
+        print(f"eval_net: exists={model['exists']}  sha={model.get('file_sha256_12')}  "
+              f"mtime={model.get('mtime')}")
+        meta = model.get("meta") or {}
+        if meta:
+            print(f"meta: personal_games={meta.get('n_personal_games')}  "
+                  f"personal_weight={meta.get('personal_weight')}  "
+                  f"trained_at={meta.get('trained_at')}")
+        if traj.get("errors"):
+            print("issues:")
+            for e in traj["errors"]:
+                print(" ", e)
+            return 1
+        return 0
+    return learn_mod.run_retrain(
+        epochs=getattr(args, "epochs", 40),
+        dry_run=bool(getattr(args, "dry_run", False)),
+        with_context=not bool(getattr(args, "no_context", False)),
+        comp_source=getattr(args, "comp_source", None),
+    )
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="hsbg_coach",
                                 description="Battlegrounds log parser + recorder")
@@ -276,6 +309,20 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--horizon", type=int, default=3, help="turns to look ahead")
     pl.add_argument("--tribe", help="comp you're building toward")
     pl.set_defaults(func=cmd_plan)
+
+    ln = sub.add_parser(
+        "learn",
+        help="fold recorded watch games into the eval net (retrain / status / dry-run)",
+    )
+    ln.add_argument("--status", action="store_true",
+                    help="show recorded-game count, adaptive weights, model fingerprint")
+    ln.add_argument("--dry-run", action="store_true",
+                    help="validate trajectories + print mix; do not train or fetch")
+    ln.add_argument("--epochs", type=int, default=40)
+    ln.add_argument("--no-context", action="store_true",
+                    help="board-only features (default folds whole-state context)")
+    ln.add_argument("--comp-source", help="local population comp JSON (else fetch)")
+    ln.set_defaults(func=cmd_learn)
     return p
 
 

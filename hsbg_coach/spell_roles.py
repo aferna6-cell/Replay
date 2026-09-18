@@ -22,31 +22,41 @@ from typing import Dict, Optional, Tuple
 # Seeded conservatively; extend as spells are confirmed from real games.
 _KNOWN: Dict[str, Tuple[float, str]] = {
     # "Pointy Arrow" token seen in a real log — minor combat trick, situational.
-    "EBG_Spell_014": (-0.1, "tavern spell — small combat trick"),
+    "EBG_Spell_014": (-0.25, "tavern spell — Pointy Arrow combat trick"),
+    "BG28_521": (-0.30, "tavern spell — Planar Telescope (discover value)"),
 }
 
 # Generic value when we don't know the spell yet: a cheap, affordable tavern spell
 # An unknown spell is NOT a recommendation — we don't know its effect, so we must
 # not push it over a real minion buy. Demote it (positive = worse finish) so it only
 # surfaces if there's genuinely nothing better; known-good spells still get promoted.
-_GENERIC_BONUS = 0.5
-_GENERIC_NOTE = "tavern spell (effect unknown — only if nothing better)"
+# Unknown spells: slight demotion so they don't always beat minions, but NOT so
+# harsh that a clearly affordable shop spell never surfaces as #1 when the shop
+# minions are weak. Known-good spells keep a real negative (promote) bonus.
+_GENERIC_BONUS = 0.15
+_GENERIC_NOTE = "tavern spell — read the text; buy if the effect fits"
+_CHEAP_BONUS = -0.20
+_CHEAP_NOTE = "cheap tavern spell — strong gold efficiency if the effect helps"
 
 
 def spell_value(card_id: Optional[str], name: Optional[str], cost: int,
                 gold: int) -> Tuple[float, str]:
     """(placement_adjustment, reason) for buying a tavern spell.
 
-    Negative adjustment = better finish. Unknown spells get a modest, affordability
-    -scaled nudge so they surface as a real option without pretending to know the
-    effect."""
+    Negative adjustment = better finish. Known spells use the curated table;
+    unknown cheap+affordable spells get a mild promote so they can beat filler
+    minions; expensive unknowns stay slightly demoted."""
     if card_id and card_id in _KNOWN:
         return _KNOWN[card_id]
-    # Unknown: only nudge it up if you can comfortably afford it (cheap relative to
-    # your gold), else it's neutral so it doesn't crowd out a real board buy.
-    if cost <= 2 and gold >= cost:
-        return _GENERIC_BONUS, _GENERIC_NOTE
-    return 0.0, _GENERIC_NOTE
+    nm = (name or "").lower()
+    # Name-based soft promotes for common strong patterns seen in logs.
+    if any(k in nm for k in ("triple", "gold", "refresh", "discover", "coin")):
+        return -0.35, f"tavern spell — {name} looks high-impact"
+    if cost <= 2 and gold >= cost + 1:
+        return _CHEAP_BONUS, _CHEAP_NOTE
+    if cost <= 3 and gold >= cost:
+        return 0.05, _GENERIC_NOTE
+    return _GENERIC_BONUS, _GENERIC_NOTE
 
 
 def spell_name(card_id: Optional[str], name: Optional[str]) -> str:

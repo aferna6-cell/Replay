@@ -83,13 +83,15 @@ class TrajectoryRecorder:
         path = os.path.join(self.data_dir, f"game-{self._game_id}.jsonl{suffix}")
         with open(path, "w", encoding="utf-8") as fh:
             for d in self._current:
-                fh.write(json.dumps(_as_jsonable(d), separators=(",", ":")) + "\n")
+                fh.write(json.dumps(_as_jsonable(d, self._game_id),
+                                    separators=(",", ":")) + "\n")
         self._current = []
         return path
 
 
-def _as_jsonable(d: Decision) -> Dict:
+def _as_jsonable(d: Decision, game_id: Optional[str] = None) -> Dict:
     return {
+        "game_id": game_id,
         "state": d.state,
         "action_type": d.action_type,
         "action_detail": d.action_detail,

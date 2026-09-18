@@ -382,13 +382,16 @@ card2vec drives synergy, the combat sim handles positioning.
 > First real-game use is a shakedown: the live path is calibrated on captured
 > logs, not yet against a running client. Expect to file rough edges.
 
-## It learns from your games
+## Learn as you play
+
+### It learns from your games
 
 Every game you `watch` is recorded to `data/<game>.jsonl` — each decision with the
 final placement it led to. Fold those into the brain after a session:
 
 ```bash
 ./scripts/retrain.sh                  # retrain the eval net on the meta + your games
+python -m hsbg_coach learn --status   # verify fingerprint / personal weight
 ```
 
 The more you play, the sharper it gets on the live meta *and your playstyle* —

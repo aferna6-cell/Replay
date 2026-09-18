@@ -18,14 +18,18 @@ def _recruit():
 
 
 def test_advice_lines_during_recruit_recommends_the_strong_buy():
-    # The strong minion is recommended and preferred over the weak one. (We don't
-    # assert it's #1: with the learned whole-game value, leveling can legitimately
-    # outrank a single buy when you're behind on tier.)
-    lines = advice_lines(_recruit(), kb=None, scorer=HeuristicScorer(EMB))
-    assert lines and any("Buy good" in l for l in lines)
-    if any("Buy bad" in l for l in lines):
-        good_i = next(i for i, l in enumerate(lines) if "Buy good" in l)
-        bad_i = next(i for i, l in enumerate(lines) if "Buy bad" in l)
+    # Primary UX: one next move. With whole-game value, leveling can outrank a
+    # single buy — still require a concrete action line.
+    lines = advice_lines(_recruit(), kb=None, scorer=HeuristicScorer(EMB), top=1)
+    assert len(lines) == 1
+    assert any(tok in lines[0] for tok in ("Buy", "Roll", "Tier", "Sell", "Play",
+                                           "Activate", "Dark Gift", "hero power",
+                                           "Hero Power", "Freeze"))
+    # When asking for a deeper list, good should outrank bad if both appear.
+    more = advice_lines(_recruit(), kb=None, scorer=HeuristicScorer(EMB), top=6)
+    if any("Buy bad" in l for l in more) and any("Buy good" in l for l in more):
+        good_i = next(i for i, l in enumerate(more) if "Buy good" in l)
+        bad_i = next(i for i, l in enumerate(more) if "Buy bad" in l)
         assert good_i < bad_i
 
 
@@ -63,8 +67,8 @@ def test_livecoach_waits_for_battlegrounds_when_hearthstone_log_is_active():
 
 def test_overlay_renders_recommendations_prominently():
     text = format_overlay_text(_recruit(), recommendations=["Buy good (+5%)", "Roll the shop"])
-    # The single best move leads as a prominent NEXT line; the rest is context.
+    # UX contract: single NEXT move only (alts omitted from primary UI).
     assert "NEXT → Buy good (+5%)" in text
-    assert "Roll the shop" in text
-    # the next move appears above the board section
+    assert "Roll the shop" not in text
+    assert "then:" not in text
     assert text.index("NEXT") < text.index("Your board")

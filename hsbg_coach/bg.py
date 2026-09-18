@@ -43,6 +43,8 @@ class ActionType(str, Enum):
     UNFREEZE = "unfreeze"
     TIER_UP = "tier_up"               # level the tavern
     HERO_POWER = "hero_power"
+    ACTIVATE = "activate"             # Season 14 Activate keyword on board minion
+    DARK_GIFT = "dark_gift"           # Dark Gift discover button (3g, turn 3+)
     TAVERN_SPELL = "tavern_spell"     # spells / quests offered in tavern
     TARGET = "target"                 # choosing a target for a battlecry/buff
     END_TURN = "end_turn"
@@ -102,6 +104,9 @@ class Snapshot:
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
     hero: Optional[str] = None            # our hero cardId (for the eval net + tribes)
     hero_name: Optional[str] = None
+    shop_frozen: bool = False                 # Bob freeze toggle (shop FROZEN tags)
+    activatable: List[Dict] = field(default_factory=list)  # Activate-keyword minions
+    dark_gift: Optional[Dict] = None          # {name, card_id, cost, usable, uses_left?}
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -125,6 +130,9 @@ class Snapshot:
             "hero_name": self.hero_name,
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
+            "shop_frozen": self.shop_frozen,
+            "activatable": list(self.activatable),
+            "dark_gift": self.dark_gift,
             "notes": self.notes,
         }
 
@@ -312,11 +320,23 @@ class BGTracker:
             trinkets=self._trinkets(),
             hand=hand,
             opponents_seen=opponents,
+            shop_frozen=self._shop_frozen(shop),
+            activatable=self._activatable(),
+            dark_gift=self._dark_gift(),
             opponent_profiles=list(self.opponents.values()),
             hero=self._our_hero()[0],
             hero_name=self._our_hero()[1],
             notes=notes,
         )
+
+
+    def _shop_frozen(self, shop) -> bool:
+        """True when Bob's freeze is on — any shop minion carries FROZEN=1."""
+        for m in shop or []:
+            tags = m.tags if hasattr(m, "tags") else (m.get("tags") or {})
+            if str(tags.get("FROZEN", "0")) == "1":
+                return True
+        return False
 
     def _our_hero(self):
         """(cardId, name) of OUR hero — feeds the eval net (hero-specific board
@@ -383,36 +403,116 @@ class BGTracker:
         return max(0, base - (on_tier - 1))
 
     def _hero_power(self) -> Optional[Dict]:
-        """The local player's hero power: name, cost, and whether it's usable now
-        (active, not exhausted, affordable). Recommendable like any other action.
+        """The local player's clickable hero power, if any.
 
-        Passive / start-of-combat hero powers (e.g. Illidan's Wingmen) can't be
-        activated — HAS_ACTIVATE_POWER on the hero/hero-power entity says which, so
-        we never tell you to 'use' a passive power."""
+        Passive / start-of-combat powers (BACON_TRIGGER_UPBEAT, or HIDE_COST with no
+        COST) are not recommendable as a recruit click. Clickable powers carry a
+        COST tag (0 is allowed) and are not exhausted. Live Options (error=NONE)
+        can further confirm usability via LiveCoach."""
+        best = None
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "HERO_POWER":
                 continue
             if ent.controller != str(self.local_player):
                 continue
-            # Passive / start-of-combat powers (Illidan's Wingmen) hide their cost
-            # (HIDE_COST=1) and have no real COST — you can't click them. Activatable
-            # powers (e.g. Marin's) carry a COST. Don't offer "use" on passives.
-            if ent.tags.get("HIDE_COST") == "1" or "COST" not in ent.tags:
-                return None
+            if ent.zone != "PLAY":
+                continue
+            # Start-of-combat / passive: upbeat trigger and no spendable COST.
+            if ent.tags.get("BACON_TRIGGER_UPBEAT") == "1" and "COST" not in ent.tags:
+                continue
+            if "COST" not in ent.tags and ent.tags.get("HIDE_COST") == "1":
+                continue
+            if "COST" not in ent.tags:
+                continue  # no clickable cost → don't advise "use"
             cost = ent.tag_int("COST") or 0
             gold = self._gold()
-            usable = (ent.tags.get("EXHAUSTED") not in ("1",)
+            locked = ent.tags.get("LOCK_VISUAL") == "1"
+            exhausted = ent.tags.get("EXHAUSTED") in ("1",)
+            usable = (not locked and not exhausted
                       and (gold is None or gold >= cost))
-            # Prefer the logged display name; hero powers aren't in the minion KB,
-            # so fall back to a clean label rather than a raw cardId.
             name = ent.name
             if not name or name == ent.card_id:
                 name = "Hero Power"
-            return {
+            cand = {
                 "name": name,
                 "card_id": ent.card_id,
                 "cost": cost,
                 "usable": bool(usable),
+                "entity_id": ent.id,
+            }
+            # Prefer unlocked + usable; keep at least one so the UI can say "ready".
+            if best is None or (cand["usable"] and not best.get("usable")):
+                best = cand
+        return best
+
+    def _activatable(self) -> List[Dict]:
+        """Board minions with the Season 14 Activate keyword that can be clicked.
+
+        Signal: HAS_ACTIVATE_POWER + BACON_TRIGGER_XY (Activate ability). Cost is
+        TAG_SCRIPT_DATA_NUM_1 when present, else COST. Skips exhausted / unaffordable.
+        """
+        out: List[Dict] = []
+        if self.local_player is None:
+            return out
+        gold = self._gold()
+        for ent in self.state.in_zone("PLAY", self.local_player):
+            if ent.tags.get("CARDTYPE") != "MINION":
+                continue
+            if (ent.tag_int("ZONE_POSITION") or 0) < 1:
+                continue
+            if ent.tags.get("HAS_ACTIVATE_POWER") != "1":
+                continue
+            if ent.tags.get("BACON_TRIGGER_XY") != "1":
+                continue  # ordinary minions often carry HAS_ACTIVATE_POWER alone
+            cost = ent.tag_int("TAG_SCRIPT_DATA_NUM_1")
+            if cost is None:
+                cost = ent.tag_int("COST") or 0
+            exhausted = ent.tags.get("EXHAUSTED") in ("1",)
+            usable = (not exhausted and (gold is None or gold >= cost))
+            out.append({
+                "name": self._display_name(ent.card_id, ent.name),
+                "card_id": ent.card_id,
+                "entity_id": ent.id,
+                "cost": int(cost),
+                "usable": bool(usable),
+            })
+        return out
+
+    def _dark_gift(self) -> Optional[Dict]:
+        """Dark Gift discover button (Season 14): 3 gold, from turn 3, ≤3 uses/game.
+
+        Detected by button name/cardId patterns when present in PLAY for us.
+        """
+        if self.local_player is None:
+            return None
+        for ent in self.state.entities.values():
+            if ent.controller != str(self.local_player):
+                continue
+            if ent.zone != "PLAY":
+                continue
+            cid = ent.card_id or ""
+            name = ent.name or ""
+            blob = f"{name} {cid}".lower()
+            if not (("dark" in blob and "gift" in blob)
+                    or "darkgift" in blob.replace("_", "")
+                    or ("gift" in cid.lower() and "button" in cid.lower())):
+                continue
+            cost = ent.tag_int("COST")
+            if cost is None:
+                cost = 3
+            gold = self._gold()
+            turn = self.state.current_turn
+            exhausted = ent.tags.get("EXHAUSTED") in ("1",)
+            locked = ent.tags.get("LOCK_VISUAL") == "1"
+            usable = (not exhausted and not locked
+                      and (turn is None or turn >= 3)
+                      and (gold is None or gold >= cost))
+            return {
+                "name": name or "Dark Gift",
+                "card_id": cid,
+                "cost": int(cost),
+                "usable": bool(usable),
+                "entity_id": ent.id,
             }
         return None
 

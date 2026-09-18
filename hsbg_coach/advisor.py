@@ -24,7 +24,8 @@ import copy
 
 from .actions import (
     legal_actions, Action, BUY, BUY_SPELL, SELL, ROLL, LEVEL, REPOSITION, FREEZE,
-    HERO_POWER, END, MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
+    UNFREEZE, PLAY, PLAY_SPELL, HERO_POWER, ACTIVATE, DARK_GIFT, END, MAX_BOARD,
+    BUY_COST, SELL_VALUE, ROLL_COST,
 )
 from .board_value import get_scorer, _val, _name
 from .cards import by_name
@@ -107,7 +108,19 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
             scored.append(_score_spell(act, gold))
         elif act.kind == HERO_POWER:
             scored.append(ScoredAction(
-                act, 0.55, "hero power is available — using it is usually value"))
+                act, 0.72, "hero power ready — use it (usually +EV this turn)"))
+        elif act.kind == ACTIVATE:
+            scored.append(ScoredAction(
+                act, 0.70,
+                f"activate {act.target} ({act.cost}g) — spend gold on its ability"))
+        elif act.kind == DARK_GIFT:
+            scored.append(ScoredAction(
+                act, 0.68,
+                f"Dark Gift ({act.cost}g) — discover a minion with a permanent gift"))
+        elif act.kind == PLAY:
+            scored.append(_score_play(act, board, base, scorer, hero_id))
+        elif act.kind == PLAY_SPELL:
+            scored.append(_score_spell(act, gold))  # same spell-role heuristics
         elif act.kind == SELL:
             scored.append(_score_sell(act, board, base, scorer, hero_id))
 
@@ -123,6 +136,9 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
         elif act.kind == FREEZE:
             scored.append(_score_freeze(act, snapshot, gold, idx, board_cks,
                                         target_tribe, emb))
+        elif act.kind == UNFREEZE:
+            scored.append(ScoredAction(
+                act, 0.35, "unfreeze — shop is locked; clear freeze to roll/buy freely"))
         elif act.kind == REPOSITION and include_reposition:
             # Skipped in the live overlay path: optimize_vs_field runs hundreds of
             # thousands of combat sims (~1.5s) and we don't display reposition
@@ -272,6 +288,21 @@ def _score_roll(act, gold, best_buy_delta, target_tribe):
 _FREEZE_STRONG = 2.5       # a genuinely strong, synergistic card
 _FREEZE_GEM = 5.0          # a single card so good it's worth freezing alone (rare)
 
+
+
+def _score_play(act, board, base, scorer, hero_id):
+    """Playing a free hand minion is usually +tempo (combat loot / discover)."""
+    m = act.detail.get("minion")
+    if m is None:
+        return ScoredAction(act, 0.4, "play from hand")
+    after = list(board) + [m]
+    if len(board) >= MAX_BOARD:
+        return ScoredAction(act, 0.25,
+                            f"play {act.target} — board full; sell first for room")
+    eq = scorer.equity(after, hero_id)
+    delta = eq - base
+    return ScoredAction(act, max(0.45, 0.5 + delta),
+                        f"play {act.target} from hand — free body (+{delta:.0%} equity)")
 
 def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
     """Freeze when you've spent down and the shop is worth keeping. The right time

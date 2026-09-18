@@ -133,3 +133,24 @@ def group_split(examples: List[Dict], val_frac: float = 0.15, seed: int = 0
     train = [e for e in examples if e["group"] not in val_groups]
     val = [e for e in examples if e["group"] in val_groups]
     return train, val
+
+
+def mix_population_and_personal(population, personal, n_personal_games: int):
+    """Upsample personal examples so their share of training mass ≈ personal_weight.
+
+    Population examples stay at weight 1 each. Personal examples are repeated so
+    that personal_count / total ≈ config.personal_weight(n_personal_games).
+    """
+    from hsbg_coach.config import personal_weight
+    pop = list(population or [])
+    per = list(personal or [])
+    if not per:
+        return pop, 0.0, 1.0, 1
+    if not pop:
+        return per, 1.0, 0.0, 1
+    pw = float(personal_weight(n_personal_games))
+    # Avoid division by zero when personal_weight hits 1.0 theoretically.
+    pop_w = max(1e-6, 1.0 - pw)
+    target = (pw / pop_w) * len(pop)
+    reps = max(1, int(round(target / max(1, len(per)))))
+    return pop + per * reps, pw, 1.0 - pw, reps

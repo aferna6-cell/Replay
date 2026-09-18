@@ -28,7 +28,12 @@ ROLL = "roll"
 LEVEL = "level"
 REPOSITION = "reposition"
 FREEZE = "freeze"
+UNFREEZE = "unfreeze"
 HERO_POWER = "hero_power"
+ACTIVATE = "activate"
+DARK_GIFT = "dark_gift"
+PLAY = "play"                 # play a minion from hand (free / generated)
+PLAY_SPELL = "play_spell"     # cast a hand spell (often targeted)
 END = "end"
 
 
@@ -61,6 +66,17 @@ class Action:
             return "Reposition the board"
         if self.kind == FREEZE:
             return "Freeze the shop"
+        if self.kind == UNFREEZE:
+            return "Unfreeze the shop"
+        if self.kind == PLAY:
+            return f"Play {self.target} from hand"
+        if self.kind == PLAY_SPELL:
+            return f"Play spell: {self.target}"
+        if self.kind == ACTIVATE:
+            tail = f" ({self.cost}g)" if self.cost else ""
+            return f"Activate {self.target}{tail}"
+        if self.kind == DARK_GIFT:
+            return f"Dark Gift ({self.cost}g)" if self.cost else "Dark Gift"
         return "End turn"
 
 
@@ -127,9 +143,55 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     if len(board) >= 2:
         actions.append(Action(REPOSITION))
 
-    # Freeze — free, needs a shop.
+    # Freeze / unfreeze — free; toggles Bob's freeze on the current shop.
+    shop_frozen = bool(_get(snapshot, "shop_frozen", False))
     if shop:
-        actions.append(Action(FREEZE))
+        if shop_frozen:
+            actions.append(Action(UNFREEZE))
+        else:
+            actions.append(Action(FREEZE))
+
+    # Play minions already in hand (combat-generated / discover leftovers). Free.
+    hand = list(_get(snapshot, "hand", []) or [])
+    for m in hand:
+        if _is_hand_minion(m):
+            actions.append(Action(PLAY, _name(m), 0, {"minion": m}))
+
+    # Cast targetable / coin spells already in hand.
+    for sp in (_get(snapshot, "hand_spells", []) or []):
+        cost = sp.get("cost") if isinstance(sp, dict) else getattr(sp, "cost", 0)
+        cost = int(cost or 0)
+        if gold >= cost:
+            actions.append(Action(PLAY_SPELL, _name(sp), cost, {"spell": sp}))
+
+    # Season 14 Activate — clickable board minions (gold cost).
+    for m in (_get(snapshot, "activatable", []) or []):
+        if not (m.get("usable") if isinstance(m, dict) else True):
+            continue
+        cost = int((m.get("cost") if isinstance(m, dict) else 0) or 0)
+        if gold >= cost:
+            actions.append(Action(ACTIVATE, _name(m), cost, {"minion": m}))
+
+    # Dark Gift button — discover a gifted minion (typically 3g from turn 3).
+    dg = _get(snapshot, "dark_gift", None)
+    if dg and dg.get("usable"):
+        cost = int(dg.get("cost") or 3)
+        if gold >= cost:
+            actions.append(Action(DARK_GIFT, dg.get("name") or "Dark Gift", cost,
+                                  {"dark_gift": dg}))
 
     actions.append(Action(END))
     return actions
+
+
+def _is_hand_minion(m) -> bool:
+    """Playable hand minion (not a tavern spell masquerading in hand)."""
+    if isinstance(m, dict):
+        ctype = (m.get("tags") or {}).get("CARDTYPE") if isinstance(m.get("tags"), dict) else None
+        if ctype and ctype != "MINION":
+            return False
+        return bool(m.get("name") or m.get("card_id"))
+    ctype = (getattr(m, "tags", {}) or {}).get("CARDTYPE")
+    if ctype and ctype != "MINION":
+        return False
+    return bool(getattr(m, "name", None) or getattr(m, "card_id", None))

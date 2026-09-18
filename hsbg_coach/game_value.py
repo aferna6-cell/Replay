@@ -26,8 +26,9 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER, BUY_COST,
-    SELL_VALUE, MAX_BOARD, tavern_up_cost,
+    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, UNFREEZE, PLAY,
+    PLAY_SPELL, HERO_POWER, ACTIVATE, DARK_GIFT, BUY_COST, SELL_VALUE, MAX_BOARD,
+    tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -135,6 +136,15 @@ def _build_path_adjust(action, snapshot):
 
 _K_SYN = 0.30              # effect-synergy points -> placement units (weighted up:
 _MAX_SYN = 1.1            # effects/combo should outweigh a raw stat line)
+
+
+def _meta_strategy_adjust(action, snapshot, hero_ctx=None, kb=None):
+    """Firestone/HSReplay comps + lobby tribe win% soft prior (Aidan playstyle)."""
+    try:
+        from .meta_strategy import meta_buy_adjust
+        return meta_buy_adjust(action, snapshot, hero_ctx=hero_ctx, kb=kb)
+    except Exception:
+        return 0.0, None
 
 
 def _effect_synergy_adjust(action, snapshot, kb):
@@ -467,6 +477,12 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     v = max(1.0, min(8.0, v + padj))
                     if preason and not tech_reason:
                         reason = preason
+                # Meta comps + lobby tribe prior (soft; allows listed-comp pivots).
+                madj, mreason = _meta_strategy_adjust(a, snapshot, hero_ctx=hero_ctx, kb=kb)
+                if madj:
+                    v = max(1.0, min(8.0, v + madj))
+                    if mreason and not tech_reason:
+                        reason = mreason
                 sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
                 if sadj:
                     v = max(1.0, min(8.0, v + sadj))
@@ -527,6 +543,10 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                                          _get(snapshot, "gold") or 0)
             v = max(1.0, base + bonus)
             reason = sreason
+            # When a spell is flagged strong (negative bonus), keep it competitive
+            # with minion buys so good spells aren't buried under board noise.
+            if bonus <= -0.25:
+                v = max(1.0, v - 0.15)
             # Meta quality for spells too — a strong tavern spell is a priority buy.
             qadj, qreason, _ = _quality_buy_adjust(a)
             if qadj:
@@ -543,13 +563,45 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     reason = (reason or "tavern spell") + " — your trinket rewards spells"
             except Exception:
                 pass
+        elif a.kind == PLAY:
+            # Free hand minion → score as if added to board (tempo).
+            m = a.detail.get("minion")
+            if m is not None and len(_get(snapshot, "board", []) or []) < MAX_BOARD:
+                after = list(_get(snapshot, "board", []) or []) + [m]
+                try:
+                    eq = scorer.equity(after, _get(snapshot, "hero") or "UNKNOWN",
+                                       state=snapshot)
+                    # equity high → placement low
+                    v = max(1.0, min(8.0, 8.0 - eq * 7.0))
+                except Exception:
+                    v = max(1.0, base - 0.2)
+            else:
+                v = min(8.0, base + 0.3)   # board full / unknown — bury slightly
+            reason = reason or f"play {a.target} from hand"
+        elif a.kind == PLAY_SPELL:
+            from .spell_roles import spell_value
+            spell = a.detail.get("spell") or {}
+            cid = (spell.get("card_id") if isinstance(spell, dict)
+                   else getattr(spell, "card_id", None))
+            bonus, sreason = spell_value(cid, a.target, a.cost,
+                                         _get(snapshot, "gold") or 0)
+            v = max(1.0, base + bonus)
+            reason = sreason or reason
         elif a.kind == HERO_POWER:
-            v = max(1.0, base - 0.15)        # using the hero power is generally +EV
+            v = max(1.0, base - 0.45)        # clickable hero power is high priority
+        elif a.kind == ACTIVATE:
+            v = max(1.0, base - 0.40)        # Activate ability — usually worth the gold
+        elif a.kind == DARK_GIFT:
+            # Strong tempo/value discover; waiting can upgrade offers, but missing
+            # a usable button when gold is free is worse than taking it.
+            v = max(1.0, base - 0.35)
         elif a.kind == FREEZE:
             # Rare by design: only good when the shop has a gem you can't afford
             # yet (the advisor flags that via priority). Otherwise bury it.
             v = (max(1.0, base - 0.2) if (sa.priority or 0) >= 0.5
                  else min(8.0, base + 0.4))
+        elif a.kind == UNFREEZE:
+            v = max(1.0, base - 0.05)        # unlock shop when freeze is stuck on
         elif a.kind == REPOSITION and sa.delta:
             # Reposition doesn't change board composition, so placement is flat —
             # but a better attack order raises combat win%. Convert that win-rate

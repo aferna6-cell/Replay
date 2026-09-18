@@ -68,7 +68,9 @@ def test_format_overlay_text_shows_next_then_board():
     assert "NEXT → Buy Gunpowder Courier" in text
     assert text.index("NEXT") < text.index("Your board")
     assert "Combat: win 55%" in text
-    assert "then:" in text and "Roll the shop" in text
+    # UX contract: primary UI is a single NEXT move (alts omitted).
+    assert "then:" not in text
+    assert "Roll the shop" not in text
 
 
 def test_combat_odds_from_fixture_opponents_seen():

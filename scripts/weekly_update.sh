@@ -22,7 +22,7 @@ echo "==> 3/7  Retrain card2vec on the latest winning boards (dim 48)"
 python -m ml.train_card2vec --dim 48 --epochs 8 --min-count 15
 
 echo "==> 4/7  Retrain the board-evaluation net on the meta + your recorded games"
-python -m ml.train_eval_net --epochs 40 --trajectories data/
+python -m ml.train_eval_net --epochs 40 --trajectories data/ --with-context
 
 echo "==> 5/7  Retrain the economy value net on self-play lobbies"
 python -m ml.train_econ --lobbies 4000 --epochs 30

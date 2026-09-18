@@ -42,15 +42,9 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
         lines.append(note)
 
     if recommendations:
-        # Lead with ONE clear next move; it re-computes the instant you act, so
-        # do this, then read the new top line. The rest is context below it.
+        # UX contract: ONE next move only (recomputed on every state change).
         lines.append("")
         lines.append(f"NEXT → {recommendations[0]}")
-        if len(recommendations) > 1:
-            lines.append("")
-            lines.append("then:")
-            for r in recommendations[1:]:
-                lines.append(f"  · {r}")
 
     if odds:
         lines.append("")
@@ -86,6 +80,12 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
     hpw = snapshot.get("hero_power")
     if hpw and hpw.get("usable"):
         status += " · hero power ready"
+    dg = snapshot.get("dark_gift")
+    if dg and dg.get("usable"):
+        status += " · dark gift ready"
+    acts = [a for a in (snapshot.get("activatable") or []) if a.get("usable")]
+    if acts:
+        status += f" · activate×{len(acts)}"
     if snapshot.get("anomaly"):
         status += f" · anomaly: {snapshot['anomaly']}"
     # Sync counter — ticks up every time a new board/shop is ingested, so after a
@@ -95,15 +95,10 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
         status += f" · synced ✓ #{seq}"
 
     if recommendations:
-        # Lead with the single best move, then list a couple of alternatives below
-        # it (smaller) so you can override the top pick when you disagree.
+        # UX contract: ONE next move only — recompute on every state change.
         out = [f"→ {recommendations[0]}", f"  {status}"]
         if odds:
             out.append(f"  Combat: {odds}")
-        alts = recommendations[1:3]
-        if alts:
-            out.append("  or:")
-            out.extend(f"   - {a}" for a in alts)
         return "\n".join(out)
     # No move to make right now (combat / hero-select / between turns): just show
     # the status line (+ odds if we already know the next fight).
