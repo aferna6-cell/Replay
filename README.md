@@ -77,6 +77,47 @@ python -m hsbg_coach parse-file path/to/Power.log
 python -m hsbg_coach overlay
 ```
 
+
+## In-game coach (live next-best-move)
+
+Advisory only — reads `Power.log`, reconstructs the board/shop, and shows a ranked
+**next best move**. No auto-click, no screen capture, no input injection.
+
+```bash
+# 1. Find Hearthstone log locations on this machine
+python -m hsbg_coach detect
+
+# 2. Enable Power/Zone/LoadingScreen loggers (then RESTART Hearthstone)
+python -m hsbg_coach setup
+
+# 3. While in (or about to enter) a Battlegrounds lobby:
+python -m hsbg_coach watch --overlay     # Tk panel + terminal echo (default)
+# or, if Tk is unreliable on your machine:
+python -m hsbg_coach watch --terminal    # in-place terminal panel (htop-style)
+```
+
+What good advice looks like:
+
+```
+→ Buy Gunpowder Courier (finish 3.8) — fits the Pirate Discover build …
+  turn 5 · recruit · tier 3 · gold 7 · hp 37 · synced ✓ #12
+  Combat: win 62% / tie 8% / loss 30%
+  or:
+   - Buy Defiant Shipwright (finish 4.1) — …
+   - Tier up to 4 (6g) (finish 4.7) — …
+```
+
+- **#1 (`→ …`)** is the move to take now; it refreshes as soon as board/shop/gold change.
+- **Combat** odds appear after the first fight reveals an opponent board.
+- During hero/trinket/Discover offers, the panel switches to a ranked pick list.
+
+Known limits (live calibration still needed on a real client):
+
+- Shop zone / gold / placement tags still carry `# CALIBRATE` markers in `bg.py`.
+- Odds use the last revealed enemy board (not a full lobby sim) and a partial combat ruleset.
+- Overlay is untested against every OS/Tk combo — prefer `--terminal` if the window is blank.
+- No vision / YOLO / input automation by design.
+
 ## Testing (clean checkout)
 
 Do not rely on packages preinstalled on an agent image. From a fresh clone:

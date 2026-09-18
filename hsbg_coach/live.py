@@ -16,7 +16,6 @@ import threading
 from typing import List, Optional, Tuple
 
 from . import cards
-from .advisor import advise_actions
 from .bg import BGTracker, Phase, ActionType
 from .board_value import get_scorer
 from .economy import HeroContext
@@ -158,6 +157,24 @@ def _hand_spell_lines(snapshot) -> List[str]:
     return out
 
 
+def _combat_odds_for(snapshot: dict, runs: int = 80, seed: int = 0) -> Optional[str]:
+    """Win/tie/loss vs the last revealed opponent board(s), when available.
+
+    Uses opponents_seen from the Snapshot (populated during combat). Returns None
+    when we have no enemy board yet — early game / before first fight — so the
+    panel stays clean rather than fabricating odds.
+    """
+    enemies = snapshot.get("opponents_seen") or []
+    board = snapshot.get("board") or []
+    if not enemies or not board:
+        return None
+    try:
+        from .recommend import combat_odds
+        return combat_odds(snapshot, enemies, runs=runs, seed=seed)
+    except Exception:
+        return None
+
+
 def build_note_for(snapshot, kb=None) -> Optional[str]:
     """One-line 'what you're building toward' for the overlay header."""
     try:
@@ -236,6 +253,7 @@ class LiveCoach:
         self._stop = threading.Event()
         self._cache_key = None
         self._cache_lines: List[str] = []
+        self._cache_odds: Optional[str] = None
         self._cache_note: Optional[str] = None
         self._sync_seq = 0                # bumps each time the board/shop changes
         self._version = 0                 # bumps each time a log event is fed
@@ -379,9 +397,13 @@ class LiveCoach:
             self._maybe_reload_scorer()   # hot-swap a freshly retrained model (cheap)
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
+            self._cache_odds = _combat_odds_for(snap)
+            self._cache_note = build_note_for(snap, self.kb)
             self._cache_key = key
             self._sync_seq += 1            # a real state change was ingested
         # Tag the snapshot with the sync counter so the panel can show that the
         # new board was processed after you roll/buy/sell (it ticks up each change).
         snap = dict(snap, sync_seq=self._sync_seq)
-        return snap, None, self._cache_lines
+        if self._cache_note:
+            snap = dict(snap, build_note=self._cache_note)
+        return snap, self._cache_odds, self._cache_lines
