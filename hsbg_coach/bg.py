@@ -179,6 +179,7 @@ class BGTracker:
             self._tier_anchor = 0
             self._anchor_tier = None
             self.opponents = {}            # forget last game's lobby
+            self.last_opponent_board = []  # forget last fight (odds + positioning)
 
         # Player roster line — the reliable way to find the human: the only
         # seat whose GameAccountId hi != 0. PlayerID is the controller id board
@@ -205,6 +206,11 @@ class BGTracker:
         if prev_phase != Phase.RECRUIT and self.phase == Phase.RECRUIT:
             self._recruit_phases += 1      # a new shopping turn began
         self._maybe_detect_local_player()
+        # Remember the enemy board as combat events arrive — do NOT wait for
+        # snapshot(). LiveCoach replays from_start faster than the overlay polls,
+        # so without this, recruit-phase odds/positioning see an empty opponents_seen.
+        if self.phase == Phase.COMBAT:
+            self._remember_combat_boards()
 
     def _detect_bg(self) -> None:
         """Detect Battlegrounds from entity cardIds — the tavern infrastructure
@@ -501,6 +507,21 @@ class BGTracker:
                 "cost": ent.tag_int("COST"),
             })
         return out
+
+    def _remember_combat_boards(self) -> None:
+        """Capture the revealed enemy board + lobby profiles during combat.
+
+        Called from feed() so a from-start log replay (or a missed overlay poll)
+        still leaves last_opponent_board / opponents populated for the next
+        recruit phase — that is what combat odds and positioning need.
+        """
+        enemy = self._opponent_board()
+        if enemy:
+            self.last_opponent_board = enemy
+        try:
+            self._update_opponents()
+        except Exception:
+            pass
 
     def _opponent_board(self) -> List[MinionView]:
         """Foreign revealed minions in PLAY — i.e. the board we're fighting. Only
