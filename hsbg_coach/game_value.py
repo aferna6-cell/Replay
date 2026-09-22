@@ -573,9 +573,11 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 reason = preason
         elif a.kind == FREEZE:
             # Rare by design: only good when the shop has a gem you can't afford
-            # yet (the advisor flags that via priority). Otherwise bury it.
+            # yet (the advisor flags that via priority >= 0.5). Mediocre shops
+            # must rank *below* End/Sell so the overlay never leads with Freeze
+            # on random T2 chaff (END is often hidden from the panel).
             v = (max(1.0, base - 0.2) if (sa.priority or 0) >= 0.5
-                 else min(8.0, base + 0.4))
+                 else min(8.0, base + 1.6))
         elif a.kind == REPOSITION and sa.delta:
             # Reposition doesn't change board composition, so placement is flat —
             # but a better attack order raises combat win%. Convert that win-rate

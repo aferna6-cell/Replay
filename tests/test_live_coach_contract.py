@@ -46,17 +46,19 @@ def test_fixture_top_recommendation_is_deterministic_and_explainable():
     assert ("—" in top) or ("finish" in top) or ("(" in top)
 
 
-def test_format_next_leads_with_action_rationale_and_optional_odds():
+def test_format_next_leads_with_action_and_short_alternates():
     snap = _load_recruit_fixture()
     recs = advice_lines(snap, kb=None, scorer=HeuristicScorer(EMB))
     odds = _combat_odds_for(snap, runs=40, seed=0)
     text = format_next(snap, odds, recs)
     assert text.startswith("→ ")
-    assert recs[0] in text
-    # Status line present
-    assert "recruit" in text and "gold" in text
-    if odds:
-        assert "Combat:" in text and "win" in text
+    # Default view: primary move only (no finish/rationale clutter).
+    primary = recs[0].split(" (finish ")[0].split(" — ")[0]
+    assert primary in text
+    # No board/shop/odds/status spam on the minimal overlay.
+    assert "Your board" not in text
+    assert "Combat:" not in text
+    assert "gold" not in text
 
 
 def test_format_overlay_text_shows_next_then_board():
