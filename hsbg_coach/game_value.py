@@ -137,6 +137,16 @@ _K_SYN = 0.30              # effect-synergy points -> placement units (weighted 
 _MAX_SYN = 1.1            # effects/combo should outweigh a raw stat line)
 
 
+
+def _meta_strategy_adjust(action, snapshot, hero_ctx=None, kb=None):
+    """Firestone/HSReplay comps + lobby tribe avg-placement soft prior."""
+    try:
+        from .meta_strategy import meta_buy_adjust
+        return meta_buy_adjust(action, snapshot, hero_ctx=hero_ctx, kb=kb)
+    except Exception:
+        return 0.0, None
+
+
 def _effect_synergy_adjust(action, snapshot, kb):
     """(placement_adjustment, reason) from how a BUY's effects mesh with the board
     — generalizes combos from card text (produces/wants), not co-occurrence data."""
@@ -467,6 +477,14 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     v = max(1.0, min(8.0, v + padj))
                     if preason and not tech_reason:
                         reason = preason
+                # Meta comps + lobby tribe prior (soft; allows listed-comp pivots).
+                # This is what makes live watch/advise #1 use Firestone/HSReplay
+                # tribe + comp priors — not only unused helpers.
+                madj, mreason = _meta_strategy_adjust(a, snapshot, hero_ctx=hero_ctx, kb=kb)
+                if madj:
+                    v = max(1.0, min(8.0, v + madj))
+                    if mreason and not tech_reason:
+                        reason = mreason
                 sadj, sreason = _effect_synergy_adjust(a, snapshot, kb)
                 if sadj:
                     v = max(1.0, min(8.0, v + sadj))

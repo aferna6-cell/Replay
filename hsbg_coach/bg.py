@@ -248,6 +248,15 @@ class BGTracker:
 
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag == TAG_STEP:
             step = (event.value or "").upper()
+            # Modern BG clients emit BACON_COMBAT / BACON_RECRUIT on the GameEntity
+            # STEP tag — definitive recruit/combat markers (alongside ATTACK /
+            # DragBuy). Needed so post-session ingest sees phase changes.
+            if "BACON_COMBAT" in step or step == STEP_COMBAT_START:
+                self.phase = Phase.COMBAT
+                return
+            if "BACON_RECRUIT" in step or "BACON_SHOP" in step:
+                self.phase = Phase.RECRUIT
+                return
             if "FINAL" in step or "DONE" in step:
                 self.phase = Phase.GAME_OVER
 
@@ -637,9 +646,17 @@ class BGTracker:
         pe = self._player_entity()
         if pe is not None and TAG_PLACEMENT in pe.tags:
             return _safe_int(pe.tags[TAG_PLACEMENT])
+        tagged = []
         for ent in self.state.entities.values():
-            if ent.controller == str(self.local_player) and TAG_PLACEMENT in ent.tags:
+            if TAG_PLACEMENT not in ent.tags:
+                continue
+            if ent.controller == str(self.local_player):
                 return _safe_int(ent.tags[TAG_PLACEMENT])
+            tagged.append(ent)
+        # Player entities often omit CONTROLLER; if exactly one placement tag
+        # exists in the lobby, treat it as ours (typical end-of-game log).
+        if len(tagged) == 1:
+            return _safe_int(tagged[0].tags[TAG_PLACEMENT])
         return None
 
     def _hero_health(self) -> Optional[int]:

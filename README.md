@@ -118,6 +118,48 @@ Known limits (live calibration still needed on a real client):
 - Overlay is untested against every OS/Tk combo — prefer `--terminal` if the window is blank.
 - No vision / YOLO / input automation by design.
 
+
+
+## Meta comps + lobby tribe priors (live #1 move)
+
+The live watch/advise **#1 move** soft-biases toward Firestone/HSReplay listed
+comps and the lobby's strongest tribe (popularity-weighted average placement —
+Firestone's proxy for first-place rate). Wiring lives in
+`hsbg_coach/meta_strategy.py` and is applied inside `game_value.rank_actions`
+(the same path `live.advice_lines` uses), so priors actually move the #1 pick —
+they are not unused helpers.
+
+- Prefer listed meta-comp **core** pieces on the preferred tribe.
+- Soft-bias toward the lobby's strongest tribe from avg-placement stats.
+- **Do not hard-lock**: if the shop opens a core of another *listed* viable
+  tribe/comp and you are not hard-committed, the #1 move can pivot.
+- Unlisted random synergies are only mildly demoted once a preferred tribe exists.
+
+## Train without the overlay
+
+You do **not** need `watch` / the coach UI running while you play. After
+`setup` once, play normally, then ingest the session log and retrain:
+
+```bash
+# 1) Once per machine (enables Power.log) — then RESTART Hearthstone
+python -m hsbg_coach setup
+
+# 2) Play Battlegrounds normally (overlay optional)
+
+# 3) After the session: Power.log → data/*.jsonl (placement when parseable)
+python -m hsbg_coach ingest
+# or: python -m hsbg_coach ingest --path /path/to/Power.log
+# or: python -m hsbg_coach ingest --recent 3
+# or: python -m hsbg_coach parse-file            # defaults to detected Power.log + records
+
+# 4) Fold those games into the eval net
+./scripts/retrain.sh
+```
+
+`ingest` scans the newest detected `Power.log` (same paths as `detect`). It
+records end-of-recruit decision points and backfills final placement when the
+log exposes `PLAYER_LEADERBOARD_PLACE`. Advisory only — no autoplay, no vision.
+
 ## Testing (clean checkout)
 
 Do not rely on packages preinstalled on an agent image. From a fresh clone:

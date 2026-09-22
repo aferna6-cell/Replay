@@ -5,6 +5,7 @@ Subcommands:
   setup        write log.config so Hearthstone emits the logs we parse
   watch        follow the live Power.log: print board on combat + record
   parse-file   parse a previously captured log (offline; great for dev/calibration)
+  ingest       post-session: Power.log → data/*.jsonl (no overlay required)
 """
 
 import argparse
@@ -180,10 +181,38 @@ def _watch_overlay(power, args) -> int:
     return 0
 
 
-def cmd_parse_file(args) -> int:
-    if not os.path.isfile(args.path):
-        print("No such file:", args.path)
+
+def cmd_ingest(args) -> int:
+    """Post-session ingest: play normally, then fold Power.log into data/*.jsonl.
+
+    Does not require the coach overlay/watch UI. Placement is written when the
+    log exposes PLAYER_LEADERBOARD_PLACE; otherwise trajectories are .partial.
+    """
+    from . import ingest as ingest_mod
+    try:
+        results = ingest_mod.ingest(
+            paths=[args.path] if getattr(args, "path", None) else None,
+            recent=getattr(args, "recent", 1) or 1,
+            quiet=False,
+        )
+    except FileNotFoundError as e:
+        print(e)
         return 1
+    n_files = len(results)
+    n_rec = sum(len(r.recorded) for r in results)
+    n_place = sum(1 for r in results for pl in r.placements if pl is not None)
+    print(f"\nIngested {n_files} log(s) → {n_rec} trajectory file(s) "
+          f"({n_place} with placement).")
+    print("Next: ./scripts/retrain.sh")
+    return 0
+
+
+def cmd_parse_file(args) -> int:
+    path = getattr(args, "path", None) or config.Paths.detect().power_log
+    if not path or not os.path.isfile(path):
+        print("No such file:", path or "(no Power.log detected; pass an explicit path)")
+        return 1
+    args.path = path
     tracker = BGTracker()
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     with open(args.path, "r", encoding="utf-8", errors="replace") as fh:
@@ -221,10 +250,23 @@ def build_parser() -> argparse.ArgumentParser:
                         "(no GUI; reliable on any macOS — float your terminal window)")
     w.set_defaults(func=cmd_watch)
 
-    f = sub.add_parser("parse-file", help="parse a captured log offline")
-    f.add_argument("path")
+    f = sub.add_parser(
+        "parse-file",
+        help="parse a captured log offline (defaults to detected Power.log)",
+    )
+    f.add_argument("path", nargs="?", default=None,
+                   help="Power.log path (default: newest detected session)")
     f.add_argument("--no-record", action="store_true", help="don't write dataset")
     f.set_defaults(func=cmd_parse_file)
+
+    ing = sub.add_parser(
+        "ingest",
+        help="post-session: Power.log → data/*.jsonl (no overlay; then retrain)",
+    )
+    ing.add_argument("--path", help="Power.log to ingest (default: newest detected)")
+    ing.add_argument("--recent", type=int, default=1,
+                     help="ingest N newest session logs (default 1)")
+    ing.set_defaults(func=cmd_ingest)
 
     sub.add_parser("overlay", help="show the overlay with sample data (needs a display)"
                    ).set_defaults(func=cmd_overlay)
