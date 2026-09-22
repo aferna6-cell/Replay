@@ -19,18 +19,61 @@ from .recorder import TrajectoryRecorder
 from .tail import tail_lines
 
 
-def cmd_detect(_args) -> int:
+def cmd_detect(args) -> int:
     paths = config.Paths.detect()
     print("Platform:", sys.platform)
     print("Log dir:    ", paths.log_dir or "NOT FOUND (searched candidates)")
     print("Power.log:  ", paths.power_log or "NOT FOUND")
+    cfg_exists = os.path.isfile(paths.log_config)
     print("log.config: ", paths.log_config,
-          "(exists)" if os.path.isfile(paths.log_config) else "(will be created)")
-    if not paths.log_dir:
+          "(exists)" if cfg_exists else "(will be created)")
+
+    if getattr(args, "find", False):
+        print("\n--- Bounded discovery (Wine / Games / Bottles / Steam) ---")
+        hits = config.discover_power_logs()
+        if hits:
+            for h in hits:
+                print("  HIT:", h)
+        else:
+            print("  (no Power.log found under discovery roots)")
+            print("\nManual find commands you can run:")
+            for cmd in config.find_command_hints():
+                print(" ", cmd)
+        print("\nDiscovery roots checked:")
+        for root in config.discovery_roots():
+            print("  -", root)
+        # Also show non-existing roots that we would check
+        home = os.path.expanduser("~")
+        for rel in (".wine", "Games",
+                    os.path.join(".local", "share", "bottles"),
+                    os.path.join(".steam", "steam", "steamapps", "compatdata"),
+                    os.path.join(".local", "share", "Steam", "steamapps",
+                                 "compatdata")):
+            full = os.path.join(home, rel)
+            if not os.path.isdir(full):
+                print("  -", full, "(missing)")
+        return 0
+
+    if not paths.power_log:
         print("\nSearched these log dirs:")
         for d in config.log_dir_candidates():
             print("  -", d, "[exists]" if os.path.isdir(d) else "")
-        print("\nIf none exist, launch Hearthstone once after `setup`.")
+        if cfg_exists:
+            cfg_parent = os.path.dirname(paths.log_config)
+            logs_beside = os.path.join(cfg_parent, "Logs")
+            print("\nlog.config exists but Power.log was NOT found.")
+            print("  log.config parent:", cfg_parent)
+            print("  Logs beside config:", logs_beside,
+                  "[exists]" if os.path.isdir(logs_beside) else "[MISSING]")
+            print("\nNext steps:")
+            print("  1. Fully quit and restart Hearthstone after `hsbg_coach setup`")
+            print("     (Wine/Lutris/Bottles/Proton: exit the bottle, then relaunch).")
+            print("  2. Confirm a Logs folder appears beside log.config (or under")
+            print("     Program Files*/Hearthstone/Logs inside the same prefix).")
+            print("  3. Re-run: python -m hsbg_coach detect --find")
+        else:
+            print("\nIf none exist, run `hsbg_coach setup` then fully restart Hearthstone.")
+            print("Tip: `python -m hsbg_coach detect --find` searches Wine/Proton roots.")
     return 0
 
 
@@ -205,8 +248,11 @@ def build_parser() -> argparse.ArgumentParser:
                                 description="Battlegrounds log parser + recorder")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("detect", help="find Hearthstone log locations").set_defaults(
-        func=cmd_detect)
+    d = sub.add_parser("detect", help="find Hearthstone log locations")
+    d.add_argument("--find", action="store_true",
+                   help="run bounded Power.log discovery under Wine/Games/"
+                        "Bottles/Steam and print hits (plus find command hints)")
+    d.set_defaults(func=cmd_detect)
     sub.add_parser("setup", help="write log.config").set_defaults(func=cmd_setup)
 
     w = sub.add_parser("watch", help="follow live Power.log")
