@@ -45,14 +45,60 @@ TARGETS = {
         "hero_name": "Magni Bronzebeard",
         "deity": None,
     },
+    "0Srr-tgf5Vo": {
+        "source": "rdu_vod",
+        "expert_player": "RDU",
+        "channel": "RduHS",
+        "patch_note": "36.6.1_early_access",
+        "url": "https://www.youtube.com/watch?v=0Srr-tgf5Vo",
+        "hero_name": None,
+        "deity": None,
+    },
+    "Bpr_xTUjktA": {
+        "source": "rdu_vod",
+        "expert_player": "RDU",
+        "channel": "RduHS",
+        "patch_note": "36.6.1_early_access",
+        "url": "https://www.youtube.com/watch?v=Bpr_xTUjktA",
+        "hero_name": None,
+        "deity": None,
+    },
+    "Ry-Zn2sPP2k": {
+        "source": "rdu_vod",
+        "expert_player": "RDU",
+        "channel": "RduHS",
+        "patch_note": "36.6.1_early_access",
+        "url": "https://www.youtube.com/watch?v=Ry-Zn2sPP2k",
+        "hero_name": None,
+        "deity": None,
+    },
+    "1BZtAVX8n50": {
+        "source": "rdu_vod",
+        "expert_player": "RDU",
+        "channel": "RduHS",
+        "patch_note": "36.6.1_early_access",
+        "url": "https://www.youtube.com/watch?v=1BZtAVX8n50",
+        "hero_name": None,
+        "deity": None,
+    },
+    "pzYwWAnjJ54": {
+        "source": "shadybunny_vod",
+        "expert_player": "Shadybunny",
+        "channel": "Shadybunny",
+        "patch_note": "36.6.1",
+        "url": "https://www.youtube.com/watch?v=pzYwWAnjJ54",
+        "hero_name": None,
+        "deity": None,
+    },
 }
 
 # (regex, decision.type, subtype/plan, conf)
 RULES = [
     (r"should(?:\s+\w+){0,4}\s+dark\s+gift|just\s+dark\s+gift|dark\s+gifted", "discover", "dark_gift_over_level", 0.85),
     (r"dark\s+gift\s*\+|dark\s+gift\s+plus|gift\s*\+\s*chef|gift\s*\+\s*hero", "discover", "dark_gift_chef_hp", 0.9),
+    (r"dark\s+gift(?:ing|s)?\s+(?:are|is|on|for|really)|keep\s+my\s+dark\s+gift|\bdark\s+gifting\b", "discover", "dark_gift", 0.8),
     (r"\bdark\s+gift", "discover", "dark_gift", 0.75),
-    (r"\bi(?:'m| am)?\s+buy(?:ing)?\b|\bbought\s+(?:it|this|that)\b|\bbuy\s+(?:this|that|it|like)\b", "buy", "shop_buy", 0.7),
+    (r"\bi(?:'m| am)?\s+buy(?:ing)?\b|\bbought\s+(?:it|this|that)\b|\bbuy\s+(?:this|that|it|like)\b|\btake\s+(?:this|that|it)\b.*(?:shop|minion)?", "buy", "shop_buy", 0.7),
     (r"\bcould\s+(?:have\s+)?sold|\bsell\s+(?:this|that|you|trash)\b|\bsold\s+(?:this|that|trash)\b", "sell", "sell_chaff", 0.65),
     (r"\bfreeze|\bfroze|\bfrozen\b", "freeze", "freeze_shop", 0.7),
     (r"\b(?:re)?roll(?:ing|ed)?\b", "roll", "roll_shop", 0.65),
@@ -94,13 +140,15 @@ def parse_srt(path: Path):
 def parse_vtt(path: Path):
     text = path.read_text(encoding="utf-8", errors="replace")
     cues = []
+    # YouTube auto-VTT often has align/position extras on the timing line.
     for m in re.finditer(
-        r"(\d+):(\d+):(\d+)\.(\d+)\s*-->\s*(\d+):(\d+):(\d+)\.(\d+)\s*\n(.*?)(?=\n\n|\Z)",
+        r"(?:^|\n)(\d+):(\d+):(\d+)\.(\d+)\s*-->\s*(\d+):(\d+):(\d+)\.(\d+)[^\n]*\n(.*?)(?=\n\d+:\d+:\d+\.\d+\s*-->|\Z)",
         text,
         re.S,
     ):
         t = int(m.group(1)) * 3600 + int(m.group(2)) * 60 + int(m.group(3)) + int(m.group(4)[:3]) / 1000
-        body = re.sub(r"<[^>]+>", "", m.group(9)).replace("\n", " ").strip()
+        body = re.sub(r"<[^>]+>", "", m.group(9))
+        body = re.sub(r"\s+", " ", body).strip()
         if body:
             cues.append((t, body))
     return cues

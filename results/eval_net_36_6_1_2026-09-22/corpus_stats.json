@@ -1,56 +1,43 @@
 {
-  "rows": 416,
+  "rows": 499,
   "sources": {
-    "rdu_vod": 161,
+    "rdu_vod": 222,
     "jeef_vod": 132,
-    "shadybunny_vod": 123
+    "shadybunny_vod": 145
   },
   "video_ids": {
-    "0Srr-tgf5Vo": 51,
-    "1BZtAVX8n50": 41,
-    "Bpr_xTUjktA": 26,
+    "0Srr-tgf5Vo": 65,
+    "1BZtAVX8n50": 44,
+    "Bpr_xTUjktA": 68,
     "I59Hth8uRMs": 2,
-    "Ry-Zn2sPP2k": 41,
+    "Ry-Zn2sPP2k": 43,
     "V0ZyTYC9gr8": 50,
     "g8kCF5Z-UIs": 40,
-    "pzYwWAnjJ54": 123,
+    "pzYwWAnjJ54": 145,
     "z9PfvDgMqAU": 42
   },
   "record_types": {
     "game_meta": 16,
-    "decision": 227,
+    "decision": 310,
     "board_snapshot": 80,
     "turn_boundary": 93
   },
   "decision_types": {
-    "other": 45,
+    "other": 58,
+    "sell": 52,
+    "hero_power": 16,
+    "discover": 37,
+    "roll": 43,
+    "buy": 47,
     "discard": 30,
-    "sell": 36,
     "level_up": 14,
     "play": 3,
-    "buy": 23,
-    "roll": 35,
-    "discover": 24,
-    "hero_power": 9,
-    "freeze": 8
+    "freeze": 10
   },
-  "gift_decisions": 19,
-  "buy_decisions": 23,
+  "gift_decisions": 32,
+  "buy_decisions": 47,
   "placeable_boards_ge2": 40,
-  "urls_ingested": [
-    "https://youtu.be/z9PfvDgMqAU",
-    "https://youtu.be/g8kCF5Z-UIs",
-    "https://youtu.be/V0ZyTYC9gr8",
-    "https://youtu.be/pzYwWAnjJ54",
-    "https://youtu.be/0Srr-tgf5Vo",
-    "https://youtu.be/Bpr_xTUjktA",
-    "https://youtu.be/Ry-Zn2sPP2k",
-    "https://youtu.be/1BZtAVX8n50"
-  ],
-  "skipped": [
-    "https://youtu.be/wigwPzucfXc (mislabeled pre-patch)"
-  ],
-  "download_partial": [
-    "https://www.twitch.tv/videos/2880966040 (~9% at train time; left downloading)"
-  ]
+  "cycle": "1b_rdu_yt_asr_densify",
+  "val_mae": 0.337,
+  "val_r": 0.56
 }
