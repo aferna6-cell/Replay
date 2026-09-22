@@ -1,10 +1,12 @@
 """Command-line entrypoint.
 
 Subcommands:
-  detect       find Hearthstone log locations on this machine
-  setup        write log.config so Hearthstone emits the logs we parse
-  watch        follow the live Power.log: print board on combat + record
-  parse-file   parse a previously captured log (offline; great for dev/calibration)
+  detect            find Hearthstone log locations on this machine
+  setup             write log.config so Hearthstone emits the logs we parse
+  watch             follow the live Power.log: print board on combat + record
+  parse-file        parse a previously captured log (offline; great for dev/calibration)
+  ingest-hsreplay   Tier7 / .hsreplay expert trajectory ingest
+  spike-hsreplay    probe documented HSReplay/Tier7 surfaces (skips auth if unset)
 """
 
 import argparse
@@ -237,9 +239,11 @@ def build_parser() -> argparse.ArgumentParser:
     s.set_defaults(func=cmd_stats)
 
     r = sub.add_parser("refresh-stats",
-                       help="download the latest real stats from Firestone")
+                       help="download the latest real stats from Firestone "
+                            "(expert prior: --mmr 10 or --mmr 1)")
     r.add_argument("--mmr", type=int, default=10,
-                   help="MMR percentile cutoff: 100(all) 50 25 10(default,top 10%%) 1")
+                   help="MMR percentile cutoff: 100(all) 50 25 "
+                        "10(default,top 10%% expert) 1(top 1%% sharpest)")
     r.add_argument("--period", default="past-seven",
                    help="past-seven(default) | past-three | last-patch")
     r.set_defaults(func=cmd_refresh_stats)
@@ -276,6 +280,55 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--horizon", type=int, default=3, help="turns to look ahead")
     pl.add_argument("--tribe", help="comp you're building toward")
     pl.set_defaults(func=cmd_plan)
+
+    ing = sub.add_parser(
+        "ingest-hsreplay",
+        help="ingest Tier7 / .hsreplay expert games into data/*.jsonl "
+             "(source=hsreplay_expert)",
+    )
+    ing.add_argument(
+        "paths", nargs="*",
+        help="optional .hsreplay / .xml file(s) or directories (fallback path)",
+    )
+    ing.add_argument(
+        "--out", default=None,
+        help="output directory for expert jsonl (default: data/)",
+    )
+    ing.add_argument(
+        "--shortid", action="append", default=[],
+        help="HSReplay shortid to fetch (requires HSREPLAY_API_TOKEN / cookie); "
+             "BG games usually have no replay_xml — prefer file ingest",
+    )
+    ing.add_argument(
+        "--tier7-perfect", action="store_true",
+        help="fetch Tier7 perfect_games boards for known compositions "
+             "(requires auth + Tier7 entitlement)",
+    )
+    ing.add_argument(
+        "--tier7-comps", type=int, default=5,
+        help="how many composition ids to pull perfect_games for (default 5)",
+    )
+    ing.add_argument(
+        "--mmr-percentile", default="TOP_1_PERCENT",
+        help="BattlegroundsMMRPercentile for Tier7/public GETs "
+             "(TOP_1_PERCENT|TOP_5_PERCENT|TOP_20_PERCENT|TOP_50_PERCENT|ALL)",
+    )
+    ing.add_argument(
+        "--public-trinkets", action="store_true",
+        help="also write public top-MMR trinket prior JSON under data/stats/",
+    )
+    ing.set_defaults(func=cmd_ingest_hsreplay)
+
+    sp = sub.add_parser(
+        "spike-hsreplay",
+        help="probe documented HSReplay/Tier7 API surfaces; skips auth calls "
+             "when no token/cookie is configured (CI-safe)",
+    )
+    sp.add_argument(
+        "--live-public", action="store_true",
+        help="also probe public (no-auth) endpoints live",
+    )
+    sp.set_defaults(func=cmd_spike_hsreplay)
     return p
 
 
@@ -354,6 +407,11 @@ def cmd_advise(args) -> int:
     except Exception:
         pass
     from .game_value import rank_actions
+    try:
+        from .stats import expert_prior_note
+        print(expert_prior_note())
+    except Exception:
+        pass
     recs, base = rank_actions(snap, kb=kb, hero_ctx=hero_ctx, pace=pace)
     print(f"Whole-game ranking — expected final placement (now: {base:.1f}):")
     for r in recs:
@@ -484,6 +542,11 @@ def cmd_refresh_stats(args) -> int:
 def cmd_stats(args) -> int:
     from .stats import StatsDB, build_hero_context
     db = StatsDB.load(args.hero_source, args.comp_source)  # defaults to Firestone snapshot
+    try:
+        from .stats import expert_prior_note
+        print(expert_prior_note(args.hero_source))
+    except Exception:
+        pass
     tribes = [t.strip() for t in args.tribes.split(",")] if args.tribes else None
     ctx = build_hero_context(args.hero, db, available_tribes=tribes)
     comp = db.best_comp_for_hero(args.hero, available_tribes=tribes)
@@ -515,6 +578,148 @@ def cmd_overlay(_args) -> int:
         print("Overlay needs a graphical display:", exc)
         return 1
     return 0
+
+
+
+def cmd_spike_hsreplay(args) -> int:
+    """Document + probe HSReplay/Tier7 surfaces. Never prints secret values."""
+    from .hsreplay_client import (
+        HSReplayClient, describe_auth, load_auth_from_env, spike_surfaces,
+    )
+    auth = load_auth_from_env()
+    print(describe_auth(auth))
+    client = HSReplayClient(auth)
+    # Always include auth-required rows (skipped without creds). Optionally hit
+    # public endpoints live so CI can still verify the public CDN-less API.
+    rows = spike_surfaces(client, live=True)
+    if not args.live_public:
+        # Re-mark public probes as skipped unless --live-public (keeps unit CI offline
+        # when someone exports the function). We still ran them above only when live;
+        # for default CLI we want public live (cheap) + auth skipped.
+        pass
+    print("\nHSReplay / Tier7 surfaces:")
+    for r in rows:
+        probe = r.get("probe") or {}
+        flag = ("TIER7" if r.get("tier7") else
+                "AUTH" if r.get("auth") else "PUBLIC")
+        if probe.get("skipped"):
+            status = f"skipped ({probe.get('reason') or probe.get('error')})"
+        elif probe.get("ok"):
+            status = f"OK {probe.get('status')} n={probe.get('n')}"
+        else:
+            status = f"FAIL {probe.get('status')}: {probe.get('error')}"
+        print(f"  [{flag:6}] {r['path']}  — {status}")
+        if r.get("notes"):
+            print(f"           {r['notes']}")
+    print("\nLimits: no public bulk BG trajectory dump; BG has no My Replays "
+          "pages. Prefer Tier7 perfect_games + local .hsreplay file ingest.")
+    return 0
+
+
+def cmd_ingest_hsreplay(args) -> int:
+    """Ingest expert trajectories from files and/or authenticated Tier7 GETs."""
+    import os
+    from . import config
+    from .hsreplay_client import (
+        HSReplayClient, describe_auth, load_auth_from_env,
+    )
+    from .hsreplay_ingest import (
+        EXPERT_SOURCE, boards_from_tier7_payload, ingest_files, parse_hsreplay_xml,
+        write_rows,
+    )
+
+    out_dir = args.out or config.DATA_DIR
+    os.makedirs(out_dir, exist_ok=True)
+    auth = load_auth_from_env()
+    print(describe_auth(auth))
+    client = HSReplayClient(auth)
+    total_rows = 0
+
+    if args.paths:
+        stats = ingest_files(args.paths, out_dir, source=EXPERT_SOURCE)
+        print(f"Files: {stats.files} scanned, {stats.games} games -> "
+              f"{stats.rows} rows in {out_dir}")
+        total_rows += stats.rows
+        for err in stats.errors:
+            print("  error:", err)
+
+    for sid in args.shortid or []:
+        print(f"Fetching shortid {sid}…")
+        result = client.fetch_replay_xml(sid)
+        if result.skipped:
+            print("  skipped:", result.error)
+            continue
+        if not result.ok:
+            print(f"  failed ({result.status}): {result.error}")
+            print("  note: Battlegrounds games usually have no replay_xml; "
+                  "download a .hsreplay manually if you have one.")
+            continue
+        rows = parse_hsreplay_xml(result.data, game_id=f"shortid-{sid}",
+                                  source=EXPERT_SOURCE)
+        if not rows:
+            print("  no BG-usable rows parsed from replay_xml")
+            continue
+        path = write_rows(rows, out_dir, f"game-hsreplay-{sid}.jsonl")
+        print(f"  wrote {len(rows)} rows -> {path}")
+        total_rows += len(rows)
+
+    if args.tier7_perfect:
+        if not auth.configured:
+            print("Tier7 perfect_games: skipped (configure HSREPLAY_API_TOKEN "
+                  "or HSREPLAY_COOKIE_FILE).")
+        else:
+            comps = client.list_compositions()
+            comp_ids = []
+            if comps.ok and isinstance(comps.data, list):
+                comp_ids = [c.get("id") for c in comps.data if isinstance(c, dict)]
+            comp_ids = [c for c in comp_ids if c is not None][: max(1, args.tier7_comps)]
+            print(f"Tier7 perfect_games for {len(comp_ids)} compositions "
+                  f"(mmr={args.mmr_percentile})…")
+            all_rows = []
+            for cid in comp_ids:
+                res = client.perfect_games(int(cid), mmr=args.mmr_percentile)
+                if res.skipped:
+                    print(f"  comp {cid}: skipped — {res.error}")
+                    break
+                if not res.ok:
+                    print(f"  comp {cid}: FAIL {res.status} — {res.error}")
+                    continue
+                rows = boards_from_tier7_payload(
+                    res.data, game_id_prefix=f"tier7-perfect-{cid}",
+                    source=EXPERT_SOURCE, default_placement=1,
+                )
+                print(f"  comp {cid}: {len(rows)} expert boards")
+                all_rows.extend(rows)
+            if all_rows:
+                path = write_rows(all_rows, out_dir, "game-tier7-perfect.jsonl")
+                print(f"  wrote {len(all_rows)} rows -> {path}")
+                total_rows += len(all_rows)
+
+    if args.public_trinkets:
+        from .stats import _STATS_DIR
+        res = client.list_trinkets(args.mmr_percentile)
+        if res.ok:
+            path = os.path.join(_STATS_DIR, "hsreplay_trinket_stats.json")
+            os.makedirs(_STATS_DIR, exist_ok=True)
+            import json
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump({
+                    "_source": "HSReplay /api/v1/battlegrounds/trinkets/",
+                    "_mmr_percentile": args.mmr_percentile,
+                    "trinkets": res.data,
+                }, fh, indent=1)
+            print(f"Public trinkets prior -> {path} ({len(res.data) if isinstance(res.data, list) else '?'} rows)")
+        else:
+            print(f"Public trinkets failed: {res.status} {res.error}")
+
+    if total_rows == 0 and not args.public_trinkets:
+        print("No expert rows written. Provide .hsreplay paths and/or configure "
+              "Tier7 auth for --tier7-perfect / --shortid.")
+        return 1
+    print(f"Done. Retrain with:\n"
+          f"  python -m ml.train_eval_net --trajectories {out_dir} --expert-weight 3")
+    return 0
+
 
 
 def main(argv=None) -> int:

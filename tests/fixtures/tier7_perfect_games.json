@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "id": "perfect-murloc-1",
+      "hero_card_id": "TB_BaconShop_HERO_18",
+      "placement": 1,
+      "turn": 12,
+      "board": [
+        {"card_id": "BG26_888", "name": "Brann Bronzebeard", "attack": 2, "health": 4, "position": 1},
+        {"card_id": "BG21_037", "name": "Leapfrogger", "attack": 6, "health": 6, "position": 2},
+        {"card_id": "BG25_008", "name": "Emberseer", "attack": 8, "health": 8, "position": 3}
+      ]
+    },
+    {
+      "id": "perfect-murloc-2",
+      "heroCardId": "TB_BaconShop_HERO_18",
+      "final_placement": 1,
+      "minions": [
+        {"cardId": "BG26_001", "atk": 4, "hp": 4},
+        {"cardId": "BG26_002", "atk": 5, "hp": 5},
+        {"cardId": "BG26_003", "atk": 6, "hp": 6}
+      ]
+    }
+  ]
+}

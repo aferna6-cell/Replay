@@ -29,6 +29,8 @@ def main(argv=None):
     p.add_argument("--cards-source", help="local HearthstoneJSON cards.json")
     p.add_argument("--period", default="past-seven")
     p.add_argument("--trajectories", help="dir of recorded *.jsonl games to fold in")
+    p.add_argument("--expert-weight", type=float, default=3.0,
+                   help="repeat hsreplay_expert rows this many times when folding trajectories (default 3)")
     p.add_argument("--epochs", type=int, default=40)
     p.add_argument("--out", default=_OUT)
     p.add_argument("--with-context", action="store_true",
@@ -46,8 +48,9 @@ def main(argv=None):
     examples = build_examples(comp_source=a.comp_source, period=a.period, **kw)
     print(f"  population boards: {len(examples)}")
     if a.trajectories:
-        traj = trajectory_examples(a.trajectories)
-        print(f"  your recorded boards: {len(traj)}")
+        traj = trajectory_examples(a.trajectories, expert_weight=a.expert_weight)
+        n_expert = sum(1 for e in traj if e.get("source") == "hsreplay_expert")
+        print(f"  recorded boards: {len(traj)} (expert-weighted rows: {n_expert}, weight={a.expert_weight})")
         examples += traj
     if not examples:
         print("No examples.")

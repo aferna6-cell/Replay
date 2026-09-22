@@ -23,3 +23,10 @@ bridge/package-lock.json
 # OS
 .DS_Store
 *.pt.meta.json
+
+# HSReplay / Tier7 credentials (never commit)
+hsreplay.cookies
+*.cookies
+.env
+.env.*
+.venv/

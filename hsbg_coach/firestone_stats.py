@@ -42,6 +42,11 @@ _RACE_TO_TRIBE = {
 
 VALID_PERIODS = ("last-patch", "past-three", "past-seven")
 VALID_MMR = (100, 50, 25, 10, 1)
+# Expert population prior: prefer top 1% (mmr=1), else top 10% (mmr=10).
+# refresh-stats defaults to 10 (thicker sample); pass --mmr 1 for the
+# sharpest ladder cut. recommend/advise warn if loaded snapshot is broader.
+EXPERT_MMR_PREFERRED = (1, 10)
+DEFAULT_REFRESH_MMR = 10
 
 # HearthStone CARDRACE ids -> tribe name (BG-relevant subset).
 RACE_NAMES = {

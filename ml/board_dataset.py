@@ -61,8 +61,13 @@ _ENDGAME_CONTEXT = {"tavern_tier": 6, "gold": 0, "hero_health": 25, "turn": 13,
                     "opponent_profiles": [], "trinkets": [], "anomaly": None}
 
 
-def trajectory_examples(data_dir: str) -> List[Dict]:
-    """Labeled examples from your own recorded games (placement-tagged states)."""
+def trajectory_examples(data_dir: str, expert_weight: float = 1.0) -> List[Dict]:
+    """Labeled examples from recorded games (placement-tagged states).
+
+    Rows with ``source=hsreplay_expert`` (Tier7 / .hsreplay ingest) are upweighted
+    by repeating them ``expert_weight`` times (default 1 = no extra weight; retrain
+    passes ~3 so expert boards dominate vs a thin personal sample).
+    """
     byname = cards.by_name(cards.load_kb())
     out: List[Dict] = []
     for path in sorted(glob.glob(os.path.join(data_dir, "*.jsonl"))):
@@ -81,10 +86,24 @@ def trajectory_examples(data_dir: str) -> List[Dict]:
             board = state.get("board") or []
             minions = [m for m in (minion_from_snapshot(x, byname) for x in board) if m]
             if len(minions) >= 2:
-                out.append({"minions": minions, "hero": UNKNOWN_HERO,
-                            "label": float(pl),
-                            "state": state,          # whole-state context for training
-                            "group": d.get("game_id") or path})
+                hero = state.get("hero") or d.get("hero") or UNKNOWN_HERO
+                src = d.get("source") or "personal"
+                # Prefer explicit weight_hint on the row, else expert_weight for
+                # hsreplay_expert, else 1.
+                if d.get("weight_hint") is not None:
+                    w = float(d["weight_hint"])
+                elif src == "hsreplay_expert":
+                    w = float(expert_weight)
+                else:
+                    w = 1.0
+                reps = max(1, int(round(w)))
+                ex = {"minions": minions, "hero": hero,
+                      "label": float(pl),
+                      "state": state,
+                      "group": d.get("game_id") or path,
+                      "source": src}
+                for _ in range(reps):
+                    out.append(dict(ex))
     return out
 
 

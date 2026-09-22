@@ -235,3 +235,35 @@ def example_boards(archetype: str, source: Optional[str] = None) -> List[dict]:
         if b.get("archetype") == archetype:
             return b.get("examples", [])
     return []
+
+
+def loaded_stats_mmr(hero_source: Optional[str] = None) -> Optional[int]:
+    """Return the Firestone ``_mmr`` percentile cut of the active snapshot, if any.
+
+    Used by recommend/advise to prefer top-MMR (1 or 10) expert priors and to
+    warn when the on-disk snapshot is the all-MMR (100) population.
+    """
+    src = hero_source or default_hero_source()
+    try:
+        data = _read_json(src)
+    except Exception:
+        return None
+    mmr = data.get("_mmr")
+    try:
+        return int(mmr) if mmr is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
+def expert_prior_note(hero_source: Optional[str] = None) -> str:
+    """Human-readable prior quality note for CLI advise/recommend paths."""
+    from .firestone_stats import EXPERT_MMR_PREFERRED
+    mmr = loaded_stats_mmr(hero_source)
+    if mmr is None:
+        return "population prior: sample/unknown (run refresh-stats --mmr 10)"
+    if mmr in EXPERT_MMR_PREFERRED:
+        return f"population prior: Firestone top-MMR (mmr={mmr}) [expert]"
+    if mmr == 100:
+        return ("population prior: Firestone ALL-MMR (mmr=100) — prefer "
+                "`refresh-stats --mmr 10` or `--mmr 1` for expert priors")
+    return f"population prior: Firestone mmr={mmr}"

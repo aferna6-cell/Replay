@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HSReplay version="1.7">
+  <Game ts="2026-09-22T12:00:00">
+    <GameEntity id="1">
+      <Tag tag="202" value="1"/>
+      <Tag tag="20" value="1"/>
+    </GameEntity>
+    <Player id="2" playerID="1" name="ExpertPlayer">
+      <Tag tag="50" value="1"/>
+      <Tag tag="202" value="2"/>
+      <Tag tag="26" value="8"/>
+      <Tag tag="464" value="4"/>
+    </Player>
+    <Player id="3" playerID="2" name="Bob">
+      <Tag tag="50" value="2"/>
+      <Tag tag="202" value="2"/>
+    </Player>
+    <!-- Friendly hero -->
+    <FullEntity id="4" cardID="TB_BaconShop_HERO_18">
+      <Tag tag="50" value="1"/>
+      <Tag tag="49" value="1"/>
+      <Tag tag="202" value="3"/>
+      <Tag tag="45" value="30"/>
+      <Tag tag="44" value="5"/>
+    </FullEntity>
+    <!-- Board minions (controller 1, zone PLAY) -->
+    <FullEntity id="10" cardID="BG26_888" name="Brann Bronzebeard">
+      <Tag tag="50" value="1"/>
+      <Tag tag="49" value="1"/>
+      <Tag tag="202" value="4"/>
+      <Tag tag="47" value="2"/>
+      <Tag tag="45" value="4"/>
+      <Tag tag="263" value="1"/>
+    </FullEntity>
+    <FullEntity id="11" cardID="BG21_037" name="Leapfrogger">
+      <Tag tag="50" value="1"/>
+      <Tag tag="49" value="1"/>
+      <Tag tag="202" value="4"/>
+      <Tag tag="47" value="3"/>
+      <Tag tag="45" value="3"/>
+      <Tag tag="263" value="2"/>
+    </FullEntity>
+    <FullEntity id="12" cardID="BG25_008" name="Emberseer">
+      <Tag tag="50" value="1"/>
+      <Tag tag="49" value="1"/>
+      <Tag tag="202" value="4"/>
+      <Tag tag="47" value="5"/>
+      <Tag tag="45" value="5"/>
+      <Tag tag="263" value="3"/>
+    </FullEntity>
+    <!-- Shop tease under Bob -->
+    <FullEntity id="20" cardID="BG26_001">
+      <Tag tag="50" value="2"/>
+      <Tag tag="49" value="1"/>
+      <Tag tag="202" value="4"/>
+      <Tag tag="47" value="2"/>
+      <Tag tag="45" value="2"/>
+      <Tag tag="263" value="1"/>
+    </FullEntity>
+    <!-- BUY-like play block -->
+    <Block type="7" entity="20" cardID="BG26_001">
+      <TagChange entity="20" tag="50" value="1"/>
+      <TagChange entity="20" tag="49" value="1"/>
+      <TagChange entity="20" tag="263" value="4"/>
+    </Block>
+    <!-- Turn advances into combat (even) -> snapshot -->
+    <TagChange entity="1" tag="20" value="2"/>
+    <!-- Later turn with board still present -->
+    <TagChange entity="1" tag="20" value="4"/>
+    <!-- Final placement for friendly player entity -->
+    <TagChange entity="2" tag="3679" value="1"/>
+  </Game>
+</HSReplay>

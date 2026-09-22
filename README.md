@@ -24,8 +24,9 @@ Two data sources, two different roles — they are **not** interchangeable:
 
 | Source | Role | Notes |
 |---|---|---|
-| Population stats (HDT/Firestone-style) | Priors / features: "what's objectively strong" | Aggregates only — no public raw-trajectory dump exists. Used as model *features*, not training examples. |
-| Your own games (this logger) | Personalization: "what works for *you*" | The only raw `(state, action, outcome)` trajectories you'll ever have. |
+| Population stats (Firestone top-MMR + optional HSReplay Tier7) | Priors / features: "what's objectively strong" | Aggregates + structured boards. No public bulk raw-trajectory dump. Used as model *features* / expert priors. |
+| Expert games (Tier7 perfect boards / `.hsreplay` ingest) | Expert demonstrations (`source=hsreplay_expert`) | Upweighted in retrain vs personal games. |
+| Your own games (this logger) | Personalization: "what works for *you*" | Local `(state, action, outcome)` trajectories from `watch`. |
 
 Weighting between them is **adaptive**: population-heavy early (larger, less
 noisy sample), shifting toward personal as your dataset grows and personalized
@@ -393,6 +394,97 @@ final placement it led to. Fold those into the brain after a session:
 
 The more you play, the sharper it gets on the live meta *and your playstyle* —
 your per-game placements are a sharper signal than the population averages.
+
+
+## Train from the best
+
+Goal: learn from **top-MMR / Tier7 expert play** *before* relying on Jeef VODs
+(no YouTube/vision in this track). Honest limits first:
+
+### What you can and cannot get from HSReplay
+
+| Surface | Access | Usable for coaching? |
+|---|---|---|
+| `GET /api/v1/games/` | **401** without auth | Account game list only — **not** a public bulk BG trajectory dump. |
+| Battlegrounds replay pages / My Replays | **Not offered for BG** ([HearthSim help](https://help.hearthsim.net/en/articles/8954837-are-replays-for-available-for-battlegrounds)) | No click-by-click BG replay viewer; combats are too long. |
+| `/api/v1/battlegrounds/perfect_games/` | **Tier7** (403 without entitlement) | Best structured expert **final boards** per composition. |
+| `/api/v1/battlegrounds/heroes/` | **Tier7 / auth** | Full hero pick + placement stats. |
+| `/api/v1/battlegrounds/inspiration/` | **auth** | Board inspiration tool. |
+| `/api/v1/battlegrounds/trinkets/?BattlegroundsMMRPercentile=TOP_1_PERCENT` | **Public** | Top-MMR trinket placements (expert prior). |
+| `/api/v1/battlegrounds/heroes/free/` | **Public** | Pick-rate teaser only (no placements). |
+| `/api/v1/battlegrounds/compositions/` | **Public** | Composition id/name list. |
+| `.hsreplay` / `.xml` files | Manual / HDT export | Per-game XML → trajectory JSONL when you have the file. |
+
+Firestone’s public CDN remains the default **population prior**
+(`refresh-stats --mmr 10` or `--mmr 1` for the sharpest ladder cut). That prior
+is what `advise` / `stats` label as the expert population when the snapshot’s
+`_mmr` is 1 or 10.
+
+### If you have Tier7…
+
+Do **not** paste tokens into the repo, PRs, or chat. Keep credentials in env vars
+or a chmod-600 cookie file on your machine:
+
+```bash
+# Option A — API / upload token (Authorization: Token …)
+export HSREPLAY_API_TOKEN='…'          # from your linked HDT / account tooling
+
+# Option B — browser session cookie file (logged-in Tier7 session)
+# One-line Cookie header, or a Netscape jar that includes hsreplay.net
+export HSREPLAY_COOKIE_FILE="$HOME/.config/hsbg-coach/hsreplay.cookies"
+chmod 600 "$HSREPLAY_COOKIE_FILE"
+
+# Optional OAuth access token form
+export HSREPLAY_BEARER='…'
+```
+
+Probe what your account can see (auth-required calls are skipped in CI when
+unset; public probes are documented either way):
+
+```bash
+python -m hsbg_coach spike-hsreplay
+```
+
+Pull Tier7 perfect-game boards + optional public trinket prior, and/or ingest
+local `.hsreplay` files:
+
+```bash
+# Authenticated Tier7 structured boards → data/game-tier7-perfect.jsonl
+python -m hsbg_coach ingest-hsreplay --tier7-perfect --tier7-comps 8 \
+    --mmr-percentile TOP_1_PERCENT --public-trinkets
+
+# Fallback: local exports (directory or files)
+python -m hsbg_coach ingest-hsreplay path/to/replays/ some_game.hsreplay
+
+# Optional shortid fetch (usually no replay_xml for BG — file ingest preferred)
+python -m hsbg_coach ingest-hsreplay --shortid AbCdEf12345
+```
+
+Every written row is tagged `source=hsreplay_expert` so retrain can upweight it.
+
+### Retrain: expert jsonl + your games
+
+```bash
+# Population prior = top-MMR Firestone (expert ladder cut)
+python -m hsbg_coach refresh-stats --mmr 10 --period past-seven   # or --mmr 1
+
+# Fold expert + personal trajectories (expert rows repeated --expert-weight times)
+python -m ml.train_eval_net --trajectories data/ --expert-weight 3 --epochs 40
+
+# Or the session helper (same trajectories dir)
+./scripts/retrain.sh
+```
+
+`advise` / `stats` print a one-line prior quality note so you can see whether the
+loaded Firestone snapshot is top-MMR (expert) or all-MMR.
+
+### When Jeef VOD is still the fallback
+
+Use VODs (outside this repo’s automation) when you need **narrated mid-game
+lines** that Tier7 boards and sparse `.hsreplay` tags do not capture — tempo
+timing, discovery intuition, lobby reads. This track deliberately avoids
+YouTube/vision pipelines; Tier7 + Firestone top-MMR + your own logged games are
+the supported automated path.
 
 ## Keeping it fresh (weekly meta pull)
 

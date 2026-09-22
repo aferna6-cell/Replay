@@ -27,6 +27,9 @@ class Decision:
     wall_clock: float = field(default_factory=time.time)
     # Filled at game end via backfill_outcome():
     placement: Optional[int] = None   # 1..8 (1 = won the lobby)
+    # Optional provenance (expert ingest sets source=hsreplay_expert):
+    source: str = "personal"
+    game_id: Optional[str] = None
 
 
 class TrajectoryRecorder:
@@ -83,16 +86,22 @@ class TrajectoryRecorder:
         path = os.path.join(self.data_dir, f"game-{self._game_id}.jsonl{suffix}")
         with open(path, "w", encoding="utf-8") as fh:
             for d in self._current:
+                if d.game_id is None:
+                    d.game_id = self._game_id
                 fh.write(json.dumps(_as_jsonable(d), separators=(",", ":")) + "\n")
         self._current = []
         return path
 
 
 def _as_jsonable(d: Decision) -> Dict:
-    return {
+    row = {
         "state": d.state,
         "action_type": d.action_type,
         "action_detail": d.action_detail,
         "placement": d.placement,
         "wall_clock": d.wall_clock,
+        "source": d.source or "personal",
     }
+    if d.game_id:
+        row["game_id"] = d.game_id
+    return row
