@@ -137,7 +137,8 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
             scored.append(_score_level(act, snapshot, pace, health, cfg,
                                        hero_ctx, best_buy_delta))
         elif act.kind == ROLL:
-            scored.append(_score_roll(act, gold, best_buy_delta, target_tribe))
+            scored.append(_score_roll(act, gold, best_buy_delta, target_tribe,
+                                      snapshot=snapshot))
         elif act.kind == FREEZE:
             scored.append(_score_freeze(act, snapshot, gold, idx, board_cks,
                                         target_tribe, emb))
@@ -280,7 +281,7 @@ def _score_level(act, snapshot, pace, health, cfg, hero_ctx, best_buy_delta):
     return ScoredAction(act, _clamp(prio), reason)
 
 
-def _score_roll(act, gold, best_buy_delta, target_tribe):
+def _score_roll(act, gold, best_buy_delta, target_tribe, snapshot=None):
     prio = 0.5 - best_buy_delta * _PRIO_SCALE          # good buys make rolling worse
     if gold < BUY_COST + ROLL_COST:
         prio -= 0.25                                   # rolling would starve the buy
@@ -289,6 +290,18 @@ def _score_roll(act, gold, best_buy_delta, target_tribe):
         reason = f"shop has no strong buy — roll{tribe}"
     else:
         reason = "a buy beats rolling this turn"
+    # Soft board-fill prior: demote roll priority when board is sparse and the
+    # shop still has acceptable filler / on-direction units.
+    if snapshot is not None:
+        try:
+            from .jeef_priors import board_fill_roll_adjust
+            radj, rreason = board_fill_roll_adjust(snapshot)
+            if radj:
+                prio -= min(0.35, radj * 0.5)
+                if rreason:
+                    reason = rreason
+        except Exception:
+            pass
     return ScoredAction(act, _clamp(prio, hi=0.8), reason)
 
 

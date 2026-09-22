@@ -57,3 +57,26 @@ Additional ASR-derived decision rows (Jeef shorts + Shadybunny `pzYwWAnjJ54`):
 | Sell / freeze / roll / HP / level | denser | Soft timing priors only |
 
 See `docs/TRAIN_NOTES_36_6_1.md`. Checkpoint: `results/eval_net_36_6_1_2026-09-22/eval_net.pt`.
+
+## Board-fill / anti-stuck-roll / direction-cut (Aidan playtest 2026-09)
+
+Soft placement nudges in `jeef_priors.py` + wiring in `game_value` / `advisor`:
+
+| Signal | Soft prior |
+|---|---|
+| Sparse board (<4–5) + buyable shop | Demote ROLL; boost acceptable BUY (incl. direction-only mediocre) |
+| Full board + trash shop | Roll OK (no demotion) |
+| Stable board (≥5) + solid on-direction in shop | Demote endless re-roll; boost solid mid-game BUY |
+| Direction committed (2+ on-dir) | Soft-promote SELL of useless off-direction chaff (not flex/trinket enablers) |
+| Late high-roll (T5+, turn≥10, full-ish) | Hard-roll still allowed when shop is dead |
+
+Works with existing direction-only good buys — on-direction bodies count as fills.
+
+## Trinket pick + play-into (same PR)
+
+| Signal | Soft prior |
+|---|---|
+| Discover/choose trinket | `draft._trinket_fit` demotes Battlecry/Deathrattle/etc. premiums when board has no matching plan; boosts tribe/keyword fit + lobby lean. 36.6.1: no Naga; Aberration in. |
+| Equipped keyword/tribe trinket | `comp_signals.minion_trinket_buy_adjust` boosts matching shop buys; `off_trinket_buy_penalty` soft-demotes off-plan bodies on committed boards; `sell_trinket_penalty` protects enablers. |
+
+All soft — never forced locks.
