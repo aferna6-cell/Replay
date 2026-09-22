@@ -263,6 +263,16 @@ def direction_buy_penalty(minion, snapshot, kb=None,
         return 2.0, "Naga is out of the pool — never buy"
 
     name = minion.get("name") if isinstance(minion, dict) else getattr(minion, "name", None)
+
+    # Live-pool scrub (playstyle_prior): Archlich Kel'Thuzad, Monstrous Macaw,
+    # Young Murk-Eye, rotated Naga uniques, etc. — never treat as strong buys.
+    try:
+        from .playstyle_prior import is_out_of_pool, key_minion_boost
+        if is_out_of_pool(name):
+            return 2.5, f"{name} is out of the live 36.6.1 pool — never buy"
+    except Exception:
+        is_out_of_pool = None  # type: ignore
+        key_minion_boost = None  # type: ignore
     cid = (minion.get("card_id") if isinstance(minion, dict)
            else getattr(minion, "card_id", None))
     if is_flex_key(name, cid, kb):
@@ -293,6 +303,14 @@ def direction_buy_penalty(minion, snapshot, kb=None,
         # (tier within 1 of tavern, or Activate / named).
         if tier_pen and mt is not None and int(tavern) - int(mt) >= 3:
             return tier_pen * 0.7, tier_reason
+        # Soft promote live HSReplay S/A key minions.
+        try:
+            from .playstyle_prior import key_minion_boost
+            boost, why = key_minion_boost(name)
+            if boost:
+                return boost, why
+        except Exception:
+            pass
         return 0.0, None
 
     # Off-direction. Soft lobby prior must NOT lock buys before information:

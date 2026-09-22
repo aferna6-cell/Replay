@@ -1,0 +1,421 @@
+{
+  "as_of": "2026-09-22 7:35 PM ET",
+  "patch": "36.6.1",
+  "source": "HSReplay comps page react_context (public)",
+  "source_urls": [
+    "https://hsreplay.net/battlegrounds/comps/",
+    "https://api.hearthstonejson.com/v1/latest/enUS/cards.json",
+    "https://hsbg.cards/api/v1/cards?pool=current&cardType=minion"
+  ],
+  "s_tier": [
+    "Beasts - Beetles",
+    "Demons - Self Damage",
+    "Elementals - Unbound Tempest",
+    "Undead - Attack Scaling"
+  ],
+  "a_tier": [
+    "Beasts - Tasty Lobstah",
+    "Elementals - Stat scaling",
+    "Mechs - Magnetics/Spells",
+    "Murlocs - Venom Scam",
+    "Murlocs - Tidecaller",
+    "Undead - APM Undead",
+    "Dragons - APM Evoker",
+    "Pirates - APM Golden",
+    "Beasts - Summons",
+    "Beasts - Leviathan",
+    "Demons - APM Shop Buff",
+    "Demons - Shop Buff"
+  ],
+  "b_tier": [
+    "Murlocs - Family",
+    "Quilboar - Bristlemane",
+    "Mechs - Magnetics",
+    "Quilboar - Choose One",
+    "Dragons - Battlecries",
+    "Mechs - Deathrattle"
+  ],
+  "s_tier_comps": [
+    {
+      "name": "Beasts - Beetles",
+      "tribe": "Beast",
+      "key_minions": [
+        "Banana Slamma",
+        "Turquoise Skitterer",
+        "Headhunter Gryphon",
+        "Ravaging Scorpid"
+      ]
+    },
+    {
+      "name": "Demons - Self Damage",
+      "tribe": "Demon",
+      "key_minions": [
+        "Ashen Corruptor",
+        "Balinda Stonehearth",
+        "Eredar Escapist",
+        "Devilish Distractor",
+        "Brann Bronzebeard"
+      ]
+    },
+    {
+      "name": "Elementals - Unbound Tempest",
+      "tribe": "Elemental",
+      "key_minions": [
+        "Unbound Tempest",
+        "Kelp Keeper",
+        "Brann Bronzebeard",
+        "Nomi, Kitchen Nightmare",
+        "Tavern Tempest"
+      ]
+    },
+    {
+      "name": "Undead - Attack Scaling",
+      "tribe": "Undead",
+      "key_minions": [
+        "Handless Forsaken",
+        "Mummifier",
+        "Drustfallen Butcher",
+        "Dead Bellringer",
+        "Snazzy Phantom"
+      ]
+    }
+  ],
+  "a_tier_comps": [
+    {
+      "name": "Beasts - Tasty Lobstah",
+      "tribe": "Beast",
+      "key_minions": [
+        "Titus Rivendare",
+        "Tasty Lobster",
+        "Headhunter Gryphon",
+        "Deathstrider"
+      ]
+    },
+    {
+      "name": "Elementals - Stat scaling",
+      "tribe": "Elemental",
+      "key_minions": [
+        "Unleashed Mana Surge",
+        "Moat Custodian",
+        "Kelp Keeper",
+        "Brann Bronzebeard",
+        "Tavern Tempest"
+      ]
+    },
+    {
+      "name": "Mechs - Magnetics/Spells",
+      "tribe": "Mech",
+      "key_minions": [
+        "Utility Drone",
+        "Balinda Stonehearth",
+        "Glambot"
+      ]
+    },
+    {
+      "name": "Murlocs - Venom Scam",
+      "tribe": "Murloc",
+      "key_minions": [
+        "Leeroy the Reckless",
+        "Bile Spitter",
+        "Expert Aviator"
+      ]
+    },
+    {
+      "name": "Murlocs - Tidecaller",
+      "tribe": "Murloc",
+      "key_minions": [
+        "Choral Mrrrglr",
+        "Diremuck Forager",
+        "Magicfin Mycologist",
+        "Balinda Stonehearth",
+        "Shamanic Tidecaller",
+        "Brann Bronzebeard"
+      ]
+    },
+    {
+      "name": "Undead - APM Undead",
+      "tribe": "Undead",
+      "key_minions": [
+        "Handless Forsaken",
+        "Sky Admiral Rogers",
+        "Proud Privateer",
+        "Forsaken Weaver",
+        "Snazzy Phantom"
+      ]
+    },
+    {
+      "name": "Dragons - APM Evoker",
+      "tribe": "Dragon",
+      "key_minions": [
+        "Warpwing",
+        "Persistent Poet",
+        "Fire-forged Evoker",
+        "Sky Admiral Rogers",
+        "Proud Privateer"
+      ]
+    },
+    {
+      "name": "Pirates - APM Golden",
+      "tribe": "Pirate",
+      "key_minions": [
+        "Sky Admiral Rogers",
+        "Hooktusk, Master Marauder",
+        "Enterprising Escapee"
+      ]
+    },
+    {
+      "name": "Beasts - Summons",
+      "tribe": "Beast",
+      "key_minions": [
+        "Titus Rivendare",
+        "Banana Slamma",
+        "Sewer Lord",
+        "Headhunter Gryphon",
+        "Deathstrider",
+        "Goldrinn, the Great Wolf"
+      ]
+    },
+    {
+      "name": "Beasts - Leviathan",
+      "tribe": "Beast",
+      "key_minions": [
+        "Banana Slamma",
+        "Lurking Leviathan",
+        "Sewer Lord",
+        "Headhunter Gryphon"
+      ]
+    },
+    {
+      "name": "Demons - APM Shop Buff",
+      "tribe": "Demon",
+      "key_minions": [
+        "Felboar",
+        "Sky Admiral Rogers",
+        "Proud Privateer",
+        "Balinda Stonehearth",
+        "Enterprising Escapee",
+        "Devilish Distractor"
+      ]
+    },
+    {
+      "name": "Demons - Shop Buff",
+      "tribe": "Demon",
+      "key_minions": [
+        "Felboar",
+        "Balinda Stonehearth",
+        "Imp-lusionist",
+        "Devilish Distractor"
+      ]
+    }
+  ],
+  "b_tier_comps": [
+    {
+      "name": "Murlocs - Family",
+      "tribe": "Murloc",
+      "key_minions": [
+        "Papa Mrrglton",
+        "Cousin Errgl",
+        "Kelp Keeper",
+        "Brann Bronzebeard"
+      ]
+    },
+    {
+      "name": "Quilboar - Bristlemane",
+      "tribe": "Quilboar",
+      "key_minions": [
+        "Gem Rat",
+        "Sanguine Refiner",
+        "Trench Fighter",
+        "Balinda Stonehearth",
+        "Vigilant Bristlemane"
+      ]
+    },
+    {
+      "name": "Mechs - Magnetics",
+      "tribe": "Mech",
+      "key_minions": [
+        "Scrap Scraper",
+        "Drone Duplicator",
+        "Spark Snapper"
+      ]
+    },
+    {
+      "name": "Quilboar - Choose One",
+      "tribe": "Quilboar",
+      "key_minions": [
+        "Turbo Hogrider",
+        "Gem Rat",
+        "Sanguine Refiner",
+        "Trench Fighter"
+      ]
+    },
+    {
+      "name": "Dragons - Battlecries",
+      "tribe": "Dragon",
+      "key_minions": [
+        "Warpwing",
+        "Persistent Poet",
+        "Brann Bronzebeard",
+        "Kalecgos, Arcane Aspect"
+      ]
+    },
+    {
+      "name": "Mechs - Deathrattle",
+      "tribe": "Mech",
+      "key_minions": [
+        "Titus Rivendare",
+        "Falling Sky Golem",
+        "Kangor's Apprentice"
+      ]
+    }
+  ],
+  "out_of_pool_cards": [
+    "'Loc Prince",
+    "Abyssal Bruiser",
+    "Acid Rainfall",
+    "Apprentice of Sefin",
+    "Archlich Kel'Thuzad",
+    "Avalanche Caller",
+    "Batty Terrorguard",
+    "Bloodsnout Warlord",
+    "Bluesy Siren",
+    "Bountiful Bedrock",
+    "Bristlebach",
+    "Bubble Gunner",
+    "Burgeoning Whelp",
+    "Cagey Conjurer",
+    "Carapace Raiser",
+    "Catacomb Crasher",
+    "Charlga",
+    "Charmwing",
+    "Corrupted Myrmidon",
+    "Cruise Controller",
+    "Darkcrest Strategist",
+    "Darkgaze Elder",
+    "Deep-Sea Angler",
+    "Divine Sparkbot",
+    "Dreadbeard",
+    "Dream Inquisitor",
+    "Efficient Engineer",
+    "Eventide Brute",
+    "Fauna Whisperer",
+    "Felhorn",
+    "Firescale Hoarder",
+    "Fleeing Fugitive",
+    "Gem Smuggler",
+    "Gemsplitter",
+    "Gentle Djinni",
+    "Glowscale",
+    "Goldgrubber",
+    "Gormling Gourmet",
+    "Greenskeeper",
+    "Groundbreaker",
+    "Hackerfin",
+    "Hot-Air Surveyor",
+    "Hunting Tiger Shark",
+    "Lantern Lava",
+    "Lava Lurker",
+    "Leyline Surfacer",
+    "Lokholar, Frostforger",
+    "Lord of the Ruins",
+    "Maelstrom Emergent",
+    "Magicfin Apprentice",
+    "Manasaber",
+    "Master of Realities",
+    "Mechanized Gift Horse",
+    "Mini-Myrmidon",
+    "Monstrous Macaw",
+    "Moon-Bacon Jazzer",
+    "Moonsteel Juggernaut",
+    "Murky",
+    "Nalaa the Redeemer",
+    "Neon Agent",
+    "Nightbane, Ignited",
+    "Niuzao",
+    "Old Murk-Eye",
+    "Ominous Seer",
+    "One-Amalgam Tour Group",
+    "Orgozoa, the Tender",
+    "P-0UL-TR-0N",
+    "Pashmar the Vengeful",
+    "Photobomber",
+    "Pokey Thornmantle",
+    "Prickly Piper",
+    "Primeval Monstrosity",
+    "Prophet of the Boar",
+    "Rabid Panther",
+    "Raptor Elder",
+    "Redtusk Thornraiser",
+    "Reef Explorer",
+    "Rimescale Priestess",
+    "Ring Bearer",
+    "Rylak Metalhead",
+    "Sandstone Drake",
+    "Sea Witch Zar'jira",
+    "Seafloor Recruiter",
+    "Shell Collector",
+    "Ship Master Eudora",
+    "Shoalfin Mystic",
+    "Showy Cyclist",
+    "Silent Enforcer",
+    "Silithid Burrower",
+    "Silky Shimmermoth",
+    "Sky Pirate Flagbearer",
+    "Slitherspear, Lord of Gains",
+    "Stomping Stegodon",
+    "Stuntdrake",
+    "Tea Master Theotar",
+    "Thaumaturgist",
+    "Three Lil' Quilboar",
+    "Tide Oracle Morgl",
+    "Tidemistress Athissa",
+    "Torrential Ruiner",
+    "Tranquil Meditative",
+    "Transmuted Bramblewitch",
+    "Treasure-Seeker Elise",
+    "Twilight Broodmother",
+    "Twilight Watcher",
+    "Ultraviolet Ascendant",
+    "Vinespeaker",
+    "Visionary Shipman",
+    "Waverider",
+    "Yorik Smite",
+    "Young Murk-Eye",
+    "Zapp Slywick",
+    "Zesty Shaker"
+  ],
+  "naga_excluded_forever": true,
+  "naga_comps_ignored_on_hsreplay_page": [
+    "Nagas - Groundbreaker",
+    "Nagas - End Of Turn/Spell Buff"
+  ],
+  "dual_tiers_path": "meta/hsreplay_dual_tiers.json",
+  "live_pool": {
+    "count": 252,
+    "tribes": {
+      "QUILBOAR": 24,
+      "DEMON": 22,
+      "DRAGON": 22,
+      "MURLOC": 24,
+      "NEUTRAL": 24,
+      "UNDEAD": 22,
+      "PIRATE": 24,
+      "BEAST": 22,
+      "MECHANICAL": 22,
+      "ELEMENTAL": 24,
+      "ABERRATION": 26,
+      "ALL": 4
+    },
+    "aberration_count": 26,
+    "naga_excluded_count": 22,
+    "source_hsjson": "https://api.hearthstonejson.com/v1/latest/enUS/cards.json",
+    "filter": "isBattlegroundsPoolMinion && !battlegroundsNormalDbfId && !duosExclusive && race!=NAGA",
+    "fetched_et": "2026-09-22 7:35 PM ET",
+    "crosscheck_hsbg_cards": "https://hsbg.cards/api/v1/cards?pool=current&cardType=minion",
+    "hsreplay_minions_page": "https://hsreplay.net/battlegrounds/minions/",
+    "hsreplay_comps_page": "https://hsreplay.net/battlegrounds/comps/",
+    "hsreplay_comps_note": "Public react_context on comps page (no login required for tier list). Minions page is SPA; pool taken from HSJSON flag + hard Naga exclude. HSReplay still shows 2 Naga comps \u2014 dropped.",
+    "patch": "36.6.1"
+  },
+  "notes": "Visible non-hidden HSReplay comps only; key_minions \u2286 live non-Naga pool. Aberration tribe B soft-only (no HSReplay comps yet as of fetch)."
+}
