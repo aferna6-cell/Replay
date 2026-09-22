@@ -205,9 +205,15 @@ def _key(d: dict):
     opps = tuple((p.get("controller"), p.get("hero"), p.get("strength"))
                  for p in d.get("opponent_profiles", []) or [])
     hp = (d.get("hero_power") or {}).get("usable")
+    activate = tuple(
+        (a.get("entity_id"), a.get("usable"), a.get("cost"))
+        for a in (d.get("activatable") or [])
+    )
+    dg = d.get("dark_gift") or {}
+    dark = (dg.get("usable"), dg.get("cost"), dg.get("entity_id")) if dg else None
     return (board, shop, spells, hand, hand_m, trinkets, opps, d.get("gold"),
-            d.get("tavern_tier"), d.get("phase"), hp, d.get("hero_health"),
-            d.get("anomaly"), d.get("hero"))
+            d.get("tavern_tier"), d.get("phase"), hp, activate, dark,
+            d.get("hero_health"), d.get("anomaly"), d.get("hero"))
 
 
 class LiveCoach:
