@@ -53,15 +53,22 @@ def test_legal_actions_emit_dark_gift_when_usable():
 
 def test_legal_actions_emit_activate_when_usable():
     snap = _base(activatable=[{
-        "name": "Courier", "card_id": "BG26_810", "cost": 0, "usable": True,
+        "name": "Brain Rotter", "card_id": "BG36_099", "cost": 0, "usable": True,
         "entity_id": 9,
     }])
     acts = [a for a in legal_actions(snap) if a.kind == ACTIVATE]
-    assert len(acts) == 1 and acts[0].cost == 0 and acts[0].target == "Courier"
+    assert len(acts) == 1 and acts[0].cost == 0 and acts[0].target == "Brain Rotter"
     snap2 = _base(gold=1, activatable=[{
-        "name": "Courier", "cost": 3, "usable": True, "entity_id": 9,
+        "name": "Suspicious Prisonguard", "card_id": "BG36_345",
+        "cost": 3, "usable": True, "entity_id": 9,
     }])
     assert ACTIVATE not in [a.kind for a in legal_actions(snap2)]
+    # Non-Activate board minion must never emit even if dumped into activatable.
+    snap3 = _base(activatable=[{
+        "name": "Joyous", "card_id": "BG36_110", "cost": 0, "usable": True,
+        "entity_id": 1,
+    }])
+    assert ACTIVATE not in [a.kind for a in legal_actions(snap3)]
 
 
 def test_hero_power_and_buy_spell_still_legal():
@@ -101,7 +108,8 @@ def test_activate_zero_cost_can_rank_first():
     snap = _base(
         gold=3, turn=5,
         shop=[{"name": "weak", "attack": 1, "health": 1}],
-        activatable=[{"name": "Courier", "cost": 0, "usable": True, "entity_id": 1}],
+        activatable=[{"name": "Brain Rotter", "card_id": "BG36_099",
+                      "cost": 0, "usable": True, "entity_id": 1}],
     )
     recs, _ = rank_actions(snap, scorer=HeuristicScorer(EMB), include_reposition=False)
     top = recs[0].action.kind
@@ -180,8 +188,8 @@ def test_bg_tracker_detects_dark_gift_and_activatable_entities():
         "TAG_SCRIPT_DATA_NUM_1": "3", "ATK": "3", "HEALTH": "3",
     }
 
-    # 0-cost Activate still counts without BACON_TRIGGER_XY.
-    act0 = Entity(id=13, name="Fire Baller", card_id="BG31_816")
+    # 0-cost Activate (Brain Rotter) — allowlisted cardId + HAS_ACTIVATE_POWER.
+    act0 = Entity(id=13, name="Brain Rotter", card_id="BG36_099")
     act0.tags = {
         "CONTROLLER": "1", "ZONE": "PLAY", "CARDTYPE": "MINION",
         "ZONE_POSITION": "2", "HAS_ACTIVATE_POWER": "1",
@@ -199,9 +207,17 @@ def test_bg_tracker_detects_dark_gift_and_activatable_entities():
         "CONTROLLER": "1", "ZONE": "PLAY", "ZONE_POSITION": "0",
         "HAS_ACTIVATE_POWER": "1",
     }
+    # Ordinary board minion: HAS_ACTIVATE_POWER=1 (sell chrome) but NO Activate keyword.
+    busker = Entity(id=16, name="Southsea Busker", card_id="BG26_135")
+    busker.tags = {
+        "CONTROLLER": "1", "ZONE": "PLAY", "CARDTYPE": "MINION",
+        "ZONE_POSITION": "3", "HAS_ACTIVATE_POWER": "1",
+        "ATK": "3", "HEALTH": "1",
+    }
 
     t.state.entities = {
         2: player, 90: hero, 10: gift, 11: act, 13: act0, 14: refresh, 15: drag,
+        16: busker,
     }
 
     dg = t._dark_gift()
@@ -212,7 +228,8 @@ def test_bg_tracker_detects_dark_gift_and_activatable_entities():
     assert len(acts) == 2
     by_name = {a["name"]: a for a in acts}
     assert by_name["Suspicious Prisonguard"]["cost"] == 3
-    assert by_name["Fire Baller"]["cost"] == 0
+    assert by_name["Brain Rotter"]["cost"] == 0
+    assert "Southsea Busker" not in by_name  # HAP alone is not Activate
 
     snap = t.snapshot()
     assert isinstance(snap, Snapshot)

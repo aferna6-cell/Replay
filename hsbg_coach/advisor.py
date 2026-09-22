@@ -292,18 +292,91 @@ def _score_roll(act, gold, best_buy_delta, target_tribe):
     return ScoredAction(act, _clamp(prio, hi=0.8), reason)
 
 
-_FREEZE_STRONG = 2.5       # a genuinely strong, synergistic card
+_FREEZE_STRONG = 3.5       # high synergy alone is enough
 _FREEZE_GEM = 5.0          # a single card so good it's worth freezing alone (rare)
+# Early-curve / named keeps worth freezing even with modest synergy scores.
+_FREEZE_KEEP_NAMES = frozenset({
+    "naga battlemage", "floating watcher", "brann bronzebeard",
+    "lightfang enforcer", "baron rivendare", "kangor's apprentice",
+    "kalecgos", "razorgore", "n'zoth", "y'shaarj", "titus rivendare",
+})
+
+
+def _freeze_keepable(m, ck, board_cks, target_tribe, tavern_tier, emb):
+    """Is this shop minion *clearly* worth freezing (not random T2 chaff)?
+
+    Returns (keep_score, clearly_keepable, label). clearly_keepable is True when
+    any strong signal fires: high synergy, on-tribe, high tier relative, named
+    keep, or strong meta pick.
+    """
+    name = (ck.name if ck is not None else _name(m)) or "?"
+    syn = 0.0
+    if ck is not None:
+        syn = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb).score
+    flags = []
+    # On-tribe with a committed board (not a lone random tribe hit).
+    tribes = [t.lower() for t in (getattr(ck, "tribes", None) or [])] if ck else []
+    on_tribe = bool(target_tribe and target_tribe.lower() in tribes and len(board_cks) >= 2)
+    if on_tribe:
+        flags.append("on-tribe")
+    # High tier relative to current tavern (upgrade, not same-tier filler).
+    card_tier = getattr(ck, "tier", None) if ck is not None else None
+    if card_tier is None and isinstance(m, dict):
+        card_tier = m.get("tier") or (m.get("tags") or {}).get("TECH_LEVEL")
+        try:
+            card_tier = int(card_tier) if card_tier is not None else None
+        except (TypeError, ValueError):
+            card_tier = None
+    high_tier = (card_tier is not None and tavern_tier is not None
+                 and int(card_tier) > int(tavern_tier))
+    if high_tier:
+        flags.append(f"T{card_tier}")
+    named = name.lower() in _FREEZE_KEEP_NAMES
+    if named:
+        flags.append("named keep")
+    meta_strong = False
+    try:
+        from .card_quality import placement, _STRONG
+        cid = None
+        if isinstance(m, dict):
+            cid = m.get("card_id")
+        if ck is not None:
+            cid = cid or ck.card_id
+        ap = placement(cid, name)
+        if ap is not None and ap <= _STRONG:
+            meta_strong = True
+            flags.append(f"meta {ap:.1f}")
+    except Exception:
+        pass
+    strong_syn = syn >= _FREEZE_STRONG
+    if strong_syn:
+        flags.append(f"syn {syn:.1f}")
+    clearly = strong_syn or on_tribe or high_tier or named or meta_strong
+    # Ranking score for gem / multi-strong checks (synergy dominates when present).
+    keep = syn
+    if on_tribe:
+        keep += 1.5
+    if high_tier:
+        keep += 1.5
+    if named:
+        keep += 2.0
+    if meta_strong:
+        keep += 1.5
+    label = name if not flags else f"{name} ({', '.join(flags)})"
+    return keep, clearly, label
 
 
 def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
-    """Freeze when you've spent down and the shop is worth keeping. The right time
-    is: you're (near) out of gold AND there's a strong/synergistic card you can't
-    afford this turn — freeze it so you grab it next turn. Still buried whenever you
-    can still act (gold to buy) or the shop is just okay."""
+    """Freeze when you've spent down and the shop is *clearly* worth keeping.
+
+    Bar is intentionally high: at 0 gold, freeze only for a strong early curve /
+    on-tribe / high-tier-relative / named-keep / meta-strong unit — not random
+    T2 chaff. Prefer End Turn / Sell when the shop is mediocre.
+    """
     shop = list(_get(snapshot, "shop", []) or [])
     if gold >= BUY_COST:                          # you can buy — don't freeze
         return ScoredAction(act, 0.05, "you can act this turn — no need to freeze")
+    tavern_tier = _get(snapshot, "tavern_tier") or 1
     # Without an explicit comp target, infer it from the board's dominant tribe so
     # on-tribe shop cards score as the upgrades they are (else freeze never fires).
     if target_tribe is None and board_cks:
@@ -314,25 +387,25 @@ def _score_freeze(act, snapshot, gold, idx, board_cks, target_tribe, emb):
         if tribes:
             target_tribe = max(tribes, key=tribes.get)
     strong = []
-    best_name, best_score = None, 0.0
+    best_name, best_score, best_clear = None, 0.0, False
     for m in shop:
         ck = idx.get(_name(m))
-        if ck is None:
-            continue
-        v = score_card(ck, board_cks, target_tribe=target_tribe, embeddings=emb).score
+        v, clearly, label = _freeze_keepable(
+            m, ck, board_cks, target_tribe, tavern_tier, emb)
         if v > best_score:
-            best_name, best_score = ck.name, v
-        if v >= _FREEZE_STRONG:
-            strong.append(ck.name)
-    # An "insane" shop you can't afford: 2+ strongly-synergistic cards.
+            best_name, best_score, best_clear = label, v, clearly
+        elif clearly and not best_clear:
+            best_name, best_score, best_clear = label, v, clearly
+        if clearly:
+            strong.append(label.split(" (")[0])
+    # An "insane" shop you can't afford: 2+ clearly-keepable cards.
     if len(strong) >= 2:
         return ScoredAction(act, 0.6,
                             f"freeze — insane shop: {', '.join(strong[:3])} (can't afford yet)")
     if best_score >= _FREEZE_GEM:
         return ScoredAction(act, 0.55, f"freeze — {best_name} is a perfect fit you can't afford yet")
-    # Out of gold with a genuinely strong card you want: freeze to keep it for next
-    # turn. This is the common, correct freeze — gated on having ~no gold left.
-    if gold <= 0 and best_score >= _FREEZE_STRONG:
+    # Out of gold with a clearly keepable card: freeze for next turn.
+    if gold <= 0 and best_clear:
         return ScoredAction(act, 0.5,
                             f"freeze — out of gold; keep {best_name} for next turn")
     return ScoredAction(act, 0.05, "freeze only when out of gold with a card worth keeping")

@@ -154,16 +154,17 @@ def _watch_terminal(power, args) -> int:
     behaves exactly like an HDT overlay, with none of the macOS Tk breakage."""
     import time
     from .live import LiveCoach
-    from .overlay import format_next
+    from .overlay import format_next, format_overlay_text
 
     recorder = None if args.no_record else TrajectoryRecorder(config.DATA_DIR)
     coach = LiveCoach(power, recorder=recorder, from_start=True)
     coach.start()
+    fmt = format_overlay_text if getattr(args, "verbose", False) else format_next
     print("HSBG Coach (terminal panel) — launch a Battlegrounds game. Ctrl-C to stop.")
     last = None
     try:
         while True:
-            text = format_next(*coach.frame())
+            text = fmt(*coach.frame())
             if text != last:
                 # Home cursor + clear screen, then repaint the panel in place.
                 print("\033[H\033[J" + text, flush=True)
@@ -190,13 +191,14 @@ def _watch_overlay(power, args) -> int:
     # Repaint a tidy panel in the terminal too (in place, like htop). The Tk
     # window is unreliable on Apple's deprecated system Tk, so this is always a
     # working readout — and confirms the parser is reading your game live.
-    from .overlay import format_next
+    from .overlay import format_next, format_overlay_text
     last_text = [None]
+    echo_fmt = format_overlay_text if getattr(args, "verbose", False) else format_next
 
     def frame_and_echo():
         result = coach.frame()
         try:
-            text = format_next(*result)
+            text = echo_fmt(*result)
             if text != last_text[0]:
                 print("\033[H\033[J" + text, flush=True)
                 last_text[0] = text
@@ -206,7 +208,7 @@ def _watch_overlay(power, args) -> int:
 
     try:
         from .overlay import Overlay
-        ov = Overlay()
+        ov = Overlay(verbose=bool(getattr(args, "verbose", False)))
     except Exception as exc:  # pragma: no cover - needs a display
         print("Overlay needs a graphical display:", exc)
         coach.stop()
@@ -265,6 +267,9 @@ def build_parser() -> argparse.ArgumentParser:
     w.add_argument("--terminal", action="store_true",
                    help="live recommendations as an in-place terminal panel "
                         "(no GUI; reliable on any macOS — float your terminal window)")
+    w.add_argument("--verbose", action="store_true",
+                   help="rich overlay: board/shop dump + combat odds (default is "
+                        "NEXT + short then: alternates only)")
     w.set_defaults(func=cmd_watch)
 
     f = sub.add_parser("parse-file", help="parse a captured log offline")

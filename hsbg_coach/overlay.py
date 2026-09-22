@@ -73,43 +73,35 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
     return "\n".join(lines)
 
 
+def _short_move(line: str) -> str:
+    """Strip finish/rationale tails so the overlay stays one glance."""
+    if not line:
+        return line
+    # "Buy X (finish 3.8) — long reason" → "Buy X"
+    if " (finish " in line:
+        line = line.split(" (finish ", 1)[0]
+    elif " — " in line:
+        line = line.split(" — ", 1)[0]
+    return line.strip()
+
+
 def format_next(snapshot: Dict, odds: Optional[str] = None,
                 recommendations: Optional[List[str]] = None) -> str:
-    """Minimal one-move view: the single best NEXT action + a compact status line.
-    No board/shop dump — just 'what to do now', which re-computes as you act."""
-    turn = snapshot.get("turn")
-    tier = snapshot.get("tavern_tier")
-    gold = snapshot.get("gold")
-    hp = snapshot.get("hero_health")
-    phase = snapshot.get("phase", "?")
-    status = f"turn {turn} · {phase} · tier {tier} · gold {gold} · hp {hp}"
-    hpw = snapshot.get("hero_power")
-    if hpw and hpw.get("usable"):
-        status += " · hero power ready"
-    if snapshot.get("anomaly"):
-        status += f" · anomaly: {snapshot['anomaly']}"
-    # Sync counter — ticks up every time a new board/shop is ingested, so after a
-    # roll you can see the panel re-read the tavern (it's processing, not stuck).
-    seq = snapshot.get("sync_seq")
-    if seq is not None:
-        status += f" · synced ✓ #{seq}"
-
+    """Default overlay: ONE primary NEXT + a few short alternates. No board/shop
+    dump, no combat-odds block, no long status spam."""
+    del odds  # odds belong in --verbose rich view only
     if recommendations:
-        # Lead with the single best move, then list a couple of alternatives below
-        # it (smaller) so you can override the top pick when you disagree.
-        out = [f"→ {recommendations[0]}", f"  {status}"]
-        if odds:
-            out.append(f"  Combat: {odds}")
-        alts = recommendations[1:3]
+        primary = _short_move(recommendations[0])
+        out = [f"→ {primary}"]
+        alts = [_short_move(a) for a in recommendations[1:3] if a]
+        alts = [a for a in alts if a and a != primary]
         if alts:
-            out.append("  or:")
+            out.append("  then:")
             out.extend(f"   - {a}" for a in alts)
         return "\n".join(out)
-    # No move to make right now (combat / hero-select / between turns): just show
-    # the status line (+ odds if we already know the next fight).
-    if odds:
-        return f"  {status}\n  Combat: {odds}"
-    return f"  {status}"
+    phase = snapshot.get("phase", "?")
+    turn = snapshot.get("turn")
+    return f"  ({phase}" + (f" · turn {turn})" if turn is not None else ")")
 
 
 class Overlay:
@@ -128,8 +120,9 @@ class Overlay:
     """
 
     def __init__(self, corner: str = "ne", alpha: Optional[float] = None,
-                 width: int = 320, height: int = 460,
-                 frameless: Optional[bool] = None) -> None:
+                 width: Optional[int] = None, height: Optional[int] = None,
+                 frameless: Optional[bool] = None,
+                 verbose: bool = False) -> None:
         import sys
         import tkinter as tk  # lazy: keeps module headless-importable
 
@@ -144,6 +137,11 @@ class Overlay:
         if alpha is None:
             alpha = 1.0 if is_mac else 0.92
 
+        self._verbose = bool(verbose)
+        if width is None:
+            width = 360 if self._verbose else 300
+        if height is None:
+            height = 460 if self._verbose else 160
         self.root = tk.Tk()
         self.root.title("HSBG Coach")
         if frameless:
@@ -212,7 +210,9 @@ class Overlay:
 
     def update(self, snapshot: Dict, odds: Optional[str] = None,
                recommendations: Optional[List[str]] = None) -> None:
-        text = format_overlay_text(snapshot, odds, recommendations)
+        # Default: minimal NEXT + then: alternates. --verbose keeps the rich dump.
+        fmt = format_overlay_text if getattr(self, "_verbose", False) else format_next
+        text = fmt(snapshot, odds, recommendations)
         self._text.config(state="normal")
         self._text.delete("1.0", "end")
         self._text.insert("1.0", text)

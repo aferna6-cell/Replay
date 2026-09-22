@@ -176,14 +176,21 @@ def test_magnetic_mech_in_hand_suggests_a_fuse_target():
     assert any(l.startswith("Magnetize Magno onto Shielded") for l in lines)
 
 
-def test_status_line_shows_a_sync_counter():
-    # The panel must signal it re-read the tavern after a roll (not stuck): a
-    # sync counter that ticks up on each ingested board/shop change.
-    from hsbg_coach.overlay import format_next
+def test_minimal_overlay_omits_sync_and_status_spam():
+    # Default overlay is NEXT + then: only — no sync/status/odds clutter.
+    from hsbg_coach.overlay import format_next, format_overlay_text
     snap = {"turn": 7, "phase": "recruit", "tavern_tier": 4, "gold": 5,
-            "hero_health": 30, "sync_seq": 3}
-    out = format_next(snap, None, ["Buy X"])
-    assert "synced" in out and "#3" in out
+            "hero_health": 30, "sync_seq": 3,
+            "board": [{"name": "A", "attack": 1, "health": 1}],
+            "shop": [{"name": "B", "attack": 2, "health": 2}]}
+    out = format_next(snap, "win 60% / tie 0% / loss 40%", ["Buy X", "Roll"])
+    assert out.startswith("→ Buy X")
+    assert "then:" in out and "Roll" in out
+    assert "synced" not in out and "Combat:" not in out
+    assert "Your board" not in out
+    # Rich dump still available for --verbose.
+    rich = format_overlay_text(snap, "win 60% / tie 0% / loss 40%", ["Buy X"])
+    assert "Your board" in rich and "Combat:" in rich
 
 
 def test_late_game_does_not_manufacture_a_roll():
@@ -388,14 +395,15 @@ def test_recruit_always_has_a_next_move_even_with_no_shop():
     assert lines, "recruit with no shop should still recommend roll/tier/end"
 
 
-def test_minimal_view_shows_one_move_and_status():
+def test_minimal_view_shows_one_move_without_status_spam():
     from hsbg_coach.overlay import format_next
     snap = {"turn": 5, "phase": "recruit", "tavern_tier": 3, "gold": 7,
             "hero_health": 40, "anomaly": "Marin's Treasure Box",
             "hero_power": {"usable": True}}
     text = format_next(snap, None, ["Buy Titus Rivendare (finish 2.3) — core Mech"])
     assert text.startswith("→ Buy Titus Rivendare")
-    assert "anomaly: Marin's Treasure Box" in text and "hero power ready" in text
+    assert "finish" not in text
+    assert "anomaly" not in text and "hero power" not in text
     assert "Your board" not in text          # no board dump in the minimal view
 
 
@@ -593,7 +601,7 @@ def test_panel_shows_alternative_moves():
     snap = {"turn": 5, "phase": "recruit", "tavern_tier": 3, "gold": 7,
             "hero_health": 46}
     out = format_next(snap, None, ["Buy A", "Level up", "Roll the shop"])
-    assert "→ Buy A" in out and "or:" in out
+    assert "→ Buy A" in out and "then:" in out
     assert "Level up" in out and "Roll the shop" in out
 
 

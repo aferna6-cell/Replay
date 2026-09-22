@@ -138,12 +138,20 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     if shop:
         actions.append(Action(FREEZE))
 
-    # Season 14 Activate — clickable board minions (gold cost).
+    # Season 14 Activate — only real Activate-keyword minions (not sell chrome).
+    # Snapshot builders must already filter; re-check cardId so a stale/bad
+    # activatable list cannot emit false "Activate X" advice.
+    from .activate_cards import is_activate_minion
     for m in (_get(snapshot, "activatable", []) or []):
-        usable = m.get("usable") if isinstance(m, dict) else True
+        if not isinstance(m, dict):
+            continue
+        usable = m.get("usable")
         if usable is False:
             continue
-        cost = int((m.get("cost") if isinstance(m, dict) else 0) or 0)
+        cid = m.get("card_id")
+        if not is_activate_minion(cid, m.get("name")):
+            continue
+        cost = int(m.get("cost") or 0)
         if gold >= cost:
             actions.append(Action(ACTIVATE, _name(m), cost, {"minion": m}))
 

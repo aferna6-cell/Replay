@@ -56,8 +56,30 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # Show the *why* (synergy / tribe / sell-for-room / tech caveat) next to each
     # move. Suppress Reposition and End-turn — you don't need to be told to pass;
     # your turn ends when you hit 0 gold. Only show real actions to take.
-    from .actions import REPOSITION, END
-    shown = [r for r in recs if r.action.kind not in (REPOSITION, END)]
+    from .actions import REPOSITION, END, FREEZE
+    # Drop Reposition always. Drop End-turn unless freeze is not a real keep —
+    # otherwise hiding End made mediocre "Freeze the shop" look like NEXT.
+    # Drop freeze noise when the advisor buried it (shop not worth keeping).
+    _freeze_bury = ("worth keeping", "no need to freeze")
+    shown = []
+    freeze_kept = False
+    for r in recs:
+        if r.action.kind == REPOSITION:
+            continue
+        if r.action.kind == FREEZE:
+            reason = (r.reason or "").lower()
+            if any(tok in reason for tok in _freeze_bury):
+                continue
+            freeze_kept = True
+        if r.action.kind == END:
+            continue  # decide after pass whether to re-add
+        shown.append(r)
+    gold = snapshot.get("gold")
+    if gold is not None and int(gold) <= 0 and not freeze_kept:
+        # Prefer End Turn over a weak Sell when the shop is not freeze-worthy.
+        end = next((r for r in recs if r.action.kind == END), None)
+        if end is not None:
+            shown.insert(0, end)
     for r in shown[:top]:
         line = f"{r.action.describe()} (finish {r.placement:.1f})"
         if r.reason:

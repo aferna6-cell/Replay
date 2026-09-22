@@ -428,13 +428,18 @@ class BGTracker:
     def _activatable(self) -> List[Dict]:
         """Board minions with the Season 14 Activate keyword that can be clicked.
 
-        Calibrated (Power.log 2026-09): Activate uses HAS_ACTIVATE_POWER=1. Cost is
-        TAG_SCRIPT_DATA_NUM_1 when present, else COST. Shop UI (Refresh, Freeze,
-        Drag To Buy/Sell, Tavern Tier, DragBuy_Spell) also sets HAS_ACTIVATE_POWER —
-        only emit for friendly board minions (zone=PLAY, zonePos>=1, real BG*/BGS*
-        minion cardId). BACON_TRIGGER_XY is NOT required (rare on real activates);
-        BACON_TRIGGER_UPBEAT appears on trinkets/magic items, not Activate minions.
+        Calibrated (Power.log 2026-09): nearly every recruit minion sets
+        HAS_ACTIVATE_POWER=1 (buy/sell interactability), including shop UI
+        (Refresh, Freeze, DragBuy/DragSell). Do NOT treat that tag alone — or a
+        POWER option with error=NONE (sell targets also appear) — as Activate.
+
+        Require ALL of:
+          * friendly board minion (PLAY, zonePos>=1, real BG*/BGS* minion)
+          * HAS_ACTIVATE_POWER=1
+          * cardId in the Activate-keyword allowlist (card text ``Activate (N)``)
+        Cost: TAG_SCRIPT_DATA_NUM_1 when present, else COST.
         """
+        from .activate_cards import is_activate_minion
         out: List[Dict] = []
         if self.local_player is None:
             return out
@@ -451,6 +456,9 @@ class BGTracker:
             if (ent.tag_int("ZONE_POSITION") or 0) < 1:
                 continue
             if ent.tags.get("HAS_ACTIVATE_POWER") != "1":
+                continue
+            # Critical: ordinary board/shop minions also carry HAS_ACTIVATE_POWER.
+            if not is_activate_minion(cid, ent.name):
                 continue
             cost = ent.tag_int("TAG_SCRIPT_DATA_NUM_1")
             if cost is None:
