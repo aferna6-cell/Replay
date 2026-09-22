@@ -168,7 +168,8 @@ def _minion_from_name(ck, name):
 
 
 def rank_discover(offered: List[str], board, kb, scorer=None,
-                  hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
+                  hero_ctx: Optional[HeroContext] = None, tier=None,
+                  gift_by_name=None, available_tribes=None) -> List[Choice]:
     """Rank Discover options (incl. triple-discovers) by how much each improves
     your live board AND advances the winning comp you're building toward. Both
     signals are conditioned on the current board state.
@@ -178,6 +179,22 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
       * build-path value — does it advance a reachable winning archetype?
     """
     scorer = scorer or get_scorer()
+    # Dark Gift discovers: gift effect >> base minion body.
+    if gift_by_name:
+        from .dark_gift import enrich_discover_for_gifts, rank_dark_gift_options
+        from .tribe_policy import soft_lean_tribe
+        opts = enrich_discover_for_gifts(list(offered), gift_by_name, kb)
+        avail = available_tribes or (getattr(hero_ctx, "available_tribes", None) if hero_ctx else None)
+        direction, _ = soft_lean_tribe(
+            board, avail, kb=kb,
+            hero_target=getattr(hero_ctx, "target_tribe", None) if hero_ctx else None)
+        ranked_g = rank_dark_gift_options(opts, board=board, kb=kb,
+                                          available_tribes=avail, direction=direction)
+        out = []
+        for opt, val, reason in ranked_g:
+            out.append(Choice(opt.name, val, f"Dark Gift — {reason}", "gift > body"))
+        return out
+
     emb = load_embeddings()
     idx = by_name(kb) if kb is not None else {}
     hero_id = hero_ctx.hero if hero_ctx and hero_ctx.hero else "UNKNOWN"
@@ -273,7 +290,8 @@ def hero_draft_plan(offered: List[str], db: StatsDB,
 
 def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = None,
                      board=None, kb=None, scorer=None,
-                     hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
+                     hero_ctx: Optional[HeroContext] = None, tier=None,
+                     gift_by_name=None, available_tribes=None) -> List[Choice]:
     """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'.
 
     Heroes: rank up to HSBG_HERO_CHOICES (default 4). For the live overlay's
@@ -285,7 +303,9 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
                              hero_ctx=hero_ctx)
     if kind == "discover":
         return rank_discover(offered, board or [], kb, scorer=scorer,
-                             hero_ctx=hero_ctx, tier=tier)
+                             hero_ctx=hero_ctx, tier=tier,
+                             gift_by_name=gift_by_name,
+                             available_tribes=available_tribes)
     if kind in ("hero_power", "quest"):
         return rank_pick(offered, kind)
     raise ValueError(f"unknown choice kind: {kind}")

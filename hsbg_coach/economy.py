@@ -43,7 +43,10 @@ class HeroContext:
     and the advisor falls back to generic fundamentals.
     """
     hero: Optional[str] = None
-    target_tribe: Optional[str] = None        # the comp we're building toward
+    target_tribe: Optional[str] = None        # soft lean (lobby prior / board), not a hard lock
+    available_tribes: Optional[list] = None  # tribes in this lobby (Naga excluded)
+    manual_tribe_priors: Optional[dict] = None  # tribe -> first%/weight for Aberration etc.
+    lean_reason: Optional[str] = None       # why we leaned this tribe
     level_aggression: float = 0.0             # -0.4..+0.4 nudge to leveling priority
     recommended_minions: List[str] = field(default_factory=list)  # names to prioritize
 

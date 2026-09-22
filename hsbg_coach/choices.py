@@ -124,7 +124,8 @@ class ChoiceParser:
 
 
 def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
-               hero_ctx=None, db=None, tier=None):
+               hero_ctx=None, db=None, tier=None, gift_by_name=None,
+               available_tribes=None):
     """Rank an offer's options via the draft recommender (best first).
 
     For heroes this returns the full ranking (does not drop the reroll target).
@@ -132,7 +133,9 @@ def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
     """
     from .draft import recommend_choice
     return recommend_choice(offer.kind, offer.names, db=db, board=board, kb=kb,
-                            scorer=scorer, hero_ctx=hero_ctx, tier=tier)
+                            scorer=scorer, hero_ctx=hero_ctx, tier=tier,
+                            gift_by_name=gift_by_name or getattr(offer, "gifts", None),
+                            available_tribes=available_tribes)
 
 
 def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,

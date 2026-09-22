@@ -202,21 +202,42 @@ _PLAYSTYLE_AGGRESSION = {"economy": 0.2, "greedy": 0.25, "tempo": -0.15,
 
 
 def build_hero_context(hero: str, db: StatsDB,
-                       available_tribes: Optional[List[str]] = None) -> HeroContext:
+                       available_tribes: Optional[List[str]] = None,
+                       manual_tribe_priors: Optional[dict] = None,
+                       board=None, shop=None, turn=None, kb=None) -> HeroContext:
     """Turn population stats into a HeroContext the recommender consumes.
 
-    Picks the statistically best comp for this hero (given the lobby's tribes),
-    targets its tribe, recommends its core minions, and biases leveling by the
-    hero's playstyle. This is how the advice becomes hero/comp-specific.
+    Soft lobby lean (not a hard lock):
+      * Rank *available* lobby tribes by Firestone/HSReplay placement (and optional
+        manual first% for tribes missing stats, e.g. early Aberration).
+      * Prefer the top tribe as the default lean, but pivot when the board shows
+        another lobby tribe. Never suggests Naga.
     """
+    from .tribe_policy import filter_lobby_tribes, soft_lean_tribe
+    from .economy import HeroContext
+
+    lobby = filter_lobby_tribes(available_tribes) if available_tribes is not None else None
     h = db.hero(hero)
-    comp = db.best_comp_for_hero(hero, available_tribes)
+    # Comp pick stays lobby-filtered for recommended_minions, but target tribe is
+    # the soft lean (prior ∩ board), not a forced lock on the #1 winrate tribe.
+    comp = db.best_comp_for_hero(hero, lobby)
     aggression = _PLAYSTYLE_AGGRESSION.get(h.playstyle if h else "flexible", 0.0)
+    lean, why = soft_lean_tribe(
+        board or [], available_tribes=lobby, kb=kb, db=db,
+        manual=manual_tribe_priors, shop=shop, turn=turn,
+        hero_target=comp.tribe if comp else None,
+    )
+    # Never quarantine-leak.
+    if lean and lean.lower() == "naga":
+        lean, why = None, "Naga quarantined"
     return HeroContext(
         hero=h.name if h else hero,
-        target_tribe=comp.tribe if comp else None,
+        target_tribe=lean or (comp.tribe if comp and (not lobby or comp.tribe in lobby) else None),
         recommended_minions=list(comp.core_cards) if comp else [],
         level_aggression=aggression,
+        available_tribes=lobby,
+        manual_tribe_priors=dict(manual_tribe_priors) if manual_tribe_priors else None,
+        lean_reason=why,
     )
 
 

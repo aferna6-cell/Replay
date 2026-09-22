@@ -2,6 +2,20 @@
  "_source": "HearthstoneJSON",
  "cards": [
   {
+   "card_id": "BGFYM_002t",
+   "name": "Aberrant Tentacle",
+   "tier": 1,
+   "attack": 0,
+   "health": 2,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "TAUNT"
+   ],
+   "text": "<b>Taunt</b>"
+  },
+  {
    "card_id": "TB_BaconShop_HP_033t_SKIN_D",
    "name": "Abominable Amalgam",
    "tier": 1,
@@ -102,16 +116,15 @@
    "card_id": "BG32_236",
    "name": "Aureate Laureate",
    "tier": 1,
-   "attack": 1,
-   "health": 1,
+   "attack": 2,
+   "health": 2,
    "tribes": [
     "Pirate"
    ],
    "keywords": [
-    "BATTLECRY",
     "DIVINE_SHIELD"
    ],
-   "text": "<b>Divine Shield</b> <b>Battlecry:</b> Make this minion Golden."
+   "text": "<b>Divine Shield</b> This minion is always Golden, but doesn't give a Triple Reward."
   },
   {
    "card_id": "BG_AV_309t",
@@ -269,18 +282,6 @@
    "text": "After a different friendly <b>Deathrattle</b> minion dies in combat, gain its <b>Deathrattle</b>."
   },
   {
-   "card_id": "BG23_HERO_304_Buddy",
-   "name": "Coilfang Elite",
-   "tier": 1,
-   "attack": 3,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After a <b>Spellcraft</b> minion appears in the Tavern, get a copy of its spell."
-  },
-  {
    "card_id": "BG29_611",
    "name": "Cord Puller",
    "tier": 1,
@@ -415,6 +416,18 @@
    "text": ""
   },
   {
+   "card_id": "BG36_360",
+   "name": "Dark Paradox",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "text": "This has a different <b>Dark Gift</b>, stats, and Tier each game!"
+  },
+  {
    "card_id": "BGS_055",
    "name": "Deck Swabbie",
    "tier": 1,
@@ -507,7 +520,7 @@
    "name": "Dune Dweller",
    "tier": 1,
    "attack": 3,
-   "health": 2,
+   "health": 3,
    "tribes": [
     "Elemental"
    ],
@@ -562,7 +575,9 @@
    "tier": 1,
    "attack": 3,
    "health": 3,
-   "tribes": [],
+   "tribes": [
+    "Aberration"
+   ],
    "keywords": [
     "BATTLECRY"
    ],
@@ -655,6 +670,30 @@
    ],
    "keywords": [],
    "text": "<b>Start of Combat:</b> If this minion is in your hand, summon a copy of it."
+  },
+  {
+   "card_id": "BG36_200",
+   "name": "Flittering Bat",
+   "tier": 1,
+   "attack": 1,
+   "health": 4,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Summon a 1/1 Beast."
+  },
+  {
+   "card_id": "BG36_200t",
+   "name": "Foraging Bat",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": ""
   },
   {
    "card_id": "BG26_RLK_833",
@@ -782,7 +821,9 @@
    "tribes": [
     "Beast"
    ],
-   "keywords": [],
+   "keywords": [
+    "TAUNT"
+   ],
    "text": "<b>Taunt</b>"
   },
   {
@@ -1010,6 +1051,20 @@
    "text": ""
   },
   {
+   "card_id": "BG36_110",
+   "name": "Joyous",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry:</b> Give your <b>Deity</b> +2/+2."
+  },
+  {
    "card_id": "BG_KAR_005",
    "name": "Kindly Grandmother",
    "tier": 1,
@@ -1200,18 +1255,6 @@
    "text": ""
   },
   {
-   "card_id": "BG23_000",
-   "name": "Mini-Myrmidon",
-   "tier": 1,
-   "attack": 1,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +2 Attack until next turn."
-  },
-  {
    "card_id": "BG34_230",
    "name": "Minted Corsair",
    "tier": 1,
@@ -1306,21 +1349,6 @@
    "tribes": [],
    "keywords": [],
    "text": "When you 'Devour' this, spit its stats onto 1 extra\u00a0minion."
-  },
-  {
-   "card_id": "BG31_330",
-   "name": "Ominous Seer",
-   "tier": 1,
-   "attack": 2,
-   "health": 1,
-   "tribes": [
-    "Demon",
-    "Naga"
-   ],
-   "keywords": [
-    "BATTLECRY"
-   ],
-   "text": "<b>Battlecry:</b> The next Tavern spell you buy costs (1) less."
   },
   {
    "card_id": "BG22_HERO_305t",
@@ -1555,7 +1583,9 @@
    "tribes": [
     "Quilboar"
    ],
-   "keywords": [],
+   "keywords": [
+    "BATTLECRY"
+   ],
    "text": "<b>Battlecry:</b> Get 2 <b>Blood Gems</b>."
   },
   {
@@ -2040,17 +2070,14 @@
    "text": "When you sell this, get 2 <b>Blood Gems</b>."
   },
   {
-   "card_id": "BG27_004",
-   "name": "Surf n' Surf",
+   "card_id": "BG36_345",
+   "name": "Suspicious Prisonguard",
    "tier": 1,
-   "attack": 1,
-   "health": 1,
-   "tribes": [
-    "Naga",
-    "Beast"
-   ],
+   "attack": 3,
+   "health": 3,
+   "tribes": [],
    "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion \"<b>Deathrattle:</b> Summon a \u00a03/2 Crab\" until next turn."
+   "text": "<b>Activate (1):</b> Give another minion +3/+3."
   },
   {
    "card_id": "BG22_401",
@@ -2406,12 +2433,12 @@
    "name": "Wrath Weaver",
    "tier": 1,
    "attack": 1,
-   "health": 4,
+   "health": 3,
    "tribes": [
     "Demon"
    ],
    "keywords": [],
-   "text": "After you play a Demon, deal 1 damage to your hero and gain +2/+1."
+   "text": "After you play a Demon, deal 1 damage to your hero and gain +2/+2."
   },
   {
    "card_id": "BG31_HERO_811t2",
@@ -2422,6 +2449,18 @@
    "tribes": [],
    "keywords": [],
    "text": "<b>Start of Combat:</b> Summon a copy of this minion. <i>(Morphs each turn!)</i>"
+  },
+  {
+   "card_id": "BG36_098",
+   "name": "Zoatroid",
+   "tier": 1,
+   "attack": 3,
+   "health": 2,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "When you sell this, get a 0/2 Tentacle with <b>Taunt</b>."
   },
   {
    "card_id": "BG35_340",
@@ -2511,7 +2550,9 @@
    "attack": 2,
    "health": 4,
    "tribes": [],
-   "keywords": [],
+   "keywords": [
+    "BATTLECRY"
+   ],
    "text": "<b>Battlecry:</b> Replace cards in the Tavern with ones from a Tier higher."
   },
   {
@@ -2576,6 +2617,20 @@
    "text": "<b>Deathrattle:</b> Deal damage equal to this minion's Attack to a random enemy minion. <i>(Morphs each turn!)</i>"
   },
   {
+   "card_id": "BG36_520",
+   "name": "Bilgewater Breakout",
+   "tier": 2,
+   "attack": 3,
+   "health": 2,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry:</b> Get a Lockbox. If you already have one, it opens 1 turn sooner instead."
+  },
+  {
    "card_id": "BG25_040",
    "name": "Blazing Skyfin",
    "tier": 2,
@@ -2603,6 +2658,18 @@
    "text": "<b>Magnetic</b>. The first time this is played or <b>Magnetized</b>, your Volumizers have +3 Health this \u00a0\u00a0\u00a0\u00a0\u00a0game <i>(wherever they are)</i>."
   },
   {
+   "card_id": "BG36_099",
+   "name": "Brain Rotter",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (0):</b> Discard a card to give your <b>Deity</b> +2/+2."
+  },
+  {
    "card_id": "BG27_028",
    "name": "Briarback Bookie",
    "tier": 2,
@@ -2628,6 +2695,21 @@
     "TAUNT"
    ],
    "text": "<b>Taunt</b> <b>Deathrattle:</b> Get a <b>Blood Gem</b> that also gives a Quilboar <b>Taunt</b>."
+  },
+  {
+   "card_id": "BGS_034",
+   "name": "Bronze Warden",
+   "tier": 2,
+   "attack": 2,
+   "health": 1,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "DIVINE_SHIELD",
+    "REBORN"
+   ],
+   "text": "<b>Divine Shield</b> <b>Reborn</b>"
   },
   {
    "card_id": "BG_ULD_205",
@@ -2679,6 +2761,18 @@
    "tribes": [],
    "keywords": [],
    "text": "At the end of your turn, randomly improve 'Conviction'."
+  },
+  {
+   "card_id": "BG36_342",
+   "name": "Clever Castaway",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (2): Discover</b> a Tavern spell."
   },
   {
    "card_id": "BG_EX1_103",
@@ -2735,7 +2829,7 @@
    "keywords": [
     "CHOOSE_ONE"
    ],
-   "text": "<b>Choose One - </b>Get 2 <b>Blood Gems</b>; or Get a random 1-Cost Tavern spell."
+   "text": "<b>Choose One - </b>Get 2 <b>Blood Gems</b>; or Get a Gem Day."
   },
   {
    "card_id": "TB_BaconShop_HERO_60_Buddy",
@@ -2762,6 +2856,28 @@
    "text": "At the end of your turn, give a random friendly Golden minion +5/+5."
   },
   {
+   "card_id": "BG36_360t3",
+   "name": "Dark Paradox",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "text": "Whenever you play a card, gain +2 Attack."
+  },
+  {
+   "card_id": "BG36_354",
+   "name": "Decoy Conjurer",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "tribes": [],
+   "keywords": [],
+   "text": "<b>Activate (2):</b> Steal the highest-Attack minion in the Tavern."
+  },
+  {
    "card_id": "BG21_018",
    "name": "Defiant Shipwright",
    "tier": 2,
@@ -2782,6 +2898,20 @@
    "tribes": [],
    "keywords": [],
    "text": "Your first minion that attacks has \"<b>Immune</b> while Attacking\" for one attack only."
+  },
+  {
+   "card_id": "BG26_963",
+   "name": "Electric Synthesizer",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry and Start of Combat:</b> Give your other Dragons +1/+1."
   },
   {
    "card_id": "BG34_691",
@@ -2856,6 +2986,20 @@
    ],
    "keywords": [],
    "text": "You only need 2 copies of this minion to make it Golden."
+  },
+  {
+   "card_id": "BG36_205",
+   "name": "Fishbait",
+   "tier": 2,
+   "attack": 0,
+   "health": 1,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<i>This can't gain stats</i>. <b>Deathrattle:</b> Give the minion that killed this +5/+5."
   },
   {
    "card_id": "BG26_tt_004",
@@ -3036,19 +3180,6 @@
    "text": "<b>Magnetic</b>. The first time this is played or <b>Magnetized</b>, your Volumizers have +1/+1 this \u00a0\u00a0\u00a0\u00a0\u00a0game <i>(wherever they are)</i>."
   },
   {
-   "card_id": "BG25_044",
-   "name": "Greta Gold-Gun",
-   "tier": 2,
-   "attack": 2,
-   "health": 9,
-   "tribes": [
-    "Naga",
-    "Pirate"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Make a different friendly Pirate or Naga Golden until next turn."
-  },
-  {
    "card_id": "BG32_331",
    "name": "Grimscale Elegist",
    "tier": 2,
@@ -3185,18 +3316,6 @@
    "text": "<b>Battlecry:</b> Add a <b>Fodder</b> to your next 3 <b>Refreshes</b>."
   },
   {
-   "card_id": "BG23_009",
-   "name": "Lava Lurker",
-   "tier": 2,
-   "attack": 2,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "The first <b>Spellcraft</b> spell \u00a0played from hand on this each turn is permanent. <i>(1 left!)</i>"
-  },
-  {
    "card_id": "BG21_000",
    "name": "Leapfrogger",
    "tier": 2,
@@ -3256,6 +3375,18 @@
     "STEALTH"
    ],
    "text": "<b><b>Stealth</b>. Avenge (1):</b> Gain +1/+1 permanently. <i>(Morphs each turn!)</i>"
+  },
+  {
+   "card_id": "BG36_201",
+   "name": "Lurking Lionfish",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (2):</b> Choose a card in the Tavern. Replace it with a Fishbait for your left-most Beast to attack."
   },
   {
    "card_id": "BG31_177",
@@ -3482,7 +3613,9 @@
    "tier": 2,
    "attack": 2,
    "health": 2,
-   "tribes": [],
+   "tribes": [
+    "Aberration"
+   ],
    "keywords": [
     "BATTLECRY"
    ],
@@ -3591,20 +3724,20 @@
    "card_id": "BG33_430",
    "name": "Prodigious Tusker",
    "tier": 2,
-   "attack": 3,
-   "health": 4,
+   "attack": 2,
+   "health": 5,
    "tribes": [
     "Quilboar"
    ],
    "keywords": [],
-   "text": "Whenever a friendly <b>Rally</b> minion attacks, this plays \u00a0\u00a0\u00a02 <b>Blood Gems</b> on itself."
+   "text": "Whenever another friendly minion attacks, this plays a <b>Blood Gem</b> on it."
   },
   {
    "card_id": "BG20_203",
    "name": "Prophet of the Boar",
    "tier": 2,
-   "attack": 2,
-   "health": 3,
+   "attack": 3,
+   "health": 4,
    "tribes": [],
    "keywords": [
     "TAUNT"
@@ -3650,18 +3783,6 @@
    "text": "<b>Magnetic</b>. The first time this is played or <b>Magnetized</b>, your Volumizers have +3 Attack this \u00a0\u00a0\u00a0\u00a0\u00a0game <i>(wherever they are)</i>."
   },
   {
-   "card_id": "BG26_501",
-   "name": "Reef Riffer",
-   "tier": 2,
-   "attack": 3,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion stats equal to your Tier until next turn."
-  },
-  {
    "card_id": "BG33_115",
    "name": "Ride-or-Die",
    "tier": 2,
@@ -3686,6 +3807,18 @@
    ],
    "keywords": [],
    "text": "Whenever a friendly Pirate attacks, give it +3 Attack."
+  },
+  {
+   "card_id": "BG20_101",
+   "name": "Roadboar",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Get a <b>Blood Gem</b>."
   },
   {
    "card_id": "BG21_008",
@@ -3727,19 +3860,6 @@
    "text": "<b>Deathrattles</b> given to this minion trigger twice."
   },
   {
-   "card_id": "BG27_012",
-   "name": "Seaborn Summoner",
-   "tier": 2,
-   "attack": 2,
-   "health": 4,
-   "tribes": [
-    "Elemental",
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Choose a minion. Add a minion of its type to the Tavern."
-  },
-  {
    "card_id": "BG_OG_221",
    "name": "Selfless Hero",
    "tier": 2,
@@ -3772,7 +3892,9 @@
    "tribes": [
     "Beast"
    ],
-   "keywords": [],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
    "text": "<b>Deathrattle:</b> Summon a 2/3 Turtle with <b>Taunt</b>."
   },
   {
@@ -3810,20 +3932,6 @@
    ],
    "keywords": [],
    "text": "When you have space in combat, summon a 3/1 Beast. It attacks immediately."
-  },
-  {
-   "card_id": "BG23_002",
-   "name": "Shell Collector",
-   "tier": 2,
-   "attack": 4,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "BATTLECRY"
-   ],
-   "text": "<b>Battlecry:</b> Get a Tavern Coin."
   },
   {
    "card_id": "BG29_801",
@@ -3890,12 +3998,12 @@
    "name": "Soul Rewinder",
    "tier": 2,
    "attack": 4,
-   "health": 1,
+   "health": 2,
    "tribes": [
     "Demon"
    ],
    "keywords": [],
-   "text": "After your hero takes damage, rewind it and give this +1 Health."
+   "text": "After your hero takes damage, rewind it and give this +2 Health."
   },
   {
    "card_id": "BG_NEW1_027",
@@ -3931,7 +4039,8 @@
    "health": 2,
    "tribes": [],
    "keywords": [
-    "BATTLECRY"
+    "BATTLECRY",
+    "TAUNT"
    ],
    "text": "<b>Taunt</b> <b>Battlecry:</b> Give a minion <b>Taunt</b>."
   },
@@ -4026,18 +4135,6 @@
    "text": "After a different friendly minion gains stats, gain\u00a0+1/+1 until next turn."
   },
   {
-   "card_id": "BG31_924",
-   "name": "Thaumaturgist",
-   "tier": 2,
-   "attack": 2,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +1/+1 until next turn. <i>(Improved by every 4 spells \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0you've cast this game!)</i>"
-  },
-  {
    "card_id": "BG29_810",
    "name": "Thousandth Paper Drake",
    "tier": 2,
@@ -4048,21 +4145,6 @@
    ],
    "keywords": [],
    "text": "<b>Start of Combat:</b> Give your left-most Dragon +1/+2 and <b>Windfury</b>."
-  },
-  {
-   "card_id": "BG34_920",
-   "name": "Tide Raiser",
-   "tier": 2,
-   "attack": 2,
-   "health": 1,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "DEATHRATTLE",
-    "TAUNT"
-   ],
-   "text": "<b>Taunt</b> <b>Deathrattle:</b> Cast Shifting Tide on an adjacent minion."
   },
   {
    "card_id": "BG20_102",
@@ -4092,6 +4174,20 @@
    "text": "<b>Taunt</b> <b>Battlecry:</b> Give a friendly Dragon +2/+2."
   },
   {
+   "card_id": "BG36_116",
+   "name": "Underrot Spawn",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Summon an 0/2 Tentacle with <b>Taunt</b>. Give your minions +1 Attack."
+  },
+  {
    "card_id": "BG_FP1_024",
    "name": "Unstable Ghoul",
    "tier": 2,
@@ -4103,6 +4199,20 @@
     "TAUNT"
    ],
    "text": "<b>Taunt</b>. <b>Deathrattle:</b> Deal 1 damage to all minions."
+  },
+  {
+   "card_id": "BG36_101",
+   "name": "Unwilling Slacker",
+   "tier": 2,
+   "attack": 1,
+   "health": 1,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Get a random 1-Cost Tavern spell."
   },
   {
    "card_id": "BG27_HERO_801_Buddy",
@@ -4121,7 +4231,7 @@
    "name": "Very Hungry Winterfinner",
    "tier": 2,
    "attack": 2,
-   "health": 5,
+   "health": 6,
    "tribes": [
     "Murloc"
    ],
@@ -4231,6 +4341,18 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Give a random friendly Beast, Dragon, and Murloc +1/+1."
+  },
+  {
+   "card_id": "BG36_311",
+   "name": "Abyssal Envoy",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (0):</b> Discard a card to get a random Tavern spell."
   },
   {
    "card_id": "BG26_147",
@@ -4598,6 +4720,18 @@
    "text": "<b>Taunt</b>  <b>Deathrattle:</b> Summon and get a random <b>Battlecry</b> minion."
   },
   {
+   "card_id": "BG36_507",
+   "name": "Breakout Mastermind",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (2):</b> Get a random Murloc."
+  },
+  {
    "card_id": "BG34_683",
    "name": "Briarback Drummer",
    "tier": 3,
@@ -4664,21 +4798,6 @@
    "text": "<b>Battlecry:</b> Give your other Dragons +3/+1."
   },
   {
-   "card_id": "BGS_034",
-   "name": "Bronze Warden",
-   "tier": 3,
-   "attack": 2,
-   "health": 1,
-   "tribes": [
-    "Dragon"
-   ],
-   "keywords": [
-    "DIVINE_SHIELD",
-    "REBORN"
-   ],
-   "text": "<b>Divine Shield</b> <b>Reborn</b>"
-  },
-  {
    "card_id": "BG21_030",
    "name": "Budding Greenthumb",
    "tier": 3,
@@ -4689,6 +4808,18 @@
     "AVENGE"
    ],
    "text": "<b>Avenge (3):</b> Give adjacent minions +2/+2 permanently."
+  },
+  {
+   "card_id": "BGFYM_000",
+   "name": "C'Thun",
+   "tier": 3,
+   "attack": 1,
+   "health": 1,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "<b>Deity.</b> After this awakens, give this minion's stats split amongst your other minions."
   },
   {
    "card_id": "BG30_125",
@@ -4729,21 +4860,6 @@
    ],
    "keywords": [],
    "text": "Whenever you summon a Mech, gain <b>Divine Shield</b>."
-  },
-  {
-   "card_id": "BG32_836",
-   "name": "Coilskar Sapper",
-   "tier": 3,
-   "attack": 3,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "DEATHRATTLE",
-    "TAUNT"
-   ],
-   "text": "<b>Taunt</b> <b>Deathrattle:</b> Get 2 random <b>Spellcraft</b> spells."
   },
   {
    "card_id": "BG33_894",
@@ -4823,6 +4939,18 @@
    "text": "<b>Battlecry:</b> Give your Demons +1/+1."
   },
   {
+   "card_id": "BG36_360t6",
+   "name": "Dark Paradox",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "text": "Has +2/+2 for each <b>Battlecry</b> you've triggered this game <i>(wherever this is)</i>."
+  },
+  {
    "card_id": "BGS_131",
    "name": "Deadly Spore",
    "tier": 3,
@@ -4848,30 +4976,6 @@
    "text": "After you get a <b>Blood Gem</b>, get an extra copy of it."
   },
   {
-   "card_id": "BG26_502",
-   "name": "Deep Blue Crooner",
-   "tier": 3,
-   "attack": 2,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +2/+2 until next turn. Improve your future Deep Blues."
-  },
-  {
-   "card_id": "BG23_004",
-   "name": "Deep-Sea Angler",
-   "tier": 3,
-   "attack": 2,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +2/+6 and <b>Taunt</b> until next turn."
-  },
-  {
    "card_id": "BGS_071",
    "name": "Deflect-o-Bot",
    "tier": 3,
@@ -4884,6 +4988,30 @@
     "DIVINE_SHIELD"
    ],
    "text": "<b>Divine Shield</b> Whenever you summon a Mech during combat, gain +2 Attack and <b>Divine Shield</b>."
+  },
+  {
+   "card_id": "BG33_155",
+   "name": "Devout Hellcaller",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "text": "After another friendly Demon deals damage, gain +2/+2 permanently."
+  },
+  {
+   "card_id": "BG27_556",
+   "name": "Diremuck Forager",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "text": "<b>Start of Combat:</b> When you have space, summon the highest-Attack Murloc from your hand for this combat only."
   },
   {
    "card_id": "BG28_303",
@@ -4923,16 +5051,31 @@
    "text": "At the end of your turn, deal 1 damage to your hero and get a Tavern Coin."
   },
   {
+   "card_id": "BG36_113",
+   "name": "Drifting Sacrifice",
+   "tier": 3,
+   "attack": 2,
+   "health": 1,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "DEATHRATTLE",
+    "REBORN"
+   ],
+   "text": "<b>Reborn</b> <b>Deathrattle:</b> Give your <b>Deity</b> +2/+1."
+  },
+  {
    "card_id": "BG33_323",
    "name": "Dustbone Devastator",
    "tier": 3,
-   "attack": 1,
+   "attack": 2,
    "health": 6,
    "tribes": [
     "Undead"
    ],
    "keywords": [],
-   "text": "<b>Rally:</b> Your Undead have +2 Attack this game <i>(wherever they are).</i>"
+   "text": "<b>Rally:</b> Your Undead have +1 Attack this game <i>(wherever they are).</i>"
   },
   {
    "card_id": "BG28_630",
@@ -4950,20 +5093,6 @@
    "text": "<b>Battlecry:</b> Give another random friendly minion and a minion in your hand +2/+3."
   },
   {
-   "card_id": "BG26_963",
-   "name": "Electric Synthesizer",
-   "tier": 3,
-   "attack": 3,
-   "health": 4,
-   "tribes": [
-    "Dragon"
-   ],
-   "keywords": [
-    "BATTLECRY"
-   ],
-   "text": "<b>Battlecry and Start of Combat:</b> Give your other Dragons +1/+1."
-  },
-  {
    "card_id": "BG32_174",
    "name": "Electron, Powered Up",
    "tier": 3,
@@ -4974,18 +5103,6 @@
    ],
    "keywords": [],
    "text": "At the end of your turn, <b>Magnetize</b> a 3/3 Satellite to all your Mechs."
-  },
-  {
-   "card_id": "BG23_010",
-   "name": "Eventide Brute",
-   "tier": 3,
-   "attack": 4,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Whenever you cast a spell, gain +1/+1."
   },
   {
    "card_id": "BG24_719",
@@ -5010,6 +5127,20 @@
    ],
    "keywords": [],
    "text": "At the end of your turn, consume a minion in the \u00a0Tavern to gain its stats."
+  },
+  {
+   "card_id": "BG30_123",
+   "name": "Fearless Foodie",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "CHOOSE_ONE"
+   ],
+   "text": "<b>Choose One - </b>Your <b>Blood Gems</b> give an extra +1/+1 this game; or Get 4 <b>Blood Gems</b>."
   },
   {
    "card_id": "BG25_041",
@@ -5040,6 +5171,20 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Give your other Demons and Beasts +1/+2 and deal 1 damage to them, twice."
+  },
+  {
+   "card_id": "BG36_112",
+   "name": "Fetid Corroder",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry:</b> Get a Sludge Corrosion."
   },
   {
    "card_id": "BG29_877",
@@ -5119,6 +5264,28 @@
    "text": "After a friendly Beast dies, summon this from your hand for this combat only."
   },
   {
+   "card_id": "BG36_346",
+   "name": "Fruit Vendor",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "tribes": [],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Get 2 Tavern Dish Bananas."
+  },
+  {
+   "card_id": "BG31_326",
+   "name": "Gem Rat",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "At the end of your turn, get a Gem Day."
+  },
+  {
    "card_id": "BG21_037",
    "name": "Gemsplitter",
    "tier": 3,
@@ -5127,7 +5294,9 @@
    "tribes": [
     "Quilboar"
    ],
-   "keywords": [],
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
    "text": "<b>Divine Shield</b> After a friendly minion loses <b>Divine Shield</b>, get a <b>Blood Gem</b>."
   },
   {
@@ -5143,20 +5312,6 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Deathrattle:</b> Add a Coin to your hand."
-  },
-  {
-   "card_id": "BG32_842",
-   "name": "Glowing Cinder",
-   "tier": 3,
-   "attack": 3,
-   "health": 1,
-   "tribes": [
-    "Elemental"
-   ],
-   "keywords": [
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Deathrattle:</b> Your Elementals give an extra +1 Health this game."
   },
   {
    "card_id": "BGS_066",
@@ -5197,16 +5352,16 @@
    "text": "<b>Choose One - </b>Gain 2 Gold next turn; or Gain 4 Gold in two turns."
   },
   {
-   "card_id": "BG33_315",
-   "name": "Greedy Snaketongue",
+   "card_id": "BG36_369",
+   "name": "Greedy Conniver",
    "tier": 3,
-   "attack": 2,
-   "health": 4,
+   "attack": 7,
+   "health": 7,
    "tribes": [
-    "Naga"
+    "Pirate"
    ],
    "keywords": [],
-   "text": "<b>Rally:</b> Get a Tavern Coin."
+   "text": "If this is Golden when you sell it, <b>Discover</b> a Tier 7 minion."
   },
   {
    "card_id": "BG34_636t",
@@ -5235,18 +5390,6 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Summon two 1/1 Skeletons."
-  },
-  {
-   "card_id": "BG26_810",
-   "name": "Gunpowder Courier",
-   "tier": 3,
-   "attack": 3,
-   "health": 6,
-   "tribes": [
-    "Pirate"
-   ],
-   "keywords": [],
-   "text": "Whenever you spend 6 Gold, give your Pirates +2 Attack. <i>(6 Gold left!)</i>"
   },
   {
    "card_id": "BG25_010",
@@ -5289,6 +5432,18 @@
    "text": "<b>Rally:</b> Give the minion to the right of this <b>Reborn</b>."
   },
   {
+   "card_id": "BG36_240",
+   "name": "Hired Mount",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (2):</b> Get a random <b>Chromadrake</b>."
+  },
+  {
    "card_id": "BG33_895",
    "name": "Hot Springer",
    "tier": 3,
@@ -5325,18 +5480,6 @@
    ],
    "keywords": [],
    "text": "After a friendly minion kills an enemy, gain +3 Health permanently."
-  },
-  {
-   "card_id": "BG22_HERO_007_Buddy",
-   "name": "Imperial Defender",
-   "tier": 3,
-   "attack": 3,
-   "health": 4,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After you cast a spell on a different friendly minion, you also cast it on this. <i>(Once per turn.)</i>"
   },
   {
    "card_id": "BG31_147",
@@ -5403,6 +5546,18 @@
    "tribes": [],
    "keywords": [],
    "text": "Whenever you play a card, give your minions +1/+1. <i>(Morphs each turn!)</i>0Whenever you play a card, give your minions +1/+1."
+  },
+  {
+   "card_id": "BG27_000",
+   "name": "Iron Groundskeeper",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "tribes": [],
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry:</b> Get 2 copies of Fortify."
   },
   {
    "card_id": "BG_GVG_027",
@@ -5553,6 +5708,20 @@
    "text": "<b>Battlecry:</b> Give a minion +1/+1 for each type you control."
   },
   {
+   "card_id": "BG36_521",
+   "name": "Locked-up Mutineer",
+   "tier": 3,
+   "attack": 6,
+   "health": 3,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Get a Lockbox. If you already have one, it opens 1 turn sooner instead."
+  },
+  {
    "card_id": "BG33_820",
    "name": "Lost City Looter",
    "tier": 3,
@@ -5570,8 +5739,8 @@
    "card_id": "BG26_524",
    "name": "Malchezaar, Prince of Dance",
    "tier": 3,
-   "attack": 2,
-   "health": 1,
+   "attack": 4,
+   "health": 3,
    "tribes": [
     "Demon"
    ],
@@ -5594,15 +5763,15 @@
    "card_id": "BG35_140",
    "name": "Mama Mrrglton",
    "tier": 3,
-   "attack": 5,
-   "health": 3,
+   "attack": 4,
+   "health": 2,
    "tribes": [
     "Murloc"
    ],
    "keywords": [
     "BATTLECRY"
    ],
-   "text": "<b>Battlecry:</b> Give your other Murlocs +2 Attack. <i>(Improved by each Mrrglton \u00a0\u00a0\u00a0\u00a0you played this game!)</i>"
+   "text": "<b>Battlecry:</b> Give your other Murlocs +3 Attack. <i>(Improved by each Mrrglton \u00a0\u00a0\u00a0\u00a0you played this game!)</i>"
   },
   {
    "card_id": "BG28_582",
@@ -5614,7 +5783,7 @@
     "Quilboar"
    ],
    "keywords": [],
-   "text": "At the start of your turn, discard a spell to get 3 <b>Blood Gems</b>."
+   "text": "<b>Activate (0):</b> Discard a card to get 3 <b><b>Blood Gems</b>.</b>"
   },
   {
    "card_id": "BG22_HERO_305_Buddy",
@@ -5632,13 +5801,13 @@
    "card_id": "BG31_843",
    "name": "Meteorite Crasher",
    "tier": 3,
-   "attack": 2,
+   "attack": 4,
    "health": 4,
    "tribes": [
     "Elemental"
    ],
    "keywords": [],
-   "text": "After you sell an Elemental, gain +2/+2."
+   "text": "After you sell an Elemental, gain +4/+4."
   },
   {
    "card_id": "TB_BaconShop_HERO_33_Buddy",
@@ -5717,29 +5886,15 @@
    "card_id": "BG35_141",
    "name": "Papa Mrrglton",
    "tier": 3,
-   "attack": 3,
-   "health": 5,
+   "attack": 2,
+   "health": 4,
    "tribes": [
     "Murloc"
    ],
    "keywords": [
     "BATTLECRY"
    ],
-   "text": "<b>Battlecry:</b> Give your other Murlocs +2 Health. <i>(Improved by each Mrrglton \u00a0\u00a0\u00a0\u00a0you played this game!)</i>"
-  },
-  {
-   "card_id": "BG23_014",
-   "name": "Pashmar the Vengeful",
-   "tier": 3,
-   "attack": 4,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "AVENGE"
-   ],
-   "text": "<b>Avenge (3):</b> Get a <b>Spellcraft</b> spell of your Tier or lower."
+   "text": "<b>Battlecry:</b> Give your other Murlocs +3 Health. <i>(Improved by each Mrrglton \u00a0\u00a0\u00a0\u00a0you played this game!)</i>"
   },
   {
    "card_id": "BG25_032",
@@ -5817,16 +5972,32 @@
    "text": "<b>Deathrattle:</b> Your <b>Blood Gems</b> give an extra +1 Attack this game."
   },
   {
-   "card_id": "BG34_929",
-   "name": "Profound Thinker",
+   "card_id": "BG36_509",
+   "name": "Private Investigator",
    "tier": 3,
-   "attack": 2,
-   "health": 3,
+   "attack": 5,
+   "health": 6,
    "tribes": [
-    "Naga"
+    "Pirate"
    ],
    "keywords": [],
-   "text": "<b>Rally:</b> Get a random <b>Spellcraft</b> spell. This casts a copy of it <i>(targets this if possible)</i>."
+   "text": "<b>Activate (1):</b> Gain 2 Gold next turn."
+  },
+  {
+   "card_id": "BG_DEEP_015",
+   "name": "Prosthetic Hand",
+   "tier": 3,
+   "attack": 3,
+   "health": 1,
+   "tribes": [
+    "Undead",
+    "Mech"
+   ],
+   "keywords": [
+    "MAGNETIC",
+    "REBORN"
+   ],
+   "text": "<b>Magnetic</b>, <b>Reborn</b> Can <b>Magnetize</b> to Mechs or Undead."
   },
   {
    "card_id": "BG_OG_145",
@@ -5854,19 +6025,6 @@
    ],
    "keywords": [],
    "text": "After this is <b>Passed</b>, gain +4/+4."
-  },
-  {
-   "card_id": "BG25_039",
-   "name": "Pufferquil",
-   "tier": 3,
-   "attack": 2,
-   "health": 6,
-   "tribes": [
-    "Quilboar",
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Whenever a spell is cast on this, gain <b>Venomous</b> until next turn."
   },
   {
    "card_id": "BG30_754",
@@ -5990,6 +6148,21 @@
    "text": "<b>Magnetic</b> <b>Deathrattle:</b> Summon three 1/1 Microbots."
   },
   {
+   "card_id": "BG36_854",
+   "name": "Rescue Bot",
+   "tier": 3,
+   "attack": 2,
+   "health": 1,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "text": "<b>Taunt</b> <b>Deathrattle:</b> Get a Repair Job."
+  },
+  {
    "card_id": "BG31_300",
    "name": "Reverber Drake",
    "tier": 3,
@@ -6002,18 +6175,6 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Cast <b>Echo</b>ing Roar on a friendly Dragon."
-  },
-  {
-   "card_id": "BG20_101",
-   "name": "Roadboar",
-   "tier": 3,
-   "attack": 3,
-   "health": 4,
-   "tribes": [
-    "Quilboar"
-   ],
-   "keywords": [],
-   "text": "<b>Rally:</b> Get 2 <b>Blood Gems</b>."
   },
   {
    "card_id": "BG29_816",
@@ -6038,6 +6199,20 @@
    ],
    "keywords": [],
    "text": "After you play an Elemental, give your minions +2 Attack. <i>  (Swaps to Health next turn!)</i>"
+  },
+  {
+   "card_id": "BG32_841",
+   "name": "Sand Swirler",
+   "tier": 3,
+   "attack": 3,
+   "health": 2,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry:</b> Your Elementals give an extra +2 Attack this game."
   },
   {
    "card_id": "BG28_597",
@@ -6095,20 +6270,6 @@
    "text": "<b><b>Stealth</b>.</b> At the start of your turn, gain +1/+1."
   },
   {
-   "card_id": "BG26_045",
-   "name": "Shell Whistler",
-   "tier": 3,
-   "attack": 3,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "BATTLECRY"
-   ],
-   "text": "<b>Battlecry:</b> Get a random Tavern spell from Tier 2."
-  },
-  {
    "card_id": "BGS_029",
    "name": "Shifter Zerus",
    "tier": 3,
@@ -6143,18 +6304,6 @@
    ],
    "keywords": [],
    "text": "When you sell this, your Tavern spells give an \u00a0\u00a0\u00a0extra +1/+1 this game."
-  },
-  {
-   "card_id": "BG26_171",
-   "name": "Silent Swimmer",
-   "tier": 3,
-   "attack": 3,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +3/+4 and <b>Stealth</b> until next turn."
   },
   {
    "card_id": "TB_BaconShop_HERO_59_Buddy",
@@ -6209,6 +6358,20 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Minions in the Tavern have +2 Health this game."
+  },
+  {
+   "card_id": "BG36_330",
+   "name": "Sly Infiltrator",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [
+    "CHOOSE_ONE"
+   ],
+   "text": "<b>Choose One -</b> Gain 2 free <b>Refreshes</b>; or Get 3 <b>Blood Gems</b>."
   },
   {
    "card_id": "BG25_806",
@@ -6309,7 +6472,9 @@
    "tribes": [
     "Pirate"
    ],
-   "keywords": [],
+   "keywords": [
+    "BATTLECRY"
+   ],
    "text": "<b>Battlecry:</b> Give a friendly Pirate +1/+1. Repeat for each Pirate you bought this turn."
   },
   {
@@ -6406,6 +6571,20 @@
    "text": "When you sell this, get a copy of a Tavern spell in the Tavern."
   },
   {
+   "card_id": "BG36_202",
+   "name": "Tasty Lobster",
+   "tier": 3,
+   "attack": 2,
+   "health": 1,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Give a random friendly Beast +2/+1. Improve your future Tasty Lobsters."
+  },
+  {
    "card_id": "BG31_859",
    "name": "Technical Element",
    "tier": 3,
@@ -6436,20 +6615,6 @@
    "text": "<b>Deathrattle:</b> Summon a 3/3 Pip Quickwit for your opponent."
   },
   {
-   "card_id": "BG27_025",
-   "name": "The Glad-iator",
-   "tier": 3,
-   "attack": 3,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "DIVINE_SHIELD"
-   ],
-   "text": "<b>Divine Shield</b> Whenever you cast a spell, gain +1\u00a0Attack."
-  },
-  {
    "card_id": "BG20_105",
    "name": "Thorncaller",
    "tier": 3,
@@ -6463,18 +6628,6 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Battlecry and Deathrattle:</b> Get a <b>Blood Gem</b>."
-  },
-  {
-   "card_id": "BG31_327",
-   "name": "Thorned Trailblazer",
-   "tier": 3,
-   "attack": 4,
-   "health": 5,
-   "tribes": [
-    "Quilboar"
-   ],
-   "keywords": [],
-   "text": "One <b>Choose One</b> card each turn has both effects combined. <i>(1 left!)</i>"
   },
   {
    "card_id": "BG27_005",
@@ -6528,18 +6681,6 @@
     "TAUNT"
    ],
    "text": "<b>Taunt</b> <b>Divine Shield</b> <b>Reborn</b>"
-  },
-  {
-   "card_id": "BG34_Giant_212",
-   "name": "Timewarped Archer",
-   "tier": 3,
-   "attack": 4,
-   "health": 9,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +12 Attack."
   },
   {
    "card_id": "BG34_Giant_027",
@@ -6615,18 +6756,6 @@
    "text": "Whenever this takes damage, give a friendly minion of each type +2/+1 permanently."
   },
   {
-   "card_id": "BG34_Giant_210",
-   "name": "Timewarped Commander",
-   "tier": 3,
-   "attack": 5,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +2/+2 for each friendly Naga."
-  },
-  {
    "card_id": "BG34_Giant_302",
    "name": "Timewarped Copter",
    "tier": 3,
@@ -6655,7 +6784,7 @@
     "REBORN",
     "WINDFURY"
    ],
-   "text": "<b>Divine Shield</b>  <b>Windfury</b>  <b>Reborn</b>"
+   "text": "<b>Divine Shield</b> <b>Windfury</b> <b>Reborn</b>"
   },
   {
    "card_id": "BG34_Giant_081",
@@ -6776,7 +6905,9 @@
    "tribes": [
     "Mech"
    ],
-   "keywords": [],
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
    "text": "<b>Divine Shield</b> <b>Rally:</b> Give a different friendly minion <b>Divine Shield</b> permanently."
   },
   {
@@ -6946,7 +7077,9 @@
     "Beast",
     "Pirate"
    ],
-   "keywords": [],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
    "text": "At the start of each turn, <b>Discover</b> a Pirate to crew the ship. <b>Deathrattle:</b> Summon \u00a0\u00a0and get that Pirate."
   },
   {
@@ -6960,20 +7093,6 @@
    ],
    "keywords": [],
    "text": "Once per combat, when this attacks and kills a minion, get a Triple Reward."
-  },
-  {
-   "card_id": "BG34_Giant_211",
-   "name": "Timewarped Pashmar",
-   "tier": 3,
-   "attack": 9,
-   "health": 10,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "AVENGE"
-   ],
-   "text": "<b>Avenge (3):</b> Get a random <b>Spellcraft</b> spell and Tavern spell."
   },
   {
    "card_id": "BG34_Giant_204",
@@ -7090,21 +7209,6 @@
    "text": "<b>Divine Shield</b> The Tavern offers an extra Pirate whenever it is <b>Refreshed</b>."
   },
   {
-   "card_id": "BG34_Giant_304",
-   "name": "Timewarped Sapper",
-   "tier": 3,
-   "attack": 10,
-   "health": 6,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "DEATHRATTLE",
-    "TAUNT"
-   ],
-   "text": "<b>Taunt</b> <b>Deathrattle:</b> Get a Spitescale Special."
-  },
-  {
    "card_id": "BG34_Giant_202",
    "name": "Timewarped Saurolisk",
    "tier": 3,
@@ -7130,19 +7234,6 @@
     "TAUNT"
    ],
    "text": "<b><b>Taunt</b>.</b> <b>Deathrattle:</b> Give a random minion in your hand +7/+7 and summon it for this combat only."
-  },
-  {
-   "card_id": "BG34_Giant_008",
-   "name": "Timewarped Seer",
-   "tier": 3,
-   "attack": 8,
-   "health": 8,
-   "tribes": [
-    "Demon",
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Two Tavern spells each turn cost (2) less. <i>(2 left!)</i>"
   },
   {
    "card_id": "BG34_Giant_067",
@@ -7392,6 +7483,45 @@
    "text": "<b>Taunt</b> <b>Deathrattle:</b> Give a random \u00a0friendly minion +1/+1."
   },
   {
+   "card_id": "BG36_730",
+   "name": "Trapped Clapper",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Add a <b>Fodder</b> to your next 3 <b>Refreshes</b>."
+  },
+  {
+   "card_id": "BG36_763",
+   "name": "Treasure Parrot",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Beast",
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "Once this deals 35 damage, get a Golden Touch. <i>(35 left!)</i>"
+  },
+  {
+   "card_id": "BG34_684",
+   "name": "Trench Fighter",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "At the end of your turn, get a Gem Confiscation."
+  },
+  {
    "card_id": "BG31_HERO_801_Buddy",
    "name": "Tychus Findlay",
    "tier": 3,
@@ -7410,6 +7540,18 @@
    "tribes": [],
    "keywords": [],
    "text": "Also damages adjacent minions. <b>Start of Combat:</b> Double this minion's stats. <i>(Morphs each turn!)</i>"
+  },
+  {
+   "card_id": "BG36_108",
+   "name": "Vicious Mindslasher",
+   "tier": 3,
+   "attack": 3,
+   "health": 1,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a Tavern spell, give this and your <b>Deity</b> +1/+3."
   },
   {
    "card_id": "BG31_HERO_811t8",
@@ -7439,6 +7581,30 @@
    "text": "<b>Taunt</b>  <b>Deathrattle:</b> Summon two \u00a0\u00a01/3 Demons with <b>Taunt</b>."
   },
   {
+   "card_id": "BGDUO_700",
+   "name": "Voidpriest Cloner",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "Whenever you discard a card, <b>Pass</b> a copy of it. <i>(2 times per turn.)</i>"
+  },
+  {
+   "card_id": "BG36_100",
+   "name": "Wandering Willbreaker",
+   "tier": 3,
+   "attack": 1,
+   "health": 3,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "When you sell this, get 2 random Tavern spells. When you play one, discard the other."
+  },
+  {
    "card_id": "BG30_109",
    "name": "Wannabe Gargoyle",
    "tier": 3,
@@ -7463,22 +7629,10 @@
    "text": "At the start of your turn, get your next opponent's Buddy."
   },
   {
-   "card_id": "BGS_200",
-   "name": "Warden of Old",
-   "tier": 3,
-   "attack": 2,
-   "health": 2,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Gain 1 Gold."
-  },
-  {
    "card_id": "BG34_856",
    "name": "Waveling",
    "tier": 3,
-   "attack": 6,
+   "attack": 5,
    "health": 1,
    "tribes": [
     "Elemental"
@@ -7486,7 +7640,7 @@
    "keywords": [
     "DEATHRATTLE"
    ],
-   "text": "<b>Deathrattle:</b> After the Tavern is <b>Refreshed</b> this game, give a random minion in it +3/+3."
+   "text": "<b>Deathrattle:</b> After the Tavern is <b>Refreshed</b> this game, give a random minion in it +4/+4."
   },
   {
    "card_id": "BGDUO31_207",
@@ -7512,7 +7666,19 @@
     "Elemental"
    ],
    "keywords": [],
-   "text": "After this attacks and kills a minion, deal excess damage to an adjacent minion."
+   "text": "After this attacks and kills a minion, deal excess damage to an adjacent enemy."
+  },
+  {
+   "card_id": "BG36_207",
+   "name": "Wolf Pup",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Give your other minions +4/+1."
   },
   {
    "card_id": "BG26_172",
@@ -7527,18 +7693,30 @@
    "text": "After you summon a minion in combat, gain +2 Health permanently."
   },
   {
-   "card_id": "BG35_921",
-   "name": "Abyssal Bruiser",
-   "tier": 4,
+   "card_id": "BGFYM_011",
+   "name": "Y'Shaarj",
+   "tier": 3,
    "attack": 1,
    "health": 1,
    "tribes": [
-    "Naga"
+    "Aberration"
    ],
    "keywords": [
-    "DIVINE_SHIELD"
+    "DEATHRATTLE"
    ],
-   "text": "<b>Divine Shield</b> Has +1/+1 for each Tavern spell you've cast this game."
+   "text": "<b>Deity.</b> <b>Deathrattle:</b> Summon your first 2 Aberrations that died this combat with their maximum stats <i>(except <b>Deities</b>)</i>."
+  },
+  {
+   "card_id": "BG36_181",
+   "name": "Air Baller",
+   "tier": 4,
+   "attack": 6,
+   "health": 6,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "text": "When you sell this, give your minions +2/+2. Improve your future Ballers."
   },
   {
    "card_id": "BG33_300",
@@ -7577,18 +7755,6 @@
    "text": "At the end of your turn, gain +2/+2 and a random <b>Bonus Keyword</b>."
   },
   {
-   "card_id": "BG31_928",
-   "name": "Arcane Cannoneer",
-   "tier": 4,
-   "attack": 2,
-   "health": 6,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Whenever this attacks, deal 2 damage to the target. <i>(Improved by every 4 spells \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0you've cast this game!)</i>"
-  },
-  {
    "card_id": "BG_SCH_149",
    "name": "Argent Braggart",
    "tier": 4,
@@ -7599,6 +7765,18 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Set this minion's Attack and Health to the highest in the battlefield."
+  },
+  {
+   "card_id": "BG32_873",
+   "name": "Ashen Corruptor",
+   "tier": 4,
+   "attack": 6,
+   "health": 6,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "text": "After your hero takes damage, rewind it and give minions in the Tavern +2/+2 this turn."
   },
   {
    "card_id": "BG29_845",
@@ -7745,7 +7923,7 @@
     "Pirate"
    ],
    "keywords": [],
-   "text": "Also damages the minions next to whomever this attacks."
+   "text": "Also damages the enemies next to whomever this attacks."
   },
   {
    "card_id": "BG32_843",
@@ -7782,8 +7960,22 @@
    "tribes": [
     "Quilboar"
    ],
-   "keywords": [],
-   "text": "<b>Rally:</b> This plays 2 <b>Blood Gems</b> on all your other minions."
+   "keywords": [
+    "WINDFURY"
+   ],
+   "text": "<b>Windfury</b> <b>Rally:</b> This plays a <b>Blood Gem</b> on all your other minions."
+  },
+  {
+   "card_id": "BG36_620",
+   "name": "Boom-in-a-Box",
+   "tier": 4,
+   "attack": 5,
+   "health": 10,
+   "tribes": [],
+   "keywords": [
+    "TAUNT"
+   ],
+   "text": "<b>Taunt</b> <b>Start of Combat:</b> Deal 3 damage to all other minions."
   },
   {
    "card_id": "BG28_HERO_400_Buddy",
@@ -7798,6 +7990,18 @@
    "text": "At the start of your turn, roll a 6-sided die. <b>Discover</b> a  Tavern spell of that Tier."
   },
   {
+   "card_id": "BG36_331",
+   "name": "Bramble Tunneler",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Get a random <b>Choose One</b> card."
+  },
+  {
    "card_id": "BG26_137",
    "name": "Bream Counter",
    "tier": 4,
@@ -7810,6 +8014,18 @@
    "text": "While this is in your hand, after you play a Murloc, gain +6/+6."
   },
   {
+   "card_id": "BG36_242",
+   "name": "Bronze Timewalker",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Get a random <b>Chromadrake</b>."
+  },
+  {
    "card_id": "TB_BaconShop_HERO_90_Buddy",
    "name": "Burth",
    "tier": 4,
@@ -7818,6 +8034,18 @@
    "tribes": [],
    "keywords": [],
    "text": "After you <b>Discover</b> a minion, give it +2/+2 and improve this."
+  },
+  {
+   "card_id": "BG36_211",
+   "name": "Cage Gnawer",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "Whenever a friendly Beast attacks, give your Beasts +2/+1."
   },
   {
    "card_id": "BG33_113",
@@ -7830,6 +8058,21 @@
    ],
    "keywords": [],
    "text": "<b>Rally:</b> Get a plain copy of a random enemy minion."
+  },
+  {
+   "card_id": "BG36_760",
+   "name": "Captain Cookie",
+   "tier": 4,
+   "attack": 5,
+   "health": 3,
+   "tribes": [
+    "Murloc",
+    "Pirate"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Get a Chef's Choice."
   },
   {
    "card_id": "BG_LOOT_078",
@@ -7908,28 +8151,28 @@
    "text": "<b>Deathrattle:</b> Summon a Golem with stats equal to \u00a0this minion's <b>Blood Gems</b>."
   },
   {
-   "card_id": "BG23_003",
-   "name": "Critter Wrangler",
+   "card_id": "BG36_106",
+   "name": "Cutthroat K'Thir",
    "tier": 4,
    "attack": 4,
-   "health": 6,
+   "health": 4,
    "tribes": [
-    "Naga"
+    "Aberration"
    ],
    "keywords": [],
-   "text": "Whenever you cast a spell on a minion, give it +2/+2."
+   "text": "Whenever you discard a card, give this and your <b>Deity</b> +4/+4."
   },
   {
-   "card_id": "BG27_024",
-   "name": "Daggerspine Thrasher",
+   "card_id": "BG36_360t5",
+   "name": "Dark Paradox",
    "tier": 4,
-   "attack": 3,
-   "health": 5,
+   "attack": 2,
+   "health": 6,
    "tribes": [
-    "Naga"
+    "All"
    ],
    "keywords": [],
-   "text": "Whenever you cast a spell, gain <b>Divine Shield</b>, <b>Windfury</b>, or <b>Venomous</b> until next turn."
+   "text": "<b>Rally:</b> Get a random minion of your most common type."
   },
   {
    "card_id": "BG21_020",
@@ -7944,6 +8187,18 @@
     "AVENGE"
    ],
    "text": "<b>Avenge (2):</b> Elementals in the Tavern have +1/+1 this game."
+  },
+  {
+   "card_id": "BG36_511",
+   "name": "Dead Bellringer",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Give a different friendly Undead <b>Reborn</b>. Then destroy it to gain +4/+4."
   },
   {
    "card_id": "BG35_143",
@@ -7997,30 +8252,6 @@
     "TAUNT"
    ],
    "text": "<b>Taunt</b> <b>Deathrattle:</b> Give adjacent minions +5/+5 and <b>Taunt</b>."
-  },
-  {
-   "card_id": "BG33_155",
-   "name": "Devout Hellcaller",
-   "tier": 4,
-   "attack": 2,
-   "health": 2,
-   "tribes": [
-    "Demon"
-   ],
-   "keywords": [],
-   "text": "After another friendly Demon deals damage, gain +1/+2 permanently."
-  },
-  {
-   "card_id": "BG27_556",
-   "name": "Diremuck Forager",
-   "tier": 4,
-   "attack": 5,
-   "health": 6,
-   "tribes": [
-    "Murloc"
-   ],
-   "keywords": [],
-   "text": "<b>Start of Combat:</b> When you have space, summon the highest-Attack Murloc from your hand for this combat only."
   },
   {
    "card_id": "BG31_826",
@@ -8101,16 +8332,18 @@
    "text": "<b>Avenge (3):</b> Your <b>Blood Gems</b> give an extra +1 Health this game."
   },
   {
-   "card_id": "BG31_824",
-   "name": "Dual-Wield Corsair",
+   "card_id": "BG36_506",
+   "name": "Drone Duplicator",
    "tier": 4,
-   "attack": 3,
-   "health": 4,
+   "attack": 5,
+   "health": 2,
    "tribes": [
-    "Pirate"
+    "Mech"
    ],
-   "keywords": [],
-   "text": "Whenever you spend 5 Gold, give two friendly Pirates +3/+4. <i>(5 Gold left!)</i>"
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "<b>Divine Shield</b>. <b>Activate (1):</b> The next <b>Magnetization</b> to this minion this turn \u00a0\u00a0\u00a0happens an extra time."
   },
   {
    "card_id": "BG31_301",
@@ -8179,15 +8412,15 @@
    "card_id": "BG34_865",
    "name": "En-Djinn Blazer",
    "tier": 4,
-   "attack": 4,
-   "health": 4,
+   "attack": 5,
+   "health": 5,
    "tribes": [
     "Elemental"
    ],
    "keywords": [
     "BATTLECRY"
    ],
-   "text": "<b>Battlecry:</b> After the Tavern is <b>Refreshed</b> this game, give a random minion in it +7/+7."
+   "text": "<b>Battlecry:</b> After the Tavern is <b>Refreshed</b> this game, give a random minion in it +10/+10."
   },
   {
    "card_id": "BG35_341",
@@ -8247,6 +8480,18 @@
    "text": "When you sell this, get the <b>Buddy</b> of your teammate's Hero Power."
   },
   {
+   "card_id": "BG36_308",
+   "name": "Faceless Operative",
+   "tier": 4,
+   "attack": 4,
+   "health": 2,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "When you sell this, get 2 random Aberrations. When you play one, discard the other."
+  },
+  {
    "card_id": "BG29_029",
    "name": "Fairy Gillmother",
    "tier": 4,
@@ -8259,20 +8504,6 @@
     "TAUNT"
    ],
    "text": "<b>Taunt</b> At the end of your turn, get a random Murloc."
-  },
-  {
-   "card_id": "BG30_123",
-   "name": "Fearless Foodie",
-   "tier": 4,
-   "attack": 2,
-   "health": 4,
-   "tribes": [
-    "Quilboar"
-   ],
-   "keywords": [
-    "CHOOSE_ONE"
-   ],
-   "text": "<b>Choose One - </b>Your <b>Blood Gems</b> give an extra +1/+1 this game; or Get 4 <b>Blood Gems</b>."
   },
   {
    "card_id": "BGDUO_110",
@@ -8387,16 +8618,17 @@
    "text": "<b>Deathrattle:</b> Your Tavern spells give an extra +1 Attack this game."
   },
   {
-   "card_id": "BG31_326",
-   "name": "Gem Rat",
+   "card_id": "BG36_764",
+   "name": "Gearfin",
    "tier": 4,
-   "attack": 4,
-   "health": 4,
+   "attack": 6,
+   "health": 5,
    "tribes": [
-    "Quilboar"
+    "Mech",
+    "Murloc"
    ],
    "keywords": [],
-   "text": "At the end of your turn, get a Gem Day."
+   "text": "At the end of your turn, get two 1-Cost Tavern spells."
   },
   {
    "card_id": "BG31_369",
@@ -8425,6 +8657,18 @@
    "text": "<b>Divine Shield</b>. Whenever a <b>Blood Gem</b> is played on this, this plays a <b>Blood Gem</b> on a \u00a0\u00a0different friendly minion."
   },
   {
+   "card_id": "BG36_853",
+   "name": "Glambot",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a spell on a Mech, <b>Magnetize</b> a 4/4 Satellite to it."
+  },
+  {
    "card_id": "BGDUO_HERO_101_Buddy",
    "name": "Glorious Gloopling",
    "tier": 4,
@@ -8433,6 +8677,20 @@
    "tribes": [],
    "keywords": [],
    "text": "At the start of every 2 turns, get a plain copy of your teammate's highest-Tier \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0minion <i>(2 turns left!)</i>"
+  },
+  {
+   "card_id": "BG32_842",
+   "name": "Glowing Cinder",
+   "tier": 4,
+   "attack": 4,
+   "health": 1,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Your Elementals give an extra +2 Health this game."
   },
   {
    "card_id": "BG32_336",
@@ -8473,7 +8731,9 @@
    "tribes": [
     "Mech"
    ],
-   "keywords": [],
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
    "text": "<b>Divine Shield</b> After a friendly minion loses <b>Divine Shield</b>, give it +2/+2 permanently."
   },
   {
@@ -8515,6 +8775,18 @@
    "text": "After a <b>Blood Gem</b> is played on this, give your other minions +2 Attack until next turn."
   },
   {
+   "card_id": "BG26_810",
+   "name": "Gunpowder Courier",
+   "tier": 4,
+   "attack": 2,
+   "health": 6,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "Whenever you spend 5 Gold, give your Pirates +2 Attack. <i>(5 Gold left!)</i>"
+  },
+  {
    "card_id": "BGDUO_HERO_222_Buddy",
    "name": "Halfus the Mighty",
    "tier": 4,
@@ -8533,6 +8805,18 @@
    "tribes": [],
    "keywords": [],
    "text": "At the start of your turn, <b>Discover</b> a Tavern spell of your Tier. <i>(50% chance to <b>Pass</b> it!)</i>"
+  },
+  {
+   "card_id": "BG36_204",
+   "name": "Headhunter Gryphon",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Get a random Beast."
   },
   {
    "card_id": "BG34_604",
@@ -8557,6 +8841,30 @@
    ],
    "keywords": [],
    "text": "Once per turn, after a <b>Blood Gem</b> is played on this, gain 2 Gold."
+  },
+  {
+   "card_id": "BG36_210",
+   "name": "Hoarding Hyena",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Summon a Tasty Lobster."
+  },
+  {
+   "card_id": "BG36_372",
+   "name": "Holy Vanguard",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "tribes": [],
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "<b>Divine Shield</b> Has +15/+15 if you have 15 or less Health."
   },
   {
    "card_id": "BG30_121",
@@ -8631,6 +8939,20 @@
     "DIVINE_SHIELD"
    ],
    "text": "<b>Divine Shield</b> Whenever you play an Elemental, give it <b>Divine Shield</b> until next turn."
+  },
+  {
+   "card_id": "BG36_731",
+   "name": "Imp-lusionist",
+   "tier": 4,
+   "attack": 4,
+   "health": 2,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Get a Methodical Madness."
   },
   {
    "card_id": "BG21_007",
@@ -8709,6 +9031,18 @@
    "text": "Whenever a friendly Mech dies, gain +2/+2."
   },
   {
+   "card_id": "BG36_701",
+   "name": "Kelp Keeper",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Trigger a friendly minion's <b>Battlecry</b>."
+  },
+  {
    "card_id": "BGS_030",
    "name": "King Bagurgle",
    "tier": 4,
@@ -8782,6 +9116,18 @@
    ],
    "keywords": [],
    "text": "After you play an Elemental, give a friendly minion stats equal to the Elemental's Tier."
+  },
+  {
+   "card_id": "BG36_180",
+   "name": "Living Prison",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Gain the stats of the next minion you buy this turn."
   },
   {
    "card_id": "BG26_814",
@@ -8863,6 +9209,18 @@
    "tribes": [],
    "keywords": [],
    "text": "After your team <b>Passes</b>, randomly gain <b>Venomous</b>, <b>Taunt</b>, or <b>Divine Shield</b> until next turn."
+  },
+  {
+   "card_id": "BG36_524",
+   "name": "Maritime Extortionist",
+   "tier": 4,
+   "attack": 7,
+   "health": 7,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "Has +7/+7 for each Golden minion you've played this game <i>(wherever this is)</i>."
   },
   {
    "card_id": "BG31_178",
@@ -8991,6 +9349,18 @@
    "text": "This always attacks the enemy minion with the lowest Attack."
   },
   {
+   "card_id": "BG36_312",
+   "name": "Mindbending Recruiter",
+   "tier": 4,
+   "attack": 6,
+   "health": 2,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (0):</b> Discard a card to get a random Aberration."
+  },
+  {
    "card_id": "BGDUO_108",
    "name": "Mirror Monster",
    "tier": 4,
@@ -9030,8 +9400,8 @@
    "card_id": "BG27_080",
    "name": "Motley Phalanx",
    "tier": 4,
-   "attack": 2,
-   "health": 2,
+   "attack": 3,
+   "health": 3,
    "tribes": [
     "All"
    ],
@@ -9039,7 +9409,7 @@
     "DEATHRATTLE",
     "TAUNT"
    ],
-   "text": "<b>Taunt</b> <b>Deathrattle:</b> Give a friendly minion of each type \u00a0\u00a0+1/+1 permanently."
+   "text": "<b>Taunt</b> <b>Deathrattle:</b> Give a friendly minion of each type \u00a0\u00a0+3/+3 permanently."
   },
   {
    "card_id": "TB_BaconShop_HERO_23_Buddy",
@@ -9048,7 +9418,9 @@
    "attack": 5,
    "health": 5,
    "tribes": [],
-   "keywords": [],
+   "keywords": [
+    "BATTLECRY"
+   ],
    "text": "<b>Battlecry:</b> Get a random <b>Battlecry</b> minion."
   },
   {
@@ -9090,6 +9462,20 @@
    "text": "<b>Battlecry:</b> Sell a friendly minion. Split its stats evenly amongst its neighbors."
   },
   {
+   "card_id": "BG36_115",
+   "name": "Nightmare Corroder",
+   "tier": 4,
+   "attack": 7,
+   "health": 4,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Get a Sludge Corrosion."
+  },
+  {
    "card_id": "BGDUO31_206",
    "name": "Oceanfloor Rummager",
    "tier": 4,
@@ -9126,6 +9512,18 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> <b>Discover</b> a Tavern spell that costs (3) or more from any Tier."
+  },
+  {
+   "card_id": "BG36_114",
+   "name": "Parasitic Fleshling",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "At the end of your turn, give your left-most minion +2/+2. <i>(Improved by each card you've discarded this game!)</i>"
   },
   {
    "card_id": "BG27_009",
@@ -9207,7 +9605,7 @@
    "keywords": [
     "DEATHRATTLE"
    ],
-   "text": "<b>Deathrattle:</b> Your Undead have +2 Attack this game, wherever they are. <i>(+4 if this died outside combat!)</i>"
+   "text": "<b>Deathrattle:</b> Your Undead have +2 Attack this game, wherever they are. <i>(+4 if triggered outside combat!)</i>"
   },
   {
    "card_id": "BG34_521",
@@ -9237,18 +9635,6 @@
    "text": "<b>Battlecry:</b> Give an Undead +2/+7."
   },
   {
-   "card_id": "BGDUO31_209",
-   "name": "Private Chef",
-   "tier": 4,
-   "attack": 5,
-   "health": 4,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Choose a minion. Get a different random minion of its type, then <b>Pass</b> it."
-  },
-  {
    "card_id": "BG21_014",
    "name": "Prized Promo-Drake",
    "tier": 4,
@@ -9273,22 +9659,6 @@
     "MAGNETIC"
    ],
    "text": "<b>Magnetic</b> After you <b>Magnetize</b> this to \u00a0\u00a0a Mech, make it Golden."
-  },
-  {
-   "card_id": "BG_DEEP_015",
-   "name": "Prosthetic Hand",
-   "tier": 4,
-   "attack": 3,
-   "health": 1,
-   "tribes": [
-    "Undead",
-    "Mech"
-   ],
-   "keywords": [
-    "MAGNETIC",
-    "REBORN"
-   ],
-   "text": "<b>Magnetic</b>, <b>Reborn</b> Can <b>Magnetize</b> to Mechs or Undead."
   },
   {
    "card_id": "BG25_399",
@@ -9405,18 +9775,6 @@
    "text": "At the end of your turn, steal the highest-Tier card from the Tavern."
   },
   {
-   "card_id": "BG33_319",
-   "name": "Rimescale Priestess",
-   "tier": 4,
-   "attack": 3,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Get a random Tavern spell that gives stats."
-  },
-  {
    "card_id": "BG_DMF_533",
    "name": "Ring Matron",
    "tier": 4,
@@ -9476,6 +9834,18 @@
    "text": "<b>Avenge (3):</b> Your Beetles have +3/+2 this game. <b>Deathrattle:</b> Summon a 2/2 Beetle."
   },
   {
+   "card_id": "BG36_245",
+   "name": "Runic Arcanist",
+   "tier": 4,
+   "attack": 2,
+   "health": 4,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [],
+   "text": "<b>Start of Combat:</b> Cast Shiny Ring twice."
+  },
+  {
    "card_id": "BG26_801",
    "name": "Rylak Metalhead",
    "tier": 4,
@@ -9491,6 +9861,20 @@
    "text": "<b>Taunt</b> <b>Deathrattle:</b> Trigger the <b>Battlecry</b> of an adjacent minion."
   },
   {
+   "card_id": "BG36_362",
+   "name": "Sacrificial Wrathguard",
+   "tier": 4,
+   "attack": 5,
+   "health": 3,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Give minions in the Tavern +2/+2 this game. <b>Activate (1):</b> Improve this."
+  },
+  {
    "card_id": "BGDUO31_208",
    "name": "San'layn Scribe",
    "tier": 4,
@@ -9501,20 +9885,6 @@
    ],
    "keywords": [],
    "text": "Has +4/+4 for each of your team's San'layn Scribes that died this game <i>(wherever this is)</i>."
-  },
-  {
-   "card_id": "BG32_841",
-   "name": "Sand Swirler",
-   "tier": 4,
-   "attack": 5,
-   "health": 3,
-   "tribes": [
-    "Elemental"
-   ],
-   "keywords": [
-    "BATTLECRY"
-   ],
-   "text": "<b>Battlecry:</b> Your Elementals give an extra +1 Attack this game."
   },
   {
    "card_id": "BG_EX1_534",
@@ -9531,18 +9901,6 @@
    "text": "<b>Deathrattle:</b> Summon two 2/2 Hyenas."
   },
   {
-   "card_id": "BG34_925",
-   "name": "Seafloor Recruiter",
-   "tier": 4,
-   "attack": 3,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Rally:</b> Cast Chef's Choice on the minion to the right."
-  },
-  {
    "card_id": "BOT_218",
    "name": "Security Rover",
    "tier": 4,
@@ -9553,6 +9911,18 @@
    ],
    "keywords": [],
    "text": "Whenever this minion takes damage, summon a 2/3 Mech with <b>Taunt</b>."
+  },
+  {
+   "card_id": "BG36_700",
+   "name": "Sewer Escapee",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Give another Murloc +7/+7 and a \u00a0\u00a0random <b>Bonus Keyword</b>."
   },
   {
    "card_id": "BG26_CFM_636",
@@ -9591,19 +9961,6 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> Give a friendly minion +2 Attack. <i>(Improved by each friendly minion that died last combat!)</i>"
-  },
-  {
-   "card_id": "BG29_879",
-   "name": "Shellemental",
-   "tier": 4,
-   "attack": 4,
-   "health": 4,
-   "tribes": [
-    "Elemental",
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Choose a minion in the Tavern. Give its stats to a random friendly minion until next turn."
   },
   {
    "card_id": "BGDUO31_203",
@@ -9676,30 +10033,42 @@
    "text": "<b>Divine Shield</b>, <b>Windfury</b> <b>Rally:</b> Remove <b>Reborn</b> and  <b>Taunt</b> from the target."
   },
   {
-   "card_id": "BG30_929",
-   "name": "Slippery Slider",
+   "card_id": "BG36_243",
+   "name": "Sky-hatch Runaway",
    "tier": 4,
-   "attack": 5,
-   "health": 4,
+   "attack": 4,
+   "health": 7,
    "tribes": [
-    "Naga"
+    "Dragon"
    ],
    "keywords": [],
-   "text": "<b>Spellcraft:</b> <b>Refresh</b> the Tavern with an extra Tavern spell that costs (1) less."
+   "text": "<b>Activate (1):</b> Trigger a friendly minion's <b>Rally</b>."
   },
   {
-   "card_id": "BG32_833",
-   "name": "Slumber Sorcerer",
+   "card_id": "BG36_332",
+   "name": "Snare Trapper",
    "tier": 4,
-   "attack": 5,
+   "attack": 4,
    "health": 4,
    "tribes": [
-    "Naga"
+    "Quilboar"
    ],
    "keywords": [
-    "DEATHRATTLE"
+    "CHOOSE_ONE"
    ],
-   "text": "<b>Deathrattle:</b> Get a Shifting Tide."
+   "text": "<b>Choose One -</b> Get a random Quilboar; or Increase your maximum Gold by 1."
+  },
+  {
+   "card_id": "BG36_206",
+   "name": "Snarky Shark",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "When you sell this, <b>Refresh</b> the Tavern with a Fishbait. Your left-most Beast attacks it."
   },
   {
    "card_id": "BG28_585",
@@ -9712,6 +10081,18 @@
    ],
    "keywords": [],
    "text": "At the start of your turn, discard a spell to gain 4 Gold."
+  },
+  {
+   "card_id": "BG36_503",
+   "name": "Soulkeeping Jailer",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (2):</b> Your Demons each consume a random minion in the Tavern to gain its stats."
   },
   {
    "card_id": "BG25_023",
@@ -9828,18 +10209,6 @@
    "text": "After you summon a minion, it gains <b>Divine Shield</b> and <b>Rush</b>."
   },
   {
-   "card_id": "BG34_930",
-   "name": "Sunken Advocate",
-   "tier": 4,
-   "attack": 2,
-   "health": 7,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Rally:</b> Give your other Naga +1 Attack permanently. <i>(Improved by each spell you cast this turn!)</i>"
-  },
-  {
    "card_id": "BG32_866",
    "name": "Tauren Spiritwalker",
    "tier": 4,
@@ -9872,6 +10241,18 @@
    "tribes": [],
    "keywords": [],
    "text": "Whenever this attacks and kills a minion, gain +2/+2."
+  },
+  {
+   "card_id": "BG31_327",
+   "name": "Thorned Trailblazer",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "One <b>Choose One</b> card each turn has both effects combined. <i>(1 left!)</i>"
   },
   {
    "card_id": "BG30_124",
@@ -9944,18 +10325,6 @@
    "text": "<b>Avenge (4):</b> Get a random Tavern spell."
   },
   {
-   "card_id": "BG34_684",
-   "name": "Trench Fighter",
-   "tier": 4,
-   "attack": 6,
-   "health": 6,
-   "tribes": [
-    "Quilboar"
-   ],
-   "keywords": [],
-   "text": "At the end of your turn, get a Gem Confiscation."
-  },
-  {
    "card_id": "BG29_807",
    "name": "Trigore the Lasher",
    "tier": 4,
@@ -9979,6 +10348,18 @@
     "TAUNT"
    ],
    "text": "<b>Taunt</b> <b>Deathrattle:</b> Deal 3 damage to all minions."
+  },
+  {
+   "card_id": "BG36_703",
+   "name": "Twilight Tidehunter",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a spell on this, give the left-most minion in your hand +8/+8."
   },
   {
    "card_id": "BG33_245",
@@ -10056,18 +10437,6 @@
    "text": "<b>Battlecry:</b> Give a friendly Beast +3/+3."
   },
   {
-   "card_id": "BG30_117",
-   "name": "Volcanic Visitor",
-   "tier": 4,
-   "attack": 4,
-   "health": 4,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b><b>Spellcraft:</b> Choose One - </b>Give your minions +4 Attack; or +4 Health."
-  },
-  {
    "card_id": "TB_BaconShop_HERO_95_Buddy",
    "name": "Wandering Treant",
    "tier": 4,
@@ -10104,18 +10473,6 @@
    "text": "<b>Magnetic</b>"
   },
   {
-   "card_id": "BG23_007",
-   "name": "Waverider",
-   "tier": 4,
-   "attack": 2,
-   "health": 8,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +2/+2. If it's a Naga, also give it <b>Windfury</b> until next turn."
-  },
-  {
    "card_id": "BG23_HERO_305_Buddy",
    "name": "Waxadred, the Drippy",
    "tier": 4,
@@ -10141,18 +10498,6 @@
    ],
    "keywords": [],
    "text": "Whenever this is attacked, gain <b>Venomous</b>."
-  },
-  {
-   "card_id": "BG31_830",
-   "name": "Weary Mage",
-   "tier": 4,
-   "attack": 5,
-   "health": 1,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give a minion +2/+2. If it's a Naga, also give it <b>Reborn</b> until next turn."
   },
   {
    "card_id": "TB_BaconShop_HERO_34_Buddy",
@@ -10225,18 +10570,6 @@
    ],
    "keywords": [],
    "text": "Whenever this takes damage, gain a free <b>Refresh</b>. <i>(3 times per turn.)</i>"
-  },
-  {
-   "card_id": "BG26_505",
-   "name": "Zesty Shaker",
-   "tier": 4,
-   "attack": 6,
-   "health": 7,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Once per turn, when a <b>Spellcraft</b> spell is played on \u00a0this, get a new copy of it."
   },
   {
    "card_id": "BG32_HERO_002_Buddy",
@@ -10371,18 +10704,6 @@
    "text": "<b>Deathrattle:</b> Summon a 5/5 Golem. <i>(Improved by each friendly minion type \u00a0\u00a0that died this combat!)</i>"
   },
   {
-   "card_id": "BG32_873",
-   "name": "Ashen Corruptor",
-   "tier": 5,
-   "attack": 6,
-   "health": 6,
-   "tribes": [
-    "Demon"
-   ],
-   "keywords": [],
-   "text": "After your hero takes damage, rewind it and give minions in the Tavern +1/+1 this turn."
-  },
-  {
    "card_id": "BG28_740",
    "name": "Augmented Laborer",
    "tier": 5,
@@ -10396,18 +10717,6 @@
     "AVENGE"
    ],
    "text": "<b>Avenge (4):</b> Get a random <b>Magnetic</b> Mecha-Demon."
-  },
-  {
-   "card_id": "BG34_407",
-   "name": "Azsharan Veteran",
-   "tier": 5,
-   "attack": 4,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Give your minions +2/+1 for each different <b>Bonus Keyword</b> in your warband."
   },
   {
    "card_id": "BG22_001",
@@ -10432,6 +10741,18 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Deathrattle:</b> Get a random <b>Battlecry</b> minion."
+  },
+  {
+   "card_id": "BG36_514",
+   "name": "Barrier Banshee",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "text": "After a friendly minion is <b>Reborn</b>, gain <b>Divine Shield</b> and +7/+7."
   },
   {
    "card_id": "BG28_905",
@@ -10593,6 +10914,21 @@
    "text": "<b>Battlecry and Deathrattle:</b> Your Whelps have +3/+3 this game."
   },
   {
+   "card_id": "BGDUO_701",
+   "name": "C'Thrax Wrecker",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Battlecry, Deathrattle, and Rally:</b> Give your team's <b>Deities</b> +4/+4."
+  },
+  {
    "card_id": "BG34_236",
    "name": "Cannon Corsair",
    "tier": 5,
@@ -10731,18 +11067,6 @@
    "text": "<b>Rally:</b> Deal 2 damage to the target's neighbors. <i>(Improves when you spend Gold!)</i>"
   },
   {
-   "card_id": "BG23_012",
-   "name": "Corrupted Myrmidon",
-   "tier": 5,
-   "attack": 3,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Start of Combat:</b> Double this minion's stats."
-  },
-  {
    "card_id": "BG34_142",
    "name": "Costume Enthusiast",
    "tier": 5,
@@ -10820,7 +11144,9 @@
     "Mech",
     "Dragon"
    ],
-   "keywords": [],
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
    "text": "<b>Divine Shield</b> Your minions with <b>Divine Shield</b> have +6 Attack."
   },
   {
@@ -10839,16 +11165,18 @@
    "text": "<b>Battlecry and Deathrattle:</b> Give Elementals in the Tavern +8/+8 this game."
   },
   {
-   "card_id": "BG31_920",
-   "name": "Darkcrest Strategist",
+   "card_id": "BG36_360t4",
+   "name": "Dark Paradox",
    "tier": 5,
-   "attack": 4,
-   "health": 5,
+   "attack": 8,
+   "health": 4,
    "tribes": [
-    "Naga"
+    "All"
    ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Get a random Tier 1 Naga. <i>(Improves each turn!)</i>"
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "<b>Divine Shield</b> This minion's <b>Divine Shield</b>  takes 3 hits to break."
   },
   {
    "card_id": "BG23_018",
@@ -10861,6 +11189,42 @@
    ],
    "keywords": [],
    "text": "Whenever you spend 8 Gold, this plays two <b>Blood Gems</b> on all your Quilboar. <i>(8 Gold left!)</i>"
+  },
+  {
+   "card_id": "BG36_102",
+   "name": "De-volition-ist",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "After this attacks, deal damage equal to this minion's Attack to the highest- Health enemy minion."
+  },
+  {
+   "card_id": "BG36_621",
+   "name": "Deft Deserter",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Give all minions in the Tavern +8/+8 and <b>Taunt</b>, <b>Divine Shield</b>, or <b>Windfury</b>."
+  },
+  {
+   "card_id": "BG36_762",
+   "name": "Devilish Distractor",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a spell on this, give minions in the Tavern +2/+2 this game."
   },
   {
    "card_id": "BG26_355",
@@ -10907,19 +11271,6 @@
    "text": "<b>Deathrattle:</b> Deal 7 damage to the 2 nearest enemy minions."
   },
   {
-   "card_id": "BG29_870",
-   "name": "Draconic Deathscale",
-   "tier": 5,
-   "attack": 8,
-   "health": 3,
-   "tribes": [
-    "Naga",
-    "Dragon"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Trigger a friendly minion's <b>Battlecry</b>."
-  },
-  {
    "card_id": "BG34_633",
    "name": "Draconic Warden",
    "tier": 5,
@@ -10959,6 +11310,18 @@
    "text": "<b>Avenge (3):</b> Get a Butchering."
   },
   {
+   "card_id": "BG31_824",
+   "name": "Dual-Wield Corsair",
+   "tier": 5,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "Whenever you spend 5 Gold, give two friendly Pirates +4/+5. <i>(5 Gold left!)</i>"
+  },
+  {
    "card_id": "BG32_231",
    "name": "Elite Navigator",
    "tier": 5,
@@ -10973,6 +11336,18 @@
    "text": "<b>Battlecry:</b> Make a friendly Pirate from Tier 4 or below Golden."
   },
   {
+   "card_id": "BG36_523",
+   "name": "Enterprising Escapee",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "After you spend 5 Gold, get a Lockbox. If you already have one, it opens 1 turns sooner instead. <i>(5 Gold left!)</i>"
+  },
+  {
    "card_id": "BG34_403",
    "name": "Eternal Tycoon",
    "tier": 5,
@@ -10985,6 +11360,20 @@
     "AVENGE"
    ],
    "text": "<b>Avenge (5):</b> Summon an Eternal Knight. It attacks immediately."
+  },
+  {
+   "card_id": "BG36_318",
+   "name": "Faceless Converter",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Give your <b>Deity</b> +1/+1. <i>(Improved by each Tavern spell you've cast this game!)</i>"
   },
   {
    "card_id": "BG21_005",
@@ -11073,22 +11462,6 @@
    "text": "<b>Battlecry:</b> Get a Conflagration."
   },
   {
-   "card_id": "BG32_820",
-   "name": "Firescale Hoarder",
-   "tier": 5,
-   "attack": 5,
-   "health": 5,
-   "tribes": [
-    "Naga",
-    "Dragon"
-   ],
-   "keywords": [
-    "BATTLECRY",
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Battlecry and Deathrattle:</b> Get a Shiny Ring."
-  },
-  {
    "card_id": "BG26_537",
    "name": "Flourishing Frostling",
    "tier": 5,
@@ -11153,19 +11526,18 @@
    "text": "<b>Battlecry:</b> Get a 2/1 Smolderwing with \"<b>Battlecry:</b> Give a Dragon +5 Attack.\""
   },
   {
-   "card_id": "BGS_121",
-   "name": "Gentle Djinni",
+   "card_id": "BGS_008",
+   "name": "Ghastcoiler",
    "tier": 5,
-   "attack": 4,
-   "health": 5,
+   "attack": 7,
+   "health": 7,
    "tribes": [
-    "Elemental"
+    "Beast"
    ],
    "keywords": [
-    "DEATHRATTLE",
-    "TAUNT"
+    "DEATHRATTLE"
    ],
-   "text": "<b>Taunt</b>  <b>Deathrattle:</b> Get a random Elemental."
+   "text": "<b>Deathrattle:</b> Summon 2 random <b>Deathrattle</b> minions."
   },
   {
    "card_id": "BG25_002",
@@ -11182,18 +11554,18 @@
    "text": "<b>Avenge (1):</b> Give a friendly minion of each type +2/+2 permanently."
   },
   {
-   "card_id": "BG23_008",
-   "name": "Glowscale",
+   "card_id": "BGS_018",
+   "name": "Goldrinn, the Great Wolf",
    "tier": 5,
-   "attack": 4,
-   "health": 6,
+   "attack": 7,
+   "health": 7,
    "tribes": [
-    "Naga"
+    "Beast"
    ],
    "keywords": [
-    "TAUNT"
+    "DEATHRATTLE"
    ],
-   "text": "<b>Taunt</b> <b>Spellcraft:</b> Give a minion <b>Divine Shield</b> until next turn."
+   "text": "<b>Deathrattle:</b> Your Beasts have +7/+7 until next turn."
   },
   {
    "card_id": "BG31_148",
@@ -11207,7 +11579,7 @@
    "keywords": [
     "BATTLECRY"
    ],
-   "text": "<b>Battlecry:</b> Give your other minions +1/+2. <i>(Improved by each different <b>Bonus \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Keyword</b> in your warband!)</i>"
+   "text": "<b>Battlecry:</b> Give your other minions +3/+2. <i>(Improved by each different <b>Bonus \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0Keyword</b> in your warband!)</i>"
   },
   {
    "card_id": "BG33_888",
@@ -11234,6 +11606,18 @@
     "DIVINE_SHIELD"
    ],
    "text": "<b>Divine Shield</b> <b>Rally:</b> Get a random <b>Magnetic</b> Mech."
+  },
+  {
+   "card_id": "BG36_364",
+   "name": "Hopebringer",
+   "tier": 5,
+   "attack": 3,
+   "health": 3,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [],
+   "text": "<b>Start of Combat:</b> Give your minions +3/+3. <i>(Permanently improves after a friendly minion loses <b>Divine Shield</b>!)</i>"
   },
   {
    "card_id": "BG25_014",
@@ -11286,20 +11670,6 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Deathrattle:</b> Summon a random Beast from Tiers 2, 3, and 4."
-  },
-  {
-   "card_id": "BG35_890",
-   "name": "Ingenious Inventor",
-   "tier": 5,
-   "attack": 9,
-   "health": 4,
-   "tribes": [
-    "Mech"
-   ],
-   "keywords": [
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Deathrattle:</b> Your Mechs have +2 Attack this combat. <i>(Improved by each time you've <b>Magnetized</b> this game!)</i>"
   },
   {
    "card_id": "BG21_004",
@@ -11424,6 +11794,20 @@
    "text": "<b>Deathrattle:</b> Destroy the minion that killed this."
   },
   {
+   "card_id": "BG36_848",
+   "name": "Lichling Hoarder",
+   "tier": 5,
+   "attack": 5,
+   "health": 10,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [
+    "AVENGE"
+   ],
+   "text": "<b>Avenge (4):</b> Get a plain copy of a minion that started in your warband this combat."
+  },
+  {
    "card_id": "BGS_009",
    "name": "Lightfang Enforcer",
    "tier": 5,
@@ -11486,24 +11870,12 @@
    "name": "Lurking Leviathan",
    "tier": 5,
    "attack": 3,
-   "health": 8,
+   "health": 9,
    "tribes": [
     "Beast"
    ],
    "keywords": [],
-   "text": "Whenever you summon a Beast, give it +2\u00a0Attack and improve this permanently."
-  },
-  {
-   "card_id": "BG34_922",
-   "name": "Maelstrom Emergent",
-   "tier": 5,
-   "attack": 2,
-   "health": 7,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Your Tavern spells cast an extra time in combat."
+   "text": "Whenever you summon a Beast, give it +3\u00a0Attack and improve this permanently."
   },
   {
    "card_id": "BGDUO_105",
@@ -11543,7 +11915,7 @@
    "keywords": [
     "BATTLECRY"
    ],
-   "text": "<b>Battlecry:</b> Minions in your team's Taverns have +1/+1 this game."
+   "text": "<b>Battlecry:</b> Minions in your team's Taverns have +3/+2 this game."
   },
   {
    "card_id": "BG27_507",
@@ -11601,6 +11973,18 @@
     "DIVINE_SHIELD"
    ],
    "text": "<b>Divine Shield</b> <b>Avenge (4):</b> <b>Magnetize</b> a random Volumizer to this. Get a copy of it."
+  },
+  {
+   "card_id": "BG36_097",
+   "name": "Mindbender Ghur'sha",
+   "tier": 5,
+   "attack": 3,
+   "health": 9,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "Whenever you discard a card, give your other minions +3/+3."
   },
   {
    "card_id": "BG30_110",
@@ -11706,6 +12090,18 @@
    "text": "<b>Deathrattle:</b> For the rest of this combat, your odd-Tier minions have +3/+3."
   },
   {
+   "card_id": "BG36_320",
+   "name": "Mysterious K'Thir",
+   "tier": 5,
+   "attack": 8,
+   "health": 8,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "At the end of your turn, discard your 3 left-most Tavern spells. Gain +8/+8 for each discarded."
+  },
+  {
    "card_id": "BG28_900",
    "name": "Mystic Sporebat",
    "tier": 5,
@@ -11718,6 +12114,33 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Deathrattle:</b> Get a random Tavern spell."
+  },
+  {
+   "card_id": "BG36_300",
+   "name": "N'raqi Frostcaller",
+   "tier": 5,
+   "attack": 6,
+   "health": 3,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "<b>Activate (0):</b> Discard a card for your Tavern spells to give \u00a0an extra +1/+1 this game."
+  },
+  {
+   "card_id": "BG36_103",
+   "name": "N'raqi Sapper",
+   "tier": 5,
+   "attack": 6,
+   "health": 3,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Battlecry and Deathrattle:</b> Get an Energizing Chamber."
   },
   {
    "card_id": "BG28_551",
@@ -11980,6 +12403,18 @@
    "text": "At the start of your turn, gain 2 Gold. If you control at least three Pirates, gain 2 more."
   },
   {
+   "card_id": "BG36_366",
+   "name": "Resourceful Robot",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [],
+   "text": "At the end of your turn, <b>Magnetize</b> a random Volumizer to this. Get a copy of it."
+  },
+  {
    "card_id": "BG32_173",
    "name": "Rickety Repairbot",
    "tier": 5,
@@ -12027,6 +12462,18 @@
    ],
    "keywords": [],
    "text": "Has +1/+1 for each Pirate you've summoned this \u00a0\u00a0\u00a0game <i>(wherever this is)</i>."
+  },
+  {
+   "card_id": "BG33_885",
+   "name": "Sanguine Refiner",
+   "tier": 5,
+   "attack": 3,
+   "health": 8,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Your <b>Blood Gems</b> give an extra +1/+2 this game."
   },
   {
    "card_id": "UNG_010",
@@ -12127,6 +12574,18 @@
    "text": "<b>Taunt</b> <b>Deathrattle:</b> Get a Staff of Enrichment."
   },
   {
+   "card_id": "BG36_704",
+   "name": "Shamanic Tidecaller",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "tribes": [
+    "Murloc"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a spell on a Murloc, give Murlocs in your hand and board +3/+3."
+  },
+  {
    "card_id": "TB_BaconShop_HERO_68_Buddy",
    "name": "Sharkbait",
    "tier": 5,
@@ -12153,20 +12612,6 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Battlecry and Deathrattle:</b> Get a random <b>Bounty</b>."
-  },
-  {
-   "card_id": "BG31_925",
-   "name": "Showy Cyclist",
-   "tier": 5,
-   "attack": 4,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Deathrattle:</b> Give your Naga +2/+2. <i>(Improved by every 4 spells you've cast this game!)</i>"
   },
   {
    "card_id": "BG29_871",
@@ -12239,6 +12684,18 @@
    "text": "<b>Deathrattle:</b> Summon a random <b>Legendary</b> minion."
   },
   {
+   "card_id": "BG36_851",
+   "name": "Spark Snapper",
+   "tier": 5,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [],
+   "text": "Whenever you play a Mech, <b>Magnetize</b> a 2/2 Satellite to it and improve this."
+  },
+  {
    "card_id": "BG28_903",
    "name": "Spellbound Seafarer",
    "tier": 5,
@@ -12275,18 +12732,6 @@
    "tribes": [],
    "keywords": [],
    "text": "The first Triple Reward you play each turn <b><b>Discover</b>s</b> from Golden minions. <i>(1 left!)</i>"
-  },
-  {
-   "card_id": "BGDUO_122",
-   "name": "Storm Splitter",
-   "tier": 5,
-   "attack": 5,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Once per turn, after you <b>Pass</b> a Tavern spell, get a new copy of it."
   },
   {
    "card_id": "BG26_966",
@@ -12416,13 +12861,13 @@
    "card_id": "BG26_523",
    "name": "Tichondrius",
    "tier": 5,
-   "attack": 3,
-   "health": 6,
+   "attack": 4,
+   "health": 4,
    "tribes": [
     "Demon"
    ],
    "keywords": [],
-   "text": "After your hero takes damage, give your Demons +3/+2."
+   "text": "After your hero takes damage, give your Demons +4/+4."
   },
   {
    "card_id": "BG35_895",
@@ -12733,20 +13178,6 @@
    "text": "After you trigger a <b>Deathrattle</b>, give your minions +3/+2 permanently."
   },
   {
-   "card_id": "BG34_Giant_035",
-   "name": "Timewarped Glowscale",
-   "tier": 5,
-   "attack": 6,
-   "health": 12,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "TAUNT"
-   ],
-   "text": "<b>Taunt</b> <b>Spellcraft:</b> Give a minion <b>Divine Shield</b>."
-  },
-  {
    "card_id": "BG34_Giant_362",
    "name": "Timewarped Goldrinn",
    "tier": 5,
@@ -12890,18 +13321,6 @@
    "text": "<b>Stealth</b> After you summon a Beast, give it +4/+3. Improves after you cast a spell."
   },
   {
-   "card_id": "BG34_PreMadeChamp_056",
-   "name": "Timewarped Karathress",
-   "tier": 5,
-   "attack": 14,
-   "health": 6,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After you summon a minion in combat, get a copy of Deep Blues."
-  },
-  {
    "card_id": "BG34_Giant_313",
    "name": "Timewarped Kil'jaeden",
    "tier": 5,
@@ -12926,18 +13345,6 @@
    "text": "After you cast a spell, give your Beasts +2/+2."
   },
   {
-   "card_id": "BG34_Giant_678",
-   "name": "Timewarped Lava Lurker",
-   "tier": 5,
-   "attack": 8,
-   "health": 9,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After you cast a <b>Spellcraft</b> spell from hand on a minion, also cast a permanent copy \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0on this. <i>(Twice per turn.)</i>"
-  },
-  {
    "card_id": "BG34_Giant_608",
    "name": "Timewarped Lil' Quilboar",
    "tier": 5,
@@ -12960,7 +13367,7 @@
    "health": 2,
    "tribes": [],
    "keywords": [],
-   "text": "In two turns, choose from  three Golden Tier 7 minions  to transform into. <i>(2 turns left!)</i>"
+   "text": "In two turns, choose from  three Golden Tier 7 minions to transform into. <i>(2 turns left!)</i>"
   },
   {
    "card_id": "BG34_Giant_619",
@@ -13144,18 +13551,6 @@
    "text": "Whenever a card is added to your hand, give your Pirates +1/+1."
   },
   {
-   "card_id": "BG34_Giant_322",
-   "name": "Timewarped Pioneer",
-   "tier": 5,
-   "attack": 4,
-   "health": 13,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After you <b>Refresh</b> 3 times, get a random <b>Spellcraft</b> spell. <i>(3 left!)</i>"
-  },
-  {
    "card_id": "BG34_PreMadeChamp_067",
    "name": "Timewarped Plunderer",
    "tier": 5,
@@ -13250,20 +13645,6 @@
    "text": "After you play a card from Tier 4 or above, give your Pirates +3/+2."
   },
   {
-   "card_id": "BG34_Giant_325",
-   "name": "Timewarped Riplash",
-   "tier": 5,
-   "attack": 13,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Deathrattle:</b> Get a copy of the last Tavern spell you cast."
-  },
-  {
    "card_id": "BG34_Giant_333",
    "name": "Timewarped Scout",
    "tier": 5,
@@ -13288,18 +13669,6 @@
    "text": "<b>Divine Shield</b> <b>Rally:</b> Double this minion's stats. <i>(2 times per combat.)</i>"
   },
   {
-   "card_id": "BG34_Giant_323",
-   "name": "Timewarped Secretary",
-   "tier": 5,
-   "attack": 5,
-   "health": 11,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After you cast 2 <b>Spellcraft</b> spells, get a random Tavern spell. <i>(2 left!)</i>"
-  },
-  {
    "card_id": "BG34_Giant_681",
    "name": "Timewarped Shadequill",
    "tier": 5,
@@ -13322,18 +13691,6 @@
    ],
    "keywords": [],
    "text": "Whenever a minion is consumed, this gains its stats."
-  },
-  {
-   "card_id": "BG34_PreMadeChamp_058",
-   "name": "Timewarped Siren",
-   "tier": 5,
-   "attack": 6,
-   "health": 14,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After you play a Naga, give all your Naga +6/+10."
   },
   {
    "card_id": "BG34_PreMadeChamp_049",
@@ -13410,19 +13767,6 @@
     "DIVINE_SHIELD"
    ],
    "text": "<b>Divine Shield</b> At the end of your turn, get a Temperature Shift."
-  },
-  {
-   "card_id": "BG34_Giant_324",
-   "name": "Timewarped Summoner",
-   "tier": 5,
-   "attack": 6,
-   "health": 9,
-   "tribes": [
-    "Elemental",
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Choose a minion. Transform all minions in the Tavern into ones of its type, keeping Tiers."
   },
   {
    "card_id": "BG34_Giant_686",
@@ -13624,18 +13968,6 @@
    "text": "<b>Battlecry:</b> Give a friendly Murloc <b>Poisonous</b>."
   },
   {
-   "card_id": "BG32_835",
-   "name": "Tranquil Meditative",
-   "tier": 5,
-   "attack": 3,
-   "health": 8,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "<b>Spellcraft:</b> Your Tavern spells give an extra +1/+1 this game."
-  },
-  {
    "card_id": "BG27_013",
    "name": "Transmuted Bramblewitch",
    "tier": 5,
@@ -13752,6 +14084,30 @@
     "DIVINE_SHIELD"
    ],
    "text": "<b>Divine Shield</b> <b>Rally:</b> Give your other minions +3/+3."
+  },
+  {
+   "card_id": "BG36_510",
+   "name": "Vigilant Bristlemane",
+   "tier": 5,
+   "attack": 3,
+   "health": 5,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a spell on this, it plays a <b>Blood Gem</b> on adjacent minions."
+  },
+  {
+   "card_id": "BG35_437",
+   "name": "Vinespeaker",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "After a friendly <b>Deathrattle</b> minion dies, your <b>Blood Gems</b> give an extra +2 Attack this game."
   },
   {
    "card_id": "BG34_235",
@@ -14007,6 +14363,18 @@
    "text": "<b>Battlecry:</b> <b>Refresh</b> the Tavern with minions of your most common type."
   },
   {
+   "card_id": "BG36_367",
+   "name": "Auto Reveille",
+   "tier": 6,
+   "attack": 6,
+   "health": 6,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [],
+   "text": "After you buy 3 cards, get a random <b>Magnetic</b> Volumizer. <i>(3 left!)</i>"
+  },
+  {
    "card_id": "BG33_337",
    "name": "Avalanche Caller",
    "tier": 6,
@@ -14050,19 +14418,7 @@
     "Quilboar"
    ],
    "keywords": [],
-   "text": "Whenever a friendly <b>Rally</b> minion attacks, this plays 3 <b>Blood Gems</b> on all your minions."
-  },
-  {
-   "card_id": "BG34_931",
-   "name": "Bluesy Siren",
-   "tier": 6,
-   "attack": 8,
-   "health": 8,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Whenever a friendly Naga attacks, this casts Deep Blues for +2/+3 on it. \u00a0\u00a0\u00a0<i>(3 times per combat.)</i>"
+   "text": "Whenever a friendly Quilboar attacks, this plays 2 <b>Blood Gems</b> on all your minions."
   },
   {
    "card_id": "BG26_ICC_065",
@@ -14205,6 +14561,20 @@
    "text": "Whenever a minion is consumed, give minions in the Tavern +1/+1 this turn."
   },
   {
+   "card_id": "BG36_241",
+   "name": "Crimson Vindicator",
+   "tier": 6,
+   "attack": 8,
+   "health": 9,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [
+    "DIVINE_SHIELD"
+   ],
+   "text": "<b>Divine Shield</b> <b>Rally:</b> Cast Mighty Dragonbreath."
+  },
+  {
    "card_id": "BG27_081",
    "name": "Cultist S'Thara",
    "tier": 6,
@@ -14212,6 +14582,7 @@
    "health": 3,
    "tribes": [],
    "keywords": [
+    "DEATHRATTLE",
     "STEALTH"
    ],
    "text": "<b><b>Stealth</b>.</b> <b>Deathrattle:</b> Summon your first Demon that died this combat \u00a0with its maximum stats."
@@ -14227,6 +14598,34 @@
    ],
    "keywords": [],
    "text": "After your teammate sells a minion, gain its stats. <i>(Once per turn.)</i>"
+  },
+  {
+   "card_id": "BG36_360t9",
+   "name": "Dark Paradox",
+   "tier": 6,
+   "attack": 10,
+   "health": 2,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Summon a Golem with this minion's stats."
+  },
+  {
+   "card_id": "BG36_104",
+   "name": "Dark Puppeteer",
+   "tier": 6,
+   "attack": 8,
+   "health": 4,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Your Tavern spells give an extra +4 Health this game."
   },
   {
    "card_id": "BG32_234",
@@ -14280,6 +14679,18 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Avenge (4):</b> Get a random Undead. <b>Deathrattle:</b> Summon it from your hand for this combat only."
+  },
+  {
+   "card_id": "BG36_208",
+   "name": "Deathstrider",
+   "tier": 6,
+   "attack": 10,
+   "health": 11,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [],
+   "text": "After a friendly <b>Rally</b> minion attacks, trigger your left-most <b>Deathrattle</b>."
   },
   {
    "card_id": "RLK_538",
@@ -14360,6 +14771,18 @@
    "text": "<b>Divine Shield</b> This minion can triple with any Elemental."
   },
   {
+   "card_id": "BG36_733",
+   "name": "Eredar Escapist",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "tribes": [
+    "Demon"
+   ],
+   "keywords": [],
+   "text": "After your hero takes 4 damage, get a copy of Corrupted Cupcakes. <i>(4 left!)</i>"
+  },
+  {
    "card_id": "BG25_009",
    "name": "Eternal Summoner",
    "tier": 6,
@@ -14438,18 +14861,6 @@
    "text": "<b>Divine Shield</b>. Has +4/+2 for each <b>Deathrattle</b> you've triggered this game <i>(wherever this is).</i>"
   },
   {
-   "card_id": "BG32_837",
-   "name": "Fauna Whisperer",
-   "tier": 6,
-   "attack": 4,
-   "health": 9,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "At the end of your turn, cast Natural Blessing on adjacent minions."
-  },
-  {
    "card_id": "BG25_042",
    "name": "Felstomper",
    "tier": 6,
@@ -14467,12 +14878,12 @@
    "name": "Fire-forged Evoker",
    "tier": 6,
    "attack": 8,
-   "health": 5,
+   "health": 6,
    "tribes": [
     "Dragon"
    ],
    "keywords": [],
-   "text": "<b>Start of Combat:</b> Give your Dragons +2/+1. Improves permanently after \u00a0\u00a0\u00a0\u00a0you cast a Tavern spell."
+   "text": "<b>Start of Combat:</b> Give your Dragons +2/+2. Improves permanently after \u00a0\u00a0\u00a0\u00a0you cast a Tavern spell."
   },
   {
    "card_id": "BG26_766",
@@ -14503,12 +14914,40 @@
    "name": "Forsaken Weaver",
    "tier": 6,
    "attack": 3,
-   "health": 10,
+   "health": 8,
    "tribes": [
     "Undead"
    ],
    "keywords": [],
-   "text": "After you cast a Tavern spell, your Undead have +2 Attack this game <i>(wherever they are)</i>."
+   "text": "After you cast a Tavern spell, your Undead have +3 Attack this game <i>(wherever they are)</i>."
+  },
+  {
+   "card_id": "BG36_640",
+   "name": "Gatekeeper Amalgam",
+   "tier": 6,
+   "attack": 6,
+   "health": 6,
+   "tribes": [
+    "All"
+   ],
+   "keywords": [],
+   "text": "Whenever you cast a spell on this, it casts Misplaced Tea Set."
+  },
+  {
+   "card_id": "BGS_121",
+   "name": "Gentle Djinni",
+   "tier": 6,
+   "attack": 5,
+   "health": 6,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [
+    "BATTLECRY",
+    "DEATHRATTLE",
+    "TAUNT"
+   ],
+   "text": "<b>Taunt</b> <b>Battlecry and Deathrattle:</b> Get a random Elemental."
   },
   {
    "card_id": "BGS_031",
@@ -14523,20 +14962,6 @@
     "BATTLECRY"
    ],
    "text": "<b>Battlecry:</b> <b>Adapt</b> your\u00a0Murlocs."
-  },
-  {
-   "card_id": "BGS_008",
-   "name": "Ghastcoiler",
-   "tier": 6,
-   "attack": 7,
-   "health": 7,
-   "tribes": [
-    "Beast"
-   ],
-   "keywords": [
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Deathrattle:</b> Summon 2 random <b>Deathrattle</b> minions."
   },
   {
    "card_id": "BG29_863",
@@ -14566,20 +14991,6 @@
    "text": "<b>Divine Shield</b>. After a friendly minion loses <b>Divine Shield</b>, your minions have +3 Attack \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0for the rest of this combat."
   },
   {
-   "card_id": "BGS_018",
-   "name": "Goldrinn, the Great Wolf",
-   "tier": 6,
-   "attack": 8,
-   "health": 8,
-   "tribes": [
-    "Beast"
-   ],
-   "keywords": [
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Deathrattle:</b> For the rest of this combat, your Beasts have +8/+8."
-  },
-  {
    "card_id": "BG29_841",
    "name": "Greymane's Champion",
    "tier": 6,
@@ -14590,16 +15001,16 @@
    "text": "After you play an even-Tier card, give your even-Tier minions +2/+2."
   },
   {
-   "card_id": "BG31_035",
-   "name": "Groundbreaker",
+   "card_id": "BGFYM_005",
+   "name": "Harbinger Aph'lass",
    "tier": 6,
-   "attack": 5,
-   "health": 4,
+   "attack": 3,
+   "health": 6,
    "tribes": [
-    "Naga"
+    "Aberration"
    ],
    "keywords": [],
-   "text": "After you play a Naga, gain +1/+1. <i>(Improved by every 4 spells you've cast this game!)</i>"
+   "text": "Whenever you discard a card, give your <b>Deity</b> +1/+1 and improve this."
   },
   {
    "card_id": "BG27_079",
@@ -14612,6 +15023,30 @@
    ],
    "keywords": [],
    "text": "<b>Start of Combat:</b> Trigger your two left-most <b>Deathrattles</b>."
+  },
+  {
+   "card_id": "BG36_849",
+   "name": "Heroic Broodmother",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "tribes": [
+    "Dragon"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Gain <b>Divine Shield</b>. <b>Start of Combat:</b> Attack immediately."
+  },
+  {
+   "card_id": "BG36_344",
+   "name": "Hooktusk, Master Marauder",
+   "tier": 6,
+   "attack": 4,
+   "health": 4,
+   "tribes": [
+    "Pirate"
+   ],
+   "keywords": [],
+   "text": "After you <b>Discover</b> a card, give your other Pirates +1/+1. <i>(Improved by Golden minions \u00a0\u00a0\u00a0you played this game!)</i>"
   },
   {
    "card_id": "BG28_595",
@@ -14636,6 +15071,20 @@
    ],
    "keywords": [],
    "text": "Whenever this minion takes damage, summon a random Demon and give it <b>Taunt</b>."
+  },
+  {
+   "card_id": "BG35_890",
+   "name": "Ingenious Inventor",
+   "tier": 6,
+   "attack": 9,
+   "health": 4,
+   "tribes": [
+    "Mech"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Deathrattle:</b> Your Mechs have +2 Attack this combat. <i>(Improved by each time you've <b>Magnetized</b> this game!)</i>"
   },
   {
    "card_id": "BG34_175",
@@ -14765,16 +15214,16 @@
    "text": "<b>Battlecry:</b> Get a random <b>Magnetic</b> Mecha-Demon."
   },
   {
-   "card_id": "CRED_666",
-   "name": "Mitchell Loewen",
+   "card_id": "BG36_351",
+   "name": "Moat Custodian",
    "tier": 6,
-   "attack": 6,
-   "health": 6,
+   "attack": 5,
+   "health": 10,
    "tribes": [
-    "Naga"
+    "Elemental"
    ],
    "keywords": [],
-   "text": "<b>Deathrattle:</b> Go on a <b>Quest</b> to replace all heroes with Diablo."
+   "text": "<b>Rally:</b> Your Elementals give an extra +2/+2 this game."
   },
   {
    "card_id": "BG31_171",
@@ -14931,7 +15380,9 @@
    "tier": 6,
    "attack": 3,
    "health": 7,
-   "tribes": [],
+   "tribes": [
+    "Aberration"
+   ],
    "keywords": [],
    "text": "<b>Spellcraft: Discover</b> a Naga."
   },
@@ -14978,13 +15429,13 @@
    "card_id": "BG33_893",
    "name": "Primitive Painter",
    "tier": 6,
-   "attack": 2,
-   "health": 7,
+   "attack": 3,
+   "health": 8,
    "tribes": [
     "Murloc"
    ],
    "keywords": [],
-   "text": "After you play a card from Tier 3 or below, give your Murlocs +2/+2."
+   "text": "After you play a card from Tier 3 or below, give your Murlocs +3/+3."
   },
   {
    "card_id": "BG34_321",
@@ -15009,6 +15460,20 @@
    "text": "After you use 'Trash for  Treasure', gain Gold equal to the removed minion's Tier."
   },
   {
+   "card_id": "BG36_209",
+   "name": "Ravaging Scorpid",
+   "tier": 6,
+   "attack": 6,
+   "health": 7,
+   "tribes": [
+    "Beast"
+   ],
+   "keywords": [
+    "DEATHRATTLE"
+   ],
+   "text": "After a friendly minion attacks, your Beetles have +5/+5 this game. <b>Deathrattle:</b> Summon a 2/2 Beetle."
+  },
+  {
    "card_id": "BG27_010",
    "name": "Relentless Mur'ghoul",
    "tier": 6,
@@ -15025,34 +15490,6 @@
    "text": "<b>Venomous</b> <b>Avenge (5):</b> Gain <b>Reborn</b>."
   },
   {
-   "card_id": "BG34_921",
-   "name": "Ring Bearer",
-   "tier": 6,
-   "attack": 5,
-   "health": 10,
-   "tribes": [
-    "Naga",
-    "Dragon"
-   ],
-   "keywords": [],
-   "text": "Whenever a friendly minion attacks, cast Shiny Ring."
-  },
-  {
-   "card_id": "BG34_926",
-   "name": "Ruthless Queensguard",
-   "tier": 6,
-   "attack": 3,
-   "health": 3,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [
-    "BATTLECRY",
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Battlecry, Deathrattle, and Rally:</b> Cast Queen's Command."
-  },
-  {
    "card_id": "BG28_667",
    "name": "Saloon Dancer",
    "tier": 6,
@@ -15065,16 +15502,19 @@
    "text": "<b>Taunt</b> Whenever you cast a Tavern spell, give two other \u00a0\u00a0\u00a0friendly minions +5/+5."
   },
   {
-   "card_id": "BG33_885",
-   "name": "Sanguine Refiner",
+   "card_id": "BG23_017",
+   "name": "Sanguine Champion",
    "tier": 6,
-   "attack": 3,
-   "health": 10,
+   "attack": 9,
+   "health": 4,
    "tribes": [
     "Quilboar"
    ],
-   "keywords": [],
-   "text": "<b>Rally:</b> Your <b>Blood Gems</b> give an extra +1/+1 this game."
+   "keywords": [
+    "BATTLECRY",
+    "DEATHRATTLE"
+   ],
+   "text": "<b>Battlecry and Deathrattle:</b> Your <b>Blood Gems</b> give an extra +2/+1 this game."
   },
   {
    "card_id": "BG21_011",
@@ -15128,16 +15568,18 @@
    "text": "Your Pirates and Elementals give an extra +1/+1."
   },
   {
-   "card_id": "BG28_405",
-   "name": "Silivaz the Vindictive",
+   "card_id": "BG36_343",
+   "name": "Silent Deliverer",
    "tier": 6,
-   "attack": 5,
-   "health": 8,
+   "attack": 7,
+   "health": 7,
    "tribes": [
-    "Naga"
+    "Pirate"
    ],
-   "keywords": [],
-   "text": "<b><b>Spellcraft:</b> Discover</b> a Tavern spell."
+   "keywords": [
+    "BATTLECRY"
+   ],
+   "text": "<b>Battlecry:</b> Get a random Golden minion from Tier 4. It doesn\u2019t give a Triple Reward."
   },
   {
    "card_id": "BG32_204",
@@ -15151,7 +15593,7 @@
    "keywords": [
     "DEATHRATTLE"
    ],
-   "text": "Whenever this takes damage, your Beetles have +2/+1 this game. <b>Deathrattle:</b> Summon a 2/2 Beetle."
+   "text": "Whenever this takes damage, your Beetles have +2/+2 this game. <b>Deathrattle:</b> Summon a 2/2 Beetle."
   },
   {
    "card_id": "BG31_853",
@@ -15190,18 +15632,6 @@
    "text": "After you spend 9 Gold, get a random <b>Bounty</b>. <i>(9 Gold left!)</i>"
   },
   {
-   "card_id": "BG27_083",
-   "name": "Slitherspear, Lord of Gains",
-   "tier": 6,
-   "attack": 4,
-   "health": 5,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "At the end of your turn, give your other Naga +2/+1. <i>(Improved by each different \u00a0\u00a0\u00a0\u00a0\u00a0spell you've cast this turn!)</i>"
-  },
-  {
    "card_id": "TB_BaconShop_HERO_16_Buddy",
    "name": "Snack Vendor",
    "tier": 6,
@@ -15210,6 +15640,18 @@
    "tribes": [],
    "keywords": [],
    "text": "At the end of your turn, give this minion's stats to a Tier 3 minion."
+  },
+  {
+   "card_id": "BG36_515",
+   "name": "Snazzy Phantom",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "tribes": [
+    "Undead"
+   ],
+   "keywords": [],
+   "text": "After a friendly minion is <b>Reborn</b>, give stats equal to its Attack to your right-most Undead."
   },
   {
    "card_id": "BG31_820",
@@ -15232,18 +15674,6 @@
    "tribes": [],
    "keywords": [],
    "text": "<b>Start of Combat:</b> Give you and your opponent's 3 left- \u00a0\u00a0most minions <b>Divine Shield</b>."
-  },
-  {
-   "card_id": "BG33_923",
-   "name": "Sundered Matriarch",
-   "tier": 6,
-   "attack": 7,
-   "health": 4,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Whenever you cast a spell, give your minions +3 Health."
   },
   {
    "card_id": "TB_BaconShop_HERO_27_Buddy",
@@ -15278,6 +15708,18 @@
    "text": "After you buy a minion, get a random Tavern spell from the same Tier. <i>(9 left!)</i>"
   },
   {
+   "card_id": "BG36_109",
+   "name": "The Shadow of Doubt",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "tribes": [
+    "Aberration"
+   ],
+   "keywords": [],
+   "text": "Whenever a card is added to your hand, give your <b>Deity</b> +3/+4."
+  },
+  {
    "card_id": "BG29_875",
    "name": "The Uninvited Guest",
    "tier": 6,
@@ -15300,30 +15742,18 @@
    "text": "At the end of your turn, give 4 friendly <b>Taunt</b> minions +4/+4."
   },
   {
-   "card_id": "BG23_013",
-   "name": "Tidemistress Athissa",
-   "tier": 6,
-   "attack": 6,
-   "health": 7,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "Whenever you cast a spell, give all your Naga +1/+1 permanently."
-  },
-  {
    "card_id": "BGDUO31_211",
    "name": "Transport Reactor",
    "tier": 6,
-   "attack": 1,
-   "health": 1,
+   "attack": 3,
+   "health": 3,
    "tribes": [
     "Mech"
    ],
    "keywords": [
     "MAGNETIC"
    ],
-   "text": "<b>Magnetic</b> Has +1/+1 for each time your team has <b>Passed</b> this \u00a0\u00a0\u00a0game <i>(wherever this is).</i>"
+   "text": "<b>Magnetic</b> Has +3/+3 for each time your team has <b>Passed</b> this \u00a0\u00a0\u00a0game <i>(wherever this is).</i>"
   },
   {
    "card_id": "BG31_323",
@@ -15335,7 +15765,7 @@
     "Quilboar"
    ],
    "keywords": [],
-   "text": "After you play <b>Choose One</b> card, this play a <b>Blood Gem</b> \u00a0\u00a0on all your other Quilboar."
+   "text": "After you play a <b>Choose One</b> card, this plays a <b>Blood Gem</b> on all your other Quilboar."
   },
   {
    "card_id": "BG35_155",
@@ -15362,6 +15792,16 @@
    "text": "At the end of your turn, deal 3 damage to your hero and give your team's minions +3/+3."
   },
   {
+   "card_id": "BG36_356",
+   "name": "Tyrael",
+   "tier": 6,
+   "attack": 10,
+   "health": 10,
+   "tribes": [],
+   "keywords": [],
+   "text": "<b>Activate (1):</b> Set another minion's stats to 50/50."
+  },
+  {
    "card_id": "BG31_810",
    "name": "Ultraviolet Ascendant",
    "tier": 6,
@@ -15374,16 +15814,28 @@
    "text": "<b>Start of Combat:</b> Give your other Elementals +3/+2. <i>(Improves after you play an Elemental!)</i>"
   },
   {
-   "card_id": "BG32_846",
-   "name": "Unleashed Mana Surge",
+   "card_id": "BG36_352",
+   "name": "Unbound Tempest",
    "tier": 6,
-   "attack": 6,
-   "health": 5,
+   "attack": 3,
+   "health": 12,
    "tribes": [
     "Elemental"
    ],
    "keywords": [],
-   "text": "After you play an Elemental, give your Elementals +4/+4."
+   "text": "After you play 3 Elementals, gain the stats of the highest- Health minion in the Tavern. <i>(3 left!)</i>"
+  },
+  {
+   "card_id": "BG32_846",
+   "name": "Unleashed Mana Surge",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "tribes": [
+    "Elemental"
+   ],
+   "keywords": [],
+   "text": "After you play an Elemental, give your Elementals +2/+3."
   },
   {
    "card_id": "BG29_878",
@@ -15415,12 +15867,12 @@
    "name": "Utility Drone",
    "tier": 6,
    "attack": 4,
-   "health": 6,
+   "health": 5,
    "tribes": [
     "Mech"
    ],
    "keywords": [],
-   "text": "At the end of your turn, give your minions +4/+4 for each <b>Magnetization</b> they have."
+   "text": "At the end of your turn, give your minions +4/+5 for each <b>Magnetization</b> they have."
   },
   {
    "card_id": "BG_ICC_032",
@@ -15451,16 +15903,30 @@
    "text": "<b>Poisonous</b>"
   },
   {
-   "card_id": "BG35_437",
-   "name": "Vinespeaker",
+   "card_id": "BG36_341",
+   "name": "Veteran Brigand",
    "tier": 6,
-   "attack": 7,
+   "attack": 8,
    "health": 8,
    "tribes": [
     "Quilboar"
    ],
+   "keywords": [
+    "CHOOSE_ONE"
+   ],
+   "text": "<b>Choose One -</b> This plays 3 <b>Blood Gems</b> on all your minions; or cast Blood Gem Barrage 3 times."
+  },
+  {
+   "card_id": "BG36_370",
+   "name": "Victorious Geomant",
+   "tier": 6,
+   "attack": 10,
+   "health": 10,
+   "tribes": [
+    "Quilboar"
+   ],
    "keywords": [],
-   "text": "After a friendly <b>Deathrattle</b> minion dies, your <b>Blood Gems</b> give an extra +1 Attack this game."
+   "text": "<b>Activate (2):</b> Get 6 <b>Blood Gems</b>. Cast any that don't fit on your left-most minion."
   },
   {
    "card_id": "BG24_004",
@@ -15517,18 +15983,6 @@
    "text": "<b>Windfury</b> This minion always attacks an enemy minion that it can kill <i>(if possible).</i>"
   },
   {
-   "card_id": "BG33_920",
-   "name": "Wrathscale Rogue",
-   "tier": 6,
-   "attack": 3,
-   "health": 6,
-   "tribes": [
-    "Naga"
-   ],
-   "keywords": [],
-   "text": "After another friendly Naga gains Health, give it that much Attack."
-  },
-  {
    "card_id": "BG22_403",
    "name": "Young Murk-Eye",
    "tier": 6,
@@ -15547,7 +16001,9 @@
    "attack": 11,
    "health": 22,
    "tribes": [],
-   "keywords": [],
+   "keywords": [
+    "WINDFURY"
+   ],
    "text": "<b>Windfury</b> This minion always attacks the enemy minion with the lowest Attack."
   },
   {
@@ -15596,8 +16052,8 @@
    "card_id": "BG27_016",
    "name": "Champion of Sargeras",
    "tier": 7,
-   "attack": 10,
-   "health": 10,
+   "attack": 8,
+   "health": 8,
    "tribes": [
     "Demon"
    ],
@@ -15605,7 +16061,7 @@
     "BATTLECRY",
     "DEATHRATTLE"
    ],
-   "text": "<b>Battlecry and Deathrattle:</b> Minions in the Tavern have +5/+5 this game."
+   "text": "<b>Battlecry and Deathrattle:</b> Give minions in the Tavern +8/+8 this game."
   },
   {
    "card_id": "BG34_177",
@@ -15643,6 +16099,18 @@
     "DEATHRATTLE"
    ],
    "text": "<b>Battlecry, Deathrattle, and Rally:</b> Get a random Tier 6 minion."
+  },
+  {
+   "card_id": "BG36_333",
+   "name": "Jailbird Juggernaut",
+   "tier": 7,
+   "attack": 6,
+   "health": 15,
+   "tribes": [
+    "Quilboar"
+   ],
+   "keywords": [],
+   "text": "<b>Rally:</b> Summon a Golem with this minion's stats to attack the target first."
   },
   {
    "card_id": "BG27_508",
@@ -15709,31 +16177,16 @@
    "text": "<b>Start of Combat:</b> Transform into a copy of your teammate's highest- Health minion."
   },
   {
-   "card_id": "BG23_017",
-   "name": "Sanguine Champion",
+   "card_id": "BG36_111",
+   "name": "Sha of Fear",
    "tier": 7,
-   "attack": 18,
-   "health": 3,
+   "attack": 9,
+   "health": 12,
    "tribes": [
-    "Quilboar"
-   ],
-   "keywords": [
-    "BATTLECRY",
-    "DEATHRATTLE"
-   ],
-   "text": "<b>Battlecry and Deathrattle:</b> Your <b>Blood Gems</b> give an extra +1/+1 this game."
-  },
-  {
-   "card_id": "BG27_514",
-   "name": "Sea Witch Zar'jira",
-   "tier": 7,
-   "attack": 4,
-   "health": 5,
-   "tribes": [
-    "Naga"
+    "Aberration"
    ],
    "keywords": [],
-   "text": "<b>Spellcraft:</b> Choose a different minion in the  Tavern to get a copy of."
+   "text": "Whenever you cast a Tavern spell, give your minions and <b>Deity</b> +4/+3."
   },
   {
    "card_id": "BG34_322",
@@ -15765,13 +16218,13 @@
    "card_id": "BG34_950",
    "name": "Stone Age Slab",
    "tier": 7,
-   "attack": 5,
+   "attack": 10,
    "health": 10,
    "tribes": [
     "Elemental"
    ],
    "keywords": [],
-   "text": "After you buy a minion, give it +10/+10 and double its stats. <i>(Once per turn.)</i>"
+   "text": "After you buy a minion, give it +20/+20 and double its stats. <i>(Once per turn.)</i>"
   },
   {
    "card_id": "BG27_021",
@@ -15795,13 +16248,13 @@
    "card_id": "BG34_320",
    "name": "The Last One Standing",
    "tier": 7,
-   "attack": 12,
-   "health": 12,
+   "attack": 15,
+   "health": 15,
    "tribes": [
     "All"
    ],
    "keywords": [],
-   "text": "<b>Rally:</b> Give a friendly minion of each type +12/+12 permanently."
+   "text": "<b>Rally:</b> Give a friendly minion of each type +15/+15 permanently."
   },
   {
    "card_id": "BG27_513",
