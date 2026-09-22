@@ -9,7 +9,7 @@
 | **Path (repo)** | `results/eval_net_36_6_1_2026-09-22/eval_net.pt` |
 | **Live default** | `ml/eval_net.pt` (copy of primary) |
 | **Pilot mirror** | `/workspace/hsreplay-tier7/jeef_vod_pilot/train_patch_36_6_1_today/eval_net.pt` |
-| **Cycle** | **1b** — RDU YT ASR densify + fixed Shadybunny VTT parse (2026-09-22 ~6:25 PM ET) |
+| **Cycle** | **2** — RDU Twitch `2880966040` partial (~3.5h) Whisper ASR densify (2026-09-22 ~6:32 PM ET) |
 
 ### Point `watch --overlay` at the new weights
 
@@ -30,18 +30,18 @@ python -m hsbg_coach watch --overlay
 
 Placeable board count unchanged this cycle (ASR decisions densify gift/buy coverage; eval-net still trains on placement boards). Population base still ~11.5k HSReplay comps.
 
-## Corpus (cycle 1b)
+## Corpus (cycle 2)
 
-| Metric | Prior (#86) | **Now** |
-|--------|------------:|--------:|
-| Train JSONL rows | 416 | **499** |
-| Decisions | 227 | **310** |
-| Gift-related decisions | 19 | **32** |
-| Buy decisions | 23 | **47** |
-| Sell / roll / freeze / HP / level | 36/35/8/9/14 | **52/43/10/16/14** |
-| Placeable boards (placement + ≥2 minions) | 40 | **40** |
-| Skipped `wigwPzucfXc` rows | 139 | 139 |
-| Scrubbed Naga rows | 14 | 14 |
+| Metric | #86 | #87 (1b) | **Now** |
+|--------|----:|---------:|--------:|
+| Train JSONL rows | 416 | 499 | **519** |
+| Decisions | 227 | 310 | **330** |
+| Gift-related decisions | 19 | 32 | **36** |
+| Buy decisions | 23 | 47 | **51** |
+| Sell / roll / freeze / HP / level | 36/35/8/9/14 | 52/43/10/16/14 | **54/45/12/16/16** |
+| Placeable boards (placement + ≥2 minions) | 40 | 40 | **40** |
+| Skipped `wigwPzucfXc` rows | 139 | 139 | 139 |
+| Scrubbed Naga rows | 14 | 14 | 14 |
 
 Sources: Jeef shorts + Shadybunny patch-day + RDU Day1/Day2 EA (non-Naga). Cycle 1b densified ASR on `0Srr-tgf5Vo`, `Bpr_xTUjktA`, `Ry-Zn2sPP2k`, `1BZtAVX8n50`, and re-parsed Shadybunny VTT (`pzYwWAnjJ54`). Soft priors in `hsbg_coach/jeef_priors.py` already encode gift>body / gift+HP / Activate.
 
@@ -57,7 +57,7 @@ Sources: Jeef shorts + Shadybunny patch-day + RDU Day1/Day2 EA (non-Naga). Cycle
 | https://youtu.be/Bpr_xTUjktA | RDU Day1 | kept + **ASR densified** (Naga lobby Q) |
 | https://youtu.be/Ry-Zn2sPP2k | RDU EA | densified |
 | https://youtu.be/1BZtAVX8n50 | RDU EA | densified |
-| https://www.twitch.tv/videos/2880966040 | RDU Twitch ~8.5h | **downloading** (~38% at cycle 1b ship) |
+| https://www.twitch.tv/videos/2880966040 | RDU Twitch ~8.5h | **partial ASR** (~3.5h Whisper; download ~61% at cycle 2 ship) |
 | https://youtu.be/wigwPzucfXc | JeefHSVODs | **SKIPPED** |
 
 Optional XQN `2881206250` / Dogdog `2881206616` deferred until RDU Twitch finishes (disk/bandwidth).
@@ -83,7 +83,7 @@ Forever exclude. Quarantine file remains `jeef_vod_pilot/labels/naga_quarantine.
 
 ## Next
 
-1. Finish RDU Twitch `2880966040` → lobby detect → Whisper ASR densify → retrain (cycle 2).
-2. Optional XQN / Dogdog VODs.
+1. Finish remaining ~4h of RDU Twitch `2880966040` download → Whisper remainder → retrain (cycle 3).
+2. Optional XQN / Dogdog VODs after RDU complete.
 3. Vision pass for cardId+tier+tribe on gift/buy peaks (ASR-only needs_review today).
 4. When HSReplay Aberration perfect games appear, upweight those (`weight_hint=3`) over VOD.

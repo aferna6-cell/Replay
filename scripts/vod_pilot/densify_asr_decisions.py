@@ -90,9 +90,17 @@ TARGETS = {
         "hero_name": None,
         "deity": None,
     },
+    "rdu_2880966040": {
+        "source": "rdu_vod",
+        "expert_player": "RDU",
+        "channel": "RduLIVE",
+        "patch_note": "36.6.1",
+        "url": "https://www.twitch.tv/videos/2880966040",
+        "hero_name": None,
+        "deity": None,
+    },
 }
 
-# (regex, decision.type, subtype/plan, conf)
 RULES = [
     (r"should(?:\s+\w+){0,4}\s+dark\s+gift|just\s+dark\s+gift|dark\s+gifted", "discover", "dark_gift_over_level", 0.85),
     (r"dark\s+gift\s*\+|dark\s+gift\s+plus|gift\s*\+\s*chef|gift\s*\+\s*hero", "discover", "dark_gift_chef_hp", 0.9),

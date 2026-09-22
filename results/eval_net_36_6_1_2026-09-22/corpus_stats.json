@@ -1,9 +1,9 @@
 {
-  "rows": 499,
+  "rows": 519,
   "sources": {
-    "rdu_vod": 222,
+    "rdu_vod": 241,
     "jeef_vod": 132,
-    "shadybunny_vod": 145
+    "shadybunny_vod": 146
   },
   "video_ids": {
     "0Srr-tgf5Vo": 65,
@@ -13,31 +13,33 @@
     "Ry-Zn2sPP2k": 43,
     "V0ZyTYC9gr8": 50,
     "g8kCF5Z-UIs": 40,
-    "pzYwWAnjJ54": 145,
+    "pzYwWAnjJ54": 146,
+    "rdu_2880966040": 19,
     "z9PfvDgMqAU": 42
   },
   "record_types": {
     "game_meta": 16,
-    "decision": 310,
+    "decision": 330,
     "board_snapshot": 80,
     "turn_boundary": 93
   },
   "decision_types": {
-    "other": 58,
-    "sell": 52,
+    "other": 64,
+    "sell": 54,
     "hero_power": 16,
-    "discover": 37,
-    "roll": 43,
-    "buy": 47,
+    "discover": 39,
+    "roll": 45,
+    "buy": 51,
     "discard": 30,
-    "level_up": 14,
+    "level_up": 16,
     "play": 3,
-    "freeze": 10
+    "freeze": 12
   },
-  "gift_decisions": 32,
-  "buy_decisions": 47,
+  "gift_decisions": 35,
+  "buy_decisions": 51,
   "placeable_boards_ge2": 40,
-  "cycle": "1b_rdu_yt_asr_densify",
+  "cycle": "2_rdu_twitch_partial_whisper",
   "val_mae": 0.337,
-  "val_r": 0.56
+  "val_r": 0.56,
+  "twitch_partial_hours": 3.5
 }
