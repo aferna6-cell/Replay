@@ -382,18 +382,14 @@ class LiveCoach:
             snap = self._snap_cache
         offer = self._offer
         if offer is not None:                       # a choice is on screen
-            from .choices import rank_offer
-            picks = rank_offer(offer, board=snap.get("board", []), kb=self.kb,
-                               scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
-                               tier=snap.get("tavern_tier"))
-            if offer.kind == "hero":
-                # Show a full ranking of every offered hero (best first) and let the
-                # user pick the highest one that isn't padlocked — we can't detect
-                # locks from the log, so we never pick FOR them.
-                lines = [f"{i}. {c.name} — {c.reason}" for i, c in enumerate(picks, 1)]
-                lines.insert(0, "Hero ranking — pick the best one that isn't locked:")
-            else:
-                lines = [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
+            from .choices import offer_advice_lines
+            # Heroes: advisory reroll of the weakest, then pick ranking of the rest.
+            # (Hero-select reroll ≠ tavern Refresh / TB_BaconShop_8p_Reroll_Button.)
+            lines = offer_advice_lines(
+                offer, board=snap.get("board", []), kb=self.kb,
+                scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
+                tier=snap.get("tavern_tier"),
+            )
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])
             return snap, None, lines

@@ -46,17 +46,17 @@ def _match(name: str, pool):
     return None
 
 
-# Free-to-play players choose from 2 heroes; the paid Perks add 2 more (shown to
-# the right of the offer). Recommend only the free pair so the pick is one you can
-# actually take. Set HSBG_HERO_CHOICES=4 to include the paid extras.
+# Hero-select offer size. Perks / paid players see 4 heroes (and typically 1
+# hero-select reroll). Free-to-play sees 2. Default is 4 (Aidan's setup); set
+# HSBG_HERO_CHOICES=2 to truncate to the free pair. Do NOT confuse with the
+# tavern Refresh button (TB_BaconShop_8p_Reroll_Button) — that is shop roll.
 import os as _os
-F2P_HERO_CHOICES = int(_os.environ.get("HSBG_HERO_CHOICES", "2"))
+F2P_HERO_CHOICES = int(_os.environ.get("HSBG_HERO_CHOICES", "4"))
 
 
 def rank_heroes(offered: List[str], db: StatsDB,
                 max_choices: int = F2P_HERO_CHOICES) -> List[Choice]:
-    # The first `max_choices` offered are the free heroes (offer order = display
-    # order, free pair first); the rest are the paid Perks heroes.
+    # Cap to the configured offer size (default 4). max_choices=0 means no cap.
     if max_choices and len(offered) > max_choices:
         offered = offered[:max_choices]
     out = []
@@ -225,17 +225,61 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
     return out
 
 
+def hero_draft_plan(offered: List[str], db: StatsDB,
+                    rerolls_available: int = 1,
+                    max_choices: int = F2P_HERO_CHOICES) -> dict:
+    """Plan hero-select: which hero to reroll, then how to rank the rest.
+
+    Advisory only. Hero-select reroll is a mulligan-phase action (Power.log tags
+    BACON_MULLIGAN_HERO_REROLL_ACTIVE / BACON_NUM_MAX_REROLL_PER_HERO) — not the
+    tavern Refresh button (TB_BaconShop_8p_Reroll_Button).
+
+    Returns ``{reroll: Choice|None, picks: List[Choice], lines: List[str]}``.
+    """
+    ranked = rank_heroes(offered, db, max_choices=max_choices)
+    reroll = None
+    picks = list(ranked)
+
+    if len(ranked) >= 3 and rerolls_available > 0:
+        worst = ranked[-1]
+        # Skip only when every option is equally unknown — no signal to prefer.
+        all_unknown = all(
+            abs(c.rank_value - 4.5) < 1e-9 and "no stats" in c.reason
+            for c in ranked
+        )
+        if not all_unknown:
+            # With 4 offers + a reroll, always name the weakest target (even if it
+            # is within ~0.15 of the 3rd-best — Aidan wants a clear reroll).
+            # With 3 offers, still name the worst when a reroll is available.
+            reroll = worst
+            picks = ranked[:-1]
+
+    lines: List[str] = []
+    if reroll is not None:
+        n = len(ranked)
+        lines.append(
+            f"Reroll: {reroll.name} — avg {reroll.rank_value:.2f} "
+            f"(weakest of {n})"
+        )
+        lines.append("Then pick (best first):")
+        for i, c in enumerate(picks, 1):
+            lines.append(f"  {i}. {c.name} — {c.reason}")
+    else:
+        lines.append("Hero ranking — pick the best one that isn't locked:")
+        for i, c in enumerate(picks, 1):
+            lines.append(f"  {i}. {c.name} — {c.reason}")
+    return {"reroll": reroll, "picks": picks, "lines": lines}
+
+
 def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = None,
                      board=None, kb=None, scorer=None,
                      hero_ctx: Optional[HeroContext] = None, tier=None) -> List[Choice]:
     """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'.
 
-    Heroes: rank ALL offered (no positional cap). Paywalled heroes can't be told
-    apart from owned ones in the log yet, so the overlay shows the full ranking and
-    caveats the user to skip any padlocked one — better than silently capping to
-    the wrong two."""
+    Heroes: rank up to HSBG_HERO_CHOICES (default 4). For the live overlay's
+    reroll-then-pick UX, use ``hero_draft_plan`` instead."""
     if kind == "hero":
-        return rank_heroes(offered, db or StatsDB.load(), max_choices=0)
+        return rank_heroes(offered, db or StatsDB.load())
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx)
