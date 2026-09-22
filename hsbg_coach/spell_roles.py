@@ -25,6 +25,32 @@ _KNOWN: Dict[str, Tuple[float, str]] = {
     "EBG_Spell_014": (-0.1, "tavern spell — small combat trick"),
     # Aberration / Jeef VOD — Corrupted Coin (BG36_303) appears often in frames/ASR.
     "BG36_303": (-0.35, "Corrupted Coin — Jeef/Aberration VOD priority spell"),
+    # Calibrated from Power.log shop BATTLEGROUND_SPELL (2026-09 slices). Mild
+    # bonuses only — effects not fully labeled; prefer over unknown demotion.
+    "BG28_800": (-0.2, "Careful Investment — shop spell (Power.log)"),
+    "BG28_503": (-0.15, "Fortify — shop spell (Power.log)"),
+    "BG28_520": (-0.1, "Tricky Trousers — shop spell (Power.log)"),
+    "BG28_825": (-0.15, "Defender's Rites — shop spell (Power.log)"),
+    "BG28_838": (-0.15, "Perfect Vision — shop spell (Power.log)"),
+    "BG28_888": (-0.15, "Misplaced Tea Set — shop spell (Power.log)"),
+    "BG28_886": (-0.15, "Staff of Enrichment — shop spell (Power.log)"),
+    "BG28_571": (-0.15, "Hasty Excavation — shop spell (Power.log)"),
+    "BG28_606": (-0.1, "Spitescale Special — shop spell (Power.log)"),
+    "BG28_512": (-0.1, "Enchanted Lasso — shop spell (Power.log)"),
+    "BG28_521": (-0.1, "Planar Telescope — shop spell (Power.log)"),
+    "BG28_884": (-0.1, "Overconfidence — shop spell (Power.log)"),
+    "BG28_GIL_836": (-0.1, "Hired Headhunter — shop spell (Power.log)"),
+    "BG30_804": (-0.15, "Robust Evolution — shop spell (Power.log)"),
+    "BG31_819": (-0.1, "Temperature Shift — shop spell (Power.log)"),
+    "BG31_886": (-0.15, "Forest's Bounty — shop spell (Power.log)"),
+    "BG32_815": (-0.15, "Shifting Tide — shop spell (Power.log)"),
+    "BG33_101": (-0.1, "A New Sprout — shop spell (Power.log)"),
+    "BG34_330": (-0.15, "Search Through Time — shop spell (Power.log)"),
+    "BG34_689": (-0.15, "Blood Gem Barrage — shop spell (Power.log)"),
+    "BG35_922": (-0.15, "Queen's Command — shop spell (Power.log)"),
+    "BG36_246": (-0.15, "Mighty Dragonbreath — shop spell (Power.log)"),
+    "BG36_884": (-0.15, "Weapons Forge — shop spell (Power.log)"),
+    "EBG_Spell_037": (-0.1, "Unmasked Identity — shop spell (Power.log)"),
 }
 
 # Generic value when we don't know the spell yet: a cheap, affordable tavern spell

@@ -1,0 +1,433 @@
+D 18:38:44.7721128 GameState.DebugPrintPower() -         TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=ZONE_POSITION value=6 
+D 18:38:44.8567776 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=5 
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 7 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 8 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 9 type=POWER mainEntity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 10 type=POWER mainEntity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 11 type=POWER mainEntity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 19 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 25 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=REQ_ATTACKER_CAN_ATTACK errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 27 type=POWER mainEntity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 28 type=POWER mainEntity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 29 type=POWER mainEntity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 30 type=POWER mainEntity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 31 type=POWER mainEntity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 32 type=POWER mainEntity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8728084 GameState.DebugPrintOptions() -   option 33 type=POWER mainEntity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:44.8877580 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=PLAY Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=[entityName=Red Chromadrake id=3836 zone=PLAY zonePos=5 cardId=BG34_638t player=2] SubOption=-1 
+D 18:38:44.8877580 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=CARD_TARGET value=3836 
+D 18:38:44.8877580 PowerProcessor.DoTaskListForCard() - unhandled BlockType PLAY for sourceEntity [entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2]
+D 18:38:44.8877580 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=POWER Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=[entityName=Red Chromadrake id=3836 zone=PLAY zonePos=5 cardId=BG34_638t player=2] SubOption=-1 
+D 18:38:44.9886047 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=ZONE_POSITION value=6 
+D 18:38:45.3221587 PowerProcessor.DoTaskListForCard() - unhandled BlockType PLAY for sourceEntity [entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2]
+D 18:38:49.8067230 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=ZONE_POSITION value=7 
+D 18:38:49.8067230 GameState.DebugPrintPower() -             TAG_CHANGE Entity=4498 tag=TAG_SCRIPT_DATA_NUM_1 value=3 
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 6 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 7 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 8 type=POWER mainEntity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 9 type=POWER mainEntity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 10 type=POWER mainEntity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 19 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 25 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=REQ_ATTACKER_CAN_ATTACK errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 27 type=POWER mainEntity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 28 type=POWER mainEntity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 29 type=POWER mainEntity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 30 type=POWER mainEntity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 31 type=POWER mainEntity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 32 type=POWER mainEntity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8238434 GameState.DebugPrintOptions() -   option 33 type=POWER mainEntity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:49.8713826 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=ZONE_POSITION value=7 
+D 18:38:50.1217872 PowerTaskList.DebugPrintPower() -         TAG_CHANGE Entity=[entityName=UNKNOWN ENTITY [cardType=INVALID] id=4498 zone=SETASIDE zonePos=0 cardId= player=2] tag=TAG_SCRIPT_DATA_NUM_1 value=3 
+D 18:38:52.1512030 GameState.DebugPrintPower() - BLOCK_START BlockType=PLAY Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=[entityName=Bronze Timewalker id=3492 zone=PLAY zonePos=1 cardId=BG36_242 player=2] SubOption=-1 
+D 18:38:52.1512030 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=CARD_TARGET value=3492 
+D 18:38:52.1512030 GameState.DebugPrintPower() -     BLOCK_START BlockType=POWER Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=[entityName=Bronze Timewalker id=3492 zone=PLAY zonePos=1 cardId=BG36_242 player=2] SubOption=-1 
+D 18:38:52.1512030 GameState.DebugPrintPower() -                           Source = [entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2]
+D 18:38:52.1512030 GameState.DebugPrintPower() -             TAG_CHANGE Entity=[entityName=Suspicious id=3494 zone=PLAY zonePos=0 cardId=BG36_345e player=2] tag=TAG_SCRIPT_DATA_NUM_1 value=6 
+D 18:38:52.1512030 GameState.DebugPrintPower() -         TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=INTERACTABLE_OBJECT value=0 
+D 18:38:52.1512030 GameState.DebugPrintPower() -     BLOCK_START BlockType=ATTACK Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=1 Target=[entityName=Bronze Timewalker id=3492 zone=PLAY zonePos=1 cardId=BG36_242 player=2] SubOption=-1 
+D 18:38:52.1512030 GameState.DebugPrintPower() -         TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=1715 value=3502 
+D 18:38:52.1512030 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=PLAY Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=[entityName=Bronze Timewalker id=3492 zone=PLAY zonePos=1 cardId=BG36_242 player=2] SubOption=-1 
+D 18:38:52.1512030 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=CARD_TARGET value=3492 
+D 18:38:52.1512030 PowerProcessor.DoTaskListForCard() - unhandled BlockType PLAY for sourceEntity [entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2]
+D 18:38:52.1512030 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=POWER Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=[entityName=Bronze Timewalker id=3492 zone=PLAY zonePos=1 cardId=BG36_242 player=2] SubOption=-1 
+D 18:38:52.1512030 PowerTaskList.DebugPrintPower() -                       Source = [entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2]
+D 18:38:52.1512030 PowerTaskList.DebugPrintPower() -         TAG_CHANGE Entity=[entityName=Suspicious id=3494 zone=PLAY zonePos=0 cardId=BG36_345e player=2] tag=TAG_SCRIPT_DATA_NUM_1 value=6 
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 6 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 7 type=POWER mainEntity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] error=NONE errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 8 type=POWER mainEntity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] error=NONE errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 23 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] error=REQ_ATTACKER_CAN_ATTACK errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 25 type=POWER mainEntity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 26 type=POWER mainEntity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 27 type=POWER mainEntity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 28 type=POWER mainEntity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 29 type=POWER mainEntity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 30 type=POWER mainEntity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 31 type=POWER mainEntity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 GameState.DebugPrintOptions() -   option 32 type=POWER mainEntity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:52.2497868 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=INTERACTABLE_OBJECT value=0 
+D 18:38:52.2497868 PowerProcessor.DoTaskListForCard() - unhandled BlockType PLAY for sourceEntity [entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2]
+D 18:38:52.2497868 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=ATTACK Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=1 Target=[entityName=Bronze Timewalker id=3492 zone=PLAY zonePos=1 cardId=BG36_242 player=2] SubOption=-1 
+D 18:38:52.2497868 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=1715 value=3502 
+D 18:38:52.2497868 PowerProcessor.DoTaskListForCard() - unhandled BlockType PLAY for sourceEntity [entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2]
+D 18:38:54.4405669 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=ZONE_POSITION value=6 
+D 18:38:54.4405669 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=7 cardId=BG36_345 player=2] tag=ZONE_POSITION value=6 
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 6 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 7 type=POWER mainEntity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] error=NONE errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 8 type=POWER mainEntity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] error=NONE errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 23 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=REQ_ATTACKER_CAN_ATTACK errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 25 type=POWER mainEntity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 26 type=POWER mainEntity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 27 type=POWER mainEntity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 28 type=POWER mainEntity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 29 type=POWER mainEntity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 30 type=POWER mainEntity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 31 type=POWER mainEntity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:38:54.5422228 GameState.DebugPrintOptions() -   option 32 type=POWER mainEntity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.5229632 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=ZONE_POSITION value=5 
+D 18:39:42.5229632 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=ZONE_POSITION value=6 
+D 18:39:42.5229632 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=ZONE_POSITION value=5 
+D 18:39:42.5229632 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=ZONE_POSITION value=6 
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 6 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 7 type=POWER mainEntity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] error=NONE errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 8 type=POWER mainEntity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] error=NONE errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -     target 5 entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=NONE errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 23 type=POWER mainEntity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] error=REQ_ATTACKER_CAN_ATTACK errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 25 type=POWER mainEntity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 26 type=POWER mainEntity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 27 type=POWER mainEntity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 28 type=POWER mainEntity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 29 type=POWER mainEntity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 30 type=POWER mainEntity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 31 type=POWER mainEntity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:42.6336737 GameState.DebugPrintOptions() -   option 32 type=POWER mainEntity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] error=REQ_ENOUGH_MANA errorParam=
+D 18:39:57.9817314 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:57.9817314 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=1 
+D 18:39:57.9817314 GameState.DebugPrintPower() - BLOCK_START BlockType=TRIGGER Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=0 SubOption=-1 TriggerKeyword=TAG_NOT_SET
+D 18:39:57.9817314 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=BACON_DIED_LAST_COMBAT value=0 
+D 18:39:58.0150093 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.0150093 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=1 
+D 18:39:58.0150093 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=TRIGGER Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=0 Target=0 SubOption=-1 TriggerKeyword=TAG_NOT_SET
+D 18:39:58.0150093 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=BACON_DIED_LAST_COMBAT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=NUM_TURNS_IN_PLAY value=13 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=NUM_TURNS_IN_PLAY value=2 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=NUM_TURNS_IN_PLAY value=2 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=NUM_TURNS_IN_PLAY value=2 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=NUM_TURNS_IN_PLAY value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=2 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Captain Cookie id=4176 zone=PLAY zonePos=2 cardId=BG36_760 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Captain Cookie id=4176 zone=PLAY zonePos=2 cardId=BG36_760 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Bronze Timewalker id=4178 zone=PLAY zonePos=3 cardId=BG36_242 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Bronze Timewalker id=4178 zone=PLAY zonePos=3 cardId=BG36_242 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Intrepid Botanist id=4180 zone=PLAY zonePos=4 cardId=BG32_237 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Intrepid Botanist id=4180 zone=PLAY zonePos=4 cardId=BG32_237 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=4 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BIG_CARD_AS_TOOLTIP_USE_TOOKTIP_SYSTEM value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=COST value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=2 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BIG_CARD_AS_TOOLTIP_USE_TOOKTIP_SYSTEM value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=TAG_SCRIPT_DATA_NUM_2 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=FACTION value=INVALID 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1270 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=TAG_SCRIPT_DATA_NUM_2 value=10 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=FACTION value=ALLIANCE 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1270 value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=2 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=2442 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=2442 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=2442 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=2442 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=2442 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=2442 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=MOVE_MINION_HOVER_TARGET_SLOT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=1068 value=5 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=1068 value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=TECH_LEVEL value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=COST value=11 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=3 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=TECH_LEVEL value=6 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=TAG_SCRIPT_DATA_NUM_1 value=7
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=BACON_TRIGGER_UPBEAT value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=TAG_SCRIPT_DATA_NUM_1 value=2
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=COST value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4766 tag=TAG_SCRIPT_DATA_NUM_1 value=7 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=TAG_SCRIPT_DATA_NUM_1 value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4768 tag=TAG_SCRIPT_DATA_NUM_1 value=6 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4772 tag=TAG_SCRIPT_DATA_NUM_1 value=6 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4773 tag=TAG_SCRIPT_DATA_NUM_1 value=3 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=TAG_SCRIPT_DATA_NUM_1 value=4
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4775 tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=TAG_SCRIPT_DATA_NUM_1 value=3
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=TAG_SCRIPT_DATA_NUM_1 value=3
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4779 tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -         tag=HAS_ACTIVATE_POWER value=1
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4781 tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=4782 tag=TAG_SCRIPT_DATA_NUM_1 value=3 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=SPAWN_TIME_COUNT value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=NUM_TURNS_IN_PLAY value=13 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=NUM_TURNS_IN_PLAY value=2 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=NUM_TURNS_IN_PLAY value=2 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=NUM_TURNS_IN_PLAY value=2 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4175 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4177 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4179 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4183 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy id=4187 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Buy Spell id=4190 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragBuy_Spell player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Tavern Tier 6 id=4370 zone=PLAY zonePos=0 cardId=TB_BaconShopTechUp06_Button player=2] tag=NUM_TURNS_IN_PLAY value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Suspicious Prisonguard id=3502 zone=PLAY zonePos=6 cardId=BG36_345 player=2] tag=NUM_TURNS_IN_PLAY value=5 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=2 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Hired Mount id=4174 zone=PLAY zonePos=1 cardId=BG36_240 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Captain Cookie id=4176 zone=PLAY zonePos=2 cardId=BG36_760 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Captain Cookie id=4176 zone=PLAY zonePos=2 cardId=BG36_760 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Bronze Timewalker id=4178 zone=PLAY zonePos=3 cardId=BG36_242 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Bronze Timewalker id=4178 zone=PLAY zonePos=3 cardId=BG36_242 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Intrepid Botanist id=4180 zone=PLAY zonePos=4 cardId=BG32_237 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Intrepid Botanist id=4180 zone=PLAY zonePos=4 cardId=BG32_237 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Lava Lurker id=4186 zone=PLAY zonePos=5 cardId=BG23_009 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=TAG_SCRIPT_DATA_NUM_1 value=4 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Misplaced Tea Set id=4189 zone=PLAY zonePos=6 cardId=BG28_888 player=10] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=1068 value=5 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=1068 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=COST value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BIG_CARD_AS_TOOLTIP_USE_TOOKTIP_SYSTEM value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=COST value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=2 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=BIG_CARD_AS_TOOLTIP_USE_TOOKTIP_SYSTEM value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Refresh id=4106 zone=PLAY zonePos=0 cardId=TB_BaconShop_8p_Reroll_Button player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1068 value=5 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1068 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=TAG_SCRIPT_DATA_NUM_2 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=FACTION value=INVALID 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1270 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=BACON_ACTION_CARD value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=SPAWN_TIME_COUNT value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=TAG_SCRIPT_DATA_NUM_2 value=10 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=FACTION value=ALLIANCE 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=1270 value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=BACON_ACTION_CARD value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=GAME_MODE_BUTTON_SLOT value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Freeze id=4107 zone=PLAY zonePos=0 cardId=TB_BaconShopLockAll_Button player=2] tag=HAS_ACTIVATE_POWER value=1 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=1068 value=5 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=1068 value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=SUPPRESS_ALL_SUMMON_VO value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=ZONE value=REMOVEDFROMGAME 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=HAS_ACTIVATE_POWER value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=NUM_TURNS_IN_PLAY value=0 
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Drag To Sell id=4108 zone=PLAY zonePos=0 cardId=TB_BaconShop_DragSell player=2] tag=BACON_ACTION_CARD value=0
+D 18:40:00.5667302 GameState.DebugPrintOptions() -   option 1 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=NONE errorParam=
+D 18:40:59.2330509 GameState.DebugPrintOptions() -   option 1 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=NONE errorParam=
+D 18:41:00.1577688 GameState.DebugPrintOptions() -   option 2 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=NONE errorParam=
+D 18:39:58.4647036 PowerTaskList.DebugPrintPower() -         tag=BACON_TRIGGER_UPBEAT value=1
+D 18:39:58.7070929 GameState.DebugPrintPower() -         tag=BACON_TRIGGER_UPBEAT value=1
+D 18:45:33.2795928 GameState.DebugPrintOptions() -   option 7 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=NONE errorParam=
+D 18:44:42.9590168 PowerTaskList.DebugPrintPower() -         tag=BACON_TRIGGER_UPBEAT value=1
+D 18:36:36.5294344 GameState.DebugPrintOptions() -   option 1 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=NONE errorParam=
+D 18:36:40.3653667 GameState.DebugPrintPower() -         TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=BACON_DARK_GIFT_PRESSABLE_VFX value=0 
+D 18:36:40.3653667 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=BACON_DARK_GIFT_PRESSABLE_VFX value=0 
+D 18:36:52.0981937 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=EXHAUSTED value=1 
+D 18:36:52.1406749 GameState.DebugPrintOptions() -   option 23 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:36:53.5412886 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=EXHAUSTED value=1 
+D 18:37:02.1523443 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:03.7698327 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:04.8570447 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:05.6420931 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:06.3535800 GameState.DebugPrintOptions() -   option 17 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:08.1132603 GameState.DebugPrintOptions() -   option 15 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:11.4343096 GameState.DebugPrintOptions() -   option 15 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:12.0856441 GameState.DebugPrintOptions() -   option 15 type=POWER mainEntity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] error=REQ_NOT_EXHAUSTED_ACTIVATE errorParam=
+D 18:37:57.2519898 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=EXHAUSTED value=0 
+D 18:37:57.3386267 GameState.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=BACON_DARK_GIFT_PRESSABLE_VFX value=1 
+D 18:38:28.2999678 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=EXHAUSTED value=0 
+D 18:38:29.3036656 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Dark Discovery id=360 zone=PLAY zonePos=0 cardId=BG36_Button_DarkGift player=2] tag=BACON_DARK_GIFT_PRESSABLE_VFX value=1 
+D 18:40:00.2822394 GameState.DebugPrintPower() -         FULL_ENTITY - Creating ID=5705 CardID=BG28_800
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=CONTROLLER value=2
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=CARDTYPE value=BATTLEGROUND_SPELL
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=TAG_LAST_KNOWN_COST_IN_HAND value=1
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=COST value=1
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=ZONE value=SETASIDE
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=ENTITY_ID value=5705
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=CLASS value=NEUTRAL
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=CREATOR value=51
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=1037 value=2
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=CREATOR_DBID value=57980
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=TECH_LEVEL value=3
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=SUPPRESS_ALL_SUMMON_VO value=1
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=SPAWN_TIME_COUNT value=1
+D 18:40:00.2822394 GameState.DebugPrintPower() -             tag=SPELL_SCHOOL value=9
