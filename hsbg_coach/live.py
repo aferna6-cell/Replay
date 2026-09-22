@@ -197,11 +197,25 @@ def _combat_odds_for(snapshot: dict, runs: int = 80, seed: int = 0) -> Optional[
         return None
 
 
-def build_note_for(snapshot, kb=None) -> Optional[str]:
-    """One-line 'what you're building toward' for the overlay header."""
+def build_note_for(snapshot, kb=None, hero_ctx=None) -> Optional[str]:
+    """Minimal 'building: Dragons' line from soft lobby lean / board."""
     try:
-        from .build_path import build_note
-        return build_note(snapshot.get("board", []), snapshot.get("tavern_tier"))
+        from .tribe_policy import build_direction_note, soft_lean_tribe
+        board = snapshot.get("board", []) if isinstance(snapshot, dict) else []
+        avail = (snapshot.get("available_tribes") if isinstance(snapshot, dict) else None)
+        if hero_ctx is not None and getattr(hero_ctx, "available_tribes", None):
+            avail = hero_ctx.available_tribes
+        lean = getattr(hero_ctx, "target_tribe", None) if hero_ctx else None
+        note = build_direction_note(board, avail, kb=kb, hero_target=lean,
+                                    shop=(snapshot.get("shop") if isinstance(snapshot, dict) else None))
+        if note:
+            return note
+        # Fall back to soft lean label even with empty board (lobby prior).
+        tribe, why = soft_lean_tribe(board, available_tribes=avail, kb=kb,
+                                     hero_target=lean,
+                                     shop=(snapshot.get("shop") if isinstance(snapshot, dict) else None),
+                                     turn=(snapshot.get("turn") if isinstance(snapshot, dict) else None))
+        return f"building: {tribe}" if tribe else None
     except Exception:
         return None
 
@@ -252,6 +266,8 @@ class LiveCoach:
         self.hero_ctx = hero_ctx
         self._hero_ctx_auto = hero_ctx is None   # auto-build from the detected hero
         self._hero_ctx_for = None
+        self._hero_ctx_key = None
+        self.manual_tribe_priors = {}
         self.recorder = recorder
         self.from_start = from_start
         self.top = top
@@ -298,18 +314,39 @@ class LiveCoach:
         self._stop.set()
 
     def _ensure_hero_ctx(self, snap) -> None:
-        """Build the hero context from the detected hero so the coach steers toward
-        that hero's strongest tribes (a soft prior — it still plays what it's given).
-        Rebuilds if the hero changes (new game)."""
+        """Soft lobby lean from available tribes + tribe win% (not a hard lock).
+
+        Rebuilds when the hero changes OR lobby tribes get detected mid-game.
+        Optional ``self.manual_tribe_priors`` (tribe->first%) covers Aberration
+        before HSReplay publishes tribe stats — set via LiveCoach.set_tribe_priors.
+        """
         if not self._hero_ctx_auto:
             return
         hero = snap.get("hero") or snap.get("hero_name")
-        if not hero or hero == self._hero_ctx_for:
+        lobby = tuple(snap.get("available_tribes") or ())
+        key = (hero, lobby, tuple(sorted((getattr(self, "manual_tribe_priors", {}) or {}).items())))
+        if not hero or key == getattr(self, "_hero_ctx_key", None):
             return
         try:
             from .stats import build_hero_context
-            self.hero_ctx = build_hero_context(hero, self.db)
+            self.hero_ctx = build_hero_context(
+                hero, self.db,
+                available_tribes=list(lobby) if lobby else None,
+                manual_tribe_priors=getattr(self, "manual_tribe_priors", None),
+                board=snap.get("board"), shop=snap.get("shop"),
+                turn=snap.get("turn"), kb=self.kb,
+            )
             self._hero_ctx_for = hero
+            self._hero_ctx_key = key
+        except Exception:
+            pass
+
+    def set_tribe_priors(self, priors: dict) -> None:
+        """Manual lobby-start tribe first% / weights (e.g. {"Aberration": 0.22})."""
+        self.manual_tribe_priors = {str(k): float(v) for k, v in (priors or {}).items()}
+        self._hero_ctx_key = None  # force rebuild
+        try:
+            self.tracker.set_manual_tribe_priors(self.manual_tribe_priors)
         except Exception:
             pass
 
@@ -422,7 +459,7 @@ class LiveCoach:
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
             self._cache_odds = _combat_odds_for(snap)
-            self._cache_note = build_note_for(snap, self.kb)
+            self._cache_note = build_note_for(snap, self.kb, self.hero_ctx)
             self._cache_key = key
             self._sync_seq += 1            # a real state change was ingested
         # Tag the snapshot with the sync counter so the panel can show that the

@@ -106,6 +106,8 @@ class Snapshot:
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
     hero: Optional[str] = None            # our hero cardId (for the eval net + tribes)
     hero_name: Optional[str] = None
+    available_tribes: List[str] = field(default_factory=list)  # lobby tribes
+    build_tribe: Optional[str] = None  # soft lean for overlay
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
@@ -129,6 +131,8 @@ class Snapshot:
             "opponent_profiles": list(self.opponent_profiles),
             "hero": self.hero,
             "hero_name": self.hero_name,
+            "available_tribes": list(self.available_tribes),
+            "build_tribe": self.build_tribe,
             "hand": [m.__dict__ for m in self.hand],
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
@@ -154,6 +158,9 @@ class BGTracker:
         self._tier_anchor = 0          # recruit-phase count when current tier reached
         self._anchor_tier: Optional[int] = None
         self.opponents: Dict[str, Dict] = {}   # controller -> latest profile we've seen
+        self._subset_by_entity: Dict[int, set] = {}  # entity -> BACON_SUBSET_* tokens
+        self.available_tribes: List[str] = []
+        self.manual_tribe_priors: Dict[str, float] = {}
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -186,6 +193,9 @@ class BGTracker:
             self._anchor_tier = None
             self.opponents = {}            # forget last game's lobby
             self.last_opponent_board = []  # forget last fight (odds + positioning)
+            self._subset_by_entity = {}
+            self.available_tribes = []
+            self.manual_tribe_priors = {}
 
         # Player roster line — the reliable way to find the human: the only
         # seat whose GameAccountId hi != 0. PlayerID is the controller id board
@@ -205,6 +215,15 @@ class BGTracker:
             return
 
         self.state.apply(event)
+        # Lobby tribe detection via BACON_SUBSET_* tags on race-banner entities.
+        if event.kind in ("TAG", "TAG_CHANGE") and event.tag and event.tag.startswith("BACON_SUBSET_"):
+            eid = None
+            if event.entity is not None:
+                eid = getattr(event.entity, "id", None) or getattr(event.entity, "entity_id", None)
+            if eid is None:
+                eid = getattr(self.state, "current_entity_id", None)
+            if eid is not None:
+                self._track_subset_tag(eid, event.tag, event.value or "0")
         if not self.in_bg:
             self._detect_bg()              # …but most clients only reveal BG via cardIds
         prev_phase = self.phase
@@ -323,6 +342,7 @@ class BGTracker:
             opponent_profiles=list(self.opponents.values()),
             hero=self._our_hero()[0],
             hero_name=self._our_hero()[1],
+            available_tribes=list(self.available_tribes),
             notes=notes,
         )
 
@@ -424,6 +444,35 @@ class BGTracker:
                 "entity_id": ent.id,
             }
         return None
+
+
+    def _track_subset_tag(self, entity_id, tag: str, value: str) -> None:
+        """Accumulate BACON_SUBSET_* tags; lobby tribes = union of multi-subset ents."""
+        if not tag.startswith("BACON_SUBSET_"):
+            return
+        token = tag[len("BACON_SUBSET_"):]
+        bucket = self._subset_by_entity.setdefault(int(entity_id), set())
+        if str(value) == "1":
+            bucket.add(token)
+        else:
+            bucket.discard(token)
+        # Recompute lobby: union of entities that carry 3+ subset flags (race banners /
+        # pool markers). Fall back to union of all subsets if none qualify yet.
+        from .tribe_policy import SUBSET_TO_TRIBE, filter_lobby_tribes, canonicalize
+        multi = [s for s in self._subset_by_entity.values() if len(s) >= 3]
+        tokens = set()
+        for s in (multi or list(self._subset_by_entity.values())):
+            tokens |= set(s)
+        tribes = []
+        for tok in tokens:
+            name = SUBSET_TO_TRIBE.get(tok.upper()) or canonicalize(tok)
+            if name:
+                tribes.append(name)
+        self.available_tribes = filter_lobby_tribes(tribes)
+
+    def set_manual_tribe_priors(self, priors: Dict[str, float]) -> None:
+        """Lobby-start manual first%/weights (e.g. Aberration before HSReplay has data)."""
+        self.manual_tribe_priors = {str(k): float(v) for k, v in (priors or {}).items()}
 
     def _activatable(self) -> List[Dict]:
         """Board minions with the Season 14 Activate keyword that can be clicked.

@@ -145,8 +145,8 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     for m in (_get(snapshot, "activatable", []) or []):
         if not isinstance(m, dict):
             continue
-        usable = m.get("usable")
-        if usable is False:
+        # Dual-gate with bg._activatable: require explicit usable=True AND allowlist.
+        if m.get("usable") is not True:
             continue
         cid = m.get("card_id")
         if not is_activate_minion(cid, m.get("name")):

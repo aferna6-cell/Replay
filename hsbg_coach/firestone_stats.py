@@ -38,6 +38,7 @@ _RACE_TO_TRIBE = {
     "MURLOC": "Murloc", "BEAST": "Beast", "DRAGON": "Dragon", "MECHANICAL": "Mech",
     "ELEMENTAL": "Elemental", "UNDEAD": "Undead", "DEMON": "Demon",
     "PIRATE": "Pirate", "QUILBOAR": "Quilboar", "NAGA": "Naga",
+    "ABERRATION": "Aberration",
 }
 
 VALID_PERIODS = ("last-patch", "past-three", "past-seven")
@@ -47,11 +48,13 @@ VALID_MMR = (100, 50, 25, 10, 1)
 RACE_NAMES = {
     11: "Undead", 14: "Murloc", 15: "Demon", 17: "Mech", 18: "Elemental",
     20: "Beast", 23: "Pirate", 24: "Dragon", 43: "Quilboar", 92: "Naga",
+    # Aberration (36.6.1) — numeric id may vary; string map is authoritative.
 }
 _TRIBE_KEYWORDS = {
     "murloc": "Murloc", "beast": "Beast", "dragon": "Dragon", "mech": "Mech",
     "elemental": "Elemental", "undead": "Undead", "demon": "Demon",
     "pirate": "Pirate", "quilboar": "Quilboar", "naga": "Naga",
+    "aberration": "Aberration",
 }
 
 

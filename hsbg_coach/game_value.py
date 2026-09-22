@@ -272,7 +272,9 @@ def _keep_value(minion, board, kb) -> float:
         if "all" in ctr and tribes:
             bonus += 4.0                              # Amalgam-style: fits any tribe
         elif any(tribes.get(t, 0) >= 2 for t in ctr):
-            bonus += 5.0                              # an on-tribe piece of your comp
+            bonus += 8.0                              # on-tribe core — do NOT sell for stats
+        elif any(tribes.get(t, 0) >= 1 for t in ctr) and max(tribes.values(), default=0) >= 3:
+            bonus += 5.0                              # on-direction piece of committed build
         score, _ = board_synergy(ck, rest)
         bonus += min(6.0, max(0.0, score) * 0.8)      # mechanical combo (produces/wants)
         return v + bonus
@@ -288,7 +290,7 @@ def _sell_synergy_penalty(action, snapshot, kb) -> float:
         return 0.0
     board = _get(snapshot, "board", []) or []
     synergy = _keep_value(minion, board, kb) - _val(minion)
-    return min(2.0, max(0.0, synergy) * 0.25)
+    return min(3.0, max(0.0, synergy) * 0.4)
 
 
 def _sell_penalty(state) -> float:
@@ -491,10 +493,14 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 fpen = max(_filler_penalty(a, _get(snapshot, "board", []) or []),
                            _low_tier_penalty(a, _get(snapshot, "tavern_tier"), kb))
                 ocpen = _off_comp_penalty(a, snapshot, kb)
-                pen = max(fpen, ocpen)
-                if pen and not tech_reason and not q_strong and not synergy_buy:
+                dpen, dreason = _direction_buy_penalty(a, snapshot, kb)
+                # Direction / tier-sanity is the PRIMARY buy gate (lobby tribes).
+                pen = max(fpen, ocpen, dpen)
+                if pen and not tech_reason and not (q_strong and dpen < 0.5) and not (synergy_buy and dpen < 0.5):
                     v = min(8.0, v + pen)
-                    if ocpen >= fpen and ocpen > 0.2:
+                    if dpen >= max(fpen, ocpen) and dpen > 0.2 and dreason:
+                        reason = dreason
+                    elif ocpen >= fpen and ocpen > 0.2:
                         reason = "off-comp — doesn't fit your build; roll for a piece that fits"
                     elif fpen > 0.2:
                         reason = "too weak/low-tier for this stage — roll for a real upgrade"
@@ -598,6 +604,28 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
     return recs, base
 
 
+def _direction_buy_penalty(action, snapshot, kb) -> tuple:
+    """Primary buy policy: lobby-tribe direction + tier sanity.
+
+    Returns (placement_penalty, reason). Heavy penalty means the buy must not
+    rank as NEXT — off-direction junk and T2-at-tavern-5 chaff get buried.
+    """
+    if action.kind != BUY:
+        return 0.0, None
+    minion = action.detail.get("minion")
+    if minion is None:
+        return 0.0, None
+    try:
+        from .tribe_policy import direction_buy_penalty
+        # Snapshot may be a dict already (live path).
+        snap = snapshot if isinstance(snapshot, dict) else (
+            snapshot.to_dict() if hasattr(snapshot, "to_dict") else snapshot)
+        # Attach target tribe from hero context if rank_actions stashed it.
+        return direction_buy_penalty(minion, snap, kb=kb)
+    except Exception:
+        return 0.0, None
+
+
 def _filler_penalty(action, board) -> float:
     """Placement penalty for buying a minion much weaker than your board — it's
     slot-filler, not an upgrade. 0 for a competitive buy. Scales with how far below
@@ -631,7 +659,7 @@ def _off_comp_penalty(action, snapshot, kb) -> float:
     if minion is None:
         return 0.0
     board = _get(snapshot, "board", []) or []
-    if len(board) < 4:                       # not committed yet — buy the best body
+    if len(board) < 3:                       # still flexing — allow best body
         return 0.0
     try:
         from .cards import by_name
@@ -645,7 +673,7 @@ def _off_comp_penalty(action, snapshot, kb) -> float:
         if not tribes:
             return 0.0
         dom = max(tribes, key=tribes.get)
-        if tribes[dom] < 3:                  # no real commitment → no penalty
+        if tribes[dom] < 2:                  # no real commitment → no penalty
             return 0.0
         cand = idx.get(action.target)
         if cand is None:
@@ -657,9 +685,11 @@ def _off_comp_penalty(action, snapshot, kb) -> float:
         score, _ = board_synergy(cand, board_cks)
         if score > 0:                        # off-tribe but real mechanical combo — ok
             return 0.0
-        pen = 0.3                            # off-comp filler (mild — still a body)
+        pen = 0.7                            # off-comp filler — do not sprinkle stats
+        if tribes[dom] >= 3:
+            pen += 0.35
         if len(board) >= MAX_BOARD:
-            pen += 0.3                       # …and it'd sell a comp piece for room
+            pen += 0.4                       # …and it'd sell a comp piece for room
         return pen
     except Exception:
         return 0.0
@@ -681,8 +711,14 @@ def _low_tier_penalty(action, tavern_tier, kb) -> float:
         if not mt:
             return 0.0
         gap = tavern_tier - mt
-        if gap >= 3:                    # e.g. a tier-1/2 minion when you're tier 4+
-            return min(1.0, (gap - 2) * 0.45)
+        # Tavern 5 must not lead with T2 chaff; gap>=2 at tavern>=4 is already bad
+        # unless tribe_policy exempts a key synergy piece.
+        if int(tavern_tier) >= 5 and gap >= 3:
+            return 1.6
+        if int(tavern_tier) >= 4 and gap >= 2:
+            return min(1.4, 0.55 * gap)
+        if gap >= 3:
+            return min(1.2, (gap - 2) * 0.55)
     except Exception:
         pass
     return 0.0

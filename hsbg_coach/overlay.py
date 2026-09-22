@@ -90,9 +90,13 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
     """Default overlay: ONE primary NEXT + a few short alternates. No board/shop
     dump, no combat-odds block, no long status spam."""
     del odds  # odds belong in --verbose rich view only
+    note = snapshot.get("build_note") or snapshot.get("build_tribe")
+    head = []
+    if note:
+        head.append(note if str(note).startswith("building") else f"building: {note}")
     if recommendations:
         primary = _short_move(recommendations[0])
-        out = [f"→ {primary}"]
+        out = head + [f"→ {primary}"]
         alts = [_short_move(a) for a in recommendations[1:3] if a]
         alts = [a for a in alts if a and a != primary]
         if alts:
