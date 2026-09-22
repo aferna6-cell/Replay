@@ -125,7 +125,28 @@ class ChoiceParser:
 
 def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
                hero_ctx=None, db=None, tier=None):
-    """Rank an offer's options via the draft recommender (best first)."""
+    """Rank an offer's options via the draft recommender (best first).
+
+    For heroes this returns the full ranking (does not drop the reroll target).
+    Prefer ``offer_advice_lines`` for overlay text that includes the reroll step.
+    """
     from .draft import recommend_choice
     return recommend_choice(offer.kind, offer.names, db=db, board=board, kb=kb,
                             scorer=scorer, hero_ctx=hero_ctx, tier=tier)
+
+
+def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
+                       hero_ctx=None, db=None, tier=None,
+                       rerolls_available: int = 1):
+    """Overlay lines for an offer. Heroes get reroll-then-pick; others get PICK."""
+    if offer.kind == "hero":
+        from .draft import hero_draft_plan
+        from .stats import StatsDB
+        plan = hero_draft_plan(
+            offer.names, db or StatsDB.load(),
+            rerolls_available=rerolls_available,
+        )
+        return plan["lines"]
+    picks = rank_offer(offer, board=board, kb=kb, scorer=scorer,
+                       hero_ctx=hero_ctx, db=db, tier=tier)
+    return [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
