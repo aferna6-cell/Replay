@@ -504,6 +504,45 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                         reason = "off-comp — doesn't fit your build; roll for a piece that fits"
                     elif fpen > 0.2:
                         reason = "too weak/low-tier for this stage — roll for a real upgrade"
+                # Soft board-fill prior (Aidan): when thin, prefer stabilize buys
+                # over hard rolling — including direction-only mediocre bodies.
+                try:
+                    from .jeef_priors import board_fill_buy_adjust
+                    fadj, freason = board_fill_buy_adjust(a, snapshot, kb)
+                    if fadj:
+                        v = max(1.0, min(8.0, v + fadj))
+                        if freason and not tech_reason:
+                            reason = freason
+                except Exception:
+                    pass
+                # Soft mid-game solid prior: take on-direction solid over endless roll.
+                try:
+                    from .jeef_priors import midgame_solid_buy_adjust
+                    madj, mreason = midgame_solid_buy_adjust(a, snapshot, kb)
+                    if madj:
+                        v = max(1.0, min(8.0, v + madj))
+                        if mreason and not tech_reason:
+                            reason = mreason
+                except Exception:
+                    pass
+                # Soft trinket play-into prior: boost buys that match equipped
+                # trinket synergies (battlecry, deathrattle, tribe, …).
+                try:
+                    from .comp_signals import minion_trinket_buy_adjust, off_trinket_buy_penalty
+                    tadj, treason = minion_trinket_buy_adjust(
+                        a.detail.get("minion"), snapshot, kb)
+                    if tadj:
+                        v = max(1.0, min(8.0, v + tadj))
+                        if treason and not tech_reason:
+                            reason = treason
+                    op, oreason = off_trinket_buy_penalty(
+                        a.detail.get("minion"), snapshot, kb)
+                    if op:
+                        v = min(8.0, v + op)
+                        if oreason and not tech_reason and not tadj:
+                            reason = oreason
+                except Exception:
+                    pass
                 # Full board: a buy needs a sell first. Always name the minion to
                 # sell (the weakest), even when a synergy/tech reason took the line.
                 board_now = _get(snapshot, "board", []) or []
@@ -522,6 +561,47 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 # …and never sell a synergistic comp piece for its low stats.
                 v = min(8.0, v + _sell_penalty(state)
                         + _sell_synergy_penalty(a, snapshot, kb))
+                # Soft: demote selling pieces that enable equipped trinkets.
+                try:
+                    from .comp_signals import sell_trinket_penalty
+                    v = min(8.0, v + sell_trinket_penalty(
+                        a.detail.get("minion"), snapshot, kb))
+                except Exception:
+                    pass
+                # Soft direction cut: once committed, prefer selling useless
+                # off-direction chaff over holding it while rolling.
+                try:
+                    from .jeef_priors import direction_cut_sell_adjust
+                    cadj, creason = direction_cut_sell_adjust(a, snapshot, kb)
+                    if cadj:
+                        v = max(1.0, min(8.0, v + cadj))
+                        if creason:
+                            reason = creason
+                except Exception:
+                    pass
+            elif a.kind == ROLL:
+                # Soft board-fill prior: demote roll when board is sparse and the
+                # shop still has acceptable filler / on-direction units.
+                try:
+                    from .jeef_priors import board_fill_roll_adjust
+                    radj, rreason = board_fill_roll_adjust(snapshot, kb)
+                    if radj:
+                        v = min(8.0, v + radj)
+                        if rreason:
+                            reason = rreason
+                except Exception:
+                    pass
+                # Soft anti-stuck-roll: once filled-enough, don't endless-roll past
+                # solid on-direction mid-game pieces.
+                try:
+                    from .jeef_priors import anti_stuck_roll_adjust
+                    aadj, areason = anti_stuck_roll_adjust(snapshot, kb)
+                    if aadj:
+                        v = min(8.0, v + aadj)
+                        if areason:
+                            reason = areason
+                except Exception:
+                    pass
         elif a.kind == BUY_SPELL:
             # Spells don't change the board composition the eval net reads, so we
             # value them off base via spell_roles' placement bonus + the reason.
@@ -594,12 +674,11 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
             v = base                                     # freeze/end: neutral here
         recs.append(WholeGameRec(a, round(v, 2), reason, round(base - v, 2)))
 
-    # NOTE: we deliberately do NOT manufacture a roll preference. A single buy
-    # rarely moves expected *placement* (a 1-8 scale) by much even when it's a
-    # great minion, so any "boost roll when the best buy gain is small" rule fires
-    # almost always and buries real buys — the repeated 'stuck rolling into good
-    # minions' bug. Bad buys are already demoted by the filler/low-tier penalties,
-    # so roll naturally wins only when the shop is genuinely weak.
+    # NOTE: we do NOT boost roll when buys look "small" on the 1-8 placement axis
+    # (that buried real buys). Soft board-fill instead *demotes* roll when the
+    # board is sparse and the shop still has acceptable filler / on-direction
+    # units. Roll still wins on a full/strong board, late high-roll tempo, or
+    # when the shop is all trash.
     recs.sort(key=lambda r: r.placement)
     return recs, base
 
