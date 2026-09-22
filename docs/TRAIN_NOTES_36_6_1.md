@@ -9,7 +9,7 @@
 | **Path (repo)** | `results/eval_net_36_6_1_2026-09-22/eval_net.pt` |
 | **Live default** | `ml/eval_net.pt` (copy of primary) |
 | **Pilot mirror** | `/workspace/hsreplay-tier7/jeef_vod_pilot/train_patch_36_6_1_today/eval_net.pt` |
-| **Cycle** | **2** — RDU Twitch `2880966040` partial (~3.5h) Whisper ASR densify (2026-09-22 ~6:32 PM ET) |
+| **Cycle** | **2b** — expanded buy/gift ASR rules + Twitch partial (2026-09-22 ~6:35 PM ET) |
 
 ### Point `watch --overlay` at the new weights
 
@@ -34,11 +34,11 @@ Placeable board count unchanged this cycle (ASR decisions densify gift/buy cover
 
 | Metric | #86 | #87 (1b) | **Now** |
 |--------|----:|---------:|--------:|
-| Train JSONL rows | 416 | 499 | **519** |
-| Decisions | 227 | 310 | **330** |
-| Gift-related decisions | 19 | 32 | **36** |
-| Buy decisions | 23 | 47 | **51** |
-| Sell / roll / freeze / HP / level | 36/35/8/9/14 | 52/43/10/16/14 | **54/45/12/16/16** |
+| Train JSONL rows | 416 | 499 | **559** |
+| Decisions | 227 | 310 | **370** |
+| Gift-related decisions | 19 | 32 | **37** |
+| Buy decisions | 23 | 47 | **83** |
+| Sell / roll / freeze / HP / level | 36/35/8/9/14 | 52/43/10/16/14 | **60/45/13/16/16** |
 | Placeable boards (placement + ≥2 minions) | 40 | 40 | **40** |
 | Skipped `wigwPzucfXc` rows | 139 | 139 | 139 |
 | Scrubbed Naga rows | 14 | 14 | 14 |
