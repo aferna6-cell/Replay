@@ -26,8 +26,8 @@ from typing import List, Optional, Tuple
 
 from . import multiturn
 from .actions import (
-    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER, BUY_COST,
-    SELL_VALUE, MAX_BOARD, tavern_up_cost,
+    BUY, BUY_SPELL, SELL, LEVEL, ROLL, REPOSITION, FREEZE, HERO_POWER, ACTIVATE,
+    DARK_GIFT, BUY_COST, SELL_VALUE, MAX_BOARD, tavern_up_cost,
 )
 from .advisor import advise_actions, _as_state, Action
 from .board_value import get_scorer, _val, _name
@@ -543,8 +543,34 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     reason = (reason or "tavern spell") + " — your trinket rewards spells"
             except Exception:
                 pass
+            # Jeef VOD soft prior (Corrupted Coin etc.); unknown spells stay demoted.
+            try:
+                from .jeef_priors import spell_prior_adjust
+                jadj, jreason = spell_prior_adjust(cid, a.target)
+                if jadj:
+                    v = max(1.0, v + jadj)
+                    if jreason:
+                        reason = jreason
+            except Exception:
+                pass
         elif a.kind == HERO_POWER:
-            v = max(1.0, base - 0.15)        # using the hero power is generally +EV
+            from .jeef_priors import hero_power_adjust
+            adj, preason = hero_power_adjust(snapshot, a.cost)
+            v = max(1.0, base + (adj if adj else -0.15))
+            if preason:
+                reason = preason
+        elif a.kind == ACTIVATE:
+            from .jeef_priors import activate_adjust
+            adj, preason = activate_adjust(snapshot, a.cost)
+            v = max(1.0, base + (adj if adj else -0.25))
+            if preason:
+                reason = preason
+        elif a.kind == DARK_GIFT:
+            from .jeef_priors import dark_gift_adjust
+            adj, preason = dark_gift_adjust(snapshot, a.cost)
+            v = max(1.0, base + (adj if adj else -0.25))
+            if preason:
+                reason = preason
         elif a.kind == FREEZE:
             # Rare by design: only good when the shop has a gem you can't afford
             # yet (the advisor flags that via priority). Otherwise bury it.

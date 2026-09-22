@@ -24,7 +24,7 @@ import copy
 
 from .actions import (
     legal_actions, Action, BUY, BUY_SPELL, SELL, ROLL, LEVEL, REPOSITION, FREEZE,
-    HERO_POWER, END, MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
+    HERO_POWER, ACTIVATE, DARK_GIFT, END, MAX_BOARD, BUY_COST, SELL_VALUE, ROLL_COST,
 )
 from .board_value import get_scorer, _val, _name
 from .cards import by_name
@@ -106,8 +106,26 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
         elif act.kind == BUY_SPELL:
             scored.append(_score_spell(act, gold))
         elif act.kind == HERO_POWER:
+            from .jeef_priors import hero_power_adjust
+            adj, reason = hero_power_adjust(snapshot, act.cost)
+            # priority: higher is better; placement adj is negative-better
+            prio = _clamp(0.55 - (adj or 0.0))
             scored.append(ScoredAction(
-                act, 0.55, "hero power is available — using it is usually value"))
+                act, prio, reason or "hero power is available — using it is usually value"))
+        elif act.kind == ACTIVATE:
+            from .jeef_priors import activate_adjust
+            adj, reason = activate_adjust(snapshot, act.cost)
+            prio = _clamp(0.55 - (adj or 0.0))
+            scored.append(ScoredAction(
+                act, prio,
+                reason or f"activate {act.target} ({act.cost}g)"))
+        elif act.kind == DARK_GIFT:
+            from .jeef_priors import dark_gift_adjust
+            adj, reason = dark_gift_adjust(snapshot, act.cost)
+            prio = _clamp(0.55 - (adj or 0.0))
+            scored.append(ScoredAction(
+                act, prio,
+                reason or f"Dark Gift ({act.cost}g) — discover a gifted minion"))
         elif act.kind == SELL:
             scored.append(_score_sell(act, board, base, scorer, hero_id))
 
@@ -213,9 +231,14 @@ def _score_spell(act, gold):
     ranking applies the placement bonus); here we set a reasonable priority and
     the reason so it shows up as a genuine option."""
     from .spell_roles import spell_value
+    from .jeef_priors import spell_prior_adjust
     spell = act.detail.get("spell") or {}
     cid = spell.get("card_id") if isinstance(spell, dict) else getattr(spell, "card_id", None)
     bonus, reason = spell_value(cid, act.target, act.cost, gold)
+    jadj, jreason = spell_prior_adjust(cid, act.target)
+    if jadj:
+        bonus = bonus + jadj
+        reason = jreason or reason
     prio = _clamp(0.45 - bonus)        # better (more negative) bonus -> higher prio
     return ScoredAction(act, prio, reason)
 

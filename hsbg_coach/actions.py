@@ -29,6 +29,8 @@ LEVEL = "level"
 REPOSITION = "reposition"
 FREEZE = "freeze"
 HERO_POWER = "hero_power"
+ACTIVATE = "activate"
+DARK_GIFT = "dark_gift"
 END = "end"
 
 
@@ -61,6 +63,11 @@ class Action:
             return "Reposition the board"
         if self.kind == FREEZE:
             return "Freeze the shop"
+        if self.kind == ACTIVATE:
+            tail = f" ({self.cost}g)" if self.cost else ""
+            return f"Activate {self.target}{tail}"
+        if self.kind == DARK_GIFT:
+            return f"Dark Gift ({self.cost}g)" if self.cost else "Dark Gift"
         return "End turn"
 
 
@@ -130,6 +137,23 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
     # Freeze — free, needs a shop.
     if shop:
         actions.append(Action(FREEZE))
+
+    # Season 14 Activate — clickable board minions (gold cost).
+    for m in (_get(snapshot, "activatable", []) or []):
+        usable = m.get("usable") if isinstance(m, dict) else True
+        if usable is False:
+            continue
+        cost = int((m.get("cost") if isinstance(m, dict) else 0) or 0)
+        if gold >= cost:
+            actions.append(Action(ACTIVATE, _name(m), cost, {"minion": m}))
+
+    # Dark Gift button — discover a gifted minion (typically 3g from turn 3).
+    dg = _get(snapshot, "dark_gift", None)
+    if dg and (dg.get("usable") if isinstance(dg, dict) else False):
+        cost = int(dg.get("cost") or 3)
+        if gold >= cost:
+            actions.append(Action(DARK_GIFT, dg.get("name") or "Dark Gift", cost,
+                                  {"dark_gift": dg}))
 
     actions.append(Action(END))
     return actions

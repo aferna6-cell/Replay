@@ -23,6 +23,8 @@ from typing import Dict, Optional, Tuple
 _KNOWN: Dict[str, Tuple[float, str]] = {
     # "Pointy Arrow" token seen in a real log — minor combat trick, situational.
     "EBG_Spell_014": (-0.1, "tavern spell — small combat trick"),
+    # Aberration / Jeef VOD — Corrupted Coin (BG36_303) appears often in frames/ASR.
+    "BG36_303": (-0.35, "Corrupted Coin — Jeef/Aberration VOD priority spell"),
 }
 
 # Generic value when we don't know the spell yet: a cheap, affordable tavern spell

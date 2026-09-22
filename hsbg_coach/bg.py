@@ -43,6 +43,8 @@ class ActionType(str, Enum):
     UNFREEZE = "unfreeze"
     TIER_UP = "tier_up"               # level the tavern
     HERO_POWER = "hero_power"
+    ACTIVATE = "activate"             # Season 14 Activate keyword on board minion
+    DARK_GIFT = "dark_gift"           # Dark Gift discover button (typically 3g)
     TAVERN_SPELL = "tavern_spell"     # spells / quests offered in tavern
     TARGET = "target"                 # choosing a target for a battlecry/buff
     END_TURN = "end_turn"
@@ -96,6 +98,8 @@ class Snapshot:
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
+    activatable: List[Dict] = field(default_factory=list)  # Activate-keyword minions
+    dark_gift: Optional[Dict] = None      # {name, card_id, cost, usable, entity_id?}
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
@@ -117,6 +121,8 @@ class Snapshot:
             "shop_spells": list(self.shop_spells),
             "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
+            "activatable": list(self.activatable),
+            "dark_gift": self.dark_gift,
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
             "trinkets": list(self.trinkets),
@@ -307,6 +313,8 @@ class BGTracker:
             shop_spells=shop_spells,
             hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
+            activatable=self._activatable(),
+            dark_gift=self._dark_gift(),
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
             trinkets=self._trinkets(),
@@ -413,6 +421,89 @@ class BGTracker:
                 "card_id": ent.card_id,
                 "cost": cost,
                 "usable": bool(usable),
+                "entity_id": ent.id,
+            }
+        return None
+
+    def _activatable(self) -> List[Dict]:
+        """Board minions with the Season 14 Activate keyword that can be clicked.
+
+        Signal: HAS_ACTIVATE_POWER + BACON_TRIGGER_XY (Activate ability). Cost is
+        TAG_SCRIPT_DATA_NUM_1 when present, else COST. Skips exhausted /
+        unaffordable. Ordinary minions often carry HAS_ACTIVATE_POWER alone —
+        require BACON_TRIGGER_XY so we do not emit false Activate clicks.
+        # CALIBRATE: confirm TAG_SCRIPT_DATA_NUM_1 vs COST on live Power.log.
+        """
+        out: List[Dict] = []
+        if self.local_player is None:
+            return out
+        gold = self._gold()
+        for ent in self.state.in_zone("PLAY", self.local_player):
+            if ent.tags.get("CARDTYPE") != "MINION":
+                continue
+            if (ent.tag_int("ZONE_POSITION") or 0) < 1:
+                continue
+            if ent.tags.get("HAS_ACTIVATE_POWER") != "1":
+                continue
+            if ent.tags.get("BACON_TRIGGER_XY") != "1":
+                continue
+            cost = ent.tag_int("TAG_SCRIPT_DATA_NUM_1")
+            if cost is None:
+                cost = ent.tag_int("COST") or 0
+            exhausted = ent.tags.get("EXHAUSTED") in ("1",)
+            usable = (not exhausted and (gold is None or gold >= cost))
+            out.append({
+                "name": self._display_name(ent.card_id, ent.name),
+                "card_id": ent.card_id,
+                "entity_id": ent.id,
+                "cost": int(cost),
+                "usable": bool(usable),
+            })
+        return out
+
+    def _dark_gift(self) -> Optional[Dict]:
+        """Dark Gift discover button (Aberration / Season 14): typically 3 gold.
+
+        Detected by button name/cardId patterns when present in PLAY for us.
+        Known ids from Options / Firestone extracts include
+        TB_BaconShop_DarkGift_Button and BG36_MidGameEffect_* gift chrome;
+        exact live button cardId may still need # CALIBRATE from Power.log.
+        """
+        if self.local_player is None:
+            return None
+        for ent in self.state.entities.values():
+            if ent.controller != str(self.local_player):
+                continue
+            if ent.zone != "PLAY":
+                continue
+            cid = ent.card_id or ""
+            name = ent.name or ""
+            blob = f"{name} {cid}".lower().replace("-", "").replace(" ", "")
+            if not (
+                ("dark" in blob and "gift" in blob)
+                or "darkgift" in blob
+                or ("gift" in cid.lower() and "button" in cid.lower())
+                or "TB_BaconShop_DarkGift" in (cid or "")
+            ):
+                continue
+            cost = ent.tag_int("COST")
+            if cost is None:
+                cost = 3
+            gold = self._gold()
+            turn = self.state.current_turn
+            exhausted = ent.tags.get("EXHAUSTED") in ("1",)
+            locked = ent.tags.get("LOCK_VISUAL") == "1"
+            usable = (
+                not exhausted and not locked
+                and (turn is None or turn >= 3)
+                and (gold is None or gold >= cost)
+            )
+            return {
+                "name": name or "Dark Gift",
+                "card_id": cid,
+                "cost": int(cost),
+                "usable": bool(usable),
+                "entity_id": ent.id,
             }
         return None
 
