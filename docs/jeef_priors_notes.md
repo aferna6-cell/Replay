@@ -40,7 +40,20 @@ the same corpus). **Sample is thin** — these are soft placement nudges in
 
 ## Counts (approx.)
 
-- Dark-gift-related decisions: **3**
+- Dark-gift-related decisions: **~19** (post 2026-09-22 densify)
 - Hero-power decisions: **2**
 - Activate ASR hits: sparse
 - Explicit BUY_SPELL cardId labels: **≈0** (shop table extended from live Power.log)
+
+
+## 36.6.1 densify 2026-09-22 (patch-day hunt)
+
+Additional ASR-derived decision rows (Jeef shorts + Shadybunny `pzYwWAnjJ54`):
+
+| Signal | Approx new rows | Notes |
+|--------|----------------:|-------|
+| Dark gift / gift>body | ~19 gift-tagged | Includes Jeef regret "should have just dark gifted" + Shadybunny gift chatter |
+| Buys | ~23 | Shop buys; cardId still often null (needs_review) |
+| Sell / freeze / roll / HP / level | denser | Soft timing priors only |
+
+See `docs/TRAIN_NOTES_36_6_1.md`. Checkpoint: `results/eval_net_36_6_1_2026-09-22/eval_net.pt`.
