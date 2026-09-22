@@ -428,24 +428,29 @@ class BGTracker:
     def _activatable(self) -> List[Dict]:
         """Board minions with the Season 14 Activate keyword that can be clicked.
 
-        Signal: HAS_ACTIVATE_POWER + BACON_TRIGGER_XY (Activate ability). Cost is
-        TAG_SCRIPT_DATA_NUM_1 when present, else COST. Skips exhausted /
-        unaffordable. Ordinary minions often carry HAS_ACTIVATE_POWER alone —
-        require BACON_TRIGGER_XY so we do not emit false Activate clicks.
-        # CALIBRATE: confirm TAG_SCRIPT_DATA_NUM_1 vs COST on live Power.log.
+        Calibrated (Power.log 2026-09): Activate uses HAS_ACTIVATE_POWER=1. Cost is
+        TAG_SCRIPT_DATA_NUM_1 when present, else COST. Shop UI (Refresh, Freeze,
+        Drag To Buy/Sell, Tavern Tier, DragBuy_Spell) also sets HAS_ACTIVATE_POWER —
+        only emit for friendly board minions (zone=PLAY, zonePos>=1, real BG*/BGS*
+        minion cardId). BACON_TRIGGER_XY is NOT required (rare on real activates);
+        BACON_TRIGGER_UPBEAT appears on trinkets/magic items, not Activate minions.
         """
         out: List[Dict] = []
         if self.local_player is None:
             return out
         gold = self._gold()
         for ent in self.state.in_zone("PLAY", self.local_player):
-            if ent.tags.get("CARDTYPE") != "MINION":
+            if not _is_real_minion(ent):
+                continue
+            cid = ent.card_id or ""
+            # Shop / hero / button chrome — never Activate targets.
+            if cid.startswith("TB_BaconShop") or "Button" in cid:
+                continue
+            if not (cid.startswith("BG") or cid.startswith("BGS_")):
                 continue
             if (ent.tag_int("ZONE_POSITION") or 0) < 1:
                 continue
             if ent.tags.get("HAS_ACTIVATE_POWER") != "1":
-                continue
-            if ent.tags.get("BACON_TRIGGER_XY") != "1":
                 continue
             cost = ent.tag_int("TAG_SCRIPT_DATA_NUM_1")
             if cost is None:
@@ -464,10 +469,13 @@ class BGTracker:
     def _dark_gift(self) -> Optional[Dict]:
         """Dark Gift discover button (Aberration / Season 14): typically 3 gold.
 
-        Detected by button name/cardId patterns when present in PLAY for us.
-        Known ids from Options / Firestone extracts include
-        TB_BaconShop_DarkGift_Button and BG36_MidGameEffect_* gift chrome;
-        exact live button cardId may still need # CALIBRATE from Power.log.
+        Calibrated (Power.log 2026-09): button cardId is BG36_Button_DarkGift,
+        entityName "Dark Discovery" (NOT TB_BaconShop_DarkGift_Button). Related
+        chrome/tags: HAS_DARK_GIFT, DARK_GIFT_ENTITY, BG36_MidGameEffect_*.
+
+        DebugPrintOptions legality: error=NONE when clickable; blocked with
+        REQ_ENOUGH_MANA or REQ_NOT_EXHAUSTED_ACTIVATE. Equivalent without Options:
+        EXHAUSTED!=1, BACON_DARK_GIFT_PRESSABLE_VFX!=0 when present, gold>=cost.
         """
         if self.local_player is None:
             return None
@@ -478,14 +486,23 @@ class BGTracker:
                 continue
             cid = ent.card_id or ""
             name = ent.name or ""
-            blob = f"{name} {cid}".lower().replace("-", "").replace(" ", "")
-            if not (
-                ("dark" in blob and "gift" in blob)
-                or "darkgift" in blob
-                or ("gift" in cid.lower() and "button" in cid.lower())
-                or "TB_BaconShop_DarkGift" in (cid or "")
-            ):
+            # MidGameEffect_* are gift enchantments/chrome, not the button.
+            if cid.startswith("BG36_MidGameEffect"):
                 continue
+            name_l = name.lower().replace("-", " ")
+            is_button = (
+                cid == "BG36_Button_DarkGift"
+                or name_l.strip() == "dark discovery"
+                or cid == "TB_BaconShop_DarkGift_Button"  # legacy / older builds
+                or ("darkgift" in cid.lower() and "button" in cid.lower())
+            )
+            if not is_button:
+                blob = f"{name} {cid}".lower().replace("-", "").replace(" ", "")
+                if not (
+                    ("dark" in blob and "gift" in blob and "button" in blob)
+                    or (name_l.strip() == "dark gift")
+                ):
+                    continue
             cost = ent.tag_int("COST")
             if cost is None:
                 cost = 3
@@ -493,14 +510,17 @@ class BGTracker:
             turn = self.state.current_turn
             exhausted = ent.tags.get("EXHAUSTED") in ("1",)
             locked = ent.tags.get("LOCK_VISUAL") == "1"
+            # VFX=0 tracks REQ_NOT_EXHAUSTED_ACTIVATE; VFX=1 with low gold → REQ_ENOUGH_MANA.
+            vfx = ent.tags.get("BACON_DARK_GIFT_PRESSABLE_VFX")
+            pressable = vfx is None or vfx == "1"
             usable = (
-                not exhausted and not locked
+                not exhausted and not locked and pressable
                 and (turn is None or turn >= 3)
                 and (gold is None or gold >= cost)
             )
             return {
-                "name": name or "Dark Gift",
-                "card_id": cid,
+                "name": name or "Dark Discovery",
+                "card_id": cid or "BG36_Button_DarkGift",
                 "cost": int(cost),
                 "usable": bool(usable),
                 "entity_id": ent.id,
