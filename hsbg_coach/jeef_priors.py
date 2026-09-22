@@ -61,7 +61,7 @@ def dark_gift_adjust(snapshot, cost: int = 3) -> Tuple[float, Optional[str]]:
     shop = list(_get(snapshot, "shop", []) or [])
     hero_power = _get(snapshot, "hero_power") or {}
 
-    adj = -0.20  # baseline: button is usually +EV when legal (Jeef regrets skipping)
+    adj = -0.25  # baseline: gift>body when legal (Jeef regret + denser 36.6.1 ASR)
     reason = "Dark Gift — Jeef prior: take when gold allows"
 
     # Midgame discover window (Replication pick was turn 4 / tier 2 / 3g).

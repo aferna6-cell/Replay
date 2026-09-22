@@ -1,0 +1,16 @@
+Building dataset…
+  population boards: 11497
+  your recorded boards: 190
+  train 10570  val 1117  features 70  heroes 117
+epoch  0  val MAE 0.451  val r 0.461
+epoch  5  val MAE 0.361  val r 0.625
+epoch 10  val MAE 0.507  val r 0.769
+epoch 15  val MAE 0.561  val r 0.788
+epoch 20  val MAE 0.526  val r 0.788
+epoch 25  val MAE 0.546  val r 0.805
+epoch 30  val MAE 0.558  val r 0.807
+epoch 35  val MAE 0.563  val r 0.804
+epoch 39  val MAE 0.524  val r 0.813
+
+val MAE 0.337 placements | val Pearson r 0.560
+Saved -> /workspace/hsreplay-tier7/jeef_vod_pilot/train_patch_36_6_1_today/eval_net.pt  (with_context=False)
