@@ -61,8 +61,14 @@ def build_card_kb(cards_source: str = CARDS_URL) -> Dict[str, CardKnowledge]:
             continue
         if c.get("battlegroundsNormalDbfId"):           # skip golden/triple copies
             continue
-        # Patch 36.6.1: Naga rotated out. HSJSON isBattlegroundsPoolMinion is stale
-        # for some Naga — hard-exclude by race so the coach never recommends them.
+        # Prefer the live shop-pool flag when present (tokens/buddies often have
+        # techLevel but are not discoverable in the tavern).
+        if "isBattlegroundsPoolMinion" in c and not c.get("isBattlegroundsPoolMinion"):
+            continue
+        if c.get("isBattlegroundsDuosExclusive"):
+            continue
+        # Patch 36.6.1: Naga rotated out. HSJSON may still flag some Naga as pool
+        # — hard-exclude by race so the coach never recommends them.
         races = c.get("races") or ([c["race"]] if c.get("race") else [])
         if any(str(r).upper() == "NAGA" for r in races):
             continue

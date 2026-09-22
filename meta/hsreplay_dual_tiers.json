@@ -1,49 +1,6 @@
 {
   "as_of": "2026-09-22 7:35 PM ET",
   "patch": "36.6.1",
-  "aidan_quote_locked": "S-tier tribes/comps: Beasts, Elementals, Demons, Undead (model should think these are strong); A-tier can be good; B-tier mostly avoid. Keep Naga excluded forever. Archlich Kel'Thuzad is NOT in the current Battlegrounds pool \u2014 never show as a strong card.",
-  "tribe_weights": {
-    "S": 1.0,
-    "A": 0.55,
-    "B": 0.15,
-    "other": 0.25,
-    "Naga": 0.0,
-    "Beast": 1.0,
-    "Elemental": 1.0,
-    "Demon": 1.0,
-    "Undead": 1.0,
-    "Murloc": 0.55,
-    "Dragon": 0.55,
-    "Mech": 0.55,
-    "Pirate": 0.55,
-    "Quilboar": 0.55,
-    "Aberration": 0.4,
-    "Neutral": 0.35
-  },
-  "comp_weights": {
-    "S": 1.0,
-    "A": 0.55,
-    "B": 0.15,
-    "other": 0.25
-  },
-  "use_comp_tiers": true,
-  "use_tribe_tiers": true,
-  "s_tribes": [
-    "Beast",
-    "Elemental",
-    "Demon",
-    "Undead"
-  ],
-  "a_tribes": [
-    "Murloc",
-    "Dragon",
-    "Mech",
-    "Pirate",
-    "Quilboar"
-  ],
-  "b_tribes": [
-    "Aberration"
-  ],
   "tribe_tiers": {
     "S": [
       "Beast",
@@ -298,20 +255,6 @@
       }
     ]
   },
-  "aberration_soft_key_minions": [
-    "Brain Rotter",
-    "Cutthroat K'Thir",
-    "Dark Puppeteer",
-    "De-volition-ist",
-    "Faceless Converter",
-    "Faceless Operative",
-    "Fetid Corroder",
-    "Harbinger Aph'lass",
-    "Joyous",
-    "Mindbender Ghur'sha",
-    "Mysterious K'Thir",
-    "N'raqi Frostcaller"
-  ],
   "out_of_pool_cards": [
     "'Loc Prince",
     "Abyssal Bruiser",
@@ -427,56 +370,30 @@
     "Zapp Slywick",
     "Zesty Shaker"
   ],
-  "naga_excluded_forever": true,
-  "aberrations_soft_prior_only": true,
-  "live_pool": {
-    "count": 252,
-    "tribes": {
-      "QUILBOAR": 24,
-      "DEMON": 22,
-      "DRAGON": 22,
-      "MURLOC": 24,
-      "NEUTRAL": 24,
-      "UNDEAD": 22,
-      "PIRATE": 24,
-      "BEAST": 22,
-      "MECHANICAL": 22,
-      "ELEMENTAL": 24,
-      "ABERRATION": 26,
-      "ALL": 4
-    },
-    "aberration_count": 26,
-    "naga_excluded_count": 22,
-    "source_hsjson": "https://api.hearthstonejson.com/v1/latest/enUS/cards.json",
-    "filter": "isBattlegroundsPoolMinion && !battlegroundsNormalDbfId && !duosExclusive && race!=NAGA",
-    "fetched_et": "2026-09-22 7:35 PM ET",
-    "crosscheck_hsbg_cards": "https://hsbg.cards/api/v1/cards?pool=current&cardType=minion",
-    "hsreplay_minions_page": "https://hsreplay.net/battlegrounds/minions/",
-    "hsreplay_comps_page": "https://hsreplay.net/battlegrounds/comps/",
-    "hsreplay_comps_note": "Public react_context on comps page (no login required for tier list). Minions page is SPA; pool taken from HSJSON flag + hard Naga exclude. HSReplay still shows 2 Naga comps \u2014 dropped.",
-    "patch": "36.6.1"
-  },
-  "source": "HSReplay comps react_context 2026-09-22 7:35 PM ET + HSJSON isBattlegroundsPoolMinion (n=252, Naga hard-excluded) + Aidan S-tribe lock",
-  "scoring_formula": "final = base * (0.5*tribe_w + 0.5*comp_w); Naga/OOP \u2192 0",
-  "scoring_hook": {
-    "module": "hsbg_coach.playstyle_prior",
-    "functions": [
-      "load_playstyle_prior",
-      "tribe_weight",
-      "comp_weight",
-      "score_board_playstyle",
-      "is_out_of_pool",
-      "bias_shop_scores"
-    ]
-  },
-  "dropped_comps": [
-    {
-      "name": "Nagas - Groundbreaker",
-      "reason": "naga"
-    },
-    {
-      "name": "Nagas - End Of Turn/Spell Buff",
-      "reason": "naga"
-    }
-  ]
+  "naga_excluded": true,
+  "naga_comps_ignored": [
+    "Nagas - Groundbreaker",
+    "Nagas - End Of Turn/Spell Buff"
+  ],
+  "live_pool_count": 252,
+  "aberration_soft_key_minions": [
+    "Brain Rotter",
+    "Cutthroat K'Thir",
+    "Dark Puppeteer",
+    "De-volition-ist",
+    "Faceless Converter",
+    "Faceless Operative",
+    "Fetid Corroder",
+    "Harbinger Aph'lass",
+    "Joyous",
+    "Mindbender Ghur'sha",
+    "Mysterious K'Thir",
+    "N'raqi Frostcaller"
+  ],
+  "sources": [
+    "https://hsreplay.net/battlegrounds/comps/",
+    "https://api.hearthstonejson.com/v1/latest/enUS/cards.json",
+    "https://hsbg.cards/api/v1/cards?pool=current&cardType=minion"
+  ],
+  "notes": "Visible non-hidden HSReplay comps only; key_minions \u2286 live non-Naga pool. Aberration tribe B soft-only (no HSReplay comps yet as of fetch)."
 }
