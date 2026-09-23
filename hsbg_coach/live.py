@@ -114,6 +114,11 @@ def _sell_for_room_target(board, snapshot, kb):
                 s += cadj * 8.0            # keep-value scale ~stats; amplify cut
         except Exception:
             pass
+        try:                               # PLAN pieces are never the cut
+            from .lobby_playbook import keep_bonus
+            s += keep_bonus(m, snapshot, kb)
+        except Exception:
+            pass
         return s
 
     def _name_safe(m):
@@ -257,7 +262,25 @@ def _combat_odds_for(snapshot: dict, runs: int = 80, seed: int = 0) -> Optional[
 
 
 def build_note_for(snapshot, kb=None, hero_ctx=None) -> Optional[str]:
-    """Minimal 'building: Dragons' line from soft lobby lean / board."""
+    """Overlay phase header (newline-separated), playbook first:
+
+    ``PLAN → comp`` / ``NEED → keys`` once committed, else ``LOBBY →`` ranked
+    tribes, ``ENABLERS →`` preloaded hunt list and the ``FILL →`` / ``COMMIT →``
+    instruction; plus ``HERO →`` guide context. Falls back to the old
+    'building: X' lean when the playbook can't run.
+    """
+    try:
+        from .lobby_playbook import overlay_lines
+        lines = overlay_lines(snapshot, kb=kb)
+        try:
+            from .hsreplay_guides import hero_guide_notes
+            lines += hero_guide_notes(snapshot)
+        except Exception:
+            pass
+        if lines:
+            return "\n".join(lines)
+    except Exception:
+        pass
     try:
         from .hsreplay_guides import plan_line
         plan = plan_line(snapshot, kb=kb)
@@ -312,7 +335,8 @@ def _key(d: dict):
     dark = (dg.get("usable"), dg.get("cost"), dg.get("entity_id")) if dg else None
     return (board, shop, spells, hand, hand_m, trinkets, opps, d.get("gold"),
             d.get("tavern_tier"), d.get("phase"), hp, activate, dark,
-            d.get("hero_health"), d.get("anomaly"), d.get("hero"))
+            d.get("hero_health"), d.get("anomaly"), d.get("hero"),
+            tuple(d.get("available_tribes") or ()), d.get("playbook_plan"))
 
 
 class LiveCoach:
@@ -367,6 +391,10 @@ class LiveCoach:
         self._snap_version = -1           # version the cached snapshot was built at
         self._snap_cache: Optional[dict] = None
         self._active = False
+        # Lobby playbook memory: the PLAN lock survives until the game ends.
+        self._plan_game = None
+        self._plan: Optional[str] = None
+        self._plan_trigger: Optional[str] = None
 
     def start(self) -> threading.Thread:
         t = threading.Thread(target=self._consume, daemon=True)
@@ -403,6 +431,44 @@ class LiveCoach:
             self._hero_ctx_key = key
         except Exception:
             pass
+
+    def _with_playbook(self, snap: dict) -> dict:
+        """Attach the playbook phase + remembered PLAN lock to the snapshot.
+
+        The lock is set on the first clear enabler hit and kept for the rest of
+        the game (reset when the tracker's game counter changes)."""
+        game = getattr(self.tracker.state, "game_counter", None)
+        if game != self._plan_game:
+            self._plan_game, self._plan, self._plan_trigger = game, None, None
+        try:
+            from .lobby_playbook import evaluate
+            st = evaluate(snap, kb=self.kb, locked_plan=self._plan)
+        except Exception:
+            return snap
+        if st.committed and not self._plan:
+            self._plan, self._plan_trigger = st.plan, st.trigger
+        if self._plan:
+            st.trigger = st.trigger or self._plan_trigger
+        return dict(snap, playbook=st.to_dict(), playbook_plan=self._plan,
+                    playbook_trigger=self._plan_trigger)
+
+    def _discover_playbook_lines(self, offer, snap: dict, lines: List[str]) -> List[str]:
+        """A Discover offering a clear strong-tribe enabler (or PLAN card) is
+        the pick — and locks PLAN on an enabler hit."""
+        try:
+            from .lobby_playbook import discover_pick
+            hit = discover_pick(list(offer.names or []), snap, kb=self.kb)
+        except Exception:
+            hit = None
+        if not hit:
+            return lines
+        name, comp = hit
+        if not self._plan:
+            self._plan, self._plan_trigger = comp, name
+        head = f"PICK {name} — HSReplay enabler: PLAN → {comp}"
+        rest = [l for l in lines if not l.startswith(f"PICK {name}")]
+        rest = [("alt: " + l[5:]) if l.startswith("PICK ") else l for l in rest]
+        return [head] + rest[:2]
 
     def set_tribe_priors(self, priors: dict) -> None:
         """Manual lobby-start tribe first% / weights (e.g. {"Aberration": 0.22})."""
@@ -502,6 +568,7 @@ class LiveCoach:
                 self._snap_cache = self.tracker.snapshot().to_dict()
                 self._snap_version = version
             snap = self._snap_cache
+        snap = self._with_playbook(snap)
         offer = self._offer
         if offer is not None:                       # a choice is on screen
             from .choices import offer_advice_lines
@@ -512,6 +579,8 @@ class LiveCoach:
                 scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
                 tier=snap.get("tavern_tier"),
             )
+            if offer.kind == "discover":
+                lines = self._discover_playbook_lines(offer, snap, lines)
             snap = dict(snap, phase=f"choose {offer.kind}",
                         notes=[f"{offer.kind.upper()} — pick one"])
             return snap, None, lines

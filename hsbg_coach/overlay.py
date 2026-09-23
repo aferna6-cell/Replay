@@ -40,7 +40,7 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
 
     note = snapshot.get("build_note")
     if note:
-        lines.append(note)
+        lines.extend(ln for ln in str(note).split("\n") if ln.strip())
 
     if recommendations:
         # Lead with ONE clear next move; it re-computes the instant you act, so
@@ -152,6 +152,9 @@ def _short_move(line: str) -> str:
     return stripped.strip()
 
 
+_PHASE_LINE = re.compile(r"^(LOBBY|ENABLERS|FILL|COMMIT|PLAN|NEED|HERO) →")
+
+
 def format_next(snapshot: Dict, odds: Optional[str] = None,
                 recommendations: Optional[List[str]] = None) -> str:
     """Default overlay: ONE primary NEXT + a few short alternates. No board/shop
@@ -160,7 +163,16 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
     note = snapshot.get("build_note") or snapshot.get("build_tribe")
     head = []
     if note:
-        head.append(note if str(note).startswith("building") else f"building: {note}")
+        for ln in str(note).split("\n"):
+            ln = ln.strip()
+            if not ln:
+                continue
+            # Playbook phase lines (LOBBY / ENABLERS / FILL / COMMIT / PLAN /
+            # NEED / HERO) render verbatim; a bare tribe is a 'building:' lean.
+            if ln.startswith("building") or _PHASE_LINE.match(ln):
+                head.append(ln)
+            else:
+                head.append(f"building: {ln}")
     if recommendations:
         primary = _short_move(recommendations[0])
         # Choice offers already say PICK … — lead with NEXT → for one glance.
