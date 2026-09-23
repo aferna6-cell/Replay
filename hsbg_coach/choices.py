@@ -135,13 +135,18 @@ def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
     return recommend_choice(offer.kind, offer.names, db=db, board=board, kb=kb,
                             scorer=scorer, hero_ctx=hero_ctx, tier=tier,
                             gift_by_name=gift_by_name or getattr(offer, "gifts", None),
-                            available_tribes=available_tribes)
+                            available_tribes=available_tribes,
+                            card_ids=getattr(offer, "card_ids", None))
 
 
 def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
                        hero_ctx=None, db=None, tier=None,
                        rerolls_available: int = 1):
-    """Overlay lines for an offer. Heroes get reroll-then-pick; others get PICK."""
+    """Overlay lines for an offer. Heroes get reroll-then-pick; others get PICK.
+
+    Trinket/discover: ONE clear primary ``PICK <name> — <effect why>``. Alts are
+    labeled ``alt:`` (not another PICK) so a list never reads as last=best.
+    """
     if offer.kind == "hero":
         from .draft import hero_draft_plan
         from .stats import StatsDB
@@ -152,4 +157,10 @@ def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
         return plan["lines"]
     picks = rank_offer(offer, board=board, kb=kb, scorer=scorer,
                        hero_ctx=hero_ctx, db=db, tier=tier)
-    return [f"PICK {c.name} — {c.reason}" for c in picks[:6]]
+    if not picks:
+        return ["PICK — no options ranked"]
+    best = picks[0]
+    lines = [f"PICK {best.name} — {best.reason}"]
+    for c in picks[1:3]:
+        lines.append(f"alt: {c.name} — {c.reason}")
+    return lines

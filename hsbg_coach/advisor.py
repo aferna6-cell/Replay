@@ -108,8 +108,9 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
         elif act.kind == HERO_POWER:
             from .jeef_priors import hero_power_adjust
             adj, reason = hero_power_adjust(snapshot, act.cost)
-            # priority: higher is better; placement adj is negative-better
-            prio = _clamp(0.55 - (adj or 0.0))
+            # priority: higher is better; placement adj is negative-better.
+            # Stronger baseline so usable HP can be NEXT in midgame windows.
+            prio = _clamp(0.62 - (adj if adj is not None else -0.55))
             scored.append(ScoredAction(
                 act, prio, reason or "hero power is available — using it is usually value"))
         elif act.kind == ACTIVATE:
@@ -151,6 +152,21 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
             scored.append(ScoredAction(act, 0.15, "pass the turn"))
 
     scored.sort(key=lambda a: a.priority, reverse=True)
+    # Hard rule: sparse/board<5 + gold>=3 + acceptable fill → best kind != ROLL.
+    try:
+        from .jeef_priors import roll_must_not_be_next
+        if scored and scored[0].action.kind == ROLL and roll_must_not_be_next(snapshot):
+            buys = [a for a in scored if a.action.kind == BUY]
+            if buys:
+                best_buy = max(buys, key=lambda a: a.priority)
+                for i, a in enumerate(scored):
+                    if a.action.kind == ROLL:
+                        scored[i] = ScoredAction(
+                            a.action, min(a.priority, best_buy.priority - 0.05),
+                            a.reason, a.equity, a.delta)
+                scored.sort(key=lambda a: a.priority, reverse=True)
+    except Exception:
+        pass
     caveats = [
         "Buy/sell use board lookahead; roll/level/freeze are heuristic "
         "(future shops aren't simulated).",
@@ -290,16 +306,22 @@ def _score_roll(act, gold, best_buy_delta, target_tribe, snapshot=None):
         reason = f"shop has no strong buy — roll{tribe}"
     else:
         reason = "a buy beats rolling this turn"
-    # Soft board-fill prior: demote roll priority when board is sparse and the
-    # shop still has acceptable filler / on-direction units.
+    # Board-fill / anti-stuck: when adj>0, Roll must not be NEXT.
+    # Apply FULL demotion (no *0.5 soft-cap), min 0.6, and cap prio <= 0.05
+    # so typical buys (~0.5+) always outrank roll.
     if snapshot is not None:
         try:
-            from .jeef_priors import board_fill_roll_adjust
-            radj, rreason = board_fill_roll_adjust(snapshot)
-            if radj:
-                prio -= min(0.35, radj * 0.5)
-                if rreason:
-                    reason = rreason
+            from .jeef_priors import board_fill_roll_adjust, anti_stuck_roll_adjust
+            demote = 0.0
+            for adj_fn in (board_fill_roll_adjust, anti_stuck_roll_adjust):
+                adj, adj_reason = adj_fn(snapshot)
+                if adj:
+                    demote = max(demote, max(0.6, float(adj)))
+                    if adj_reason:
+                        reason = adj_reason
+            if demote:
+                prio -= demote
+                prio = min(prio, 0.05)
         except Exception:
             pass
     return ScoredAction(act, _clamp(prio, hi=0.8), reason)

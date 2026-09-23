@@ -9,6 +9,7 @@ Tkinter is imported lazily inside the GUI code so this module imports cleanly in
 a headless environment (CI, servers) where only the pure formatter is exercised.
 """
 
+import re
 from typing import Callable, Dict, List, Optional
 
 
@@ -74,15 +75,81 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
 
 
 def _short_move(line: str) -> str:
-    """Strip finish/rationale tails so the overlay stays one glance."""
+    """Strip finish/rationale tails so the overlay stays one glance.
+
+    Exceptions (keep the actionable compound, not a bare verb):
+      * trinket/discover ``PICK`` / ``alt:`` — effect why stays
+      * ``Play X from hand — sell Y…`` — sell target must survive (was stripped
+        by the generic `` — `` cut, so NEXT looked like play-only on a full board)
+      * ``Buy X … — sell Y for room`` — same sell-for-room requirement
+    """
     if not line:
         return line
+    stripped = line.strip()
+    if stripped.startswith("PICK ") or stripped.startswith("alt: "):
+        return stripped
+
+    # Play-from-hand + sell-for-room → "Sell Y, then play X from hand"
+    m = re.match(
+        r"^Play (.+?) from hand — sell (.+?) first(?: \(board is full\))?(.*)$",
+        stripped, re.IGNORECASE)
+    if m:
+        play, sell, rest = m.group(1), m.group(2), (m.group(3) or "").strip()
+        out = f"Sell {sell}, then play {play} from hand"
+        if rest.startswith("·") or rest.startswith("·"):
+            out += f" {rest}"
+        elif rest:
+            out += rest
+        return out
+
+    # Already-formatted compound (from live advice_lines).
+    m2 = re.match(
+        r"^(Sell .+?, then play .+ from hand)\b", stripped, re.IGNORECASE)
+    if m2:
+        return m2.group(1)
+
+    # Gallywix cycle: "Sell X, then buy Y — …"
+    m3 = re.match(
+        r"^(Sell .+?, then buy .+)(?: — |$)", stripped, re.IGNORECASE)
+    if m3:
+        return m3.group(1).strip()
+
+    # Hand items / Lens Case: keep Play … from hand (hero script why is short).
+    if stripped.lower().startswith("play ") and " from hand" in stripped.lower():
+        # Keep through first em-dash clause if present (effect why).
+        if " — " in stripped:
+            head, tail = stripped.split(" — ", 1)
+            # Keep a short why (hero script / generates …)
+            short_why = tail.split(" (")[0].strip()
+            if short_why:
+                return f"{head} — {short_why}"
+        return stripped
+
+    # Buy with explicit sell-for-room in the reason — keep both names.
+    # "Buy Foo (finish 3.8) — sell Bar for room — …" → "Buy Foo — sell Bar for room"
+    if "sell " in stripped.lower() and " for room" in stripped.lower():
+        head = stripped
+        if " (finish " in head:
+            # Keep action verb+target, drop finish number only.
+            pre, post = head.split(" (finish ", 1)
+            # post may be "3.8) — sell Bar for room — why"
+            after = post.split(") ", 1)[-1] if ") " in post else ""
+            head = (pre + (" " + after if after else "")).strip()
+        # Keep through "sell <name> for room"; drop further rationale tails.
+        low = head.lower()
+        idx = low.find("sell ")
+        if idx >= 0:
+            room = low.find(" for room", idx)
+            if room >= 0:
+                end = room + len(" for room")
+                return head[:end].strip()
+
     # "Buy X (finish 3.8) — long reason" → "Buy X"
-    if " (finish " in line:
-        line = line.split(" (finish ", 1)[0]
-    elif " — " in line:
-        line = line.split(" — ", 1)[0]
-    return line.strip()
+    if " (finish " in stripped:
+        stripped = stripped.split(" (finish ", 1)[0]
+    elif " — " in stripped:
+        stripped = stripped.split(" — ", 1)[0]
+    return stripped.strip()
 
 
 def format_next(snapshot: Dict, odds: Optional[str] = None,
@@ -96,7 +163,11 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
         head.append(note if str(note).startswith("building") else f"building: {note}")
     if recommendations:
         primary = _short_move(recommendations[0])
-        out = head + [f"→ {primary}"]
+        # Choice offers already say PICK … — lead with NEXT → for one glance.
+        if primary.startswith("PICK "):
+            out = head + [f"NEXT → {primary}"]
+        else:
+            out = head + [f"→ {primary}"]
         alts = [_short_move(a) for a in recommendations[1:3] if a]
         alts = [a for a in alts if a and a != primary]
         if alts:

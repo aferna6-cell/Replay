@@ -86,26 +86,60 @@ _PLAN_KEYWORDS = ("battlecry", "deathrattle", "divine shield", "reborn",
                   "avenge", "magnetic")
 
 
+def _normalize_kw(kw) -> str:
+    return str(kw or "").lower().replace("_", " ").strip()
+
+
+def _resolve_ck(m, kb, by_nm):
+    """Resolve CardKnowledge: card_id first (live MinionView), then name."""
+    if kb is None or m is None:
+        return None
+    cid = None
+    if isinstance(m, dict):
+        cid = m.get("card_id") or m.get("id")
+    else:
+        cid = getattr(m, "card_id", None) or getattr(m, "id", None)
+    if cid and cid in kb:
+        return kb[cid]
+    nm = _minion_name(m) if not isinstance(m, str) else m
+    if nm and by_nm:
+        return by_nm.get(nm)
+    return None
+
+
 def _board_profile(board, kb):
-    """Tribe counts + keyword set on the board, from card knowledge."""
-    idx = by_name(kb) if kb is not None else {}
+    """Tribe counts + keyword set on the board, from card knowledge.
+
+    Live board dicts carry card_id (MinionView.__dict__). Looking up by name
+    alone misses many KB entries → empty tribes/keywords → trinket fit no-ops
+    and ranking collapses to raw meta avg (feels like "not scoring effects").
+    """
+    by_nm = by_name(kb) if kb is not None else {}
     tribes, keywords = {}, set()
     for m in board or []:
-        ck = idx.get(_minion_name(m))
-        if not ck:
+        ck = _resolve_ck(m, kb, by_nm)
+        if ck is not None:
+            for tr in ck.tribes or []:
+                tribes[tr.lower()] = tribes.get(tr.lower(), 0) + 1
+            for kw in getattr(ck, "keywords", []) or []:
+                keywords.add(_normalize_kw(kw))
             continue
-        for tr in ck.tribes:
-            tribes[tr.lower()] = tribes.get(tr.lower(), 0) + 1
-        for kw in getattr(ck, "keywords", []) or []:
-            keywords.add(kw.lower())
+        # Fallback: raw board dict keywords/tribes when KB misses entirely.
+        if isinstance(m, dict):
+            for tr in m.get("tribes") or []:
+                tribes[str(tr).lower()] = tribes.get(str(tr).lower(), 0) + 1
+            for kw in m.get("keywords") or []:
+                keywords.add(_normalize_kw(kw))
     return tribes, keywords
 
 
 def _trinket_fit(text: str, board_tribes: dict, target_tribe: Optional[str],
                  board_keywords: set, lobby_tribes=None):
-    """Placement adjustment (negative = better) from how the trinket's effect
-    matches your board / lobby lean / plan. Soft only — meta placement still
-    matters; this stops random premium picks we won't play into.
+    """Placement adjustment (negative = better) from effect vs board/lobby/plan.
+
+    When the board has a clear plan, fit MUST be able to beat raw meta avg
+    (typical S-vs-B gap ~1.0). Soft-only demotions of 0.15–0.55 were drowned by
+    average_position and made picks feel like "always the premium / rightmost".
 
     Returns (delta, reason_bits).
     """
@@ -115,44 +149,45 @@ def _trinket_fit(text: str, board_tribes: dict, target_tribe: Optional[str],
     bonus, bits = 0.0, []
     target = (target_tribe or "").lower()
     lobby = {x.lower() for x in (lobby_tribes or []) if x}
+    n_board = sum(board_tribes.values()) if board_tribes else 0
+    clear_plan = n_board >= 3 or bool(board_keywords)
     mentioned = [tr for tr in _TRIBES if tr in t]
     for tr in mentioned:
         if board_tribes.get(tr) or tr == target or (tr in lobby and not board_tribes):
-            bonus -= 0.45                                   # buffs a tribe you run/lean
+            bonus -= 0.90 if clear_plan else 0.50
             bits.append(f"matches your {tr.capitalize()}s")
             break
     else:
-        # Mentions a tribe, but not one you're on, and you have a clear identity.
         dom = max(board_tribes, key=board_tribes.get) if board_tribes else None
         if mentioned and dom and dom not in mentioned and (
                 not target or target not in mentioned):
-            bonus += 0.45
+            bonus += 0.90 if clear_plan else 0.45
             bits.append(f"off-tribe ({mentioned[0]}) for your {dom.capitalize()} board")
         elif mentioned and lobby and not any(tr in lobby for tr in mentioned):
-            bonus += 0.35
+            bonus += 0.55
             bits.append(f"off-lobby tribe ({mentioned[0]})")
 
-    # Keyword plan alignment — Battlecry trinket only if we can be Battlecry-heavy.
+    # Keyword plan: Battlecry premium only if board can play into it.
     plan_hits = [kw for kw in _PLAN_KEYWORDS if kw in t]
     if plan_hits:
         supported = [kw for kw in plan_hits if kw in board_keywords]
         if supported:
-            bonus -= min(0.35, 0.15 * len(supported))
+            # Strong enough to overcome ~1.0 meta gap when plan is real.
+            density = sum(1 for _ in supported)
+            swing = 1.15 if (clear_plan and n_board >= 3) else 0.70
+            bonus -= min(1.40, swing + 0.20 * (density - 1))
             bits.append(f"plays into your {supported[0]}")
         else:
-            # Board has no matching keyword density — demote even premium text.
-            # Thin boards (<2 minions) stay flexible (can pivot into the plan).
-            n_board = sum(board_tribes.values()) if board_tribes else 0
             if n_board >= 3:
-                bonus += 0.55
+                bonus += 1.20
                 bits.append(f"no {plan_hits[0]} plan on board — don't force it")
             elif n_board >= 1:
-                bonus += 0.25
+                bonus += 0.55
                 bits.append(f"thin {plan_hits[0]} support — risky premium")
     else:
         kw_hits = [kw for kw in _KEYWORDS if kw in t and kw in board_keywords]
         if kw_hits:
-            bonus -= min(0.2, 0.1 * len(kw_hits))
+            bonus -= min(0.55, 0.25 * len(kw_hits))
             bits.append(f"synergizes with {kw_hits[0]}")
     return bonus, bits
 
@@ -172,21 +207,15 @@ def _build_target_tribe(board) -> Optional[str]:
 
 def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
                   hero_ctx: Optional[HeroContext] = None,
-                  available_tribes=None) -> List[Choice]:
-    """Rank trinkets by meta placement, adjusted for board / lobby lean / plan.
+                  available_tribes=None,
+                  card_ids=None) -> List[Choice]:
+    """Rank trinkets by effect/board/direction fit, with meta as tiebreak.
 
-    Soft rule (Aidan): don't take a Battlecry (etc.) premium unless the board
-    can play into that plan; prefer tribe/keyword fit over raw meta avg.
+    Aidan: strategy fit must beat raw avg when the board/lobby has a plan.
+    Pass card_ids (parallel to offered names) so live MagicItem ids resolve
+    even when entityName mismatches the stats DB.
     """
     board_tribes, board_kw = _board_profile(board, kb)
-    # Also count keywords from raw board dicts when kb misses.
-    for m in board or []:
-        if isinstance(m, dict):
-            for kw in m.get("keywords") or []:
-                board_kw.add(str(kw).lower().replace("_", " "))
-            for tr in m.get("tribes") or []:
-                board_tribes[str(tr).lower()] = board_tribes.get(str(tr).lower(), 0) + 1
-    # Direction = hero target tribe, else build-path, else soft lobby lean.
     target = (hero_ctx.target_tribe if hero_ctx else None) or _build_target_tribe(board)
     lobby = available_tribes or getattr(hero_ctx, "available_tribes", None) if hero_ctx else available_tribes
     if target is None and lobby:
@@ -197,17 +226,33 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
                 target = target.lower()
         except Exception:
             pass
+    clear_plan = (sum(board_tribes.values()) >= 3) or bool(board_kw)
     out = []
-    for nm in offered:
-        t: Optional[TrinketStats] = _match(nm, db.trinkets)
+    ids = list(card_ids or [])
+    for i, nm in enumerate(offered):
+        cid = ids[i] if i < len(ids) else None
+        t: Optional[TrinketStats] = None
+        if cid:
+            t = _match(cid, db.trinkets)
+        if t is None:
+            t = _match(nm, db.trinkets)
         if not t:
-            out.append(Choice(nm, 4.5, "no stats for this trinket", "avg placement"))
+            # Unknown: neutral 4.5 — do NOT let offer order decide #1 on ties;
+            # stable-sort would pick Entities[0]. Slight index penalty keeps
+            # unknowns below any real fit hit without preferring rightmost.
+            out.append(Choice(nm, 4.5 + 0.001 * i,
+                              "no stats for this trinket", "avg placement"))
             continue
         fit, bits = _trinket_fit(t.text, board_tribes, target, board_kw, lobby)
-        eff = t.average_position + fit                     # lower = better
-        reason = f"avg {t.average_position:.2f} · tier {t.tier}"
+        # When board has a plan, amplify fit so strategy outranks raw meta.
+        if clear_plan and fit != 0.0:
+            fit = fit * 1.15
+        eff = t.average_position + fit
+        # Effect-first reason for overlay (avg is secondary context).
         if bits:
-            reason += " · " + "; ".join(bits) + f" ({fit:+.2f})"
+            reason = "; ".join(bits) + f" · avg {t.average_position:.2f}"
+        else:
+            reason = f"avg {t.average_position:.2f} · tier {t.tier}"
         out.append(Choice(t.name, eff, reason, "board-adjusted placement"))
     out.sort(key=lambda c: c.rank_value)
     return out
@@ -343,7 +388,8 @@ def hero_draft_plan(offered: List[str], db: StatsDB,
 def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = None,
                      board=None, kb=None, scorer=None,
                      hero_ctx: Optional[HeroContext] = None, tier=None,
-                     gift_by_name=None, available_tribes=None) -> List[Choice]:
+                     gift_by_name=None, available_tribes=None,
+                     card_ids=None) -> List[Choice]:
     """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'.
 
     Heroes: rank up to HSBG_HERO_CHOICES (default 4). For the live overlay's
@@ -352,7 +398,8 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
         return rank_heroes(offered, db or StatsDB.load())
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
-                             hero_ctx=hero_ctx)
+                             hero_ctx=hero_ctx, available_tribes=available_tribes,
+                             card_ids=card_ids)
     if kind == "discover":
         return rank_discover(offered, board or [], kb, scorer=scorer,
                              hero_ctx=hero_ctx, tier=tier,

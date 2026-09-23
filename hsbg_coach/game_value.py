@@ -511,7 +511,8 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     fadj, freason = board_fill_buy_adjust(a, snapshot, kb)
                     if fadj:
                         v = max(1.0, min(8.0, v + fadj))
-                        if freason and not tech_reason:
+                        # Placement nudge only — never clobber tech/anomaly/combat why.
+                        if freason and not tech_reason and reason == sa.reason:
                             reason = freason
                 except Exception:
                     pass
@@ -521,8 +522,29 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     madj, mreason = midgame_solid_buy_adjust(a, snapshot, kb)
                     if madj:
                         v = max(1.0, min(8.0, v + madj))
-                        if mreason and not tech_reason:
+                        if mreason and not tech_reason and reason == sa.reason:
                             reason = mreason
+                except Exception:
+                    pass
+                # Play into hero power / hero plan when HP is part of the game.
+                try:
+                    from .jeef_priors import hero_power_buy_adjust
+                    hadj, hreason = hero_power_buy_adjust(
+                        a, snapshot, kb, hero_ctx=hero_ctx)
+                    if hadj:
+                        v = max(1.0, min(8.0, v + hadj))
+                        if hreason and not tech_reason and reason == sa.reason:
+                            reason = hreason
+                except Exception:
+                    pass
+                # Gallywix (and similar): bias BUY for cycle churn.
+                try:
+                    from .hero_scripts import gallywix_buy_adjust
+                    gadj, greason = gallywix_buy_adjust(a, snapshot, kb)
+                    if gadj:
+                        v = max(1.0, min(8.0, v + gadj))
+                        if greason and not tech_reason and reason == sa.reason:
+                            reason = greason
                 except Exception:
                     pass
                 # Soft trinket play-into prior: boost buys that match equipped
@@ -580,26 +602,28 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                 except Exception:
                     pass
             elif a.kind == ROLL:
-                # Soft board-fill prior: demote roll when board is sparse and the
-                # shop still has acceptable filler / on-direction units.
+                # Board-fill / anti-stuck: full-strength demotion (min +0.6), no
+                # *0.5 soft-cap — sparse+fill or stable+solid must keep Roll off NEXT.
                 try:
-                    from .jeef_priors import board_fill_roll_adjust
-                    radj, rreason = board_fill_roll_adjust(snapshot, kb)
-                    if radj:
-                        v = min(8.0, v + radj)
-                        if rreason:
-                            reason = rreason
+                    from .jeef_priors import board_fill_roll_adjust, anti_stuck_roll_adjust
+                    demote = 0.0
+                    for adj_fn in (board_fill_roll_adjust, anti_stuck_roll_adjust):
+                        adj, adj_reason = adj_fn(snapshot, kb)
+                        if adj:
+                            demote = max(demote, max(0.6, float(adj)))
+                            if adj_reason:
+                                reason = adj_reason
+                    if demote:
+                        v = min(8.0, v + demote)
                 except Exception:
                     pass
-                # Soft anti-stuck-roll: once filled-enough, don't endless-roll past
-                # solid on-direction mid-game pieces.
                 try:
-                    from .jeef_priors import anti_stuck_roll_adjust
-                    aadj, areason = anti_stuck_roll_adjust(snapshot, kb)
-                    if aadj:
-                        v = min(8.0, v + aadj)
-                        if areason:
-                            reason = areason
+                    from .hero_scripts import gallywix_roll_adjust
+                    gadj, greason = gallywix_roll_adjust(snapshot, kb)
+                    if gadj:
+                        v = min(8.0, v + gadj)
+                        if greason:
+                            reason = greason
                 except Exception:
                     pass
         elif a.kind == BUY_SPELL:
@@ -642,7 +666,9 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         elif a.kind == HERO_POWER:
             from .jeef_priors import hero_power_adjust
             adj, preason = hero_power_adjust(snapshot, a.cost)
-            v = max(1.0, base + (adj if adj else -0.15))
+            if adj is None:
+                adj = -0.55
+            v = max(1.0, base + adj)
             if preason:
                 reason = preason
         elif a.kind == ACTIVATE:
@@ -675,11 +701,30 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         recs.append(WholeGameRec(a, round(v, 2), reason, round(base - v, 2)))
 
     # NOTE: we do NOT boost roll when buys look "small" on the 1-8 placement axis
-    # (that buried real buys). Soft board-fill instead *demotes* roll when the
-    # board is sparse and the shop still has acceptable filler / on-direction
-    # units. Roll still wins on a full/strong board, late high-roll tempo, or
-    # when the shop is all trash.
+    # (that buried real buys). Board-fill / anti-stuck *demote* roll (full strength)
+    # when sparse+fill or stable+solid. Roll still wins on a full/strong board,
+    # late high-roll tempo, or when the shop is all trash.
     recs.sort(key=lambda r: r.placement)
+    # Hard rule (Aidan): board <5 / sparse + gold>=3 + acceptable fill → NEXT != ROLL.
+    try:
+        from .jeef_priors import roll_must_not_be_next
+        if recs and recs[0].action.kind == ROLL and roll_must_not_be_next(snapshot, kb):
+            buys = [r for r in recs if r.action.kind == BUY]
+            if buys:
+                best_buy_p = min(r.placement for r in buys)
+                fixed = []
+                for r in recs:
+                    if r.action.kind == ROLL:
+                        new_p = max(r.placement, best_buy_p + 0.15)
+                        fixed.append(WholeGameRec(
+                            r.action, round(new_p, 2), r.reason,
+                            round(base - new_p, 2)))
+                    else:
+                        fixed.append(r)
+                fixed.sort(key=lambda r: r.placement)
+                recs = fixed
+    except Exception:
+        pass
     return recs, base
 
 
