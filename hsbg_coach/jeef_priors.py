@@ -264,6 +264,24 @@ def shop_has_acceptable_fill(snapshot, kb=None) -> bool:
     return any(shop_unit_is_acceptable_fill(m, snapshot, kb) for m in shop)
 
 
+def roll_must_not_be_next(snapshot, kb=None) -> bool:
+    """Hard-ish gate (late high-roll still exempt via board_fill_roll_adjust).
+
+    Aidan playtest: if board size < 5 (or sparse helper), gold >= 3, and the
+    shop has any acceptable fill → top recommendation kind must not be ROLL.
+    """
+    gold = int(_get(snapshot, "gold") or 0)
+    if gold < 3:
+        return False
+    board = list(_get(snapshot, "board", []) or [])
+    n = len(board)
+    if n >= 5 and not _board_is_sparse(snapshot):
+        return False
+    # n < 5 OR sparse helper — defer to board_fill (handles late high-roll).
+    adj, _ = board_fill_roll_adjust(snapshot, kb)
+    return adj > 0
+
+
 def board_fill_roll_adjust(snapshot, kb=None) -> Tuple[float, Optional[str]]:
     """Soft placement nudge for ROLL. Positive = demote (prefer buy/stabilize).
 
@@ -281,13 +299,14 @@ def board_fill_roll_adjust(snapshot, kb=None) -> Tuple[float, Optional[str]]:
         return 0.0, None  # all trash → roll OK
     board = list(_get(snapshot, "board", []) or [])
     n = len(board)
-    # Soft strength scales with how empty the board is.
+    # Strength scales with emptiness. Call sites apply full adj (min demotion
+    # 0.6) — do NOT half-cap; sparse + fill must keep Roll off NEXT.
     if n < 3:
-        adj = 0.55
+        adj = 0.70
     elif n < 4:
-        adj = 0.40
+        adj = 0.60
     else:
-        adj = 0.28
+        adj = 0.55
     return adj, "board sparse — buy/stabilize before hard rolling"
 
 
@@ -309,6 +328,8 @@ def board_fill_buy_adjust(action, snapshot, kb=None) -> Tuple[float, Optional[st
     if not shop_unit_is_acceptable_fill(minion, snapshot, kb):
         return 0.0, None
     n = len(list(_get(snapshot, "board", []) or []))
+    # Placement nudge only — Roll hard-demotion keeps NEXT off ROLL. Keep buy
+    # boost modest so tech/anomaly/combat reads are not drowned.
     if n < 3:
         adj = -0.35
     elif n < 4:
@@ -423,7 +444,8 @@ def anti_stuck_roll_adjust(snapshot, kb=None) -> Tuple[float, Optional[str]]:
         return 0.0, None
     if not shop_has_solid_midgame(snapshot, kb):
         return 0.0, None  # shop is trash / off-plan — roll OK
-    return 0.35, "shop has solid on-direction — buy/cut instead of endless rolling"
+    # Full-strength demotion at call sites (min 0.6) — no *0.5 soft-cap.
+    return 0.55, "shop has solid on-direction — buy/cut instead of endless rolling"
 
 
 def midgame_solid_buy_adjust(action, snapshot, kb=None) -> Tuple[float, Optional[str]]:

@@ -18,9 +18,10 @@ from hsbg_coach.comp_signals import (
 )
 from hsbg_coach.draft import _trinket_fit
 from hsbg_coach.game_value import rank_actions
+from hsbg_coach.advisor import advise_actions
 from hsbg_coach.jeef_priors import (
     anti_stuck_roll_adjust, board_fill_roll_adjust, direction_cut_sell_adjust,
-    midgame_solid_buy_adjust,
+    midgame_solid_buy_adjust, roll_must_not_be_next,
 )
 from hsbg_coach.pace import load_pace
 
@@ -46,13 +47,27 @@ def test_sparse_board_mediocre_shop_prefers_buy_not_roll():
         ],
         "available_tribes": ["Beast", "Mech", "Pirate", "Dragon", "Murloc"],
     }
+    radj, _ = board_fill_roll_adjust(snap)
+    assert radj > 0
+    assert roll_must_not_be_next(snap)
+
     recs = _rank(snap)
     assert recs[0].action.kind == BUY, (
         f"NEXT should be buy on sparse board, got {recs[0].action.kind}: {recs[0].reason}"
     )
+    assert recs[0].action.kind != ROLL
     roll = next(r for r in recs if r.action.kind == ROLL)
     buy = next(r for r in recs if r.action.kind == BUY and r.action.target == "filler")
     assert buy.placement < roll.placement
+    # Full-strength demotion: roll at least +0.6 vs unadjusted base gap to buy.
+    assert roll.placement >= buy.placement + 0.15
+
+    plan = advise_actions(snap, scorer=SC, include_reposition=False)
+    assert plan.best.action.kind == BUY
+    adv_roll = next(a for a in plan.ranked if a.action.kind == ROLL)
+    assert adv_roll.priority <= 0.05, (
+        f"advisor roll prio must be <=0.05 after full demotion, got {adv_roll.priority}"
+    )
 
 
 def test_full_board_trash_shop_roll_ok():
@@ -71,8 +86,34 @@ def test_full_board_trash_shop_roll_ok():
     # Direct prior: roll should NOT be demoted (trash shop / full board).
     assert board_fill_roll_adjust(snap) == (0.0, None)
     assert anti_stuck_roll_adjust(snap)[0] == 0.0
+    assert not roll_must_not_be_next(snap)
     recs = _rank(snap)
     assert recs[0].action.kind == ROLL
+
+
+def test_hard_rule_board_lt5_fill_shop_top_not_roll():
+    """board size < 5 + gold>=3 + acceptable fill → top kind != ROLL."""
+    snap = {
+        "turn": 6, "tavern_tier": 3, "gold": 5, "hero_health": 28,
+        "board": [
+            {"name": "a", "attack": 4, "health": 4, "tribes": ["Dragon"], "tier": 2},
+            {"name": "b", "attack": 3, "health": 5, "tribes": ["Dragon"], "tier": 2},
+            {"name": "c", "attack": 2, "health": 2, "tribes": ["Dragon"], "tier": 1},
+            {"name": "d", "attack": 3, "health": 3, "tribes": ["Dragon"], "tier": 2},
+        ],
+        "shop": [
+            {"name": "fill", "attack": 3, "health": 4, "tribes": ["Dragon"], "tier": 3},
+            {"name": "trash", "attack": 1, "health": 1, "tribes": ["Pirate"], "tier": 1},
+        ],
+        "available_tribes": ["Beast", "Mech", "Pirate", "Dragon", "Murloc"],
+    }
+    assert len(snap["board"]) < 5
+    assert roll_must_not_be_next(snap)
+    recs = _rank(snap)
+    assert recs[0].action.kind != ROLL
+    assert recs[0].action.kind == BUY
+    plan = advise_actions(snap, scorer=SC, include_reposition=False)
+    assert plan.best.action.kind != ROLL
 
 
 def test_direction_only_mediocre_buy_still_beats_roll_when_sparse():
@@ -179,3 +220,94 @@ def test_naga_not_in_trinket_tribe_list():
     from hsbg_coach.draft import _TRIBES
     assert "naga" not in _TRIBES
     assert "aberration" in _TRIBES
+
+
+def test_board_profile_resolves_by_card_id():
+    """Live MinionView dicts: card_id must populate tribes/keywords even if name misses."""
+    from hsbg_coach.cards import load_kb
+    from hsbg_coach.draft import _board_profile
+    kb = load_kb()
+    assert kb, "kb required"
+    # Electric Synthesizer BG26_963 — Battlecry Dragon in KB
+    board = [
+        {"name": "WRONG_LIVE_NAME", "card_id": "BG26_963"},
+        {"name": "also_wrong", "card_id": "BG26_963"},
+        {"name": "also_wrong", "card_id": "BG26_963"},
+    ]
+    tribes, kws = _board_profile(board, kb)
+    assert tribes.get("dragon", 0) >= 3
+    assert "battlecry" in kws
+
+
+def test_trinket_strategy_beats_meta_not_position():
+    """Deathrattle/Battlecry plan must beat raw meta avg; not offer-order biased.
+
+    Meta-best Battlecry premium on the RIGHT, and again on the LEFT — both times
+    pick the plan-aligned trinket when the board is Battlecry Dragons.
+    """
+    from hsbg_coach.cards import load_kb
+    from hsbg_coach.draft import rank_trinkets
+    from hsbg_coach.stats import TrinketStats
+    from hsbg_coach.choices import ChoiceOffer, offer_advice_lines
+    from hsbg_coach.overlay import format_next, format_overlay_text
+
+    class FakeDB:
+        def __init__(self, items):
+            self.trinkets = items
+
+    kb = load_kb()
+    board = [
+        {"name": "WRONG", "card_id": "BG26_963"},  # Electric Synthesizer — BC Dragon
+        {"name": "WRONG", "card_id": "BG26_963"},
+        {"name": "WRONG", "card_id": "BG26_963"},
+        {"name": "WRONG", "card_id": "BG34_633"},  # Draconic Warden — BC Dragon
+    ]
+    tribes, kws = __import__("hsbg_coach.draft", fromlist=["_board_profile"])._board_profile(board, kb)
+    assert "battlecry" in kws and tribes.get("dragon", 0) >= 3
+
+    bc = TrinketStats(
+        name="Warcry Totem", card_id="T_BC", average_position=4.30, pick_rate=0.2,
+        tier="B",
+        text="The first two Battlecry minions you buy each turn are free.",
+    )
+    meta_best = TrinketStats(
+        name="Premium Charm", card_id="T_META", average_position=3.05, pick_rate=0.6,
+        tier="S",
+        text="At the end of your turn, give a random minion +2/+2.",
+    )
+    mid = TrinketStats(
+        name="Random Bauble", card_id="T_MID", average_position=3.70, pick_rate=0.3,
+        tier="A",
+        text="Gain 1 Gold.",
+    )
+    db = FakeDB([bc, meta_best, mid])
+
+    # Case A: meta-best LEFT, battlecry RIGHTMOST
+    offered_a = ["Premium Charm", "Random Bauble", "Warcry Totem"]
+    ranked_a = rank_trinkets(offered_a, db, board=board, kb=kb)
+    assert ranked_a[0].name == "Warcry Totem", (
+        f"expected Battlecry plan pick, got {ranked_a[0].name}: {ranked_a[0].reason}"
+    )
+
+    # Case B: battlecry LEFT, meta-best RIGHTMOST — still Battlecry (not position)
+    offered_b = ["Warcry Totem", "Random Bauble", "Premium Charm"]
+    ranked_b = rank_trinkets(offered_b, db, board=board, kb=kb)
+    assert ranked_b[0].name == "Warcry Totem", (
+        f"position-biased? got {ranked_b[0].name}: {ranked_b[0].reason}"
+    )
+
+    # Overlay: one clear NEXT → PICK with effect reason; alts not labeled PICK
+    offer = ChoiceOffer("trinket",
+                        ["T_META", "T_MID", "T_BC"],
+                        offered_a)
+    lines = offer_advice_lines(offer, board=board, kb=kb, db=db)
+    assert lines[0].startswith("PICK Warcry Totem — ")
+    assert "battlecry" in lines[0].lower() or "plays into" in lines[0].lower()
+    assert all(not l.startswith("PICK ") for l in lines[1:])
+    text = format_next({"phase": "choose trinket"}, None, lines)
+    assert "NEXT → PICK Warcry Totem" in text
+    assert "—" in text.split("\n")[0] or "—" in text
+    rich = format_overlay_text({"phase": "choose trinket", "board": board,
+                                "turn": 6, "tavern_tier": 4, "gold": 5,
+                                "hero_health": 30}, None, lines)
+    assert "NEXT → PICK Warcry Totem" in rich

@@ -74,9 +74,16 @@ def format_overlay_text(snapshot: Dict, odds: Optional[str] = None,
 
 
 def _short_move(line: str) -> str:
-    """Strip finish/rationale tails so the overlay stays one glance."""
+    """Strip finish/rationale tails so the overlay stays one glance.
+
+    Exception: trinket/discover ``PICK`` lines keep the effect reason — Aidan
+    needs ``NEXT → PICK <name> — <why>``, not a bare name that looks positional.
+    """
     if not line:
         return line
+    stripped = line.strip()
+    if stripped.startswith("PICK ") or stripped.startswith("alt: "):
+        return stripped
     # "Buy X (finish 3.8) — long reason" → "Buy X"
     if " (finish " in line:
         line = line.split(" (finish ", 1)[0]
@@ -96,7 +103,11 @@ def format_next(snapshot: Dict, odds: Optional[str] = None,
         head.append(note if str(note).startswith("building") else f"building: {note}")
     if recommendations:
         primary = _short_move(recommendations[0])
-        out = head + [f"→ {primary}"]
+        # Choice offers already say PICK … — lead with NEXT → for one glance.
+        if primary.startswith("PICK "):
+            out = head + [f"NEXT → {primary}"]
+        else:
+            out = head + [f"→ {primary}"]
         alts = [_short_move(a) for a in recommendations[1:3] if a]
         alts = [a for a in alts if a and a != primary]
         if alts:
