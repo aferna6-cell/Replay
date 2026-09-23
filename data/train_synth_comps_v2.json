@@ -1,0 +1,1459 @@
+{
+  "patch": "36.6.1",
+  "version": "v2_playable_no_t7",
+  "comps": [
+    {
+      "id": "synth_aberration_1",
+      "name": "Aberrations - Discard Engine",
+      "tribe": "aberration",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_097",
+        "BG36_104",
+        "BG36_109"
+      ],
+      "key_piece_ids": [
+        "BG36_097",
+        "BG36_104",
+        "BG36_109",
+        "BGFYM_005",
+        "BG36_106"
+      ],
+      "enabler_piece_ids": [
+        "BG36_114",
+        "BG36_300",
+        "BG36_312",
+        "BG36_311"
+      ],
+      "addon_piece_ids": [
+        "BG36_103",
+        "BG36_102",
+        "BG36_320"
+      ],
+      "core_names": [
+        "Mindbender Ghur'sha",
+        "Dark Puppeteer",
+        "The Shadow of Doubt"
+      ],
+      "key_names": [
+        "Mindbender Ghur'sha",
+        "Dark Puppeteer",
+        "The Shadow of Doubt",
+        "Harbinger Aph'lass",
+        "Cutthroat K'Thir"
+      ],
+      "enabler_names": [
+        "Parasitic Fleshling",
+        "N'raqi Frostcaller",
+        "Mindbending Recruiter",
+        "Abyssal Envoy"
+      ],
+      "addon_names": [
+        "N'raqi Sapper",
+        "De-volition-ist",
+        "Mysterious K'Thir"
+      ],
+      "playbook": "Aberrations win early–mid by discarding fodder to pump your Deity and board, then often pivot rather than forcing a pure late Aberration endgame. Key enablers: Activate discard pieces (Zoatroid, Abyssal Envoy, Mindbending Recruiter) plus hand generators; Blood Gems are excellent discard fuel. Mindbender Ghur'sha is the board-wide payoff on every discard; Cutthroat K'Thir and Harbinger Aph'lass stack Deity/self stats; The Shadow of Doubt scales whenever cards enter hand. Turn plan: keep a discard Activate ready, generate cheap cards/spells, discard into Mindbender Ghur'sha/Cutthroat K'Thir/Harbinger Aph'lass, and improve spell power with Dark Puppeteer / N'raqi Frostcaller. Late: Parasitic Fleshling and Mysterious K'Thir convert total discards/spells into stats; De-volition-ist is the attack finisher. Do not plan around Tier-7.",
+      "notes": "Real discard/Deity engine (not top-tier sort). Meta: early–mid launchpad; Blood Gems = discard fodder; no T7.",
+      "example_board": [
+        {
+          "name": "Dark Puppeteer",
+          "card_id": "BG36_104",
+          "attack": 12,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "The Shadow of Doubt",
+          "card_id": "BG36_109",
+          "attack": 10,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Harbinger Aph'lass",
+          "card_id": "BGFYM_005",
+          "attack": 8,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Mindbender Ghur'sha",
+          "card_id": "BG36_097",
+          "attack": 8,
+          "health": 16,
+          "tier": 5,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 16,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Cutthroat K'Thir",
+          "card_id": "BG36_106",
+          "attack": 14,
+          "health": 14,
+          "tier": 4,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 14,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Parasitic Fleshling",
+          "card_id": "BG36_114",
+          "attack": 10,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "De-volition-ist",
+          "card_id": "BG36_102",
+          "attack": 12,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5,
+      "t7_note": "T7 minions are useful additions when they fit the plan, but they are NOT required. Do not treat Tier-7 as mandatory for this archetype; cores/keys/example boards stay <=T6.",
+      "t7_required": false,
+      "example_boards": [
+        [
+          {
+            "name": "Dark Puppeteer",
+            "card_id": "BG36_104",
+            "attack": 12,
+            "health": 10,
+            "tier": 6,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 12,
+              "HEALTH": 10,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "The Shadow of Doubt",
+            "card_id": "BG36_109",
+            "attack": 10,
+            "health": 14,
+            "tier": 6,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 14,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Harbinger Aph'lass",
+            "card_id": "BGFYM_005",
+            "attack": 8,
+            "health": 14,
+            "tier": 6,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 14,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Mindbender Ghur'sha",
+            "card_id": "BG36_097",
+            "attack": 8,
+            "health": 16,
+            "tier": 5,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 16,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Cutthroat K'Thir",
+            "card_id": "BG36_106",
+            "attack": 14,
+            "health": 14,
+            "tier": 4,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 14,
+              "HEALTH": 14,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Parasitic Fleshling",
+            "card_id": "BG36_114",
+            "attack": 10,
+            "health": 12,
+            "tier": 4,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 12,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "De-volition-ist",
+            "card_id": "BG36_102",
+            "attack": 12,
+            "health": 14,
+            "tier": 5,
+            "tribes": [
+              "aberration"
+            ],
+            "tags": {
+              "ATK": 12,
+              "HEALTH": 14,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          }
+        ]
+      ],
+      "in_pool": true,
+      "avg_placement": 2.5
+    },
+    {
+      "id": "synth_dragon_1",
+      "name": "Dragons - Rally Poet",
+      "tribe": "dragon",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_241",
+        "BG29_813",
+        "BGS_041"
+      ],
+      "key_piece_ids": [
+        "BG36_241",
+        "BG29_813",
+        "BGS_041",
+        "BG24_500",
+        "BG34_633"
+      ],
+      "enabler_piece_ids": [
+        "BG36_243",
+        "BG32_821",
+        "BG32_820",
+        "BG36_242"
+      ],
+      "addon_piece_ids": [
+        "BG35_814",
+        "BG21_015",
+        "BG36_245",
+        "BG_LOE_077"
+      ],
+      "core_names": [
+        "Crimson Vindicator",
+        "Persistent Poet",
+        "Kalecgos, Arcane Aspect"
+      ],
+      "key_names": [
+        "Crimson Vindicator",
+        "Persistent Poet",
+        "Kalecgos, Arcane Aspect",
+        "Amber Guardian",
+        "Draconic Warden"
+      ],
+      "enabler_names": [
+        "Sky-hatch Runaway",
+        "Felfire Conjurer",
+        "Firescale Hoarder",
+        "Bronze Timewalker"
+      ],
+      "addon_names": [
+        "Scarlet Survivor",
+        "Tarecgosa",
+        "Runic Arcanist",
+        "Brann Bronzebeard"
+      ],
+      "playbook": "Classic Dragons APM Evoker is dead this lobby (Fire-Forged Evoker / key discover pieces out of pool) — play Rally + permanent-keyword dragons instead. Park Persistent Poet beside your carry (Crimson Vindicator or Scarlet Survivor/Tarecgosa) so combat keywords and stats stick forever; Amber Guardian attaches permanent Divine Shield through Poet. Hunt Chromadrake generators (Draconic Warden, Bronze Timewalker, Hired Mount) and Sky-hatch Runaway to force Rally triggers on demand; Crimson Vindicator's Rally casts Mighty Dragonbreath for the combat spike. Kalecgos, Arcane Aspect (+ Brann Bronzebeard if available) rewards battlecry cycling (Draconic Warden, Tavern Tempest, Firescale Hoarder). Felfire Conjurer / Firescale Hoarder drip permanent tavern-spell buffs. Do not draft around Tier-7 Obsidian Ravager.",
+      "notes": "Non-Evoker rebuild: Permanent Poet + Rally Chromadrake from in-pool pieces. Evoker keys out of pool. No T7.",
+      "example_board": [
+        {
+          "name": "Crimson Vindicator",
+          "card_id": "BG36_241",
+          "attack": 14,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Persistent Poet",
+          "card_id": "BG29_813",
+          "attack": 6,
+          "health": 8,
+          "tier": 4,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Kalecgos, Arcane Aspect",
+          "card_id": "BGS_041",
+          "attack": 10,
+          "health": 20,
+          "tier": 5,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 20,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Amber Guardian",
+          "card_id": "BG24_500",
+          "attack": 8,
+          "health": 10,
+          "tier": 3,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Draconic Warden",
+          "card_id": "BG34_633",
+          "attack": 12,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sky-hatch Runaway",
+          "card_id": "BG36_243",
+          "attack": 10,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Felfire Conjurer",
+          "card_id": "BG32_821",
+          "attack": 10,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "dragon",
+            "demon"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5,
+      "t7_note": "T7 minions are useful additions when they fit the plan, but they are NOT required. Do not treat Tier-7 as mandatory for this archetype; cores/keys/example boards stay <=T6.",
+      "t7_required": false,
+      "example_boards": [
+        [
+          {
+            "name": "Crimson Vindicator",
+            "card_id": "BG36_241",
+            "attack": 14,
+            "health": 16,
+            "tier": 6,
+            "tribes": [
+              "dragon"
+            ],
+            "tags": {
+              "ATK": 14,
+              "HEALTH": 16,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Persistent Poet",
+            "card_id": "BG29_813",
+            "attack": 6,
+            "health": 8,
+            "tier": 4,
+            "tribes": [
+              "dragon"
+            ],
+            "tags": {
+              "ATK": 6,
+              "HEALTH": 8,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Kalecgos, Arcane Aspect",
+            "card_id": "BGS_041",
+            "attack": 10,
+            "health": 20,
+            "tier": 5,
+            "tribes": [
+              "dragon"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 20,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Amber Guardian",
+            "card_id": "BG24_500",
+            "attack": 8,
+            "health": 10,
+            "tier": 3,
+            "tribes": [
+              "dragon"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 10,
+              "TECH_LEVEL": 3,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Draconic Warden",
+            "card_id": "BG34_633",
+            "attack": 12,
+            "health": 10,
+            "tier": 5,
+            "tribes": [
+              "dragon"
+            ],
+            "tags": {
+              "ATK": 12,
+              "HEALTH": 10,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Sky-hatch Runaway",
+            "card_id": "BG36_243",
+            "attack": 10,
+            "health": 12,
+            "tier": 4,
+            "tribes": [
+              "dragon"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 12,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Felfire Conjurer",
+            "card_id": "BG32_821",
+            "attack": 10,
+            "health": 10,
+            "tier": 5,
+            "tribes": [
+              "dragon",
+              "demon"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 10,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          }
+        ]
+      ],
+      "in_pool": true,
+      "avg_placement": 2.5
+    },
+    {
+      "id": "synth_elemental_1",
+      "name": "Elementals - Unbound Tempest",
+      "tribe": "elemental",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_352",
+        "BG34_858",
+        "BGS_123"
+      ],
+      "key_piece_ids": [
+        "BG36_352",
+        "BG34_858",
+        "BGS_123",
+        "BG_LOE_077",
+        "BG36_701"
+      ],
+      "enabler_piece_ids": [
+        "BG26_537",
+        "BG34_500",
+        "BGS_116",
+        "BG34_865"
+      ],
+      "addon_piece_ids": [
+        "BG26_175",
+        "BG36_181",
+        "BG36_180"
+      ],
+      "core_names": [
+        "Unbound Tempest",
+        "Air Revenant",
+        "Tavern Tempest"
+      ],
+      "key_names": [
+        "Unbound Tempest",
+        "Air Revenant",
+        "Tavern Tempest",
+        "Brann Bronzebeard",
+        "Kelp Keeper"
+      ],
+      "enabler_names": [
+        "Flourishing Frostling",
+        "Flaming Enforcer",
+        "Refreshing Anomaly",
+        "En-Djinn Blazer"
+      ],
+      "addon_names": [
+        "Elemental of Surprise",
+        "Air Baller",
+        "Living Prison"
+      ],
+      "playbook": "Elementals Unbound Tempest is still the scaling plan: buff the shop, then feed Unbound Tempest the highest-Health tavern minion every three Elementals played. Nomi is out of pool — Air Revenant (Easterly Winds after gold) and En-Djinn Blazer / Waveling refresh buffs are the shop enablers. Economy engine: Brann Bronzebeard + Tavern Tempest + Kelp Keeper to chain Elemental battlecries and stay infinite; cycle Sellemental, Refreshing Anomaly, and Ballers. Flaming Enforcer stabilizes mid by consuming tavern Health; Flourishing Frostling is a passive payoff for Elementals played this game; Elemental of Surprise helps triple awkwardly. Do not plan around Tier-7 Stone Age Slab.",
+      "notes": "Classic Unbound Tempest shop-scaling without Nomi/out-of-pool keys; Air Revenant is the shop buffer. No T7.",
+      "example_board": [
+        {
+          "name": "Unbound Tempest",
+          "card_id": "BG36_352",
+          "attack": 18,
+          "health": 28,
+          "tier": 6,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 18,
+            "HEALTH": 28,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Air Revenant",
+          "card_id": "BG34_858",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Flourishing Frostling",
+          "card_id": "BG26_537",
+          "attack": 16,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Flaming Enforcer",
+          "card_id": "BG34_500",
+          "attack": 14,
+          "health": 16,
+          "tier": 4,
+          "tribes": [
+            "demon",
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 16,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Tavern Tempest",
+          "card_id": "BGS_123",
+          "attack": 6,
+          "health": 6,
+          "tier": 4,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 6,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Kelp Keeper",
+          "card_id": "BG36_701",
+          "attack": 6,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5,
+      "t7_note": "T7 minions are useful additions when they fit the plan, but they are NOT required. Do not treat Tier-7 as mandatory for this archetype; cores/keys/example boards stay <=T6.",
+      "t7_required": false,
+      "example_boards": [
+        [
+          {
+            "name": "Unbound Tempest",
+            "card_id": "BG36_352",
+            "attack": 18,
+            "health": 28,
+            "tier": 6,
+            "tribes": [
+              "elemental"
+            ],
+            "tags": {
+              "ATK": 18,
+              "HEALTH": 28,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Air Revenant",
+            "card_id": "BG34_858",
+            "attack": 8,
+            "health": 14,
+            "tier": 5,
+            "tribes": [
+              "elemental"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 14,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Flourishing Frostling",
+            "card_id": "BG26_537",
+            "attack": 16,
+            "health": 10,
+            "tier": 5,
+            "tribes": [
+              "elemental"
+            ],
+            "tags": {
+              "ATK": 16,
+              "HEALTH": 10,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Flaming Enforcer",
+            "card_id": "BG34_500",
+            "attack": 14,
+            "health": 16,
+            "tier": 4,
+            "tribes": [
+              "demon",
+              "elemental"
+            ],
+            "tags": {
+              "ATK": 14,
+              "HEALTH": 16,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Tavern Tempest",
+            "card_id": "BGS_123",
+            "attack": 6,
+            "health": 6,
+            "tier": 4,
+            "tribes": [
+              "elemental"
+            ],
+            "tags": {
+              "ATK": 6,
+              "HEALTH": 6,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Brann Bronzebeard",
+            "card_id": "BG_LOE_077",
+            "attack": 4,
+            "health": 8,
+            "tier": 5,
+            "tribes": [],
+            "tags": {
+              "ATK": 4,
+              "HEALTH": 8,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Kelp Keeper",
+            "card_id": "BG36_701",
+            "attack": 6,
+            "health": 10,
+            "tier": 4,
+            "tribes": [
+              "murloc"
+            ],
+            "tags": {
+              "ATK": 6,
+              "HEALTH": 10,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          }
+        ]
+      ],
+      "in_pool": true,
+      "avg_placement": 2.5
+    },
+    {
+      "id": "synth_mech_1",
+      "name": "Mechs - Glambot Magnetics",
+      "tribe": "mech",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_853",
+        "BG26_152",
+        "BG36_851"
+      ],
+      "key_piece_ids": [
+        "BG36_853",
+        "BG26_152",
+        "BG36_851",
+        "BG35_883",
+        "BG36_506"
+      ],
+      "enabler_piece_ids": [
+        "BG28_741",
+        "BG35_342",
+        "BG36_764",
+        "BG35_341"
+      ],
+      "addon_piece_ids": [
+        "BG26_147",
+        "BG_BOT_911",
+        "BG25_354"
+      ],
+      "core_names": [
+        "Glambot",
+        "Utility Drone",
+        "Spark Snapper"
+      ],
+      "key_names": [
+        "Glambot",
+        "Utility Drone",
+        "Spark Snapper",
+        "Balinda Stonehearth",
+        "Drone Duplicator"
+      ],
+      "enabler_names": [
+        "Charging Czarina",
+        "Falling Sky Golem",
+        "Gearfin",
+        "Enchanted Sentinel"
+      ],
+      "addon_names": [
+        "Accord-o-Tron",
+        "Annoy-o-Module",
+        "Titus Rivendare"
+      ],
+      "playbook": "Mechs Magnetics/Spells: while Glambot is on board, every spell cast on a Mech Magnetizes a Satellite; Balinda Stonehearth doubles targeted friendly spells so you attach twice as often. Spark Snapper improves Satellite size whenever you play Mechs (Scrap Scraper is out — Snapper is the generation core). Drone Duplicator Activate makes the next Magnetize happen an extra time. Endgame Utility Drone pays +4/+5 per Magnetization at end of turn — that is the win condition. Charging Czarina spikes Divine Shield mechs when you cast spells. Turn plan: buy 1–2 cost targeted spells / Fearless Foodie / Gearfin spell gen, cast onto mechs, Activate Duplicator on the best Magnetize, then land Utility Drone. Optional deathrattle line: Falling Sky Golem + Titus Rivendare if magnetics are slow. No Tier-7 Polarizing Beatboxer.",
+      "notes": "Rebuild of Magnetics/Spells without Scrap Scraper / Beatboxer; Glambot+Snapper+Utility Drone+Balinda. No T7.",
+      "example_board": [
+        {
+          "name": "Utility Drone",
+          "card_id": "BG26_152",
+          "attack": 10,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Glambot",
+          "card_id": "BG36_853",
+          "attack": 8,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Spark Snapper",
+          "card_id": "BG36_851",
+          "attack": 12,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Drone Duplicator",
+          "card_id": "BG36_506",
+          "attack": 8,
+          "health": 8,
+          "tier": 4,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 8,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "card_id": "BG35_883",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Charging Czarina",
+          "card_id": "BG28_741",
+          "attack": 10,
+          "health": 6,
+          "tier": 5,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 6,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Falling Sky Golem",
+          "card_id": "BG35_342",
+          "attack": 20,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 20,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5,
+      "t7_note": "T7 minions are useful additions when they fit the plan, but they are NOT required. Do not treat Tier-7 as mandatory for this archetype; cores/keys/example boards stay <=T6.",
+      "t7_required": false,
+      "example_boards": [
+        [
+          {
+            "name": "Utility Drone",
+            "card_id": "BG26_152",
+            "attack": 10,
+            "health": 14,
+            "tier": 6,
+            "tribes": [
+              "mech"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 14,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Glambot",
+            "card_id": "BG36_853",
+            "attack": 8,
+            "health": 10,
+            "tier": 4,
+            "tribes": [
+              "mech"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 10,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Spark Snapper",
+            "card_id": "BG36_851",
+            "attack": 12,
+            "health": 12,
+            "tier": 5,
+            "tribes": [
+              "mech"
+            ],
+            "tags": {
+              "ATK": 12,
+              "HEALTH": 12,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Drone Duplicator",
+            "card_id": "BG36_506",
+            "attack": 8,
+            "health": 8,
+            "tier": 4,
+            "tribes": [
+              "mech"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 8,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Balinda Stonehearth",
+            "card_id": "BG35_883",
+            "attack": 12,
+            "health": 12,
+            "tier": 6,
+            "tribes": [],
+            "tags": {
+              "ATK": 12,
+              "HEALTH": 12,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Charging Czarina",
+            "card_id": "BG28_741",
+            "attack": 10,
+            "health": 6,
+            "tier": 5,
+            "tribes": [
+              "mech"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 6,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Falling Sky Golem",
+            "card_id": "BG35_342",
+            "attack": 20,
+            "health": 14,
+            "tier": 6,
+            "tribes": [
+              "mech"
+            ],
+            "tags": {
+              "ATK": 20,
+              "HEALTH": 14,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          }
+        ]
+      ],
+      "in_pool": true,
+      "avg_placement": 2.5
+    },
+    {
+      "id": "synth_quilboar_1",
+      "name": "Quilboar - Choose One Gems",
+      "tribe": "quilboar",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG31_323",
+        "BG31_326",
+        "BG23_017"
+      ],
+      "key_piece_ids": [
+        "BG31_323",
+        "BG31_326",
+        "BG23_017",
+        "BG33_885",
+        "BG36_341"
+      ],
+      "enabler_piece_ids": [
+        "BG30_123",
+        "BG36_331",
+        "BG31_327",
+        "BG34_684"
+      ],
+      "addon_piece_ids": [
+        "BG20_104",
+        "BG28_633",
+        "BG28_583"
+      ],
+      "core_names": [
+        "Turbo Hogrider",
+        "Gem Rat",
+        "Sanguine Champion"
+      ],
+      "key_names": [
+        "Turbo Hogrider",
+        "Gem Rat",
+        "Sanguine Champion",
+        "Sanguine Refiner",
+        "Veteran Brigand"
+      ],
+      "enabler_names": [
+        "Fearless Foodie",
+        "Bramble Tunneler",
+        "Thorned Trailblazer",
+        "Trench Fighter"
+      ],
+      "addon_names": [
+        "Bonker",
+        "Felboar",
+        "Geomagus Roogug"
+      ],
+      "playbook": "Quilboar Choose One: scale Blood Gem quality first (Gem Rat's Gem Day, Fearless Foodie +1/+1 choose, Sanguine Refiner Rally, Sanguine Champion battlecry/deathrattle), then pay off with Turbo Hogrider. Every Choose One you play makes Turbo Hogrider blood-gem all other Quilboar — generate Choose Ones via Bramble Tunneler, Gem Rat, Snare Trapper, Crater Miner; Thorned Trailblazer combines both Choose effects. Veteran Brigand is the late Choose One bomb (gems everyone or triple Barrage). Trench Fighter's Gem Confiscation concentrates gems onto one unit when you need a carry. Meta: Quilboar are often support (Blood Gems for spell-on-minion comps or Aberration discard fodder) — force pure Quilboar when the lobby is soft or you hit Hogrider + gem quality early. No Tier-7 Jailbird Juggernaut; Vigilant Bristlemane is out of pool.",
+      "notes": "Choose One quilboar without Vigilant Bristlemane / Jailbird T7; Turbo Hogrider + gem quality + Choose One generation.",
+      "example_board": [
+        {
+          "name": "Turbo Hogrider",
+          "card_id": "BG31_323",
+          "attack": 12,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Veteran Brigand",
+          "card_id": "BG36_341",
+          "attack": 14,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sanguine Champion",
+          "card_id": "BG23_017",
+          "attack": 14,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sanguine Refiner",
+          "card_id": "BG33_885",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Gem Rat",
+          "card_id": "BG31_326",
+          "attack": 6,
+          "health": 8,
+          "tier": 3,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Fearless Foodie",
+          "card_id": "BG30_123",
+          "attack": 8,
+          "health": 10,
+          "tier": 3,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Bonker",
+          "card_id": "BG20_104",
+          "attack": 10,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5,
+      "t7_note": "T7 minions are useful additions when they fit the plan, but they are NOT required. Do not treat Tier-7 as mandatory for this archetype; cores/keys/example boards stay <=T6.",
+      "t7_required": false,
+      "example_boards": [
+        [
+          {
+            "name": "Turbo Hogrider",
+            "card_id": "BG31_323",
+            "attack": 12,
+            "health": 16,
+            "tier": 6,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 12,
+              "HEALTH": 16,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Veteran Brigand",
+            "card_id": "BG36_341",
+            "attack": 14,
+            "health": 14,
+            "tier": 6,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 14,
+              "HEALTH": 14,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Sanguine Champion",
+            "card_id": "BG23_017",
+            "attack": 14,
+            "health": 10,
+            "tier": 6,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 14,
+              "HEALTH": 10,
+              "TECH_LEVEL": 6,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Sanguine Refiner",
+            "card_id": "BG33_885",
+            "attack": 8,
+            "health": 14,
+            "tier": 5,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 14,
+              "TECH_LEVEL": 5,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Gem Rat",
+            "card_id": "BG31_326",
+            "attack": 6,
+            "health": 8,
+            "tier": 3,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 6,
+              "HEALTH": 8,
+              "TECH_LEVEL": 3,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Fearless Foodie",
+            "card_id": "BG30_123",
+            "attack": 8,
+            "health": 10,
+            "tier": 3,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 8,
+              "HEALTH": 10,
+              "TECH_LEVEL": 3,
+              "PREMIUM": 1
+            }
+          },
+          {
+            "name": "Bonker",
+            "card_id": "BG20_104",
+            "attack": 10,
+            "health": 12,
+            "tier": 4,
+            "tribes": [
+              "quilboar"
+            ],
+            "tags": {
+              "ATK": 10,
+              "HEALTH": 12,
+              "TECH_LEVEL": 4,
+              "PREMIUM": 1
+            }
+          }
+        ]
+      ],
+      "in_pool": true,
+      "avg_placement": 2.5
+    }
+  ]
+}

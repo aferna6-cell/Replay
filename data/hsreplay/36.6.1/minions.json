@@ -1,0 +1,6840 @@
+{
+  "patch": "36.6.1",
+  "minions": [
+    {
+      "id": "BG20_100",
+      "dbf_id": 70143,
+      "name": "Razorfen Geomancer",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "Battlecry: Get 2 Blood Gems .",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG20_101",
+      "dbf_id": 70157,
+      "name": "Roadboar",
+      "attack": 2,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Rally: Get a Blood Gem .",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG20_104",
+      "dbf_id": 70173,
+      "name": "Bonker",
+      "attack": 2,
+      "health": 7,
+      "tavern_tier": 4,
+      "effect_text": "Windfury Rally: This plays a Blood Gem on all your other minions.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally",
+        "windfury"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "windfury",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG21_004",
+      "dbf_id": 72060,
+      "name": "Insatiable Ur'zul",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "[x] Taunt . After you play a Demon, consume a random minion in the Tavern to gain its stats.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "taunt",
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_41"
+      ],
+      "synergy_tags": [
+        "taunt",
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_41": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG21_015",
+      "dbf_id": 72062,
+      "name": "Tarecgosa",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "This permanently keeps Bonus Keyword s and stats gained in combat.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG22_202",
+      "dbf_id": 87060,
+      "name": "Tad",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "When you sell this, get a random Murloc.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG23_017",
+      "dbf_id": 80755,
+      "name": "Sanguine Champion",
+      "attack": 9,
+      "health": 4,
+      "tavern_tier": 6,
+      "effect_text": "[x] Battlecry and Deathrattle: Your Blood Gems give an extra +2/+1 this game.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_88",
+        "comp_90"
+      ],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0,
+        "comp_90": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG23_318",
+      "dbf_id": 90425,
+      "name": "Leeroy the Reckless",
+      "attack": 6,
+      "health": 2,
+      "tavern_tier": 5,
+      "effect_text": "Deathrattle: Destroy the minion that killed this.",
+      "tribes": [],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_68",
+        "comp_8"
+      ],
+      "synergy_tags": [
+        "deathrattle"
+      ],
+      "synergy_scores": {
+        "comp_68": 1.0,
+        "comp_8": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG23_357",
+      "dbf_id": 93321,
+      "name": "Mind Muck",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "[x] Battlecry: Choose a friendly Demon. It consumes a minion in the Tavern to gain its stats.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG24_018",
+      "dbf_id": 92406,
+      "name": "Tortollan Blue Shell",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "If you lost your last combat, this minion sells for 5 Gold.",
+      "tribes": [],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG24_500",
+      "dbf_id": 95006,
+      "name": "Amber Guardian",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 3,
+      "effect_text": "[x] Taunt Start of Combat: Give another friendly Dragon +2/+2 and Divine Shield .",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "start_of_combat",
+        "taunt",
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_15",
+        "comp_73"
+      ],
+      "synergy_tags": [
+        "start_of_combat",
+        "taunt",
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {
+        "comp_15": 1.0,
+        "comp_73": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG24_715",
+      "dbf_id": 97604,
+      "name": "Patient Scout",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "[x]When you sell this, Discover a Tier 1 minion. (Improves each turn!)",
+      "tribes": [],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_001",
+      "dbf_id": 95246,
+      "name": "Risen Rider",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "Taunt Reborn",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "reborn",
+        "taunt"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "reborn",
+        "taunt",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_008",
+      "dbf_id": 95261,
+      "name": "Eternal Knight",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "[x]Has +4/+2 for each friendly Eternal Knight that died this game (wherever this is) .",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "aura",
+        "invisibledeathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "invisibledeathrattle",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_009",
+      "dbf_id": 95263,
+      "name": "Eternal Summoner",
+      "attack": 8,
+      "health": 1,
+      "tavern_tier": 6,
+      "effect_text": "[x] Reborn . Deathrattle: Summon 1 Eternal Knight.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle",
+        "reborn"
+      ],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "reborn",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_010",
+      "dbf_id": 95265,
+      "name": "Handless Forsaken",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "Deathrattle: Summon a 2/1 Hand with Reborn .",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_14",
+        "comp_3"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0,
+        "comp_3": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_011",
+      "dbf_id": 95267,
+      "name": "Nerubian Deathswarmer",
+      "attack": 1,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "[x] Battlecry: Your Undead have +1 Attack this game (wherever they are) .",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_013",
+      "dbf_id": 95271,
+      "name": "Rot Hide Gnoll",
+      "attack": 1,
+      "health": 4,
+      "tavern_tier": 1,
+      "effect_text": "Has +1 Attack for each friendly minion that died this combat.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_016",
+      "dbf_id": 95286,
+      "name": "Sin'dorei Straight Shot",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "[x] Divine Shield , Windfury Rally: Remove Reborn and Taunt from the target.",
+      "tribes": [],
+      "keywords": [
+        "bacon_rally",
+        "divine_shield",
+        "windfury"
+      ],
+      "comp_ids": [
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "divine_shield",
+        "windfury"
+      ],
+      "synergy_scores": {
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_022",
+      "dbf_id": 95280,
+      "name": "Scarlet Skull",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "Reborn Deathrattle: Give a friendly Undead +1/+2.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle",
+        "reborn"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "reborn",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_034",
+      "dbf_id": 97539,
+      "name": "Captain Sanders",
+      "attack": 9,
+      "health": 9,
+      "tavern_tier": 7,
+      "effect_text": "Battlecry: Make a friendly minion from Tier 6 or below Golden.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG25_354",
+      "dbf_id": 97408,
+      "name": "Titus Rivendare",
+      "attack": 1,
+      "health": 7,
+      "tavern_tier": 5,
+      "effect_text": "Your Deathrattles trigger an extra time.",
+      "tribes": [],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [
+        "comp_12",
+        "comp_14",
+        "comp_68",
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "aura"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0,
+        "comp_14": 1.0,
+        "comp_68": 1.0,
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_135",
+      "dbf_id": 98501,
+      "name": "Southsea Busker",
+      "attack": 3,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "Battlecry: Gain 1 Gold next turn.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_137",
+      "dbf_id": 98509,
+      "name": "Bream Counter",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "While this is in your hand, after you play a Murloc, gain +6/+6.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_146",
+      "dbf_id": 98582,
+      "name": "Lullabot",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 1,
+      "effect_text": "[x] Magnetic At the end of your turn, gain +1 Health.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "end_of_turn_trigger",
+        "magnetic"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "magnetic",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_147",
+      "dbf_id": 98576,
+      "name": "Accord-o-Tron",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "[x] Magnetic At the start of your turn, gain 1 Gold.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "magnetic",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "magnetic",
+        "trigger_visual",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_149",
+      "dbf_id": 98713,
+      "name": "Polarizing Beatboxer",
+      "attack": 5,
+      "health": 10,
+      "tavern_tier": 7,
+      "effect_text": "Whenever you Magnetize to a different minion, it also Magnetizes to this.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_152",
+      "dbf_id": 98588,
+      "name": "Utility Drone",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 6,
+      "effect_text": "[x]At the end of your turn, give your minions +4/+5 for each Magnetization they have.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [
+        "comp_2",
+        "comp_91"
+      ],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "mech"
+      ],
+      "synergy_scores": {
+        "comp_2": 1.0,
+        "comp_91": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_174",
+      "dbf_id": 100949,
+      "name": "Soul Rewinder",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "After your hero takes damage, rewind it and give this +2 Health.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_41"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_41": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_175",
+      "dbf_id": 101280,
+      "name": "Elemental of Surprise",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "Divine Shield This minion can triple with any Elemental.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "divine_shield"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_354",
+      "dbf_id": 98948,
+      "name": "Choral Mrrrglr",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 6,
+      "effect_text": "[x] Start of Combat: Gain the stats of all the minions in your hand.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_67"
+      ],
+      "synergy_tags": [
+        "start_of_combat",
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_67": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_523",
+      "dbf_id": 99228,
+      "name": "Tichondrius",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 5,
+      "effect_text": "After your hero takes damage, give your Demons +4/+4.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_13"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_524",
+      "dbf_id": 99199,
+      "name": "Malchezaar, Prince of Dance",
+      "attack": 4,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "Two Refreshes each turn cost Health instead of Gold. (2 left!)",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_13"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_525",
+      "dbf_id": 99232,
+      "name": "Imposing Percussionist",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "[x] Battlecry: Discover a Demon. Deal damage to your hero equal to its Tier.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_537",
+      "dbf_id": 101267,
+      "name": "Flourishing Frostling",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 5,
+      "effect_text": "[x]Has +2/+1 for each Elemental you played this game (wherever this is) .",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_802",
+      "dbf_id": 98824,
+      "name": "Banana Slamma",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "[x]After you summon a Beast in combat, double its Attack.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_12",
+        "comp_38",
+        "comp_83"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0,
+        "comp_38": 1.0,
+        "comp_83": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_805",
+      "dbf_id": 98939,
+      "name": "Humming Bird",
+      "attack": 1,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Start of Combat: For the rest of this combat, your Beasts have +1 Attack.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "start_of_combat",
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_810",
+      "dbf_id": 98889,
+      "name": "Gunpowder Courier",
+      "attack": 2,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "[x]Whenever you spend 5 Gold, give your Pirates +2 Attack. (5 Gold left!)",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_814",
+      "dbf_id": 99011,
+      "name": "Lovesick Balladist",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "[x] Battlecry: Give a Pirate +1 Health. (Improved by each Gold you spent this turn!)",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_817",
+      "dbf_id": 99035,
+      "name": "Blade Collector",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "Also damages the enemies next to whomever this attacks.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [],
+      "comp_ids": [
+        "comp_89",
+        "comp_90"
+      ],
+      "synergy_tags": [
+        "pirate"
+      ],
+      "synergy_scores": {
+        "comp_89": 1.0,
+        "comp_90": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_963",
+      "dbf_id": 100026,
+      "name": "Electric Synthesizer",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Battlecry and Start of Combat: Give your other Dragons +1/+1.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "battlecry",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG26_ICC_901",
+      "dbf_id": 101314,
+      "name": "Drakkari Enchanter",
+      "attack": 1,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "Your end of turn effects trigger twice.",
+      "tribes": [],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [
+        "comp_2",
+        "comp_55",
+        "comp_88",
+        "comp_91",
+        "comp_93"
+      ],
+      "synergy_tags": [
+        "aura"
+      ],
+      "synergy_scores": {
+        "comp_2": 1.0,
+        "comp_55": 1.0,
+        "comp_88": 1.0,
+        "comp_91": 1.0,
+        "comp_93": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG27_005",
+      "dbf_id": 103676,
+      "name": "Timecap'n Hooktail",
+      "attack": 1,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "[x]Whenever you cast a Tavern spell, give your minions +1 Attack.",
+      "tribes": [
+        "pirate",
+        "dragon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG27_016",
+      "dbf_id": 103698,
+      "name": "Champion of Sargeras",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 7,
+      "effect_text": "[x] Battlecry and Deathrattle: Give minions in the Tavern +8/+8 this game.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG27_017",
+      "dbf_id": 103700,
+      "name": "Obsidian Ravager",
+      "attack": 7,
+      "health": 7,
+      "tavern_tier": 7,
+      "effect_text": "[x] Rally: Deal damage equal to this minion's Attack to the target and an adjacent minion.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG27_084",
+      "dbf_id": 108909,
+      "name": "Sprightly Scarab",
+      "attack": 3,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "[x] Choose One - Give a Beast +1/+1 and Reborn ; or +4 Attack and Windfury .",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG27_556",
+      "dbf_id": 108922,
+      "name": "Diremuck Forager",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 3,
+      "effect_text": "Start of Combat: When you have space, summon the highest-Attack Murloc from your hand for this combat only.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_67",
+        "comp_8"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_67": 1.0,
+        "comp_8": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_300",
+      "dbf_id": 104551,
+      "name": "Harmless Bonehead",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "Deathrattle: Summon two 1/1 Skeletons.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_303",
+      "dbf_id": 104610,
+      "name": "Disguised Graverobber",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "Battlecry: Destroy a friendly Undead to get a plain copy of it.",
+      "tribes": [],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_309",
+      "dbf_id": 108992,
+      "name": "Mummifier",
+      "attack": 5,
+      "health": 2,
+      "tavern_tier": 3,
+      "effect_text": "Deathrattle: Give a different friendly Undead Reborn .",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_550",
+      "dbf_id": 104466,
+      "name": "Rodeo Performer",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry: Discover a Tavern spell.",
+      "tribes": [],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_583",
+      "dbf_id": 104766,
+      "name": "Geomagus Roogug",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "[x] Divine Shield . Whenever a Blood Gem is played on this, this plays a Blood Gem on a different friendly minion.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "divine_shield",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "trigger_visual",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_633",
+      "dbf_id": 110664,
+      "name": "Felboar",
+      "attack": 2,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "[x]After you cast 3 spells, consume a minion in the Tavern to gain its stats. (3 left!)",
+      "tribes": [
+        "quilboar",
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_41",
+        "comp_76"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "quilboar",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_41": 1.0,
+        "comp_76": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG28_741",
+      "dbf_id": 110321,
+      "name": "Charging Czarina",
+      "attack": 4,
+      "health": 1,
+      "tavern_tier": 5,
+      "effect_text": "[x] Divine Shield Whenever you cast a Tavern spell, give your minions with Divine Shield +4 Attack.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "divine_shield",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "trigger_visual",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG29_300",
+      "dbf_id": 109879,
+      "name": "Very Hungry Winterfinner",
+      "attack": 2,
+      "health": 6,
+      "tavern_tier": 2,
+      "effect_text": "Taunt Whenever this takes damage, give a minion in your hand +2/+1.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "taunt",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "taunt",
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG29_611",
+      "dbf_id": 110101,
+      "name": "Cord Puller",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "[x] Divine Shield Deathrattle: Summon a 1/1 Microbot.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "deathrattle",
+        "divine_shield"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "divine_shield",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG29_813",
+      "dbf_id": 108463,
+      "name": "Persistent Poet",
+      "attack": 2,
+      "health": 3,
+      "tavern_tier": 4,
+      "effect_text": "[x] Divine Shield . Adjacent Dragons permanently keep Bonus Keyword s and stats gained in combat.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "divine_shield",
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_15",
+        "comp_73"
+      ],
+      "synergy_tags": [
+        "divine_shield",
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {
+        "comp_15": 1.0,
+        "comp_73": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG29_816",
+      "dbf_id": 109806,
+      "name": "Roaring Recruiter",
+      "attack": 2,
+      "health": 8,
+      "tavern_tier": 3,
+      "effect_text": "Whenever another friendly Dragon attacks, give it +3/+1.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG29_888",
+      "dbf_id": 113346,
+      "name": "Glim Guardian",
+      "attack": 1,
+      "health": 4,
+      "tavern_tier": 1,
+      "effect_text": "Rally: Gain +2 Attack.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG30_123",
+      "dbf_id": 113154,
+      "name": "Fearless Foodie",
+      "attack": 2,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "Choose One - Your Blood Gems give an extra +1/+1 this game; or Get 4 Blood Gems .",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG30_125",
+      "dbf_id": 113158,
+      "name": "Cadaver Caretaker",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "Deathrattle: Summon three 1/1 Skeletons.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_177",
+      "dbf_id": 115678,
+      "name": "Mechagnome Interpreter",
+      "attack": 3,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "[x]Whenever you play or Magnetize a Mech, give it +3/+1.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_320",
+      "dbf_id": 116182,
+      "name": "Crater Miner",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "Choose One - Get 2 Blood Gems ; or Get a Gem Day.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_323",
+      "dbf_id": 116195,
+      "name": "Turbo Hogrider",
+      "attack": 5,
+      "health": 7,
+      "tavern_tier": 6,
+      "effect_text": "[x]After you play a Choose One card, this plays a Blood Gem on all your other Quilboar.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_88"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_326",
+      "dbf_id": 116434,
+      "name": "Gem Rat",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "At the end of your turn, get a Gem Day.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [
+        "comp_88",
+        "comp_90"
+      ],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0,
+        "comp_90": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_327",
+      "dbf_id": 116190,
+      "name": "Thorned Trailblazer",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "One Choose One card each turn has both effects combined. (1 left!)",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_88"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_330",
+      "dbf_id": 117553,
+      "name": "Ominous Seer",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "Battlecry: The next Tavern spell you buy costs (1) less.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter",
+      "last_updated": "2026-09-23T17:21:09.979843Z",
+      "tribe_note": "Lobby typing: Naga removed; kept as demon per Aidan 2026-09-23"
+    },
+    {
+      "id": "BG31_801",
+      "dbf_id": 115577,
+      "name": "Forest Rover",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "[x] Battlecry: Your Beetles have +2/+1 this game. Deathrattle: Summon a 2/2 Beetle.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_38"
+      ],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_38": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_803",
+      "dbf_id": 116240,
+      "name": "Buzzing Vermin",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "[x] Taunt Deathrattle: Summon a 2/2 Beetle.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle",
+        "taunt"
+      ],
+      "comp_ids": [
+        "comp_38"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "taunt",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_38": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_809",
+      "dbf_id": 119255,
+      "name": "Turquoise Skitterer",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "[x] Deathrattle: Your Beetles have +5/+5 this game. Summon a 2/2 Beetle.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_38"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_38": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_816",
+      "dbf_id": 116736,
+      "name": "Fire Baller",
+      "attack": 4,
+      "health": 3,
+      "tavern_tier": 2,
+      "effect_text": "[x]When you sell this, give your minions +1 Attack. Improve your future Ballers.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_818",
+      "dbf_id": 117667,
+      "name": "Snow Baller",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "[x]When you sell this, give your minions +1 Health. Improve your future Ballers.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_835",
+      "dbf_id": 115610,
+      "name": "Deathly Striker",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "[x] Avenge (4): Get a random Undead. Deathrattle: Summon it from your hand for this combat only.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "avenge",
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "avenge",
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG31_999",
+      "dbf_id": 119666,
+      "name": "Stitched Salvager",
+      "attack": 16,
+      "health": 4,
+      "tavern_tier": 7,
+      "effect_text": "[x] Start of Combat: Destroy the minion to the left. Deathrattle: Summon an exact copy of it. (Except Stitched Salvager.)",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle",
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "start_of_combat",
+        "trigger_visual",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_111",
+      "dbf_id": 120754,
+      "name": "Nightmare Par-tea Guest",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry and Deathrattle: Get a Misplaced Tea Set.",
+      "tribes": [
+        "all"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "all"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_172",
+      "dbf_id": 120025,
+      "name": "Auto Assembler",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "[x] Magnetic Deathrattle: Summon an Ancestral Automaton.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "deathrattle",
+        "magnetic"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "magnetic",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_235",
+      "dbf_id": 119994,
+      "name": "Surfing Sylvar",
+      "attack": 1,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "[x]At the end of your turn, give adjacent minions +1 Attack. Repeat for each friendly Golden minion.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_236",
+      "dbf_id": 119996,
+      "name": "Aureate Laureate",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 1,
+      "effect_text": "Divine Shield This minion is always Golden, but doesn't give a Triple Reward.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "divine_shield"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_237",
+      "dbf_id": 120223,
+      "name": "Intrepid Botanist",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "[x] Choose One - Your Tavern spells give an extra +1 Attack this game; or +1 Health.",
+      "tribes": [],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_324",
+      "dbf_id": 120104,
+      "name": "Drustfallen Butcher",
+      "attack": 2,
+      "health": 7,
+      "tavern_tier": 5,
+      "effect_text": "Avenge (3): Get a Butchering.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "avenge"
+      ],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "avenge",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_330",
+      "dbf_id": 120677,
+      "name": "Flighty Scout",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 1,
+      "effect_text": "[x] Start of Combat: If this minion is in your hand, summon a copy of it.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "start_of_combat",
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_340",
+      "dbf_id": 121508,
+      "name": "Maw Caster",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Battlecry: Destroy a friendly Undead to Discover an Undead.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_341",
+      "dbf_id": 121640,
+      "name": "Humon'gozz",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "[x] Divine Shield Your Tavern spells give an extra +1/+2.",
+      "tribes": [],
+      "keywords": [
+        "aura",
+        "divine_shield"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "divine_shield"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_820",
+      "dbf_id": 120213,
+      "name": "Firescale Hoarder",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry and Deathrattle: Get a Shiny Ring.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter",
+      "last_updated": "2026-09-23T17:21:09.979843Z",
+      "tribe_note": "Lobby typing: Naga removed; kept as dragon per Aidan 2026-09-23"
+    },
+    {
+      "id": "BG32_821",
+      "dbf_id": 120299,
+      "name": "Felfire Conjurer",
+      "attack": 6,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "[x]At the end of your turn, your Tavern spells give an extra +1/+1 this game.",
+      "tribes": [
+        "dragon",
+        "demon"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [
+        "comp_55"
+      ],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "dragon",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_55": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_873",
+      "dbf_id": 121687,
+      "name": "Ashen Corruptor",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "[x]After your hero takes damage, rewind it and give minions in the Tavern +2/+2 this turn.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_13",
+        "comp_41"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0,
+        "comp_41": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG32_880",
+      "dbf_id": 120219,
+      "name": "Friendly Geist",
+      "attack": 6,
+      "health": 3,
+      "tavern_tier": 4,
+      "effect_text": "[x] Deathrattle: Your Tavern spells give an extra +1 Attack this game.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_155",
+      "dbf_id": 122586,
+      "name": "Devout Hellcaller",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "After another friendly Demon deals damage, gain +2/+2 permanently.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_318",
+      "dbf_id": 122219,
+      "name": "Bile Spitter",
+      "attack": 1,
+      "health": 10,
+      "tavern_tier": 5,
+      "effect_text": "[x] Venomous Rally: Give another friendly Murloc Venomous .",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "bacon_rally",
+        "venomous"
+      ],
+      "comp_ids": [
+        "comp_67",
+        "comp_8",
+        "comp_93"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "venomous",
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_67": 1.0,
+        "comp_8": 1.0,
+        "comp_93": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_430",
+      "dbf_id": 122098,
+      "name": "Prodigious Tusker",
+      "attack": 2,
+      "health": 5,
+      "tavern_tier": 2,
+      "effect_text": "Whenever another friendly minion attacks, this plays a Blood Gem on it.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_821",
+      "dbf_id": 122177,
+      "name": "Shipwrecked Rascal",
+      "attack": 5,
+      "health": 4,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry and Deathrattle: Get a random Bounty .",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_822",
+      "dbf_id": 122179,
+      "name": "Bigwig Bandit",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "[x] Rally: Get a random Bounty .",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_823",
+      "dbf_id": 122516,
+      "name": "Sky Admiral Rogers",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 6,
+      "effect_text": "[x]After you spend 9 Gold, get a random Bounty . (9 Gold left!)",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_3",
+        "comp_73",
+        "comp_76",
+        "comp_89"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate"
+      ],
+      "synergy_scores": {
+        "comp_3": 1.0,
+        "comp_73": 1.0,
+        "comp_76": 1.0,
+        "comp_89": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_825",
+      "dbf_id": 122520,
+      "name": "Proud Privateer",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 5,
+      "effect_text": "Your Bounties cast twice.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [
+        "comp_3",
+        "comp_73",
+        "comp_76",
+        "comp_89"
+      ],
+      "synergy_tags": [
+        "aura",
+        "pirate"
+      ],
+      "synergy_scores": {
+        "comp_3": 1.0,
+        "comp_73": 1.0,
+        "comp_76": 1.0,
+        "comp_89": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_830",
+      "dbf_id": 123325,
+      "name": "Azsharan Cutlassier",
+      "attack": 6,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "[x] Battlecry: Your Tavern spells give an extra +1 Attack this game.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_883",
+      "dbf_id": 122562,
+      "name": "Razorfen Vineweaver",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "Rally: This plays 3 permanent Blood Gems on itself.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_885",
+      "dbf_id": 122566,
+      "name": "Sanguine Refiner",
+      "attack": 3,
+      "health": 8,
+      "tavern_tier": 5,
+      "effect_text": "[x] Rally: Your Blood Gems give an extra +1/+2 this game.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [
+        "comp_88",
+        "comp_90"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0,
+        "comp_90": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_886",
+      "dbf_id": 122568,
+      "name": "Tusked Camper",
+      "attack": 2,
+      "health": 3,
+      "tavern_tier": 1,
+      "effect_text": "[x] Rally: This plays a Blood Gem on itself.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_891",
+      "dbf_id": 122277,
+      "name": "Magicfin Mycologist",
+      "attack": 4,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "[x]Once per turn, after you buy a Tavern spell, get a 1/1 Murloc and teach it that spell. (1 left!)",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_67"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_67": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG33_924",
+      "dbf_id": 122674,
+      "name": "Blue Whelp",
+      "attack": 1,
+      "health": 5,
+      "tavern_tier": 3,
+      "effect_text": "Rally: Your Tavern spells give an extra +1 Health this game.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_140",
+      "dbf_id": 126637,
+      "name": "Expert Aviator",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "[x] Rally: Summon the highest- Attack minion from your hand for this combat only.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [
+        "comp_8",
+        "comp_93"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_8": 1.0,
+        "comp_93": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_142",
+      "dbf_id": 126641,
+      "name": "Costume Enthusiast",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "[x] Divine Shield Start of Combat: Gain the Attack of the highest-Attack minion in your hand.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "divine_shield",
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "start_of_combat",
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_145",
+      "dbf_id": 127494,
+      "name": "Futurefin",
+      "attack": 7,
+      "health": 13,
+      "tavern_tier": 7,
+      "effect_text": "[x]At the end of your turn, give this minion's stats to the left-most minion in your hand.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_319",
+      "dbf_id": 127107,
+      "name": "Highkeeper Ra",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 7,
+      "effect_text": "Battlecry, Deathrattle, and Rally: Get a random Tier 6 minion.",
+      "tribes": [],
+      "keywords": [
+        "battlecry",
+        "bacon_rally",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "bacon_rally",
+        "deathrattle"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_320",
+      "dbf_id": 127109,
+      "name": "The Last One Standing",
+      "attack": 15,
+      "health": 15,
+      "tavern_tier": 7,
+      "effect_text": "Rally: Give a friendly minion of each type +15/+15 permanently.",
+      "tribes": [
+        "all"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "all"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_322",
+      "dbf_id": 127113,
+      "name": "Stalwart Kodo",
+      "attack": 16,
+      "health": 32,
+      "tavern_tier": 7,
+      "effect_text": "[x]After you summon a minion in combat, give it this minion's maximum stats. (3 times per combat.)",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_500",
+      "dbf_id": 126924,
+      "name": "Flaming Enforcer",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "[x]At the end of your turn, consume the highest-Health minion in the Tavern to gain its stats.",
+      "tribes": [
+        "demon",
+        "elemental"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [
+        "comp_55",
+        "comp_92"
+      ],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "demon",
+        "elemental"
+      ],
+      "synergy_scores": {
+        "comp_55": 1.0,
+        "comp_92": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_604",
+      "dbf_id": 126966,
+      "name": "Heroic Underdog",
+      "attack": 1,
+      "health": 10,
+      "tavern_tier": 4,
+      "effect_text": "Stealth Rally: Gain the target's Attack.",
+      "tribes": [],
+      "keywords": [
+        "bacon_rally",
+        "stealth"
+      ],
+      "comp_ids": [
+        "comp_8"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "stealth"
+      ],
+      "synergy_scores": {
+        "comp_8": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_633",
+      "dbf_id": 126860,
+      "name": "Draconic Warden",
+      "attack": 7,
+      "health": 4,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry and Deathrattle: Get a random Chromadrake .",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_682",
+      "dbf_id": 126667,
+      "name": "Razorfen Flapper",
+      "attack": 6,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "Deathrattle: Get a Blood Gem Barrage.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_683",
+      "dbf_id": 126669,
+      "name": "Briarback Drummer",
+      "attack": 5,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "Battlecry: Get a Blood Gem Barrage.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_684",
+      "dbf_id": 126671,
+      "name": "Trench Fighter",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "At the end of your turn, get a Gem Confiscation.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [
+        "comp_88",
+        "comp_90"
+      ],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0,
+        "comp_90": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_690",
+      "dbf_id": 126451,
+      "name": "Plaguerunner",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "[x] Deathrattle: Your Undead have +2 Attack this game, wherever they are. (+4 if triggered outside combat!)",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_692",
+      "dbf_id": 126733,
+      "name": "Forsaken Weaver",
+      "attack": 3,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "[x]After you cast a Tavern spell, your Undead have +3 Attack this game (wherever they are) .",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_3"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_3": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_856",
+      "dbf_id": 126169,
+      "name": "Waveling",
+      "attack": 5,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "[x] Deathrattle: After the Tavern is Refreshed this game, give a random minion in it +4/+4.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_858",
+      "dbf_id": 126173,
+      "name": "Air Revenant",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "After you spend 7 Gold, cast Easterly Winds. (7 left!)",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_92"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "elemental"
+      ],
+      "synergy_scores": {
+        "comp_92": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_865",
+      "dbf_id": 126175,
+      "name": "En-Djinn Blazer",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "[x] Battlecry: After the Tavern is Refreshed this game, give a random minion in it +10/+10.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG34_950",
+      "dbf_id": 126959,
+      "name": "Stone Age Slab",
+      "attack": 10,
+      "health": 10,
+      "tavern_tier": 7,
+      "effect_text": "[x]After you buy a minion, give it +20/+20 and double its stats. (Once per turn.)",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_123",
+      "dbf_id": 130884,
+      "name": "Cataclysmic Harbinger",
+      "attack": 6,
+      "health": 10,
+      "tavern_tier": 5,
+      "effect_text": "[x]At the end of your turn, get a copy of the last Tavern spell you cast.",
+      "tribes": [],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_140",
+      "dbf_id": 131145,
+      "name": "Mama Mrrglton",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 3,
+      "effect_text": "[x] Battlecry: Give your other Murlocs +3 Attack. (Improved by each Mrrglton you played this game!)",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_150",
+      "dbf_id": 130075,
+      "name": "Laboratory Assistant",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Battlecry: Add a Fodder to your next 3 Refreshes .",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_155",
+      "dbf_id": 130662,
+      "name": "Twisted Wrathguard",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "After you sell a minion, add a Fodder to your next Refresh .",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_41",
+        "comp_76"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_41": 1.0,
+        "comp_76": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_341",
+      "dbf_id": 130796,
+      "name": "Enchanted Sentinel",
+      "attack": 3,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Magnetic Your Tavern spells give an extra +1/+1.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "aura",
+        "magnetic"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "magnetic",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_342",
+      "dbf_id": 130798,
+      "name": "Falling Sky Golem",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 6,
+      "effect_text": "Divine Shield . Has +4/+2 for each Deathrattle you've triggered this game (wherever this is).",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "aura",
+        "divine_shield"
+      ],
+      "comp_ids": [
+        "comp_68"
+      ],
+      "synergy_tags": [
+        "aura",
+        "divine_shield",
+        "mech"
+      ],
+      "synergy_scores": {
+        "comp_68": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_602",
+      "dbf_id": 130711,
+      "name": "Lurking Leviathan",
+      "attack": 3,
+      "health": 9,
+      "tavern_tier": 5,
+      "effect_text": "Whenever you summon a Beast, give it +3 Attack and improve this permanently.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_38",
+        "comp_83"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_38": 1.0,
+        "comp_83": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_604",
+      "dbf_id": 130996,
+      "name": "Sewer Lord",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "[x] Deathrattle: Summon two Sewer Rats that summon 2/3 Turtles with Taunt .",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_12",
+        "comp_38",
+        "comp_83"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0,
+        "comp_38": 1.0,
+        "comp_83": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_814",
+      "dbf_id": 129749,
+      "name": "Scarlet Survivor",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 1,
+      "effect_text": "Once this reaches 6 Attack, gain Divine Shield .",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG35_883",
+      "dbf_id": 130298,
+      "name": "Balinda Stonehearth",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 6,
+      "effect_text": "[x]Your spells that target friendly minions cast twice.",
+      "tribes": [],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [
+        "comp_13",
+        "comp_20",
+        "comp_41",
+        "comp_55",
+        "comp_67",
+        "comp_76",
+        "comp_90",
+        "comp_91"
+      ],
+      "synergy_tags": [
+        "aura"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0,
+        "comp_20": 1.0,
+        "comp_41": 1.0,
+        "comp_55": 1.0,
+        "comp_67": 1.0,
+        "comp_76": 1.0,
+        "comp_90": 1.0,
+        "comp_91": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_097",
+      "dbf_id": 131692,
+      "name": "Mindbender Ghur'sha",
+      "attack": 3,
+      "health": 9,
+      "tavern_tier": 5,
+      "effect_text": "Whenever you discard a card, give your other minions +3/+3.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_098",
+      "dbf_id": 131694,
+      "name": "Zoatroid",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 1,
+      "effect_text": "When you sell this, get a 0/2 Tentacle with Taunt .",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_099",
+      "dbf_id": 131696,
+      "name": "Brain Rotter",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Activate (0): Discard a card to give your Deity +2/+2.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_100",
+      "dbf_id": 131698,
+      "name": "Wandering Willbreaker",
+      "attack": 1,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "When you sell this, get 2 random Tavern spells. When you play one, discard the other.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_101",
+      "dbf_id": 131700,
+      "name": "Unwilling Slacker",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "Deathrattle: Get a random 1-Cost Tavern spell.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_102",
+      "dbf_id": 131702,
+      "name": "De-volition-ist",
+      "attack": 4,
+      "health": 8,
+      "tavern_tier": 5,
+      "effect_text": "[x]After this attacks, deal damage equal to this minion's Attack to the highest- Health enemy minion.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_103",
+      "dbf_id": 131704,
+      "name": "N'raqi Sapper",
+      "attack": 6,
+      "health": 3,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry and Deathrattle: Get an Energizing Chamber.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "battlecry",
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "deathrattle",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_104",
+      "dbf_id": 131706,
+      "name": "Dark Puppeteer",
+      "attack": 8,
+      "health": 4,
+      "tavern_tier": 6,
+      "effect_text": "[x] Deathrattle: Your Tavern spells give an extra +4 Health this game.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_106",
+      "dbf_id": 131710,
+      "name": "Cutthroat K'Thir",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "Whenever you discard a card, give this and your Deity +4/+4.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_108",
+      "dbf_id": 131714,
+      "name": "Vicious Mindslasher",
+      "attack": 3,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "Whenever you cast a Tavern spell, give this and your Deity +1/+3.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_109",
+      "dbf_id": 131716,
+      "name": "The Shadow of Doubt",
+      "attack": 6,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "Whenever a card is added to your hand, give your Deity +3/+4.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_110",
+      "dbf_id": 131718,
+      "name": "Joyous",
+      "attack": 2,
+      "health": 3,
+      "tavern_tier": 1,
+      "effect_text": "Battlecry: Give your Deity +2/+2.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_111",
+      "dbf_id": 131720,
+      "name": "Sha of Fear",
+      "attack": 9,
+      "health": 12,
+      "tavern_tier": 7,
+      "effect_text": "Whenever you cast a Tavern spell, give your minions and Deity +4/+3.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_112",
+      "dbf_id": 133096,
+      "name": "Fetid Corroder",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "Battlecry: Get a Sludge Corrosion.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_113",
+      "dbf_id": 133098,
+      "name": "Drifting Sacrifice",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "[x] Reborn Deathrattle: Give your Deity +2/+1.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "deathrattle",
+        "reborn"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "reborn",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_114",
+      "dbf_id": 133100,
+      "name": "Parasitic Fleshling",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "[x]At the end of your turn, give your left-most minion +2/+2. (Improved by each card you've discarded this game!)",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_115",
+      "dbf_id": 133102,
+      "name": "Nightmare Corroder",
+      "attack": 7,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "Deathrattle: Get a Sludge Corrosion.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_116",
+      "dbf_id": 133104,
+      "name": "Underrot Spawn",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "[x] Deathrattle: Summon an 0/2 Tentacle with Taunt . Give your minions +1 Attack.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_180",
+      "dbf_id": 133453,
+      "name": "Living Prison",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Activate (1): Gain the stats of the next minion you buy this turn.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_181",
+      "dbf_id": 133455,
+      "name": "Air Baller",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "When you sell this, give your minions +2/+2. Improve your future Ballers.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_200",
+      "dbf_id": 132792,
+      "name": "Flittering Bat",
+      "attack": 1,
+      "health": 4,
+      "tavern_tier": 1,
+      "effect_text": "Rally: Summon a 1/1 Beast.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_201",
+      "dbf_id": 132794,
+      "name": "Lurking Lionfish",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Activate (2): Choose a card in the Tavern. Replace it with a Fishbait for your left-most Beast to attack.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [],
+      "comp_ids": [
+        "comp_12",
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0,
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_202",
+      "dbf_id": 132796,
+      "name": "Tasty Lobster",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "[x] Deathrattle: Give a random friendly Beast +2/+1. Improve your future Tasty Lobsters.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_204",
+      "dbf_id": 132800,
+      "name": "Headhunter Gryphon",
+      "attack": 3,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Rally: Get a random Beast.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [
+        "comp_12",
+        "comp_38",
+        "comp_83",
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0,
+        "comp_38": 1.0,
+        "comp_83": 1.0,
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_206",
+      "dbf_id": 132804,
+      "name": "Snarky Shark",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "When you sell this, Refresh the Tavern with a Fishbait. Your left-most Beast attacks it.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_207",
+      "dbf_id": 132806,
+      "name": "Wolf Pup",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 3,
+      "effect_text": "Rally: Give your other minions +4/+1.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_208",
+      "dbf_id": 132808,
+      "name": "Deathstrider",
+      "attack": 10,
+      "health": 11,
+      "tavern_tier": 6,
+      "effect_text": "[x]After a friendly Rally minion attacks, trigger your left-most Deathrattle .",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_12",
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0,
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_209",
+      "dbf_id": 132949,
+      "name": "Ravaging Scorpid",
+      "attack": 6,
+      "health": 7,
+      "tavern_tier": 6,
+      "effect_text": "[x]After a friendly minion attacks, your Beetles have +5/+5 this game. Deathrattle: Summon a 2/2 Beetle.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle",
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_38",
+        "comp_83"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_38": 1.0,
+        "comp_83": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_210",
+      "dbf_id": 133039,
+      "name": "Hoarding Hyena",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "Rally: Summon a Tasty Lobster.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [
+        "comp_87"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_87": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_211",
+      "dbf_id": 133041,
+      "name": "Cage Gnawer",
+      "attack": 2,
+      "health": 7,
+      "tavern_tier": 4,
+      "effect_text": "Whenever a friendly Beast attacks, give your Beasts +2/+1.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_240",
+      "dbf_id": 132951,
+      "name": "Hired Mount",
+      "attack": 3,
+      "health": 5,
+      "tavern_tier": 3,
+      "effect_text": "Activate (2): Get a random Chromadrake .",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_241",
+      "dbf_id": 132953,
+      "name": "Crimson Vindicator",
+      "attack": 8,
+      "health": 9,
+      "tavern_tier": 6,
+      "effect_text": "Divine Shield Rally: Cast Mighty Dragonbreath.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "bacon_rally",
+        "divine_shield"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "divine_shield",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_242",
+      "dbf_id": 132955,
+      "name": "Bronze Timewalker",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Rally: Get a random Chromadrake .",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [
+        "comp_15"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "dragon"
+      ],
+      "synergy_scores": {
+        "comp_15": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_243",
+      "dbf_id": 132957,
+      "name": "Sky-hatch Runaway",
+      "attack": 4,
+      "health": 7,
+      "tavern_tier": 4,
+      "effect_text": "Activate (1): Trigger a friendly minion's Rally .",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [],
+      "comp_ids": [
+        "comp_20",
+        "comp_8"
+      ],
+      "synergy_tags": [
+        "dragon"
+      ],
+      "synergy_scores": {
+        "comp_20": 1.0,
+        "comp_8": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_245",
+      "dbf_id": 132985,
+      "name": "Runic Arcanist",
+      "attack": 2,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "Start of Combat: Cast Shiny Ring twice.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "start_of_combat",
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_300",
+      "dbf_id": 132136,
+      "name": "N'raqi Frostcaller",
+      "attack": 6,
+      "health": 3,
+      "tavern_tier": 5,
+      "effect_text": "[x] Activate (0): Discard a card for your Tavern spells to give an extra +1/+1 this game.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_308",
+      "dbf_id": 132182,
+      "name": "Faceless Operative",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "[x]When you sell this, get 2 random Aberrations. When you play one, discard the other.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_311",
+      "dbf_id": 132213,
+      "name": "Abyssal Envoy",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "[x] Activate (0): Discard a card to get a random Tavern spell.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_312",
+      "dbf_id": 132215,
+      "name": "Mindbending Recruiter",
+      "attack": 6,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "Activate (0): Discard a card to get a random Aberration.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_318",
+      "dbf_id": 132331,
+      "name": "Faceless Converter",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "[x] Deathrattle: Give your Deity +1/+1. (Improved by each Tavern spell you've cast this game!)",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_320",
+      "dbf_id": 134497,
+      "name": "Mysterious K'Thir",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 5,
+      "effect_text": "[x]At the end of your turn, discard your 3 left-most Tavern spells. Gain +8/+8 for each discarded.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_330",
+      "dbf_id": 132630,
+      "name": "Sly Infiltrator",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 3,
+      "effect_text": "Choose One - Gain 2 free Refreshes ; or Get 3 Blood Gems .",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_331",
+      "dbf_id": 132632,
+      "name": "Bramble Tunneler",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "Rally: Get a random Choose One card.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [
+        "comp_88"
+      ],
+      "synergy_tags": [
+        "bacon_rally",
+        "quilboar"
+      ],
+      "synergy_scores": {
+        "comp_88": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_332",
+      "dbf_id": 132634,
+      "name": "Snare Trapper",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "Choose One - Get a random Quilboar; or Increase your maximum Gold by 1.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_333",
+      "dbf_id": 132636,
+      "name": "Jailbird Juggernaut",
+      "attack": 6,
+      "health": 15,
+      "tavern_tier": 7,
+      "effect_text": "[x] Rally: Summon a Golem with this minion's stats to attack the target first.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "bacon_rally"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_rally",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_341",
+      "dbf_id": 132929,
+      "name": "Veteran Brigand",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "[x] Choose One - This plays 3 Blood Gems on all your minions; or cast Blood Gem Barrage 3 times.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "choose_one"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "choose_one",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_342",
+      "dbf_id": 132921,
+      "name": "Clever Castaway",
+      "attack": 2,
+      "health": 3,
+      "tavern_tier": 2,
+      "effect_text": "Activate (2): Discover a Tavern spell.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_343",
+      "dbf_id": 132923,
+      "name": "Silent Deliverer",
+      "attack": 7,
+      "health": 7,
+      "tavern_tier": 6,
+      "effect_text": "[x] Battlecry: Get a random Golden minion from Tier 4. It doesn’t give a Triple Reward.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_344",
+      "dbf_id": 132925,
+      "name": "Hooktusk, Master Marauder",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 6,
+      "effect_text": "[x]After you Discover a card, give your other Pirates +1/+1. (Improved by Golden minions you played this game!)",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_89"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate"
+      ],
+      "synergy_scores": {
+        "comp_89": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_345",
+      "dbf_id": 132915,
+      "name": "Suspicious Prisonguard",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 1,
+      "effect_text": "Activate (1): Give another minion +3/+3.",
+      "tribes": [],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_346",
+      "dbf_id": 132917,
+      "name": "Fruit Vendor",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 3,
+      "effect_text": "Activate (1): Get 2 Tavern Dish Bananas.",
+      "tribes": [],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_352",
+      "dbf_id": 132983,
+      "name": "Unbound Tempest",
+      "attack": 3,
+      "health": 12,
+      "tavern_tier": 6,
+      "effect_text": "[x]After you play 3 Elementals, gain the stats of the highest- Health minion in the Tavern. (3 left!)",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_37",
+        "comp_92"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "elemental"
+      ],
+      "synergy_scores": {
+        "comp_37": 1.0,
+        "comp_92": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_354",
+      "dbf_id": 133434,
+      "name": "Decoy Conjurer",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Activate (2): Steal the highest-Attack minion in the Tavern.",
+      "tribes": [],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_356",
+      "dbf_id": 133438,
+      "name": "Tyrael",
+      "attack": 10,
+      "health": 10,
+      "tavern_tier": 6,
+      "effect_text": "Activate (1): Set another minion's stats to 50/50.",
+      "tribes": [],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_372",
+      "dbf_id": 134409,
+      "name": "Holy Vanguard",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Divine Shield Has +15/+15 if you have 15 or less Health.",
+      "tribes": [],
+      "keywords": [
+        "divine_shield"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_503",
+      "dbf_id": 132306,
+      "name": "Soulkeeping Jailer",
+      "attack": 3,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Activate (2): Your Demons each consume a random minion in the Tavern to gain its stats.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_506",
+      "dbf_id": 132312,
+      "name": "Drone Duplicator",
+      "attack": 5,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "[x] Divine Shield . Activate (1): The next Magnetization to this minion this turn happens an extra time.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "divine_shield"
+      ],
+      "comp_ids": [
+        "comp_2",
+        "comp_91"
+      ],
+      "synergy_tags": [
+        "divine_shield",
+        "mech"
+      ],
+      "synergy_scores": {
+        "comp_2": 1.0,
+        "comp_91": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_511",
+      "dbf_id": 132322,
+      "name": "Dead Bellringer",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "Activate (1): Give a different friendly Undead Reborn . Then destroy it to gain +4/+4.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_514",
+      "dbf_id": 133081,
+      "name": "Barrier Banshee",
+      "attack": 7,
+      "health": 7,
+      "tavern_tier": 5,
+      "effect_text": "After a friendly minion is Reborn , gain Divine Shield and +7/+7.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_14"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_515",
+      "dbf_id": 133083,
+      "name": "Snazzy Phantom",
+      "attack": 6,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "After a friendly minion is Reborn , give stats equal to its Attack to your right-most Undead.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_14",
+        "comp_3"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "undead"
+      ],
+      "synergy_scores": {
+        "comp_14": 1.0,
+        "comp_3": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_520",
+      "dbf_id": 132756,
+      "name": "Bilgewater Breakout",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 2,
+      "effect_text": "[x] Battlecry: Get a Lockbox. If you already have one, it opens 1 turn sooner instead.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_521",
+      "dbf_id": 132758,
+      "name": "Locked-up Mutineer",
+      "attack": 6,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "[x] Deathrattle: Get a Lockbox. If you already have one, it opens 1 turn sooner instead.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_523",
+      "dbf_id": 132762,
+      "name": "Enterprising Escapee",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "[x]After you spend 5 Gold, get a Lockbox. If you already have one, it opens 1 turns sooner instead. (5 Gold left!)",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_3",
+        "comp_73",
+        "comp_76",
+        "comp_89"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate"
+      ],
+      "synergy_scores": {
+        "comp_3": 1.0,
+        "comp_73": 1.0,
+        "comp_76": 1.0,
+        "comp_89": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_524",
+      "dbf_id": 132764,
+      "name": "Maritime Extortionist",
+      "attack": 7,
+      "health": 7,
+      "tavern_tier": 4,
+      "effect_text": "[x]Has +7/+7 for each Golden minion you've played this game (wherever this is) .",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_620",
+      "dbf_id": 133703,
+      "name": "Boom-in-a-Box",
+      "attack": 5,
+      "health": 10,
+      "tavern_tier": 4,
+      "effect_text": "Taunt Start of Combat: Deal 3 damage to all other minions.",
+      "tribes": [],
+      "keywords": [
+        "start_of_combat",
+        "taunt",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "start_of_combat",
+        "taunt",
+        "trigger_visual"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_621",
+      "dbf_id": 133705,
+      "name": "Deft Deserter",
+      "attack": 8,
+      "health": 8,
+      "tavern_tier": 5,
+      "effect_text": "Activate (1): Give all minions in the Tavern +8/+8 and Taunt , Divine Shield , or Windfury .",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_640",
+      "dbf_id": 133329,
+      "name": "Gatekeeper Amalgam",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 6,
+      "effect_text": "Whenever you cast a spell on this, it casts Misplaced Tea Set.",
+      "tribes": [
+        "all"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_55"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "all"
+      ],
+      "synergy_scores": {
+        "comp_55": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_701",
+      "dbf_id": 132883,
+      "name": "Kelp Keeper",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "Activate (1): Trigger a friendly minion's Battlecry .",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [],
+      "comp_ids": [
+        "comp_37",
+        "comp_92",
+        "comp_93"
+      ],
+      "synergy_tags": [
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_37": 1.0,
+        "comp_92": 1.0,
+        "comp_93": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_703",
+      "dbf_id": 132989,
+      "name": "Twilight Tidehunter",
+      "attack": 4,
+      "health": 6,
+      "tavern_tier": 4,
+      "effect_text": "Whenever you cast a spell on this, give the left-most minion in your hand +8/+8.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_704",
+      "dbf_id": 133026,
+      "name": "Shamanic Tidecaller",
+      "attack": 5,
+      "health": 7,
+      "tavern_tier": 5,
+      "effect_text": "Whenever you cast a spell on a Murloc, give Murlocs in your hand and board +3/+3.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_67"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {
+        "comp_67": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_730",
+      "dbf_id": 132897,
+      "name": "Trapped Clapper",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 3,
+      "effect_text": "Deathrattle: Add a Fodder to your next 3 Refreshes .",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_731",
+      "dbf_id": 132899,
+      "name": "Imp-lusionist",
+      "attack": 4,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "Deathrattle: Get a Methodical Madness.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_41"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_41": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_733",
+      "dbf_id": 133028,
+      "name": "Eredar Escapist",
+      "attack": 6,
+      "health": 8,
+      "tavern_tier": 6,
+      "effect_text": "[x]After your hero takes 4 damage, get a copy of Corrupted Cupcakes. (4 left!)",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_13"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_762",
+      "dbf_id": 132901,
+      "name": "Devilish Distractor",
+      "attack": 4,
+      "health": 7,
+      "tavern_tier": 5,
+      "effect_text": "Whenever you cast a spell on this, give minions in the Tavern +2/+2 this game.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_13",
+        "comp_41",
+        "comp_76"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0,
+        "comp_41": 1.0,
+        "comp_76": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_763",
+      "dbf_id": 132987,
+      "name": "Treasure Parrot",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 3,
+      "effect_text": "[x]Once this deals 35 damage, get a Golden Touch. (35 left!)",
+      "tribes": [
+        "pirate",
+        "beast"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_764",
+      "dbf_id": 133283,
+      "name": "Gearfin",
+      "attack": 6,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "At the end of your turn, get two 1-Cost Tavern spells.",
+      "tribes": [
+        "murloc",
+        "mech"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "murloc",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_851",
+      "dbf_id": 132676,
+      "name": "Spark Snapper",
+      "attack": 5,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "[x]Whenever you play a Mech, Magnetize a 2/2 Satellite to it and improve this.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_2"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "mech"
+      ],
+      "synergy_scores": {
+        "comp_2": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_853",
+      "dbf_id": 132893,
+      "name": "Glambot",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "[x]Whenever you cast a spell on a Mech, Magnetize a 4/4 Satellite to it.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_91"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "mech"
+      ],
+      "synergy_scores": {
+        "comp_91": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG36_854",
+      "dbf_id": 132895,
+      "name": "Rescue Bot",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "[x] Taunt Deathrattle: Get a Repair Job.",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "deathrattle",
+        "taunt"
+      ],
+      "comp_ids": [
+        "comp_91"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "taunt",
+        "mech"
+      ],
+      "synergy_scores": {
+        "comp_91": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG_BOT_911",
+      "dbf_id": 96812,
+      "name": "Annoy-o-Module",
+      "attack": 2,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "Magnetic Divine Shield Taunt",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "divine_shield",
+        "magnetic",
+        "taunt"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "magnetic",
+        "taunt",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG_DEEP_015",
+      "dbf_id": 112364,
+      "name": "Prosthetic Hand",
+      "attack": 3,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "Magnetic , Reborn Can Magnetize to Mechs or Undead.",
+      "tribes": [
+        "mech",
+        "undead"
+      ],
+      "keywords": [
+        "magnetic",
+        "reborn"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "magnetic",
+        "reborn",
+        "mech",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BG_LOE_077",
+      "dbf_id": 96786,
+      "name": "Brann Bronzebeard",
+      "attack": 2,
+      "health": 4,
+      "tavern_tier": 5,
+      "effect_text": "Your Battlecries trigger twice.",
+      "tribes": [],
+      "keywords": [
+        "aura"
+      ],
+      "comp_ids": [
+        "comp_13",
+        "comp_15",
+        "comp_3",
+        "comp_37",
+        "comp_41",
+        "comp_67",
+        "comp_73",
+        "comp_76",
+        "comp_89",
+        "comp_90",
+        "comp_92",
+        "comp_93"
+      ],
+      "synergy_tags": [
+        "aura"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0,
+        "comp_15": 1.0,
+        "comp_3": 1.0,
+        "comp_37": 1.0,
+        "comp_41": 1.0,
+        "comp_67": 1.0,
+        "comp_73": 1.0,
+        "comp_76": 1.0,
+        "comp_89": 1.0,
+        "comp_90": 1.0,
+        "comp_92": 1.0,
+        "comp_93": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_201",
+      "dbf_id": 117326,
+      "name": "Gathering Stormer",
+      "attack": 5,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "[x]When you sell this, your teammate gains 1 Gold. (Improves each turn!)",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_202",
+      "dbf_id": 117492,
+      "name": "Loyal Mobster",
+      "attack": 6,
+      "health": 5,
+      "tavern_tier": 6,
+      "effect_text": "[x]At the end of your turn, this plays a Blood Gem on all your teammate's minions.",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_203",
+      "dbf_id": 117328,
+      "name": "Shifty Snake",
+      "attack": 6,
+      "health": 1,
+      "tavern_tier": 4,
+      "effect_text": "[x] Deathrattle: Your teammate gets a random Deathrattle minion.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "beast"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_205",
+      "dbf_id": 117332,
+      "name": "Selfless Sightseer",
+      "attack": 6,
+      "health": 2,
+      "tavern_tier": 5,
+      "effect_text": "[x] Battlecry: Increase your team's maximum Gold by (1).",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_207",
+      "dbf_id": 117353,
+      "name": "Wheeled Crewmate",
+      "attack": 6,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "[x] Deathrattle: Reduce the Cost of upgrading your team's Taverns by (1).",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_208",
+      "dbf_id": 117334,
+      "name": "San'layn Scribe",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "Has +4/+4 for each of your team's San'layn Scribes that died this game (wherever this is) .",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "aura",
+        "invisibledeathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "invisibledeathrattle",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_211",
+      "dbf_id": 117359,
+      "name": "Transport Reactor",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 6,
+      "effect_text": "[x] Magnetic Has +3/+3 for each time your team has Passed this game (wherever this is).",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "aura",
+        "magnetic"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "aura",
+        "magnetic",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO31_212",
+      "dbf_id": 117336,
+      "name": "Mantid King",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 4,
+      "effect_text": "[x]After your team Passes , randomly gain Venomous , Taunt , or Divine Shield until next turn.",
+      "tribes": [],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO33_140",
+      "dbf_id": 123637,
+      "name": "Bottom Feeder",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "[x]At the end of your turn, you and your teammate each get a random Tier 1 card.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO33_150",
+      "dbf_id": 123841,
+      "name": "Dark Dazzler",
+      "attack": 4,
+      "health": 7,
+      "tavern_tier": 6,
+      "effect_text": "[x]After your teammate sells a minion, gain its stats. (Once per turn.)",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_100",
+      "dbf_id": 103619,
+      "name": "Wanderer Cho",
+      "attack": 4,
+      "health": 3,
+      "tavern_tier": 2,
+      "effect_text": "One Pass each turn is free. (1 left!)",
+      "tribes": [],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_104",
+      "dbf_id": 104538,
+      "name": "Friendly Saloonkeeper",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 2,
+      "effect_text": "Battlecry: Your teammate gets a Tavern Coin.",
+      "tribes": [],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_107",
+      "dbf_id": 104545,
+      "name": "Doting Dracthyr",
+      "attack": 4,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "At the end of your turn, give your teammate's minions +1 Attack.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "dragon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_108",
+      "dbf_id": 104550,
+      "name": "Mirror Monster",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "When you buy or Discover this, get an extra copy and Pass it.",
+      "tribes": [
+        "all"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "all"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_109",
+      "dbf_id": 104561,
+      "name": "Support System",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 5,
+      "effect_text": "[x]At the end of your turn, give a minion in your teammate's warband Divine Shield .",
+      "tribes": [
+        "mech"
+      ],
+      "keywords": [
+        "end_of_turn_trigger"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "end_of_turn_trigger",
+        "mech"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_110",
+      "dbf_id": 104593,
+      "name": "Feisty Freshwater",
+      "attack": 6,
+      "health": 4,
+      "tavern_tier": 4,
+      "effect_text": "[x] Deathrattle: You and your teammate each gain two free Refreshes .",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_111",
+      "dbf_id": 104957,
+      "name": "Generous Geomancer",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 2,
+      "effect_text": "Deathrattle: You and your teammate each get a Blood Gem .",
+      "tribes": [
+        "quilboar"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "deathrattle",
+        "quilboar"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_112",
+      "dbf_id": 104959,
+      "name": "Grave Narrator",
+      "attack": 2,
+      "health": 7,
+      "tavern_tier": 4,
+      "effect_text": "[x] Avenge (3): Your teammate gets a random minion of their most common type.",
+      "tribes": [
+        "undead"
+      ],
+      "keywords": [
+        "avenge"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "avenge",
+        "undead"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_114",
+      "dbf_id": 105251,
+      "name": "Passenger",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 1,
+      "effect_text": "The first time your team Passes each turn, gain +1/+2.",
+      "tribes": [],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_115",
+      "dbf_id": 105435,
+      "name": "Jumping Jack",
+      "attack": 3,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "[x]After the first time this is sold, Pass it.",
+      "tribes": [
+        "all"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "all"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_117",
+      "dbf_id": 105646,
+      "name": "Puddle Prancer",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "After this is Passed , gain +4/+4.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_118",
+      "dbf_id": 105714,
+      "name": "Plunder Pal",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 3,
+      "effect_text": "At the start of your turn, you and your teammate each gain 1 Gold.",
+      "tribes": [
+        "pirate"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "pirate"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_119",
+      "dbf_id": 105799,
+      "name": "Orc-estra Conductor",
+      "attack": 4,
+      "health": 4,
+      "tavern_tier": 3,
+      "effect_text": "[x] Battlecry: Give a minion +2/+2 (Improved by each Orc-estra your team has played this game) .",
+      "tribes": [],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_120",
+      "dbf_id": 105835,
+      "name": "Well Wisher",
+      "attack": 6,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "Spellcraft: Pass a different non-Golden minion.",
+      "tribes": [],
+      "keywords": [
+        "bacon_spellcraft_id",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "bacon_spellcraft_id",
+        "trigger_visual"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_121",
+      "dbf_id": 106320,
+      "name": "Man'ari Messenger",
+      "attack": 9,
+      "health": 6,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry: Minions in your team's Taverns have +3/+2 this game.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "demon"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGDUO_125",
+      "dbf_id": 107944,
+      "name": "Sandy",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 7,
+      "effect_text": "[x] Start of Combat: Transform into a copy of your teammate's highest- Health minion.",
+      "tribes": [],
+      "keywords": [
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "start_of_combat",
+        "trigger_visual"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGFYM_005",
+      "dbf_id": 130620,
+      "name": "Harbinger Aph'lass",
+      "attack": 3,
+      "health": 6,
+      "tavern_tier": 6,
+      "effect_text": "Whenever you discard a card, give your Deity +1/+1 and improve this.",
+      "tribes": [
+        "aberration"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "aberration"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_004",
+      "dbf_id": 59670,
+      "name": "Wrath Weaver",
+      "attack": 1,
+      "health": 3,
+      "tavern_tier": 1,
+      "effect_text": "After you play a Demon, deal 1 damage to your hero and gain +2/+2.",
+      "tribes": [
+        "demon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_13"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "demon"
+      ],
+      "synergy_scores": {
+        "comp_13": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_018",
+      "dbf_id": 59955,
+      "name": "Goldrinn, the Great Wolf",
+      "attack": 7,
+      "health": 7,
+      "tavern_tier": 5,
+      "effect_text": "Deathrattle: Your Beasts have +7/+7 until next turn.",
+      "tribes": [
+        "beast"
+      ],
+      "keywords": [
+        "deathrattle"
+      ],
+      "comp_ids": [
+        "comp_12"
+      ],
+      "synergy_tags": [
+        "deathrattle",
+        "beast"
+      ],
+      "synergy_scores": {
+        "comp_12": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_020",
+      "dbf_id": 60028,
+      "name": "Primalfin Lookout",
+      "attack": 3,
+      "health": 2,
+      "tavern_tier": 5,
+      "effect_text": "Battlecry: If you control another Murloc, Discover a Murloc.",
+      "tribes": [
+        "murloc"
+      ],
+      "keywords": [
+        "battlecry",
+        "discover"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "discover",
+        "murloc"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_041",
+      "dbf_id": 60630,
+      "name": "Kalecgos, Arcane Aspect",
+      "attack": 4,
+      "health": 12,
+      "tavern_tier": 5,
+      "effect_text": "[x]After you trigger a Battlecry , give your Dragons +2/+2.",
+      "tribes": [
+        "dragon"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [
+        "comp_15"
+      ],
+      "synergy_tags": [
+        "trigger_visual",
+        "dragon"
+      ],
+      "synergy_scores": {
+        "comp_15": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_115",
+      "dbf_id": 64038,
+      "name": "Sellemental",
+      "attack": 3,
+      "health": 3,
+      "tavern_tier": 2,
+      "effect_text": "[x]When you sell this, get a 3/3 Elemental.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [],
+      "comp_ids": [],
+      "synergy_tags": [
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_116",
+      "dbf_id": 64042,
+      "name": "Refreshing Anomaly",
+      "attack": 4,
+      "health": 5,
+      "tavern_tier": 4,
+      "effect_text": "[x] Battlecry: Gain 2 free Refreshes .",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "battlecry",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_119",
+      "dbf_id": 64054,
+      "name": "Crackling Cyclone",
+      "attack": 2,
+      "health": 1,
+      "tavern_tier": 1,
+      "effect_text": "Divine Shield Windfury",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "divine_shield",
+        "windfury"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "divine_shield",
+        "windfury",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_123",
+      "dbf_id": 64077,
+      "name": "Tavern Tempest",
+      "attack": 2,
+      "health": 2,
+      "tavern_tier": 4,
+      "effect_text": "Battlecry: Get a random Elemental.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "battlecry"
+      ],
+      "comp_ids": [
+        "comp_37",
+        "comp_92"
+      ],
+      "synergy_tags": [
+        "battlecry",
+        "elemental"
+      ],
+      "synergy_scores": {
+        "comp_37": 1.0,
+        "comp_92": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_126",
+      "dbf_id": 64189,
+      "name": "Wildfire Elemental",
+      "attack": 6,
+      "health": 3,
+      "tavern_tier": 3,
+      "effect_text": "After this attacks and kills a minion, deal excess damage to an adjacent enemy.",
+      "tribes": [
+        "elemental"
+      ],
+      "keywords": [
+        "trigger_visual"
+      ],
+      "comp_ids": [],
+      "synergy_tags": [
+        "trigger_visual",
+        "elemental"
+      ],
+      "synergy_scores": {},
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    },
+    {
+      "id": "BGS_131",
+      "dbf_id": 65031,
+      "name": "Deadly Spore",
+      "attack": 1,
+      "health": 1,
+      "tavern_tier": 3,
+      "effect_text": "Venomous",
+      "tribes": [],
+      "keywords": [
+        "venomous"
+      ],
+      "comp_ids": [
+        "comp_8"
+      ],
+      "synergy_tags": [
+        "venomous"
+      ],
+      "synergy_scores": {
+        "comp_8": 1.0
+      },
+      "first_place_rate": null,
+      "avg_placement": null,
+      "in_pool": true,
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/minions/",
+      "source": "hearthstonejson_isBattlegroundsPoolMinion+lobby_filter"
+    }
+  ]
+}

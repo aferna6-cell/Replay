@@ -1,0 +1,219 @@
+{
+  "patch": "36.6.1",
+  "scraped_at": "2026-09-23T15:33:00.972684+00:00",
+  "source": "hsreplay",
+  "account_hint": "public endpoints (no Tier7 auth); QuirkyTurtle Tier7 would unlock hero placement distributions",
+  "live_pool_only": true,
+  "excluded_tribes": [
+    "naga"
+  ],
+  "live_tribes": [
+    "aberration",
+    "beast",
+    "demon",
+    "dragon",
+    "elemental",
+    "mech",
+    "murloc",
+    "pirate",
+    "quilboar",
+    "undead"
+  ],
+  "meta_period_name": "Real 36.6.1",
+  "counts": {
+    "comps": 24,
+    "comps_with_full_guide": 24,
+    "minions": 247,
+    "minions_in_pool": 247,
+    "heroes": 118,
+    "trinkets": 256,
+    "trinkets_with_guide": 155,
+    "spells": 78,
+    "tribes": 10,
+    "spells_in_pool": 72,
+    "spells_aidan_verified": 71,
+    "spells_provisional": 1,
+    "comps_in_pool": 22,
+    "comps_naga_excluded": 2,
+    "comps_train_active": 16,
+    "comps_kept_intact": 11,
+    "comps_synth_v2": 5,
+    "comps_zero_weight": 13,
+    "thin150_clean": 72,
+    "thin150_dirty_excluded": 78
+  },
+  "train_weights": {
+    "comps": "highest",
+    "heroes": "support",
+    "trinkets": "support",
+    "spells": "support",
+    "heroes_trinkets": "support",
+    "minions": "board_synthesis",
+    "thin150_clean": "trajectory",
+    "old_patch": 0,
+    "naga": 0,
+    "t7": "optional_useful_not_required",
+    "affinity_note": "comp membership seeds affinities; heroes/trinkets/spells SUPPORT examples at 2x copies (comps 4x highest); related train comps / coach grades",
+    "support_copies": 2,
+    "comps_copies": 4
+  },
+  "gaps": [
+    "hero first_place_rate / avg_placement / leveling_curve need authenticated heroes API or manual",
+    "example_boards not on public comp_guides",
+    "minion placement stats not pulled yet",
+    "54 hidden tier-list comps omitted (out of current meta)",
+    "HSReplay UI still lists Naga comps/composition stats; minions snapshot excludes naga from live lobby pool",
+    "Seafood Stew coach take is provisional \u2014 Aidan verify",
+    "Naga comps zero-weighted in comps.json (lobby excludes naga); do not re-enable without pool change"
+  ],
+  "notes": "Snapshot from public HSReplay APIs + HearthstoneJSON + https://hsbg.cards/ spell validation. Community meta in training_notes. Hero-exclusive pools on ETC/Raynor/Morchie/Murozond. Spell coach_take/grade Aidan-verified 2026-09-23. Legal-action notes: play spell, discard, sell-before-place.",
+  "browser_step1": {
+    "tier7_logged_in_as": "QuirkyTurtle",
+    "comps_visible": 24,
+    "composition_stats_merged": true,
+    "naga_still_on_site": true
+  },
+  "last_updated": "2026-09-23T18:57:06Z",
+  "training_notes": [
+    {
+      "id": "support_weight_2x",
+      "phase": "train",
+      "summary": "Heroes/trinkets/spells support channel raised to 2x copies; comps remain 4x highest.",
+      "detail": "User requested louder support without matching comps. _WEIGHT_COPIES support=2, highest=4.",
+      "source": "user_2026-09-23",
+      "last_updated": "2026-09-23T18:57:06Z"
+    },
+    {
+      "id": "train_wire_36_6_1",
+      "phase": "train",
+      "summary": "Train corpus: intact in-pool snapshot comps + approved synth v2 + scrubbed thin150; heroes/trinkets/spells as SUPPORT. T7 optional. Naga out. No Firestone/VODs.",
+      "detail": "Active comps=16 (kept 11 + synth 5). Thin150 clean=72 (dirty excluded=78). Comps highest weight; heroes/trinkets/spells support examples via hsreplay_snapshot_dataset. T7 minions are useful additions but NOT required. Excluded tribes: naga. Sources: data/hsreplay/36.6.1 + data/train_synth_comps_v2.json + data/train_perfect_thin150_clean.",
+      "t7_policy": "optional_useful_not_required",
+      "excluded_tribes": [
+        "naga"
+      ],
+      "no_firestone": true,
+      "no_vod_corpus": true,
+      "source": "user_locked_decisions_2026-09-23",
+      "last_updated": "2026-09-23T18:49:28Z"
+    },
+    {
+      "id": "t7_optional_policy",
+      "phase": "all",
+      "summary": "Tier-7 minions are useful adds but NOT required for any train archetype.",
+      "detail": "T7 minions are useful additions when they fit the plan, but they are NOT required. Do not treat Tier-7 as mandatory for this archetype; cores/keys/example boards stay <=T6.",
+      "source": "user_locked_decisions_2026-09-23"
+    },
+    {
+      "id": "aberration_early_pivot",
+      "tribes": [
+        "aberration"
+      ],
+      "phase": "early_to_mid",
+      "summary": "Aberrations are strong early\u2013mid; plan to transition into another comp later rather than forcing all-Aberration endgame.",
+      "detail": "Community read for patch 36.6.1: Aberration boards win early/mid tempo and value, then pivot into a stronger late tribe/comp. Treat Aberration pieces as a launchpad; do not tunnel into weak Aberration end boards when a transition is available. Blood Gems are good discard fodder for Aberration discard synergies.",
+      "train_hint": "Prefer Aberration buys early; after mid-game, weight pivots into lobby-strong comps higher than staying pure Aberration.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "murloc_activate_scam",
+      "tribes": [
+        "murloc"
+      ],
+      "phase": "mid_to_late",
+      "summary": "Murlocs are stronger; Murloc scam uses Activate to put Venomous+Stealth on the T2 hand-summon Murloc, then floods hand scam (like Venom Scam).",
+      "detail": "Murloc scam line: use an Activate Murloc to give Venomous and Stealth to the Tier 2 Murloc that summons cards from hand (Expert Aviator style: Rally/summon highest-Attack from hand for combat). Then fill hand with more scam summon pieces, analogous to existing Murlocs - Venom Scam (comp_8). Murlocs overall improved this patch \u2014 raise prior vs prior patch.",
+      "related_comp_ids": [
+        "comp_8"
+      ],
+      "related_minion_ids": [
+        "BG34_140"
+      ],
+      "train_hint": "When holding Activate Murlocs + hand-summon Murloc, bias toward Venomous/Stealth buffs and hand-scam density over pure stats.",
+      "source": "user_meta_2026-09-23",
+      "related_activate_murloc_ids": []
+    },
+    {
+      "id": "quilboar_support_blood_gems",
+      "tribes": [
+        "quilboar"
+      ],
+      "phase": "support",
+      "summary": "Quilboar are somewhat better as a supporting tribe: Blood Gems excel when casting many spells on minions, and as Aberration discard fuel.",
+      "detail": "Quilboar rarely need to be the primary end tribe. Blood Gems are high-value when the main plan casts many spells onto minions (spell-on-minion comps), and they are strong cards to discard for Aberration synergies. Prefer Quilboar as splash/support.",
+      "train_hint": "Raise Quilboar/Blood Gem value when board plan is spell-heavy or Aberration-discard; do not force pure Quilboar unless lobby/comp demands it.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "spell_play_is_legal",
+      "phase": "always",
+      "summary": "Playing tavern spells from hand is a legal action the coach must suggest when applicable.",
+      "detail": "NEXT/recommend must include play-spell actions, not only buy/roll/sell/HP. Spells are often the correct click.",
+      "train_hint": "When a spell in hand has positive EV (buff, discover, economy, combat tech), prefer PLAY_SPELL over holding or rolling past the window.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "discard_is_legal",
+      "phase": "always",
+      "summary": "Discard is a legal action \u2014 suggest it when applicable (Aberration fodder, Sludge/Corrupted Coin double-cast, etc.).",
+      "detail": "With discard mechanics in the pool, the coach must know DISCARD as a legal action and recommend it when it enables double-casts or tribe synergies (e.g. Sludge Corrosion, Corrupted Coin, Blood Gems as Aberration discard fuel).",
+      "train_hint": "If discard doubles a spell or fuels Aberration/Quilboar lines, weight DISCARD above cycling dead cards blindly.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "sell_before_place_full_board",
+      "phase": "always",
+      "summary": "If the board is full, suggest selling a card before placing a new one.",
+      "detail": "Full board blocks plays from hand. Coach should name which minion to sell, then the play/buy, and keep the sell target on the NEXT line.",
+      "train_hint": "When hand-play or buy needs a board slot and board_size==max, emit SELL(<weakest off-plan>) then PLAY/BUY.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "balinda_spell_on_minion_buys",
+      "phase": "mid_to_late",
+      "summary": "Balinda / spell-on-minion comps: always buy 1\u20132 cost spells that TARGET a minion.",
+      "detail": "When the plan casts many cheap targeted spells onto minions (Balinda, Demon Distractor buff lines, Weapons Forge / Pointy Arrows comps), prioritize buying 1\u20132 gold targeted tavern spells every time they appear.",
+      "train_hint": "If strategy is spell-on-minion density, raise buy priority for cost<=2 targeted spells above neutral economy spells.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "t7_spells_rare",
+      "phase": "late",
+      "summary": "Tier 7 tavern spells are almost never seen \u2014 do not plan the game around them.",
+      "detail": "Eyes of the Earth Mother (T6) is the real golden tool for a strong under-T4 card. Sharing is Caring / Menagerie Tableware / Sacred Gift / Hallowed Ritual are T7 rarities.",
+      "train_hint": "Do not weight lines that require hitting T7 spells; Eyes goldenizing a strong low-tier is the realistic spike.",
+      "source": "user_meta_2026-09-23"
+    }
+  ],
+  "spell_validation": {
+    "source": "https://hsbg.cards/",
+    "validated_at": "2026-09-23T18:06:53.667245Z",
+    "our_total": 78,
+    "our_in_pool": 72,
+    "aidan_verified": 71,
+    "provisional": [
+      "Seafood Stew"
+    ],
+    "excluded_duos": [
+      "Portal in a Fountain",
+      "Portal in a Crystal",
+      "Bargain Bundle"
+    ],
+    "excluded_naga": [
+      "Shifting Tide",
+      "Spitescale Special",
+      "Queen's Command"
+    ],
+    "excluded_hsbg_pool_false": [
+      "Mounting Avalanche",
+      "Deepwater Clan"
+    ],
+    "added_from_hsbg": [
+      "Seafood Stew"
+    ],
+    "aidan_override_in_pool": [
+      "Mounting Avalanche",
+      "Deepwater Clan"
+    ]
+  }
+}

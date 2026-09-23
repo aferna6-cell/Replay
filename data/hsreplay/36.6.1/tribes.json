@@ -1,0 +1,419 @@
+{
+  "patch": "36.6.1",
+  "tribes": [
+    {
+      "id": "undead",
+      "tribe_id": 11,
+      "name": "Undead",
+      "lobby_strength": null,
+      "lobby_win_rate": 8.1,
+      "avg_placement": 4.35,
+      "top_comp_ids": [
+        "comp_14",
+        "comp_3"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 7.9,
+      "placement_distribution": {
+        "1": 15.4,
+        "2": 12.1,
+        "3": 12.7,
+        "4": 12.81,
+        "5": 12.75,
+        "6": 12.78,
+        "7": 12.08,
+        "8": 9.38
+      },
+      "typical_final_board": [
+        "handless forsaken",
+        "drustfallen butcher",
+        "deathly striker",
+        "snazzy phantom",
+        "barrier banshee"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/47/undead?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "murloc",
+      "tribe_id": 14,
+      "name": "Murloc",
+      "lobby_strength": null,
+      "lobby_win_rate": 5.7,
+      "avg_placement": 4.13,
+      "top_comp_ids": [
+        "comp_8",
+        "comp_67",
+        "comp_93"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 6.3,
+      "placement_distribution": {
+        "1": 13.38,
+        "2": 16.38,
+        "3": 15.06,
+        "4": 13.66,
+        "5": 11.84,
+        "6": 11.06,
+        "7": 10.2,
+        "8": 8.41
+      },
+      "typical_final_board": [
+        "bile spitter",
+        "costume enthusiast",
+        "choral mrrrglr",
+        "diremuck forager",
+        "cousin errgl",
+        "kelp keeper",
+        "brann bronzebeard"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/2/murlocs?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "demon",
+      "tribe_id": 15,
+      "name": "Demon",
+      "lobby_strength": null,
+      "lobby_win_rate": 12.8,
+      "avg_placement": 4.22,
+      "top_comp_ids": [
+        "comp_13",
+        "comp_76",
+        "comp_41"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 12.2,
+      "placement_distribution": {
+        "1": 15.71,
+        "2": 13.53,
+        "3": 13.17,
+        "4": 12.66,
+        "5": 12.4,
+        "6": 11.98,
+        "7": 11.45,
+        "8": 9.1
+      },
+      "typical_final_board": [
+        "imp lusionist",
+        "devilish distractor",
+        "felboar",
+        "ashen corruptor",
+        "eredar escapist",
+        "wrath weaver",
+        "balinda stonehearth"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/9/demons?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "mech",
+      "tribe_id": 17,
+      "name": "Mech",
+      "lobby_strength": null,
+      "lobby_win_rate": 10.1,
+      "avg_placement": 4.42,
+      "top_comp_ids": [
+        "comp_91",
+        "comp_2",
+        "comp_68"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 11.5,
+      "placement_distribution": {
+        "1": 13.16,
+        "2": 12.02,
+        "3": 13.11,
+        "4": 13.83,
+        "5": 13.35,
+        "6": 13.02,
+        "7": 12.12,
+        "8": 9.4
+      },
+      "typical_final_board": [
+        "drakkari enchanter",
+        "utility drone",
+        "polarizing beatboxer",
+        "drone duplicator",
+        "spark snapper",
+        "balinda stonehearth",
+        "glambot"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/8/mechs?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "elemental",
+      "tribe_id": 18,
+      "name": "Elemental",
+      "lobby_strength": null,
+      "lobby_win_rate": 14.3,
+      "avg_placement": 4.41,
+      "top_comp_ids": [
+        "comp_92",
+        "comp_37"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 13.1,
+      "placement_distribution": {
+        "1": 16.35,
+        "2": 12.11,
+        "3": 11.59,
+        "4": 11.92,
+        "5": 12.16,
+        "6": 12.35,
+        "7": 12.65,
+        "8": 10.87
+      },
+      "typical_final_board": [
+        "moat custodian",
+        "unleashed mana surge",
+        "unbound tempest",
+        "flourishing frostling",
+        "flaming enforcer",
+        "brann bronzebeard",
+        "tavern tempest"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/39/elementals?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "beast",
+      "tribe_id": 20,
+      "name": "Beast",
+      "lobby_strength": null,
+      "lobby_win_rate": 13.0,
+      "avg_placement": 4.2,
+      "top_comp_ids": [
+        "comp_38",
+        "comp_87",
+        "comp_12",
+        "comp_83"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 11.6,
+      "placement_distribution": {
+        "1": 16.73,
+        "2": 13.12,
+        "3": 12.36,
+        "4": 12.37,
+        "5": 12.46,
+        "6": 12.33,
+        "7": 11.58,
+        "8": 9.06
+      },
+      "typical_final_board": [
+        "headhunter gryphon",
+        "hoarding hyena",
+        "tasty lobster",
+        "lurking lionfish",
+        "banana slamma",
+        "deathstrider",
+        "titus rivendare"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/3/beasts?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "pirate",
+      "tribe_id": 23,
+      "name": "Pirate",
+      "lobby_strength": null,
+      "lobby_win_rate": 9.1,
+      "avg_placement": 4.77,
+      "top_comp_ids": [
+        "comp_89"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 9.8,
+      "placement_distribution": {
+        "1": 13.92,
+        "2": 9.71,
+        "3": 9.52,
+        "4": 10.61,
+        "5": 12.5,
+        "6": 14.31,
+        "7": 15.41,
+        "8": 14.02
+      },
+      "typical_final_board": [
+        "blade collector",
+        "proud privateer",
+        "sky admiral rogers",
+        "hooktusk master marauder",
+        "hooktusk master marauder",
+        "enterprising escapee",
+        "leeroy the reckless"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/36/pirates?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "dragon",
+      "tribe_id": 24,
+      "name": "Dragon",
+      "lobby_strength": null,
+      "lobby_win_rate": 9.3,
+      "avg_placement": 4.29,
+      "top_comp_ids": [
+        "comp_73",
+        "comp_15"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 10.8,
+      "placement_distribution": {
+        "1": 12.88,
+        "2": 14.53,
+        "3": 13.95,
+        "4": 13.41,
+        "5": 12.65,
+        "6": 12.15,
+        "7": 11.32,
+        "8": 9.12
+      },
+      "typical_final_board": [
+        "crimson vindicator",
+        "persistent poet",
+        "warpwing",
+        "bronze timewalker",
+        "runic arcanist",
+        "fire forged evoker",
+        "brann bronzebeard"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/20/dragons?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "quilboar",
+      "tribe_id": 43,
+      "name": "Quilboar",
+      "lobby_strength": null,
+      "lobby_win_rate": 6.4,
+      "avg_placement": 4.71,
+      "top_comp_ids": [
+        "comp_90",
+        "comp_88"
+      ],
+      "notes": null,
+      "source": "hsreplay_meta_periods",
+      "popularity": 6.8,
+      "placement_distribution": {
+        "1": 14.06,
+        "2": 10.11,
+        "3": 10.07,
+        "4": 10.78,
+        "5": 12.02,
+        "6": 13.76,
+        "7": 15.1,
+        "8": 14.09
+      },
+      "typical_final_board": [
+        "sanguine refiner",
+        "vigilant bristlemane",
+        "geomagus roogug",
+        "balinda stonehearth",
+        "turbo hogrider",
+        "gem rat",
+        "bramble tunneler"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/41/quilboar?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      }
+    },
+    {
+      "id": "aberration",
+      "tribe_id": 126,
+      "name": "Aberration",
+      "lobby_strength": null,
+      "lobby_win_rate": null,
+      "avg_placement": null,
+      "top_comp_ids": [],
+      "notes": null,
+      "source": "hsreplay_meta_periods"
+    }
+  ],
+  "out_of_pool_tribes_still_on_hsreplay": [
+    {
+      "id": "naga",
+      "tribe_id": 92,
+      "name": "Naga",
+      "first_place_rate": 11.2,
+      "avg_placement": 3.94,
+      "popularity": 10.2,
+      "placement_distribution": {
+        "1": 16.42,
+        "2": 14.59,
+        "3": 13.9,
+        "4": 12.85,
+        "5": 12.1,
+        "6": 11.01,
+        "7": 10.44,
+        "8": 8.71
+      },
+      "typical_final_board": [
+        "felfire conjurer",
+        "seafloor recruiter",
+        "fauna whisperer",
+        "gatekeeper amalgam",
+        "torrential ruiner",
+        "drakkari enchanter",
+        "balinda stonehearth"
+      ],
+      "hsreplay_url": "https://hsreplay.net/battlegrounds/compositions/43/naga?mmrPercentile=TOP_50_PERCENT&timeRange=LAST_7_DAYS",
+      "stats_filters": {
+        "mmr_range": "Top 50% (5,800+)",
+        "time_frame": "Last 7 days",
+        "games": "540,000"
+      },
+      "source": "hsreplay_compositions_page_visible",
+      "lobby_strength": null,
+      "lobby_win_rate": 11.2,
+      "top_comp_ids": [],
+      "notes": "Still listed on HSReplay compositions page; excluded from live pool filter in minions.json",
+      "in_current_lobby_pool": false
+    }
+  ]
+}

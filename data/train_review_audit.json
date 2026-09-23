@@ -1,0 +1,2176 @@
+{
+  "meta": {
+    "patch": "36.6.1",
+    "live_tribes": [
+      "aberration",
+      "beast",
+      "demon",
+      "dragon",
+      "elemental",
+      "mech",
+      "murloc",
+      "pirate",
+      "quilboar",
+      "undead"
+    ],
+    "excluded_tribes": [
+      "naga"
+    ],
+    "in_pool_minions": 247
+  },
+  "comps_kept": [
+    {
+      "id": "comp_89",
+      "name": "Pirates - APM Golden",
+      "tribe": "pirate",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG33_823",
+        "BG36_344",
+        "BG36_523"
+      ],
+      "key": [
+        "BG33_823",
+        "BG36_344",
+        "BG36_523"
+      ],
+      "enablers": [
+        "BG36_523"
+      ],
+      "addons": [
+        "BG33_825",
+        "BG_LOE_077",
+        "BG26_817"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_76",
+      "name": "Demons - APM Shop Buff",
+      "tribe": "demon",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG33_823",
+        "BG33_825",
+        "BG28_633",
+        "BG36_762",
+        "BG35_883",
+        "BG36_523"
+      ],
+      "key": [
+        "BG33_823",
+        "BG33_825",
+        "BG28_633",
+        "BG36_762",
+        "BG35_883",
+        "BG36_523"
+      ],
+      "enablers": [
+        "BG_LOE_077"
+      ],
+      "addons": [
+        "BG_LOE_077",
+        "BG35_155"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_3",
+      "name": "Undead - APM Undead",
+      "tribe": "undead",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG25_010",
+        "BG36_515",
+        "BG34_692",
+        "BG33_825",
+        "BG33_823"
+      ],
+      "key": [
+        "BG25_010",
+        "BG36_515",
+        "BG34_692",
+        "BG33_825",
+        "BG33_823"
+      ],
+      "enablers": [
+        "BG33_823",
+        "BG33_825",
+        "BG34_692"
+      ],
+      "addons": [
+        "BG36_523",
+        "BG_LOE_077"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_14",
+      "name": "Undead - Attack Scaling",
+      "tribe": "undead",
+      "rank": "S",
+      "train_weight": "highest",
+      "core": [
+        "BG28_309",
+        "BG36_511",
+        "BG25_010",
+        "BG36_515",
+        "BG32_324"
+      ],
+      "key": [
+        "BG28_309",
+        "BG36_511",
+        "BG25_010",
+        "BG36_515",
+        "BG32_324"
+      ],
+      "enablers": [
+        "BG32_324",
+        "BG25_010"
+      ],
+      "addons": [
+        "BG25_354",
+        "BG25_009",
+        "BG36_514",
+        "BG31_835",
+        "BG32_880"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_38",
+      "name": "Beasts - Beetles",
+      "tribe": "beast",
+      "rank": "S",
+      "train_weight": "highest",
+      "core": [
+        "BG31_809",
+        "BG26_802",
+        "BG36_209",
+        "BG36_204"
+      ],
+      "key": [
+        "BG31_809",
+        "BG26_802",
+        "BG36_209",
+        "BG36_204"
+      ],
+      "enablers": [
+        "BG36_209",
+        "BG31_809"
+      ],
+      "addons": [
+        "BG31_803",
+        "BG35_604",
+        "BG35_602",
+        "BG31_801"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_13",
+      "name": "Demons - Self Damage",
+      "tribe": "demon",
+      "rank": "S",
+      "train_weight": "highest",
+      "core": [
+        "BG_LOE_077",
+        "BG36_762",
+        "BG35_883",
+        "BG32_873",
+        "BG36_733"
+      ],
+      "key": [
+        "BG_LOE_077",
+        "BG36_762",
+        "BG35_883",
+        "BG32_873",
+        "BG36_733"
+      ],
+      "enablers": [
+        "BG32_873",
+        "BGS_004",
+        "BG26_524",
+        "BG26_523",
+        "BG36_733"
+      ],
+      "addons": [
+        "BG26_524",
+        "BGS_004",
+        "BG26_523"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_41",
+      "name": "Demons - Shop Buff",
+      "tribe": "demon",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG28_633",
+        "BG36_731",
+        "BG36_762",
+        "BG35_883"
+      ],
+      "key": [
+        "BG28_633",
+        "BG36_731",
+        "BG36_762",
+        "BG35_883"
+      ],
+      "enablers": [
+        "BG36_762",
+        "BG35_155"
+      ],
+      "addons": [
+        "BG35_155",
+        "BG32_873",
+        "BG21_004",
+        "BG26_174",
+        "BG_LOE_077"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_12",
+      "name": "Beasts - Summons",
+      "tribe": "beast",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BGS_018",
+        "BG25_354",
+        "BG36_204",
+        "BG36_208",
+        "BG26_802",
+        "BG35_604"
+      ],
+      "key": [
+        "BGS_018",
+        "BG25_354",
+        "BG36_204",
+        "BG36_208",
+        "BG26_802",
+        "BG35_604"
+      ],
+      "enablers": [
+        "BG36_204",
+        "BG36_208",
+        "BGS_018"
+      ],
+      "addons": [
+        "BG36_201"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_87",
+      "name": "Beasts - Tasty Lobstah",
+      "tribe": "beast",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG36_208",
+        "BG25_354",
+        "BG36_202",
+        "BG36_204"
+      ],
+      "key": [
+        "BG36_208",
+        "BG25_354",
+        "BG36_202",
+        "BG36_204"
+      ],
+      "enablers": [
+        "BG36_204",
+        "BG36_208"
+      ],
+      "addons": [
+        "BG36_201",
+        "BG36_210",
+        "BG25_016"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_67",
+      "name": "Murlocs - Tidecaller",
+      "tribe": "murloc",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG_LOE_077",
+        "BG27_556",
+        "BG26_354",
+        "BG36_704",
+        "BG35_883",
+        "BG33_891"
+      ],
+      "key": [
+        "BG_LOE_077",
+        "BG27_556",
+        "BG26_354",
+        "BG36_704",
+        "BG35_883",
+        "BG33_891"
+      ],
+      "enablers": [
+        "BG_LOE_077",
+        "BG36_704"
+      ],
+      "addons": [
+        "BG33_318"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_8",
+      "name": "Murlocs - Venom Scam",
+      "tribe": "murloc",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG23_318",
+        "BG33_318",
+        "BG34_140"
+      ],
+      "key": [
+        "BG23_318",
+        "BG33_318",
+        "BG34_140"
+      ],
+      "enablers": [],
+      "addons": [
+        "BG36_243",
+        "BG27_556",
+        "BGS_131",
+        "BG34_604"
+      ],
+      "missing": [],
+      "ok": true,
+      "source": "snapshot"
+    }
+  ],
+  "comps_dropped": [
+    {
+      "id": "comp_73",
+      "name": "Dragons - APM Evoker",
+      "tribe": "dragon",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG29_813",
+        "BG32_822",
+        "BG33_823",
+        "BG33_825",
+        "BG24_004"
+      ],
+      "key": [
+        "BG29_813",
+        "BG32_822",
+        "BG33_823",
+        "BG33_825",
+        "BG24_004"
+      ],
+      "enablers": [
+        "BG32_822",
+        "BG33_823",
+        "BG33_825"
+      ],
+      "addons": [
+        "BG_LOE_077",
+        "BG29_810",
+        "BG36_523",
+        "BG24_500"
+      ],
+      "missing": [
+        "BG32_822",
+        "BG24_004",
+        "BG29_810"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_15",
+      "name": "Dragons - Battlecries",
+      "tribe": "dragon",
+      "rank": "B",
+      "train_weight": "highest",
+      "core": [
+        "BGS_041",
+        "BG_LOE_077",
+        "BG24_004",
+        "BG29_813"
+      ],
+      "key": [
+        "BGS_041",
+        "BG_LOE_077",
+        "BG24_004",
+        "BG29_813"
+      ],
+      "enablers": [
+        "BGS_041",
+        "BG_LOE_077"
+      ],
+      "addons": [
+        "BG32_822",
+        "BG36_242",
+        "BG29_810",
+        "BG24_500"
+      ],
+      "missing": [
+        "BG24_004",
+        "BG32_822",
+        "BG29_810"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_90",
+      "name": "Quilboar - Bristlemane",
+      "tribe": "quilboar",
+      "rank": "B",
+      "train_weight": "highest",
+      "core": [
+        "BG31_326",
+        "BG35_883",
+        "BG34_684",
+        "BG36_510",
+        "BG33_885"
+      ],
+      "key": [
+        "BG31_326",
+        "BG35_883",
+        "BG34_684",
+        "BG36_510",
+        "BG33_885"
+      ],
+      "enablers": [
+        "BG31_326",
+        "BG36_510"
+      ],
+      "addons": [
+        "BG_LOE_077",
+        "BG26_817",
+        "BG23_017"
+      ],
+      "missing": [
+        "BG36_510"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_88",
+      "name": "Quilboar - Choose One",
+      "tribe": "quilboar",
+      "rank": "B",
+      "train_weight": "highest",
+      "core": [
+        "BG34_684",
+        "BG31_326",
+        "BG31_323",
+        "BG33_885"
+      ],
+      "key": [
+        "BG34_684",
+        "BG31_326",
+        "BG31_323",
+        "BG33_885"
+      ],
+      "enablers": [
+        "BG31_326",
+        "BG31_323"
+      ],
+      "addons": [
+        "BG31_327",
+        "BG36_331",
+        "BG26_ICC_901",
+        "BG23_017",
+        "BG36_510"
+      ],
+      "missing": [
+        "BG36_510"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_68",
+      "name": "Mechs - Deathrattle",
+      "tribe": "mech",
+      "rank": "B",
+      "train_weight": "highest",
+      "core": [
+        "BG35_342",
+        "BGS_012",
+        "BG25_354"
+      ],
+      "key": [
+        "BG35_342",
+        "BGS_012",
+        "BG25_354"
+      ],
+      "enablers": [
+        "BG35_342",
+        "BGS_012"
+      ],
+      "addons": [
+        "BG23_318"
+      ],
+      "missing": [
+        "BGS_012"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_55",
+      "name": "Nagas - End Of Turn/Spell Buff",
+      "tribe": "naga",
+      "rank": "A",
+      "train_weight": 0,
+      "core": [
+        "BG32_821",
+        "BG26_ICC_901",
+        "BG36_640",
+        "BG32_837",
+        "BG35_883"
+      ],
+      "key": [
+        "BG32_821",
+        "BG26_ICC_901",
+        "BG36_640",
+        "BG32_837",
+        "BG35_883"
+      ],
+      "enablers": [
+        "BG32_821",
+        "BG32_837",
+        "BG36_640"
+      ],
+      "addons": [
+        "BG36_622",
+        "BG34_500",
+        "BG32_835"
+      ],
+      "missing": [
+        "BG32_837",
+        "BG36_622",
+        "BG32_835"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_93",
+      "name": "Murlocs - Family",
+      "tribe": "murloc",
+      "rank": "B",
+      "train_weight": "highest",
+      "core": [
+        "BG35_142",
+        "BG_LOE_077",
+        "BG36_701",
+        "BG35_141"
+      ],
+      "key": [
+        "BG35_142",
+        "BG_LOE_077",
+        "BG36_701",
+        "BG35_141"
+      ],
+      "enablers": [
+        "BG35_142",
+        "BG_LOE_077"
+      ],
+      "addons": [
+        "BG26_ICC_901",
+        "BG33_318",
+        "BG34_140"
+      ],
+      "missing": [
+        "BG35_142",
+        "BG35_141"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_20",
+      "name": "Nagas - Groundbreaker",
+      "tribe": "naga",
+      "rank": "A",
+      "train_weight": 0,
+      "core": [
+        "BG31_035",
+        "BG36_243",
+        "BG35_883",
+        "BG34_925"
+      ],
+      "key": [
+        "BG31_035",
+        "BG36_243",
+        "BG35_883",
+        "BG34_925"
+      ],
+      "enablers": [
+        "BG34_925",
+        "BG31_035"
+      ],
+      "addons": [
+        "BG23_008",
+        "BG31_920"
+      ],
+      "missing": [
+        "BG31_035",
+        "BG34_925",
+        "BG23_008",
+        "BG31_920"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_83",
+      "name": "Beasts - Leviathan",
+      "tribe": "beast",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG35_604",
+        "BG35_602",
+        "BG26_802",
+        "BG36_204"
+      ],
+      "key": [
+        "BG35_604",
+        "BG35_602",
+        "BG26_802",
+        "BG36_204"
+      ],
+      "enablers": [
+        "BG35_602",
+        "BG35_604"
+      ],
+      "addons": [
+        "BG23_008",
+        "BG36_209"
+      ],
+      "missing": [
+        "BG23_008"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_2",
+      "name": "Mechs - Magnetics",
+      "tribe": "mech",
+      "rank": "B",
+      "train_weight": "highest",
+      "core": [
+        "BG26_148",
+        "BG36_851",
+        "BG36_506"
+      ],
+      "key": [
+        "BG26_148",
+        "BG36_851",
+        "BG36_506"
+      ],
+      "enablers": [
+        "BG26_148",
+        "BG36_851"
+      ],
+      "addons": [
+        "BG26_ICC_901",
+        "BG26_152",
+        "BG36_760",
+        "BG34_925"
+      ],
+      "missing": [
+        "BG26_148",
+        "BG36_760",
+        "BG34_925"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_91",
+      "name": "Mechs - Magnetics/Spells",
+      "tribe": "mech",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG36_853",
+        "BG26_152",
+        "BG35_883"
+      ],
+      "key": [
+        "BG36_853",
+        "BG26_152",
+        "BG35_883"
+      ],
+      "enablers": [
+        "BG36_853",
+        "BG35_883"
+      ],
+      "addons": [
+        "BG36_506",
+        "BG36_760",
+        "BG36_854",
+        "BG26_ICC_901"
+      ],
+      "missing": [
+        "BG36_760"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_37",
+      "name": "Elementals - Stat scaling",
+      "tribe": "elemental",
+      "rank": "A",
+      "train_weight": "highest",
+      "core": [
+        "BG32_846",
+        "BG_LOE_077",
+        "BG36_701",
+        "BGS_123",
+        "BG36_351"
+      ],
+      "key": [
+        "BG32_846",
+        "BG_LOE_077",
+        "BG36_701",
+        "BGS_123",
+        "BG36_351"
+      ],
+      "enablers": [
+        "BG32_846",
+        "BG_LOE_077",
+        "BG32_842"
+      ],
+      "addons": [
+        "BG31_843",
+        "BG32_842",
+        "BGS_127",
+        "BG36_352"
+      ],
+      "missing": [
+        "BG32_846",
+        "BG36_351",
+        "BG32_842",
+        "BG31_843",
+        "BGS_127"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    },
+    {
+      "id": "comp_92",
+      "name": "Elementals - Unbound Tempest",
+      "tribe": "elemental",
+      "rank": "S",
+      "train_weight": "highest",
+      "core": [
+        "BG36_352",
+        "BGS_123",
+        "BG_LOE_077",
+        "BGS_104",
+        "BG36_701"
+      ],
+      "key": [
+        "BG36_352",
+        "BGS_123",
+        "BG_LOE_077",
+        "BGS_104",
+        "BG36_701"
+      ],
+      "enablers": [
+        "BG_LOE_077",
+        "BGS_104",
+        "BG36_352"
+      ],
+      "addons": [
+        "BG34_858",
+        "BG34_500",
+        "BG32_846"
+      ],
+      "missing": [
+        "BGS_104",
+        "BG32_846"
+      ],
+      "ok": false,
+      "source": "snapshot"
+    }
+  ],
+  "tribes_needing_synth": [
+    "aberration",
+    "dragon",
+    "elemental",
+    "mech",
+    "quilboar"
+  ],
+  "thin150_clean": [
+    {
+      "idx": 2,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Cord Puller(BG29_611)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 6,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Harmless Bonehead(BG28_300)",
+        "Crackling Cyclone(BGS_119)",
+        "Southsea Busker(BG26_135)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 8,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Eredar Escapist(BG36_733)",
+        "Eredar Escapist(BG36_733)",
+        "Devilish Distractor(BG36_762)",
+        "Ashen Corruptor(BG32_873)",
+        "Wrath Weaver(BGS_004)",
+        "Balinda Stonehearth(BG35_883)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 9,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Sky Admiral Rogers(BG33_823)",
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Enterprising Escapee(BG36_523)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Proud Privateer(BG33_825)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 12,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Utility Drone(BG26_152)",
+        "Falling Sky Golem(BG35_342)",
+        "Glambot(BG36_853)",
+        "Polarizing Beatboxer(BG26_149)",
+        "Utility Drone(BG26_152)",
+        "Balinda Stonehearth(BG35_883)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 14,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 16,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Crimson Vindicator(BG36_241)",
+        "Bronze Timewalker(BG36_242)",
+        "Persistent Poet(BG29_813)",
+        "Persistent Poet(BG29_813)",
+        "Kalecgos, Arcane Aspect(BGS_041)",
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Amber Guardian(BG24_500)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 22,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Mummifier(BG28_309)",
+        "Sewer Lord(BG35_604)",
+        "Ashen Corruptor(BG32_873)",
+        "Malchezaar, Prince of Dance(BG26_524)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 24,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Blade Collector(BG26_817)",
+        "Clever Castaway(BG36_342)",
+        "Clever Castaway(BG36_342)",
+        "Enterprising Escapee(BG36_523)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Hooktusk, Master Marauder(BG36_344)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 26,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wolf Pup(BG36_207)",
+        "Lurking Lionfish(BG36_201)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 27,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Glim Guardian(BG29_888)",
+        "Glim Guardian(BG29_888)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 28,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Cord Puller(BG29_611)",
+        "Glambot(BG36_853)",
+        "Drone Duplicator(BG36_506)",
+        "Fruit Vendor(BG36_346)",
+        "Glambot(BG36_853)",
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Rescue Bot(BG36_854)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 31,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 37,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Suspicious Prisonguard(BG36_345)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 39,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Leeroy the Reckless(BG23_318)",
+        "Blade Collector(BG26_817)",
+        "Enterprising Escapee(BG36_523)",
+        "Enterprising Escapee(BG36_523)",
+        "Enterprising Escapee(BG36_523)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Brann Bronzebeard(BG_LOE_077)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 40,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver(BGS_004)",
+        "Wrath Weaver(BGS_004)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 42,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Razorfen Geomancer(BG20_100)",
+        "Razorfen Geomancer(BG20_100)",
+        "Buzzing Vermin(BG31_803)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 43,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Twisted Wrathguard(BG35_155)",
+        "Ashen Corruptor(BG32_873)",
+        "Imposing Percussionist(BG26_525)",
+        "Kelp Keeper(BG36_701)",
+        "Enterprising Escapee(BG36_523)",
+        "Malchezaar, Prince of Dance(BG26_524)",
+        "Brann Bronzebeard(BG_LOE_077)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 46,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bonker(BG20_104)",
+        "Bramble Tunneler(BG36_331)",
+        "Fearless Foodie(BG30_123)",
+        "Veteran Brigand(BG36_341)",
+        "Veteran Brigand(BG36_341)",
+        "Turbo Hogrider(BG31_323)",
+        "Gem Rat(BG31_326)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 50,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Gearfin(BG36_764)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 51,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bonker(BG20_104)",
+        "Bramble Tunneler(BG36_331)",
+        "Veteran Brigand(BG36_341)",
+        "Veteran Brigand(BG36_341)",
+        "Turbo Hogrider(BG31_323)",
+        "Fearless Foodie(BG30_123)",
+        "Gem Rat(BG31_326)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 52,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Imp-lusionist(BG36_731)",
+        "Imp-lusionist(BG36_731)",
+        "Malchezaar, Prince of Dance(BG26_524)",
+        "Devilish Distractor(BG36_762)",
+        "Ashen Corruptor(BG32_873)",
+        "Wrath Weaver(BGS_004)",
+        "Eredar Escapist(BG36_733)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 53,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Balinda Stonehearth(BG35_883)",
+        "Forsaken Weaver(BG34_692)",
+        "Dead Bellringer(BG36_511)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 55,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Sanguine Refiner(BG33_885)",
+        "Bonker(BG20_104)",
+        "Bonker(BG20_104)",
+        "Razorfen Vineweaver(BG33_883)",
+        "Falling Sky Golem(BG35_342)",
+        "Turbo Hogrider(BG31_323)",
+        "Balinda Stonehearth(BG35_883)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 57,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Imp-lusionist(BG36_731)",
+        "Imp-lusionist(BG36_731)",
+        "Tichondrius(BG26_523)",
+        "Devilish Distractor(BG36_762)",
+        "Twisted Wrathguard(BG35_155)",
+        "Balinda Stonehearth(BG35_883)",
+        "Ashen Corruptor(BG32_873)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 58,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Hoarding Hyena(BG36_210)",
+        "Headhunter Gryphon(BG36_204)",
+        "Tasty Lobster(BG36_202)",
+        "Lurking Lionfish(BG36_201)",
+        "Deathstrider(BG36_208)",
+        "Deathstrider(BG36_208)",
+        "Titus Rivendare(BG25_354)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 60,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Headhunter Gryphon(BG36_204)",
+        "Tasty Lobster(BG36_202)",
+        "Forest Rover(BG31_801)",
+        "Deathstrider(BG36_208)",
+        "Deathstrider(BG36_208)",
+        "Cage Gnawer(BG36_211)",
+        "Crackling Cyclone(BGS_119)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 61,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Balinda Stonehearth(BG35_883)",
+        "Imp-lusionist(BG36_731)",
+        "Felboar(BG28_633)",
+        "Devilish Distractor(BG36_762)",
+        "Ashen Corruptor(BG32_873)",
+        "Twisted Wrathguard(BG35_155)",
+        "Malchezaar, Prince of Dance(BG26_524)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 62,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Glambot(BG36_853)",
+        "Glambot(BG36_853)",
+        "Drone Duplicator(BG36_506)",
+        "Balinda Stonehearth(BG35_883)",
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Utility Drone(BG26_152)",
+        "Utility Drone(BG26_152)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 64,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bronze Timewalker(BG36_242)",
+        "Persistent Poet(BG29_813)",
+        "Persistent Poet(BG29_813)",
+        "Sky-hatch Runaway(BG36_243)",
+        "Sky-hatch Runaway(BG36_243)",
+        "Scarlet Survivor(BG35_814)",
+        "Amber Guardian(BG24_500)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 65,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bramble Tunneler(BG36_331)",
+        "Bramble Tunneler(BG36_331)",
+        "Gem Rat(BG31_326)",
+        "Felboar(BG28_633)",
+        "Turbo Hogrider(BG31_323)",
+        "Turbo Hogrider(BG31_323)",
+        "Drakkari Enchanter(BG26_ICC_901)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 67,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Dead Bellringer(BG36_511)",
+        "Eternal Summoner(BG25_009)",
+        "Eternal Knight(BG25_008)",
+        "Titus Rivendare(BG25_354)",
+        "Titus Rivendare(BG25_354)",
+        "Snazzy Phantom(BG36_515)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 68,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver(BGS_004)",
+        "Soul Rewinder(BG26_174)",
+        "Malchezaar, Prince of Dance(BG26_524)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 69,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver(BGS_004)",
+        "Ominous Seer(BG31_330)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 76,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bonker(BG20_104)",
+        "Scarlet Survivor(BG35_814)",
+        "Geomagus Roogug(BG28_583)",
+        "Sly Infiltrator(BG36_330)",
+        "Sly Infiltrator(BG36_330)",
+        "Gem Rat(BG31_326)",
+        "Thorned Trailblazer(BG31_327)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 79,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare(BG25_354)",
+        "Drustfallen Butcher(BG32_324)",
+        "Snazzy Phantom(BG36_515)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 80,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Eternal Knight(BG25_008)",
+        "Harmless Bonehead(BG28_300)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 82,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 83,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Plaguerunner(BG34_690)",
+        "Eternal Summoner(BG25_009)",
+        "Eternal Knight(BG25_008)",
+        "Maw Caster(BG32_340)",
+        "Snazzy Phantom(BG36_515)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 88,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Suspicious Prisonguard(BG36_345)",
+        "Clever Castaway(BG36_342)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 92,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare(BG25_354)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 93,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Mummifier(BG28_309)",
+        "Handless Forsaken(BG25_010)",
+        "Eternal Knight(BG25_008)",
+        "Handless Forsaken(BG25_010)",
+        "Cadaver Caretaker(BG30_125)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 94,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Scarlet Survivor(BG35_814)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 95,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bile Spitter(BG33_318)",
+        "Headhunter Gryphon(BG36_204)",
+        "Hoarding Hyena(BG36_210)",
+        "Tasty Lobster(BG36_202)",
+        "Deathstrider(BG36_208)",
+        "Deathstrider(BG36_208)",
+        "Titus Rivendare(BG25_354)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 98,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Leeroy the Reckless(BG23_318)",
+        "Cataclysmic Harbinger(BG35_123)",
+        "Leeroy the Reckless(BG23_318)",
+        "Sewer Lord(BG35_604)",
+        "Sewer Lord(BG35_604)",
+        "Lurking Leviathan(BG35_602)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 99,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Trench Fighter(BG34_684)",
+        "Decoy Conjurer(BG36_354)",
+        "Glambot(BG36_853)",
+        "Geomagus Roogug(BG28_583)",
+        "Fire Baller(BG31_816)",
+        "Snow Baller(BG31_818)",
+        "Maritime Extortionist(BG36_524)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 101,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Glambot(BG36_853)",
+        "Utility Drone(BG26_152)",
+        "Utility Drone(BG26_152)",
+        "Balinda Stonehearth(BG35_883)",
+        "Drakkari Enchanter(BG26_ICC_901)",
+        "Elemental of Surprise(BG26_175)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 102,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Clever Castaway(BG36_342)",
+        "Risen Rider(BG25_001)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 103,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Risen Rider(BG25_001)",
+        "Snazzy Phantom(BG36_515)",
+        "Snazzy Phantom(BG36_515)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 106,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bronze Timewalker(BG36_242)",
+        "Scarlet Survivor(BG35_814)",
+        "Gearfin(BG36_764)",
+        "Fearless Foodie(BG30_123)",
+        "Sly Infiltrator(BG36_330)",
+        "Amber Guardian(BG24_500)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 109,
+      "composition_id": 39,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Air Revenant(BG34_858)",
+        "Tavern Tempest(BGS_123)",
+        "Unbound Tempest(BG36_352)",
+        "Unbound Tempest(BG36_352)",
+        "Unbound Tempest(BG36_352)",
+        "Brann Bronzebeard(BG_LOE_077)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 110,
+      "composition_id": 2,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor(BG35_814)",
+        "Suspicious Prisonguard(BG36_345)",
+        "Ominous Seer(BG31_330)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 112,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Blade Collector(BG26_817)",
+        "Enterprising Escapee(BG36_523)",
+        "Enterprising Escapee(BG36_523)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Sky Admiral Rogers(BG33_823)",
+        "Hooktusk, Master Marauder(BG36_344)",
+        "Leeroy the Reckless(BG23_318)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 114,
+      "composition_id": 39,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Crackling Cyclone(BGS_119)",
+        "Unbound Tempest(BG36_352)",
+        "Flourishing Frostling(BG26_537)",
+        "Air Revenant(BG34_858)",
+        "Kelp Keeper(BG36_701)",
+        "Tavern Tempest(BGS_123)",
+        "Brann Bronzebeard(BG_LOE_077)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 116,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wolf Pup(BG36_207)",
+        "Headhunter Gryphon(BG36_204)",
+        "Hoarding Hyena(BG36_210)",
+        "Forest Rover(BG31_801)",
+        "Forest Rover(BG31_801)",
+        "Cage Gnawer(BG36_211)",
+        "Banana Slamma(BG26_802)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 117,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Barrier Banshee(BG36_514)",
+        "Cadaver Caretaker(BG30_125)",
+        "Harmless Bonehead(BG28_300)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 119,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Headhunter Gryphon(BG36_204)",
+        "Lurking Lionfish(BG36_201)",
+        "Lurking Lionfish(BG36_201)",
+        "Lurking Lionfish(BG36_201)",
+        "Ravaging Scorpid(BG36_209)",
+        "Ravaging Scorpid(BG36_209)",
+        "Banana Slamma(BG26_802)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 121,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver(BGS_004)",
+        "Soul Rewinder(BG26_174)",
+        "Wrath Weaver(BGS_004)",
+        "Ominous Seer(BG31_330)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 122,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare(BG25_354)",
+        "Handless Forsaken(BG25_010)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 123,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare(BG25_354)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 124,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Handless Forsaken(BG25_010)",
+        "Snazzy Phantom(BG36_515)",
+        "Drustfallen Butcher(BG32_324)",
+        "Drustfallen Butcher(BG32_324)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 125,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Cord Puller(BG29_611)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 127,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Highkeeper Ra(BG34_319)",
+        "Champion of Sargeras(BG27_016)",
+        "Soul Rewinder(BG26_174)",
+        "Malchezaar, Prince of Dance(BG26_524)",
+        "Devilish Distractor(BG36_762)",
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Twisted Wrathguard(BG35_155)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 129,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Suspicious Prisonguard(BG36_345)",
+        "Suspicious Prisonguard(BG36_345)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 130,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Crimson Vindicator(BG36_241)",
+        "Brann Bronzebeard(BG_LOE_077)",
+        "Locked-up Mutineer(BG36_521)",
+        "Enterprising Escapee(BG36_523)",
+        "Clever Castaway(BG36_342)",
+        "Sky Admiral Rogers(BG33_823)",
+        "Hooktusk, Master Marauder(BG36_344)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 132,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bigwig Bandit(BG33_822)",
+        "Bigwig Bandit(BG33_822)",
+        "Enterprising Escapee(BG36_523)",
+        "Proud Privateer(BG33_825)",
+        "Enterprising Escapee(BG36_523)",
+        "Hooktusk, Master Marauder(BG36_344)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 134,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wolf Pup(BG36_207)",
+        "Headhunter Gryphon(BG36_204)",
+        "Tasty Lobster(BG36_202)",
+        "Sky-hatch Runaway(BG36_243)",
+        "Buzzing Vermin(BG31_803)",
+        "Sprightly Scarab(BG27_084)",
+        "Forest Rover(BG31_801)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 138,
+      "composition_id": 2,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Expert Aviator(BG34_140)",
+        "Tad(BG22_202)",
+        "Tad(BG22_202)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 139,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Blade Collector(BG26_817)",
+        "Sky-hatch Runaway(BG36_243)",
+        "Persistent Poet(BG29_813)",
+        "Persistent Poet(BG29_813)",
+        "Runic Arcanist(BG36_245)",
+        "Azsharan Cutlassier(BG33_830)",
+        "Amber Guardian(BG24_500)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 144,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Eternal Knight(BG25_008)",
+        "Roadboar(BG20_101)",
+        "Razorfen Geomancer(BG20_100)",
+        "Prodigious Tusker(BG33_430)",
+        "Amber Guardian(BG24_500)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 145,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Headhunter Gryphon(BG36_204)",
+        "Wolf Pup(BG36_207)",
+        "Hoarding Hyena(BG36_210)",
+        "Tasty Lobster(BG36_202)",
+        "Deathstrider(BG36_208)",
+        "Deathstrider(BG36_208)",
+        "Titus Rivendare(BG25_354)"
+      ],
+      "bad": [],
+      "ok": true
+    },
+    {
+      "idx": 147,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Skull(BG25_022)",
+        "Eternal Knight(BG25_008)",
+        "Harmless Bonehead(BG28_300)"
+      ],
+      "bad": [],
+      "ok": true
+    }
+  ],
+  "thin150_dirty_count": 78,
+  "thin150_unknown_top": [
+    [
+      "BG32_822|Fire-forged Evoker",
+      20
+    ],
+    [
+      "BG24_004|Warpwing",
+      16
+    ],
+    [
+      "BG35_142|Cousin Errgl",
+      9
+    ],
+    [
+      "BG_TTN_401|Ancestral Automaton",
+      9
+    ],
+    [
+      "BG32_170|Metallic Hunter",
+      7
+    ],
+    [
+      "BG23_002|Shell Collector",
+      6
+    ],
+    [
+      "BG32_846|Unleashed Mana Surge",
+      6
+    ],
+    [
+      "BGS_127|Molten Rock",
+      5
+    ],
+    [
+      "BG36_760|Captain Cookie",
+      5
+    ],
+    [
+      "BG36_351|Moat Custodian",
+      4
+    ],
+    [
+      "BG32_837|Fauna Whisperer",
+      4
+    ],
+    [
+      "BG36_510|Vigilant Bristlemane",
+      3
+    ],
+    [
+      "BG35_143|Deepwater Chieftain",
+      3
+    ],
+    [
+      "BG36_507|Breakout Mastermind",
+      3
+    ],
+    [
+      "BG34_Giant_585|Timewarped Vaelastrasz",
+      3
+    ],
+    [
+      "BG23_000|Mini-Myrmidon",
+      3
+    ],
+    [
+      "BG29_810|Thousandth Paper Drake",
+      3
+    ],
+    [
+      "BG34_Giant_598|Timewarped Mothership",
+      3
+    ],
+    [
+      "BG26_148|Scrap Scraper",
+      3
+    ],
+    [
+      "BG34_Giant_602|Timewarped Lei",
+      3
+    ],
+    [
+      "BG23_004|Deep-Sea Angler",
+      2
+    ],
+    [
+      "BG33_890t|Magicfin Apprentice",
+      2
+    ],
+    [
+      "BG28_595|Ignition Specialist",
+      2
+    ],
+    [
+      "BG33_893|Primitive Painter",
+      2
+    ],
+    [
+      "BG36_509|Private Investigator",
+      2
+    ],
+    [
+      "BG31_924|Thaumaturgist",
+      1
+    ],
+    [
+      "BG33_319|Rimescale Priestess",
+      1
+    ],
+    [
+      "TB_BaconShop_HERO_52_Buddy|Sinestra",
+      1
+    ],
+    [
+      "BG21_HERO_010_Buddy|Warden Thelwater",
+      1
+    ],
+    [
+      "BG25_806|Sly Raptor",
+      1
+    ],
+    [
+      "TB_BaconShop_HERO_33_Buddy|Mishmash",
+      1
+    ],
+    [
+      "BG33_323|Dustbone Devastator",
+      1
+    ],
+    [
+      "BG34_Giant_302|Timewarped Copter",
+      1
+    ],
+    [
+      "BG36_622|Torrential Ruiner",
+      1
+    ],
+    [
+      "BGS_071|Deflect-o-Bot",
+      1
+    ],
+    [
+      "BG33_140|River Skipper",
+      1
+    ],
+    [
+      "BG34_Giant_304|Timewarped Sapper",
+      1
+    ],
+    [
+      "BG36_921|Fleeing Fugitive",
+      1
+    ],
+    [
+      "BG34_Giant_202|Timewarped Saurolisk",
+      1
+    ],
+    [
+      "BG32_842|Glowing Cinder",
+      1
+    ]
+  ],
+  "minion_tribe_counts": {
+    "aberration": 25,
+    "all": 5,
+    "beast": 22,
+    "demon": 24,
+    "dragon": 21,
+    "elemental": 19,
+    "mech": 19,
+    "murloc": 19,
+    "pirate": 23,
+    "quilboar": 25,
+    "undead": 23
+  }
+}

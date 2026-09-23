@@ -1,0 +1,3466 @@
+{
+  "patch": "36.6.1",
+  "rules": {
+    "comps": "keep only if in_pool and EVERY core/key/enabler/addon id is in current minions in_pool; naga excluded",
+    "thin150": "keep only if every board card_id is in current minions in_pool",
+    "synth": "one A-rank synth comp per live tribe that had zero kept comps, pieces from current in_pool only",
+    "train": "NOT run yet \u2014 awaiting approval"
+  },
+  "summary": {
+    "kept_snapshot_comps": 11,
+    "dropped_snapshot_comps": 13,
+    "synth_comps": 5,
+    "thin150_clean": 72,
+    "thin150_dirty_excluded": 78,
+    "tribes_covered": [
+      "aberration",
+      "beast",
+      "demon",
+      "dragon",
+      "elemental",
+      "mech",
+      "murloc",
+      "pirate",
+      "quilboar",
+      "undead"
+    ],
+    "synth_note": "v2 playable synths: real archetypes with playbooks; NO Tier-7 cores/keys/boards; Aberrations Discard Engine, Dragons Rally Poet (non-Evoker), Elementals Unbound Tempest, Mechs Glambot Magnetics, Quilboar Choose One Gems. Kept snapshot comps unchanged. NOT trained.",
+    "synth_version": "v2_playable_no_t7"
+  },
+  "dropped_comps": [
+    {
+      "id": "comp_73",
+      "name": "Dragons - APM Evoker",
+      "tribe": "dragon",
+      "missing": [
+        "BG32_822",
+        "BG24_004",
+        "BG29_810"
+      ]
+    },
+    {
+      "id": "comp_15",
+      "name": "Dragons - Battlecries",
+      "tribe": "dragon",
+      "missing": [
+        "BG24_004",
+        "BG32_822",
+        "BG29_810"
+      ]
+    },
+    {
+      "id": "comp_90",
+      "name": "Quilboar - Bristlemane",
+      "tribe": "quilboar",
+      "missing": [
+        "BG36_510"
+      ]
+    },
+    {
+      "id": "comp_88",
+      "name": "Quilboar - Choose One",
+      "tribe": "quilboar",
+      "missing": [
+        "BG36_510"
+      ]
+    },
+    {
+      "id": "comp_68",
+      "name": "Mechs - Deathrattle",
+      "tribe": "mech",
+      "missing": [
+        "BGS_012"
+      ]
+    },
+    {
+      "id": "comp_55",
+      "name": "Nagas - End Of Turn/Spell Buff",
+      "tribe": "naga",
+      "missing": [
+        "BG32_837",
+        "BG36_622",
+        "BG32_835"
+      ]
+    },
+    {
+      "id": "comp_93",
+      "name": "Murlocs - Family",
+      "tribe": "murloc",
+      "missing": [
+        "BG35_142",
+        "BG35_141"
+      ]
+    },
+    {
+      "id": "comp_20",
+      "name": "Nagas - Groundbreaker",
+      "tribe": "naga",
+      "missing": [
+        "BG31_035",
+        "BG34_925",
+        "BG23_008",
+        "BG31_920"
+      ]
+    },
+    {
+      "id": "comp_83",
+      "name": "Beasts - Leviathan",
+      "tribe": "beast",
+      "missing": [
+        "BG23_008"
+      ]
+    },
+    {
+      "id": "comp_2",
+      "name": "Mechs - Magnetics",
+      "tribe": "mech",
+      "missing": [
+        "BG26_148",
+        "BG36_760",
+        "BG34_925"
+      ]
+    },
+    {
+      "id": "comp_91",
+      "name": "Mechs - Magnetics/Spells",
+      "tribe": "mech",
+      "missing": [
+        "BG36_760"
+      ]
+    },
+    {
+      "id": "comp_37",
+      "name": "Elementals - Stat scaling",
+      "tribe": "elemental",
+      "missing": [
+        "BG32_846",
+        "BG36_351",
+        "BG32_842",
+        "BG31_843",
+        "BGS_127"
+      ]
+    },
+    {
+      "id": "comp_92",
+      "name": "Elementals - Unbound Tempest",
+      "tribe": "elemental",
+      "missing": [
+        "BGS_104",
+        "BG32_846"
+      ]
+    }
+  ],
+  "kept_comps_with_boards": [
+    {
+      "id": "comp_89",
+      "name": "Pirates - APM Golden",
+      "tribe": "pirate",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Sky Admiral Rogers",
+        "Hooktusk, Master Marauder",
+        "Enterprising Escapee"
+      ],
+      "key_names": [
+        "Sky Admiral Rogers",
+        "Hooktusk, Master Marauder",
+        "Enterprising Escapee"
+      ],
+      "example_board": [
+        {
+          "name": "Sky Admiral Rogers",
+          "card_id": "BG33_823",
+          "attack": 8,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Hooktusk, Master Marauder",
+          "card_id": "BG36_344",
+          "attack": 8,
+          "health": 8,
+          "tier": 6,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 8,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Enterprising Escapee",
+          "card_id": "BG36_523",
+          "attack": 12,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Proud Privateer",
+          "card_id": "BG33_825",
+          "attack": 16,
+          "health": 16,
+          "tier": 5,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 16,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Blade Collector",
+          "card_id": "BG26_817",
+          "attack": 6,
+          "health": 4,
+          "tier": 4,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 4,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_76",
+      "name": "Demons - APM Shop Buff",
+      "tribe": "demon",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Sky Admiral Rogers",
+        "Proud Privateer",
+        "Felboar",
+        "Devilish Distractor",
+        "Balinda Stonehearth",
+        "Enterprising Escapee"
+      ],
+      "key_names": [
+        "Sky Admiral Rogers",
+        "Proud Privateer",
+        "Felboar",
+        "Devilish Distractor",
+        "Balinda Stonehearth",
+        "Enterprising Escapee"
+      ],
+      "example_board": [
+        {
+          "name": "Sky Admiral Rogers",
+          "card_id": "BG33_823",
+          "attack": 8,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Proud Privateer",
+          "card_id": "BG33_825",
+          "attack": 16,
+          "health": 16,
+          "tier": 5,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 16,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Felboar",
+          "card_id": "BG28_633",
+          "attack": 4,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "quilboar",
+            "demon"
+          ],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Devilish Distractor",
+          "card_id": "BG36_762",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "card_id": "BG35_883",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Enterprising Escapee",
+          "card_id": "BG36_523",
+          "attack": 12,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_3",
+      "name": "Undead - APM Undead",
+      "tribe": "undead",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Handless Forsaken",
+        "Snazzy Phantom",
+        "Forsaken Weaver",
+        "Proud Privateer",
+        "Sky Admiral Rogers"
+      ],
+      "key_names": [
+        "Handless Forsaken",
+        "Snazzy Phantom",
+        "Forsaken Weaver",
+        "Proud Privateer",
+        "Sky Admiral Rogers"
+      ],
+      "example_board": [
+        {
+          "name": "Handless Forsaken",
+          "card_id": "BG25_010",
+          "attack": 4,
+          "health": 2,
+          "tier": 3,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 2,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Snazzy Phantom",
+          "card_id": "BG36_515",
+          "attack": 12,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Forsaken Weaver",
+          "card_id": "BG34_692",
+          "attack": 6,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Proud Privateer",
+          "card_id": "BG33_825",
+          "attack": 16,
+          "health": 16,
+          "tier": 5,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 16,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sky Admiral Rogers",
+          "card_id": "BG33_823",
+          "attack": 8,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Enterprising Escapee",
+          "card_id": "BG36_523",
+          "attack": 12,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "pirate"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_14",
+      "name": "Undead - Attack Scaling",
+      "tribe": "undead",
+      "rank": "S",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Mummifier",
+        "Dead Bellringer",
+        "Handless Forsaken",
+        "Snazzy Phantom",
+        "Drustfallen Butcher"
+      ],
+      "key_names": [
+        "Mummifier",
+        "Dead Bellringer",
+        "Handless Forsaken",
+        "Snazzy Phantom",
+        "Drustfallen Butcher"
+      ],
+      "example_board": [
+        {
+          "name": "Mummifier",
+          "card_id": "BG28_309",
+          "attack": 10,
+          "health": 4,
+          "tier": 3,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 4,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Dead Bellringer",
+          "card_id": "BG36_511",
+          "attack": 6,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Handless Forsaken",
+          "card_id": "BG25_010",
+          "attack": 4,
+          "health": 2,
+          "tier": 3,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 2,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Snazzy Phantom",
+          "card_id": "BG36_515",
+          "attack": 12,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Drustfallen Butcher",
+          "card_id": "BG32_324",
+          "attack": 4,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Titus Rivendare",
+          "card_id": "BG25_354",
+          "attack": 2,
+          "health": 14,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Eternal Summoner",
+          "card_id": "BG25_009",
+          "attack": 16,
+          "health": 2,
+          "tier": 6,
+          "tribes": [
+            "undead"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 2,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 1.8
+    },
+    {
+      "id": "comp_38",
+      "name": "Beasts - Beetles",
+      "tribe": "beast",
+      "rank": "S",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Turquoise Skitterer",
+        "Banana Slamma",
+        "Ravaging Scorpid",
+        "Headhunter Gryphon"
+      ],
+      "key_names": [
+        "Turquoise Skitterer",
+        "Banana Slamma",
+        "Ravaging Scorpid",
+        "Headhunter Gryphon"
+      ],
+      "example_board": [
+        {
+          "name": "Turquoise Skitterer",
+          "card_id": "BG31_809",
+          "attack": 10,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Banana Slamma",
+          "card_id": "BG26_802",
+          "attack": 6,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Ravaging Scorpid",
+          "card_id": "BG36_209",
+          "attack": 12,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Headhunter Gryphon",
+          "card_id": "BG36_204",
+          "attack": 6,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Buzzing Vermin",
+          "card_id": "BG31_803",
+          "attack": 2,
+          "health": 2,
+          "tier": 1,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 2,
+            "TECH_LEVEL": 1,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sewer Lord",
+          "card_id": "BG35_604",
+          "attack": 8,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Lurking Leviathan",
+          "card_id": "BG35_602",
+          "attack": 6,
+          "health": 18,
+          "tier": 5,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 18,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 1.8
+    },
+    {
+      "id": "comp_13",
+      "name": "Demons - Self Damage",
+      "tribe": "demon",
+      "rank": "S",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Brann Bronzebeard",
+        "Devilish Distractor",
+        "Balinda Stonehearth",
+        "Ashen Corruptor",
+        "Eredar Escapist"
+      ],
+      "key_names": [
+        "Brann Bronzebeard",
+        "Devilish Distractor",
+        "Balinda Stonehearth",
+        "Ashen Corruptor",
+        "Eredar Escapist"
+      ],
+      "example_board": [
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Devilish Distractor",
+          "card_id": "BG36_762",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "card_id": "BG35_883",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Ashen Corruptor",
+          "card_id": "BG32_873",
+          "attack": 12,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Eredar Escapist",
+          "card_id": "BG36_733",
+          "attack": 12,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Wrath Weaver",
+          "card_id": "BGS_004",
+          "attack": 2,
+          "health": 6,
+          "tier": 1,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 6,
+            "TECH_LEVEL": 1,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Malchezaar, Prince of Dance",
+          "card_id": "BG26_524",
+          "attack": 8,
+          "health": 6,
+          "tier": 3,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 6,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 1.8
+    },
+    {
+      "id": "comp_41",
+      "name": "Demons - Shop Buff",
+      "tribe": "demon",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Felboar",
+        "Imp-lusionist",
+        "Devilish Distractor",
+        "Balinda Stonehearth"
+      ],
+      "key_names": [
+        "Felboar",
+        "Imp-lusionist",
+        "Devilish Distractor",
+        "Balinda Stonehearth"
+      ],
+      "example_board": [
+        {
+          "name": "Felboar",
+          "card_id": "BG28_633",
+          "attack": 4,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "quilboar",
+            "demon"
+          ],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Imp-lusionist",
+          "card_id": "BG36_731",
+          "attack": 8,
+          "health": 4,
+          "tier": 4,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 4,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Devilish Distractor",
+          "card_id": "BG36_762",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "card_id": "BG35_883",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Twisted Wrathguard",
+          "card_id": "BG35_155",
+          "attack": 16,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Ashen Corruptor",
+          "card_id": "BG32_873",
+          "attack": 12,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Insatiable Ur'zul",
+          "card_id": "BG21_004",
+          "attack": 8,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "demon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_12",
+      "name": "Beasts - Summons",
+      "tribe": "beast",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Goldrinn, the Great Wolf",
+        "Titus Rivendare",
+        "Headhunter Gryphon",
+        "Deathstrider",
+        "Banana Slamma",
+        "Sewer Lord"
+      ],
+      "key_names": [
+        "Goldrinn, the Great Wolf",
+        "Titus Rivendare",
+        "Headhunter Gryphon",
+        "Deathstrider",
+        "Banana Slamma",
+        "Sewer Lord"
+      ],
+      "example_board": [
+        {
+          "name": "Goldrinn, the Great Wolf",
+          "card_id": "BGS_018",
+          "attack": 14,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Titus Rivendare",
+          "card_id": "BG25_354",
+          "attack": 2,
+          "health": 14,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Headhunter Gryphon",
+          "card_id": "BG36_204",
+          "attack": 6,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Deathstrider",
+          "card_id": "BG36_208",
+          "attack": 20,
+          "health": 22,
+          "tier": 6,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 20,
+            "HEALTH": 22,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Banana Slamma",
+          "card_id": "BG26_802",
+          "attack": 6,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sewer Lord",
+          "card_id": "BG35_604",
+          "attack": 8,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Lurking Lionfish",
+          "card_id": "BG36_201",
+          "attack": 6,
+          "health": 8,
+          "tier": 2,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 2,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_87",
+      "name": "Beasts - Tasty Lobstah",
+      "tribe": "beast",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Deathstrider",
+        "Titus Rivendare",
+        "Tasty Lobster",
+        "Headhunter Gryphon"
+      ],
+      "key_names": [
+        "Deathstrider",
+        "Titus Rivendare",
+        "Tasty Lobster",
+        "Headhunter Gryphon"
+      ],
+      "example_board": [
+        {
+          "name": "Deathstrider",
+          "card_id": "BG36_208",
+          "attack": 20,
+          "health": 22,
+          "tier": 6,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 20,
+            "HEALTH": 22,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Titus Rivendare",
+          "card_id": "BG25_354",
+          "attack": 2,
+          "health": 14,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Tasty Lobster",
+          "card_id": "BG36_202",
+          "attack": 4,
+          "health": 2,
+          "tier": 3,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 2,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Headhunter Gryphon",
+          "card_id": "BG36_204",
+          "attack": 6,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Lurking Lionfish",
+          "card_id": "BG36_201",
+          "attack": 6,
+          "health": 8,
+          "tier": 2,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 2,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Hoarding Hyena",
+          "card_id": "BG36_210",
+          "attack": 8,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "beast"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sin'dorei Straight Shot",
+          "card_id": "BG25_016",
+          "attack": 6,
+          "health": 8,
+          "tier": 4,
+          "tribes": [],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_67",
+      "name": "Murlocs - Tidecaller",
+      "tribe": "murloc",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Brann Bronzebeard",
+        "Diremuck Forager",
+        "Choral Mrrrglr",
+        "Shamanic Tidecaller",
+        "Balinda Stonehearth",
+        "Magicfin Mycologist"
+      ],
+      "key_names": [
+        "Brann Bronzebeard",
+        "Diremuck Forager",
+        "Choral Mrrrglr",
+        "Shamanic Tidecaller",
+        "Balinda Stonehearth",
+        "Magicfin Mycologist"
+      ],
+      "example_board": [
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Diremuck Forager",
+          "card_id": "BG27_556",
+          "attack": 8,
+          "health": 10,
+          "tier": 3,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Choral Mrrrglr",
+          "card_id": "BG26_354",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Shamanic Tidecaller",
+          "card_id": "BG36_704",
+          "attack": 10,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "card_id": "BG35_883",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Magicfin Mycologist",
+          "card_id": "BG33_891",
+          "attack": 8,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Bile Spitter",
+          "card_id": "BG33_318",
+          "attack": 2,
+          "health": 20,
+          "tier": 5,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 20,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "comp_8",
+      "name": "Murlocs - Venom Scam",
+      "tribe": "murloc",
+      "rank": "A",
+      "source": "snapshot_comp_intact",
+      "core_names": [
+        "Leeroy the Reckless",
+        "Bile Spitter",
+        "Expert Aviator"
+      ],
+      "key_names": [
+        "Leeroy the Reckless",
+        "Bile Spitter",
+        "Expert Aviator"
+      ],
+      "example_board": [
+        {
+          "name": "Leeroy the Reckless",
+          "card_id": "BG23_318",
+          "attack": 12,
+          "health": 4,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 4,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Bile Spitter",
+          "card_id": "BG33_318",
+          "attack": 2,
+          "health": 20,
+          "tier": 5,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 20,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Expert Aviator",
+          "card_id": "BG34_140",
+          "attack": 6,
+          "health": 8,
+          "tier": 2,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 2,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sky-hatch Runaway",
+          "card_id": "BG36_243",
+          "attack": 8,
+          "health": 14,
+          "tier": 4,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Diremuck Forager",
+          "card_id": "BG27_556",
+          "attack": 8,
+          "health": 10,
+          "tier": 3,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Deadly Spore",
+          "card_id": "BGS_131",
+          "attack": 2,
+          "health": 2,
+          "tier": 3,
+          "tribes": [],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 2,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Heroic Underdog",
+          "card_id": "BG34_604",
+          "attack": 2,
+          "health": 20,
+          "tier": 4,
+          "tribes": [],
+          "tags": {
+            "ATK": 2,
+            "HEALTH": 20,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    }
+  ],
+  "synth_comps_with_boards": [
+    {
+      "id": "synth_aberration_1",
+      "name": "Aberrations - Discard Engine",
+      "tribe": "aberration",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_097",
+        "BG36_104",
+        "BG36_109"
+      ],
+      "key_piece_ids": [
+        "BG36_097",
+        "BG36_104",
+        "BG36_109",
+        "BGFYM_005",
+        "BG36_106"
+      ],
+      "enabler_piece_ids": [
+        "BG36_114",
+        "BG36_300",
+        "BG36_312",
+        "BG36_311"
+      ],
+      "addon_piece_ids": [
+        "BG36_103",
+        "BG36_102",
+        "BG36_320"
+      ],
+      "core_names": [
+        "Mindbender Ghur'sha",
+        "Dark Puppeteer",
+        "The Shadow of Doubt"
+      ],
+      "key_names": [
+        "Mindbender Ghur'sha",
+        "Dark Puppeteer",
+        "The Shadow of Doubt",
+        "Harbinger Aph'lass",
+        "Cutthroat K'Thir"
+      ],
+      "enabler_names": [
+        "Parasitic Fleshling",
+        "N'raqi Frostcaller",
+        "Mindbending Recruiter",
+        "Abyssal Envoy"
+      ],
+      "addon_names": [
+        "N'raqi Sapper",
+        "De-volition-ist",
+        "Mysterious K'Thir"
+      ],
+      "playbook": "Aberrations win early\u2013mid by discarding fodder to pump your Deity and board, then often pivot rather than forcing a pure late Aberration endgame. Key enablers: Activate discard pieces (Zoatroid, Abyssal Envoy, Mindbending Recruiter) plus hand generators; Blood Gems are excellent discard fuel. Mindbender Ghur'sha is the board-wide payoff on every discard; Cutthroat K'Thir and Harbinger Aph'lass stack Deity/self stats; The Shadow of Doubt scales whenever cards enter hand. Turn plan: keep a discard Activate ready, generate cheap cards/spells, discard into Mindbender Ghur'sha/Cutthroat K'Thir/Harbinger Aph'lass, and improve spell power with Dark Puppeteer / N'raqi Frostcaller. Late: Parasitic Fleshling and Mysterious K'Thir convert total discards/spells into stats; De-volition-ist is the attack finisher. Do not plan around Tier-7.",
+      "notes": "Real discard/Deity engine (not top-tier sort). Meta: early\u2013mid launchpad; Blood Gems = discard fodder; no T7.",
+      "example_board": [
+        {
+          "name": "Dark Puppeteer",
+          "card_id": "BG36_104",
+          "attack": 12,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "The Shadow of Doubt",
+          "card_id": "BG36_109",
+          "attack": 10,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Harbinger Aph'lass",
+          "card_id": "BGFYM_005",
+          "attack": 8,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Mindbender Ghur'sha",
+          "card_id": "BG36_097",
+          "attack": 8,
+          "health": 16,
+          "tier": 5,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 16,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Cutthroat K'Thir",
+          "card_id": "BG36_106",
+          "attack": 14,
+          "health": 14,
+          "tier": 4,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 14,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Parasitic Fleshling",
+          "card_id": "BG36_114",
+          "attack": 10,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "De-volition-ist",
+          "card_id": "BG36_102",
+          "attack": 12,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "aberration"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "synth_dragon_1",
+      "name": "Dragons - Rally Poet",
+      "tribe": "dragon",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_241",
+        "BG29_813",
+        "BGS_041"
+      ],
+      "key_piece_ids": [
+        "BG36_241",
+        "BG29_813",
+        "BGS_041",
+        "BG24_500",
+        "BG34_633"
+      ],
+      "enabler_piece_ids": [
+        "BG36_243",
+        "BG32_821",
+        "BG32_820",
+        "BG36_242"
+      ],
+      "addon_piece_ids": [
+        "BG35_814",
+        "BG21_015",
+        "BG36_245",
+        "BG_LOE_077"
+      ],
+      "core_names": [
+        "Crimson Vindicator",
+        "Persistent Poet",
+        "Kalecgos, Arcane Aspect"
+      ],
+      "key_names": [
+        "Crimson Vindicator",
+        "Persistent Poet",
+        "Kalecgos, Arcane Aspect",
+        "Amber Guardian",
+        "Draconic Warden"
+      ],
+      "enabler_names": [
+        "Sky-hatch Runaway",
+        "Felfire Conjurer",
+        "Firescale Hoarder",
+        "Bronze Timewalker"
+      ],
+      "addon_names": [
+        "Scarlet Survivor",
+        "Tarecgosa",
+        "Runic Arcanist",
+        "Brann Bronzebeard"
+      ],
+      "playbook": "Classic Dragons APM Evoker is dead this lobby (Fire-Forged Evoker / key discover pieces out of pool) \u2014 play Rally + permanent-keyword dragons instead. Park Persistent Poet beside your carry (Crimson Vindicator or Scarlet Survivor/Tarecgosa) so combat keywords and stats stick forever; Amber Guardian attaches permanent Divine Shield through Poet. Hunt Chromadrake generators (Draconic Warden, Bronze Timewalker, Hired Mount) and Sky-hatch Runaway to force Rally triggers on demand; Crimson Vindicator's Rally casts Mighty Dragonbreath for the combat spike. Kalecgos, Arcane Aspect (+ Brann Bronzebeard if available) rewards battlecry cycling (Draconic Warden, Tavern Tempest, Firescale Hoarder). Felfire Conjurer / Firescale Hoarder drip permanent tavern-spell buffs. Do not draft around Tier-7 Obsidian Ravager.",
+      "notes": "Non-Evoker rebuild: Permanent Poet + Rally Chromadrake from in-pool pieces. Evoker keys out of pool. No T7.",
+      "example_board": [
+        {
+          "name": "Crimson Vindicator",
+          "card_id": "BG36_241",
+          "attack": 14,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Persistent Poet",
+          "card_id": "BG29_813",
+          "attack": 6,
+          "health": 8,
+          "tier": 4,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Kalecgos, Arcane Aspect",
+          "card_id": "BGS_041",
+          "attack": 10,
+          "health": 20,
+          "tier": 5,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 20,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Amber Guardian",
+          "card_id": "BG24_500",
+          "attack": 8,
+          "health": 10,
+          "tier": 3,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Draconic Warden",
+          "card_id": "BG34_633",
+          "attack": 12,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sky-hatch Runaway",
+          "card_id": "BG36_243",
+          "attack": 10,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "dragon"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Felfire Conjurer",
+          "card_id": "BG32_821",
+          "attack": 10,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "dragon",
+            "demon"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "synth_elemental_1",
+      "name": "Elementals - Unbound Tempest",
+      "tribe": "elemental",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_352",
+        "BG34_858",
+        "BGS_123"
+      ],
+      "key_piece_ids": [
+        "BG36_352",
+        "BG34_858",
+        "BGS_123",
+        "BG_LOE_077",
+        "BG36_701"
+      ],
+      "enabler_piece_ids": [
+        "BG26_537",
+        "BG34_500",
+        "BGS_116",
+        "BG34_865"
+      ],
+      "addon_piece_ids": [
+        "BG26_175",
+        "BG36_181",
+        "BG36_180"
+      ],
+      "core_names": [
+        "Unbound Tempest",
+        "Air Revenant",
+        "Tavern Tempest"
+      ],
+      "key_names": [
+        "Unbound Tempest",
+        "Air Revenant",
+        "Tavern Tempest",
+        "Brann Bronzebeard",
+        "Kelp Keeper"
+      ],
+      "enabler_names": [
+        "Flourishing Frostling",
+        "Flaming Enforcer",
+        "Refreshing Anomaly",
+        "En-Djinn Blazer"
+      ],
+      "addon_names": [
+        "Elemental of Surprise",
+        "Air Baller",
+        "Living Prison"
+      ],
+      "playbook": "Elementals Unbound Tempest is still the scaling plan: buff the shop, then feed Unbound Tempest the highest-Health tavern minion every three Elementals played. Nomi is out of pool \u2014 Air Revenant (Easterly Winds after gold) and En-Djinn Blazer / Waveling refresh buffs are the shop enablers. Economy engine: Brann Bronzebeard + Tavern Tempest + Kelp Keeper to chain Elemental battlecries and stay infinite; cycle Sellemental, Refreshing Anomaly, and Ballers. Flaming Enforcer stabilizes mid by consuming tavern Health; Flourishing Frostling is a passive payoff for Elementals played this game; Elemental of Surprise helps triple awkwardly. Do not plan around Tier-7 Stone Age Slab.",
+      "notes": "Classic Unbound Tempest shop-scaling without Nomi/out-of-pool keys; Air Revenant is the shop buffer. No T7.",
+      "example_board": [
+        {
+          "name": "Unbound Tempest",
+          "card_id": "BG36_352",
+          "attack": 18,
+          "health": 28,
+          "tier": 6,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 18,
+            "HEALTH": 28,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Air Revenant",
+          "card_id": "BG34_858",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Flourishing Frostling",
+          "card_id": "BG26_537",
+          "attack": 16,
+          "health": 10,
+          "tier": 5,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 16,
+            "HEALTH": 10,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Flaming Enforcer",
+          "card_id": "BG34_500",
+          "attack": 14,
+          "health": 16,
+          "tier": 4,
+          "tribes": [
+            "demon",
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 16,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Tavern Tempest",
+          "card_id": "BGS_123",
+          "attack": 6,
+          "health": 6,
+          "tier": 4,
+          "tribes": [
+            "elemental"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 6,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Brann Bronzebeard",
+          "card_id": "BG_LOE_077",
+          "attack": 4,
+          "health": 8,
+          "tier": 5,
+          "tribes": [],
+          "tags": {
+            "ATK": 4,
+            "HEALTH": 8,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Kelp Keeper",
+          "card_id": "BG36_701",
+          "attack": 6,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "murloc"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "synth_mech_1",
+      "name": "Mechs - Glambot Magnetics",
+      "tribe": "mech",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG36_853",
+        "BG26_152",
+        "BG36_851"
+      ],
+      "key_piece_ids": [
+        "BG36_853",
+        "BG26_152",
+        "BG36_851",
+        "BG35_883",
+        "BG36_506"
+      ],
+      "enabler_piece_ids": [
+        "BG28_741",
+        "BG35_342",
+        "BG36_764",
+        "BG35_341"
+      ],
+      "addon_piece_ids": [
+        "BG26_147",
+        "BG_BOT_911",
+        "BG25_354"
+      ],
+      "core_names": [
+        "Glambot",
+        "Utility Drone",
+        "Spark Snapper"
+      ],
+      "key_names": [
+        "Glambot",
+        "Utility Drone",
+        "Spark Snapper",
+        "Balinda Stonehearth",
+        "Drone Duplicator"
+      ],
+      "enabler_names": [
+        "Charging Czarina",
+        "Falling Sky Golem",
+        "Gearfin",
+        "Enchanted Sentinel"
+      ],
+      "addon_names": [
+        "Accord-o-Tron",
+        "Annoy-o-Module",
+        "Titus Rivendare"
+      ],
+      "playbook": "Mechs Magnetics/Spells: while Glambot is on board, every spell cast on a Mech Magnetizes a Satellite; Balinda Stonehearth doubles targeted friendly spells so you attach twice as often. Spark Snapper improves Satellite size whenever you play Mechs (Scrap Scraper is out \u2014 Snapper is the generation core). Drone Duplicator Activate makes the next Magnetize happen an extra time. Endgame Utility Drone pays +4/+5 per Magnetization at end of turn \u2014 that is the win condition. Charging Czarina spikes Divine Shield mechs when you cast spells. Turn plan: buy 1\u20132 cost targeted spells / Fearless Foodie / Gearfin spell gen, cast onto mechs, Activate Duplicator on the best Magnetize, then land Utility Drone. Optional deathrattle line: Falling Sky Golem + Titus Rivendare if magnetics are slow. No Tier-7 Polarizing Beatboxer.",
+      "notes": "Rebuild of Magnetics/Spells without Scrap Scraper / Beatboxer; Glambot+Snapper+Utility Drone+Balinda. No T7.",
+      "example_board": [
+        {
+          "name": "Utility Drone",
+          "card_id": "BG26_152",
+          "attack": 10,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Glambot",
+          "card_id": "BG36_853",
+          "attack": 8,
+          "health": 10,
+          "tier": 4,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Spark Snapper",
+          "card_id": "BG36_851",
+          "attack": 12,
+          "health": 12,
+          "tier": 5,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Drone Duplicator",
+          "card_id": "BG36_506",
+          "attack": 8,
+          "health": 8,
+          "tier": 4,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 8,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Balinda Stonehearth",
+          "card_id": "BG35_883",
+          "attack": 12,
+          "health": 12,
+          "tier": 6,
+          "tribes": [],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 12,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Charging Czarina",
+          "card_id": "BG28_741",
+          "attack": 10,
+          "health": 6,
+          "tier": 5,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 6,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Falling Sky Golem",
+          "card_id": "BG35_342",
+          "attack": 20,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "mech"
+          ],
+          "tags": {
+            "ATK": 20,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    },
+    {
+      "id": "synth_quilboar_1",
+      "name": "Quilboar - Choose One Gems",
+      "tribe": "quilboar",
+      "rank": "A",
+      "train_weight": "highest",
+      "source": "synth_playable_v2",
+      "core_piece_ids": [
+        "BG31_323",
+        "BG31_326",
+        "BG23_017"
+      ],
+      "key_piece_ids": [
+        "BG31_323",
+        "BG31_326",
+        "BG23_017",
+        "BG33_885",
+        "BG36_341"
+      ],
+      "enabler_piece_ids": [
+        "BG30_123",
+        "BG36_331",
+        "BG31_327",
+        "BG34_684"
+      ],
+      "addon_piece_ids": [
+        "BG20_104",
+        "BG28_633",
+        "BG28_583"
+      ],
+      "core_names": [
+        "Turbo Hogrider",
+        "Gem Rat",
+        "Sanguine Champion"
+      ],
+      "key_names": [
+        "Turbo Hogrider",
+        "Gem Rat",
+        "Sanguine Champion",
+        "Sanguine Refiner",
+        "Veteran Brigand"
+      ],
+      "enabler_names": [
+        "Fearless Foodie",
+        "Bramble Tunneler",
+        "Thorned Trailblazer",
+        "Trench Fighter"
+      ],
+      "addon_names": [
+        "Bonker",
+        "Felboar",
+        "Geomagus Roogug"
+      ],
+      "playbook": "Quilboar Choose One: scale Blood Gem quality first (Gem Rat's Gem Day, Fearless Foodie +1/+1 choose, Sanguine Refiner Rally, Sanguine Champion battlecry/deathrattle), then pay off with Turbo Hogrider. Every Choose One you play makes Turbo Hogrider blood-gem all other Quilboar \u2014 generate Choose Ones via Bramble Tunneler, Gem Rat, Snare Trapper, Crater Miner; Thorned Trailblazer combines both Choose effects. Veteran Brigand is the late Choose One bomb (gems everyone or triple Barrage). Trench Fighter's Gem Confiscation concentrates gems onto one unit when you need a carry. Meta: Quilboar are often support (Blood Gems for spell-on-minion comps or Aberration discard fodder) \u2014 force pure Quilboar when the lobby is soft or you hit Hogrider + gem quality early. No Tier-7 Jailbird Juggernaut; Vigilant Bristlemane is out of pool.",
+      "notes": "Choose One quilboar without Vigilant Bristlemane / Jailbird T7; Turbo Hogrider + gem quality + Choose One generation.",
+      "example_board": [
+        {
+          "name": "Turbo Hogrider",
+          "card_id": "BG31_323",
+          "attack": 12,
+          "health": 16,
+          "tier": 6,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 12,
+            "HEALTH": 16,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Veteran Brigand",
+          "card_id": "BG36_341",
+          "attack": 14,
+          "health": 14,
+          "tier": 6,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 14,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sanguine Champion",
+          "card_id": "BG23_017",
+          "attack": 14,
+          "health": 10,
+          "tier": 6,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 14,
+            "HEALTH": 10,
+            "TECH_LEVEL": 6,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Sanguine Refiner",
+          "card_id": "BG33_885",
+          "attack": 8,
+          "health": 14,
+          "tier": 5,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 14,
+            "TECH_LEVEL": 5,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Gem Rat",
+          "card_id": "BG31_326",
+          "attack": 6,
+          "health": 8,
+          "tier": 3,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 6,
+            "HEALTH": 8,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Fearless Foodie",
+          "card_id": "BG30_123",
+          "attack": 8,
+          "health": 10,
+          "tier": 3,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 8,
+            "HEALTH": 10,
+            "TECH_LEVEL": 3,
+            "PREMIUM": 1
+          }
+        },
+        {
+          "name": "Bonker",
+          "card_id": "BG20_104",
+          "attack": 10,
+          "health": 12,
+          "tier": 4,
+          "tribes": [
+            "quilboar"
+          ],
+          "tags": {
+            "ATK": 10,
+            "HEALTH": 12,
+            "TECH_LEVEL": 4,
+            "PREMIUM": 1
+          }
+        }
+      ],
+      "label_placement": 2.5
+    }
+  ],
+  "thin150_clean_boards": [
+    {
+      "idx": 2,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Cord Puller [BG29_611] 7/10",
+        "Suspicious Prisonguard [BG36_345] 3/3"
+      ]
+    },
+    {
+      "idx": 6,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Harmless Bonehead [BG28_300] 1/1",
+        "Crackling Cyclone [BGS_119] 2/1",
+        "Southsea Busker [BG26_135] 4/4",
+        "Drustfallen Butcher [BG32_324] 2/7"
+      ]
+    },
+    {
+      "idx": 8,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Eredar Escapist [BG36_733] 2451/2476",
+        "Eredar Escapist [BG36_733] 10333/10373",
+        "Devilish Distractor [BG36_762] 7380/7426",
+        "Ashen Corruptor [BG32_873] 3844/3875",
+        "Wrath Weaver [BGS_004] 2661/2671",
+        "Balinda Stonehearth [BG35_883] 6/6"
+      ]
+    },
+    {
+      "idx": 9,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Sky Admiral Rogers [BG33_823] 311/301",
+        "Brann Bronzebeard [BG_LOE_077] 3/6",
+        "Enterprising Escapee [BG36_523] 6/6",
+        "Hooktusk, Master Marauder [BG36_344] 387/377",
+        "Hooktusk, Master Marauder [BG36_344] 289/279",
+        "Hooktusk, Master Marauder [BG36_344] 281/279",
+        "Proud Privateer [BG33_825] 291/280"
+      ]
+    },
+    {
+      "idx": 12,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Brann Bronzebeard [BG_LOE_077] 14/20",
+        "Utility Drone [BG26_152] 17/27",
+        "Falling Sky Golem [BG35_342] 2912/3356",
+        "Glambot [BG36_853] 946/1125",
+        "Polarizing Beatboxer [BG26_149] 3325/3974",
+        "Utility Drone [BG26_152] 6/7",
+        "Balinda Stonehearth [BG35_883] 21/26"
+      ]
+    },
+    {
+      "idx": 14,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 10/12",
+        "Suspicious Prisonguard [BG36_345] 3/3"
+      ]
+    },
+    {
+      "idx": 16,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Crimson Vindicator [BG36_241] 21/16",
+        "Bronze Timewalker [BG36_242] 164/166",
+        "Persistent Poet [BG29_813] 65/66",
+        "Persistent Poet [BG29_813] 2/3",
+        "Kalecgos, Arcane Aspect [BGS_041] 65/77",
+        "Brann Bronzebeard [BG_LOE_077] 7/9",
+        "Amber Guardian [BG24_500] 30/37"
+      ]
+    },
+    {
+      "idx": 22,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Mummifier [BG28_309] 21/18",
+        "Sewer Lord [BG35_604] 4/6",
+        "Ashen Corruptor [BG32_873] 55/59",
+        "Malchezaar, Prince of Dance [BG26_524] 17/109",
+        "Snazzy Phantom [BG36_515] 10/16",
+        "Drustfallen Butcher [BG32_324] 2/7"
+      ]
+    },
+    {
+      "idx": 24,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Blade Collector [BG26_817] 974/944",
+        "Clever Castaway [BG36_342] 956/939",
+        "Clever Castaway [BG36_342] 1334/1316",
+        "Enterprising Escapee [BG36_523] 68/68",
+        "Hooktusk, Master Marauder [BG36_344] 501/489",
+        "Hooktusk, Master Marauder [BG36_344] 469/495"
+      ]
+    },
+    {
+      "idx": 26,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wolf Pup [BG36_207] 3/9",
+        "Lurking Lionfish [BG36_201] 3/4"
+      ]
+    },
+    {
+      "idx": 27,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Glim Guardian [BG29_888] 1/4",
+        "Glim Guardian [BG29_888] 1/4"
+      ]
+    },
+    {
+      "idx": 28,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Cord Puller [BG29_611] 8/6",
+        "Glambot [BG36_853] 149/115",
+        "Drone Duplicator [BG36_506] 8/3",
+        "Fruit Vendor [BG36_346] 3/6",
+        "Glambot [BG36_853] 39/33",
+        "Brann Bronzebeard [BG_LOE_077] 2/4",
+        "Rescue Bot [BG36_854] 5/2"
+      ]
+    },
+    {
+      "idx": 31,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 11/11",
+        "Suspicious Prisonguard [BG36_345] 3/3"
+      ]
+    },
+    {
+      "idx": 37,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Suspicious Prisonguard [BG36_345] 6/6",
+        "Suspicious Prisonguard [BG36_345] 6/6"
+      ]
+    },
+    {
+      "idx": 39,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Leeroy the Reckless [BG23_318] 6/2",
+        "Blade Collector [BG26_817] 1198/1196",
+        "Enterprising Escapee [BG36_523] 2616/2620",
+        "Enterprising Escapee [BG36_523] 2422/2419",
+        "Enterprising Escapee [BG36_523] 2417/2414",
+        "Hooktusk, Master Marauder [BG36_344] 98/91",
+        "Brann Bronzebeard [BG_LOE_077] 2650/2647"
+      ]
+    },
+    {
+      "idx": 40,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver [BGS_004] 4/8",
+        "Wrath Weaver [BGS_004] 1/3"
+      ]
+    },
+    {
+      "idx": 42,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Razorfen Geomancer [BG20_100] 6/5",
+        "Razorfen Geomancer [BG20_100] 2/1",
+        "Buzzing Vermin [BG31_803] 1/1"
+      ]
+    },
+    {
+      "idx": 43,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Twisted Wrathguard [BG35_155] 217/202",
+        "Ashen Corruptor [BG32_873] 995/994",
+        "Imposing Percussionist [BG26_525] 215/209",
+        "Kelp Keeper [BG36_701] 26/16",
+        "Enterprising Escapee [BG36_523] 35/31",
+        "Malchezaar, Prince of Dance [BG26_524] 4/3",
+        "Brann Bronzebeard [BG_LOE_077] 9/7"
+      ]
+    },
+    {
+      "idx": 46,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bonker [BG20_104] 131/149",
+        "Bramble Tunneler [BG36_331] 149/157",
+        "Fearless Foodie [BG30_123] 86/100",
+        "Veteran Brigand [BG36_341] 50/51",
+        "Veteran Brigand [BG36_341] 80/86",
+        "Turbo Hogrider [BG31_323] 55/58",
+        "Gem Rat [BG31_326] 100/110"
+      ]
+    },
+    {
+      "idx": 50,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 8/8",
+        "Gearfin [BG36_764] 6/5"
+      ]
+    },
+    {
+      "idx": 51,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bonker [BG20_104] 215/242",
+        "Bramble Tunneler [BG36_331] 266/286",
+        "Veteran Brigand [BG36_341] 134/144",
+        "Veteran Brigand [BG36_341] 164/179",
+        "Turbo Hogrider [BG31_323] 65/75",
+        "Fearless Foodie [BG30_123] 43/49",
+        "Gem Rat [BG31_326] 184/203"
+      ]
+    },
+    {
+      "idx": 52,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Imp-lusionist [BG36_731] 175/173",
+        "Imp-lusionist [BG36_731] 585/585",
+        "Malchezaar, Prince of Dance [BG26_524] 1688/1699",
+        "Devilish Distractor [BG36_762] 7317/7293",
+        "Ashen Corruptor [BG32_873] 3237/3231",
+        "Wrath Weaver [BGS_004] 580/572",
+        "Eredar Escapist [BG36_733] 1703/1702"
+      ]
+    },
+    {
+      "idx": 53,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Balinda Stonehearth [BG35_883] 18/10",
+        "Forsaken Weaver [BG34_692] 7/12",
+        "Dead Bellringer [BG36_511] 27/30"
+      ]
+    },
+    {
+      "idx": 55,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Sanguine Refiner [BG33_885] 63/37",
+        "Bonker [BG20_104] 54/53",
+        "Bonker [BG20_104] 47/43",
+        "Razorfen Vineweaver [BG33_883] 44/43",
+        "Falling Sky Golem [BG35_342] 98/62",
+        "Turbo Hogrider [BG31_323] 31/33",
+        "Balinda Stonehearth [BG35_883] 32/32"
+      ]
+    },
+    {
+      "idx": 57,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Imp-lusionist [BG36_731] 26/24",
+        "Imp-lusionist [BG36_731] 25/23",
+        "Tichondrius [BG26_523] 100/100",
+        "Devilish Distractor [BG36_762] 185/190",
+        "Twisted Wrathguard [BG35_155] 24/24",
+        "Balinda Stonehearth [BG35_883] 30/30",
+        "Ashen Corruptor [BG32_873] 223/213"
+      ]
+    },
+    {
+      "idx": 58,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Hoarding Hyena [BG36_210] 834/428",
+        "Headhunter Gryphon [BG36_204] 439/233",
+        "Tasty Lobster [BG36_202] 814/411",
+        "Lurking Lionfish [BG36_201] 7/8",
+        "Deathstrider [BG36_208] 861/445",
+        "Deathstrider [BG36_208] 859/438",
+        "Titus Rivendare [BG25_354] 8/20"
+      ]
+    },
+    {
+      "idx": 60,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Headhunter Gryphon [BG36_204] 50/42",
+        "Tasty Lobster [BG36_202] 6/3",
+        "Forest Rover [BG31_801] 1/1",
+        "Deathstrider [BG36_208] 14/13",
+        "Deathstrider [BG36_208] 10/11",
+        "Cage Gnawer [BG36_211] 18/17",
+        "Crackling Cyclone [BGS_119] 14/17"
+      ]
+    },
+    {
+      "idx": 61,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Balinda Stonehearth [BG35_883] 6/6",
+        "Imp-lusionist [BG36_731] 283/273",
+        "Felboar [BG28_633] 1091/1097",
+        "Devilish Distractor [BG36_762] 1746/1745",
+        "Ashen Corruptor [BG32_873] 381/192",
+        "Twisted Wrathguard [BG35_155] 181/185",
+        "Malchezaar, Prince of Dance [BG26_524] 85/84"
+      ]
+    },
+    {
+      "idx": 62,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Glambot [BG36_853] 1756/1986",
+        "Glambot [BG36_853] 646/732",
+        "Drone Duplicator [BG36_506] 4991/5844",
+        "Balinda Stonehearth [BG35_883] 30/30",
+        "Brann Bronzebeard [BG_LOE_077] 2/4",
+        "Utility Drone [BG26_152] 4/5",
+        "Utility Drone [BG26_152] 1330/1574"
+      ]
+    },
+    {
+      "idx": 64,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bronze Timewalker [BG36_242] 8/9",
+        "Persistent Poet [BG29_813] 23/7",
+        "Persistent Poet [BG29_813] 6/7",
+        "Sky-hatch Runaway [BG36_243] 13/11",
+        "Sky-hatch Runaway [BG36_243] 8/11",
+        "Scarlet Survivor [BG35_814] 26/17",
+        "Amber Guardian [BG24_500] 3/2"
+      ]
+    },
+    {
+      "idx": 65,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bramble Tunneler [BG36_331] 2777/2363",
+        "Bramble Tunneler [BG36_331] 6394/5438",
+        "Gem Rat [BG31_326] 1651/1403",
+        "Felboar [BG28_633] 13482/11773",
+        "Turbo Hogrider [BG31_323] 1347/1141",
+        "Turbo Hogrider [BG31_323] 1029/881",
+        "Drakkari Enchanter [BG26_ICC_901] 499/433"
+      ]
+    },
+    {
+      "idx": 67,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Dead Bellringer [BG36_511] 11/14",
+        "Eternal Summoner [BG25_009] 8/1",
+        "Eternal Knight [BG25_008] 28/23",
+        "Titus Rivendare [BG25_354] 1/7",
+        "Titus Rivendare [BG25_354] 1/7",
+        "Snazzy Phantom [BG36_515] 188/192"
+      ]
+    },
+    {
+      "idx": 68,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver [BGS_004] 13/19",
+        "Soul Rewinder [BG26_174] 4/10",
+        "Malchezaar, Prince of Dance [BG26_524] 4/3"
+      ]
+    },
+    {
+      "idx": 69,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver [BGS_004] 6/8",
+        "Ominous Seer [BG31_330] 2/1"
+      ]
+    },
+    {
+      "idx": 76,
+      "composition_id": 41,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bonker [BG20_104] 2/17",
+        "Scarlet Survivor [BG35_814] 16/15",
+        "Geomagus Roogug [BG28_583] 19/15",
+        "Sly Infiltrator [BG36_330] 8/7",
+        "Sly Infiltrator [BG36_330] 7/7",
+        "Gem Rat [BG31_326] 7/6",
+        "Thorned Trailblazer [BG31_327] 7/7"
+      ]
+    },
+    {
+      "idx": 79,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare [BG25_354] 4/10",
+        "Drustfallen Butcher [BG32_324] 1357/1367",
+        "Snazzy Phantom [BG36_515] 18/22"
+      ]
+    },
+    {
+      "idx": 80,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Eternal Knight [BG25_008] 6/4",
+        "Harmless Bonehead [BG28_300] 1/1"
+      ]
+    },
+    {
+      "idx": 82,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 6/6",
+        "Suspicious Prisonguard [BG36_345] 3/3"
+      ]
+    },
+    {
+      "idx": 83,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Plaguerunner [BG34_690] 8/4",
+        "Eternal Summoner [BG25_009] 8/1",
+        "Eternal Knight [BG25_008] 24/19",
+        "Maw Caster [BG32_340] 4/5",
+        "Snazzy Phantom [BG36_515] 6/8"
+      ]
+    },
+    {
+      "idx": 88,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 6/4",
+        "Suspicious Prisonguard [BG36_345] 3/3",
+        "Clever Castaway [BG36_342] 2/3"
+      ]
+    },
+    {
+      "idx": 92,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare [BG25_354] 1/7",
+        "Snazzy Phantom [BG36_515] 10/16",
+        "Drustfallen Butcher [BG32_324] 14/19",
+        "Drustfallen Butcher [BG32_324] 376/381"
+      ]
+    },
+    {
+      "idx": 93,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Mummifier [BG28_309] 10/3",
+        "Handless Forsaken [BG25_010] 2/1",
+        "Eternal Knight [BG25_008] 18/19",
+        "Handless Forsaken [BG25_010] 4/3",
+        "Cadaver Caretaker [BG30_125] 6/6",
+        "Snazzy Phantom [BG36_515] 6/8",
+        "Drustfallen Butcher [BG32_324] 2/7"
+      ]
+    },
+    {
+      "idx": 94,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 3/3",
+        "Scarlet Survivor [BG35_814] 3/3"
+      ]
+    },
+    {
+      "idx": 95,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bile Spitter [BG33_318] 21/30",
+        "Headhunter Gryphon [BG36_204] 13322/6695",
+        "Hoarding Hyena [BG36_210] 14483/7258",
+        "Tasty Lobster [BG36_202] 6498/3254",
+        "Deathstrider [BG36_208] 12021/6028",
+        "Deathstrider [BG36_208] 17375/8699",
+        "Titus Rivendare [BG25_354] 18/30"
+      ]
+    },
+    {
+      "idx": 98,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Leeroy the Reckless [BG23_318] 6/2",
+        "Cataclysmic Harbinger [BG35_123] 13/21",
+        "Leeroy the Reckless [BG23_318] 13/9",
+        "Sewer Lord [BG35_604] 70/6",
+        "Sewer Lord [BG35_604] 32/7",
+        "Lurking Leviathan [BG35_602] 59/20"
+      ]
+    },
+    {
+      "idx": 99,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Trench Fighter [BG34_684] 4/4",
+        "Decoy Conjurer [BG36_354] 8/11",
+        "Glambot [BG36_853] 18/18",
+        "Geomagus Roogug [BG28_583] 4/6",
+        "Fire Baller [BG31_816] 4/3",
+        "Snow Baller [BG31_818] 3/4",
+        "Maritime Extortionist [BG36_524] 7/7"
+      ]
+    },
+    {
+      "idx": 101,
+      "composition_id": 8,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Glambot [BG36_853] 302/362",
+        "Utility Drone [BG26_152] 7136/8818",
+        "Utility Drone [BG26_152] 320/394",
+        "Balinda Stonehearth [BG35_883] 12/12",
+        "Drakkari Enchanter [BG26_ICC_901] 2/10",
+        "Elemental of Surprise [BG26_175] 8/8"
+      ]
+    },
+    {
+      "idx": 102,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Clever Castaway [BG36_342] 4/6",
+        "Risen Rider [BG25_001] 2/1"
+      ]
+    },
+    {
+      "idx": 103,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Risen Rider [BG25_001] 8/7",
+        "Snazzy Phantom [BG36_515] 6/8",
+        "Snazzy Phantom [BG36_515] 12/16",
+        "Snazzy Phantom [BG36_515] 4552/4556",
+        "Drustfallen Butcher [BG32_324] 7429/7439"
+      ]
+    },
+    {
+      "idx": 106,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bronze Timewalker [BG36_242] 42/33",
+        "Scarlet Survivor [BG35_814] 39/37",
+        "Gearfin [BG36_764] 6/5",
+        "Fearless Foodie [BG30_123] 2/4",
+        "Sly Infiltrator [BG36_330] 4/5",
+        "Amber Guardian [BG24_500] 18/11"
+      ]
+    },
+    {
+      "idx": 109,
+      "composition_id": 39,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Air Revenant [BG34_858] 375/145",
+        "Tavern Tempest [BGS_123] 300/100",
+        "Unbound Tempest [BG36_352] 1433/1179",
+        "Unbound Tempest [BG36_352] 4928/3788",
+        "Unbound Tempest [BG36_352] 4930/3791",
+        "Brann Bronzebeard [BG_LOE_077] 50/21"
+      ]
+    },
+    {
+      "idx": 110,
+      "composition_id": 2,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Survivor [BG35_814] 6/6",
+        "Suspicious Prisonguard [BG36_345] 3/3",
+        "Ominous Seer [BG31_330] 2/1"
+      ]
+    },
+    {
+      "idx": 112,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Blade Collector [BG26_817] 2994/3005",
+        "Enterprising Escapee [BG36_523] 3255/3261",
+        "Enterprising Escapee [BG36_523] 4518/4525",
+        "Hooktusk, Master Marauder [BG36_344] 1322/1326",
+        "Sky Admiral Rogers [BG33_823] 1380/1385",
+        "Hooktusk, Master Marauder [BG36_344] 1377/1371",
+        "Leeroy the Reckless [BG23_318] 6/2"
+      ]
+    },
+    {
+      "idx": 114,
+      "composition_id": 39,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Crackling Cyclone [BGS_119] 66/65",
+        "Unbound Tempest [BG36_352] 305/317",
+        "Flourishing Frostling [BG26_537] 60/30",
+        "Air Revenant [BG34_858] 10/14",
+        "Kelp Keeper [BG36_701] 12/14",
+        "Tavern Tempest [BGS_123] 11/13",
+        "Brann Bronzebeard [BG_LOE_077] 9/13"
+      ]
+    },
+    {
+      "idx": 116,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wolf Pup [BG36_207] 3/6",
+        "Headhunter Gryphon [BG36_204] 4/6",
+        "Hoarding Hyena [BG36_210] 4/6",
+        "Forest Rover [BG31_801] 12/12",
+        "Forest Rover [BG31_801] 1/1",
+        "Cage Gnawer [BG36_211] 2/7",
+        "Banana Slamma [BG26_802] 6/9"
+      ]
+    },
+    {
+      "idx": 117,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Barrier Banshee [BG36_514] 245/245",
+        "Cadaver Caretaker [BG30_125] 3/3",
+        "Harmless Bonehead [BG28_300] 1/1",
+        "Snazzy Phantom [BG36_515] 2620/2505",
+        "Drustfallen Butcher [BG32_324] 5961/5971"
+      ]
+    },
+    {
+      "idx": 119,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Headhunter Gryphon [BG36_204] 109/124",
+        "Lurking Lionfish [BG36_201] 16/13",
+        "Lurking Lionfish [BG36_201] 19/18",
+        "Lurking Lionfish [BG36_201] 3/4",
+        "Ravaging Scorpid [BG36_209] 22/21",
+        "Ravaging Scorpid [BG36_209] 31/18",
+        "Banana Slamma [BG26_802] 6/18"
+      ]
+    },
+    {
+      "idx": 121,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wrath Weaver [BGS_004] 10/12",
+        "Soul Rewinder [BG26_174] 5/7",
+        "Wrath Weaver [BGS_004] 3/5",
+        "Ominous Seer [BG31_330] 2/1"
+      ]
+    },
+    {
+      "idx": 122,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare [BG25_354] 1/7",
+        "Handless Forsaken [BG25_010] 2/1",
+        "Snazzy Phantom [BG36_515] 1380/1384",
+        "Drustfallen Butcher [BG32_324] 1586/1555"
+      ]
+    },
+    {
+      "idx": 123,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Titus Rivendare [BG25_354] 1/7",
+        "Snazzy Phantom [BG36_515] 10/16",
+        "Drustfallen Butcher [BG32_324] 1756/1761",
+        "Drustfallen Butcher [BG32_324] 14/19"
+      ]
+    },
+    {
+      "idx": 124,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Handless Forsaken [BG25_010] 2/1",
+        "Snazzy Phantom [BG36_515] 974/980",
+        "Drustfallen Butcher [BG32_324] 1756/1761",
+        "Drustfallen Butcher [BG32_324] 2530/2535"
+      ]
+    },
+    {
+      "idx": 125,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Cord Puller [BG29_611] 7/10",
+        "Suspicious Prisonguard [BG36_345] 3/3"
+      ]
+    },
+    {
+      "idx": 127,
+      "composition_id": 9,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Highkeeper Ra [BG34_319] 14/18",
+        "Champion of Sargeras [BG27_016] 8/8",
+        "Soul Rewinder [BG26_174] 24/42",
+        "Malchezaar, Prince of Dance [BG26_524] 15/18",
+        "Devilish Distractor [BG36_762] 12/19",
+        "Brann Bronzebeard [BG_LOE_077] 4/8",
+        "Twisted Wrathguard [BG35_155] 8/8"
+      ]
+    },
+    {
+      "idx": 129,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Suspicious Prisonguard [BG36_345] 6/6",
+        "Suspicious Prisonguard [BG36_345] 3/3"
+      ]
+    },
+    {
+      "idx": 130,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Crimson Vindicator [BG36_241] 26/15",
+        "Brann Bronzebeard [BG_LOE_077] 32/14",
+        "Locked-up Mutineer [BG36_521] 101/78",
+        "Enterprising Escapee [BG36_523] 96/70",
+        "Clever Castaway [BG36_342] 104/86",
+        "Sky Admiral Rogers [BG33_823] 47/28",
+        "Hooktusk, Master Marauder [BG36_344] 34/14"
+      ]
+    },
+    {
+      "idx": 132,
+      "composition_id": 36,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Bigwig Bandit [BG33_822] 17/21",
+        "Bigwig Bandit [BG33_822] 131/135",
+        "Enterprising Escapee [BG36_523] 39/39",
+        "Proud Privateer [BG33_825] 37/33",
+        "Enterprising Escapee [BG36_523] 39/31",
+        "Hooktusk, Master Marauder [BG36_344] 12/8"
+      ]
+    },
+    {
+      "idx": 134,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Wolf Pup [BG36_207] 3/6",
+        "Headhunter Gryphon [BG36_204] 18/16",
+        "Tasty Lobster [BG36_202] 2/1",
+        "Sky-hatch Runaway [BG36_243] 4/7",
+        "Buzzing Vermin [BG31_803] 1/1",
+        "Sprightly Scarab [BG27_084] 3/1",
+        "Forest Rover [BG31_801] 1/1"
+      ]
+    },
+    {
+      "idx": 138,
+      "composition_id": 2,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Expert Aviator [BG34_140] 5/6",
+        "Tad [BG22_202] 2/2",
+        "Tad [BG22_202] 2/2"
+      ]
+    },
+    {
+      "idx": 139,
+      "composition_id": 20,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Blade Collector [BG26_817] 41/40",
+        "Sky-hatch Runaway [BG36_243] 6/9",
+        "Persistent Poet [BG29_813] 2/3",
+        "Persistent Poet [BG29_813] 2/3",
+        "Runic Arcanist [BG36_245] 4/6",
+        "Azsharan Cutlassier [BG33_830] 6/4",
+        "Amber Guardian [BG24_500] 3/2"
+      ]
+    },
+    {
+      "idx": 144,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Eternal Knight [BG25_008] 4/2",
+        "Roadboar [BG20_101] 5/7",
+        "Razorfen Geomancer [BG20_100] 4/3",
+        "Prodigious Tusker [BG33_430] 2/5",
+        "Amber Guardian [BG24_500] 3/2"
+      ]
+    },
+    {
+      "idx": 145,
+      "composition_id": 3,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Headhunter Gryphon [BG36_204] 3684/1888",
+        "Wolf Pup [BG36_207] 3/6",
+        "Hoarding Hyena [BG36_210] 5339/2681",
+        "Tasty Lobster [BG36_202] 3972/2013",
+        "Deathstrider [BG36_208] 4216/2120",
+        "Deathstrider [BG36_208] 5201/2613",
+        "Titus Rivendare [BG25_354] 1/7"
+      ]
+    },
+    {
+      "idx": 147,
+      "composition_id": 47,
+      "placement": 1.0,
+      "source": "hsreplay_expert",
+      "patch_note": "exclude_naga_post_aberrations_patch",
+      "board": [
+        "Scarlet Skull [BG25_022] 2/1",
+        "Eternal Knight [BG25_008] 8/6",
+        "Harmless Bonehead [BG28_300] 1/1"
+      ]
+    }
+  ]
+}

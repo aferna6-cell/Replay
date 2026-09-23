@@ -1,0 +1,939 @@
+{
+  "patch": "36.6.1",
+  "path": "/workspace/hsreplay-db-schema/data/36.6.1",
+  "counts": {
+    "comps": 24,
+    "heroes": 118,
+    "minions": 247,
+    "minions_in_pool": 247,
+    "trinkets": 293,
+    "trinkets_in_pool": 293,
+    "spells": 78,
+    "spells_in_pool": 72,
+    "spells_verified": 71,
+    "tribes": 10,
+    "training_notes": 8
+  },
+  "train_weights": {
+    "comps": "highest",
+    "heroes_trinkets": "support",
+    "old_patch": 0,
+    "affinity_note": "comp membership links seed affinities; model learns hero/trinket/minion/spell affinity to comps during training"
+  },
+  "spells_in_pool": [
+    {
+      "name": "Armor Stash",
+      "id": "BG28_500",
+      "cost": 3,
+      "tier": 5,
+      "grade": "A",
+      "take": "must-buy when you need to go above 15 health before top 4.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Boundless Potential",
+      "id": "BG31_890",
+      "cost": 3,
+      "tier": 4,
+      "grade": "A",
+      "take": "really good — fish for an enabler or a premium high-tier spell (Lost Staff, Eyes of the Earth Mother).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Careful Investment",
+      "id": "BG28_800",
+      "cost": 1,
+      "tier": 3,
+      "grade": "A",
+      "take": "always buy unless it is the last turn of the game.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Channel the Devourer",
+      "id": "EBG_Spell_032",
+      "cost": 4,
+      "tier": 5,
+      "grade": "A",
+      "take": "useful when you want to sell a huge-stat minion and park those stats on a keeper.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Chef's Choice",
+      "id": "BG28_518",
+      "cost": 2,
+      "tier": 2,
+      "grade": "A",
+      "take": "good; great in early game to pivot type while keeping a body.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Corrupted Cupcakes",
+      "id": "BG28_607",
+      "cost": 4,
+      "tier": 5,
+      "grade": "A",
+      "take": "solid in Demon builds when the shop is buffed (big consumes).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Energizing Chamber",
+      "id": "BG36_371",
+      "cost": 1,
+      "tier": 5,
+      "grade": "A",
+      "take": "good (buddy +7/+7; double on discard).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Hasty Excavation",
+      "id": "BG28_571",
+      "cost": 3,
+      "tier": 2,
+      "grade": "A",
+      "take": "good early; always buy on Demons (can rewind the health cost).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Hired Headhunter",
+      "id": "BG28_GIL_836",
+      "cost": 3,
+      "tier": 5,
+      "grade": "A",
+      "take": "must-buy with Brann; battlecry discover is otherwise situational.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Leaf Through the Pages",
+      "id": "BG28_827",
+      "cost": 1,
+      "tier": 2,
+      "grade": "A",
+      "take": "good. especially strong early for free refreshes.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Methodical Madness",
+      "id": "BG36_880",
+      "cost": 3,
+      "tier": 4,
+      "grade": "A",
+      "take": "really good for Demons (consume tavern for stats + keywords).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Mounting Avalanche",
+      "id": "BG33_899",
+      "cost": 2,
+      "tier": 3,
+      "grade": "A",
+      "take": "good to dump sell-stats onto a real piece (Wildfire Elemental, Crackling Cyclone, etc.).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Overconfidence",
+      "id": "BG28_884",
+      "cost": 1,
+      "tier": 3,
+      "grade": "A",
+      "take": "good especially when you are strong; generally worth buying.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Planar Telescope",
+      "id": "BG28_521",
+      "cost": 4,
+      "tier": 3,
+      "grade": "A",
+      "take": "good discover of your most common type.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Sludge Corrosion",
+      "id": "BG36_301t",
+      "cost": 1,
+      "tier": 4,
+      "grade": "A",
+      "take": "really good, especially as discard fuel (cast-on-discard).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Strike Oil",
+      "id": "BG28_805",
+      "cost": 3,
+      "tier": 2,
+      "grade": "A",
+      "take": "great early game economy; bad anywhere else — do not buy mid/late.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Tavern Coin",
+      "id": "BG28_810",
+      "cost": 1,
+      "tier": 1,
+      "grade": "A",
+      "take": "always buy — free cycle / gold smoothing.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Temperature Shift",
+      "id": "BG31_819",
+      "cost": 4,
+      "tier": 4,
+      "grade": "A",
+      "take": "really good for Elementals; also strong to copy to improve Ballers.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Tomb Turning",
+      "id": "BG34_888",
+      "cost": 2,
+      "tier": 4,
+      "grade": "A",
+      "take": "good in Undead comps.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Unmasked Identity",
+      "id": "EBG_Spell_037",
+      "cost": 3,
+      "tier": 5,
+      "grade": "A",
+      "take": "good late to fish strong late HPs (Drek'Thar, Vanndar, Tavish, etc.).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Upper Hand",
+      "id": "BG28_573",
+      "cost": 3,
+      "tier": 5,
+      "grade": "A",
+      "take": "good late-game combat tech (set enemy health to 1).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "A New Sprout",
+      "id": "BG33_101",
+      "cost": 3,
+      "tier": 1,
+      "grade": "B",
+      "take": "good on turn 1 if the shop is bad; discover T1.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Alliance Flag",
+      "id": "BG31_880",
+      "cost": 1,
+      "tier": 1,
+      "grade": "B",
+      "take": "good in Balinda / spell-on-minion comps (cheap targetted spell). otherwise fine early stick.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Butchering",
+      "id": "BG28_604",
+      "cost": 2,
+      "tier": 5,
+      "grade": "B",
+      "take": "good only in Undead comps; skip otherwise.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Contracted Corpse",
+      "id": "BG28_882",
+      "cost": 3,
+      "tier": 5,
+      "grade": "B",
+      "take": "situational Discover Deathrattle — fine for Undead/Beast DR lines.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Deepwater Clan",
+      "id": "BG35_149",
+      "cost": 2,
+      "tier": 4,
+      "grade": "B",
+      "take": "fine murloc/tribe buff.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Defender's Rites",
+      "id": "BG28_825",
+      "cost": 2,
+      "tier": 4,
+      "grade": "B",
+      "take": "fine; good when you specifically want a big Taunt body.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Easterly Winds",
+      "id": "BG34_444",
+      "cost": 1,
+      "tier": 4,
+      "grade": "B",
+      "take": "fine permanent shop high-roll (+8/+8 on refresh).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Enchanted Lasso",
+      "id": "BG28_512",
+      "cost": 2,
+      "tier": 1,
+      "grade": "B",
+      "take": "fine in the early game.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Fandral's Fortune",
+      "id": "BG31_892",
+      "cost": 3,
+      "tier": 6,
+      "grade": "B",
+      "take": "only good in comps that generate Blood Gems / want Choose One combined (spell-on-minion / quilboar support lines).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Forest's Bounty",
+      "id": "BG31_886",
+      "cost": 2,
+      "tier": 5,
+      "grade": "B",
+      "take": "fine choose-one buff.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Fortify",
+      "id": "BG28_503",
+      "cost": 1,
+      "tier": 1,
+      "grade": "B",
+      "take": "good in Balinda / spell-on-minion comps; otherwise fine early taunt health.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Friendly Bounty",
+      "id": "BG33_814",
+      "cost": 2,
+      "tier": 3,
+      "grade": "B",
+      "take": "only really good if you have Privateer (or similar type-payoff); otherwise skip most bounties.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Gem Confiscation",
+      "id": "BG28_698",
+      "cost": 1,
+      "tier": 4,
+      "grade": "B",
+      "take": "can be good with Quilboar / blood-gem boards; otherwise niche.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Golden Touch",
+      "id": "BG28_830",
+      "cost": 5,
+      "tier": 5,
+      "grade": "B",
+      "take": "only good if you have a lot of gold to spare.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Mighty Dragonbreath",
+      "id": "BG36_246",
+      "cost": 2,
+      "tier": 4,
+      "grade": "B",
+      "take": "fine; not the best board buff — better with Dragons / Divine Shield.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Recruit a Trainee",
+      "id": "BG28_504",
+      "cost": 2,
+      "tier": 1,
+      "grade": "B",
+      "take": "fine in the early game for a body.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Repair Job",
+      "id": "BG36_624",
+      "cost": 2,
+      "tier": 3,
+      "grade": "B",
+      "take": "fine single-target +4/+8.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Saloon's Finest",
+      "id": "BG28_849",
+      "cost": 2,
+      "tier": 5,
+      "grade": "B",
+      "take": "okay in comps that want to cast a lot of cheap spells (spell-density).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Seafood Stew",
+      "id": "BG32_337",
+      "cost": 2,
+      "tier": 3,
+      "grade": "B",
+      "take": "provisional — keyword-stacking board buff (warband bonus keywords). Aidan has not graded this one yet; please verify.",
+      "status": "provisional_awaiting_aidan"
+    },
+    {
+      "name": "Search Through Time",
+      "id": "BG34_330",
+      "cost": 2,
+      "tier": 2,
+      "grade": "B",
+      "take": "fine mid to fish for an enabler; better early. discover your tier and lock 1 turn.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Staff of Enrichment",
+      "id": "BG28_886",
+      "cost": 2,
+      "tier": 3,
+      "grade": "B",
+      "take": "okay permanent tavern buff — situational, not a must.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Tavern Dish Banana",
+      "id": "BG28_897",
+      "cost": 1,
+      "tier": 1,
+      "grade": "B",
+      "take": "good in Balinda / spell-on-minion comps; otherwise fine early +2/+2.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Wealthy Bounty",
+      "id": "BG33_815",
+      "cost": 2,
+      "tier": 3,
+      "grade": "B",
+      "take": "the one bounty worth buying (economy). Friendly Bounty only with Privateer.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Winner's Bread",
+      "id": "BG36_883",
+      "cost": 2,
+      "tier": 2,
+      "grade": "B",
+      "take": "fine in early game for tempo stats + win bonus.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Azerite Empowerment",
+      "id": "BG28_169",
+      "cost": 4,
+      "tier": 6,
+      "grade": "C",
+      "take": "generally not worth buying (+4/+4 total for 4g).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Blood Gem Barrage",
+      "id": "BG34_689",
+      "cost": 1,
+      "tier": 3,
+      "grade": "C",
+      "take": "not great. weak permanent shop buff; skip most lobbies.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Boon of Beetles",
+      "id": "BG28_603",
+      "cost": 1,
+      "tier": 4,
+      "grade": "C",
+      "take": "bad unless playing Beasts.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Brood of Nozdormu",
+      "id": "BG34_889",
+      "cost": 2,
+      "tier": 5,
+      "grade": "C",
+      "take": "not great start-of-combat double attack.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Cloning Conch",
+      "id": "BG28_601",
+      "cost": 4,
+      "tier": 4,
+      "grade": "C",
+      "take": "really only okay with Brann, and even then not the best use of gold.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Eonar's Favor",
+      "id": "BG35_912",
+      "cost": 2,
+      "tier": 4,
+      "grade": "C",
+      "take": "not great. shop-type buff this game is usually too slow/narrow.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Hallowed Ritual",
+      "id": "BG31_896",
+      "cost": 5,
+      "tier": 7,
+      "grade": "C",
+      "take": "T7 — almost never seen; do not plan around it.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Menagerie Tableware",
+      "id": "BG34_272",
+      "cost": 4,
+      "tier": 7,
+      "grade": "C",
+      "take": "T7 — almost never seen; do not plan around it.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Might of Stormwind",
+      "id": "BG35_951",
+      "cost": 2,
+      "tier": 2,
+      "grade": "C",
+      "take": "not good. skip most of the time.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Misplaced Tea Set",
+      "id": "BG28_888",
+      "cost": 3,
+      "tier": 4,
+      "grade": "C",
+      "take": "generally not worth buying.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Natural Blessing",
+      "id": "BG28_845",
+      "cost": 2,
+      "tier": 4,
+      "grade": "C",
+      "take": "generally not worth buying.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Sacred Gift",
+      "id": "BG28_507",
+      "cost": 4,
+      "tier": 7,
+      "grade": "C",
+      "take": "T7 — almost never seen; do not plan around it.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Sharing is Caring",
+      "id": "BG31_889",
+      "cost": 2,
+      "tier": 7,
+      "grade": "C",
+      "take": "T7 — almost never seen; do not plan around it.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Time Management",
+      "id": "BG31_881",
+      "cost": 4,
+      "tier": 3,
+      "grade": "C",
+      "take": "bad. expensive choose-one board buff; usually skip.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Tricky Trousers",
+      "id": "BG28_520",
+      "cost": 1,
+      "tier": 3,
+      "grade": "C",
+      "take": "only used to give something Taunt (or strip it).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Healthy Bounty",
+      "id": "BG33_811",
+      "cost": 2,
+      "tier": 3,
+      "grade": "F",
+      "take": "not worth buying (only Wealthy + Friendly bounties are real).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Hostile Bounty",
+      "id": "BG33_812",
+      "cost": 2,
+      "tier": 3,
+      "grade": "F",
+      "take": "not worth buying (only Wealthy + Friendly bounties are real).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Perfect Vision",
+      "id": "BG28_838",
+      "cost": 2,
+      "tier": 6,
+      "grade": "F",
+      "take": "sucks. skip the 20/20 set.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Robust Evolution",
+      "id": "BG30_804",
+      "cost": 1,
+      "tier": 3,
+      "grade": "F",
+      "take": "terrible. do not buy — random higher-tier transform keeping stats is a brick.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Selfish Bounty",
+      "id": "BG33_813",
+      "cost": 2,
+      "tier": 3,
+      "grade": "F",
+      "take": "not worth buying (only Wealthy + Friendly bounties are real).",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Shiny Ring",
+      "id": "BG28_168",
+      "cost": 2,
+      "tier": 3,
+      "grade": "F",
+      "take": "bad. skip.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Them Apples",
+      "id": "BG28_966",
+      "cost": 1,
+      "tier": 1,
+      "grade": "F",
+      "take": "terrible. do not buy.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Wave of Gold",
+      "id": "BG34_990",
+      "cost": 2,
+      "tier": 5,
+      "grade": "F",
+      "take": "sucks. skip.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Corrupted Coin",
+      "id": "BG36_303",
+      "cost": 2,
+      "tier": 5,
+      "grade": "S",
+      "take": "broken if you have a way to discard it (double cast). otherwise still cycleable coin-like value.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Eyes of the Earth Mother",
+      "id": "EBG_Spell_017",
+      "cost": 4,
+      "tier": 6,
+      "grade": "S",
+      "take": "great to golden a powerful under-T4 card. (T7 spells are basically never seen — do not plan around them.)",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Lost Staff of Hamuul",
+      "id": "EBG_Spell_038",
+      "cost": 2,
+      "tier": 6,
+      "grade": "S",
+      "take": "always good — refill tavern with your type; premium finish tool.",
+      "status": "aidan_verified_2026-09-23"
+    },
+    {
+      "name": "Weapons Forge",
+      "id": "BG36_884",
+      "cost": 2,
+      "tier": 4,
+      "grade": "S",
+      "take": "S-tier in comps that cast a lot of spells on minions (Pointy Arrows / spell-density).",
+      "status": "aidan_verified_2026-09-23"
+    }
+  ],
+  "spells_excluded": [
+    {
+      "name": "Bargain Bundle",
+      "id": "BG31_242",
+      "status": "excluded_duos",
+      "take": "Excluded: Duos pass/teammate spell."
+    },
+    {
+      "name": "Portal in a Crystal",
+      "id": "BG31_244",
+      "status": "excluded_duos",
+      "take": "Excluded: Duos pass/teammate spell."
+    },
+    {
+      "name": "Portal in a Fountain",
+      "id": "BG31_243",
+      "status": "excluded_duos",
+      "take": "Excluded: Duos pass/teammate spell."
+    },
+    {
+      "name": "Queen's Command",
+      "id": "BG35_922",
+      "status": "excluded_naga_out",
+      "take": "Excluded while Naga is out of the live lobby."
+    },
+    {
+      "name": "Shifting Tide",
+      "id": "BG32_815",
+      "status": "excluded_naga_out",
+      "take": "Excluded while Naga is out of the live lobby."
+    },
+    {
+      "name": "Spitescale Special",
+      "id": "BG28_606",
+      "status": "excluded_naga_out",
+      "take": "Excluded while Naga is out of the live lobby."
+    }
+  ],
+  "comps": [
+    {
+      "id": "comp_73",
+      "name": "Dragons - APM Evoker",
+      "tier": null,
+      "tribe": "dragon"
+    },
+    {
+      "id": "comp_89",
+      "name": "Pirates - APM Golden",
+      "tier": null,
+      "tribe": "pirate"
+    },
+    {
+      "id": "comp_76",
+      "name": "Demons - APM Shop Buff",
+      "tier": null,
+      "tribe": "demon"
+    },
+    {
+      "id": "comp_3",
+      "name": "Undead - APM Undead",
+      "tier": null,
+      "tribe": "undead"
+    },
+    {
+      "id": "comp_14",
+      "name": "Undead - Attack Scaling",
+      "tier": null,
+      "tribe": "undead"
+    },
+    {
+      "id": "comp_15",
+      "name": "Dragons - Battlecries",
+      "tier": null,
+      "tribe": "dragon"
+    },
+    {
+      "id": "comp_38",
+      "name": "Beasts - Beetles",
+      "tier": null,
+      "tribe": "beast"
+    },
+    {
+      "id": "comp_90",
+      "name": "Quilboar - Bristlemane",
+      "tier": null,
+      "tribe": "quilboar"
+    },
+    {
+      "id": "comp_88",
+      "name": "Quilboar - Choose One",
+      "tier": null,
+      "tribe": "quilboar"
+    },
+    {
+      "id": "comp_68",
+      "name": "Mechs - Deathrattle",
+      "tier": null,
+      "tribe": "mech"
+    },
+    {
+      "id": "comp_55",
+      "name": "Nagas - End Of Turn/Spell Buff",
+      "tier": null,
+      "tribe": "naga"
+    },
+    {
+      "id": "comp_93",
+      "name": "Murlocs - Family",
+      "tier": null,
+      "tribe": "murloc"
+    },
+    {
+      "id": "comp_20",
+      "name": "Nagas - Groundbreaker",
+      "tier": null,
+      "tribe": "naga"
+    },
+    {
+      "id": "comp_83",
+      "name": "Beasts - Leviathan",
+      "tier": null,
+      "tribe": "beast"
+    },
+    {
+      "id": "comp_2",
+      "name": "Mechs - Magnetics",
+      "tier": null,
+      "tribe": "mech"
+    },
+    {
+      "id": "comp_91",
+      "name": "Mechs - Magnetics/Spells",
+      "tier": null,
+      "tribe": "mech"
+    },
+    {
+      "id": "comp_13",
+      "name": "Demons - Self Damage",
+      "tier": null,
+      "tribe": "demon"
+    },
+    {
+      "id": "comp_41",
+      "name": "Demons - Shop Buff",
+      "tier": null,
+      "tribe": "demon"
+    },
+    {
+      "id": "comp_37",
+      "name": "Elementals - Stat scaling",
+      "tier": null,
+      "tribe": "elemental"
+    },
+    {
+      "id": "comp_12",
+      "name": "Beasts - Summons",
+      "tier": null,
+      "tribe": "beast"
+    },
+    {
+      "id": "comp_87",
+      "name": "Beasts - Tasty Lobstah",
+      "tier": null,
+      "tribe": "beast"
+    },
+    {
+      "id": "comp_67",
+      "name": "Murlocs - Tidecaller",
+      "tier": null,
+      "tribe": "murloc"
+    },
+    {
+      "id": "comp_92",
+      "name": "Elementals - Unbound Tempest",
+      "tier": null,
+      "tribe": "elemental"
+    },
+    {
+      "id": "comp_8",
+      "name": "Murlocs - Venom Scam",
+      "tier": null,
+      "tribe": "murloc"
+    }
+  ],
+  "training_notes": [
+    {
+      "id": "aberration_early_pivot",
+      "tribes": [
+        "aberration"
+      ],
+      "phase": "early_to_mid",
+      "summary": "Aberrations are strong early–mid; plan to transition into another comp later rather than forcing all-Aberration endgame.",
+      "detail": "Community read for patch 36.6.1: Aberration boards win early/mid tempo and value, then pivot into a stronger late tribe/comp. Treat Aberration pieces as a launchpad; do not tunnel into weak Aberration end boards when a transition is available. Blood Gems are good discard fodder for Aberration discard synergies.",
+      "train_hint": "Prefer Aberration buys early; after mid-game, weight pivots into lobby-strong comps higher than staying pure Aberration.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "murloc_activate_scam",
+      "tribes": [
+        "murloc"
+      ],
+      "phase": "mid_to_late",
+      "summary": "Murlocs are stronger; Murloc scam uses Activate to put Venomous+Stealth on the T2 hand-summon Murloc, then floods hand scam (like Venom Scam).",
+      "detail": "Murloc scam line: use an Activate Murloc to give Venomous and Stealth to the Tier 2 Murloc that summons cards from hand (Expert Aviator style: Rally/summon highest-Attack from hand for combat). Then fill hand with more scam summon pieces, analogous to existing Murlocs - Venom Scam (comp_8). Murlocs overall improved this patch — raise prior vs prior patch.",
+      "related_comp_ids": [
+        "comp_8"
+      ],
+      "related_minion_ids": [
+        "BG34_140"
+      ],
+      "train_hint": "When holding Activate Murlocs + hand-summon Murloc, bias toward Venomous/Stealth buffs and hand-scam density over pure stats.",
+      "source": "user_meta_2026-09-23",
+      "related_activate_murloc_ids": []
+    },
+    {
+      "id": "quilboar_support_blood_gems",
+      "tribes": [
+        "quilboar"
+      ],
+      "phase": "support",
+      "summary": "Quilboar are somewhat better as a supporting tribe: Blood Gems excel when casting many spells on minions, and as Aberration discard fuel.",
+      "detail": "Quilboar rarely need to be the primary end tribe. Blood Gems are high-value when the main plan casts many spells onto minions (spell-on-minion comps), and they are strong cards to discard for Aberration synergies. Prefer Quilboar as splash/support.",
+      "train_hint": "Raise Quilboar/Blood Gem value when board plan is spell-heavy or Aberration-discard; do not force pure Quilboar unless lobby/comp demands it.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "spell_play_is_legal",
+      "phase": "always",
+      "summary": "Playing tavern spells from hand is a legal action the coach must suggest when applicable.",
+      "detail": "NEXT/recommend must include play-spell actions, not only buy/roll/sell/HP. Spells are often the correct click.",
+      "train_hint": "When a spell in hand has positive EV (buff, discover, economy, combat tech), prefer PLAY_SPELL over holding or rolling past the window.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "discard_is_legal",
+      "phase": "always",
+      "summary": "Discard is a legal action — suggest it when applicable (Aberration fodder, Sludge/Corrupted Coin double-cast, etc.).",
+      "detail": "With discard mechanics in the pool, the coach must know DISCARD as a legal action and recommend it when it enables double-casts or tribe synergies (e.g. Sludge Corrosion, Corrupted Coin, Blood Gems as Aberration discard fuel).",
+      "train_hint": "If discard doubles a spell or fuels Aberration/Quilboar lines, weight DISCARD above cycling dead cards blindly.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "sell_before_place_full_board",
+      "phase": "always",
+      "summary": "If the board is full, suggest selling a card before placing a new one.",
+      "detail": "Full board blocks plays from hand. Coach should name which minion to sell, then the play/buy, and keep the sell target on the NEXT line.",
+      "train_hint": "When hand-play or buy needs a board slot and board_size==max, emit SELL(<weakest off-plan>) then PLAY/BUY.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "balinda_spell_on_minion_buys",
+      "phase": "mid_to_late",
+      "summary": "Balinda / spell-on-minion comps: always buy 1–2 cost spells that TARGET a minion.",
+      "detail": "When the plan casts many cheap targeted spells onto minions (Balinda, Demon Distractor buff lines, Weapons Forge / Pointy Arrows comps), prioritize buying 1–2 gold targeted tavern spells every time they appear.",
+      "train_hint": "If strategy is spell-on-minion density, raise buy priority for cost<=2 targeted spells above neutral economy spells.",
+      "source": "user_meta_2026-09-23"
+    },
+    {
+      "id": "t7_spells_rare",
+      "phase": "late",
+      "summary": "Tier 7 tavern spells are almost never seen — do not plan the game around them.",
+      "detail": "Eyes of the Earth Mother (T6) is the real golden tool for a strong under-T4 card. Sharing is Caring / Menagerie Tableware / Sacred Gift / Hallowed Ritual are T7 rarities.",
+      "train_hint": "Do not weight lines that require hitting T7 spells; Eyes goldenizing a strong low-tier is the realistic spike.",
+      "source": "user_meta_2026-09-23"
+    }
+  ]
+}

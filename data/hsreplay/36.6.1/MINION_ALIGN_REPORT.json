@@ -1,0 +1,399 @@
+{
+  "source": "hearthstonejson isBattlegroundsPoolMinion + hsreplay react_context minion_types/tag_overrides",
+  "season_number": 14,
+  "live_lobby_tribes": [
+    "dragon",
+    "quilboar",
+    "mech",
+    "pirate",
+    "beast",
+    "demon",
+    "elemental",
+    "undead",
+    "murloc",
+    "aberration"
+  ],
+  "naga_in_lobby": false,
+  "live_count": 269,
+  "ours_count": 247,
+  "aligned": 247,
+  "only_live": [
+    {
+      "name": "Mini-Myrmidon",
+      "id": "BG23_000",
+      "dbf_id": 80738,
+      "tavern_tier": 1,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Shell Collector",
+      "id": "BG23_002",
+      "dbf_id": 80740,
+      "tavern_tier": 2,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Deep-Sea Angler",
+      "id": "BG23_004",
+      "dbf_id": 80742,
+      "tavern_tier": 3,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Waverider",
+      "id": "BG23_007",
+      "dbf_id": 80745,
+      "tavern_tier": 3,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Glowscale",
+      "id": "BG23_008",
+      "dbf_id": 80746,
+      "tavern_tier": 5,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Lava Lurker",
+      "id": "BG23_009",
+      "dbf_id": 80747,
+      "tavern_tier": 2,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Zesty Shaker",
+      "id": "BG26_505",
+      "dbf_id": 99054,
+      "tavern_tier": 4,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Sea Witch Zar'jira",
+      "id": "BG27_514",
+      "dbf_id": 103069,
+      "tavern_tier": 7,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Groundbreaker",
+      "id": "BG31_035",
+      "dbf_id": 114816,
+      "tavern_tier": 6,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Darkcrest Strategist",
+      "id": "BG31_920",
+      "dbf_id": 115555,
+      "tavern_tier": 5,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Thaumaturgist",
+      "id": "BG31_924",
+      "dbf_id": 115563,
+      "tavern_tier": 2,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Showy Cyclist",
+      "id": "BG31_925",
+      "dbf_id": 115565,
+      "tavern_tier": 5,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Tranquil Meditative",
+      "id": "BG32_835",
+      "dbf_id": 119942,
+      "tavern_tier": 5,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Fauna Whisperer",
+      "id": "BG32_837",
+      "dbf_id": 120905,
+      "tavern_tier": 6,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Rimescale Priestess",
+      "id": "BG33_319",
+      "dbf_id": 122221,
+      "tavern_tier": 4,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Seafloor Recruiter",
+      "id": "BG34_925",
+      "dbf_id": 126916,
+      "tavern_tier": 4,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Abyssal Bruiser",
+      "id": "BG35_921",
+      "dbf_id": 130658,
+      "tavern_tier": 4,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Cagey Conjurer",
+      "id": "BG36_508",
+      "dbf_id": 132316,
+      "tavern_tier": 4,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Torrential Ruiner",
+      "id": "BG36_622",
+      "dbf_id": 133707,
+      "tavern_tier": 6,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Fleeing Fugitive",
+      "id": "BG36_921",
+      "dbf_id": 133451,
+      "tavern_tier": 1,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Private Chef",
+      "id": "BGDUO31_209",
+      "dbf_id": 117355,
+      "tavern_tier": 4,
+      "tribes": [
+        "naga"
+      ]
+    },
+    {
+      "name": "Storm Splitter",
+      "id": "BGDUO_122",
+      "dbf_id": 107879,
+      "tavern_tier": 5,
+      "tribes": [
+        "naga"
+      ]
+    }
+  ],
+  "only_ours_in_pool": [],
+  "tier_mismatches": [],
+  "tribe_mismatches": [
+    {
+      "name": "Lullabot",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Accord-o-Tron",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Polarizing Beatboxer",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Utility Drone",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Charging Czarina",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Cord Puller",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Mechagnome Interpreter",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Auto Assembler",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Enchanted Sentinel",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Falling Sky Golem",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Drone Duplicator",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Gearfin",
+      "ours": [
+        "mech",
+        "murloc"
+      ],
+      "live": [
+        "mechanical",
+        "murloc"
+      ]
+    },
+    {
+      "name": "Spark Snapper",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Glambot",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Rescue Bot",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Annoy-o-Module",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Prosthetic Hand",
+      "ours": [
+        "mech",
+        "undead"
+      ],
+      "live": [
+        "mechanical",
+        "undead"
+      ]
+    },
+    {
+      "name": "Transport Reactor",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    },
+    {
+      "name": "Support System",
+      "ours": [
+        "mech"
+      ],
+      "live": [
+        "mechanical"
+      ]
+    }
+  ]
+}
