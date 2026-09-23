@@ -113,17 +113,20 @@ def _raw_tribe_strings(m, kb=None) -> List[str]:
         raw = [raw]
     if raw:
         return [str(x) for x in raw]
-    if kb is None:
-        return []
     ck = None
-    if cid and cid in kb:
-        ck = kb[cid]
-    elif name:
-        from .cards import by_name
-        ck = by_name(kb).get(name)
-    if ck is None:
-        return []
-    return [str(x) for x in (ck.tribes or [])]
+    if kb is not None:
+        if cid and cid in kb:
+            ck = kb[cid]
+        elif name:
+            from .cards import by_name
+            ck = by_name(kb).get(name)
+    if ck is not None:
+        return [str(x) for x in (ck.tribes or [])]
+    # Cards outside the live-pool KB (e.g. Defiant Shipwright, Coldlight
+    # Diver, dual Demon/Naga Ominous Seer): HearthstoneJSON fallback.
+    from .cards import fallback_card
+    fb = fallback_card(cid, name) if (cid or name) else None
+    return [str(x) for x in (fb or {}).get("tribes") or []]
 
 
 def _minion_tribes(m, kb=None) -> List[str]:
@@ -131,7 +134,11 @@ def _minion_tribes(m, kb=None) -> List[str]:
 
 
 def _is_quarantined_minion(m, kb=None) -> bool:
-    return any(_norm(x) in QUARANTINED_TRIBES for x in _raw_tribe_strings(m, kb))
+    """Only-Naga minions are out of the pool. A dual-tribe card (Ominous Seer
+    is Demon/Naga) still plays as its live tribe."""
+    raw = [_norm(x) for x in _raw_tribe_strings(m, kb)]
+    return bool(raw) and any(x in QUARANTINED_TRIBES for x in raw) and all(
+        x in QUARANTINED_TRIBES for x in raw if x != "all")
 
 
 def board_tribe_counts(board, kb=None,

@@ -110,3 +110,44 @@ def load_kb(path: str = BG_CARDS) -> Dict[str, CardKnowledge]:
 
 def by_name(kb: Dict[str, CardKnowledge]) -> Dict[str, CardKnowledge]:
     return {c.name: c for c in kb.values()}
+
+
+# ---------------------------------------------------------------------------
+# Every-Battlegrounds-card name/tribe fallback (data/cards/bg_card_names.json,
+# built by scripts/build_bg_card_names.py from HearthstoneJSON). The KB above
+# is only the live minion pool; shop cards outside it (tavern spells, dual-
+# tribe Demon/Naga cards, cards HSJSON doesn't flag) resolve here.
+# ---------------------------------------------------------------------------
+
+BG_CARD_NAMES = os.path.join(_CARDS_DIR, "bg_card_names.json")
+_NAMES_CACHE: Optional[Dict[str, dict]] = None
+_NAME_INDEX: Optional[Dict[str, dict]] = None
+
+
+def card_names() -> Dict[str, dict]:
+    """card id -> {name, type, tier, tribes} for every Battlegrounds card."""
+    global _NAMES_CACHE
+    if _NAMES_CACHE is None:
+        try:
+            with open(BG_CARD_NAMES, encoding="utf-8") as fh:
+                _NAMES_CACHE = json.load(fh).get("cards") or {}
+        except (OSError, ValueError):
+            _NAMES_CACHE = {}
+    return _NAMES_CACHE
+
+
+def fallback_card(card_id: Optional[str] = None,
+                  name: Optional[str] = None) -> Optional[dict]:
+    """The fallback entry for a card id (preferred) or exact name."""
+    global _NAME_INDEX
+    names = card_names()
+    if card_id and card_id in names:
+        return names[card_id]
+    if not name:
+        return None
+    if _NAME_INDEX is None:
+        # Prefer non-golden base ids so a name maps to its normal version.
+        _NAME_INDEX = {}
+        for cid in sorted(names, key=lambda c: (c.endswith("_G"), c)):
+            _NAME_INDEX.setdefault(names[cid]["name"].lower(), names[cid])
+    return _NAME_INDEX.get(name.lower())

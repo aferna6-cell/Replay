@@ -140,7 +140,21 @@ def card_tribes(m, kb=None) -> Tuple[str, ...]:
                 return tuple(t for t in (canonicalize(x) for x in ck.tribes) if t)
         except Exception:
             pass
-    return _pool_tribes().get(str(name or "").lower(), ())
+    got = _pool_tribes().get(str(name or "").lower())
+    if got is not None:
+        return got
+    # Outside the live pool JSON: HearthstoneJSON fallback (Naga dropped).
+    try:
+        from .cards import fallback_card
+        fb = fallback_card(m.get("card_id") if isinstance(m, dict) else None, name)
+    except Exception:
+        fb = None
+    out = []
+    for r in (fb or {}).get("tribes") or []:
+        c = "All" if r == "All" else canonicalize(r)
+        if c:
+            out.append(c)
+    return tuple(out)
 
 
 @dataclass(frozen=True)

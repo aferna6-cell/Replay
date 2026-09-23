@@ -829,7 +829,10 @@ def _card_name(card_id: str) -> Optional[str]:
     try:
         from . import cards
         c = cards.load_kb().get(card_id)
-        return c.name if c else card_id
+        if c:
+            return c.name
+        fb = cards.fallback_card(card_id)
+        return fb["name"] if fb else card_id
     except Exception:
         return card_id
 
