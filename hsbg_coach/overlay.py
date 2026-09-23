@@ -108,6 +108,23 @@ def _short_move(line: str) -> str:
     if m2:
         return m2.group(1)
 
+    # Gallywix cycle: "Sell X, then buy Y — …"
+    m3 = re.match(
+        r"^(Sell .+?, then buy .+)(?: — |$)", stripped, re.IGNORECASE)
+    if m3:
+        return m3.group(1).strip()
+
+    # Hand items / Lens Case: keep Play … from hand (hero script why is short).
+    if stripped.lower().startswith("play ") and " from hand" in stripped.lower():
+        # Keep through first em-dash clause if present (effect why).
+        if " — " in stripped:
+            head, tail = stripped.split(" — ", 1)
+            # Keep a short why (hero script / generates …)
+            short_why = tail.split(" (")[0].strip()
+            if short_why:
+                return f"{head} — {short_why}"
+        return stripped
+
     # Buy with explicit sell-for-room in the reason — keep both names.
     # "Buy Foo (finish 3.8) — sell Bar for room — …" → "Buy Foo — sell Bar for room"
     if "sell " in stripped.lower() and " for room" in stripped.lower():

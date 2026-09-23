@@ -526,6 +526,27 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                             reason = mreason
                 except Exception:
                     pass
+                # Play into hero power / hero plan when HP is part of the game.
+                try:
+                    from .jeef_priors import hero_power_buy_adjust
+                    hadj, hreason = hero_power_buy_adjust(
+                        a, snapshot, kb, hero_ctx=hero_ctx)
+                    if hadj:
+                        v = max(1.0, min(8.0, v + hadj))
+                        if hreason and not tech_reason and reason == sa.reason:
+                            reason = hreason
+                except Exception:
+                    pass
+                # Gallywix (and similar): bias BUY for cycle churn.
+                try:
+                    from .hero_scripts import gallywix_buy_adjust
+                    gadj, greason = gallywix_buy_adjust(a, snapshot, kb)
+                    if gadj:
+                        v = max(1.0, min(8.0, v + gadj))
+                        if greason and not tech_reason and reason == sa.reason:
+                            reason = greason
+                except Exception:
+                    pass
                 # Soft trinket play-into prior: boost buys that match equipped
                 # trinket synergies (battlecry, deathrattle, tribe, …).
                 try:
@@ -596,6 +617,15 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                         v = min(8.0, v + demote)
                 except Exception:
                     pass
+                try:
+                    from .hero_scripts import gallywix_roll_adjust
+                    gadj, greason = gallywix_roll_adjust(snapshot, kb)
+                    if gadj:
+                        v = min(8.0, v + gadj)
+                        if greason:
+                            reason = greason
+                except Exception:
+                    pass
         elif a.kind == BUY_SPELL:
             # Spells don't change the board composition the eval net reads, so we
             # value them off base via spell_roles' placement bonus + the reason.
@@ -636,7 +666,9 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
         elif a.kind == HERO_POWER:
             from .jeef_priors import hero_power_adjust
             adj, preason = hero_power_adjust(snapshot, a.cost)
-            v = max(1.0, base + (adj if adj else -0.15))
+            if adj is None:
+                adj = -0.55
+            v = max(1.0, base + adj)
             if preason:
                 reason = preason
         elif a.kind == ACTIVATE:

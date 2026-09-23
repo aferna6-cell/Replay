@@ -44,6 +44,14 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # Strategic signals (threats / forming synergy / comp lean / anomaly) still
     # shape the RANKING inside rank_actions, but we don't print them as lines — the
     # overlay shows only the move(s), nothing else.
+    # Hero/hand contextual scripts FIRST so Lens Case / Gallywix cycle can be NEXT
+    # (generic shop EV alone left these silent).
+    try:
+        from .hero_scripts import hero_script_lines
+        for line in hero_script_lines(snapshot, kb=kb):
+            out.append(line)
+    except Exception:
+        pass
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
@@ -133,6 +141,13 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
     weakest = _mname(_sell_for_room_target(board, snapshot, kb)) if board else None
     out = []
     for m in minions:
+        # Hand MagicItems / Lens Case are owned by hero_scripts (avoid dup NEXT).
+        try:
+            from .hero_scripts import is_hand_playable_item
+            if is_hand_playable_item(m):
+                continue
+        except Exception:
+            pass
         name = m.get("name") or m.get("card_id") or "minion"
         if is_magnetic(m, kb):
             tgt = best_magnetize_target(board, kb)
@@ -178,7 +193,17 @@ def _is_choose_one(m, kb) -> bool:
 
 
 def _is_hand_minion(m) -> bool:
-    """A real, playable minion in hand (not a spell / the buy mechanic)."""
+    """A real, playable minion OR hand item (Lens Case / MagicItem) in hand.
+
+    Previously CARDTYPE!=MINION dropped MagicItems → Lens Case was never
+    suggested. Spells still go through hand_spells; DragBuy is ignored.
+    """
+    try:
+        from .hero_scripts import is_hand_playable_item
+        if is_hand_playable_item(m):
+            return True
+    except Exception:
+        pass
     tags = (m.get("tags") if isinstance(m, dict) else getattr(m, "tags", None)) or {}
     ctype = tags.get("CARDTYPE")
     if ctype and ctype != "MINION":

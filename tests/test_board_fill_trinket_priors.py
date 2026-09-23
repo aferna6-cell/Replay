@@ -311,3 +311,67 @@ def test_trinket_strategy_beats_meta_not_position():
                                 "turn": 6, "tavern_tier": 4, "gold": 5,
                                 "hero_health": 30}, None, lines)
     assert "NEXT → PICK Warcry Totem" in rich
+
+def test_hero_power_beats_roll_when_shop_mediocre():
+    """Usable HP + spare gold + mediocre shop → HP ranks above Roll."""
+    from hsbg_coach.actions import HERO_POWER, ROLL, BUY
+    from hsbg_coach.jeef_priors import hero_power_adjust, hero_power_buy_adjust
+    from hsbg_coach.economy import HeroContext
+    snap = {
+        "turn": 7, "tavern_tier": 4, "gold": 5, "hero_health": 28, "phase": "recruit",
+        "board": [
+            {"name": f"m{i}", "attack": 5, "health": 5, "tribes": ["Dragon"], "tier": 3}
+            for i in range(5)
+        ],
+        "shop": [
+            {"name": "trash", "attack": 1, "health": 1, "tribes": ["Pirate"], "tier": 1},
+            {"name": "meh", "attack": 2, "health": 2, "tribes": ["Beast"], "tier": 2},
+        ],
+        "hero_power": {
+            "name": "Brew", "cost": 1, "usable": True,
+            "text": "Give a Dragon +2/+2.",
+        },
+        "available_tribes": ["Beast", "Mech", "Pirate", "Dragon", "Murloc"],
+    }
+    adj, reason = hero_power_adjust(snap, 1)
+    assert adj < -0.5 and reason
+    recs = _rank(snap)
+    assert recs[0].action.kind == HERO_POWER, (
+        f"expected HP NEXT on mediocre shop, got {recs[0].action.kind}: {recs[0].reason}"
+    )
+    roll = next(r for r in recs if r.action.kind == ROLL)
+    hp = next(r for r in recs if r.action.kind == HERO_POWER)
+    assert hp.placement < roll.placement
+
+
+def test_on_plan_buy_can_still_beat_hero_power():
+    """Clear on-plan solid buy may outrank HP (don't spam HP over real pieces)."""
+    from hsbg_coach.actions import HERO_POWER, BUY
+    from hsbg_coach.jeef_priors import hero_power_buy_adjust
+    from hsbg_coach.economy import HeroContext
+    from hsbg_coach.actions import Action
+    from hsbg_coach.cards import load_kb
+    snap = {
+        "turn": 7, "tavern_tier": 4, "gold": 6, "hero_health": 28, "phase": "recruit",
+        "board": [
+            {"name": f"m{i}", "attack": 5, "health": 5, "tribes": ["Dragon"], "tier": 3}
+            for i in range(5)
+        ],
+        "shop": [
+            {"name": "solid", "attack": 7, "health": 7, "tribes": ["Dragon"], "tier": 4},
+            {"name": "trash", "attack": 1, "health": 1, "tribes": ["Pirate"], "tier": 1},
+        ],
+        "hero_power": {
+            "name": "Brew", "cost": 1, "usable": True,
+            "text": "Give a Dragon +2/+2.",
+        },
+        "available_tribes": ["Beast", "Mech", "Pirate", "Dragon", "Murloc"],
+    }
+    recs = _rank(snap)
+    assert recs[0].action.kind == BUY
+    assert recs[0].action.target == "solid"
+    ctx = HeroContext(hero="Test", target_tribe="dragon",
+                      recommended_minions=["solid"])
+    act = Action(BUY, target="solid", cost=3, detail={"minion": snap["shop"][0]})
+    badj, breason = hero_power_buy_adjust(act, snap, load_kb(), hero_ctx=ctx)
+    assert badj < 0 and breason and "hero" in breason.lower()

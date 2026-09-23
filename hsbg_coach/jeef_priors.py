@@ -117,26 +117,172 @@ def activate_adjust(snapshot, cost: int = 0) -> Tuple[float, Optional[str]]:
 
 
 def hero_power_adjust(snapshot, cost: int = 0) -> Tuple[float, Optional[str]]:
-    """Clickable hero power. Sparse labels (2 HP decisions); ASR still values it."""
+    """Clickable hero power — default lean is USE IT (Aidan playtest).
+
+    Soft but stronger than the old -0.35 Jeef nudge: midgame + mediocre shop
+    should put HP above Roll. Still skip/demote when dead (can't afford, wrong
+    phase) or when gold is tight and a clear stabilize/on-plan buy needs it.
+    """
     gold = int(_get(snapshot, "gold") or 0)
     turn = _get(snapshot, "turn")
+    phase = (_get(snapshot, "phase") or "recruit")
+    hp = _get(snapshot, "hero_power") or {}
     dg = _get(snapshot, "dark_gift") or {}
+    board = list(_get(snapshot, "board", []) or [])
+    shop = list(_get(snapshot, "shop", []) or [])
+
+    if isinstance(hp, dict) and hp.get("usable") is False:
+        return 0.25, "hero power not usable"
     if gold < cost:
-        return 0.0, None
-    adj = -0.35
-    reason = "Hero power ready — Jeef: click when usable"
+        return 0.30, None
+    if str(phase).lower() not in ("recruit", "unknown", ""):
+        return 0.20, None
+
+    # Baseline: lean click when usable (harder than prior -0.35 soft prior).
+    adj = -0.55
+    reason = "Hero power ready — use it"
+
+    # Midgame window: Aidan wants HP to actually win NEXT more often.
+    if turn is not None and 3 <= int(turn) <= 10:
+        adj -= 0.12
+        reason = "Hero power — midgame window, click it"
+
+    if cost == 0:
+        adj -= 0.15
+        reason = "Hero power (0g) — free click"
+
+    # Mediocre / empty shop → HP over endless rolling.
+    if _shop_looks_weak(shop, board) or not shop:
+        adj -= 0.15
+        reason = "Hero power — shop mediocre, click HP over rolling"
+
     # Same-turn gift+HP plan.
     if isinstance(dg, dict) and dg.get("usable"):
         dg_cost = int(dg.get("cost") or 3)
         if gold >= cost + dg_cost:
             adj -= 0.10
-            reason = "Hero power — Jeef: stack with Dark Gift"
-    if cost == 0:
-        adj -= 0.08
-        reason = "Hero power (0g) — free click"
+            reason = "Hero power — stack with Dark Gift"
+
+    # Don't spam when gold is tight and board needs a clear fill/on-plan buy.
+    try:
+        spare = gold - int(cost or 0)
+        needs_buy = False
+        if spare < 3 and shop_has_acceptable_fill(snapshot) and _board_is_sparse(snapshot):
+            needs_buy = True
+        if spare < 3 and shop_has_solid_midgame(snapshot):
+            needs_buy = True
+        if needs_buy:
+            adj += 0.35
+            reason = "Hero power OK — buy/stabilize first (gold tight after HP)"
+    except Exception:
+        pass
+
+    # Early expensive HP can wait for a first body.
     if turn is not None and int(turn) <= 2 and cost >= 3:
-        adj += 0.10  # early expensive HP can wait for board fill
+        adj += 0.20
+        if adj > -0.15:
+            reason = "Hero power — early expensive, board fill first"
+
+    # Low HP late: still fine to click if cheap; demote expensive fishing.
+    health = _get(snapshot, "hero_health")
+    if health is not None and int(health) <= 12 and cost >= 3 and len(board) < 4:
+        adj += 0.15
+
     return adj, reason
+
+
+def _hp_care_blob(snapshot, hero_ctx=None) -> str:
+    """Text-ish blob describing what the hero power / hero wants."""
+    bits = []
+    hp = _get(snapshot, "hero_power") or {}
+    if isinstance(hp, dict):
+        for k in ("text", "name"):
+            if hp.get(k):
+                bits.append(str(hp.get(k)))
+    if hero_ctx is not None:
+        for attr in ("target_tribe", "lean_reason", "hero"):
+            v = getattr(hero_ctx, attr, None)
+            if v:
+                bits.append(str(v))
+        for nm in getattr(hero_ctx, "recommended_minions", None) or []:
+            bits.append(str(nm))
+        for tr in getattr(hero_ctx, "available_tribes", None) or []:
+            pass  # lobby only — not HP care
+    return " ".join(bits).lower()
+
+
+def hero_power_buy_adjust(action, snapshot, kb=None, hero_ctx=None
+                          ) -> Tuple[float, Optional[str]]:
+    """Soft promote BUY that enables / payoffs the hero power or hero plan.
+
+    Negative = better. Fires when HP is usable (or we know the hero lean) and the
+    shop unit matches HP text / target tribe / recommended cores.
+    """
+    from .actions import BUY
+    if getattr(action, "kind", None) != BUY:
+        return 0.0, None
+    hp = _get(snapshot, "hero_power") or {}
+    usable = isinstance(hp, dict) and hp.get("usable")
+    blob = _hp_care_blob(snapshot, hero_ctx)
+    if not blob and not usable:
+        return 0.0, None
+    detail = getattr(action, "detail", None) or {}
+    minion = detail.get("minion")
+    if minion is None:
+        return 0.0, None
+
+    name = ""
+    tribes = []
+    keywords = []
+    if isinstance(minion, dict):
+        name = (minion.get("name") or "")
+        tribes = [str(t).lower() for t in (minion.get("tribes") or [])]
+        keywords = [str(k).lower().replace("_", " ")
+                    for k in (minion.get("keywords") or [])]
+        cid = minion.get("card_id")
+    else:
+        name = getattr(minion, "name", "") or ""
+        tribes = [str(t).lower() for t in (getattr(minion, "tribes", None) or [])]
+        keywords = [str(k).lower().replace("_", " ")
+                    for k in (getattr(minion, "keywords", None) or [])]
+        cid = getattr(minion, "card_id", None)
+
+    # Enrich from KB when live dict is thin.
+    if kb is not None and (not tribes or not keywords):
+        ck = None
+        if cid and cid in kb:
+            ck = kb[cid]
+        if ck is None and name:
+            from .cards import by_name
+            ck = by_name(kb).get(name)
+        if ck is not None:
+            tribes = tribes or [t.lower() for t in (ck.tribes or [])]
+            keywords = keywords or [k.lower().replace("_", " ")
+                                    for k in (ck.keywords or [])]
+
+    hits = []
+    # Recommended core for this hero.
+    rec = {n.lower() for n in (getattr(hero_ctx, "recommended_minions", None) or [])}
+    if name.lower() in rec:
+        hits.append("hero core")
+    target = (getattr(hero_ctx, "target_tribe", None) or "").lower()
+    if target and target in tribes:
+        hits.append(f"HP/hero {target}")
+    for tr in tribes:
+        if tr and tr in blob:
+            hits.append(f"HP cares about {tr}s")
+            break
+    for kw in ("battlecry", "deathrattle", "divine shield", "taunt", "reborn",
+               "magnetic", "avenge"):
+        if kw in blob and kw in keywords:
+            hits.append(f"HP cares about {kw}")
+            break
+
+    if not hits:
+        return 0.0, None
+    # Stronger when HP is actually clickable this turn.
+    boost = -0.28 if usable else -0.16
+    return boost, f"plays into hero power — {hits[0]}"
 
 
 def spell_prior_adjust(card_id: Optional[str], name: Optional[str]

@@ -108,8 +108,9 @@ def advise_actions(snapshot, kb=None, hero_ctx: Optional[HeroContext] = None,
         elif act.kind == HERO_POWER:
             from .jeef_priors import hero_power_adjust
             adj, reason = hero_power_adjust(snapshot, act.cost)
-            # priority: higher is better; placement adj is negative-better
-            prio = _clamp(0.55 - (adj or 0.0))
+            # priority: higher is better; placement adj is negative-better.
+            # Stronger baseline so usable HP can be NEXT in midgame windows.
+            prio = _clamp(0.62 - (adj if adj is not None else -0.55))
             scored.append(ScoredAction(
                 act, prio, reason or "hero power is available — using it is usually value"))
         elif act.kind == ACTIVATE:
