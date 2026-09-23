@@ -83,3 +83,24 @@ def test_gallywix_cycle_bias_emits_sell_buy_or_buy():
     # Compound sell+buy must survive overlay short form
     if "Sell" in adv[0] and "buy" in adv[0].lower():
         assert "Sell" in short and "buy" in short.lower(), short
+
+
+def test_duplicating_lens_in_hand_is_next():
+    """Lens Case token in hand must surface as Play NEXT (never silent)."""
+    kb = load_kb()
+    snap = {
+        "phase": "recruit", "turn": 7, "tavern_tier": 4, "gold": 4,
+        "hero_health": 28, "board": [
+            {"name": "a", "card_id": "a", "attack": 4, "health": 4},
+            {"name": "b", "card_id": "b", "attack": 4, "health": 4},
+        ],
+        "shop": [{"name": "x", "card_id": "x", "attack": 1, "health": 1}],
+        "hand": [{
+            "name": "Duplicating Lens",
+            "card_id": "BG35_MagicItem_817t",
+            "tags": {"CARDTYPE": "BATTLEGROUND_TRINKET"},
+        }],
+    }
+    assert is_hand_playable_item(snap["hand"][0])
+    lines = advice_lines(snap, kb, HeuristicScorer({}))
+    assert lines and "Duplicating Lens" in lines[0], lines[:3]
