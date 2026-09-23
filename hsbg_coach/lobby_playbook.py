@@ -12,7 +12,8 @@ Everything is derived from ``data/hsreplay_guides/comps.json`` (HSReplay tiers,
 36.6.1 pool. Naga and out-of-pool cards never appear. No comps are invented.
 
 The gates here REORDER ``rank_actions`` output (they change NEXT); they are not
-placement nudges. ``evaluate`` is pure given (snapshot, locked plan); the live
+placement nudges. The playbook is internal: the live overlay shows only NEXT
+and short alternates, never the phase state. ``evaluate`` is pure given (snapshot, locked plan); the live
 coach keeps the lock across snapshots for the rest of the game.
 """
 
@@ -27,7 +28,6 @@ from typing import Dict, List, Optional, Sequence, Tuple
 
 from .tribe_policy import (
     PATCH_TRIBES, QUARANTINED_TRIBES, canonicalize, filter_lobby_tribes,
-    is_flex_key,
 )
 
 PHASE_LOBBY = "lobby"        # tribes not detected yet (fallback ranking)
@@ -147,6 +147,7 @@ class CompInfo:
     triggers: Tuple[str, ...]       # when_to_commit ∪ enabler cards (live pool)
     cards: Tuple[str, ...]          # key ∪ core ∪ addon ∪ triggers (live pool)
     keys: Tuple[str, ...]           # key_names (live pool)
+    core: Tuple[str, ...] = ()      # post-commit hunt: key ∪ core ∪ triggers
 
     @property
     def tier_label(self) -> str:
@@ -188,20 +189,26 @@ def live_comp_infos() -> Tuple[CompInfo, ...]:
             if ln and ln not in trig:
                 trig.append(ln)
         keys = [k for k in (live(n) for n in c.get("key_names") or []) if k]
-        cards: List[str] = []
-        for group in ("key_cards", "core_cards", "addon_cards"):
+        core: List[str] = list(keys)
+        for group in ("key_cards", "core_cards"):
             for x in c.get(group) or []:
                 ln = live(x.get("name") if isinstance(x, dict) else x)
-                if ln and ln not in cards:
-                    cards.append(ln)
-        for n in keys + trig:
-            if n not in cards:
-                cards.append(n)
+                if ln and ln not in core:
+                    core.append(ln)
+        for n in trig:
+            if n not in core:
+                core.append(n)
+        cards: List[str] = list(core)
+        for x in c.get("addon_cards") or []:
+            ln = live(x.get("name") if isinstance(x, dict) else x)
+            if ln and ln not in cards:
+                cards.append(ln)
         if not trig and not cards:
             continue
         out.append(CompInfo(
             name=c["name"], tribe=tribe, tier=int(c.get("tier") or 9),
-            triggers=tuple(trig), cards=tuple(cards), keys=tuple(keys)))
+            triggers=tuple(trig), cards=tuple(cards), keys=tuple(keys),
+            core=tuple(core)))
     out.sort(key=lambda ci: (ci.tier, ci.name))
     return tuple(out)
 
@@ -486,14 +493,21 @@ def plan_comp(snapshot, kb=None) -> Optional[CompInfo]:
 # ---------------------------------------------------------------------------
 
 def is_on_plan(m, ci: CompInfo, kb=None) -> bool:
+    """HSReplay card of the locked comp, or a body of the comp's tribe.
+
+    Neutral "flex" keys and other tribes' enablers are NOT on-plan once
+    committed — Aidan: after the lock, hunt the comp, don't wander.
+    """
     n = _mname(m)
     if n and n in ci.cards:
         return True
     tribes = card_tribes(m, kb)
-    if ci.tribe in tribes or "All" in tribes:
-        return True
-    cid = m.get("card_id") if isinstance(m, dict) else getattr(m, "card_id", None)
-    return is_flex_key(n, cid, kb)
+    return ci.tribe in tribes or "All" in tribes
+
+
+def is_core_hunt(name: Optional[str], ci: CompInfo) -> bool:
+    """HSReplay core / key / commit-trigger card of the locked comp."""
+    return bool(name and name in ci.core)
 
 
 def is_plan_piece(m, ci: CompInfo) -> bool:
@@ -563,24 +577,19 @@ def apply_next_gates(recs, snapshot, kb=None, base: float = 4.5):
     """Reorder ranked recs so NEXT follows the playbook phase.
 
     FILL (not committed):
-      * a preloaded enabler buyable in shop ⇒ Buy it is NEXT (commit trigger)
+      * a preloaded enabler buyable in shop ⇒ Buy it is NEXT (commit trigger);
+        unaffordable ⇒ Freeze
       * garbage buy (not an acceptable fill) can't be NEXT when a fill buy exists
       * Roll can't be NEXT on sparse + solid shop (#93 gate, kept upstream)
-    COMMIT:
-      * a PLAN card buyable ⇒ it outranks an off-plan buy / roll at the top
-      * off-plan buy can't be NEXT when an on-plan buy exists
-      * selling a PLAN card can't be NEXT
+    COMMIT: see ``_committed_gates`` — hunt only the comp's core/key cards.
     """
-    from .actions import BUY, ROLL, SELL, FREEZE
+    from .actions import BUY
     if not recs:
         return recs
     st = state_of(snapshot, kb)
     if st is None:
         return recs
-    recs = list(recs)
-    recs.sort(key=lambda r: r.placement)
-    if _is_triple(recs[0]):
-        return recs
+    recs = sorted(recs, key=lambda r: r.placement)
 
     def find_buy(names):
         best = None
@@ -592,30 +601,13 @@ def apply_next_gates(recs, snapshot, kb=None, base: float = 4.5):
 
     ci = comp_by_name(st.plan) if st.committed else None
 
-    # Enabler / plan-key in shop → NEXT.
-    wanted_in_shop: List[str] = []
     if ci is not None:
-        # The trigger (if still in shop) leads, then commit triggers, then keys.
-        owned = {_mname(m) for m in (_get(snapshot, "board", []) or [])}
-        want: List[str] = []
-        for n in [st.trigger] + list(ci.triggers) + list(ci.keys):
-            if n and n not in owned and n not in want:
-                want.append(n)
-        shop_names = {_mname(m) for m in (_get(snapshot, "shop", []) or [])}
-        wanted_in_shop = [n for n in want if n in shop_names]
-        i = find_buy(want)
-        if i is not None:
-            n = _buy_target(recs[i])
-            tag = "commit trigger" if n in ci.triggers else "key"
-            why = f"PLAN {ci.name} — HSReplay {tag}"
-            # Hero power / Activate / Dark Gift / Level keep their slot post-commit.
-            if i == 0:
-                recs = _relabel(recs, 0, why)
-            elif recs[0].action.kind in (BUY, ROLL, FREEZE, SELL) and not (
-                    recs[0].action.kind == BUY and _buy_target(recs[0]) in ci.cards):
-                recs = _promote(recs, i, why, base)
-    elif st.shop_enablers:
-        wanted_in_shop = list(st.shop_enablers)
+        return _committed_gates(recs, snapshot, st, ci, kb, base)
+    if _is_triple(recs[0]):
+        return recs
+
+    # FILL: a preloaded enabler in shop → Buy it is NEXT (the commit trigger).
+    if st.shop_enablers:
         i = find_buy(st.shop_enablers)
         if i is not None:
             n = _buy_target(recs[i])
@@ -623,59 +615,107 @@ def apply_next_gates(recs, snapshot, kb=None, base: float = 4.5):
             label = hit[0].name if hit else "HSReplay comp"
             why = f"ENABLER {n} — HSReplay commit trigger ({label})"
             recs = _relabel(recs, 0, why) if i == 0 else _promote(recs, i, why, base)
-    if wanted_in_shop and not any(
-            r.action.kind == BUY and _buy_target(r) in wanted_in_shop for r in recs):
-        # Can't afford it: keep it with Freeze rather than rolling it away.
-        if int(_get(snapshot, "gold") or 0) < 3:
-            fi = next((k for k, r in enumerate(recs) if r.action.kind == FREEZE), None)
-            if fi is not None and fi != 0:
-                recs = _promote(recs, fi, f"freeze — keep {wanted_in_shop[0]} for "
-                                f"next turn (HSReplay enabler/key)", base)
+        else:
+            recs = _freeze_for(recs, snapshot, st.shop_enablers, base)
 
+    # FILL: no garbage — a buy that isn't an acceptable fill can't lead
+    # while an acceptable-fill buy is on offer.
     top = recs[0]
-    if ci is not None:
-        # Off-plan buy on top while an on-plan buy exists → on-plan leads.
-        if top.action.kind == BUY and not _is_triple(top):
-            m = _buy_minion(top) or _buy_target(top)
-            if not is_on_plan(m, ci, kb):
-                alt = [k for k, r in enumerate(recs)
-                       if r.action.kind == BUY and is_on_plan(
-                           _buy_minion(r) or _buy_target(r), ci, kb)]
+    if top.action.kind == BUY and not _is_triple(top):
+        try:
+            from .jeef_priors import shop_unit_is_acceptable_fill
+            m = _buy_minion(top)
+            if m is not None and not _is_tech(m) and \
+                    not shop_unit_is_acceptable_fill(m, snapshot, kb):
+                alt = [k for k, r in enumerate(recs) if r.action.kind == BUY
+                       and _buy_minion(r) is not None
+                       and shop_unit_is_acceptable_fill(_buy_minion(r), snapshot, kb)]
                 if alt:
-                    k = alt[0]
-                    recs = _promote(recs, k,
-                                    f"PLAN {ci.name} — on-plan buy over off-plan "
+                    recs = _promote(recs, alt[0],
+                                    f"FILL — solid body over garbage "
                                     f"{_buy_target(top)}", base)
-        # Never lead with selling a named PLAN card.
-        top = recs[0]
-        if top.action.kind == SELL:
-            m = (getattr(top.action, "detail", None) or {}).get("minion") \
-                or _buy_target(top)
-            if is_plan_piece(m, ci) and len(recs) > 1:
-                from .game_value import WholeGameRec
-                demoted = WholeGameRec(top.action, round(recs[1].placement + 0.05, 2),
-                                       f"keep {_mname(m)} — PLAN {ci.name} piece",
-                                       round(base - recs[1].placement - 0.05, 2))
-                recs = [demoted] + recs[1:]
-                recs.sort(key=lambda r: r.placement)
-    else:
-        # FILL: no garbage — a buy that isn't an acceptable fill can't lead
-        # while an acceptable-fill buy is on offer.
-        if top.action.kind == BUY and not _is_triple(top):
-            try:
-                from .jeef_priors import shop_unit_is_acceptable_fill
-                m = _buy_minion(top)
-                if m is not None and not _is_tech(m) and \
-                        not shop_unit_is_acceptable_fill(m, snapshot, kb):
-                    alt = [k for k, r in enumerate(recs) if r.action.kind == BUY
-                           and _buy_minion(r) is not None
-                           and shop_unit_is_acceptable_fill(_buy_minion(r), snapshot, kb)]
-                    if alt:
-                        recs = _promote(recs, alt[0],
-                                        f"FILL — solid body over garbage "
-                                        f"{_buy_target(top)}", base)
-            except Exception:
-                pass
+        except Exception:
+            pass
+    return recs
+
+
+def _freeze_for(recs, snapshot, names: Sequence[str], base: float):
+    """Wanted card in shop but unaffordable ⇒ Freeze leads (don't roll it away)."""
+    from .actions import BUY, FREEZE
+    if not names or any(r.action.kind == BUY and _buy_target(r) in names for r in recs):
+        return recs
+    if int(_get(snapshot, "gold") or 0) >= 3:
+        return recs
+    fi = next((k for k, r in enumerate(recs) if r.action.kind == FREEZE), None)
+    if fi is not None and fi != 0:
+        recs = _promote(recs, fi, f"freeze — keep {names[0]} for next turn "
+                        f"(HSReplay enabler/key)", base)
+    return recs
+
+
+def _committed_gates(recs, snapshot, st: "PlaybookState", ci: CompInfo, kb, base):
+    """PLAN locked: hunt ONLY the comp's HSReplay core / key / trigger cards.
+
+      1. a core/key/trigger buy in shop is NEXT (over roll, level, HP, fills)
+      2. unaffordable core card in shop ⇒ Freeze is NEXT
+      3. off-plan buys (other tribes, neutral flex, other comps' enablers) are
+         pushed below every other action — never NEXT, never the first alt
+      4. selling a named PLAN card is never NEXT
+    """
+    from .actions import BUY, SELL
+    from .game_value import WholeGameRec
+
+    owned = {_mname(m) for m in (_get(snapshot, "board", []) or [])}
+    owned |= {_mname(m) for m in (_get(snapshot, "hand", []) or [])}
+    order: List[str] = []
+    for n in [st.trigger] + list(ci.triggers) + list(ci.core):
+        if n and n in ci.core and n not in order:
+            order.append(n)
+    # Unowned pieces first; a second copy (triple progress) after.
+    order = [n for n in order if n not in owned] + [n for n in order if n in owned]
+    rank = {n: k for k, n in enumerate(order)}
+
+    hunt = [k for k, r in enumerate(recs)
+            if r.action.kind == BUY and _buy_target(r) in rank]
+    if hunt and not _is_triple(recs[0]):
+        i = min(hunt, key=lambda k: (rank[_buy_target(recs[k])], recs[k].placement))
+        n = _buy_target(recs[i])
+        tag = "commit trigger" if n in ci.triggers else "core/key"
+        why = f"PLAN {ci.name} — HSReplay {tag}"
+        recs = _relabel(recs, 0, why) if i == 0 else _promote(recs, i, why, base)
+    elif not hunt:
+        shop_names = {_mname(m) for m in (_get(snapshot, "shop", []) or [])}
+        recs = _freeze_for(recs, snapshot, [n for n in order if n in shop_names], base)
+
+    # Off-plan buys sink below every other action.
+    def off_plan(r) -> bool:
+        if r.action.kind != BUY or _is_triple(r):
+            return False
+        return not is_on_plan(_buy_minion(r) or _buy_target(r), ci, kb)
+
+    others = [r.placement for r in recs if not off_plan(r)]
+    if others:
+        floor = max(others)
+        out = []
+        for r in recs:
+            if off_plan(r):
+                p = round(max(r.placement, floor + 0.05), 2)
+                out.append(WholeGameRec(r.action, p,
+                                        f"off-plan — PLAN {ci.name} hunts its core",
+                                        round(base - p, 2)))
+            else:
+                out.append(r)
+        recs = sorted(out, key=lambda r: r.placement)
+
+    # Never lead with selling a named PLAN card.
+    top = recs[0]
+    if top.action.kind == SELL and len(recs) > 1:
+        m = (getattr(top.action, "detail", None) or {}).get("minion") or _buy_target(top)
+        if is_plan_piece(m, ci):
+            p = round(recs[1].placement + 0.05, 2)
+            recs = [WholeGameRec(top.action, p, f"keep {_mname(m)} — PLAN {ci.name} piece",
+                                 round(base - p, 2))] + recs[1:]
+            recs.sort(key=lambda r: r.placement)
     return recs
 
 
@@ -717,7 +757,11 @@ def _short(name: str) -> str:
 
 
 def overlay_lines(snapshot, kb=None, st: Optional[PlaybookState] = None) -> List[str]:
-    """Phase header for the overlay (LOBBY / ENABLERS / FILL or PLAN / NEED)."""
+    """Phase summary (LOBBY / ENABLERS / FILL or PLAN / NEED) for debugging.
+
+    NOT shown on the live overlay — Aidan wants the playbook to change NEXT
+    silently, with no strategy chrome. Kept for tests / ad-hoc inspection.
+    """
     st = st or state_of(snapshot, kb)
     if st is None:
         return []

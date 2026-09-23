@@ -506,7 +506,10 @@ _SOLID_TIER_GAP = 1        # shop tier within 1 of tavern counts as on-curve
 
 def _direction_for(snapshot, kb=None):
     try:
-        from .tribe_policy import soft_lean_tribe, infer_direction
+        from .tribe_policy import soft_lean_tribe, infer_direction, plan_tribe
+        locked = plan_tribe(snapshot)        # lobby playbook PLAN lock wins
+        if locked:
+            return locked
         board = list(_get(snapshot, "board", []) or [])
         avail = _get(snapshot, "available_tribes")
         lean, _ = soft_lean_tribe(board, available_tribes=avail, kb=kb,

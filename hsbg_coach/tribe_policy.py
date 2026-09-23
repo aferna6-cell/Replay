@@ -238,6 +238,15 @@ def card_tier(minion, kb=None) -> Optional[int]:
     return int(ck.tier) if ck and ck.tier else None
 
 
+def plan_tribe(snapshot) -> Optional[str]:
+    """Tribe of the lobby playbook's locked PLAN comp, if committed."""
+    pb = (snapshot.get("playbook") if isinstance(snapshot, dict)
+          else getattr(snapshot, "playbook", None))
+    if isinstance(pb, dict) and pb.get("phase") == "commit" and pb.get("plan"):
+        return canonicalize(pb.get("plan_tribe"))
+    return None
+
+
 def direction_buy_penalty(minion, snapshot, kb=None,
                           direction: Optional[str] = None) -> Tuple[float, Optional[str]]:
     """Placement penalty (higher = worse) for a BUY that fights tribal direction.
@@ -254,7 +263,8 @@ def direction_buy_penalty(minion, snapshot, kb=None,
     if isinstance(snapshot, dict):
         hero_target = snapshot.get("target_tribe") or snapshot.get("build_tribe")
 
-    direction = direction or infer_direction(
+    # A locked HSReplay PLAN (lobby_playbook) IS the direction.
+    direction = direction or plan_tribe(snapshot) or infer_direction(
         board, available, kb=kb, hero_target=hero_target,
         shop=(snapshot.get("shop") if isinstance(snapshot, dict) else None))
 

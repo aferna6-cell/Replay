@@ -12,6 +12,7 @@ via the recorder, so every game you play becomes training data for the eval net
 separate so the live/threaded path doesn't disturb the proven offline path.)
 """
 
+import re
 import threading
 from typing import List, Optional, Tuple
 
@@ -52,6 +53,10 @@ def advice_lines(snapshot: dict, kb, scorer=None,
             out.append(line)
     except Exception:
         pass
+    # PLAN locked: a hero-guide "Buy X" for an off-plan card must not lead.
+    plan = _plan_comp(snapshot, kb)
+    if plan is not None:
+        out = [ln for ln in out if not _off_plan_buy_line(ln, plan, kb)]
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
@@ -83,7 +88,11 @@ def advice_lines(snapshot: dict, kb, scorer=None,
             continue  # decide after pass whether to re-add
         shown.append(r)
     gold = snapshot.get("gold")
-    if gold is not None and int(gold) <= 0 and not freeze_kept:
+    if plan is not None and recs and recs[0].action.kind == END:
+        # Committed and nothing on-plan to do: say pass rather than letting an
+        # off-plan buy surface as NEXT.
+        shown.insert(0, recs[0])
+    elif gold is not None and int(gold) <= 0 and not freeze_kept:
         # Prefer End Turn over a weak Sell when the shop is not freeze-worthy.
         end = next((r for r in recs if r.action.kind == END), None)
         if end is not None:
@@ -94,6 +103,23 @@ def advice_lines(snapshot: dict, kb, scorer=None,
             line += f" — {r.reason}"
         out.append(line)
     return out
+
+
+def _plan_comp(snapshot, kb):
+    try:
+        from .lobby_playbook import plan_comp
+        return plan_comp(snapshot, kb)
+    except Exception:
+        return None
+
+
+def _off_plan_buy_line(line: str, plan, kb) -> bool:
+    """'Buy X …' advice for a card outside the locked HSReplay comp."""
+    m = re.match(r"^Buy (.+?)(?: \(| — |$)", line or "")
+    if not m:
+        return False
+    from .lobby_playbook import is_on_plan
+    return not is_on_plan(m.group(1).strip(), plan, kb)
 
 
 _MAX_BG_BOARD = 7
@@ -348,7 +374,8 @@ class LiveCoach:
 
     def __init__(self, power_log: Optional[str] = None,
                  hero_ctx: Optional[HeroContext] = None,
-                 recorder=None, from_start: bool = False, top: int = 6):
+                 recorder=None, from_start: bool = False, top: int = 6,
+                 strategy_header: bool = False):
         self.power_log = power_log
         self.hero_ctx = hero_ctx
         self._hero_ctx_auto = hero_ctx is None   # auto-build from the detected hero
@@ -358,6 +385,7 @@ class LiveCoach:
         self.recorder = recorder
         self.from_start = from_start
         self.top = top
+        self.strategy_header = strategy_header   # debug only; off on the overlay
         self.tracker = BGTracker()
         self.kb = cards.load_kb()
         self.scorer = get_scorer()
@@ -465,7 +493,7 @@ class LiveCoach:
         name, comp = hit
         if not self._plan:
             self._plan, self._plan_trigger = comp, name
-        head = f"PICK {name} — HSReplay enabler: PLAN → {comp}"
+        head = f"PICK {name} — HSReplay enabler ({comp})"
         rest = [l for l in lines if not l.startswith(f"PICK {name}")]
         rest = [("alt: " + l[5:]) if l.startswith("PICK ") else l for l in rest]
         return [head] + rest[:2]
@@ -591,7 +619,9 @@ class LiveCoach:
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
             self._cache_odds = _combat_odds_for(snap)
-            self._cache_note = build_note_for(snap, self.kb, self.hero_ctx)
+            # Quiet overlay: the playbook only changes NEXT; no strategy header.
+            self._cache_note = (build_note_for(snap, self.kb, self.hero_ctx)
+                                if self.strategy_header else None)
             self._cache_key = key
             self._sync_seq += 1            # a real state change was ingested
         # Tag the snapshot with the sync counter so the panel can show that the

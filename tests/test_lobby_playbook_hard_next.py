@@ -6,9 +6,10 @@ Proves (all from committed HSReplay data under data/hsreplay_guides/):
      no Naga / out-of-pool)
   3. Before commit: fill beats roll on a solid shop; garbage can't lead
   4. Enabler in shop ⇒ Buy it is NEXT and PLAN → {comp} locks
-  5. After the lock, NEXT prefers the HSReplay comp over off-plan buys and the
-     live coach keeps the lock for the rest of the game
-  6. Overlay shows the phase: LOBBY / ENABLERS / FILL, then PLAN / NEED
+  5. After the lock, NEXT hunts ONLY the comp's HSReplay core/key cards:
+     core buys lead, off-plan buys are never NEXT or the first alternate, and
+     the live coach keeps the lock for the rest of the game
+  6. The overlay stays quiet: no LOBBY / ENABLERS / FILL / PLAN / NEED lines
 """
 from __future__ import annotations
 
@@ -300,28 +301,89 @@ def test_live_coach_keeps_plan_after_enabler_leaves_shop():
     assert fresh["playbook"]["plan"] is None
 
 
+def test_after_lock_core_buy_beats_level_and_roll():
+    """Core card up ⇒ it is NEXT even with gold to level (economy waits)."""
+    snap = _committed_snap()
+    snap.update(gold=10, turn=6, tavern_tier=3)
+    snap["shop"] = [_m("Big Mech", 9, 9, "Mech", 3),
+                    {"name": "Headhunter Gryphon", "attack": 4, "health": 4,
+                     "tribes": ["Beast"], "tier": 4}]
+    recs = _rank(snap)
+    assert recs[0].action.kind == BUY
+    assert recs[0].action.target == "Headhunter Gryphon", [r.line() for r in recs[:3]]
+    assert "core/key" in recs[0].reason or "commit trigger" in recs[0].reason
+
+
+def test_after_lock_off_plan_is_never_next_or_first_alt():
+    """Off-tribe fills, neutral flex and other tribes' enablers don't lead once
+    committed — roll/level/economy do when nothing on-plan is up."""
+    snap = _committed_snap()
+    snap["board"] = snap["board"][:2]            # sparse board: still no wander
+    snap["shop"] = [
+        _m("Big Mech", 12, 12, "Mech", 4),
+        {"name": "Wrath Weaver", "attack": 1, "health": 4, "tribes": ["Demon"], "tier": 1},
+        {"name": "Brann Bronzebeard", "attack": 2, "health": 4, "tribes": [], "tier": 5},
+    ]
+    recs = _rank(snap)
+    off = {"Big Mech", "Wrath Weaver", "Brann Bronzebeard"}
+    assert not (recs[0].action.kind == BUY and recs[0].action.target in off), \
+        [r.line() for r in recs[:3]]
+    first_buy = next(i for i, r in enumerate(recs) if r.action.kind == BUY)
+    non_buy = [i for i, r in enumerate(recs) if r.action.kind != BUY]
+    assert first_buy > max(non_buy), [r.line() for r in recs]
+    assert "off-plan" in recs[first_buy].reason
+
+
+def test_after_lock_advice_lines_lead_with_the_hunt():
+    from hsbg_coach.live import advice_lines
+    snap = _committed_snap()
+    lines = advice_lines(snap, kb=None, scorer=SC)
+    assert lines[0].startswith("Buy Turquoise Skitterer"), lines[:3]
+    snap["shop"] = [_m("Big Mech", 12, 12, "Mech", 4)]
+    lines = advice_lines(snap, kb=None, scorer=SC)
+    assert not lines[0].startswith("Buy Big Mech"), lines[:3]
+    assert not any(ln.startswith("Buy Big Mech") for ln in lines[:2]), lines[:3]
+
+
 # --------------------------------------------------------------- 6. OVERLAY
 
-def test_overlay_shows_lobby_enablers_fill_then_plan():
+_PHASE_TAGS = ("LOBBY →", "ENABLERS →", "FILL →", "COMMIT →", "PLAN →",
+               "NEED →", "HERO →")
+
+
+def test_overlay_has_no_phase_chrome():
     fill = {
         "turn": 3, "tavern_tier": 2, "gold": 5, "phase": "recruit",
         "available_tribes": LOBBY,
         "board": [_m("mech_a", 2, 3, "Mech", 1)],
         "shop": [_m("solid", 3, 4, "Murloc", 2)],
     }
+    for snap in (fill, _enabler_snap(), _committed_snap()):
+        # Even if a debug note leaks into the snapshot, the overlay drops it.
+        note = build_note_for(snap)
+        text = format_next(dict(snap, build_note=note), None,
+                           ["Buy solid (finish 5.0) — x", "Roll", "Tier up"])
+        for tag in _PHASE_TAGS:
+            assert tag not in text, text
+        assert text.startswith("→ Buy solid"), text
+
+
+def test_live_coach_attaches_no_strategy_header_by_default():
+    import inspect
+    from hsbg_coach.live import LiveCoach
+    sig = inspect.signature(LiveCoach.__init__)
+    assert sig.parameters["strategy_header"].default is False
+
+
+def test_playbook_summary_still_available_for_debugging():
+    """The phase machine itself still runs (internal state), just not shown."""
+    lines = overlay_lines(dict(_enabler_snap()))
+    assert lines[0].startswith("PLAN → Beasts - Beetles"), lines
+    fill = {"turn": 3, "tavern_tier": 2, "gold": 5, "phase": "recruit",
+            "available_tribes": LOBBY, "board": [], "shop": []}
     lines = overlay_lines(fill)
     assert lines[0].startswith("LOBBY → Beast(S) > Demon(S)"), lines
     assert lines[1].startswith("ENABLERS → Beast: Ravaging Scorpid"), lines
-    assert any(ln.startswith("FILL →") for ln in lines), lines
-
-    note = build_note_for(fill)
-    text = format_next(dict(fill, build_note=note), None, ["Buy solid (finish 5.0) — x"])
-    assert "LOBBY →" in text and "ENABLERS →" in text and "FILL →" in text
-    assert "building: LOBBY" not in text
-
-    committed = build_note_for(_enabler_snap())
-    assert committed.startswith("PLAN → Beasts - Beetles"), committed
-    assert "NEED →" in committed
 
 
 def test_unknown_lobby_still_ranks_and_reports():
