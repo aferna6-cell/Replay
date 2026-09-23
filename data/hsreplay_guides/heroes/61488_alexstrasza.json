@@ -1,0 +1,51 @@
+{
+  "id": 61488,
+  "dbf_id": 61488,
+  "name": "Alexstrasza",
+  "card_id": "TB_BaconShop_HERO_56",
+  "slug": "alexstrasza",
+  "guide_text": "You must level to 4 on turn 5 on this hero! Either level to tavern 3 on turn 3 or turn 4 and then level to 4 on turn 5. Start hero powering every turn starting from turn 5. Even though you may start the game at low HP, you have to start getting your dragons up early on.",
+  "buddy_guide_text": "Buddy up when it costs 5-7 gold, because it's a value generating buddy, so you need it as soon as possible",
+  "favorable_tribes": [
+    24
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Start hero powering every turn starting from turn 5."
+    ],
+    "cycle": [
+      "Buddy up when it costs 5-7 gold, because it's a value generating buddy, so you need it as soon as possible"
+    ],
+    "buy_prefs": [
+      "You must level to 4 on turn 5 on this hero!",
+      "Either level to tavern 3 on turn 3 or turn 4 and then level to 4 on turn 5.",
+      "Even though you may start the game at low HP, you have to start getting your dragons up early on."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/61488/alexstrasza",
+  "stats": {
+    "hero_dbf_id": 61488,
+    "pick_rate": 33.27,
+    "avg_final_placement": 4.1,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      20.57,
+      14.06,
+      11.89,
+      10.67,
+      9.47,
+      10.07,
+      11.0,
+      12.27
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

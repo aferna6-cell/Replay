@@ -1,0 +1,45 @@
+{
+  "id": 61912,
+  "dbf_id": 61912,
+  "name": "Kael'thas Sunstrider",
+  "card_id": "TB_BaconShop_HERO_60",
+  "slug": "kael-thas-sunstrider",
+  "guide_text": "This hero power isn't strong enough to play into, so just play normally and enjoy occasional free gold.",
+  "buddy_guide_text": "This buddy makes Nomi and Shop Buff Demon compositions better, but they're hard to force.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "This hero power isn't strong enough to play into, so just play normally and enjoy occasional free gold."
+    ],
+    "cycle": [
+      "This buddy makes Nomi and Shop Buff Demon compositions better, but they're hard to force."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/61912/kael-thas-sunstrider",
+  "stats": {
+    "hero_dbf_id": 61912,
+    "pick_rate": 17.07,
+    "avg_final_placement": 4.313,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.98,
+      13.19,
+      13.68,
+      13.78,
+      12.25,
+      13.35,
+      11.78,
+      8.99
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": 71908,
+  "dbf_id": 71908,
+  "name": "Master Nguyen",
+  "card_id": "BG20_HERO_202",
+  "slug": "master-nguyen",
+  "guide_text": "Early game go for hero powers that give you a gold or buy minions for cheap, late game hope for combat heroes such as Drekthar or Vandar.",
+  "buddy_guide_text": "Buddy up for 5+ gold. Early on, picking the better buddy is usually more important than picking the better hero power. Hope you can remember them all!",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Early game go for hero powers that give you a gold or buy minions for cheap, late game hope for combat heroes such as Drekthar or Vandar."
+    ],
+    "cycle": [
+      "Buddy up for 5+ gold. Early on, picking the better buddy is usually more important than picking the better hero power. Hope you can remember them all!"
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/71908/master-nguyen",
+  "stats": {
+    "hero_dbf_id": 71908,
+    "pick_rate": 60.16,
+    "avg_final_placement": 4.314,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.96,
+      12.53,
+      11.94,
+      11.97,
+      12.34,
+      12.38,
+      12.26,
+      10.6
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

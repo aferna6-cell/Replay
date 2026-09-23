@@ -1,0 +1,46 @@
+{
+  "id": 58044,
+  "dbf_id": 58044,
+  "name": "Lich Baz'hial",
+  "card_id": "TB_BaconShop_HERO_25",
+  "slug": "lich-baz-hial",
+  "guide_text": "Definitely hero power + buy spell on turn 1 if you can, level on turn 2, and hero power + buy on turn 3. You don't have to hero power after that unless you really need the gold.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. Extremely mediocre buddy.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Definitely hero power + buy spell on turn 1 if you can, level on turn 2, and hero power + buy on turn 3.",
+      "You don't have to hero power after that unless you really need the gold."
+    ],
+    "cycle": [
+      "Buddy up for at most 3 gold. Extremely mediocre buddy."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/58044/lich-baz-hial",
+  "stats": {
+    "hero_dbf_id": 58044,
+    "pick_rate": 23.17,
+    "avg_final_placement": 4.173,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.0,
+      13.74,
+      14.55,
+      13.95,
+      12.58,
+      12.34,
+      11.15,
+      7.67
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

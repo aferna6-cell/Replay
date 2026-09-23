@@ -137,6 +137,12 @@ def hero_script_lines(snapshot, kb=None) -> List[str]:
     lines: List[str] = []
     lines.extend(hand_item_play_lines(snapshot))
     lines.extend(gallywix_cycle_lines(snapshot, kb=kb))
+    # HSReplay How-to-Play / Hero Guide (ingested) — HP / cycle / buy prefs.
+    try:
+        from .hsreplay_guides import hero_guide_lines
+        lines.extend(hero_guide_lines(snapshot, kb=kb))
+    except Exception:
+        pass
     return lines
 
 

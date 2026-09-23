@@ -1,0 +1,43 @@
+{
+  "id": 129173,
+  "dbf_id": 129173,
+  "name": "Morchie",
+  "card_id": "BG34_HERO_004",
+  "slug": "morchie",
+  "guide_text": "This hero really likes value generating timewarps on turn 5, such as Tavern Tipper and Valestraz.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "This hero really likes value generating timewarps on turn 5, such as Tavern Tipper and Valestraz."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/129173/morchie",
+  "stats": {
+    "hero_dbf_id": 129173,
+    "pick_rate": 62.15,
+    "avg_final_placement": 4.143,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.98,
+      13.7,
+      12.21,
+      11.89,
+      11.59,
+      11.44,
+      11.31,
+      9.87
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": 103500,
+  "dbf_id": 103500,
+  "name": "Inge, the Iron Hymn",
+  "card_id": "BG26_HERO_102",
+  "slug": "inge-the-iron-hymn",
+  "guide_text": "Use your hero for some free stats to save HP and play the game as Patchwerk 2.0.",
+  "buddy_guide_text": "Buddy up for 3-5 gold, and your gameplan is around hero powering the buddy every turn. Buff it in the midgame as much as possible, using Quilboars or other single target effects.",
+  "favorable_tribes": [
+    17
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Use your hero for some free stats to save HP and play the game as Patchwerk 2.0."
+    ],
+    "cycle": [
+      "Buddy up for 3-5 gold, and your gameplan is around hero powering the buddy every turn. Buff it in the midgame as much as possible, using Quilboars or other single target effects."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/103500/inge-the-iron-hymn",
+  "stats": {
+    "hero_dbf_id": 103500,
+    "pick_rate": 26.05,
+    "avg_final_placement": 4.121,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.51,
+      13.3,
+      14.53,
+      15.11,
+      14.61,
+      13.13,
+      10.38,
+      5.43
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": 68129,
+  "dbf_id": 68129,
+  "name": "Guff Runetotem",
+  "card_id": "BG20_HERO_242",
+  "slug": "guff-runetotem",
+  "guide_text": "This hero is the best with cycle tribes, because the hero power benefits from you buying a ton of cards. These tribes include Pirates, Elementals, and Murlocs, and try to play one of these compositions.",
+  "buddy_guide_text": "Buddy up on either turn 6 or turn 7. This'll allow you to see an early 5 drop and 6 drop that determine your direction.",
+  "favorable_tribes": [
+    14,
+    18,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "This hero is the best with cycle tribes, because the hero power benefits from you buying a ton of cards."
+    ],
+    "cycle": [
+      "Buddy up on either turn 6 or turn 7. This'll allow you to see an early 5 drop and 6 drop that determine your direction."
+    ],
+    "buy_prefs": [
+      "These tribes include Pirates, Elementals, and Murlocs, and try to play one of these compositions."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/68129/guff-runetotem",
+  "stats": {
+    "hero_dbf_id": 68129,
+    "pick_rate": 33.93,
+    "avg_final_placement": 4.598,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.51,
+      10.99,
+      10.67,
+      10.76,
+      12.12,
+      12.9,
+      14.13,
+      13.92
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

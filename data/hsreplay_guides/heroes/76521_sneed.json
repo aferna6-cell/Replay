@@ -1,0 +1,46 @@
+{
+  "id": 76521,
+  "dbf_id": 76521,
+  "name": "Sneed",
+  "card_id": "BG21_HERO_030",
+  "slug": "sneed",
+  "guide_text": "You have the option to reborn the buddy with [[Prosthetic Hand||112364]] and summon scam such as [[Heroic Underdog||126966]] or [[Leeroy, the Reckless||90425]].",
+  "buddy_guide_text": "Best used for deathrattle comps such as [[Carapace Raiser]] Undeads or [[Goldrinn, the Great Wolf||59955]] Beasts. Otherwise, you may copy Leeroy's deathrattle + Buddy for scam.",
+  "favorable_tribes": [
+    14
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "You have the option to reborn the buddy with [[Prosthetic Hand||112364]] and summon scam such as [[Heroic Underdog||126966]] or [[Leeroy, the Reckless||90425]].",
+      "Best used for deathrattle comps such as [[Carapace Raiser]] Undeads or [[Goldrinn, the Great Wolf||59955]] Beasts. Otherwise, you may copy Leeroy's deathrattle + Buddy for scam."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/76521/sneed",
+  "stats": {
+    "hero_dbf_id": 76521,
+    "pick_rate": 17.24,
+    "avg_final_placement": 4.329,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.29,
+      12.48,
+      14.72,
+      14.18,
+      14.87,
+      13.51,
+      11.27,
+      7.67
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

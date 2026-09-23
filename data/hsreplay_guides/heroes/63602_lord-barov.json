@@ -1,0 +1,45 @@
+{
+  "id": 63602,
+  "dbf_id": 63602,
+  "name": "Lord Barov",
+  "card_id": "TB_BaconShop_HERO_72",
+  "slug": "lord-barov",
+  "guide_text": "To win your bets, early on generally bet against the person on higher tavern tier. In terms of using your coins, usually hold your coins to start using on tavern 4. Don't buy trash!",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "To win your bets, early on generally bet against the person on higher tavern tier.",
+      "In terms of using your coins, usually hold your coins to start using on tavern 4.",
+      "Don't buy trash!"
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/63602/lord-barov",
+  "stats": {
+    "hero_dbf_id": 63602,
+    "pick_rate": 30.03,
+    "avg_final_placement": 4.253,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.41,
+      13.63,
+      12.16,
+      11.92,
+      11.83,
+      11.25,
+      11.71,
+      11.11
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

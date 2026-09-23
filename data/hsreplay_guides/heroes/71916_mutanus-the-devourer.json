@@ -1,0 +1,45 @@
+{
+  "id": 71916,
+  "dbf_id": 71916,
+  "name": "Mutanus the Devourer",
+  "card_id": "BG20_HERO_301",
+  "slug": "mutanus-the-devourer",
+  "guide_text": "Shop Buff Elementals are slightly better with this hero, but in general just play normally.",
+  "buddy_guide_text": "On turn 3, use your hero power and spells to make the biggest unit as possible. Have it as the only minion on your board. On turn 4, buddy up, and eat that unit onto your buddy. On turn 5, eat your buddy onto 2 minions, and leave those units as the only minions on board.. On turn 6, eat one of the minions onto the other. On turn 7, buddy up, and eat your big unit onto your buddy again, then play one other unit. On turn 8, eat your buddy onto one other unit and the other buddy. On turn 9, you can either eat the one other minion onto the buddy again, or just eat the buddy, depending on how good your spot is. After that, fill in the rest of your board with poison scam.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "On turn 3, use your hero power and spells to make the biggest unit as possible. Have it as the only minion on your board. On turn 4, buddy up, and eat that unit onto your buddy. On turn 5, eat your buddy onto 2 minions, and leave those units as the only minions on board.. On turn 6, eat one of the minions onto the other. On turn 7, buddy up, and eat your big unit onto your buddy again, then play one other unit. On turn 8, eat your buddy onto one other unit and the other buddy. On turn 9, you can either eat the one other minion onto the buddy again, or just eat the buddy, depending on how good your spot is. After that, fill in the rest of your board with poison scam."
+    ],
+    "buy_prefs": [
+      "Shop Buff Elementals are slightly better with this hero, but in general just play normally."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/71916/mutanus-the-devourer",
+  "stats": {
+    "hero_dbf_id": 71916,
+    "pick_rate": 32.02,
+    "avg_final_placement": 4.251,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.32,
+      13.39,
+      14.78,
+      14.53,
+      14.91,
+      13.65,
+      11.24,
+      6.18
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

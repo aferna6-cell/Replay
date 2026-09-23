@@ -1,0 +1,45 @@
+{
+  "id": 101130,
+  "dbf_id": 101130,
+  "name": "Cap'n Hoggarr",
+  "card_id": "BG26_HERO_101",
+  "slug": "cap-n-hoggarr",
+  "guide_text": "Buy most pirates in the early game to fill out your board fast so you can level.",
+  "buddy_guide_text": "Buddy up when it costs 3-5 gold. You tend to force APM pirates afterwards, so try to buy bounty synergy.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up when it costs 3-5 gold. You tend to force APM pirates afterwards, so try to buy bounty synergy."
+    ],
+    "buy_prefs": [
+      "Buy most pirates in the early game to fill out your board fast so you can level."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/101130/cap-n-hoggarr",
+  "stats": {
+    "hero_dbf_id": 101130,
+    "pick_rate": 35.84,
+    "avg_final_placement": 4.598,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.25,
+      10.74,
+      11.16,
+      11.55,
+      12.8,
+      14.14,
+      14.36,
+      12.0
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 20,
+    "key_minions_top3": [
+      108464,
+      92413,
+      132986
+    ]
+  }
+}

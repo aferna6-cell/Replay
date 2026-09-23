@@ -1,0 +1,47 @@
+{
+  "id": 62268,
+  "dbf_id": 62268,
+  "name": "Skycap'n Kragg",
+  "card_id": "TB_BaconShop_HERO_68",
+  "slug": "skycap-n-kragg",
+  "guide_text": "Most commonly, you use your hero power on turn 6 when you level to 4 in order to stabilize on tavern 4. Stabilize means you buy either good standalone cards or good synergy with your board.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. It'll give you 8 gold back.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Most commonly, you use your hero power on turn 6 when you level to 4 in order to stabilize on tavern 4."
+    ],
+    "cycle": [
+      "Buddy up for at most 3 gold. It'll give you 8 gold back."
+    ],
+    "buy_prefs": [
+      "Stabilize means you buy either good standalone cards or good synergy with your board."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/62268/skycap-n-kragg",
+  "stats": {
+    "hero_dbf_id": 62268,
+    "pick_rate": 24.17,
+    "avg_final_placement": 4.266,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.83,
+      13.09,
+      12.0,
+      12.78,
+      12.37,
+      12.12,
+      11.55,
+      10.26
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

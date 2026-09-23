@@ -1,0 +1,47 @@
+{
+  "id": 105431,
+  "dbf_id": 105431,
+  "name": "Tae'thelan Bloodwatcher",
+  "card_id": "BG28_HERO_800",
+  "slug": "tae-thelan-bloodwatcher",
+  "guide_text": "Don't expect much value from this hero power, it's basically Patchwerk 2.0.",
+  "buddy_guide_text": "Buddy up when it costs 3-5. If you can get away with it, hold a powerful spell such as [[Temperature Shift||117670]] to duplicate every turn. You should also try to duplicate and reproc the buddy using [[Lantern Lava]]",
+  "favorable_tribes": [
+    18
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Don't expect much value from this hero power, it's basically Patchwerk 2.0."
+    ],
+    "cycle": [
+      "Buddy up when it costs 3-5. If you can get away with it, hold a powerful spell such as [[Temperature Shift||117670]] to duplicate every turn. You should also try to duplicate and reproc the buddy using [[Lantern Lava]]"
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/105431/tae-thelan-bloodwatcher",
+  "stats": {
+    "hero_dbf_id": 105431,
+    "pick_rate": 15.31,
+    "avg_final_placement": 4.292,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.53,
+      12.89,
+      13.14,
+      13.5,
+      13.95,
+      12.69,
+      11.85,
+      8.44
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": 61910,
+  "dbf_id": 61910,
+  "name": "Aranna Starseeker",
+  "card_id": "TB_BaconShop_HERO_59",
+  "slug": "aranna-starseeker",
+  "guide_text": "The more summons your board has, the more attacks will happen. Value cards that summon such as [[Harmless Bonehead||104551]] in the earlygame.",
+  "buddy_guide_text": "Buddy is generically good. Buddy up when it costs at most 3.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy is generically good. Buddy up when it costs at most 3."
+    ],
+    "buy_prefs": [
+      "The more summons your board has, the more attacks will happen.",
+      "Value cards that summon such as [[Harmless Bonehead||104551]] in the earlygame."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/61910/aranna-starseeker",
+  "stats": {
+    "hero_dbf_id": 61910,
+    "pick_rate": 34.3,
+    "avg_final_placement": 4.236,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.21,
+      16.98,
+      11.32,
+      13.21,
+      13.21,
+      11.32,
+      10.38,
+      10.38
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": null,
+    "key_minions_top3": []
+  }
+}

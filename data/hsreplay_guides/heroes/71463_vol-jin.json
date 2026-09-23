@@ -1,0 +1,46 @@
+{
+  "id": 71463,
+  "dbf_id": 71463,
+  "name": "Vol'jin",
+  "card_id": "BG20_HERO_201",
+  "slug": "vol-jin",
+  "guide_text": "With [[Flaming Enforcer||126924]] or [[Unbound Tempest||132983]], you can exponentially scale attack by swapping largest attack with unit in the shop. In the end, make a large cleave ([[Blade Collector||99035]])",
+  "buddy_guide_text": "You must use this buddy with [[Tarecgosa||72062]] or [[Persistent Poet||108463]] which will add a ton of permanent HP. Even better if you hit [[Wrathscale Rogue]] to convert that HP to permanent attack, which means exponential scaling.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "You must use this buddy with [[Tarecgosa||72062]] or [[Persistent Poet||108463]] which will add a ton of permanent HP. Even better if you hit [[Wrathscale Rogue]] to convert that HP to permanent attack, which means exponential scaling."
+    ],
+    "buy_prefs": [
+      "With [[Flaming Enforcer||126924]] or [[Unbound Tempest||132983]], you can exponentially scale attack by swapping largest attack with unit in the shop.",
+      "In the end, make a large cleave ([[Blade Collector||99035]])"
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/71463/vol-jin",
+  "stats": {
+    "hero_dbf_id": 71463,
+    "pick_rate": 18.06,
+    "avg_final_placement": 4.109,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.88,
+      14.01,
+      14.26,
+      14.74,
+      14.07,
+      12.69,
+      10.09,
+      6.27
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": 58024,
+  "dbf_id": 58024,
+  "name": "The Lich King",
+  "card_id": "TB_BaconShop_HERO_22",
+  "slug": "the-lich-king",
+  "guide_text": "In the early game, [[Eternal Knight||95261]] is premium. In the endgame, reborn [[Leeroy the Reckless||90425]] is very strong.",
+  "buddy_guide_text": "Somehow find a way to scale your buddy. This can be through [[Primeval Monstrosity]] or [[Noisul of the many faces]]. Then, filling out your board with divine shield reborn minions are very strong.",
+  "favorable_tribes": [
+    11
+  ],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Somehow find a way to scale your buddy. This can be through [[Primeval Monstrosity]] or [[Noisul of the many faces]]. Then, filling out your board with divine shield reborn minions are very strong."
+    ],
+    "buy_prefs": [
+      "In the early game, [[Eternal Knight||95261]] is premium.",
+      "In the endgame, reborn [[Leeroy the Reckless||90425]] is very strong."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/58024/the-lich-king",
+  "stats": {
+    "hero_dbf_id": 58024,
+    "pick_rate": 51.51,
+    "avg_final_placement": 4.032,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.59,
+      14.73,
+      14.37,
+      13.62,
+      12.99,
+      11.91,
+      10.2,
+      6.59
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

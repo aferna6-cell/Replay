@@ -1,0 +1,46 @@
+{
+  "id": 105434,
+  "dbf_id": 105434,
+  "name": "Doctor Holli'dae",
+  "card_id": "BG28_HERO_801",
+  "slug": "doctor-holli-dae",
+  "guide_text": "You don't have to hero power every turn, only when you have 1 gold left over. For example, turn 2 you should still just level and not hero power.",
+  "buddy_guide_text": "Buddy is very powerful. Buy most 5 drops minions and use [[Mooneater]] or [[Nalaa the Redeemer]] to scale. After you buy 9 minions with the first buddy, golden it to reset the counter, so you get 18 more spells.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "You don't have to hero power every turn, only when you have 1 gold left over.",
+      "For example, turn 2 you should still just level and not hero power."
+    ],
+    "cycle": [
+      "Buddy is very powerful. Buy most 5 drops minions and use [[Mooneater]] or [[Nalaa the Redeemer]] to scale. After you buy 9 minions with the first buddy, golden it to reset the counter, so you get 18 more spells."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/105434/doctor-holli-dae",
+  "stats": {
+    "hero_dbf_id": 105434,
+    "pick_rate": 21.48,
+    "avg_final_placement": 4.291,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.51,
+      12.37,
+      13.86,
+      13.47,
+      13.63,
+      13.21,
+      11.54,
+      8.4
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

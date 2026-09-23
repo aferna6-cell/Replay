@@ -1,0 +1,43 @@
+{
+  "id": 127696,
+  "dbf_id": 127696,
+  "name": "Murozond, Unbounded",
+  "card_id": "BG34_HERO_000",
+  "slug": "murozond-unbounded",
+  "guide_text": "If committed to a tribe, you need 3 of that tribe to qualifying for that tribe's timewarp cards.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "If committed to a tribe, you need 3 of that tribe to qualifying for that tribe's timewarp cards."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/127696/murozond-unbounded",
+  "stats": {
+    "hero_dbf_id": 127696,
+    "pick_rate": 58.26,
+    "avg_final_placement": 4.16,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.62,
+      14.31,
+      13.05,
+      12.37,
+      11.37,
+      11.0,
+      10.94,
+      10.34
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

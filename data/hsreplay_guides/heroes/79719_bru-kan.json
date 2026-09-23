@@ -1,0 +1,45 @@
+{
+  "id": 79719,
+  "dbf_id": 79719,
+  "name": "Bru'kan",
+  "card_id": "BG22_HERO_001",
+  "slug": "bru-kan",
+  "guide_text": "Brukan's most common hero power is Lightning invocation, which is great to pop Divine Shields on your opponent's board.",
+  "buddy_guide_text": "Buy this buddy for at most 3 gold, because it doesn't generate value. After you have it, try to double attack 1-2 times, deathrattles once if it doesn't grief your comp, and you still mainly press Lightning Invocation.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Brukan's most common hero power is Lightning invocation, which is great to pop Divine Shields on your opponent's board."
+    ],
+    "cycle": [
+      "Buy this buddy for at most 3 gold, because it doesn't generate value. After you have it, try to double attack 1-2 times, deathrattles once if it doesn't grief your comp, and you still mainly press Lightning Invocation."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/79719/bru-kan",
+  "stats": {
+    "hero_dbf_id": 79719,
+    "pick_rate": 16.63,
+    "avg_final_placement": 4.214,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.86,
+      12.84,
+      13.74,
+      14.75,
+      13.64,
+      12.17,
+      11.59,
+      7.4
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

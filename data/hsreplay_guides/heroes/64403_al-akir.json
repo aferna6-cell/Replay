@@ -1,0 +1,45 @@
+{
+  "id": 64403,
+  "dbf_id": 64403,
+  "name": "Al'Akir",
+  "card_id": "TB_BaconShop_HERO_76",
+  "slug": "al-akir",
+  "guide_text": "Rally units are really nice with this hero power to attack twice with them, such as [[Headhunter Gryphon||132800]].",
+  "buddy_guide_text": "The buddy provides mediocre tempo and zero potential. Buddy up when it costs at most 3 gold.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Rally units are really nice with this hero power to attack twice with them, such as [[Headhunter Gryphon||132800]]."
+    ],
+    "cycle": [
+      "The buddy provides mediocre tempo and zero potential. Buddy up when it costs at most 3 gold."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/64403/al-akir",
+  "stats": {
+    "hero_dbf_id": 64403,
+    "pick_rate": 34.71,
+    "avg_final_placement": 4.064,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.58,
+      13.98,
+      14.01,
+      13.76,
+      13.55,
+      12.37,
+      10.23,
+      6.53
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 20,
+    "key_minions_top3": [
+      108464,
+      92413,
+      132986
+    ]
+  }
+}

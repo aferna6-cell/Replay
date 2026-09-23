@@ -1,0 +1,45 @@
+{
+  "id": 60367,
+  "dbf_id": 60367,
+  "name": "Tess Greymane",
+  "card_id": "TB_BaconShop_HERO_50",
+  "slug": "tess-greymane",
+  "guide_text": "You can afford to stabilize on lower tiers and save HP so when you steal directional cards from your opponent you are healthy enough to play into them.",
+  "buddy_guide_text": "Buddy for 5+ gold IF the opponent you're facing has a good buddy. You're willing to buddy up for even 7 gold if you're facing an AFK",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy for 5+ gold IF the opponent you're facing has a good buddy. You're willing to buddy up for even 7 gold if you're facing an AFK"
+    ],
+    "buy_prefs": [
+      "You can afford to stabilize on lower tiers and save HP so when you steal directional cards from your opponent you are healthy enough to play into them."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60367/tess-greymane",
+  "stats": {
+    "hero_dbf_id": 60367,
+    "pick_rate": 35.09,
+    "avg_final_placement": 4.62,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.2,
+      10.54,
+      11.29,
+      12.35,
+      13.56,
+      14.3,
+      14.27,
+      11.5
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

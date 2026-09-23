@@ -1,0 +1,50 @@
+{
+  "id": 82110,
+  "dbf_id": 82110,
+  "name": "Onyxia",
+  "card_id": "BG22_HERO_305",
+  "slug": "onyxia",
+  "guide_text": "Must have beasts and undeads to start farming hero power early on. [[Harmless Bonehead||104551]] is premium on this hero.",
+  "buddy_guide_text": "Buddy up when it costs 3-5. Use it for midgame tempo.",
+  "favorable_tribes": [
+    11,
+    20
+  ],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [
+      "Must have beasts and undeads to start farming hero power early on."
+    ],
+    "cycle": [
+      "Buddy up when it costs 3-5. Use it for midgame tempo."
+    ],
+    "buy_prefs": [
+      "[[Harmless Bonehead||104551]] is premium on this hero."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/82110/onyxia",
+  "stats": {
+    "hero_dbf_id": 82110,
+    "pick_rate": 18.23,
+    "avg_final_placement": 4.401,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.25,
+      12.59,
+      13.34,
+      14.05,
+      14.04,
+      14.27,
+      12.05,
+      8.41
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

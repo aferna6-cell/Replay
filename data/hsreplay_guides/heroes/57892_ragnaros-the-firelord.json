@@ -1,0 +1,47 @@
+{
+  "id": 57892,
+  "dbf_id": 57892,
+  "name": "Ragnaros the Firelord",
+  "card_id": "TB_BaconShop_HERO_11",
+  "slug": "ragnaros-the-firelord",
+  "guide_text": "Buy every single cheap card that costs 1 ([[Fortify||103791]], [[Patient Scout||97604]]) the first 6 turns. Stay on tavern 2 on turn 5 to finish the hero power.",
+  "buddy_guide_text": "Buddy after you unlock your hero power, usually on turn 6. After that, you really want to play an end of turn strategy, such as Magicfin Murlocs.",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [
+      "Stay on tavern 2 on turn 5 to finish the hero power."
+    ],
+    "cycle": [
+      "Buddy after you unlock your hero power, usually on turn 6. After that, you really want to play an end of turn strategy, such as Magicfin Murlocs."
+    ],
+    "buy_prefs": [
+      "Buy every single cheap card that costs 1 ([[Fortify||103791]], [[Patient Scout||97604]]) the first 6 turns."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57892/ragnaros-the-firelord",
+  "stats": {
+    "hero_dbf_id": 57892,
+    "pick_rate": 15.58,
+    "avg_final_placement": 4.421,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      9.26,
+      11.5,
+      14.69,
+      15.93,
+      15.87,
+      14.0,
+      11.28,
+      7.46
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

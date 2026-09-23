@@ -1,0 +1,49 @@
+{
+  "id": 58435,
+  "dbf_id": 58435,
+  "name": "Sindragosa",
+  "card_id": "TB_BaconShop_HERO_27",
+  "slug": "sindragosa",
+  "guide_text": "This hero benefits from cycle tribes being in, which are Elementals Murlocs and Pirates. Then, cycle every free card ([[Sellemental||64038]], [[Patient Scout||97604]], [[Tavern Tempest||64077]]) and find an APM direction to start scaling.",
+  "buddy_guide_text": "If you roll into a strong directional card, such as [[Brann Bronzebeard||96786]] or [[Nomi, Kitchen Nightmare||63626]], then as long as you can get away with it, buy every card besides the directional card you want and leave it as the only card frozen. That way, the next turn you have a golden version of it, which is gamewinning.",
+  "favorable_tribes": [
+    14,
+    18,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "This hero benefits from cycle tribes being in, which are Elementals Murlocs and Pirates.",
+      "Then, cycle every free card ([[Sellemental||64038]], [[Patient Scout||97604]], [[Tavern Tempest||64077]]) and find an APM direction to start scaling.",
+      "If you roll into a strong directional card, such as [[Brann Bronzebeard||96786]] or [[Nomi, Kitchen Nightmare||63626]], then as long as you can get away with it, buy every card besides the directional card you want and leave it as the only card frozen. That way, the next turn you have a golden version of it, which is gamewinning."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/58435/sindragosa",
+  "stats": {
+    "hero_dbf_id": 58435,
+    "pick_rate": 31.9,
+    "avg_final_placement": 4.529,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.39,
+      11.36,
+      10.84,
+      11.7,
+      12.16,
+      13.27,
+      14.14,
+      12.13
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

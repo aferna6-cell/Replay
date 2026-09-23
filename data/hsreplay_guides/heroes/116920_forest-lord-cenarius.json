@@ -1,0 +1,47 @@
+{
+  "id": 116920,
+  "dbf_id": 116920,
+  "name": "Forest Lord Cenarius",
+  "card_id": "BG32_HERO_001",
+  "slug": "forest-lord-cenarius",
+  "guide_text": "Always hero power the first 3 turns, freezing a 2 cost spell turn 1 if you can. Turn 4 onwards, you can choose to stop hero powering if buying a good minion or dark gifting is better. Definitely stop hero powering after turn 5.",
+  "buddy_guide_text": "Buddy for at most 3 gold. Must reborn it with [[Sprightly Scarab||108909]].",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Always hero power the first 3 turns, freezing a 2 cost spell turn 1 if you can.",
+      "Turn 4 onwards, you can choose to stop hero powering if buying a good minion or dark gifting is better.",
+      "Definitely stop hero powering after turn 5."
+    ],
+    "cycle": [
+      "Buddy for at most 3 gold. Must reborn it with [[Sprightly Scarab||108909]]."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/116920/forest-lord-cenarius",
+  "stats": {
+    "hero_dbf_id": 116920,
+    "pick_rate": 54.31,
+    "avg_final_placement": 4.472,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      20.11,
+      11.15,
+      9.21,
+      8.93,
+      9.58,
+      10.67,
+      13.3,
+      17.06
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

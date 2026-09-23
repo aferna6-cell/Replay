@@ -1,0 +1,50 @@
+{
+  "id": 59831,
+  "dbf_id": 59831,
+  "name": "Pyramad",
+  "card_id": "TB_BaconShop_HERO_39",
+  "slug": "pyramad",
+  "guide_text": "Hero power on turns 1, 3, 4, and 5, and possibly 6 to fill out your board. On turn 2 you should level. After that, forget about the hero power.",
+  "buddy_guide_text": "Remember you can use [[Mounting Avalanche||122862]] on the buddy to give it attack.",
+  "favorable_tribes": [
+    18
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero power on turns 1, 3, 4, and 5, and possibly 6 to fill out your board.",
+      "After that, forget about the hero power."
+    ],
+    "cycle": [
+      "Remember you can use [[Mounting Avalanche||122862]] on the buddy to give it attack."
+    ],
+    "buy_prefs": [
+      "On turn 2 you should level."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/59831/pyramad",
+  "stats": {
+    "hero_dbf_id": 59831,
+    "pick_rate": 14.98,
+    "avg_final_placement": 4.487,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.33,
+      11.2,
+      12.73,
+      13.69,
+      14.58,
+      14.97,
+      12.73,
+      8.77
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

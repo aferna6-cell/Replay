@@ -1,0 +1,47 @@
+{
+  "id": 60211,
+  "dbf_id": 60211,
+  "name": "Sir Finley Mrrgglton",
+  "card_id": "TB_BaconShop_HERO_40",
+  "slug": "sir-finley-mrrgglton",
+  "guide_text": "The less armor a hero starts off with, the better pick it'll be with Finley. Snake Eyes starts with 6 armor, but if you pick it with Finley then you gain some extra armor with a good hero power.",
+  "buddy_guide_text": "The higher tavern tier buddy the hero has, the better Finley's buddy is. For example, Sindragosa buddy is tier 6, but you only need to pay the cost of a tier 4 buddy to unlock it.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Snake Eyes starts with 6 armor, but if you pick it with Finley then you gain some extra armor with a good hero power."
+    ],
+    "cycle": [
+      "The higher tavern tier buddy the hero has, the better Finley's buddy is. For example, Sindragosa buddy is tier 6, but you only need to pay the cost of a tier 4 buddy to unlock it."
+    ],
+    "buy_prefs": [
+      "The less armor a hero starts off with, the better pick it'll be with Finley."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60211/sir-finley-mrrgglton",
+  "stats": {
+    "hero_dbf_id": 60211,
+    "pick_rate": 53.25,
+    "avg_final_placement": 4.209,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.42,
+      13.15,
+      12.58,
+      12.29,
+      12.32,
+      12.33,
+      11.61,
+      9.31
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

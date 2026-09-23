@@ -1,0 +1,46 @@
+{
+  "id": 89293,
+  "dbf_id": 89293,
+  "name": "Sylvanas Windrunner",
+  "card_id": "BG23_HERO_306",
+  "slug": "sylvanas-windrunner",
+  "guide_text": "In the early game, often line up a triple of your 1 drop. In the midgame, duplicate key cards on your board.",
+  "buddy_guide_text": "If you use your buddy on the far right or far left, that'll transfer all your stats on one minion, which is often much better than splitting stats. You may also want to go for golden buddy to double the amount of stats of your biggest minion.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "If you use your buddy on the far right or far left, that'll transfer all your stats on one minion, which is often much better than splitting stats. You may also want to go for golden buddy to double the amount of stats of your biggest minion."
+    ],
+    "buy_prefs": [
+      "In the early game, often line up a triple of your 1 drop.",
+      "In the midgame, duplicate key cards on your board."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/89293/sylvanas-windrunner",
+  "stats": {
+    "hero_dbf_id": 89293,
+    "pick_rate": 53.68,
+    "avg_final_placement": 4.164,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      18.55,
+      13.16,
+      11.75,
+      11.53,
+      11.56,
+      11.82,
+      11.53,
+      10.08
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

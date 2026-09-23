@@ -1,0 +1,47 @@
+{
+  "id": 60366,
+  "dbf_id": 60366,
+  "name": "Millhouse Manastorm",
+  "card_id": "TB_BaconShop_HERO_49",
+  "slug": "millhouse-manastorm",
+  "guide_text": "You MUST play a cycle comp on this hero such as APM Pirates or Elementals - NOT Undeads, Beast, or Mechs!",
+  "buddy_guide_text": "Level up to tavern 4 on turn 6, and buddy up on turn 7. Great buddy that's worth 4 gold a turn!",
+  "favorable_tribes": [
+    18,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "You MUST play a cycle comp on this hero such as APM Pirates or Elementals - NOT Undeads, Beast, or Mechs!",
+      "Level up to tavern 4 on turn 6, and buddy up on turn 7. Great buddy that's worth 4 gold a turn!"
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60366/millhouse-manastorm",
+  "stats": {
+    "hero_dbf_id": 60366,
+    "pick_rate": 15.83,
+    "avg_final_placement": 4.31,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      10.94,
+      12.58,
+      14.26,
+      15.25,
+      14.85,
+      14.44,
+      11.25,
+      6.43
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

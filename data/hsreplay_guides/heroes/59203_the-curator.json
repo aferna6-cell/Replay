@@ -1,0 +1,45 @@
+{
+  "id": 59203,
+  "dbf_id": 59203,
+  "name": "The Curator",
+  "card_id": "TB_BaconShop_HERO_33",
+  "slug": "the-curator",
+  "guide_text": "Reborn the amalgam using [[Prosthetic Hand||112364]] or [[Sprightly Scarab||108909]].",
+  "buddy_guide_text": "Find a way to concentrate stats on the amalgam, possibly with Deep Blue or Blood Gems.",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Find a way to concentrate stats on the amalgam, possibly with Deep Blue or Blood Gems."
+    ],
+    "buy_prefs": [
+      "Reborn the amalgam using [[Prosthetic Hand||112364]] or [[Sprightly Scarab||108909]]."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/59203/the-curator",
+  "stats": {
+    "hero_dbf_id": 59203,
+    "pick_rate": 27.68,
+    "avg_final_placement": 4.211,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.27,
+      13.19,
+      14.35,
+      15.61,
+      13.98,
+      13.5,
+      10.72,
+      6.38
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": 60362,
+  "dbf_id": 60362,
+  "name": "Arch-Villain Rafaam",
+  "card_id": "TB_BaconShop_HERO_45",
+  "slug": "arch-villain-rafaam",
+  "guide_text": "Try to hero power turns 2-4 if you can. You can usually achieve this most efficiently by leveling to tavern 2 on turn 3. After that, hero power whenever you have 1 gold left, and don't feel like you have to press it.",
+  "buddy_guide_text": "Generically average buddy. Buddy up when it costs 3-5.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Try to hero power turns 2-4 if you can.",
+      "After that, hero power whenever you have 1 gold left, and don't feel like you have to press it."
+    ],
+    "cycle": [
+      "Generically average buddy. Buddy up when it costs 3-5."
+    ],
+    "buy_prefs": [
+      "You can usually achieve this most efficiently by leveling to tavern 2 on turn 3."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60362/arch-villain-rafaam",
+  "stats": {
+    "hero_dbf_id": 60362,
+    "pick_rate": 25.6,
+    "avg_final_placement": 4.409,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.2,
+      12.51,
+      12.05,
+      12.74,
+      13.19,
+      13.99,
+      12.92,
+      9.42
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

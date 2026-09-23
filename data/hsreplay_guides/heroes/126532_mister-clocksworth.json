@@ -1,0 +1,43 @@
+{
+  "id": 126532,
+  "dbf_id": 126532,
+  "name": "Mister Clocksworth",
+  "card_id": "BG34_HERO_002",
+  "slug": "mister-clocksworth",
+  "guide_text": "Don't triple trash cards, only cards that you want to keep for a while.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "Don't triple trash cards, only cards that you want to keep for a while."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/126532/mister-clocksworth",
+  "stats": {
+    "hero_dbf_id": 126532,
+    "pick_rate": 43.36,
+    "avg_final_placement": 4.192,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.0,
+      12.84,
+      12.27,
+      12.31,
+      12.36,
+      12.58,
+      11.9,
+      8.74
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

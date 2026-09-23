@@ -1,0 +1,47 @@
+{
+  "id": 66196,
+  "dbf_id": 66196,
+  "name": "Y'Shaarj",
+  "card_id": "TB_BaconShop_HERO_92",
+  "slug": "y-shaarj",
+  "guide_text": "Hero power until turn 6 (except when you level on turn 2), and generally stop hero powering after that.",
+  "buddy_guide_text": "There is a tavern 2 strat where you cycle 2 drops while scaling Divine Shields on tavern 2 with the buddy. I don't recommend picking this hero though.",
+  "favorable_tribes": [
+    17
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero power until turn 6 (except when you level on turn 2), and generally stop hero powering after that."
+    ],
+    "cycle": [
+      "There is a tavern 2 strat where you cycle 2 drops while scaling Divine Shields on tavern 2 with the buddy. I don't recommend picking this hero though."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/66196/y-shaarj",
+  "stats": {
+    "hero_dbf_id": 66196,
+    "pick_rate": 22.8,
+    "avg_final_placement": 4.276,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.43,
+      12.37,
+      13.04,
+      13.88,
+      14.47,
+      14.28,
+      11.52,
+      7.01
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

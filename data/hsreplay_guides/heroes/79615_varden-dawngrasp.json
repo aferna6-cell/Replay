@@ -1,0 +1,46 @@
+{
+  "id": 79615,
+  "dbf_id": 79615,
+  "name": "Varden Dawngrasp",
+  "card_id": "BG22_HERO_004",
+  "slug": "varden-dawngrasp",
+  "guide_text": "If you roll into a frozen card you want to triple, you can leave it frozen to try to get a 3rd frozen copy in the shop next turn. For example, if your hero power copied a Brann, you can leave one or two Branns frozen in the shop, and the hero power might copy it again next turn.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. Try to triple frozen cards on tavern 3 or 4 to get many buffs.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "For example, if your hero power copied a Brann, you can leave one or two Branns frozen in the shop, and the hero power might copy it again next turn."
+    ],
+    "cycle": [
+      "If you roll into a frozen card you want to triple, you can leave it frozen to try to get a 3rd frozen copy in the shop next turn.",
+      "Buddy up for at most 3 gold. Try to triple frozen cards on tavern 3 or 4 to get many buffs."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/79615/varden-dawngrasp",
+  "stats": {
+    "hero_dbf_id": 79615,
+    "pick_rate": 28.56,
+    "avg_final_placement": 4.333,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.94,
+      12.47,
+      12.7,
+      13.07,
+      13.39,
+      12.99,
+      12.35,
+      9.09
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

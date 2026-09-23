@@ -1,0 +1,47 @@
+{
+  "id": 117425,
+  "dbf_id": 117425,
+  "name": "Exarch Othaar",
+  "card_id": "BG31_HERO_006",
+  "slug": "exarch-othaar",
+  "guide_text": "Sometimes it makes sense to buy a spell and then hero power early game if it makes more sense gold wise. For example, 2 cost spell turn 3.",
+  "buddy_guide_text": "Very average buddy. Buddy up for at most 3 gold.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Sometimes it makes sense to buy a spell and then hero power early game if it makes more sense gold wise."
+    ],
+    "cycle": [
+      "Very average buddy. Buddy up for at most 3 gold."
+    ],
+    "buy_prefs": [
+      "For example, 2 cost spell turn 3."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/117425/exarch-othaar",
+  "stats": {
+    "hero_dbf_id": 117425,
+    "pick_rate": 17.14,
+    "avg_final_placement": 4.168,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.65,
+      13.68,
+      13.85,
+      13.62,
+      12.94,
+      12.49,
+      11.03,
+      7.75
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

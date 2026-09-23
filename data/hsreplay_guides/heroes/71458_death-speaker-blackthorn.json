@@ -1,0 +1,47 @@
+{
+  "id": 71458,
+  "dbf_id": 71458,
+  "name": "Death Speaker Blackthorn",
+  "card_id": "BG20_HERO_103",
+  "slug": "death-speaker-blackthorn",
+  "guide_text": "Your hero power is used to give you stats whenever you have gold left over in the early game. It's not strong enough to play into, even with quilboars.",
+  "buddy_guide_text": "Buddy up for at most 3 gold.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Your hero power is used to give you stats whenever you have gold left over in the early game."
+    ],
+    "cycle": [
+      "Buddy up for at most 3 gold."
+    ],
+    "buy_prefs": [
+      "It's not strong enough to play into, even with quilboars."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/71458/death-speaker-blackthorn",
+  "stats": {
+    "hero_dbf_id": 71458,
+    "pick_rate": 19.86,
+    "avg_final_placement": 4.247,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.18,
+      12.35,
+      13.06,
+      14.09,
+      14.11,
+      13.47,
+      11.0,
+      7.73
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

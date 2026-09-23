@@ -1,0 +1,48 @@
+{
+  "id": 85125,
+  "dbf_id": 85125,
+  "name": "Lady Vashj",
+  "card_id": "BG23_HERO_304",
+  "slug": "lady-vashj",
+  "guide_text": "This hero provides free early game tempo. Don’t have to play into Nagas that hard.",
+  "buddy_guide_text": "Buddy up first when it costs 0-2, and enjoy some free spellcrafts while playing the game normally. Buddy up second when it costs 3-5. This buddy enables spell casting nagas but don't force it.",
+  "favorable_tribes": [
+    92
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up first when it costs 0-2, and enjoy some free spellcrafts while playing the game normally. Buddy up second when it costs 3-5. This buddy enables spell casting nagas but don't force it."
+    ],
+    "buy_prefs": [
+      "This hero provides free early game tempo.",
+      "Don’t have to play into Nagas that hard."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/85125/lady-vashj",
+  "stats": {
+    "hero_dbf_id": 85125,
+    "pick_rate": 28.68,
+    "avg_final_placement": 4.13,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.56,
+      14.36,
+      14.14,
+      15.27,
+      13.05,
+      12.2,
+      10.58,
+      6.83
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

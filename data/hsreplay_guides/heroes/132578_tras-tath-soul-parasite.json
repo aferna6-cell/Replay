@@ -1,0 +1,44 @@
+{
+  "id": 132578,
+  "dbf_id": 132578,
+  "name": "Tras'tath, Soul Parasite",
+  "card_id": "BG36_HERO_101",
+  "slug": "tras-tath-soul-parasite",
+  "guide_text": "Most of the time take a core card for a comp and commit to it. For example, pick [[Drustfallen Butcher||120104]] and commit Undead.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "Most of the time take a core card for a comp and commit to it.",
+      "For example, pick [[Drustfallen Butcher||120104]] and commit Undead."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/132578/tras-tath-soul-parasite",
+  "stats": {
+    "hero_dbf_id": 132578,
+    "pick_rate": 71.84,
+    "avg_final_placement": 3.949,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      18.42,
+      15.22,
+      13.8,
+      12.56,
+      11.64,
+      10.4,
+      9.86,
+      8.1
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

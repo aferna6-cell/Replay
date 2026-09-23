@@ -1,0 +1,37 @@
+{
+  "id": 134502,
+  "dbf_id": 134502,
+  "name": "Drest'agath",
+  "card_id": "BG36_HERO_000",
+  "slug": "drest-agath",
+  "guide_text": "",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/134502/drest-agath",
+  "stats": {
+    "hero_dbf_id": 134502,
+    "pick_rate": 84.6,
+    "avg_final_placement": 3.752,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.75,
+      19.33,
+      17.17,
+      13.19,
+      10.8,
+      9.49,
+      8.58,
+      5.69
+    ],
+    "tier_v2": "s",
+    "anomaly_adjusted": false,
+    "best_composition": null,
+    "key_minions_top3": []
+  }
+}

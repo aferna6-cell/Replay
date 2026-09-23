@@ -1,0 +1,45 @@
+{
+  "id": 64400,
+  "dbf_id": 64400,
+  "name": "Rakanishu",
+  "card_id": "TB_BaconShop_HERO_75",
+  "slug": "rakanishu",
+  "guide_text": "Stabilize with cards that benefit from spell power such as [[Runic Arcanist||132985]] or [[Gormling Gourmet]]",
+  "buddy_guide_text": "Buddy up for 5-7 gold, and enjoy some free stats.",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 5-7 gold, and enjoy some free stats."
+    ],
+    "buy_prefs": [
+      "Stabilize with cards that benefit from spell power such as [[Runic Arcanist||132985]] or [[Gormling Gourmet]]"
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/64400/rakanishu",
+  "stats": {
+    "hero_dbf_id": 64400,
+    "pick_rate": 21.55,
+    "avg_final_placement": 4.325,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.67,
+      13.58,
+      13.86,
+      13.48,
+      12.78,
+      11.94,
+      11.87,
+      9.83
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 20,
+    "key_minions_top3": [
+      108464,
+      92413,
+      132986
+    ]
+  }
+}

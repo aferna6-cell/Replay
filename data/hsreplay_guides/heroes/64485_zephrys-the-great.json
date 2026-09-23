@@ -1,0 +1,46 @@
+{
+  "id": 64485,
+  "dbf_id": 64485,
+  "name": "Zephrys, the Great",
+  "card_id": "TB_BaconShop_HERO_91",
+  "slug": "zephrys-the-great",
+  "guide_text": "Use your first hero power or two on early pairs to try to stabilize. You can use your last hero power on a core card for your direction, such as [[Brann Bronzebeard||96786]] or [[Titus Rivendare||97408]].",
+  "buddy_guide_text": "If a certain triple is extremely important, sell everything except 3 cards and pairs to guarantee you get the triple.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Use your first hero power or two on early pairs to try to stabilize.",
+      "You can use your last hero power on a core card for your direction, such as [[Brann Bronzebeard||96786]] or [[Titus Rivendare||97408]]."
+    ],
+    "cycle": [
+      "If a certain triple is extremely important, sell everything except 3 cards and pairs to guarantee you get the triple."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/64485/zephrys-the-great",
+  "stats": {
+    "hero_dbf_id": 64485,
+    "pick_rate": 39.99,
+    "avg_final_placement": 4.311,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.33,
+      12.23,
+      12.81,
+      12.56,
+      12.28,
+      12.5,
+      12.12,
+      10.17
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

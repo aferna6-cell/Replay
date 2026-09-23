@@ -1,0 +1,48 @@
+{
+  "id": 97186,
+  "dbf_id": 97186,
+  "name": "The Jailer",
+  "card_id": "TB_BaconShop_HERO_702",
+  "slug": "the-jailer",
+  "guide_text": "Early [[Harmless Bonehead||104551]] is the best so you can hero power it on turn 3. You may also use your hero power on [[Cadaver Caretaker||113158]] midgame for free triples.",
+  "buddy_guide_text": "Buddy up for 3-5. Hero power the first instance of your buddy to easily fill out your board with Undeads so you can level fast.",
+  "favorable_tribes": [
+    11
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Early [[Harmless Bonehead||104551]] is the best so you can hero power it on turn 3.",
+      "You may also use your hero power on [[Cadaver Caretaker||113158]] midgame for free triples."
+    ],
+    "cycle": [
+      "Buddy up for 3-5. Hero power the first instance of your buddy to easily fill out your board with Undeads so you can level fast."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/97186/the-jailer",
+  "stats": {
+    "hero_dbf_id": 97186,
+    "pick_rate": 29.49,
+    "avg_final_placement": 4.048,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.78,
+      13.86,
+      13.65,
+      12.66,
+      11.43,
+      11.84,
+      10.76,
+      8.03
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

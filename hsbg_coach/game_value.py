@@ -547,6 +547,27 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                             reason = greason
                 except Exception:
                     pass
+
+                try:
+                    from .hsreplay_guides import key_or_enabler_boost
+                    tgt = getattr(a, "target", None)
+                    mname = None
+                    detail = getattr(a, "detail", None) or {}
+                    if isinstance(detail, dict):
+                        mn = detail.get("minion") or detail.get("card") or {}
+                        if isinstance(mn, dict):
+                            mname = mn.get("name")
+                        elif isinstance(mn, str):
+                            mname = mn
+                    if not mname and isinstance(tgt, str):
+                        mname = tgt
+                    kadj, kreason = key_or_enabler_boost(mname, snapshot, kb)
+                    if kadj:
+                        v = max(1.0, min(8.0, v + kadj))
+                        if kreason and reason == sa.reason:
+                            reason = kreason
+                except Exception:
+                    pass
                 # Soft trinket play-into prior: boost buys that match equipped
                 # trinket synergies (battlecry, deathrattle, tribe, …).
                 try:

@@ -1,0 +1,45 @@
+{
+  "id": 120649,
+  "dbf_id": 120649,
+  "name": "Buttons",
+  "card_id": "BG32_HERO_002",
+  "slug": "buttons",
+  "guide_text": "Getting a value quest such as Pagle's Fishing Rod on Turn 8 is usually pretty sick, depending on your setup.",
+  "buddy_guide_text": "Your buddy is a value generating buddy, so buddy up when it costs 5-7. Be sure to reborn it with [[Prosthetic Hand||112364]], and stack effects such as [[Titus Rivendare||97408]] or [[Monstrous Macaw]] to generate helpful cards.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Your buddy is a value generating buddy, so buddy up when it costs 5-7. Be sure to reborn it with [[Prosthetic Hand||112364]], and stack effects such as [[Titus Rivendare||97408]] or [[Monstrous Macaw]] to generate helpful cards."
+    ],
+    "buy_prefs": [
+      "Getting a value quest such as Pagle's Fishing Rod on Turn 8 is usually pretty sick, depending on your setup."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/120649/buttons",
+  "stats": {
+    "hero_dbf_id": 120649,
+    "pick_rate": 65.5,
+    "avg_final_placement": 3.996,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      19.31,
+      14.99,
+      12.79,
+      11.53,
+      10.99,
+      10.84,
+      10.51,
+      9.04
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

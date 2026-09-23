@@ -1,0 +1,46 @@
+{
+  "id": 103477,
+  "dbf_id": 103477,
+  "name": "Thorim, Stormlord",
+  "card_id": "BG27_HERO_801",
+  "slug": "thorim-stormlord",
+  "guide_text": "Sea Witch is generally extremely good. [[Captain Sanders||97539]] is used to golden Titus or Brann later, with great synergy with [[Kelp Keeper||132883]].",
+  "buddy_guide_text": "Buddy up for 3-5. Evolve your highest tavern card to a tier 7 and hope that it's a good one.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 3-5. Evolve your highest tavern card to a tier 7 and hope that it's a good one."
+    ],
+    "buy_prefs": [
+      "Sea Witch is generally extremely good.",
+      "[[Captain Sanders||97539]] is used to golden Titus or Brann later, with great synergy with [[Kelp Keeper||132883]]."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/103477/thorim-stormlord",
+  "stats": {
+    "hero_dbf_id": 103477,
+    "pick_rate": 55.84,
+    "avg_final_placement": 4.145,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.96,
+      13.49,
+      12.67,
+      12.64,
+      12.04,
+      12.28,
+      11.28,
+      8.65
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": 126537,
+  "dbf_id": 126537,
+  "name": "Time Twister Chromie",
+  "card_id": "BG34_HERO_001",
+  "slug": "time-twister-chromie",
+  "guide_text": "Hero power turn 1. Fill out your board in the early game using 2 cost spells, and buy Strike Oils too. Starting tavern 3, play normally.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero power turn 1."
+    ],
+    "cycle": [],
+    "buy_prefs": [
+      "Fill out your board in the early game using 2 cost spells, and buy Strike Oils too.",
+      "Starting tavern 3, play normally."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/126537/time-twister-chromie",
+  "stats": {
+    "hero_dbf_id": 126537,
+    "pick_rate": 27.68,
+    "avg_final_placement": 4.322,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.21,
+      13.24,
+      12.88,
+      12.61,
+      12.46,
+      12.34,
+      11.94,
+      10.31
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

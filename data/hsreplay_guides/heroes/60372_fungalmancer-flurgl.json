@@ -1,0 +1,50 @@
+{
+  "id": 60372,
+  "dbf_id": 60372,
+  "name": "Fungalmancer Flurgl",
+  "card_id": "TB_BaconShop_HERO_55",
+  "slug": "fungalmancer-flurgl",
+  "guide_text": "Flurgl is best in an economy-centric lobby, because the hero power benefits from cycling cards. Even though you're a Murloc hero, pirate or elemental cycle comps utilizing [[Brann Bronzebeard||96786]] can make a ton of use out of your hero power.",
+  "buddy_guide_text": "Target as many 5 drops as possible to get [[Primalfin Lookout||60028]] and [[Mrglin' Burglar]] if you're playing Murlocs.",
+  "favorable_tribes": [
+    14,
+    18,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Flurgl is best in an economy-centric lobby, because the hero power benefits from cycling cards.",
+      "Even though you're a Murloc hero, pirate or elemental cycle comps utilizing [[Brann Bronzebeard||96786]] can make a ton of use out of your hero power."
+    ],
+    "cycle": [
+      "Target as many 5 drops as possible to get [[Primalfin Lookout||60028]] and [[Mrglin' Burglar]] if you're playing Murlocs."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60372/fungalmancer-flurgl",
+  "stats": {
+    "hero_dbf_id": 60372,
+    "pick_rate": 25.77,
+    "avg_final_placement": 4.169,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.19,
+      15.47,
+      11.93,
+      10.86,
+      11.16,
+      10.99,
+      11.39,
+      11.0
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

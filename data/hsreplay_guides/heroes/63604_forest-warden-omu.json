@@ -1,0 +1,47 @@
+{
+  "id": 63604,
+  "dbf_id": 63604,
+  "name": "Forest Warden Omu",
+  "card_id": "TB_BaconShop_HERO_74",
+  "slug": "forest-warden-omu",
+  "guide_text": "Always think about your next turn! On turn 1, freeze a 2 cost spell so your turn 2 is much cleaner. Omu almost always levels to tavern 3 on turn 4 while buying a minion.",
+  "buddy_guide_text": "Buddy up for 3-5 Gold. It'll give you value 1-2 turns but it's hard to scale so will probably not stay on your board past that.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 3-5 Gold. It'll give you value 1-2 turns but it's hard to scale so will probably not stay on your board past that."
+    ],
+    "buy_prefs": [
+      "Always think about your next turn!",
+      "On turn 1, freeze a 2 cost spell so your turn 2 is much cleaner.",
+      "Omu almost always levels to tavern 3 on turn 4 while buying a minion."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/63604/forest-warden-omu",
+  "stats": {
+    "hero_dbf_id": 63604,
+    "pick_rate": 42.19,
+    "avg_final_placement": 4.413,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.7,
+      11.99,
+      11.27,
+      11.73,
+      11.79,
+      12.4,
+      13.46,
+      11.67
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

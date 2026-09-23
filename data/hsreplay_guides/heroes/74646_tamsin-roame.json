@@ -1,0 +1,50 @@
+{
+  "id": 74646,
+  "dbf_id": 74646,
+  "name": "Tamsin Roame",
+  "card_id": "BG20_HERO_282",
+  "slug": "tamsin-roame",
+  "guide_text": "The best strategy with this hero is to taunt up a start of combat unit that starts small to get your hero power proc, and then gains stats before it dies. The best one is [[Choral Mrrglr]]. [[Heroic Underdog||126966]] works as well.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. The buddy just acts as a tempo stick.",
+  "favorable_tribes": [
+    14
+  ],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [
+      "The best strategy with this hero is to taunt up a start of combat unit that starts small to get your hero power proc, and then gains stats before it dies."
+    ],
+    "cycle": [
+      "Buddy up for at most 3 gold. The buddy just acts as a tempo stick."
+    ],
+    "buy_prefs": [
+      "The best one is [[Choral Mrrglr]].",
+      "[[Heroic Underdog||126966]] works as well."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/74646/tamsin-roame",
+  "stats": {
+    "hero_dbf_id": 74646,
+    "pick_rate": 14.12,
+    "avg_final_placement": 4.473,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      10.38,
+      12.15,
+      13.59,
+      14.32,
+      13.88,
+      13.93,
+      12.44,
+      9.31
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}
