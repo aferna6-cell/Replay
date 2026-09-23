@@ -47,6 +47,11 @@ _ENABLERS_PER_TRIBE = 4       # overlay + hunt list cap per tribe
 _HUNT_MAX_TIER = 2            # S (1) and A (2) comps are hunted / preloaded
 _HIGHROLL_OWNED = 3           # B comp locks only with 3+ of its cards owned
 _BOARD_SUPPORT = 2            # A tribe with 2+ board bodies joins the strong set
+# Pivot: a lock that isn't coming together gives way to a comp that is.
+_PIVOT_AFTER = 3              # turns a lock gets before it can be called stalled
+_PIVOT_LATE_TIER = 5          # …or from this tavern tier on
+_PIVOT_LEAD = 2               # alt comp owns this many more named cards (stalled)
+_PIVOT_FAST_LEAD = 3          # …or this many more (pivot even if not stalled)
 
 
 def _get(snap, key, default=None):
@@ -396,6 +401,8 @@ class PlaybookState:
     hero: Optional[str] = None                               # HSReplay hero name
     hero_comps: List[str] = field(default_factory=list)      # comps its guide names
     hero_avoid: List[str] = field(default_factory=list)      # tribes it says avoid
+    pivot_from: Optional[str] = None     # comp the plan pivoted away from
+    pivot_reason: Optional[str] = None
 
     def to_dict(self) -> dict:
         return {
@@ -408,6 +415,7 @@ class PlaybookState:
             "shop_enablers": list(self.shop_enablers),
             "hero": self.hero, "hero_comps": list(self.hero_comps),
             "hero_avoid": list(self.hero_avoid),
+            "pivot_from": self.pivot_from, "pivot_reason": self.pivot_reason,
         }
 
     @classmethod
@@ -415,7 +423,8 @@ class PlaybookState:
         return cls(**{k: d.get(k) for k in (
             "phase", "lobby", "lobby_labels", "lobby_known", "strong",
             "enablers", "plan", "plan_tribe", "trigger", "trigger_zone",
-            "shop_enablers", "hero", "hero_comps", "hero_avoid") if k in d})
+            "shop_enablers", "hero", "hero_comps", "hero_avoid",
+            "pivot_from", "pivot_reason") if k in d})
 
     @property
     def committed(self) -> bool:
@@ -512,9 +521,15 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
     locked_plan = locked_plan or _get(snapshot, "playbook_plan")
     ci = comp_by_name(locked_plan) if locked_plan else None
     if ci is not None:
-        st.phase, st.plan, st.plan_tribe = PHASE_COMMIT, ci.name, ci.tribe
         st.trigger = _get(snapshot, "playbook_trigger")
         st.trigger_zone = "memory"
+        piv = pivot_target(snapshot, ci, _get(snapshot, "playbook_locked_turn"), kb,
+                           lobby=st.lobby if lobby_known else None)
+        if piv is not None:
+            st.pivot_from, st.pivot_reason = ci.name, piv[1]
+            ci = piv[0]
+            st.trigger, st.trigger_zone = None, "pivot"
+        st.phase, st.plan, st.plan_tribe = PHASE_COMMIT, ci.name, ci.tribe
         return st
 
     # First clear enabler/core hit: owned (board/hand) beats offered
@@ -558,6 +573,52 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
             st.phase, st.plan, st.plan_tribe = PHASE_COMMIT, ci.name, ci.tribe
             st.trigger_zone = "board keys"
     return st
+
+
+def _named_owned(ci: CompInfo, owned: set) -> int:
+    return len(owned & (set(ci.cards) | set(ci.core)))
+
+
+def pivot_target(snapshot, ci: CompInfo, locked_turn=None, kb=None,
+                 lobby: Optional[Sequence[str]] = None
+                 ) -> Optional[Tuple[CompInfo, str]]:
+    """(comp, reason) to pivot to when the locked comp isn't coming together.
+
+    Stalled = the lock is ``_PIVOT_AFTER``+ turns old (or tavern
+    ``_PIVOT_LATE_TIER``+) and you own at most one of its named HSReplay cards
+    with at most two bodies of its tribe. Then any lobby comp you own
+    ``_PIVOT_LEAD``+ more named cards of wins; a comp ``_PIVOT_FAST_LEAD``+
+    ahead wins even before that. S/A comps only — B still needs a high roll.
+    Ties: better HSReplay tier, then more cards owned.
+    """
+    owned = _owned_names(snapshot)
+    have = _named_owned(ci, owned)
+    board = list(_get(snapshot, "board", []) or [])
+    bodies = _board_tribe_counts(board, kb).get(ci.tribe, 0)
+    turn, tier = _get(snapshot, "turn"), _get(snapshot, "tavern_tier")
+    aged = (locked_turn is not None and turn is not None
+            and int(turn) - int(locked_turn) >= _PIVOT_AFTER)
+    late = int(tier or 0) >= _PIVOT_LATE_TIER
+    stalled = (aged or late) and have <= 1 and bodies <= 2
+    best = None
+    for alt in live_comp_infos():
+        if alt.name == ci.name or (lobby and alt.tribe not in lobby):
+            continue
+        ah = _named_owned(alt, owned)
+        if ah < 2 or (not alt.hunted and ah < _HIGHROLL_OWNED):
+            continue
+        lead = ah - have
+        if not ((stalled and lead >= _PIVOT_LEAD) or lead >= _PIVOT_FAST_LEAD):
+            continue
+        key = (alt.tier, -ah, alt.name)
+        if best is None or key < best[0]:
+            best = (key, alt, ah)
+    if best is None:
+        return None
+    _, alt, ah = best
+    why = (f"{ci.name} not coming together ({have} HSReplay cards) — "
+           f"{alt.name} has {ah}")
+    return alt, why
 
 
 def _hero_fit(snapshot):
@@ -846,7 +907,8 @@ def _committed_gates(recs, snapshot, st: "PlaybookState", ci: CompInfo, kb, base
         i = min(hunt, key=lambda k: (rank[_buy_target(recs[k])], recs[k].placement))
         n = _buy_target(recs[i])
         tag = "commit trigger" if n in ci.triggers else "core/key"
-        why = f"PLAN {ci.name} — HSReplay {tag}"
+        why = (f"PIVOT {st.pivot_from} → {ci.name} — HSReplay {tag}" if st.pivot_from
+               else f"PLAN {ci.name} — HSReplay {tag}")
         recs = _relabel(recs, 0, why) if i == 0 else _promote(recs, i, why, base)
     elif not hunt:
         shop_names = {_mname(m) for m in (_get(snapshot, "shop", []) or [])}

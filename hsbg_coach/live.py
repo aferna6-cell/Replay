@@ -432,6 +432,8 @@ class LiveCoach:
         self._plan_game = None
         self._plan: Optional[str] = None
         self._plan_trigger: Optional[str] = None
+        self._plan_turn = None             # turn the current PLAN locked (pivot clock)
+        self.pivots: List[tuple] = []      # (turn, from_comp, to_comp) this game
 
     def start(self) -> threading.Thread:
         t = threading.Thread(target=self._consume, daemon=True)
@@ -477,17 +479,23 @@ class LiveCoach:
         game = getattr(self.tracker.state, "game_counter", None)
         if game != self._plan_game:
             self._plan_game, self._plan, self._plan_trigger = game, None, None
+            self._plan_turn, self.pivots = None, []
+        snap = dict(snap, playbook_locked_turn=self._plan_turn)
         try:
             from .lobby_playbook import evaluate
             st = evaluate(snap, kb=self.kb, locked_plan=self._plan)
         except Exception:
             return snap
-        if st.committed and not self._plan:
+        if st.committed and st.plan != self._plan:
+            if self._plan and st.pivot_from:         # the comp wasn't coming together
+                self.pivots.append((snap.get("turn"), st.pivot_from, st.plan))
             self._plan, self._plan_trigger = st.plan, st.trigger
+            self._plan_turn = snap.get("turn")
         if self._plan:
             st.trigger = st.trigger or self._plan_trigger
         return dict(snap, playbook=st.to_dict(), playbook_plan=self._plan,
-                    playbook_trigger=self._plan_trigger)
+                    playbook_trigger=self._plan_trigger,
+                    playbook_locked_turn=self._plan_turn)
 
     def _discover_playbook_lines(self, offer, snap: dict, lines: List[str]) -> List[str]:
         """A Discover offering a clear strong-tribe enabler (or PLAN card) is
