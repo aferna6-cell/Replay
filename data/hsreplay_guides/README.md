@@ -55,3 +55,16 @@ short alternates, with no LOBBY / ENABLERS / PLAN header lines
   avoid, and buy-preference cards. The coach uses this to choose which lobby
   tribes to hunt and to break ties between comps of the same HSReplay tier;
   hero guide buys also stay on-plan after the lock.
+
+## Hero + trinket picks: most 1st places
+- Hero select (`hsbg_coach/draft.py::rank_heroes`) ranks by HSReplay's
+  1st-place rate (`final_placement_distribution[0]`), highest first; average
+  placement only breaks ties. The weakest 1st rate is the reroll. A lobby-fit
+  nudge of a couple of points applies when lobby tribes are known.
+- Trinkets (`rank_trinkets`) rank by 1st-place rate too, adjusted by board /
+  guide fit. HSReplay's trinket rows ingested so far carry no placement
+  distribution, so their 1st rate is estimated from average placement and shown
+  as `1st ~X% (est.)`. The ingest now keeps `final_placement_distribution` for
+  trinkets whenever HSReplay's API returns it — re-run the ingest on your PC.
+- The estimate (`hsbg_coach/first_place.py`) is a least-squares fit of 1st %
+  on avg placement over the ingested heroes.

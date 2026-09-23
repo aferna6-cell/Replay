@@ -28,6 +28,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from hsbg_coach.first_place import first_rate  # noqa: E402
+
 GUIDES = ROOT / "data" / "hsreplay_guides"
 POOL = ROOT / "data" / "cards" / "bg_live_pool_36_6_1.json"
 MARK = re.compile(r"\[\[([^\]|]+)(?:\|\|\d+)?\]\]")
@@ -128,6 +130,8 @@ def build_data() -> dict:
             "tier": (s.get("tier") or "").upper() or None,
             "avg": s.get("avg_final_placement"), "pick": s.get("pick_rate"),
             "top1": s.get("top1_avg_final_placement"),
+            # 1st-place %: HSReplay's distribution when ingested, else estimated.
+            "first": first_rate(s)[0], "first_est": first_rate(s)[2],
             "effect": html.escape(t.get("effect_summary") or "").replace("\n", " "),
             "guide": rich(t.get("guide_text") or ""),
             "recent": bool(t.get("guide_recently_updated")),

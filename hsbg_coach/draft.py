@@ -58,13 +58,14 @@ F2P_HERO_CHOICES = int(_os.environ.get("HSBG_HERO_CHOICES", "4"))
 def rank_heroes(offered: List[str], db: StatsDB,
                 max_choices: int = F2P_HERO_CHOICES,
                 available_tribes: Optional[List[str]] = None) -> List[Choice]:
-    """Rank offered heroes by HSReplay average placement (lower = better).
+    """Rank offered heroes by HSReplay 1st-place rate (most 1sts first).
 
-    Falls back to the StatsDB (Firestone) row when HSReplay has no stats for
-    the hero. A small lobby-fit nudge from the hero's HSReplay guide applies
-    when the lobby's tribes are known (see hero_pick.lobby_fit).
+    rank_value = -(1st % − lobby-fit points) + avg/1000, so the hero that wins
+    the most lobbies leads and average placement only breaks ties. Falls back
+    to the StatsDB (Firestone) average when HSReplay has no stats for the
+    hero, converted to an estimated 1st % (see hero_pick.estimate_first).
     """
-    from .hero_pick import hsreplay_row, lobby_fit, placement_line
+    from .hero_pick import estimate_first, hsreplay_row, lobby_fit, placement_line
     # Cap to the configured offer size (default 4). max_choices=0 means no cap.
     if max_choices and len(offered) > max_choices:
         offered = offered[:max_choices]
@@ -73,22 +74,26 @@ def rank_heroes(offered: List[str], db: StatsDB,
         adj, note = lobby_fit(nm, available_tribes)
         tail = f" · {note}" if note else ""
         row = hsreplay_row(nm)
-        avg, line = placement_line(row) if row else (None, "")
-        if avg is not None:
-            out.append(Choice(row.get("name") or nm, avg + adj, line + tail,
-                              "HSReplay avg placement"))
+        first, avg, line = placement_line(row) if row else (None, None, "")
+        if first is not None:
+            out.append(Choice(row.get("name") or nm,
+                              -(first - adj) + (avg if avg is not None else 4.5) / 1000,
+                              line + tail, "HSReplay 1st-place rate"))
             continue
         h: Optional[HeroStats] = _match(nm, db.heroes)
         if h:
             tribes = ("favors " + "/".join(h.best_tribes)) if h.best_tribes else "flexible tribes"
             sample = " · all-MMR sample" if getattr(h, "broad", False) else ""
-            out.append(Choice(h.name, h.average_position + adj,
-                              f"avg {h.average_position:.2f} · {tribes} · {h.playstyle}{sample}{tail}",
-                              "avg placement"))
+            est = estimate_first(h.average_position)
+            out.append(Choice(h.name, -(est - adj) + h.average_position / 1000,
+                              f"avg {h.average_position:.2f} · 1st ~{est:.0f}% (est.) · "
+                              f"{tribes} · {h.playstyle}{sample}{tail}",
+                              "est. 1st-place rate"))
         else:
-            out.append(Choice(nm, 4.5, "no stats for this hero (defaulting to average)",
-                              "avg placement"))
-    out.sort(key=lambda c: c.rank_value)            # lower placement = better
+            out.append(Choice(nm, -estimate_first(4.5) + 4.5 / 1000,
+                              "no stats for this hero (defaulting to average)",
+                              "est. 1st-place rate"))
+    out.sort(key=lambda c: c.rank_value)            # most 1st places first
     return out
 
 
@@ -226,12 +231,19 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
                   hero_ctx: Optional[HeroContext] = None,
                   available_tribes=None,
                   card_ids=None) -> List[Choice]:
-    """Rank trinkets by effect/board/direction fit, with meta as tiebreak.
+    """Rank trinkets by 1st-place rate, adjusted by effect/board/direction fit.
 
+    Base strength is the trinket's HSReplay 1st-place % (real when the ingest
+    has HSReplay's placement distribution, else estimated from HSReplay's avg,
+    else from the Firestone avg — see first_place). Fit deltas are placement
+    units and convert at PTS_PER_PLACE, so a clear plan can still beat a
+    trinket that only wins more lobbies in general.
     Aidan: strategy fit must beat raw avg when the board/lobby has a plan.
     Pass card_ids (parallel to offered names) so live MagicItem ids resolve
     even when entityName mismatches the stats DB.
     """
+    from .first_place import PTS_PER_PLACE, estimate_first, first_label, first_rate
+    from .hsreplay_guides import lookup_trinket
     board_tribes, board_kw = _board_profile(board, kb)
     target = (hero_ctx.target_tribe if hero_ctx else None) or _build_target_tribe(board)
     lobby = available_tribes or getattr(hero_ctx, "available_tribes", None) if hero_ctx else available_tribes
@@ -257,8 +269,8 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
             # Unknown: neutral 4.5 — do NOT let offer order decide #1 on ties;
             # stable-sort would pick Entities[0]. Slight index penalty keeps
             # unknowns below any real fit hit without preferring rightmost.
-            out.append(Choice(nm, 4.5 + 0.001 * i,
-                              "no stats for this trinket", "avg placement"))
+            out.append(Choice(nm, -estimate_first(4.5) + 0.001 * i,
+                              "no stats for this trinket", "est. 1st-place rate"))
             continue
         fit, bits = _trinket_fit(t.text, board_tribes, target, board_kw, lobby)
         try:
@@ -286,13 +298,18 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
         # When board has a plan, amplify fit so strategy outranks raw meta.
         if clear_plan and fit != 0.0:
             fit = fit * 1.15
-        eff = t.average_position + fit
-        # Effect-first reason for overlay (avg is secondary context).
+        hs = lookup_trinket(getattr(t, "card_id", None)) or lookup_trinket(t.name or nm)
+        first, avg, est = first_rate((hs or {}).get("stats"))
+        if first is None:
+            avg, first, est = t.average_position, estimate_first(t.average_position), True
+        eff = -(first - fit * PTS_PER_PLACE)
+        label = first_label(first, est)
+        # Effect-first reason for overlay (1st rate + avg are context).
         if bits:
-            reason = "; ".join(bits) + f" · avg {t.average_position:.2f}"
+            reason = "; ".join(bits) + f" · {label} · avg {avg:.2f}"
         else:
-            reason = f"avg {t.average_position:.2f} · tier {t.tier}"
-        out.append(Choice(t.name, eff, reason, "board-adjusted placement"))
+            reason = f"{label} · avg {avg:.2f} · tier {t.tier}"
+        out.append(Choice(t.name, eff, reason, "board-adjusted 1st-place rate"))
     out.sort(key=lambda c: c.rank_value)
     return out
 
@@ -398,10 +415,7 @@ def hero_draft_plan(offered: List[str], db: StatsDB,
     if len(ranked) >= 3 and rerolls_available > 0:
         worst = ranked[-1]
         # Skip only when every option is equally unknown — no signal to prefer.
-        all_unknown = all(
-            abs(c.rank_value - 4.5) < 1e-9 and "no stats" in c.reason
-            for c in ranked
-        )
+        all_unknown = all("no stats" in c.reason for c in ranked)
         if not all_unknown:
             # With 4 offers + a reroll, always name the weakest target (even if it
             # is within ~0.15 of the 3rd-best — Aidan wants a clear reroll).

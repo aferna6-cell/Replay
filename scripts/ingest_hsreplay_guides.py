@@ -402,6 +402,8 @@ def ingest_trinkets(
                 "group": st.get("group"),
                 "top1_avg_final_placement": t1.get("avg_final_placement"),
                 "top1_tier": t1.get("tier"),
+                # 1st-place rate for trinket picks (kept when the API sends it).
+                "final_placement_distribution": st.get("final_placement_distribution"),
             },
             "source_url": f"{BASE}/battlegrounds/trinkets/",
         })
