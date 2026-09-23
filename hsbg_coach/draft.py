@@ -252,6 +252,7 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
     even when entityName mismatches the stats DB.
     """
     from .first_place import PTS_PER_PLACE, estimate_first, first_label, first_rate
+    # Rank by HSReplay 1st-place rate when ingested, else average placement.
     from .hsreplay_guides import lookup_trinket
     board_tribes, board_kw = _board_profile(board, kb)
     target = (hero_ctx.target_tribe if hero_ctx else None) or _build_target_tribe(board)
@@ -325,13 +326,17 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
         if first is None:
             avg, first, est = t.average_position, estimate_first(t.average_position), True
         eff = -(first - fit * PTS_PER_PLACE)
-        label = first_label(first, est)
-        # Effect-first reason for overlay (1st rate + avg are context).
+        # No HSReplay 1st-place split → show average placement only (the avg
+        # → 1st% estimate just keeps both on one scale; it is never shown).
+        stat = f"avg {avg:.2f}" if est else f"{first_label(first, est)} · avg {avg:.2f}"
+        # Effect-first reason for overlay (1st rate / avg are context).
         if bits:
-            reason = "; ".join(bits) + f" · {label} · avg {avg:.2f}"
+            reason = "; ".join(bits) + f" · {stat}"
         else:
-            reason = f"{label} · avg {avg:.2f} · tier {t.tier}"
-        out.append(Choice(t.name, eff, reason, "board-adjusted 1st-place rate"))
+            reason = f"{stat} · tier {t.tier}"
+        out.append(Choice(t.name, eff, reason,
+                          "board-adjusted placement" if est
+                          else "board-adjusted 1st-place rate"))
     out.sort(key=lambda c: c.rank_value)
     return out
 

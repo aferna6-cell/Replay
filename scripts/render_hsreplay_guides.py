@@ -105,7 +105,8 @@ def build_data() -> dict:
             out.append({"name": t.get("name"), "type": t.get("type"), "rank": r,
                         "tier": (s_.get("tier") or "").upper() or None,
                         "avg": s_.get("avg_final_placement"),
-                        "first": first_rate(s_)[0], "why": why})
+                        "first": first_rate(s_)[0], "first_est": first_rate(s_)[2],
+                        "why": why})
         out.sort(key=lambda x: (x["rank"], -(x["first"] or 0)))
         return out[:8]
 

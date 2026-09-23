@@ -60,14 +60,17 @@ short alternates, with no LOBBY / ENABLERS / PLAN header lines
 - Hero select (`hsbg_coach/draft.py::rank_heroes`) ranks by HSReplay's
   1st-place rate (`final_placement_distribution[0]`), highest first; average
   placement only breaks ties. The weakest 1st rate is the reroll. A lobby-fit
-  nudge of a couple of points applies when lobby tribes are known.
-- Trinkets (`rank_trinkets`) rank by 1st-place rate too, adjusted by board /
-  guide fit. HSReplay's trinket rows ingested so far carry no placement
-  distribution, so their 1st rate is estimated from average placement and shown
-  as `1st ~X% (est.)`. The ingest now keeps `final_placement_distribution` for
-  trinkets whenever HSReplay's API returns it — re-run the ingest on your PC.
-- The estimate (`hsbg_coach/first_place.py`) is a least-squares fit of 1st %
-  on avg placement over the ingested heroes.
+  nudge of a couple of points applies when lobby tribes are known. A hero
+  whose HSReplay guide calls its hero power weak loses 6 points
+  (`hsbg_coach/hero_power_verdict.py`) and is named in the reroll line.
+- Trinkets (`rank_trinkets`) rank by 1st-place rate when HSReplay's trinket
+  placement distribution is ingested, otherwise by average placement (shown as
+  `avg 3.88`), adjusted by board / guide fit. The ingest keeps
+  `final_placement_distribution` for trinkets whenever HSReplay's API returns
+  it — re-run the ingest on your PC.
+- Internally, average placement converts to the 1st-% scale with a
+  least-squares fit over the ingested heroes (`hsbg_coach/first_place.py`),
+  so trinkets with and without a distribution compare on one scale.
 
 ## Trinkets follow their HSReplay guides (`hsbg_coach/trinket_comps.py`)
 HSReplay's trinket `favorable_tribes` is empty for every trinket, so the guide

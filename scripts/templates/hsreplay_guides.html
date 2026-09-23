@@ -128,12 +128,12 @@ select{padding:6px 10px;border:1px solid var(--line);border-radius:8px;backgroun
   </section>
 
   <section id="trinkets" role="tabpanel" aria-labelledby="tab-trinkets" hidden>
-    <p class="note">HSReplay's trinket guides, verbatim. Trinket picks rank by 1st-place rate (estimated from average placement until HSReplay's trinket distribution is ingested) and follow the guide: <b>Points to</b> is read from the guide text — comps it names, tribes it favors, and cards it tells you to buy. Once PLAN locks, a trinket whose guide is for that comp is promoted, one whose guide wants something else is demoted, and its guide buys count as on-plan. Naga-only guides are dead this patch.</p>
+    <p class="note">HSReplay's trinket guides, verbatim. Trinket picks rank by HSReplay 1st-place rate when it is ingested, otherwise by average placement and follow the guide: <b>Points to</b> is read from the guide text — comps it names, tribes it favors, and cards it tells you to buy. Once PLAN locks, a trinket whose guide is for that comp is promoted, one whose guide wants something else is demoted, and its guide buys count as on-plan. Naga-only guides are dead this patch.</p>
     <div class="filters">
       <input class="tsearch" id="tq" type="search" placeholder="Search trinket, effect or guide text" aria-label="Search trinkets">
       <select id="ttype" aria-label="Trinket size"><option value="">Greater + Lesser</option><option>Greater</option><option>Lesser</option></select>
       <select id="tguide" aria-label="Guide filter"><option value="1">With HSReplay guide</option><option value="">All trinkets</option></select>
-      <select id="tsort" aria-label="Sort"><option value="first">Most 1st places</option><option value="avg">Best avg placement</option><option value="pick">Most picked</option><option value="name">Name</option></select>
+      <select id="tsort" aria-label="Sort"><option value="avg">Best avg placement</option><option value="first">Most 1st places</option><option value="pick">Most picked</option><option value="name">Name</option></select>
       <span class="count" id="tcount"></span>
     </div>
     <div class="trows" id="tlist"></div>
@@ -202,7 +202,7 @@ function renderComps(){
           </div>` : ""}
           <div class="block"><h3>Trinket setups <span class="derived">from HSReplay trinket guides</span></h3>
             ${c.setups.length ? `<ul class="tlist">${c.setups.map(t => `
-              <li><span class="tl ${t.tier || ""}">${t.tier || "–"}</span><span>${esc(t.name)} <span class="why">· ${esc(t.type)} · ${esc(t.why)}</span></span><span class="num">1st ${fmt(t.first,0)}%</span></li>`).join("")}</ul>`
+              <li><span class="tl ${t.tier || ""}">${t.tier || "–"}</span><span>${esc(t.name)} <span class="why">· ${esc(t.type)} · ${esc(t.why)}</span></span><span class="num">${t.first_est ? `avg ${fmt(t.avg)}` : `1st ${fmt(t.first,0)}%`}</span></li>`).join("")}</ul>`
               : `<span class="empty">No trinket guide names this comp's cards or tribe.</span>`}
           </div>
           <div class="block"><h3>Heroes <span class="derived">from HSReplay hero guides</span></h3>
@@ -227,7 +227,7 @@ function renderTrinkets(){
   $("#tlist").innerHTML = rows.map(t => `
     <div class="trow">
       <h4>${esc(t.name)} <span class="kind">${esc(t.type)}</span>${t.recent ? ' <span class="fresh">guide updated</span>' : ""}</h4>
-      <div class="stats"><span class="tl ${t.tier || ""}">${t.tier || "–"}</span> <span class="num">1st ${t.first_est ? "~" : ""}${fmt(t.first,0)}%${t.first_est ? " (est.)" : ""} · avg ${fmt(t.avg)} · top 1% ${fmt(t.top1)} · pick ${fmt(t.pick,1)}%</span></div>
+      <div class="stats"><span class="tl ${t.tier || ""}">${t.tier || "–"}</span> <span class="num">${t.first_est ? "" : `1st ${fmt(t.first,0)}% · `}avg ${fmt(t.avg)} · top 1% ${fmt(t.top1)} · pick ${fmt(t.pick,1)}%</span></div>
       <div class="effect">${t.effect}</div>
       ${t.guide ? `<div class="tguide"><span class="src">HSReplay guide</span> ${t.guide}</div>` : ""}
       ${trinketPoints(t.points)}

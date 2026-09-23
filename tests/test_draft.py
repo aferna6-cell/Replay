@@ -101,10 +101,11 @@ def test_trinket_placement_only_without_board():
                      text="Give your Mechs +2/+2."),
     ])
     out = rank_trinkets(["A"], db)            # no board context -> no fit applied
-    # Ranked by (estimated) 1st-place rate: rank_value = -1st %, no fit term.
+    # No 1st-place split: ranked by average placement (on the 1st-% scale),
+    # shown as avg only; no fit term.
     from hsbg_coach.first_place import estimate_first
     assert out[0].rank_value == -estimate_first(4.0)
-    assert "1st ~" in out[0].reason and "avg 4.00" in out[0].reason
+    assert out[0].reason.startswith("avg 4.00") and "1st" not in out[0].reason
 
 
 def test_recommend_choice_dispatch_and_unknown():
