@@ -399,6 +399,10 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
     each by whole-game value so leveling/rolling/buying are directly comparable."""
     scorer = scorer or get_scorer()
     pace = pace if pace is not None else load_pace()
+    # Lobby playbook (LOBBY → ENABLERS → FILL → COMMIT): attach the phase state
+    # once so every downstream prior reads the same PLAN lock.
+    from .lobby_playbook import ensure as _ensure_playbook
+    snapshot = _ensure_playbook(snapshot, kb)
     enemy_boards = _get(snapshot, "opponents_seen", None) or None
     plan = advise_actions(snapshot, kb=kb, hero_ctx=hero_ctx, scorer=scorer,
                           enemy_boards=enemy_boards,
@@ -593,7 +597,9 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                     # A reason that replaced the advisor's lost the 'sell for room'
                     # note — re-add it, choosing the least valuable to KEEP (stats +
                     # synergy) so a comp piece isn't dumped for a fatter vanilla.
-                    weakest = min(board_now, key=lambda m: _keep_value(m, board_now, kb))
+                    from .lobby_playbook import keep_bonus
+                    weakest = min(board_now, key=lambda m: _keep_value(m, board_now, kb)
+                                  + keep_bonus(m, snapshot, kb))
                     reason = f"sell {_name(weakest)} for room — {reason}"
             elif a.kind == LEVEL:                         # aggressive leveling pace
                 adj, lreason = _aggressive_level_adj(snapshot)
@@ -744,6 +750,13 @@ def rank_actions(snapshot, kb=None, scorer=None, pace=None, hero_ctx=None,
                         fixed.append(r)
                 fixed.sort(key=lambda r: r.placement)
                 recs = fixed
+    except Exception:
+        pass
+    # Hard playbook gates: enabler buy / on-plan buy / no garbage / keep PLAN
+    # pieces. These reorder NEXT; they are not placement nudges.
+    try:
+        from .lobby_playbook import apply_next_gates
+        recs = apply_next_gates(recs, snapshot, kb, base)
     except Exception:
         pass
     return recs, base

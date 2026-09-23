@@ -187,7 +187,33 @@ def _board_names(snapshot) -> List[str]:
 
 
 def locked_comp(snapshot, kb=None) -> Optional[dict]:
-    """After board is filled enough, lock the best HSReplay comp match."""
+    """The HSReplay comp NEXT is building toward.
+
+    The lobby playbook's PLAN lock (enabler hit, see ``lobby_playbook``) wins;
+    otherwise fall back to the #95 filled-board key match.
+    """
+    pb = _get(snapshot, "playbook")
+    plan = pb.get("plan") if isinstance(pb, dict) else None
+    plan = plan or _get(snapshot, "playbook_plan")
+    if plan:
+        for c in live_comps():
+            if c.get("name") == plan:
+                return c
+    if not isinstance(pb, dict) and isinstance(snapshot, dict):
+        try:
+            from .lobby_playbook import evaluate
+            st = evaluate(snapshot, kb=kb)
+            if st.committed:
+                for c in live_comps():
+                    if c.get("name") == st.plan:
+                        return c
+        except Exception:
+            pass
+    return _legacy_locked_comp(snapshot)
+
+
+def _legacy_locked_comp(snapshot) -> Optional[dict]:
+    """#95: after the board is filled enough, lock the best HSReplay key match."""
     board = list(_get(snapshot, "board", []) or [])
     if len(board) < 5:
         return None
@@ -278,9 +304,6 @@ def hero_guide_lines(snapshot, kb=None) -> List[str]:
         if not lines and _HP_NOW.search(hero.get("guide_text") or ""):
             lines.append(f"Hero Power — HSReplay guide for {hero.get('name')}")
 
-    for bullet in (structured.get("cycle") or [])[:1]:
-        lines.append(f"Cycle — HSReplay: {bullet[:140]}")
-
     shop = list(_get(snapshot, "shop", []) or [])
     shop_names = set()
     for m in shop:
@@ -296,9 +319,30 @@ def hero_guide_lines(snapshot, kb=None) -> List[str]:
         if hit:
             name = next(iter(hit))
             lines.append(f"Buy {name} — HSReplay hero guide buy pref")
-        elif mentioned:
-            lines.append(f"Look for {mentioned[0]} — HSReplay hero buy pref")
     return lines
+
+
+def hero_guide_notes(snapshot) -> List[str]:
+    """Non-action HSReplay hero-guide context for the overlay header.
+
+    Cycle prose and "look for X" are guidance, not a move — they used to lead
+    NEXT (e.g. "Cycle — HSReplay: Way too expensive…"), which hid the real
+    action. They now render as a ``HERO →`` phase line instead.
+    """
+    hero = lookup_hero(snapshot)
+    if not hero:
+        return []
+    structured = hero.get("structured") or {}
+    bits: List[str] = []
+    for bullet in (structured.get("buy_prefs") or [])[:1]:
+        mentioned = [n for n in cards_mentioned(bullet) if n]
+        if mentioned:
+            bits.append("look for " + ", ".join(mentioned[:2]))
+    for bullet in (structured.get("cycle") or [])[:1]:
+        bits.append(_CARD_MARK.sub(lambda m: m.group(1), bullet)[:90])
+    if not bits:
+        return []
+    return [f"HERO → {hero.get('name')}: " + " · ".join(bits)]
 
 
 def trinket_guide_score(
