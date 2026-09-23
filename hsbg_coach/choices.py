@@ -141,7 +141,7 @@ def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
 
 def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
                        hero_ctx=None, db=None, tier=None,
-                       rerolls_available: int = 1):
+                       rerolls_available: int = 1, available_tribes=None):
     """Overlay lines for an offer. Heroes get reroll-then-pick; others get PICK.
 
     Trinket/discover: ONE clear primary ``PICK <name> — <effect why>``. Alts are
@@ -153,6 +153,7 @@ def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
         plan = hero_draft_plan(
             offer.names, db or StatsDB.load(),
             rerolls_available=rerolls_available,
+            available_tribes=available_tribes,
         )
         return plan["lines"]
     picks = rank_offer(offer, board=board, kb=kb, scorer=scorer,

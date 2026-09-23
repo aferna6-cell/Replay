@@ -4,7 +4,8 @@ Distinct from the action recommender (`advisor.py`, which ranks buy/sell/roll on
 your board). A draft is "choose 1 of N offered": hero select, trinket pick,
 Discover. Each has its own best signal:
 
-  * **hero**    — population average placement (lower = better), at your MMR.
+  * **hero**    — HSReplay average placement (lower = better), Firestone fallback,
+    plus a small lobby-fit nudge from the hero's HSReplay guide.
   * **trinket** — population average placement.
   * **discover**— board fit: how much adding this minion raises your board's
     expected finish (the eval net + card2vec synergy on your *live* board).
@@ -55,18 +56,34 @@ F2P_HERO_CHOICES = int(_os.environ.get("HSBG_HERO_CHOICES", "4"))
 
 
 def rank_heroes(offered: List[str], db: StatsDB,
-                max_choices: int = F2P_HERO_CHOICES) -> List[Choice]:
+                max_choices: int = F2P_HERO_CHOICES,
+                available_tribes: Optional[List[str]] = None) -> List[Choice]:
+    """Rank offered heroes by HSReplay average placement (lower = better).
+
+    Falls back to the StatsDB (Firestone) row when HSReplay has no stats for
+    the hero. A small lobby-fit nudge from the hero's HSReplay guide applies
+    when the lobby's tribes are known (see hero_pick.lobby_fit).
+    """
+    from .hero_pick import hsreplay_row, lobby_fit, placement_line
     # Cap to the configured offer size (default 4). max_choices=0 means no cap.
     if max_choices and len(offered) > max_choices:
         offered = offered[:max_choices]
     out = []
     for nm in offered:
+        adj, note = lobby_fit(nm, available_tribes)
+        tail = f" · {note}" if note else ""
+        row = hsreplay_row(nm)
+        avg, line = placement_line(row) if row else (None, "")
+        if avg is not None:
+            out.append(Choice(row.get("name") or nm, avg + adj, line + tail,
+                              "HSReplay avg placement"))
+            continue
         h: Optional[HeroStats] = _match(nm, db.heroes)
         if h:
             tribes = ("favors " + "/".join(h.best_tribes)) if h.best_tribes else "flexible tribes"
             sample = " · all-MMR sample" if getattr(h, "broad", False) else ""
-            out.append(Choice(h.name, h.average_position,
-                              f"avg {h.average_position:.2f} · {tribes} · {h.playstyle}{sample}",
+            out.append(Choice(h.name, h.average_position + adj,
+                              f"avg {h.average_position:.2f} · {tribes} · {h.playstyle}{sample}{tail}",
                               "avg placement"))
         else:
             out.append(Choice(nm, 4.5, "no stats for this hero (defaulting to average)",
@@ -363,7 +380,8 @@ def rank_discover(offered: List[str], board, kb, scorer=None,
 
 def hero_draft_plan(offered: List[str], db: StatsDB,
                     rerolls_available: int = 1,
-                    max_choices: int = F2P_HERO_CHOICES) -> dict:
+                    max_choices: int = F2P_HERO_CHOICES,
+                    available_tribes: Optional[List[str]] = None) -> dict:
     """Plan hero-select: which hero to reroll, then how to rank the rest.
 
     Advisory only. Hero-select reroll is a mulligan-phase action (Power.log tags
@@ -372,7 +390,8 @@ def hero_draft_plan(offered: List[str], db: StatsDB,
 
     Returns ``{reroll: Choice|None, picks: List[Choice], lines: List[str]}``.
     """
-    ranked = rank_heroes(offered, db, max_choices=max_choices)
+    ranked = rank_heroes(offered, db, max_choices=max_choices,
+                         available_tribes=available_tribes)
     reroll = None
     picks = list(ranked)
 
@@ -394,7 +413,7 @@ def hero_draft_plan(offered: List[str], db: StatsDB,
     if reroll is not None:
         n = len(ranked)
         lines.append(
-            f"Reroll: {reroll.name} — avg {reroll.rank_value:.2f} "
+            f"Reroll: {reroll.name} — {reroll.reason.split(' · ')[0]} "
             f"(weakest of {n})"
         )
         lines.append("Then pick (best first):")

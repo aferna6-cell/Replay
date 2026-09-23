@@ -142,6 +142,9 @@ def build_data() -> dict:
             "name": h.get("name"), "url": h.get("source_url"),
             "tier": (st.get("tier_v2") or "").upper() or None,
             "avg": st.get("avg_final_placement"), "pick": st.get("pick_rate"),
+            "first": (st.get("final_placement_distribution") or [None])[0],
+            "top4": (sum((st.get("final_placement_distribution") or [])[:4])
+                     if len(st.get("final_placement_distribution") or []) >= 4 else None),
             "guide": rich(h.get("guide_text") or ""),
             "buddy": rich(h.get("buddy_guide_text") or ""),
             "comps": [{"name": k, "cards": v} for k, v in (f.comps.items() if f else [])],

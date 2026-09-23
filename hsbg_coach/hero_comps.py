@@ -45,6 +45,7 @@ class HeroFit:
     tribes: List[str] = field(default_factory=list)             # favored tribes
     avoid: List[str] = field(default_factory=list)              # avoided tribes
     buys: List[str] = field(default_factory=list)               # buy-pref cards
+    hs_tribes: List[str] = field(default_factory=list)          # HSReplay favorable_tribes
 
     def favors(self, comp_name: str, tribe: Optional[str] = None) -> bool:
         return comp_name in self.comps or (tribe is not None and tribe in self.tribes)
@@ -106,6 +107,7 @@ def _fit_for(hero_name: str) -> HeroFit:
         c = canonicalize(_RACE_IDS.get(t) if isinstance(t, int) else t)
         if c and c not in hs_fav:
             hs_fav.append(c)
+    fit.hs_tribes = list(hs_fav)
     fit.avoid = [t for t in fit.avoid if t not in hs_fav]
     fit.tribes = hs_fav + [t for t in fit.tribes if t not in hs_fav and t not in fit.avoid]
     for bullet in (hero.get("structured") or {}).get("buy_prefs") or []:

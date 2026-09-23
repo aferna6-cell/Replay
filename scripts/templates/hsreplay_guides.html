@@ -118,10 +118,10 @@ select{padding:6px 10px;border:1px solid var(--line);border-radius:8px;backgroun
   </section>
 
   <section id="heroes" role="tabpanel" aria-labelledby="tab-heroes" hidden>
-    <p class="note">HSReplay's hero and buddy guides, verbatim. <b>Points to</b> is read from that guide text: comps whose enabler/core cards it names, tribes it favors or says to avoid, and cards it tells you to buy. The coach uses these to pick between comps of the same tier and to choose which lobby tribes to hunt.</p>
+    <p class="note">HSReplay's hero and buddy guides, verbatim, with HSReplay placement (all MMR, last 7 days). Hero select ranks offered heroes by this average placement. <b>Points to</b> is read from that guide text: comps whose enabler/core cards it names, tribes it favors or says to avoid, and cards it tells you to buy. The coach uses these to pick between comps of the same tier and to choose which lobby tribes to hunt.</p>
     <div class="filters">
       <input class="tsearch" id="hq" type="search" placeholder="Search hero, card or tribe" aria-label="Search heroes">
-      <select id="hsort" aria-label="Sort heroes"><option value="avg">Best avg placement</option><option value="name">Name</option><option value="pick">Most picked</option></select>
+      <select id="hsort" aria-label="Sort heroes"><option value="avg">Best avg placement</option><option value="first">Most 1st places</option><option value="name">Name</option><option value="pick">Most picked</option></select>
       <span class="count" id="hcount"></span>
     </div>
     <div class="trows" id="hlist"></div>
@@ -240,7 +240,8 @@ function renderHeroes(){
   let rows = DATA.heroes.filter(h => !q || [h.name, h.guide, h.buddy, h.tribes.join(" "),
     h.comps.map(c => c.name).join(" ")].join(" ").replace(/<[^>]+>/g,"").toLowerCase().includes(q));
   rows.sort((a,b) => sort === "name" ? a.name.localeCompare(b.name)
-    : sort === "pick" ? (b.pick ?? -1) - (a.pick ?? -1) : (a.avg ?? 99) - (b.avg ?? 99));
+    : sort === "pick" ? (b.pick ?? -1) - (a.pick ?? -1)
+    : sort === "first" ? (b.first ?? -1) - (a.first ?? -1) : (a.avg ?? 99) - (b.avg ?? 99));
   $("#hcount").textContent = `${rows.length} shown`;
   $("#hlist").innerHTML = rows.map(h => {
     const pts = [
@@ -249,7 +250,7 @@ function renderHeroes(){
       ...h.avoid.map(t => `<span class="chip avoid" title="Guide says avoid">${esc(t)}</span>`)];
     return `<div class="trow">
       <h4>${esc(h.name)} <span class="kind"><a href="${esc(h.url)}" target="_blank" rel="noopener">HSReplay guide</a></span></h4>
-      <div class="stats"><span class="tl ${h.tier || ""}">${h.tier || "–"}</span> <span class="num">avg ${fmt(h.avg)} · pick ${fmt(h.pick,1)}%</span></div>
+      <div class="stats"><span class="tl ${h.tier || ""}">${h.tier || "–"}</span> <span class="num">avg ${fmt(h.avg)} · 1st ${fmt(h.first,0)}% · top-4 ${fmt(h.top4,0)}% · pick ${fmt(h.pick,1)}%</span></div>
       ${h.guide ? `<div class="tguide"><span class="src">Hero</span> ${h.guide}</div>` : '<div class="effect">HSReplay has no hero guide text.</div>'}
       ${h.buddy ? `<div class="tguide"><span class="src">Buddy</span> ${h.buddy}</div>` : ""}
       ${pts.length ? `<div class="fitline"><span class="lbl">Points to</span>${pts.join("")}</div>` : ""}
