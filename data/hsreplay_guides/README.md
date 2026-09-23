@@ -16,7 +16,10 @@ only — the coach never invents guide text.
 ```bash
 export HSREPLAY_COOKIE_FILE=/path/to/hsreplay.cookies   # Netscape or header
 python scripts/ingest_hsreplay_guides.py --workers 12
+python scripts/render_hsreplay_guides.py   # browsable page -> guides.html
 ```
+`guides.html` shows the comp and trinket guides exactly as HSReplay publishes
+them (not committed; regenerate after each ingest).
 
 Patch target: **36.6.1** Aberrations. Live pool gate: `data/cards/bg_live_pool_36_6_1.json` (252 minions).
 

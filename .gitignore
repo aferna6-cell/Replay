@@ -23,3 +23,6 @@ bridge/package-lock.json
 # OS
 .DS_Store
 *.pt.meta.json
+
+# Rendered HSReplay guide page (regenerate with scripts/render_hsreplay_guides.py)
+/data/hsreplay_guides/guides.html
