@@ -46,6 +46,7 @@ _ENABLERS_PER_TRIBE = 4       # overlay + hunt list cap per tribe
 # Aidan: prefer S comps, A is fine, B only on a real high roll.
 _HUNT_MAX_TIER = 2            # S (1) and A (2) comps are hunted / preloaded
 _HIGHROLL_OWNED = 3           # B comp locks only with 3+ of its cards owned
+_BOARD_SUPPORT = 2            # A tribe with 2+ board bodies joins the strong set
 
 
 def _get(snap, key, default=None):
@@ -277,11 +278,13 @@ def rank_lobby_tribes(available: Optional[Sequence[str]]) -> List[TribeRank]:
 
 
 def strong_tribes(ranked: Sequence[TribeRank], hero=None,
-                  trinkets: Sequence = ()) -> List[str]:
+                  trinkets: Sequence = (),
+                  board_counts: Optional[Dict[str, int]] = None) -> List[str]:
     """Commit-eligible tribes: every S-tier lobby tribe, then tribes the hero's
-    and equipped trinkets' HSReplay guides favor (S/A comps only), topped up
-    with the next best to at least two, capped at three. Tribes a guide says to
-    avoid drop out while another option exists. Only tribes with a live comp."""
+    and equipped trinkets' HSReplay guides favor, then A tribes the board is
+    already building (2+ bodies) — S/A comps only — topped up with the next
+    best to at least two, capped at three. Tribes a guide says to avoid drop
+    out while another option exists. Only tribes with a live comp."""
     with_comps = [r for r in ranked if r.best_tier is not None]
     avoid = set(getattr(hero, "avoid", None) or [])
     for f in trinkets:
@@ -296,12 +299,19 @@ def strong_tribes(ranked: Sequence[TribeRank], hero=None,
         for r in with_comps:
             if r.tribe in fav and r.tribe not in strong and (r.best_tier or 9) <= _HUNT_MAX_TIER:
                 strong.append(r.tribe)
+    # A falls-in-your-lap tribe: A tier in this lobby and 2+ bodies on board.
+    # It keeps its slot even when S tribes fill the cap — the board is
+    # already building it.
+    built = [r.tribe for r in sorted(with_comps,
+                                     key=lambda r: -(board_counts or {}).get(r.tribe, 0))
+             if (board_counts or {}).get(r.tribe, 0) >= _BOARD_SUPPORT
+             and r.tribe not in strong and (r.best_tier or 9) <= _HUNT_MAX_TIER]
     for r in with_comps:
-        if len(strong) >= _MIN_STRONG:
+        if len(strong) + len(built) >= _MIN_STRONG:
             break
-        if r.tribe not in strong:
+        if r.tribe not in strong and r.tribe not in built:
             strong.append(r.tribe)
-    return strong[:_MAX_STRONG]
+    return strong[:_MAX_STRONG] + built
 
 
 # ---------------------------------------------------------------------------
@@ -459,7 +469,8 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
     ranked = rank_lobby_tribes(available if lobby_known else sorted(PATCH_TRIBES))
     hero = _hero_fit(snapshot)
     trinkets = _trinket_fits(snapshot)
-    strong = strong_tribes(ranked, hero, trinkets)
+    strong = strong_tribes(ranked, hero, trinkets,
+                           _board_tribe_counts(_get(snapshot, "board", []) or [], kb))
     enablers = preload_enablers(strong)
     st = PlaybookState(
         phase=PHASE_FILL if lobby_known else PHASE_LOBBY,

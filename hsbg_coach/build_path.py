@@ -39,6 +39,8 @@ _MAX_ADJUST = 1.3        # build-path (the comp you're building toward) weighted
 # Stay flexible early — don't force a comp at tier 1-2 (barely any influence);
 # commit through the mid-game as the board takes shape.
 _TIER_COMMIT = {1: 0.0, 2: 0.15, 3: 0.55, 4: 1.0, 5: 1.15, 6: 1.15}
+# Tribes not in the live pool — their winning boards are never a target.
+_OFF_POOL_TRIBES = {"Naga"}
 
 
 @dataclass
@@ -80,7 +82,7 @@ def load_archetypes() -> List[Archetype]:
     for a in raw.get("boards", []):
         core = {c["name"]: float(c.get("frequency") or 0.0)
                 for c in a.get("coreCards", []) if c.get("name")}
-        if not core:
+        if not core or a.get("tribe") in _OFF_POOL_TRIBES:
             continue
         centroid = _weighted_centroid(core, emb)
         out.append(Archetype(
@@ -120,10 +122,22 @@ def _support_prior(board_count: int) -> float:
     return math.log10(board_count + 10) / 3.0      # ~0.4 (count 0) .. ~1.0 (count 1000)
 
 
+def allowed(archetypes: List[Archetype],
+            tribes: Optional[List[str]]) -> List[Archetype]:
+    """Archetypes of the playbook's tribes (+ tribe-less boards); all if None."""
+    if tribes is None:
+        return archetypes
+    keep = set(tribes)
+    return [a for a in archetypes if a.tribe is None or a.tribe in keep]
+
+
 def infer_target(board, archetypes: Optional[List[Archetype]] = None,
-                 emb: Optional[Dict[str, List[float]]] = None) -> Optional[TargetFit]:
-    """The winning archetype the board is best positioned to complete."""
-    archetypes = archetypes if archetypes is not None else load_archetypes()
+                 emb: Optional[Dict[str, List[float]]] = None,
+                 tribes: Optional[List[str]] = None) -> Optional[TargetFit]:
+    """The winning archetype the board is best positioned to complete, among
+    the lobby playbook's ``tribes`` when given."""
+    archetypes = allowed(archetypes if archetypes is not None else load_archetypes(),
+                         tribes)
     if not archetypes:
         return None
     emb = emb if emb is not None else load_embeddings()
@@ -154,7 +168,8 @@ def _tier_commit(tier: Optional[int]) -> float:
 def path_value(board, candidate_name: Optional[str], tier: Optional[int],
                candidate_tribe: Optional[str] = None,
                archetypes: Optional[List[Archetype]] = None,
-               emb: Optional[Dict[str, List[float]]] = None
+               emb: Optional[Dict[str, List[float]]] = None,
+               tribes: Optional[List[str]] = None,
                ) -> Tuple[float, Optional[str]]:
     """(placement_adjustment, reason) for adding ``candidate_name`` to the board.
 
@@ -164,7 +179,7 @@ def path_value(board, candidate_name: Optional[str], tier: Optional[int],
         return 0.0, None
     archetypes = archetypes if archetypes is not None else load_archetypes()
     emb = emb if emb is not None else load_embeddings()
-    fit = infer_target(board, archetypes, emb)
+    fit = infer_target(board, archetypes, emb, tribes=tribes)
     if fit is None:
         return 0.0, None
     a = fit.arch

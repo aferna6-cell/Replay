@@ -128,9 +128,21 @@ def _build_path_adjust(action, snapshot):
         tribe = minion.get("tribe") or (minion.get("tags") or {}).get("tribe")
     try:
         return path_value(_get(snapshot, "board", []) or [], action.target,
-                          _get(snapshot, "tavern_tier"), candidate_tribe=tribe)
+                          _get(snapshot, "tavern_tier"), candidate_tribe=tribe,
+                          tribes=_playbook_tribes(snapshot))
     except Exception:
         return 0.0, None
+
+
+def _playbook_tribes(snapshot):
+    """Tribes the lobby playbook steers toward: the locked PLAN's tribe, else
+    its strong lobby tribes. None without a playbook (legacy behavior)."""
+    pb = _get(snapshot, "playbook")
+    if not isinstance(pb, dict):
+        return None
+    if pb.get("phase") == "commit" and pb.get("plan_tribe"):
+        return [pb["plan_tribe"]]
+    return list(pb.get("strong") or []) or None
 
 
 _K_SYN = 0.30              # effect-synergy points -> placement units (weighted up:

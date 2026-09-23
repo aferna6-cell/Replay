@@ -65,14 +65,17 @@ def rank_heroes(offered: List[str], db: StatsDB,
     to the StatsDB (Firestone) average when HSReplay has no stats for the
     hero, converted to an estimated 1st % (see hero_pick.estimate_first).
     """
-    from .hero_pick import estimate_first, hsreplay_row, lobby_fit, placement_line
+    from .hero_pick import (estimate_first, hsreplay_row, lobby_fit, placement_line,
+                            weak_hp)
     # Cap to the configured offer size (default 4). max_choices=0 means no cap.
     if max_choices and len(offered) > max_choices:
         offered = offered[:max_choices]
     out = []
     for nm in offered:
         adj, note = lobby_fit(nm, available_tribes)
-        tail = f" · {note}" if note else ""
+        hp_pen, hp_note = weak_hp(nm)
+        adj += hp_pen
+        tail = "".join(f" · {n}" for n in (hp_note, note) if n)
         row = hsreplay_row(nm)
         first, avg, line = placement_line(row) if row else (None, None, "")
         if first is not None:
@@ -445,9 +448,10 @@ def hero_draft_plan(offered: List[str], db: StatsDB,
     lines: List[str] = []
     if reroll is not None:
         n = len(ranked)
+        why = [b for b in reroll.reason.split(" · ") if b.startswith("HSReplay: weak hero power")]
         lines.append(
-            f"Reroll: {reroll.name} — {reroll.reason.split(' · ')[0]} "
-            f"(weakest of {n})"
+            f"Reroll: {reroll.name} — {reroll.reason.split(' · ')[0]}"
+            + (f" · {why[0]}" if why else "") + f" (weakest of {n})"
         )
         lines.append("Then pick (best first):")
         for i, c in enumerate(picks, 1):

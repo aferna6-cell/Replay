@@ -506,10 +506,10 @@ _SOLID_TIER_GAP = 1        # shop tier within 1 of tavern counts as on-curve
 
 def _direction_for(snapshot, kb=None):
     try:
-        from .tribe_policy import soft_lean_tribe, infer_direction, plan_tribe
-        locked = plan_tribe(snapshot)        # lobby playbook PLAN lock wins
-        if locked:
-            return locked
+        from .tribe_policy import (soft_lean_tribe, infer_direction,
+                                   playbook_direction, has_playbook)
+        if has_playbook(snapshot):           # lobby playbook steers (or stays flexible)
+            return playbook_direction(snapshot, kb)
         board = list(_get(snapshot, "board", []) or [])
         avail = _get(snapshot, "available_tribes")
         lean, _ = soft_lean_tribe(board, available_tribes=avail, kb=kb,
@@ -640,10 +640,14 @@ def direction_cut_sell_adjust(action, snapshot, kb=None) -> Tuple[float, Optiona
         return 0.0, None
     try:
         from .tribe_policy import (soft_lean_tribe, is_on_direction, is_flex_key,
-                                   direction_buy_penalty)
+                                   direction_buy_penalty, playbook_direction)
         avail = _get(snapshot, "available_tribes")
-        direction, why = soft_lean_tribe(board, available_tribes=avail, kb=kb,
-                                         turn=_get(snapshot, "turn"))
+        from .tribe_policy import has_playbook
+        if has_playbook(snapshot):
+            direction = playbook_direction(snapshot, kb)
+        else:
+            direction, why = soft_lean_tribe(board, available_tribes=avail, kb=kb,
+                                             turn=_get(snapshot, "turn"))
         if not direction:
             return 0.0, None
         # Need commitment (2+ on-direction) before cutting.

@@ -266,12 +266,23 @@ def hero_guide_hp_adjust(snapshot, cost: int = 0) -> Tuple[float, Optional[str]]
     if gold < int(cost or 0):
         return 0.0, None
 
+    from .hero_power_verdict import usable_hp_bullets, weak_quote
+    weak = weak_quote(hero)
+    if weak:
+        cite = weak[:110] + ("…" if len(weak) > 110 else "")
+        return 0.5, f"HSReplay: weak hero power — {cite}"
     guide = hero.get("guide_text") or ""
     structured = hero.get("structured") or {}
-    hp_bullets = list(structured.get("hp") or [])
-    blob = " ".join([guide] + hp_bullets)
+    all_bullets = list(structured.get("hp") or [])
+    hp_bullets = usable_hp_bullets(hero)
+    blob = " ".join([guide] + all_bullets)
     if not blob.strip():
         return 0.0, None
+    if all_bullets and not hp_bullets:
+        return 0.0, None          # the guide only says when NOT to press it
+    from .hero_power_verdict import restricted_now
+    if restricted_now(hero, _get(snapshot, "tavern_tier"), _get(snapshot, "turn")):
+        return 0.0, None          # "do not hero power on tavern 2" — not now
 
     if _HP_SKIP.search(blob) and not (hp_bullets and _HP_NOW.search(" ".join(hp_bullets))):
         return 0.35, f"HSReplay hero guide — skip HP ({hero.get('name')})"
@@ -298,10 +309,14 @@ def hero_guide_lines(snapshot, kb=None) -> List[str]:
         cost = int(hp_info.get("cost") or 0)
     gold = int(_get(snapshot, "gold") or 0)
 
-    if usable and gold >= cost:
-        for bullet in (structured.get("hp") or [])[:1]:
+    from .hero_power_verdict import usable_hp_bullets, weak_quote
+    from .hero_power_verdict import restricted_now
+    if (usable and gold >= cost and not weak_quote(hero)
+            and not restricted_now(hero, _get(snapshot, "tavern_tier"), _get(snapshot, "turn"))):
+        for bullet in usable_hp_bullets(hero)[:1]:
             lines.append(f"Hero Power — HSReplay: {bullet}")
-        if not lines and _HP_NOW.search(hero.get("guide_text") or ""):
+        if (not lines and not (structured.get("hp") or [])
+                and _HP_NOW.search(hero.get("guide_text") or "")):
             lines.append(f"Hero Power — HSReplay guide for {hero.get('name')}")
 
     shop = list(_get(snapshot, "shop", []) or [])

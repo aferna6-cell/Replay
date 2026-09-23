@@ -168,9 +168,11 @@ def test_enabler_gate_changes_next(monkeypatch):
                       _m("mech_c", 4, 4, "Mech", 3)]
         return s
 
-    # Pre-playbook behavior (#95): no phase state, no gates.
+    # Pre-playbook behavior (#95): no phase state, no gates. (An empty phase
+    # means "no playbook", so legacy direction inference applies; a FILL
+    # phase is a real playbook that steers direction itself.)
     monkeypatch.setattr(lp, "ensure", lambda s, kb=None: dict(
-        s, playbook={"phase": lp.PHASE_FILL, "plan": None}))
+        s, playbook={"phase": None, "plan": None}))
     monkeypatch.setattr(lp, "apply_next_gates", lambda recs, *a, **k: recs)
     ungated = _rank(snap())
     monkeypatch.undo()

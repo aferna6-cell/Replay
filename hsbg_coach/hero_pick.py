@@ -24,6 +24,7 @@ from typing import Optional, Sequence, Tuple
 # 1st-place percentage points subtracted by lobby_fit (positive = worse).
 _MISSING_TRIBES_PEN = 2.0      # guide needs tribes absent from this lobby
 _S_TRIBE_BONUS = 1.0           # guide favors an S-tier tribe in this lobby
+_WEAK_HP_PEN = 6.0             # HSReplay guide says the hero power is bad
 
 from .first_place import estimate_first, first_rate  # noqa: F401 (re-export)
 
@@ -55,6 +56,16 @@ def placement_line(row: dict) -> Tuple[Optional[float], Optional[float], str]:
     if tier:
         bits.append(f"tier {str(tier).upper()}")
     return first, avg, " · ".join(bits)
+
+
+def weak_hp(name: Optional[str]) -> Tuple[float, Optional[str]]:
+    """1st-place points to subtract + note when HSReplay's hero guide calls
+    the hero power bad — Aidan: don't pick those heroes."""
+    from .hero_power_verdict import weak_quote
+    q = weak_quote(hsreplay_row(name))
+    if not q:
+        return 0.0, None
+    return _WEAK_HP_PEN, "HSReplay: weak hero power — " + (q[:70] + ("…" if len(q) > 70 else ""))
 
 
 def lobby_fit(name: str, available: Optional[Sequence[str]]) -> Tuple[float, Optional[str]]:

@@ -247,6 +247,34 @@ def plan_tribe(snapshot) -> Optional[str]:
     return None
 
 
+def has_playbook(snapshot) -> bool:
+    pb = (snapshot.get("playbook") if isinstance(snapshot, dict)
+          else getattr(snapshot, "playbook", None))
+    return isinstance(pb, dict) and bool(pb.get("phase"))
+
+
+def playbook_direction(snapshot, kb=None) -> Optional[str]:
+    """The lobby playbook's steering tribe — the one direction every buy
+    heuristic follows. Locked PLAN → its tribe; before the lock, the strong
+    lobby tribe your board already supports most (ties: playbook order), or
+    None while the board holds none of them (stay flexible — FILL buys
+    solids). Callers check ``has_playbook`` so a None here never falls back to
+    the legacy board/shop inference."""
+    locked = plan_tribe(snapshot)
+    if locked:
+        return locked
+    pb = (snapshot.get("playbook") if isinstance(snapshot, dict)
+          else getattr(snapshot, "playbook", None))
+    strong = [canonicalize(t) for t in ((pb or {}).get("strong") or [])
+              if isinstance(pb, dict)]
+    strong = [t for t in strong if t]
+    board = (snapshot.get("board") if isinstance(snapshot, dict)
+             else getattr(snapshot, "board", None)) or []
+    counts = board_tribe_counts(board, kb, strong) if strong else {}
+    best = max(strong, key=lambda t: (counts.get(t, 0), -strong.index(t)), default=None)
+    return best if best and counts.get(best, 0) >= 1 else None
+
+
 def direction_buy_penalty(minion, snapshot, kb=None,
                           direction: Optional[str] = None) -> Tuple[float, Optional[str]]:
     """Placement penalty (higher = worse) for a BUY that fights tribal direction.
@@ -263,10 +291,14 @@ def direction_buy_penalty(minion, snapshot, kb=None,
     if isinstance(snapshot, dict):
         hero_target = snapshot.get("target_tribe") or snapshot.get("build_tribe")
 
-    # A locked HSReplay PLAN (lobby_playbook) IS the direction.
-    direction = direction or plan_tribe(snapshot) or infer_direction(
-        board, available, kb=kb, hero_target=hero_target,
-        shop=(snapshot.get("shop") if isinstance(snapshot, dict) else None))
+    # The lobby playbook IS the direction (locked PLAN, else its strong tribe
+    # the board supports most); legacy inference only without a playbook.
+    if direction is None and has_playbook(snapshot):
+        direction = playbook_direction(snapshot, kb)
+    elif direction is None:
+        direction = infer_direction(
+            board, available, kb=kb, hero_target=hero_target,
+            shop=(snapshot.get("shop") if isinstance(snapshot, dict) else None))
 
     # Quarantine: never buy Naga (even if HSJSON still flags it in-pool).
     if _is_quarantined_minion(minion, kb):
