@@ -616,6 +616,7 @@ class LiveCoach:
                 scorer=self.scorer, hero_ctx=self.hero_ctx, db=self.db,
                 tier=snap.get("tavern_tier"),
                 available_tribes=snap.get("available_tribes"),
+                snapshot=snap,
             )
             if offer.kind == "discover":
                 lines = self._discover_playbook_lines(offer, snap, lines)

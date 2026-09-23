@@ -230,8 +230,14 @@ def _build_target_tribe(board) -> Optional[str]:
 def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
                   hero_ctx: Optional[HeroContext] = None,
                   available_tribes=None,
-                  card_ids=None) -> List[Choice]:
+                  card_ids=None, snapshot=None) -> List[Choice]:
     """Rank trinkets by 1st-place rate, adjusted by effect/board/direction fit.
+
+    Each trinket's HSReplay guide is followed like the hero guide: with PLAN
+    locked, a trinket whose guide is for that comp/tribe is promoted and one
+    whose guide wants another comp is demoted; before the lock the lobby's
+    strong tribes decide; Naga-only guides are dead (trinket_comps).
+    Pass the live ``snapshot`` so the locked PLAN is known.
 
     Base strength is the trinket's HSReplay 1st-place % (real when the ingest
     has HSReplay's placement distribution, else estimated from HSReplay's avg,
@@ -256,6 +262,10 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
         except Exception:
             pass
     clear_plan = (sum(board_tribes.values()) >= 3) or bool(board_kw)
+    from .trinket_comps import pick_adjust
+    plan_snap = snapshot
+    if plan_snap is None and (board or lobby):
+        plan_snap = {"board": list(board or []), "available_tribes": list(lobby or [])}
     out = []
     ids = list(card_ids or [])
     for i, nm in enumerate(offered):
@@ -295,6 +305,15 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
             bits.extend(gbits)
         except Exception:
             pass
+        try:
+            padj, pbits = pick_adjust(cid or getattr(t, "card_id", None) or t.name,
+                                      plan_snap)
+        except Exception:
+            padj, pbits = 0.0, []
+        if padj == 0.0 and not pbits and cid:
+            padj, pbits = pick_adjust(t.name, plan_snap)
+        fit += padj
+        bits[:0] = pbits
         # When board has a plan, amplify fit so strategy outranks raw meta.
         if clear_plan and fit != 0.0:
             fit = fit * 1.15
@@ -444,7 +463,7 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
                      board=None, kb=None, scorer=None,
                      hero_ctx: Optional[HeroContext] = None, tier=None,
                      gift_by_name=None, available_tribes=None,
-                     card_ids=None) -> List[Choice]:
+                     card_ids=None, snapshot=None) -> List[Choice]:
     """Dispatch to the right ranker. kind: 'hero' | 'trinket' | 'discover'.
 
     Heroes: rank up to HSBG_HERO_CHOICES (default 4). For the live overlay's
@@ -454,7 +473,7 @@ def recommend_choice(kind: str, offered: List[str], *, db: Optional[StatsDB] = N
     if kind == "trinket":
         return rank_trinkets(offered, db or StatsDB.load(), board=board, kb=kb,
                              hero_ctx=hero_ctx, available_tribes=available_tribes,
-                             card_ids=card_ids)
+                             card_ids=card_ids, snapshot=snapshot)
     if kind == "discover":
         return rank_discover(offered, board or [], kb, scorer=scorer,
                              hero_ctx=hero_ctx, tier=tier,

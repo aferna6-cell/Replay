@@ -36,6 +36,17 @@ MARK = re.compile(r"\[\[([^\]|]+)(?:\|\|\d+)?\]\]")
 TIER = {1: "S", 2: "A", 3: "B"}
 
 
+def _trinket_points(t: dict) -> dict:
+    """What the coach reads from this trinket's HSReplay guide."""
+    if not t.get("guide_text"):
+        return {"comps": [], "tribes": [], "avoid": [], "buys": [], "dead": []}
+    from hsbg_coach.trinket_comps import fit_for_name
+    f = fit_for_name(t.get("card_id") or t.get("name"))
+    return {"comps": [{"name": k, "cards": v} for k, v in f.comps.items()],
+            "tribes": list(f.tribes), "avoid": list(f.avoid), "buys": list(f.buys),
+            "dead": list(f.off_pool) if f.dead else []}
+
+
 def _live_names() -> set:
     if not POOL.is_file():
         return set()
@@ -72,25 +83,30 @@ def build_data() -> dict:
     fits = all_fits()
     rules = load_notes().get("support_rules") or {}
 
-    # Trinket setups: HSReplay trinket guides that name the comp's cards/tribe.
-    tguides = []
+    # Trinket setups: the same HSReplay trinket-guide reading the coach uses
+    # (trinket_comps) — guides that name the comp, or favor its tribe.
+    from hsbg_coach.trinket_comps import fit_for_name as trinket_fit
+    tfits = []
     for t in trinkets_doc.get("trinkets") or []:
-        g = t.get("guide_text") or ""
-        if g:
-            tguides.append((t, set(MARK.findall(g)), MARK.sub(lambda m: m.group(1), g).lower()))
+        if t.get("guide_text"):
+            tfits.append((t, trinket_fit(t.get("card_id") or t.get("name"))))
 
     def setups(ci) -> list:
-        out = []
-        word = ci.tribe.lower()
-        for t, named, low in tguides:
-            hit = [n for n in ci.cards if n in named]
-            if hit or re.search(rf"\b{word}s?\b", low):
-                s_ = t.get("stats") or {}
-                out.append({"name": t.get("name"), "type": t.get("type"),
-                            "tier": (s_.get("tier") or "").upper() or None,
-                            "avg": s_.get("avg_final_placement"),
-                            "why": ", ".join(hit[:2]) or ci.tribe})
-        out.sort(key=lambda x: (x["avg"] is None, x["avg"] or 9))
+        out, seen = [], set()
+        for t, f in tfits:
+            r = f.rank(ci.name, ci.tribe)
+            if r == 2 or (t.get("name"), t.get("type")) in seen:
+                continue
+            seen.add((t.get("name"), t.get("type")))
+            s_ = t.get("stats") or {}
+            cards = f.comps.get(ci.name) or []
+            why = (("names " + ", ".join(cards[:2])) if cards
+                   else "names this comp" if r == 0 else f"favors {ci.tribe}s")
+            out.append({"name": t.get("name"), "type": t.get("type"), "rank": r,
+                        "tier": (s_.get("tier") or "").upper() or None,
+                        "avg": s_.get("avg_final_placement"),
+                        "first": first_rate(s_)[0], "why": why})
+        out.sort(key=lambda x: (x["rank"], -(x["first"] or 0)))
         return out[:8]
 
     def heroes_for(ci) -> list:
@@ -132,6 +148,7 @@ def build_data() -> dict:
             "top1": s.get("top1_avg_final_placement"),
             # 1st-place %: HSReplay's distribution when ingested, else estimated.
             "first": first_rate(s)[0], "first_est": first_rate(s)[2],
+            "points": _trinket_points(t),
             "effect": html.escape(t.get("effect_summary") or "").replace("\n", " "),
             "guide": rich(t.get("guide_text") or ""),
             "recent": bool(t.get("guide_recently_updated")),

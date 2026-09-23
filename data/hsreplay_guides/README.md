@@ -68,3 +68,19 @@ short alternates, with no LOBBY / ENABLERS / PLAN header lines
   trinkets whenever HSReplay's API returns it — re-run the ingest on your PC.
 - The estimate (`hsbg_coach/first_place.py`) is a least-squares fit of 1st %
   on avg placement over the ingested heroes.
+
+## Trinkets follow their HSReplay guides (`hsbg_coach/trinket_comps.py`)
+HSReplay's trinket `favorable_tribes` is empty for every trinket, so the guide
+text is read the same way as hero guides: comps it names in words ("Commit
+Attack Scaling Undead", "Leviathan Beasts"), comps whose core cards it names,
+tribes it favors or avoids (incl. "Eles" / "Quils"), cards it tells you to buy,
+and out-of-patch tribes (Naga-only guides are dead).
+- **Pick:** with PLAN locked, a trinket whose guide is for that comp is
+  promoted (tribe match less so) and one whose guide wants another comp is
+  demoted; before the lock, a guide favoring a strong lobby tribe is promoted
+  and one whose tribes are missing from the lobby is demoted.
+- **After equip:** its guide steers strong tribes and breaks ties between
+  same-tier comps (after the hero guide), and — when the guide agrees with the
+  locked comp — the cards it names count as on-plan support buys.
+- The guide page's Trinkets tab shows what each guide points to, and each
+  comp's "Trinket setups" use the same reading.

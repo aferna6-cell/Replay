@@ -125,7 +125,7 @@ class ChoiceParser:
 
 def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
                hero_ctx=None, db=None, tier=None, gift_by_name=None,
-               available_tribes=None):
+               available_tribes=None, snapshot=None):
     """Rank an offer's options via the draft recommender (best first).
 
     For heroes this returns the full ranking (does not drop the reroll target).
@@ -136,12 +136,14 @@ def rank_offer(offer: ChoiceOffer, board=None, kb=None, scorer=None,
                             scorer=scorer, hero_ctx=hero_ctx, tier=tier,
                             gift_by_name=gift_by_name or getattr(offer, "gifts", None),
                             available_tribes=available_tribes,
-                            card_ids=getattr(offer, "card_ids", None))
+                            card_ids=getattr(offer, "card_ids", None),
+                            snapshot=snapshot)
 
 
 def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
                        hero_ctx=None, db=None, tier=None,
-                       rerolls_available: int = 1, available_tribes=None):
+                       rerolls_available: int = 1, available_tribes=None,
+                       snapshot=None):
     """Overlay lines for an offer. Heroes get reroll-then-pick; others get PICK.
 
     Trinket/discover: ONE clear primary ``PICK <name> — <effect why>``. Alts are
@@ -157,7 +159,8 @@ def offer_advice_lines(offer: ChoiceOffer, board=None, kb=None, scorer=None,
         )
         return plan["lines"]
     picks = rank_offer(offer, board=board, kb=kb, scorer=scorer,
-                       hero_ctx=hero_ctx, db=db, tier=tier)
+                       hero_ctx=hero_ctx, db=db, tier=tier,
+                       available_tribes=available_tribes, snapshot=snapshot)
     if not picks:
         return ["PICK — no options ranked"]
     best = picks[0]

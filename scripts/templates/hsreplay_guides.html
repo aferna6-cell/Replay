@@ -118,7 +118,7 @@ select{padding:6px 10px;border:1px solid var(--line);border-radius:8px;backgroun
   </section>
 
   <section id="heroes" role="tabpanel" aria-labelledby="tab-heroes" hidden>
-    <p class="note">HSReplay's hero and buddy guides, verbatim, with HSReplay placement (all MMR, last 7 days). Hero select ranks offered heroes by this average placement. <b>Points to</b> is read from that guide text: comps whose enabler/core cards it names, tribes it favors or says to avoid, and cards it tells you to buy. The coach uses these to pick between comps of the same tier and to choose which lobby tribes to hunt.</p>
+    <p class="note">HSReplay's hero and buddy guides, verbatim, with HSReplay placement (all MMR, last 7 days). Hero select ranks offered heroes by 1st-place rate (average placement breaks ties). <b>Points to</b> is read from that guide text: comps whose enabler/core cards it names, tribes it favors or says to avoid, and cards it tells you to buy. The coach uses these to pick between comps of the same tier and to choose which lobby tribes to hunt.</p>
     <div class="filters">
       <input class="tsearch" id="hq" type="search" placeholder="Search hero, card or tribe" aria-label="Search heroes">
       <select id="hsort" aria-label="Sort heroes"><option value="first">Most 1st places</option><option value="avg">Best avg placement</option><option value="name">Name</option><option value="pick">Most picked</option></select>
@@ -128,6 +128,7 @@ select{padding:6px 10px;border:1px solid var(--line);border-radius:8px;backgroun
   </section>
 
   <section id="trinkets" role="tabpanel" aria-labelledby="tab-trinkets" hidden>
+    <p class="note">HSReplay's trinket guides, verbatim. Trinket picks rank by 1st-place rate (estimated from average placement until HSReplay's trinket distribution is ingested) and follow the guide: <b>Points to</b> is read from the guide text — comps it names, tribes it favors, and cards it tells you to buy. Once PLAN locks, a trinket whose guide is for that comp is promoted, one whose guide wants something else is demoted, and its guide buys count as on-plan. Naga-only guides are dead this patch.</p>
     <div class="filters">
       <input class="tsearch" id="tq" type="search" placeholder="Search trinket, effect or guide text" aria-label="Search trinkets">
       <select id="ttype" aria-label="Trinket size"><option value="">Greater + Lesser</option><option>Greater</option><option>Lesser</option></select>
@@ -201,7 +202,7 @@ function renderComps(){
           </div>` : ""}
           <div class="block"><h3>Trinket setups <span class="derived">from HSReplay trinket guides</span></h3>
             ${c.setups.length ? `<ul class="tlist">${c.setups.map(t => `
-              <li><span class="tl ${t.tier || ""}">${t.tier || "–"}</span><span>${esc(t.name)} <span class="why">· ${esc(t.type)} · ${esc(t.why)}</span></span><span class="num">${fmt(t.avg)}</span></li>`).join("")}</ul>`
+              <li><span class="tl ${t.tier || ""}">${t.tier || "–"}</span><span>${esc(t.name)} <span class="why">· ${esc(t.type)} · ${esc(t.why)}</span></span><span class="num">1st ${fmt(t.first,0)}%</span></li>`).join("")}</ul>`
               : `<span class="empty">No trinket guide names this comp's cards or tribe.</span>`}
           </div>
           <div class="block"><h3>Heroes <span class="derived">from HSReplay hero guides</span></h3>
@@ -229,7 +230,17 @@ function renderTrinkets(){
       <div class="stats"><span class="tl ${t.tier || ""}">${t.tier || "–"}</span> <span class="num">1st ${t.first_est ? "~" : ""}${fmt(t.first,0)}%${t.first_est ? " (est.)" : ""} · avg ${fmt(t.avg)} · top 1% ${fmt(t.top1)} · pick ${fmt(t.pick,1)}%</span></div>
       <div class="effect">${t.effect}</div>
       ${t.guide ? `<div class="tguide"><span class="src">HSReplay guide</span> ${t.guide}</div>` : ""}
+      ${trinketPoints(t.points)}
     </div>`).join("") || `<p class="empty">No trinkets match.</p>`;
+}
+function trinketPoints(p){
+  if (p.dead.length) return `<div class="fitline"><span class="lbl">Points to</span><span class="chip avoid" style="text-decoration:none">Needs ${esc(p.dead.join("/"))}s — not in this patch</span></div>`;
+  const pts = [
+    ...p.comps.map(c => `<span class="chip">${esc(c.name)}${c.cards.length ? ` <span class="why">· ${esc(c.cards.join(", "))}</span>` : ""}</span>`),
+    ...p.tribes.map(t => `<span class="chip">${esc(t)}</span>`),
+    ...p.avoid.map(t => `<span class="chip avoid" title="Guide says avoid">${esc(t)}</span>`)];
+  return (pts.length ? `<div class="fitline"><span class="lbl">Points to</span>${pts.join("")}</div>` : "")
+    + (p.buys.length ? `<div class="fitline"><span class="lbl">Guide buys</span>${p.buys.map(n => `<span class="chip">${esc(n)}</span>`).join("")}</div>` : "");
 }
 ["#tq","#ttype","#tguide","#tsort"].forEach(s => $(s).addEventListener("input", renderTrinkets));
 renderTrinkets();

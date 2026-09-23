@@ -276,20 +276,23 @@ def rank_lobby_tribes(available: Optional[Sequence[str]]) -> List[TribeRank]:
     return rows
 
 
-def strong_tribes(ranked: Sequence[TribeRank], hero=None) -> List[str]:
+def strong_tribes(ranked: Sequence[TribeRank], hero=None,
+                  trinkets: Sequence = ()) -> List[str]:
     """Commit-eligible tribes: every S-tier lobby tribe, then tribes the hero's
-    HSReplay guide favors (S/A comps only), topped up with the next best to at
-    least two, capped at three. Tribes the hero guide says to avoid drop out
-    while another option exists. Only tribes with a live comp."""
+    and equipped trinkets' HSReplay guides favor (S/A comps only), topped up
+    with the next best to at least two, capped at three. Tribes a guide says to
+    avoid drop out while another option exists. Only tribes with a live comp."""
     with_comps = [r for r in ranked if r.best_tier is not None]
     avoid = set(getattr(hero, "avoid", None) or [])
+    for f in trinkets:
+        avoid |= set(f.avoid)
     if avoid and any(r.tribe not in avoid for r in with_comps):
         with_comps = [r for r in with_comps if r.tribe not in avoid]
     strong = [r.tribe for r in with_comps if r.best_tier == 1]
-    if hero is not None:
-        fav = set(getattr(hero, "tribes", None) or [])
+    for guide in ([hero] if hero is not None else []) + list(trinkets):
+        fav = set(getattr(guide, "tribes", None) or [])
         fav |= {ci.tribe for ci in live_comp_infos()
-                if ci.name in (getattr(hero, "comps", None) or {})}
+                if ci.name in (getattr(guide, "comps", None) or {})}
         for r in with_comps:
             if r.tribe in fav and r.tribe not in strong and (r.best_tier or 9) <= _HUNT_MAX_TIER:
                 strong.append(r.tribe)
@@ -415,14 +418,15 @@ def _board_tribe_counts(board, kb=None) -> Dict[str, int]:
 
 def resolve_enabler(name: str, strong: Sequence[str], board, kb=None,
                     minion=None, owned: Optional[set] = None,
-                    hero=None) -> Optional[CompInfo]:
+                    hero=None, trinkets: Sequence = ()) -> Optional[CompInfo]:
     """The comp a *clear* enabler hit commits to, else None.
 
     Clear = the card's own tribe is the comp's tribe (Ravaging Scorpid → Beasts),
     or a cross-tribe/neutral enabler (Brann, Sky Admiral Rogers) whose comp
     tribe already has 2+ bodies on the board. Prefer the better HSReplay tier
     (S > A; B only on a high roll), then the comp the hero's HSReplay guide
-    points to, then the comp the board overlaps most.
+    points to, then the one an equipped trinket's guide points to, then the
+    comp the board overlaps most.
     """
     if owned is None:
         owned = {_mname(m) for m in board or []}
@@ -440,7 +444,9 @@ def resolve_enabler(name: str, strong: Sequence[str], board, kb=None,
     def rank(ci: CompInfo):
         overlap = len(board_names & set(ci.cards))
         hero_pick = hero.rank(ci.name, ci.tribe) if hero is not None else 2
-        return (ci.tier, hero_pick, -overlap, -counts.get(ci.tribe, 0), ci.name)
+        trinket_pick = min((f.rank(ci.name, ci.tribe) for f in trinkets), default=2)
+        return (ci.tier, hero_pick, trinket_pick, -overlap,
+                -counts.get(ci.tribe, 0), ci.name)
     return sorted(clear, key=rank)[0]
 
 
@@ -452,7 +458,8 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
     lobby_known = bool(filter_lobby_tribes(available))
     ranked = rank_lobby_tribes(available if lobby_known else sorted(PATCH_TRIBES))
     hero = _hero_fit(snapshot)
-    strong = strong_tribes(ranked, hero)
+    trinkets = _trinket_fits(snapshot)
+    strong = strong_tribes(ranked, hero, trinkets)
     enablers = preload_enablers(strong)
     st = PlaybookState(
         phase=PHASE_FILL if lobby_known else PHASE_LOBBY,
@@ -500,11 +507,12 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
             hit = resolve_enabler(n, strong, board, kb,
                                   minion=m if isinstance(m, dict) and (
                                       m.get("tribes") or m.get("tribe")) else None,
-                                  owned=owned, hero=hero)
+                                  owned=owned, hero=hero, trinkets=trinkets)
             if hit is None:
                 continue
             fav = hero.rank(hit.name, hit.tribe) if hero is not None else 2
-            key = (hit.tier, fav, strong.index(hit.tribe))
+            tfav = min((f.rank(hit.name, hit.tribe) for f in trinkets), default=2)
+            key = (hit.tier, fav, tfav, strong.index(hit.tribe))
             if best is None or key < best[0]:
                 best = (key, hit, n)
         if best is not None:
@@ -533,6 +541,15 @@ def _hero_fit(snapshot):
         return hero_fit(snapshot)
     except Exception:
         return None
+
+
+def _trinket_fits(snapshot) -> list:
+    """HSReplay guide fits of the equipped trinkets (see trinket_comps)."""
+    try:
+        from .trinket_comps import owned_fits
+        return owned_fits(snapshot)
+    except Exception:
+        return []
 
 
 def ensure(snapshot, kb=None):
@@ -587,7 +604,9 @@ def is_on_plan(m, ci: CompInfo, kb=None) -> bool:
 def plan_support(snapshot, ci: CompInfo) -> Dict[str, str]:
     """Shop/hand cards that support the locked comp beyond its HSReplay list:
     Aidan's note rules (e.g. spell / Blood Gem generators for Shop Buff
-    Demons) and the hero guide's buy-preference cards. name -> label."""
+    Demons), the hero guide's buy-preference cards, and the cards an equipped
+    trinket's guide names when that guide is for this comp / tribe (or leans
+    nowhere). name -> label."""
     out: Dict[str, str] = {}
     names = [_mname(m) for m in (_get(snapshot, "shop", []) or [])]
     names += [_mname(m) for m in (_get(snapshot, "hand", []) or [])]
@@ -596,6 +615,8 @@ def plan_support(snapshot, ci: CompInfo) -> Dict[str, str]:
     except Exception:
         support_label = None  # type: ignore
     hero = _hero_fit(snapshot)
+    trinkets = [f for f in _trinket_fits(snapshot)
+                if not f.leans or f.fits(ci.name, ci.tribe)]
     for n in names:
         if not n or n in out or not in_live_pool(n):
             continue
@@ -604,6 +625,10 @@ def plan_support(snapshot, ci: CompInfo) -> Dict[str, str]:
             out[n] = f"Aidan note: {label}"
         elif hero is not None and n in hero.buys:
             out[n] = f"{hero.hero} HSReplay guide buy"
+        else:
+            f = next((f for f in trinkets if n in f.buys), None)
+            if f is not None:
+                out[n] = f"{f.trinket} HSReplay guide buy"
     return out
 
 
@@ -869,7 +894,8 @@ def discover_pick(offered: Sequence[str], snapshot, kb=None) -> Optional[Tuple[s
         if n not in candidates or not in_live_pool(n):
             continue
         hit = resolve_enabler(n, st.strong, board, kb, owned=owned,
-                              hero=_hero_fit(snapshot))
+                              hero=_hero_fit(snapshot),
+                              trinkets=_trinket_fits(snapshot))
         if hit is None:
             continue
         key = (hit.tier, st.strong.index(hit.tribe))
