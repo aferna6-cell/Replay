@@ -1,0 +1,47 @@
+{
+  "id": 117409,
+  "dbf_id": 117409,
+  "name": "Zerek, Master Cloner",
+  "card_id": "BG31_HERO_005",
+  "slug": "zerek-master-cloner",
+  "guide_text": "Use this hero power like reno and use it on the first value generator you see, such as [[Bigwig Bandit||122179]]. A lot of times that comes from pressing your dark gift on turn 4 or 6.",
+  "buddy_guide_text": "If you haven't used hero power, use your first buddy on a directional tavern 4 or 5 in the shop, buy it, and hero power it to make it golden. Use your second set of buddies to make another core card golden if you roll into it.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Use this hero power like reno and use it on the first value generator you see, such as [[Bigwig Bandit||122179]]."
+    ],
+    "cycle": [
+      "If you haven't used hero power, use your first buddy on a directional tavern 4 or 5 in the shop, buy it, and hero power it to make it golden. Use your second set of buddies to make another core card golden if you roll into it."
+    ],
+    "buy_prefs": [
+      "A lot of times that comes from pressing your dark gift on turn 4 or 6."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/117409/zerek-master-cloner",
+  "stats": {
+    "hero_dbf_id": 117409,
+    "pick_rate": 46.84,
+    "avg_final_placement": 4.555,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.72,
+      11.08,
+      11.04,
+      11.12,
+      12.0,
+      12.74,
+      13.81,
+      13.5
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

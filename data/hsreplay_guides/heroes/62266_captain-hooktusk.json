@@ -1,0 +1,46 @@
+{
+  "id": 62266,
+  "dbf_id": 62266,
+  "name": "Captain Hooktusk",
+  "card_id": "TB_BaconShop_HERO_67",
+  "slug": "captain-hooktusk",
+  "guide_text": "In the early game, hero power 1 drop battlecries such as [[Southsea Busker||98501]]. Later, hero power mainly used to target high tier battlecries such as [[Rodeo Performer||104466]] for the discovery.",
+  "buddy_guide_text": "Buddy up first when it costs 5-7 gold. Try to hero power battlecry 5 drops or 4 drops with the buddy, such as [[Rodeo Performer||104466]].",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "In the early game, hero power 1 drop battlecries such as [[Southsea Busker||98501]].",
+      "Later, hero power mainly used to target high tier battlecries such as [[Rodeo Performer||104466]] for the discovery."
+    ],
+    "cycle": [
+      "Buddy up first when it costs 5-7 gold. Try to hero power battlecry 5 drops or 4 drops with the buddy, such as [[Rodeo Performer||104466]]."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/62266/captain-hooktusk",
+  "stats": {
+    "hero_dbf_id": 62266,
+    "pick_rate": 21.18,
+    "avg_final_placement": 4.321,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.69,
+      12.42,
+      12.97,
+      12.5,
+      12.79,
+      12.46,
+      12.39,
+      9.78
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

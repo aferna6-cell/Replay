@@ -1,0 +1,51 @@
+{
+  "id": 118510,
+  "dbf_id": 118510,
+  "name": "Artanis",
+  "card_id": "BG31_HERO_802",
+  "slug": "artanis",
+  "guide_text": "Mothership is the best one to pick. Finish the hero power as soon as possible by buying everything that costs effectively 1 ([[Sellemental||64038]], [[Enchanted Lasso||104502]]). Make sure you buy summon units ([[Harmless Bonehead||104551]]) to farm 2+ protoss minions per turn. Do not spend any gold leveling to 3 until you've unlocked your minion.",
+  "buddy_guide_text": "Buddy up after you have your protoss minion, and use the buddy on protoss minion. If you got mothership, then your next buddy up will be used on the generated protoss minions. If you didn't get mothership, then use your buddy up on 6 drops such as [[Gleaming Trader]] or [[Holo Rover]].",
+  "favorable_tribes": [
+    17
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Finish the hero power as soon as possible by buying everything that costs effectively 1 ([[Sellemental||64038]], [[Enchanted Lasso||104502]])."
+    ],
+    "cycle": [
+      "Buddy up after you have your protoss minion, and use the buddy on protoss minion. If you got mothership, then your next buddy up will be used on the generated protoss minions. If you didn't get mothership, then use your buddy up on 6 drops such as [[Gleaming Trader]] or [[Holo Rover]]."
+    ],
+    "buy_prefs": [
+      "Mothership is the best one to pick.",
+      "Make sure you buy summon units ([[Harmless Bonehead||104551]]) to farm 2+ protoss minions per turn.",
+      "Do not spend any gold leveling to 3 until you've unlocked your minion."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/118510/artanis",
+  "stats": {
+    "hero_dbf_id": 118510,
+    "pick_rate": 20.27,
+    "avg_final_placement": 4.527,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      9.06,
+      11.74,
+      13.06,
+      13.9,
+      16.59,
+      15.08,
+      12.65,
+      7.92
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

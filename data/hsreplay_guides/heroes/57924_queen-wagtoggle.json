@@ -1,0 +1,46 @@
+{
+  "id": 57924,
+  "dbf_id": 57924,
+  "name": "Queen Wagtoggle",
+  "card_id": "TB_BaconShop_HERO_14",
+  "slug": "queen-wagtoggle",
+  "guide_text": "Mainly a tempo hero that gives you free stats throughout the midgame. Don't play too hard into it.",
+  "buddy_guide_text": "Buy the first copy of your buddy when it costs at most 3 gold, because it doesn't generate value. The golden version of your buddy is powerful, and benefits from concentrated stats ([[Avalanche Caller]], [[Insatiable Ur'zul||72060]])",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buy the first copy of your buddy when it costs at most 3 gold, because it doesn't generate value. The golden version of your buddy is powerful, and benefits from concentrated stats ([[Avalanche Caller]], [[Insatiable Ur'zul||72060]])"
+    ],
+    "buy_prefs": [
+      "Mainly a tempo hero that gives you free stats throughout the midgame.",
+      "Don't play too hard into it."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57924/queen-wagtoggle",
+  "stats": {
+    "hero_dbf_id": 57924,
+    "pick_rate": 14.46,
+    "avg_final_placement": 4.196,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.11,
+      12.53,
+      14.57,
+      15.51,
+      15.81,
+      13.92,
+      10.31,
+      5.24
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": 96870,
+  "dbf_id": 96870,
+  "name": "Enhance-o Mechano",
+  "card_id": "BG24_HERO_204",
+  "slug": "enhance-o-mechano",
+  "guide_text": "This hero provides some early game tempo, and has some lategame potential with venomous on random cards. Prefers non Undead lobbies where scam does the best.",
+  "buddy_guide_text": "Buddy is extremely mediocre, maybe just forget about it.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy is extremely mediocre, maybe just forget about it."
+    ],
+    "buy_prefs": [
+      "This hero provides some early game tempo, and has some lategame potential with venomous on random cards.",
+      "Prefers non Undead lobbies where scam does the best."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/96870/enhance-o-mechano",
+  "stats": {
+    "hero_dbf_id": 96870,
+    "pick_rate": 30.83,
+    "avg_final_placement": 4.294,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.09,
+      12.86,
+      12.82,
+      14.22,
+      14.14,
+      13.35,
+      11.7,
+      7.82
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

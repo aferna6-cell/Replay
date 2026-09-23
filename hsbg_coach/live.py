@@ -259,6 +259,10 @@ def _combat_odds_for(snapshot: dict, runs: int = 80, seed: int = 0) -> Optional[
 def build_note_for(snapshot, kb=None, hero_ctx=None) -> Optional[str]:
     """Minimal 'building: Dragons' line from soft lobby lean / board."""
     try:
+        from .hsreplay_guides import plan_line
+        plan = plan_line(snapshot, kb=kb)
+        if plan:
+            return plan
         from .tribe_policy import build_direction_note, soft_lean_tribe
         board = snapshot.get("board", []) if isinstance(snapshot, dict) else []
         avail = (snapshot.get("available_tribes") if isinstance(snapshot, dict) else None)

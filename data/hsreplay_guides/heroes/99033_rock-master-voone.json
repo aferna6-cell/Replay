@@ -1,0 +1,47 @@
+{
+  "id": 99033,
+  "dbf_id": 99033,
+  "name": "Rock Master Voone",
+  "card_id": "BG26_HERO_104",
+  "slug": "rock-master-voone",
+  "guide_text": "On turn 3, copy a 2 drop or a copy of your turn 1 1 drop. For turn 9, hero power has extra synergy with [[Drakkari Enchanter||101314]], allowing you to copy more copies of powerful cards.",
+  "buddy_guide_text": "A common line is to win your first two fights, and staying on one to be economy (Alleycat) turn2. Then, turn 3 hero power to copy the buddy.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "For turn 9, hero power has extra synergy with [[Drakkari Enchanter||101314]], allowing you to copy more copies of powerful cards."
+    ],
+    "cycle": [
+      "A common line is to win your first two fights, and staying on one to be economy (Alleycat) turn2. Then, turn 3 hero power to copy the buddy."
+    ],
+    "buy_prefs": [
+      "On turn 3, copy a 2 drop or a copy of your turn 1 1 drop."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/99033/rock-master-voone",
+  "stats": {
+    "hero_dbf_id": 99033,
+    "pick_rate": 32.83,
+    "avg_final_placement": 4.231,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.45,
+      13.1,
+      12.26,
+      12.11,
+      12.45,
+      12.1,
+      11.88,
+      9.65
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

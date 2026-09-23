@@ -1,0 +1,46 @@
+{
+  "id": 64480,
+  "dbf_id": 64480,
+  "name": "Silas Darkmoon",
+  "card_id": "TB_BaconShop_HERO_90",
+  "slug": "silas-darkmoon",
+  "guide_text": "A ticket is roughly worth 1 gold, so any 1 cost spell with a ticket is worth buying. However, don't buy useless units for the sake of buying a ticket.",
+  "buddy_guide_text": "Ignore buddy",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Ignore buddy"
+    ],
+    "buy_prefs": [
+      "A ticket is roughly worth 1 gold, so any 1 cost spell with a ticket is worth buying.",
+      "However, don't buy useless units for the sake of buying a ticket."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/64480/silas-darkmoon",
+  "stats": {
+    "hero_dbf_id": 64480,
+    "pick_rate": 30.56,
+    "avg_final_placement": 4.316,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.13,
+      12.19,
+      12.75,
+      13.44,
+      13.34,
+      13.17,
+      12.43,
+      8.55
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

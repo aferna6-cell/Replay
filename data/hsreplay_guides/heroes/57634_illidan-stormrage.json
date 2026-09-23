@@ -1,0 +1,46 @@
+{
+  "id": 57634,
+  "dbf_id": 57634,
+  "name": "Illidan Stormrage",
+  "card_id": "TB_BaconShop_HERO_08",
+  "slug": "illidan-stormrage",
+  "guide_text": "Illidan is great with Rally cards because attacking first with them is quite important. It also allows for you to proc important rallys twice.",
+  "buddy_guide_text": "Average buddy, used for slight midgame tempo. Buddy up for at most 3.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Average buddy, used for slight midgame tempo. Buddy up for at most 3."
+    ],
+    "buy_prefs": [
+      "Illidan is great with Rally cards because attacking first with them is quite important.",
+      "It also allows for you to proc important rallys twice."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57634/illidan-stormrage",
+  "stats": {
+    "hero_dbf_id": 57634,
+    "pick_rate": 34.55,
+    "avg_final_placement": 4.133,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.92,
+      13.35,
+      14.53,
+      14.03,
+      14.13,
+      13.83,
+      10.31,
+      5.89
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": 84867,
+  "dbf_id": 84867,
+  "name": "Murloc Holmes",
+  "card_id": "BG23_HERO_303",
+  "slug": "murloc-holmes",
+  "guide_text": "After turn 1, keep track of everyone's tavern 1 unit! Murloc Holmes might have you choose between tier 1 units in the first few turns.",
+  "buddy_guide_text": "Buddy up for 3-5 gold, because it's a value generating buddy.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 3-5 gold, because it's a value generating buddy."
+    ],
+    "buy_prefs": [
+      "After turn 1, keep track of everyone's tavern 1 unit!",
+      "Murloc Holmes might have you choose between tier 1 units in the first few turns."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/84867/murloc-holmes",
+  "stats": {
+    "hero_dbf_id": 84867,
+    "pick_rate": 28.36,
+    "avg_final_placement": 4.23,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.03,
+      12.8,
+      13.32,
+      12.69,
+      11.58,
+      12.18,
+      11.57,
+      9.83
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

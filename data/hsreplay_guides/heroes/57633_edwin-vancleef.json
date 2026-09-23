@@ -1,0 +1,47 @@
+{
+  "id": 57633,
+  "dbf_id": 57633,
+  "name": "Edwin VanCleef",
+  "card_id": "TB_BaconShop_HERO_01",
+  "slug": "edwin-vancleef",
+  "guide_text": "The hero power isn't that good, so only use it when you have one gold left over and don't play into too much.",
+  "buddy_guide_text": "Buddy is extremely mediocre, maybe just ignore it.",
+  "favorable_tribes": [
+    17
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "The hero power isn't that good, so only use it when you have one gold left over and don't play into too much."
+    ],
+    "cycle": [
+      "Buddy is extremely mediocre, maybe just ignore it."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57633/edwin-vancleef",
+  "stats": {
+    "hero_dbf_id": 57633,
+    "pick_rate": 9.82,
+    "avg_final_placement": 4.591,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      8.48,
+      11.01,
+      12.98,
+      14.79,
+      15.82,
+      15.41,
+      13.14,
+      8.38
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

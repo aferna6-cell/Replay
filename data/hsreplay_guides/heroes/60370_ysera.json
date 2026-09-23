@@ -1,0 +1,47 @@
+{
+  "id": 60370,
+  "dbf_id": 60370,
+  "name": "Ysera",
+  "card_id": "TB_BaconShop_HERO_53",
+  "slug": "ysera",
+  "guide_text": "Buy pretty much only dragons in the early-midgame and force the tribe.",
+  "buddy_guide_text": "Buddy Up for at most 3 gold. Purely for midgame tempo.",
+  "favorable_tribes": [
+    24
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy Up for at most 3 gold. Purely for midgame tempo."
+    ],
+    "buy_prefs": [
+      "Buy pretty much only dragons in the early-midgame and force the tribe."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60370/ysera",
+  "stats": {
+    "hero_dbf_id": 60370,
+    "pick_rate": 27.46,
+    "avg_final_placement": 4.331,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.1,
+      12.74,
+      13.51,
+      13.19,
+      14.79,
+      14.77,
+      11.54,
+      7.37
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 20,
+    "key_minions_top3": [
+      108464,
+      92413,
+      132986
+    ]
+  }
+}

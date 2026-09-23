@@ -1,0 +1,48 @@
+{
+  "id": 66483,
+  "dbf_id": 66483,
+  "name": "N'Zoth",
+  "card_id": "TB_BaconShop_HERO_93",
+  "slug": "n-zoth",
+  "guide_text": "Beasts and Undead compositions are the best for fish.",
+  "buddy_guide_text": "Use your buddy to golden core cards for your comp. Examples include [[Goldrinn, the Great Wolf||59955]], [[Ship Master Eudora]], [[Friendly Geist||120219]], or [[Carapace Raiser]].",
+  "favorable_tribes": [
+    11,
+    20
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Use your buddy to golden core cards for your comp. Examples include [[Goldrinn, the Great Wolf||59955]], [[Ship Master Eudora]], [[Friendly Geist||120219]], or [[Carapace Raiser]]."
+    ],
+    "buy_prefs": [
+      "Beasts and Undead compositions are the best for fish."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/66483/n-zoth",
+  "stats": {
+    "hero_dbf_id": 66483,
+    "pick_rate": 32.33,
+    "avg_final_placement": 3.936,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.62,
+      15.49,
+      15.2,
+      13.43,
+      11.86,
+      11.33,
+      9.15,
+      6.92
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

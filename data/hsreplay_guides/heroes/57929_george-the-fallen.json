@@ -1,0 +1,48 @@
+{
+  "id": 57929,
+  "dbf_id": 57929,
+  "name": "George the Fallen",
+  "card_id": "TB_BaconShop_HERO_15",
+  "slug": "george-the-fallen",
+  "guide_text": "Hero power in the early/mid game if you have 1 gold leftover (such as turn 3). Your hero power is very useful in the lategame, but you want to focus on building a good comp first. Going Divine Shield + Venom with Murlocs in is a viable backup strategy.",
+  "buddy_guide_text": "Buddy up when it costs at most 3, and the buddy will give you midgame stabilization (but don't build around it).",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero power in the early/mid game if you have 1 gold leftover (such as turn 3).",
+      "Your hero power is very useful in the lategame, but you want to focus on building a good comp first."
+    ],
+    "cycle": [
+      "Buddy up when it costs at most 3, and the buddy will give you midgame stabilization (but don't build around it)."
+    ],
+    "buy_prefs": [
+      "Going Divine Shield + Venom with Murlocs in is a viable backup strategy."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57929/george-the-fallen",
+  "stats": {
+    "hero_dbf_id": 57929,
+    "pick_rate": 30.52,
+    "avg_final_placement": 4.091,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.71,
+      14.88,
+      13.08,
+      13.56,
+      12.58,
+      11.88,
+      10.59,
+      7.74
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

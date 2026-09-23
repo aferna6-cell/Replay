@@ -1,0 +1,45 @@
+{
+  "id": 61490,
+  "dbf_id": 61490,
+  "name": "Malygos",
+  "card_id": "TB_BaconShop_HERO_58",
+  "slug": "malygos",
+  "guide_text": "If you triple into or buy a battlecry card, you can play it to get its battlecry effect and then transform it again to a good tempo unit.",
+  "buddy_guide_text": "Buddy up on turn 6 and try to line up 6 drops using your hero power. Then, play into them.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up on turn 6 and try to line up 6 drops using your hero power. Then, play into them."
+    ],
+    "buy_prefs": [
+      "If you triple into or buy a battlecry card, you can play it to get its battlecry effect and then transform it again to a good tempo unit."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/61490/malygos",
+  "stats": {
+    "hero_dbf_id": 61490,
+    "pick_rate": 24.67,
+    "avg_final_placement": 4.394,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.01,
+      11.7,
+      13.19,
+      13.24,
+      13.59,
+      13.74,
+      12.13,
+      9.39
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

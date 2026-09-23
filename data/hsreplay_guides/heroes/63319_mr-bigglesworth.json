@@ -1,0 +1,46 @@
+{
+  "id": 63319,
+  "dbf_id": 63319,
+  "name": "Mr. Bigglesworth",
+  "card_id": "TB_BaconShop_HERO_70",
+  "slug": "mr-bigglesworth",
+  "guide_text": "You have a lot of armor to work with, so don't be scared of leveling fast. You're basically Patchwerk with less HP, but higher chance to win the lobby.",
+  "buddy_guide_text": "Buddy up for 5-7 gold. Very strong econ buddy to fill out your board early on.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 5-7 gold. Very strong econ buddy to fill out your board early on."
+    ],
+    "buy_prefs": [
+      "You have a lot of armor to work with, so don't be scared of leveling fast.",
+      "You're basically Patchwerk with less HP, but higher chance to win the lobby."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/63319/mr-bigglesworth",
+  "stats": {
+    "hero_dbf_id": 63319,
+    "pick_rate": 23.15,
+    "avg_final_placement": 4.276,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.86,
+      12.89,
+      11.96,
+      11.81,
+      12.8,
+      13.14,
+      12.27,
+      9.26
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

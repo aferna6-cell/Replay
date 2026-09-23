@@ -1,0 +1,45 @@
+{
+  "id": 63601,
+  "dbf_id": 63601,
+  "name": "Jandice Barov",
+  "card_id": "TB_BaconShop_HERO_71",
+  "slug": "jandice-barov",
+  "guide_text": "With [[Polarizing Beatboxer||98713]], you can create a magnetic stack and double its stats and effects every turn.",
+  "buddy_guide_text": "Buddy up when it costs 3-5 gold. Use it for some midgame tempo but don't play into it too hard.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up when it costs 3-5 gold. Use it for some midgame tempo but don't play into it too hard."
+    ],
+    "buy_prefs": [
+      "With [[Polarizing Beatboxer||98713]], you can create a magnetic stack and double its stats and effects every turn."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/63601/jandice-barov",
+  "stats": {
+    "hero_dbf_id": 63601,
+    "pick_rate": 18.49,
+    "avg_final_placement": 4.436,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.06,
+      11.62,
+      13.02,
+      13.32,
+      14.66,
+      13.66,
+      12.54,
+      9.1
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

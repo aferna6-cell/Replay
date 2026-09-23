@@ -1,0 +1,46 @@
+{
+  "id": 61914,
+  "dbf_id": 61914,
+  "name": "Maiev Shadowsong",
+  "card_id": "TB_BaconShop_HERO_62",
+  "slug": "maiev-shadowsong",
+  "guide_text": "Early game, your hero power is used to buy minions for 1 gold. Late game, you can hero power pairs that you don't plan on playing immediately, such as Brann or Titus pair.",
+  "buddy_guide_text": "Mediocre buddy, as oftentimes it's too slow. People commonly use the golden hero power on Bream Counter because it keeps scaling while locked. You may also repeatedly proc the buddy using [[Flotsam Flinger]], [[Rylak Metalhead]], or [[Greenskeeper]].",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Early game, your hero power is used to buy minions for 1 gold.",
+      "Late game, you can hero power pairs that you don't plan on playing immediately, such as Brann or Titus pair."
+    ],
+    "cycle": [
+      "Mediocre buddy, as oftentimes it's too slow. People commonly use the golden hero power on Bream Counter because it keeps scaling while locked. You may also repeatedly proc the buddy using [[Flotsam Flinger]], [[Rylak Metalhead]], or [[Greenskeeper]]."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/61914/maiev-shadowsong",
+  "stats": {
+    "hero_dbf_id": 61914,
+    "pick_rate": 18.4,
+    "avg_final_placement": 4.331,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.52,
+      12.52,
+      12.8,
+      12.28,
+      12.64,
+      13.17,
+      12.71,
+      9.35
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

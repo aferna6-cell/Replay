@@ -1,0 +1,43 @@
+{
+  "id": 132608,
+  "dbf_id": 132608,
+  "name": "Nightmare Lord Xavius",
+  "card_id": "BG36_HERO_105",
+  "slug": "nightmare-lord-xavius",
+  "guide_text": "Generally very strong hero that gets a ton of free value.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "Generally very strong hero that gets a ton of free value."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/132608/nightmare-lord-xavius",
+  "stats": {
+    "hero_dbf_id": 132608,
+    "pick_rate": 80.34,
+    "avg_final_placement": 4.048,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      19.36,
+      14.14,
+      12.3,
+      11.56,
+      11.28,
+      11.09,
+      11.06,
+      9.22
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

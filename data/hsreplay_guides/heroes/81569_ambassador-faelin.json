@@ -1,0 +1,46 @@
+{
+  "id": 81569,
+  "dbf_id": 81569,
+  "name": "Ambassador Faelin",
+  "card_id": "BG22_HERO_201",
+  "slug": "ambassador-faelin",
+  "guide_text": "Very often the curve on this hero is to level to tavern 3 on turn 4 and level to 4 on turn 5 so you can unlock your 4 drop as soon as possible. The best 4 drops to pick are the ones that generate value every turn such as [[Headhunter Gryphon||132800]].",
+  "buddy_guide_text": "Keep a look out for [[Rylak Metalhead]] or [[Greenskeeper]] which are the best cards with this buddy, because repeatedly proccing its battlecry is very useful. Then you may scale with Mooneater + Brann. Usually you buddy up when it costs 3, but if you have Rylak or Greenskeeper, buddy up as soon as possible.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Keep a look out for [[Rylak Metalhead]] or [[Greenskeeper]] which are the best cards with this buddy, because repeatedly proccing its battlecry is very useful. Then you may scale with Mooneater + Brann. Usually you buddy up when it costs 3, but if you have Rylak or Greenskeeper, buddy up as soon as possible."
+    ],
+    "buy_prefs": [
+      "Very often the curve on this hero is to level to tavern 3 on turn 4 and level to 4 on turn 5 so you can unlock your 4 drop as soon as possible.",
+      "The best 4 drops to pick are the ones that generate value every turn such as [[Headhunter Gryphon||132800]]."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/81569/ambassador-faelin",
+  "stats": {
+    "hero_dbf_id": 81569,
+    "pick_rate": 60.79,
+    "avg_final_placement": 4.242,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.91,
+      12.9,
+      11.82,
+      11.01,
+      11.33,
+      11.83,
+      12.21,
+      10.99
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

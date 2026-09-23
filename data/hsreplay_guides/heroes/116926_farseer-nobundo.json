@@ -1,0 +1,50 @@
+{
+  "id": 116926,
+  "dbf_id": 116926,
+  "name": "Farseer Nobundo",
+  "card_id": "BG31_HERO_003",
+  "slug": "farseer-nobundo",
+  "guide_text": "You want to copy the same, strong spell over and over. With an early [[Strike Oil||104029]] or [[Chef's Choice||105664]], you can hero power every single turn to start printing Strike Oils. Then, later on you generate a strong spell such as [[Temperature Shift||117670]] every turn.",
+  "buddy_guide_text": "Buddy up when it costs 5-7.The best spell to discover is [[Temperature Shift||117670]]. Your hero power can copy it every turn. Keep the buddy around to sell ever turn with a [[Lantern Lava]]. Even better if you have a [[Brann Bronzebeard||96786]], this combo just wins the game.",
+  "favorable_tribes": [
+    18
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "With an early [[Strike Oil||104029]] or [[Chef's Choice||105664]], you can hero power every single turn to start printing Strike Oils."
+    ],
+    "cycle": [
+      "Buddy up when it costs 5-7.The best spell to discover is [[Temperature Shift||117670]]. Your hero power can copy it every turn. Keep the buddy around to sell ever turn with a [[Lantern Lava]]. Even better if you have a [[Brann Bronzebeard||96786]], this combo just wins the game."
+    ],
+    "buy_prefs": [
+      "You want to copy the same, strong spell over and over.",
+      "Then, later on you generate a strong spell such as [[Temperature Shift||117670]] every turn."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/116926/farseer-nobundo",
+  "stats": {
+    "hero_dbf_id": 116926,
+    "pick_rate": 27.84,
+    "avg_final_placement": 4.265,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.11,
+      12.85,
+      11.93,
+      12.43,
+      12.74,
+      12.15,
+      11.76,
+      10.03
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

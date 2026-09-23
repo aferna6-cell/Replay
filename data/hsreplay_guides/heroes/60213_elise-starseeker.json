@@ -1,0 +1,47 @@
+{
+  "id": 60213,
+  "dbf_id": 60213,
+  "name": "Elise Starseeker",
+  "card_id": "TB_BaconShop_HERO_42",
+  "slug": "elise-starseeker",
+  "guide_text": "Hero power when it works out goldwise. For example, on turn 4 you may level to tavern 3 and hero power for 1. When your hero power costs 5, stop hero powering.",
+  "buddy_guide_text": "Buddy up is worth 2 gold every time to hero power, so buddy up when it costs at most 3 gold. The buddy can also be used with [[Greenskeeper]], [[Rylak Metalhead]], or [[Flotsam Flinger]] to save even more gold.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero power when it works out goldwise.",
+      "For example, on turn 4 you may level to tavern 3 and hero power for 1.",
+      "When your hero power costs 5, stop hero powering."
+    ],
+    "cycle": [
+      "Buddy up is worth 2 gold every time to hero power, so buddy up when it costs at most 3 gold. The buddy can also be used with [[Greenskeeper]], [[Rylak Metalhead]], or [[Flotsam Flinger]] to save even more gold."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60213/elise-starseeker",
+  "stats": {
+    "hero_dbf_id": 60213,
+    "pick_rate": 23.87,
+    "avg_final_placement": 4.377,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.02,
+      11.96,
+      12.36,
+      13.01,
+      13.03,
+      13.53,
+      12.39,
+      9.7
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

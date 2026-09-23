@@ -1,0 +1,46 @@
+{
+  "id": 76562,
+  "dbf_id": 76562,
+  "name": "Scabbs Cutterbutter",
+  "card_id": "BG21_HERO_010",
+  "slug": "scabbs-cutterbutter",
+  "guide_text": "Early game, hero power to \"buy\" a minion for 2 gold to fill out your board. Mid-late game, your hero power might snipe a great directional card.",
+  "buddy_guide_text": "For the first 8 turns, if there's no ghost, you must face every single opponent exactly once. This allows you to predict which opponents you may face and determine the value of your own buddy, depending on whether the heroes you haven't faced yet have good buddies.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Early game, hero power to \"buy\" a minion for 2 gold to fill out your board.",
+      "Mid-late game, your hero power might snipe a great directional card."
+    ],
+    "cycle": [
+      "For the first 8 turns, if there's no ghost, you must face every single opponent exactly once. This allows you to predict which opponents you may face and determine the value of your own buddy, depending on whether the heroes you haven't faced yet have good buddies."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/76562/scabbs-cutterbutter",
+  "stats": {
+    "hero_dbf_id": 76562,
+    "pick_rate": 30.25,
+    "avg_final_placement": 4.402,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.78,
+      12.19,
+      12.7,
+      12.9,
+      13.79,
+      14.06,
+      12.64,
+      8.94
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

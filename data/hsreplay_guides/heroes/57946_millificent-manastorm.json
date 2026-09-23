@@ -1,0 +1,47 @@
+{
+  "id": 57946,
+  "dbf_id": 57946,
+  "name": "Millificent Manastorm",
+  "card_id": "TB_BaconShop_HERO_17",
+  "slug": "millificent-manastorm",
+  "guide_text": "Try to go tavern 4 on 5 to get early [[Auto Assembler||120025]], which should provide midgame stabilization.",
+  "buddy_guide_text": "Terrible buddy, don't play into at all, buddy up for at most 1.",
+  "favorable_tribes": [
+    17
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Terrible buddy, don't play into at all, buddy up for at most 1."
+    ],
+    "buy_prefs": [
+      "Try to go tavern 4 on 5 to get early [[Auto Assembler||120025]], which should provide midgame stabilization."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57946/millificent-manastorm",
+  "stats": {
+    "hero_dbf_id": 57946,
+    "pick_rate": 34.04,
+    "avg_final_placement": 3.939,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      18.6,
+      14.86,
+      13.67,
+      13.3,
+      11.52,
+      10.4,
+      9.83,
+      7.81
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 8,
+    "key_minions_top3": [
+      132894,
+      98591,
+      98588
+    ]
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": 67553,
+  "dbf_id": 67553,
+  "name": "Greybough",
+  "card_id": "TB_BaconShop_HERO_95",
+  "slug": "greybough",
+  "guide_text": "This hero is strong with token builds, notably Beast or Undead compositions. Try to lean towards those comps!",
+  "buddy_guide_text": "Very average tempo, zero potential. Buddy up when it costs at most 3, don't play into it.",
+  "favorable_tribes": [
+    11,
+    20
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Very average tempo, zero potential. Buddy up when it costs at most 3, don't play into it."
+    ],
+    "buy_prefs": [
+      "This hero is strong with token builds, notably Beast or Undead compositions.",
+      "Try to lean towards those comps!"
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/67553/greybough",
+  "stats": {
+    "hero_dbf_id": 67553,
+    "pick_rate": 38.44,
+    "avg_final_placement": 4.339,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.07,
+      11.6,
+      12.89,
+      13.23,
+      13.43,
+      13.93,
+      12.52,
+      8.34
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

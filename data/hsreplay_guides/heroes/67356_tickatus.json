@@ -1,0 +1,47 @@
+{
+  "id": 67356,
+  "dbf_id": 67356,
+  "name": "Tickatus",
+  "card_id": "TB_BaconShop_HERO_94",
+  "slug": "tickatus",
+  "guide_text": "The best tier 1 spells are discover tier 1 or rockin' and rollin'. The best tier 2 spell is On the House. The best tier 3 spells are Top Shelf and Midflayer Goggles.",
+  "buddy_guide_text": "Buddy up on turn 8 and sell it on that turn, must not sell it before turn 8. This'll give you tier 3 spells that provide great value, the best ones being steal shop or golden in shop or discover 6 drop. Use your second set of buddies on turn 12. All of them are good depending on what you need.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "The best tier 1 spells are discover tier 1 or rockin' and rollin'.",
+      "Buddy up on turn 8 and sell it on that turn, must not sell it before turn 8. This'll give you tier 3 spells that provide great value, the best ones being steal shop or golden in shop or discover 6 drop. Use your second set of buddies on turn 12. All of them are good depending on what you need."
+    ],
+    "buy_prefs": [
+      "The best tier 2 spell is On the House.",
+      "The best tier 3 spells are Top Shelf and Midflayer Goggles."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/67356/tickatus",
+  "stats": {
+    "hero_dbf_id": 67356,
+    "pick_rate": 36.95,
+    "avg_final_placement": 4.204,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.16,
+      12.81,
+      12.58,
+      12.67,
+      13.02,
+      12.75,
+      11.44,
+      8.57
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

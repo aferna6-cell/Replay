@@ -1,0 +1,45 @@
+{
+  "id": 59805,
+  "dbf_id": 59805,
+  "name": "Yogg-Saron, Hope's End",
+  "card_id": "TB_BaconShop_HERO_35",
+  "slug": "yogg-saron-hope-s-end",
+  "guide_text": "Generically powerful hero!",
+  "buddy_guide_text": "Buy this buddy when it costs 5-7 gold.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buy this buddy when it costs 5-7 gold."
+    ],
+    "buy_prefs": [
+      "Generically powerful hero!"
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/59805/yogg-saron-hope-s-end",
+  "stats": {
+    "hero_dbf_id": 59805,
+    "pick_rate": 37.62,
+    "avg_final_placement": 4.04,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.56,
+      14.56,
+      14.17,
+      12.85,
+      12.31,
+      11.55,
+      10.42,
+      7.57
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

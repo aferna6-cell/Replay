@@ -1,0 +1,50 @@
+{
+  "id": 57891,
+  "dbf_id": 57891,
+  "name": "Trade Prince Gallywix",
+  "card_id": "TB_BaconShop_HERO_10",
+  "slug": "trade-prince-gallywix",
+  "guide_text": "In the early game, buy every [[River Skipper||122092]] and [[Patient Scout||97604]] as they generate you money. In the lategame, Gallywix relies on [[Brann Bronzebeard||96786]] to cycle lots of cards to ramp up economy. You must play a cycle composition with this hero, so try not to go Beasts or Undeads.",
+  "buddy_guide_text": "Buddy up for 5-7 gold because it's a value generating buddy.",
+  "favorable_tribes": [
+    14,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "In the lategame, Gallywix relies on [[Brann Bronzebeard||96786]] to cycle lots of cards to ramp up economy.",
+      "You must play a cycle composition with this hero, so try not to go Beasts or Undeads.",
+      "Buddy up for 5-7 gold because it's a value generating buddy."
+    ],
+    "buy_prefs": [
+      "In the early game, buy every [[River Skipper||122092]] and [[Patient Scout||97604]] as they generate you money."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57891/trade-prince-gallywix",
+  "stats": {
+    "hero_dbf_id": 57891,
+    "pick_rate": 38.29,
+    "avg_final_placement": 4.598,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      18.9,
+      10.8,
+      8.91,
+      8.57,
+      9.14,
+      11.04,
+      14.77,
+      17.87
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

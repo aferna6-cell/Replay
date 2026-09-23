@@ -119,11 +119,34 @@ def tribe_weight(tribe: Optional[str]) -> float:
 
 
 def _comp_index(prior: dict) -> Dict[str, Tuple[str, frozenset]]:
+    """Prefer ingested HSReplay comps.json; fall back to playstyle_prior.json."""
     pool = live_pool_names()
     oop = out_of_pool_names()
     out: Dict[str, Tuple[str, frozenset]] = {}
+    # 1) Ingested guides (authoritative live comps).
+    try:
+        from .hsreplay_guides import sync_playstyle_comp_tiers
+        tiers = sync_playstyle_comp_tiers()
+        for tier, comps in (tiers or {}).items():
+            for c in comps:
+                if "naga" in (c.get("name") or "").lower():
+                    continue
+                if _norm_tribe(c.get("tribe")) == "Naga":
+                    continue
+                keys = [
+                    k for k in (c.get("key_minions") or [])
+                    if k not in oop and (not pool or k in pool)
+                ]
+                if len(keys) < 1:
+                    continue
+                out[c["name"]] = (tier, frozenset(keys))
+    except Exception:
+        pass
+    # 2) Fall back / fill gaps from committed playstyle_prior.json
     for tier, comps in (prior.get("comp_tiers") or {}).items():
         for c in comps:
+            if c["name"] in out:
+                continue
             if "naga" in (c.get("name") or "").lower():
                 continue
             if _norm_tribe(c.get("tribe")) == "Naga":

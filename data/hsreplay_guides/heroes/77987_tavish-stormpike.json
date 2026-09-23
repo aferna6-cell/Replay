@@ -1,0 +1,46 @@
+{
+  "id": 77987,
+  "dbf_id": 77987,
+  "name": "Tavish Stormpike",
+  "card_id": "BG22_HERO_000",
+  "slug": "tavish-stormpike",
+  "guide_text": "In the early-midgame, use hero power for slight tempo. In the endgame, hero power scam such as [[Deadly Spore||65031]] and [[Leeroy the Reckless||90425]].",
+  "buddy_guide_text": "Buddy up for 5+ gold, because the buddy generates 3 gold of value every turn. In the midgame, only hero power units you want to buy.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "In the early-midgame, use hero power for slight tempo.",
+      "In the endgame, hero power scam such as [[Deadly Spore||65031]] and [[Leeroy the Reckless||90425]]."
+    ],
+    "cycle": [
+      "Buddy up for 5+ gold, because the buddy generates 3 gold of value every turn. In the midgame, only hero power units you want to buy."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/77987/tavish-stormpike",
+  "stats": {
+    "hero_dbf_id": 77987,
+    "pick_rate": 26.76,
+    "avg_final_placement": 4.205,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.0,
+      13.0,
+      13.97,
+      14.19,
+      13.44,
+      12.63,
+      11.28,
+      7.49
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

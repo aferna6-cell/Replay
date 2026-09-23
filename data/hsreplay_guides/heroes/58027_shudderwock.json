@@ -1,0 +1,45 @@
+{
+  "id": 58027,
+  "dbf_id": 58027,
+  "name": "Shudderwock",
+  "card_id": "TB_BaconShop_HERO_23",
+  "slug": "shudderwock",
+  "guide_text": "Try to lean into a [[Brann Bronzebeard||96786]] comp with this hero, such as Elemental or Murlocs, so you can keep a [[Tavern Tempest||64077]] or [[Primalfin Lookout||60028]] on your board and proc it every turn.",
+  "buddy_guide_text": "Buddy up for 5-7 gold and start hero powering it until you find something better.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 5-7 gold and start hero powering it until you find something better."
+    ],
+    "buy_prefs": [
+      "Try to lean into a [[Brann Bronzebeard||96786]] comp with this hero, such as Elemental or Murlocs, so you can keep a [[Tavern Tempest||64077]] or [[Primalfin Lookout||60028]] on your board and proc it every turn."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/58027/shudderwock",
+  "stats": {
+    "hero_dbf_id": 58027,
+    "pick_rate": 44.83,
+    "avg_final_placement": 4.292,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.24,
+      12.42,
+      12.47,
+      12.14,
+      11.82,
+      11.93,
+      12.38,
+      10.61
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": 86013,
+  "dbf_id": 86013,
+  "name": "Ozumat",
+  "card_id": "BG23_HERO_201",
+  "slug": "ozumat",
+  "guide_text": "Your hero power will save some HP, but don't play into it.",
+  "buddy_guide_text": "This buddy is way better with summon compositions such as [[Carapace Raiser]] or [[Goldrinn, the Great Wolf||59955]].",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Your hero power will save some HP, but don't play into it."
+    ],
+    "cycle": [
+      "This buddy is way better with summon compositions such as [[Carapace Raiser]] or [[Goldrinn, the Great Wolf||59955]]."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/86013/ozumat",
+  "stats": {
+    "hero_dbf_id": 86013,
+    "pick_rate": 12.31,
+    "avg_final_placement": 4.479,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.03,
+      11.6,
+      13.12,
+      13.66,
+      14.51,
+      14.18,
+      13.24,
+      8.67
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

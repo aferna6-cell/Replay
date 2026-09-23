@@ -1,0 +1,46 @@
+{
+  "id": 60212,
+  "dbf_id": 60212,
+  "name": "Reno Jackson",
+  "card_id": "TB_BaconShop_HERO_41",
+  "slug": "reno-jackson",
+  "guide_text": "Best case scenario is to golden an activate card early on, such as [[Decoy Conjurer||133434]] turn 3, [[Clever Castaway||132921]] turn 3, or [[Hired Mount||132951]] turn 4. If not, golden a value generator such as turn 6 [[Headhunter Gryphon||132800]], which will give you so much value so you can level fast with a strong board.",
+  "buddy_guide_text": "The buddy acts as a replacement for your hero power for some cards, such as [[Titus Rivendare||97408]] or [[Raptor Elder]].",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "The buddy acts as a replacement for your hero power for some cards, such as [[Titus Rivendare||97408]] or [[Raptor Elder]]."
+    ],
+    "buy_prefs": [
+      "Best case scenario is to golden an activate card early on, such as [[Decoy Conjurer||133434]] turn 3, [[Clever Castaway||132921]] turn 3, or [[Hired Mount||132951]] turn 4.",
+      "If not, golden a value generator such as turn 6 [[Headhunter Gryphon||132800]], which will give you so much value so you can level fast with a strong board."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60212/reno-jackson",
+  "stats": {
+    "hero_dbf_id": 60212,
+    "pick_rate": 55.92,
+    "avg_final_placement": 4.458,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.15,
+      11.95,
+      11.04,
+      10.73,
+      11.45,
+      11.85,
+      13.33,
+      13.5
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

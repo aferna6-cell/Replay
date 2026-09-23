@@ -1,0 +1,44 @@
+{
+  "id": 61489,
+  "dbf_id": 61489,
+  "name": "Nozdormu",
+  "card_id": "TB_BaconShop_HERO_57",
+  "slug": "nozdormu",
+  "guide_text": "Turn 1 if you have a 2 cost spell in your first shop, buy it and then roll and you'll likely roll into a 1 cost spell that you can then buy.",
+  "buddy_guide_text": "Buddy up on turn 5-6. Then, the wisdomball rolls will determine your game.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Turn 1 if you have a 2 cost spell in your first shop, buy it and then roll and you'll likely roll into a 1 cost spell that you can then buy.",
+      "Buddy up on turn 5-6. Then, the wisdomball rolls will determine your game."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/61489/nozdormu",
+  "stats": {
+    "hero_dbf_id": 61489,
+    "pick_rate": 25.01,
+    "avg_final_placement": 4.408,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.92,
+      12.26,
+      12.69,
+      12.13,
+      12.92,
+      12.29,
+      12.81,
+      10.97
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

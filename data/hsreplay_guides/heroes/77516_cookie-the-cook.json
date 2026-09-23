@@ -1,0 +1,48 @@
+{
+  "id": 77516,
+  "dbf_id": 77516,
+  "name": "Cookie the Cook",
+  "card_id": "BG21_HERO_020",
+  "slug": "cookie-the-cook",
+  "guide_text": "Usually go 3 on 3 on this hero. In your first 3 turns, try to hero power the same tribe to maximize your chances of getting a higher tavern tier card. If you hero power all different tribes, you have the possibility of only discovering 1 drops from your hero power.",
+  "buddy_guide_text": "If there are no Murlocs OR Dragons, you can force [[Primeval Monstrosity]] by using Chef Choice or Hero Power on your own buddy. Then, play into Rally Menagerie.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "In your first 3 turns, try to hero power the same tribe to maximize your chances of getting a higher tavern tier card.",
+      "If you hero power all different tribes, you have the possibility of only discovering 1 drops from your hero power."
+    ],
+    "cycle": [
+      "If there are no Murlocs OR Dragons, you can force [[Primeval Monstrosity]] by using Chef Choice or Hero Power on your own buddy. Then, play into Rally Menagerie."
+    ],
+    "buy_prefs": [
+      "Usually go 3 on 3 on this hero."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/77516/cookie-the-cook",
+  "stats": {
+    "hero_dbf_id": 77516,
+    "pick_rate": 30.4,
+    "avg_final_placement": 4.372,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.02,
+      12.31,
+      12.11,
+      12.37,
+      12.29,
+      12.23,
+      12.42,
+      11.25
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

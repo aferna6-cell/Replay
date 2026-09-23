@@ -135,6 +135,15 @@ def hero_power_adjust(snapshot, cost: int = 0) -> Tuple[float, Optional[str]]:
         return 0.25, "hero power not usable"
     if gold < cost:
         return 0.30, None
+
+    # HSReplay hero guide HARD signal (can make HP NEXT).
+    try:
+        from .hsreplay_guides import hero_guide_hp_adjust
+        gadj, greason = hero_guide_hp_adjust(snapshot, cost=cost)
+        if gadj:
+            return gadj, greason
+    except Exception:
+        pass
     if str(phase).lower() not in ("recruit", "unknown", ""):
         return 0.20, None
 

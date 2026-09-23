@@ -1,0 +1,49 @@
+{
+  "id": 79618,
+  "dbf_id": 79618,
+  "name": "Queen Azshara",
+  "card_id": "BG22_HERO_007",
+  "slug": "queen-azshara",
+  "guide_text": "It's worth buying the highest attack units in your shop and pointy arrows to complete your quest ASAP. You ideally want this quest done turn 6 the latest. Then, start leveling and force a Naga comp.",
+  "buddy_guide_text": "Best when paired with Deep blue Zesty comp, but even so pretty mediocre.",
+  "favorable_tribes": [
+    92
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Best when paired with Deep blue Zesty comp, but even so pretty mediocre."
+    ],
+    "buy_prefs": [
+      "It's worth buying the highest attack units in your shop and pointy arrows to complete your quest ASAP.",
+      "You ideally want this quest done turn 6 the latest.",
+      "Then, start leveling and force a Naga comp."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/79618/queen-azshara",
+  "stats": {
+    "hero_dbf_id": 79618,
+    "pick_rate": 42.65,
+    "avg_final_placement": 4.17,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.1,
+      13.89,
+      13.72,
+      12.55,
+      11.34,
+      11.24,
+      11.65,
+      9.51
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

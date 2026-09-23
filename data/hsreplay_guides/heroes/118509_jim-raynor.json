@@ -1,0 +1,48 @@
+{
+  "id": 118509,
+  "dbf_id": 118509,
+  "name": "Jim Raynor",
+  "card_id": "BG31_HERO_801",
+  "slug": "jim-raynor",
+  "guide_text": "This hero is only great when you can cheat out a second battlecruiser, so look out for Trimkets that do that such as Lens Case.",
+  "buddy_guide_text": "Spell generation is absolutely premium! Go for cards such as [[Proud Privateer||122520]], [[Lost City Looter]] [[Rimescale Priestess||122221]], or [[Divine Sparkbot]].",
+  "favorable_tribes": [
+    17,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Spell generation is absolutely premium! Go for cards such as [[Proud Privateer||122520]], [[Lost City Looter]] [[Rimescale Priestess||122221]], or [[Divine Sparkbot]]."
+    ],
+    "buy_prefs": [
+      "This hero is only great when you can cheat out a second battlecruiser, so look out for Trimkets that do that such as Lens Case."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/118509/jim-raynor",
+  "stats": {
+    "hero_dbf_id": 118509,
+    "pick_rate": 21.17,
+    "avg_final_placement": 4.706,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      8.55,
+      8.76,
+      12.19,
+      14.92,
+      16.94,
+      15.88,
+      13.78,
+      8.98
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

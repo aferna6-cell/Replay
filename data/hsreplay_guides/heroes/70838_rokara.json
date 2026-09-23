@@ -1,0 +1,46 @@
+{
+  "id": 70838,
+  "dbf_id": 70838,
+  "name": "Rokara",
+  "card_id": "BG20_HERO_100",
+  "slug": "rokara",
+  "guide_text": "Patchwerk 2.0, play the game normally and your hero will passively preserve some HP. Your main goal on this hero is to naturally find a direction, your hero doesn't help with it.",
+  "buddy_guide_text": "Purely midgame tempo buddy. Buddy up for 3-5.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Purely midgame tempo buddy. Buddy up for 3-5."
+    ],
+    "buy_prefs": [
+      "Patchwerk 2.0, play the game normally and your hero will passively preserve some HP.",
+      "Your main goal on this hero is to naturally find a direction, your hero doesn't help with it."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/70838/rokara",
+  "stats": {
+    "hero_dbf_id": 70838,
+    "pick_rate": 12.28,
+    "avg_final_placement": 4.341,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      10.7,
+      12.42,
+      14.12,
+      15.7,
+      14.53,
+      13.84,
+      11.79,
+      6.9
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

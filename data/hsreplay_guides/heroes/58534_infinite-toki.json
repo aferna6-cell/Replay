@@ -1,0 +1,45 @@
+{
+  "id": 58534,
+  "dbf_id": 58534,
+  "name": "Infinite Toki",
+  "card_id": "TB_BaconShop_HERO_28",
+  "slug": "infinite-toki",
+  "guide_text": "The most common curve with this hero is to level hero power on turn 4, so turn 5 you can buy 2 good 4 drops, and play the game from there.",
+  "buddy_guide_text": "Buddy up when it costs 3-5 to discover an early turn 6 drop. Much better with Brann.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "The most common curve with this hero is to level hero power on turn 4, so turn 5 you can buy 2 good 4 drops, and play the game from there."
+    ],
+    "cycle": [
+      "Buddy up when it costs 3-5 to discover an early turn 6 drop. Much better with Brann."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/58534/infinite-toki",
+  "stats": {
+    "hero_dbf_id": 58534,
+    "pick_rate": 39.61,
+    "avg_final_placement": 4.377,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.66,
+      12.51,
+      11.99,
+      12.09,
+      12.67,
+      12.91,
+      12.49,
+      10.67
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

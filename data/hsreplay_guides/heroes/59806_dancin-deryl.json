@@ -1,0 +1,47 @@
+{
+  "id": 59806,
+  "dbf_id": 59806,
+  "name": "Dancin' Deryl",
+  "card_id": "TB_BaconShop_HERO_36",
+  "slug": "dancin-deryl",
+  "guide_text": "Use your hero power for early game tempo, saving HP and allowing you to level aggressively.",
+  "buddy_guide_text": "Bad buddy. Buddy up for at most 3 gold.",
+  "favorable_tribes": [
+    17
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Use your hero power for early game tempo, saving HP and allowing you to level aggressively."
+    ],
+    "cycle": [
+      "Bad buddy. Buddy up for at most 3 gold."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/59806/dancin-deryl",
+  "stats": {
+    "hero_dbf_id": 59806,
+    "pick_rate": 21.9,
+    "avg_final_placement": 4.101,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.42,
+      13.91,
+      14.83,
+      16.09,
+      14.97,
+      13.07,
+      9.98,
+      4.75
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

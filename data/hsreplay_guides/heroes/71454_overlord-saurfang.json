@@ -1,0 +1,48 @@
+{
+  "id": 71454,
+  "dbf_id": 71454,
+  "name": "Overlord Saurfang",
+  "card_id": "BG20_HERO_102",
+  "slug": "overlord-saurfang",
+  "guide_text": "Most of the benefit from this hero power is giving 1/1 or 2/2 to every minion you buy in the early game. The hero power scales a bit too slow to play into, it just serves as an enabler to shop buff demons.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. A bit too slow to play into, it's just a bit of tempo.",
+  "favorable_tribes": [
+    15
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Most of the benefit from this hero power is giving 1/1 or 2/2 to every minion you buy in the early game.",
+      "The hero power scales a bit too slow to play into, it just serves as an enabler to shop buff demons."
+    ],
+    "cycle": [
+      "Buddy up for at most 3 gold. A bit too slow to play into, it's just a bit of tempo."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/71454/overlord-saurfang",
+  "stats": {
+    "hero_dbf_id": 71454,
+    "pick_rate": 20.12,
+    "avg_final_placement": 4.255,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.45,
+      13.27,
+      14.75,
+      14.5,
+      14.73,
+      13.5,
+      11.74,
+      6.06
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

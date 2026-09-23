@@ -1,0 +1,50 @@
+{
+  "id": 97813,
+  "dbf_id": 97813,
+  "name": "Professor Putricide",
+  "card_id": "BG25_HERO_100",
+  "slug": "professor-putricide",
+  "guide_text": "Do not hero power on tavern 2 because tavern 2 creations are terrible. Instead, hero power on tavern 3+. Coin + reborn creation is the strongest on tavern 3 or 4, and tavern 4+ unlocks venomous and poisonous undeads that you can reborn.",
+  "buddy_guide_text": "Buddy up for 5-7 gold because it's a value generating creation. Remember to reborn it in the midgame to generate even more creations. Save the reborn/poisonous ones for your final comp.",
+  "favorable_tribes": [
+    11
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Do not hero power on tavern 2 because tavern 2 creations are terrible.",
+      "Instead, hero power on tavern 3+."
+    ],
+    "cycle": [
+      "Buddy up for 5-7 gold because it's a value generating creation. Remember to reborn it in the midgame to generate even more creations. Save the reborn/poisonous ones for your final comp."
+    ],
+    "buy_prefs": [
+      "Coin + reborn creation is the strongest on tavern 3 or 4, and tavern 4+ unlocks venomous and poisonous undeads that you can reborn."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/97813/professor-putricide",
+  "stats": {
+    "hero_dbf_id": 97813,
+    "pick_rate": 15.88,
+    "avg_final_placement": 4.702,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      11.41,
+      9.53,
+      11.05,
+      12.48,
+      13.81,
+      15.54,
+      15.14,
+      11.05
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

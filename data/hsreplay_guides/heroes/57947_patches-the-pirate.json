@@ -1,0 +1,49 @@
+{
+  "id": 57947,
+  "dbf_id": 57947,
+  "name": "Patches the Pirate",
+  "card_id": "TB_BaconShop_HERO_18",
+  "slug": "patches-the-pirate",
+  "guide_text": "Buy every pirate in the early game. Hero powering is also usually better than buying a non-pirate card.",
+  "buddy_guide_text": "Buddy up for 5+ gold, because it's a value generating buddy. Play into bounty synergy.",
+  "favorable_tribes": [
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero powering is also usually better than buying a non-pirate card."
+    ],
+    "cycle": [
+      "Buddy up for 5+ gold, because it's a value generating buddy. Play into bounty synergy."
+    ],
+    "buy_prefs": [
+      "Buy every pirate in the early game."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57947/patches-the-pirate",
+  "stats": {
+    "hero_dbf_id": 57947,
+    "pick_rate": 34.47,
+    "avg_final_placement": 4.492,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      12.89,
+      10.74,
+      12.28,
+      13.36,
+      13.51,
+      13.87,
+      12.98,
+      10.36
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

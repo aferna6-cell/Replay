@@ -1,0 +1,46 @@
+{
+  "id": 92960,
+  "dbf_id": 92960,
+  "name": "Sire Denathrius",
+  "card_id": "BG24_HERO_100",
+  "slug": "sire-denathrius",
+  "guide_text": "Most of the time, the quest that you can complete the fastest and easiest is the best choice. For example, a summon or attack quest with a [[Harmless Bonehead||104551]] opener is premium, but without any summons it's pretty bad.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. Most of the time, it's 8 gold in 1-2 turns.",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for at most 3 gold. Most of the time, it's 8 gold in 1-2 turns."
+    ],
+    "buy_prefs": [
+      "Most of the time, the quest that you can complete the fastest and easiest is the best choice.",
+      "For example, a summon or attack quest with a [[Harmless Bonehead||104551]] opener is premium, but without any summons it's pretty bad."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/92960/sire-denathrius",
+  "stats": {
+    "hero_dbf_id": 92960,
+    "pick_rate": 71.46,
+    "avg_final_placement": 4.489,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      16.72,
+      11.46,
+      10.48,
+      10.3,
+      11.23,
+      12.03,
+      13.96,
+      13.81
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

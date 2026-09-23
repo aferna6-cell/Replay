@@ -1,0 +1,47 @@
+{
+  "id": 58021,
+  "dbf_id": 58021,
+  "name": "The Great Akazamzarak",
+  "card_id": "TB_BaconShop_HERO_21",
+  "slug": "the-great-akazamzarak",
+  "guide_text": "This hero is best to copy [[Eternal Knight||95261]] or Fresh Perspective dark gift if you see it early on. Taunt it and choose Pack Tactic's secret. Otherwise, choose Venomstrike Trap.",
+  "buddy_guide_text": "Golden buddy allows you to pick double secret, it's quite strong. This buddy is also very strong with poison scam if the lobby isn't playing Mechs, Beasts, or Undead.",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Golden buddy allows you to pick double secret, it's quite strong. This buddy is also very strong with poison scam if the lobby isn't playing Mechs, Beasts, or Undead."
+    ],
+    "buy_prefs": [
+      "This hero is best to copy [[Eternal Knight||95261]] or Fresh Perspective dark gift if you see it early on.",
+      "Taunt it and choose Pack Tactic's secret.",
+      "Otherwise, choose Venomstrike Trap."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/58021/the-great-akazamzarak",
+  "stats": {
+    "hero_dbf_id": 58021,
+    "pick_rate": 29.88,
+    "avg_final_placement": 4.072,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.59,
+      14.61,
+      14.84,
+      13.82,
+      12.86,
+      12.52,
+      9.92,
+      6.84
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 47,
+    "key_minions_top3": [
+      120105,
+      133083,
+      95266
+    ]
+  }
+}

@@ -244,6 +244,28 @@ def rank_trinkets(offered: List[str], db: StatsDB, board=None, kb=None,
                               "no stats for this trinket", "avg placement"))
             continue
         fit, bits = _trinket_fit(t.text, board_tribes, target, board_kw, lobby)
+        try:
+            from .hsreplay_guides import trinket_guide_score
+            bnames = []
+            for m in (board or []):
+                if isinstance(m, dict):
+                    bnames.append(m.get("name"))
+                else:
+                    bnames.append(getattr(m, "name", None))
+            gdelta, gbits = trinket_guide_score(
+                t.name or nm, board_tribes=board_tribes,
+                board_names=bnames, target_tribe=target,
+            )
+            # Also try by card id if present
+            if gdelta == 0.0 and getattr(t, "card_id", None):
+                gdelta, gbits = trinket_guide_score(
+                    t.card_id, board_tribes=board_tribes,
+                    board_names=bnames, target_tribe=target,
+                )
+            fit += gdelta
+            bits.extend(gbits)
+        except Exception:
+            pass
         # When board has a plan, amplify fit so strategy outranks raw meta.
         if clear_plan and fit != 0.0:
             fit = fit * 1.15

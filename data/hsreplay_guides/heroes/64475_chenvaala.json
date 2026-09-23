@@ -1,0 +1,48 @@
+{
+  "id": 64475,
+  "dbf_id": 64475,
+  "name": "Chenvaala",
+  "card_id": "TB_BaconShop_HERO_78",
+  "slug": "chenvaala",
+  "guide_text": "Try not to spend a lot of money leveling on this hero. You can buy elementals, and then level to taverns 5 or 6 when it's 3 or less gold.",
+  "buddy_guide_text": "Buddy up when it costs 3-5 gold. [[Vine Climber]] is probably the best stabilization card with Elementals.",
+  "favorable_tribes": [
+    18
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up when it costs 3-5 gold. [[Vine Climber]] is probably the best stabilization card with Elementals."
+    ],
+    "buy_prefs": [
+      "Try not to spend a lot of money leveling on this hero.",
+      "You can buy elementals, and then level to taverns 5 or 6 when it's 3 or less gold."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/64475/chenvaala",
+  "stats": {
+    "hero_dbf_id": 64475,
+    "pick_rate": 54.62,
+    "avg_final_placement": 3.983,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      20.53,
+      14.45,
+      12.34,
+      11.09,
+      11.0,
+      10.68,
+      10.83,
+      9.08
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

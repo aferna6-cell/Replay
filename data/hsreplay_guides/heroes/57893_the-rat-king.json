@@ -1,0 +1,46 @@
+{
+  "id": 57893,
+  "dbf_id": 57893,
+  "name": "The Rat King",
+  "card_id": "TB_BaconShop_HERO_12",
+  "slug": "the-rat-king",
+  "guide_text": "Hero power the first 6 turns (except turn 2), and be tavern 4 by turn 6. Then, you don't have to hero power every turn, only when the tribe is useful to you.",
+  "buddy_guide_text": "Buddy up for 0. Use it for some free rolls in the midgame. Golden buddy is useless so feel free to sell it as a cycle spot and replay it in the future.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Hero power the first 6 turns (except turn 2), and be tavern 4 by turn 6.",
+      "Then, you don't have to hero power every turn, only when the tribe is useful to you."
+    ],
+    "cycle": [
+      "Buddy up for 0. Use it for some free rolls in the midgame. Golden buddy is useless so feel free to sell it as a cycle spot and replay it in the future."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/57893/the-rat-king",
+  "stats": {
+    "hero_dbf_id": 57893,
+    "pick_rate": 27.21,
+    "avg_final_placement": 4.279,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.83,
+      12.64,
+      13.45,
+      13.68,
+      13.16,
+      13.14,
+      11.65,
+      8.45
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": 86291,
+  "dbf_id": 86291,
+  "name": "Heistbaron Togwaggle",
+  "card_id": "BG23_HERO_305",
+  "slug": "heistbaron-togwaggle",
+  "guide_text": "Most games your curve will be leveling to tavern 3 on turn 4, and then hero powering either your turn 5 shop or leveling. If you level on turn 5, then hero power your best tier 4 shop.",
+  "buddy_guide_text": "Scout on if any heroes in the lobby have high tavern tier buddies you'd want to steal, such as Hollidae's Buddy. If so, play your buddy the turn other people play their strong buddies. Otherwise, play your buddy turn 7-8, hero power your shop, and build your direction from there.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Most games your curve will be leveling to tavern 3 on turn 4, and then hero powering either your turn 5 shop or leveling.",
+      "If you level on turn 5, then hero power your best tier 4 shop."
+    ],
+    "cycle": [
+      "Scout on if any heroes in the lobby have high tavern tier buddies you'd want to steal, such as Hollidae's Buddy. If so, play your buddy the turn other people play their strong buddies. Otherwise, play your buddy turn 7-8, hero power your shop, and build your direction from there."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/86291/heistbaron-togwaggle",
+  "stats": {
+    "hero_dbf_id": 86291,
+    "pick_rate": 20.3,
+    "avg_final_placement": 4.411,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.11,
+      12.01,
+      12.02,
+      12.57,
+      13.01,
+      12.87,
+      12.99,
+      10.43
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

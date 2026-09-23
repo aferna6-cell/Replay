@@ -1,0 +1,46 @@
+{
+  "id": 120358,
+  "dbf_id": 120358,
+  "name": "Kerrigan, Queen of Blades",
+  "card_id": "BG31_HERO_811",
+  "slug": "kerrigan-queen-of-blades",
+  "guide_text": "The Zerg gives you tempo so you can level fast while saving HP. I don't recommend playing into it and sell it at some point.",
+  "buddy_guide_text": "Buddy up to discover a Tier 3 zerg after you've upgraded your Zergs to Tier 3. Infestor is your best choice whenever offered and play into it for scaling. Ultralisk is the next best option. Buddy up a second time ASAP (when it costs 10-13) to try to hit more infestors. Quilboars and Nagas are the best tribes to add stuff to hand.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "I don't recommend playing into it and sell it at some point.",
+      "Buddy up to discover a Tier 3 zerg after you've upgraded your Zergs to Tier 3. Infestor is your best choice whenever offered and play into it for scaling. Ultralisk is the next best option. Buddy up a second time ASAP (when it costs 10-13) to try to hit more infestors. Quilboars and Nagas are the best tribes to add stuff to hand."
+    ],
+    "buy_prefs": [
+      "The Zerg gives you tempo so you can level fast while saving HP."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/120358/kerrigan-queen-of-blades",
+  "stats": {
+    "hero_dbf_id": 120358,
+    "pick_rate": 8.51,
+    "avg_final_placement": 4.545,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      10.16,
+      10.48,
+      12.72,
+      14.67,
+      15.43,
+      15.02,
+      12.91,
+      8.62
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 8,
+    "key_minions_top3": [
+      132894,
+      98591,
+      98588
+    ]
+  }
+}

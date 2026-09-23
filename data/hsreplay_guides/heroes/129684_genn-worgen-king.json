@@ -1,0 +1,43 @@
+{
+  "id": 129684,
+  "dbf_id": 129684,
+  "name": "Genn, Worgen King",
+  "card_id": "BG35_HERO_001",
+  "slug": "genn-worgen-king",
+  "guide_text": "The best heroes to choose are either the ones that you wouldn't use on turns 1-3 anyways, such as Reno Jackson, or the ones that have low armor, such as Trade Prince Gallywix.",
+  "buddy_guide_text": "",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [],
+    "buy_prefs": [
+      "The best heroes to choose are either the ones that you wouldn't use on turns 1-3 anyways, such as Reno Jackson, or the ones that have low armor, such as Trade Prince Gallywix."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/129684/genn-worgen-king",
+  "stats": {
+    "hero_dbf_id": 129684,
+    "pick_rate": 65.2,
+    "avg_final_placement": 4.394,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.2,
+      12.03,
+      11.09,
+      10.96,
+      10.88,
+      11.41,
+      13.21,
+      13.21
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

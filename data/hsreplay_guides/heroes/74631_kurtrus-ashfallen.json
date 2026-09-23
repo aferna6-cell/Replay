@@ -1,0 +1,48 @@
+{
+  "id": 74631,
+  "dbf_id": 74631,
+  "name": "Kurtrus Ashfallen",
+  "card_id": "BG20_HERO_280",
+  "slug": "kurtrus-ashfallen",
+  "guide_text": "Economy cards such as [[Tad||87060]], [[Sellemental||64038]], and [[Patient Scout||97604]] are must buys to get hero power procs early on.",
+  "buddy_guide_text": "Buddy up for at most 3 gold. Buddy will provide some tempo in the midgame, and then don't play into it.",
+  "favorable_tribes": [
+    18,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Economy cards such as [[Tad||87060]], [[Sellemental||64038]], and [[Patient Scout||97604]] are must buys to get hero power procs early on."
+    ],
+    "cycle": [
+      "Buddy up for at most 3 gold. Buddy will provide some tempo in the midgame, and then don't play into it."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/74631/kurtrus-ashfallen",
+  "stats": {
+    "hero_dbf_id": 74631,
+    "pick_rate": 20.73,
+    "avg_final_placement": 4.497,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.75,
+      11.61,
+      11.61,
+      11.89,
+      12.54,
+      13.69,
+      13.87,
+      11.06
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 39,
+    "key_minions_top3": [
+      132984,
+      120675,
+      101268
+    ]
+  }
+}

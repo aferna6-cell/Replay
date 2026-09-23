@@ -1,0 +1,49 @@
+{
+  "id": 60214,
+  "dbf_id": 60214,
+  "name": "Dinotamer Brann",
+  "card_id": "TB_BaconShop_HERO_43",
+  "slug": "dinotamer-brann",
+  "guide_text": "Typically, Murlocs and Elementals can utilize Brann the best, so you must have those tribes in.",
+  "buddy_guide_text": "Buddy up when it costs 3-5 gold, after you've unlocked Brann. No problem staying on tavern 2 one extra turn to do so.",
+  "favorable_tribes": [
+    14,
+    18,
+    23
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up when it costs 3-5 gold, after you've unlocked Brann. No problem staying on tavern 2 one extra turn to do so."
+    ],
+    "buy_prefs": [
+      "Typically, Murlocs and Elementals can utilize Brann the best, so you must have those tribes in."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/60214/dinotamer-brann",
+  "stats": {
+    "hero_dbf_id": 60214,
+    "pick_rate": 50.27,
+    "avg_final_placement": 4.47,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.7,
+      11.91,
+      11.7,
+      11.98,
+      12.8,
+      13.65,
+      13.57,
+      10.69
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

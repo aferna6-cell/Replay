@@ -1,0 +1,45 @@
+{
+  "id": 59397,
+  "dbf_id": 59397,
+  "name": "Patchwerk",
+  "card_id": "TB_BaconShop_HERO_34",
+  "slug": "patchwerk",
+  "guide_text": "You can afford to stabilize on higher tavern tiers because of your extra HP.",
+  "buddy_guide_text": "Powerlevel to 4 by turn 5 and try to hit an early rally value generator, such as [[Bigwig Bandit||122179]] or [[Friendly Bouncer]]. Then, buffing this rally card with your buddy every turn will make it attack an insane amount of times and snowball out of control.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Powerlevel to 4 by turn 5 and try to hit an early rally value generator, such as [[Bigwig Bandit||122179]] or [[Friendly Bouncer]]. Then, buffing this rally card with your buddy every turn will make it attack an insane amount of times and snowball out of control."
+    ],
+    "buy_prefs": [
+      "You can afford to stabilize on higher tavern tiers because of your extra HP."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/59397/patchwerk",
+  "stats": {
+    "hero_dbf_id": 59397,
+    "pick_rate": 36.17,
+    "avg_final_placement": 3.961,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.61,
+      15.02,
+      15.08,
+      15.3,
+      13.72,
+      12.14,
+      9.44,
+      4.68
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

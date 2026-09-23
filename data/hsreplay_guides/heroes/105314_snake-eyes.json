@@ -1,0 +1,47 @@
+{
+  "id": 105314,
+  "dbf_id": 105314,
+  "name": "Snake Eyes",
+  "card_id": "BG28_HERO_400",
+  "slug": "snake-eyes",
+  "guide_text": "If you roll a 3+ turn 1, level turn 1. If you roll a 1 on turn 1, do NOT hero power on turn 2. Other than that, hero power whenever it's available.",
+  "buddy_guide_text": "Buddy up when it costs 5-7.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "If you roll a 1 on turn 1, do NOT hero power on turn 2.",
+      "Other than that, hero power whenever it's available."
+    ],
+    "cycle": [
+      "If you roll a 3+ turn 1, level turn 1.",
+      "Buddy up when it costs 5-7."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/105314/snake-eyes",
+  "stats": {
+    "hero_dbf_id": 105314,
+    "pick_rate": 56.33,
+    "avg_final_placement": 4.301,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      15.81,
+      12.95,
+      12.55,
+      11.72,
+      11.84,
+      12.06,
+      12.24,
+      10.83
+    ],
+    "tier_v2": "c",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

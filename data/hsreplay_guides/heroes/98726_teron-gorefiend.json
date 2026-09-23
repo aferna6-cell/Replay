@@ -1,0 +1,47 @@
+{
+  "id": 98726,
+  "dbf_id": 98726,
+  "name": "Teron Gorefiend",
+  "card_id": "BG25_HERO_103",
+  "slug": "teron-gorefiend",
+  "guide_text": "Hero power [[Eternal Knight||95261]] or Fresh Perspective (Deathrattle: 2 rolls) dark gift early on.",
+  "buddy_guide_text": "If you're playing a deathrattle comp, don't play into your buddy. Otherwise, hero power your highest statted unit.",
+  "favorable_tribes": [
+    11
+  ],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [
+      "Hero power [[Eternal Knight||95261]] or Fresh Perspective (Deathrattle: 2 rolls) dark gift early on."
+    ],
+    "cycle": [
+      "If you're playing a deathrattle comp, don't play into your buddy. Otherwise, hero power your highest statted unit."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/98726/teron-gorefiend",
+  "stats": {
+    "hero_dbf_id": 98726,
+    "pick_rate": 53.92,
+    "avg_final_placement": 3.969,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.33,
+      15.21,
+      13.84,
+      13.11,
+      12.45,
+      10.9,
+      9.83,
+      7.34
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 3,
+    "key_minions_top3": [
+      132797,
+      132950,
+      132809
+    ]
+  }
+}

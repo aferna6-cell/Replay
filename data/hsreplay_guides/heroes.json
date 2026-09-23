@@ -1,0 +1,5500 @@
+{
+  "as_of": "2026-09-22 08:37 PM ET",
+  "patch": "36.6.1",
+  "source": "HSReplay hero pages react_context (How to Play / Hero Guide)",
+  "source_urls": [
+    "https://hsreplay.net/battlegrounds/heroes/"
+  ],
+  "count": 118,
+  "with_guide_text": 116,
+  "heroes": [
+    {
+      "id": 57944,
+      "dbf_id": 57944,
+      "name": "A. F. Kay",
+      "card_id": "TB_BaconShop_HERO_16",
+      "slug": "a-f-kay",
+      "guide_text": "Value generator or scaling 4 drops are by far the best ones, such as [[Seafloor Recruiter||126916]] or [[Bigwig Bandit||122179]]. Same thing with value generating 3 drops, such as [[Accord-o-tron||98576]].",
+      "buddy_guide_text": "The best ways to buff this buddy are Deep Blue Nagas, or blood gems from T4 Quilboars. Buffing this buddy is incredibly powerful, especially with [[Drakkari Enchanter||101314]]. If you have a huge unit and roll into [[Channel the Devourer||100899]], it may be correct to sell most your board to eat your biggest minion onto the AFK buddy. A huge AFK buddy is gamewinning.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "The best ways to buff this buddy are Deep Blue Nagas, or blood gems from T4 Quilboars. Buffing this buddy is incredibly powerful, especially with [[Drakkari Enchanter||101314]]. If you have a huge unit and roll into [[Channel the Devourer||100899]], it may be correct to sell most your board to eat your biggest minion onto the AFK buddy. A huge AFK buddy is gamewinning."
+        ],
+        "buy_prefs": [
+          "Value generator or scaling 4 drops are by far the best ones, such as [[Seafloor Recruiter||126916]] or [[Bigwig Bandit||122179]].",
+          "Same thing with value generating 3 drops, such as [[Accord-o-tron||98576]]."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57944/a-f-kay",
+      "stats": {
+        "hero_dbf_id": 57944,
+        "pick_rate": 66.65,
+        "avg_final_placement": 4.039,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.26,
+          14.25,
+          13.94,
+          13.69,
+          12.76,
+          11.86,
+          10.35,
+          6.91
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 64403,
+      "dbf_id": 64403,
+      "name": "Al'Akir",
+      "card_id": "TB_BaconShop_HERO_76",
+      "slug": "al-akir",
+      "guide_text": "Rally units are really nice with this hero power to attack twice with them, such as [[Headhunter Gryphon||132800]].",
+      "buddy_guide_text": "The buddy provides mediocre tempo and zero potential. Buddy up when it costs at most 3 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Rally units are really nice with this hero power to attack twice with them, such as [[Headhunter Gryphon||132800]]."
+        ],
+        "cycle": [
+          "The buddy provides mediocre tempo and zero potential. Buddy up when it costs at most 3 gold."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/64403/al-akir",
+      "stats": {
+        "hero_dbf_id": 64403,
+        "pick_rate": 34.71,
+        "avg_final_placement": 4.064,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.58,
+          13.98,
+          14.01,
+          13.76,
+          13.55,
+          12.37,
+          10.23,
+          6.53
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 20,
+        "key_minions_top3": [
+          108464,
+          92413,
+          132986
+        ]
+      }
+    },
+    {
+      "id": 61488,
+      "dbf_id": 61488,
+      "name": "Alexstrasza",
+      "card_id": "TB_BaconShop_HERO_56",
+      "slug": "alexstrasza",
+      "guide_text": "You must level to 4 on turn 5 on this hero! Either level to tavern 3 on turn 3 or turn 4 and then level to 4 on turn 5. Start hero powering every turn starting from turn 5. Even though you may start the game at low HP, you have to start getting your dragons up early on.",
+      "buddy_guide_text": "Buddy up when it costs 5-7 gold, because it's a value generating buddy, so you need it as soon as possible",
+      "favorable_tribes": [
+        24
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Start hero powering every turn starting from turn 5."
+        ],
+        "cycle": [
+          "Buddy up when it costs 5-7 gold, because it's a value generating buddy, so you need it as soon as possible"
+        ],
+        "buy_prefs": [
+          "You must level to 4 on turn 5 on this hero!",
+          "Either level to tavern 3 on turn 3 or turn 4 and then level to 4 on turn 5.",
+          "Even though you may start the game at low HP, you have to start getting your dragons up early on."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/61488/alexstrasza",
+      "stats": {
+        "hero_dbf_id": 61488,
+        "pick_rate": 33.27,
+        "avg_final_placement": 4.1,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          20.57,
+          14.06,
+          11.89,
+          10.67,
+          9.47,
+          10.07,
+          11.0,
+          12.27
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 81569,
+      "dbf_id": 81569,
+      "name": "Ambassador Faelin",
+      "card_id": "BG22_HERO_201",
+      "slug": "ambassador-faelin",
+      "guide_text": "Very often the curve on this hero is to level to tavern 3 on turn 4 and level to 4 on turn 5 so you can unlock your 4 drop as soon as possible. The best 4 drops to pick are the ones that generate value every turn such as [[Headhunter Gryphon||132800]].",
+      "buddy_guide_text": "Keep a look out for [[Rylak Metalhead]] or [[Greenskeeper]] which are the best cards with this buddy, because repeatedly proccing its battlecry is very useful. Then you may scale with Mooneater + Brann. Usually you buddy up when it costs 3, but if you have Rylak or Greenskeeper, buddy up as soon as possible.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Keep a look out for [[Rylak Metalhead]] or [[Greenskeeper]] which are the best cards with this buddy, because repeatedly proccing its battlecry is very useful. Then you may scale with Mooneater + Brann. Usually you buddy up when it costs 3, but if you have Rylak or Greenskeeper, buddy up as soon as possible."
+        ],
+        "buy_prefs": [
+          "Very often the curve on this hero is to level to tavern 3 on turn 4 and level to 4 on turn 5 so you can unlock your 4 drop as soon as possible.",
+          "The best 4 drops to pick are the ones that generate value every turn such as [[Headhunter Gryphon||132800]]."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/81569/ambassador-faelin",
+      "stats": {
+        "hero_dbf_id": 81569,
+        "pick_rate": 60.79,
+        "avg_final_placement": 4.242,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.91,
+          12.9,
+          11.82,
+          11.01,
+          11.33,
+          11.83,
+          12.21,
+          10.99
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 61910,
+      "dbf_id": 61910,
+      "name": "Aranna Starseeker",
+      "card_id": "TB_BaconShop_HERO_59",
+      "slug": "aranna-starseeker",
+      "guide_text": "The more summons your board has, the more attacks will happen. Value cards that summon such as [[Harmless Bonehead||104551]] in the earlygame.",
+      "buddy_guide_text": "Buddy is generically good. Buddy up when it costs at most 3.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy is generically good. Buddy up when it costs at most 3."
+        ],
+        "buy_prefs": [
+          "The more summons your board has, the more attacks will happen.",
+          "Value cards that summon such as [[Harmless Bonehead||104551]] in the earlygame."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/61910/aranna-starseeker",
+      "stats": {
+        "hero_dbf_id": 61910,
+        "pick_rate": 34.3,
+        "avg_final_placement": 4.236,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.21,
+          16.98,
+          11.32,
+          13.21,
+          13.21,
+          11.32,
+          10.38,
+          10.38
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": null,
+        "key_minions_top3": []
+      }
+    },
+    {
+      "id": 60362,
+      "dbf_id": 60362,
+      "name": "Arch-Villain Rafaam",
+      "card_id": "TB_BaconShop_HERO_45",
+      "slug": "arch-villain-rafaam",
+      "guide_text": "Try to hero power turns 2-4 if you can. You can usually achieve this most efficiently by leveling to tavern 2 on turn 3. After that, hero power whenever you have 1 gold left, and don't feel like you have to press it.",
+      "buddy_guide_text": "Generically average buddy. Buddy up when it costs 3-5.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Try to hero power turns 2-4 if you can.",
+          "After that, hero power whenever you have 1 gold left, and don't feel like you have to press it."
+        ],
+        "cycle": [
+          "Generically average buddy. Buddy up when it costs 3-5."
+        ],
+        "buy_prefs": [
+          "You can usually achieve this most efficiently by leveling to tavern 2 on turn 3."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60362/arch-villain-rafaam",
+      "stats": {
+        "hero_dbf_id": 60362,
+        "pick_rate": 25.6,
+        "avg_final_placement": 4.409,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.2,
+          12.51,
+          12.05,
+          12.74,
+          13.19,
+          13.99,
+          12.92,
+          9.42
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 118510,
+      "dbf_id": 118510,
+      "name": "Artanis",
+      "card_id": "BG31_HERO_802",
+      "slug": "artanis",
+      "guide_text": "Mothership is the best one to pick. Finish the hero power as soon as possible by buying everything that costs effectively 1 ([[Sellemental||64038]], [[Enchanted Lasso||104502]]). Make sure you buy summon units ([[Harmless Bonehead||104551]]) to farm 2+ protoss minions per turn. Do not spend any gold leveling to 3 until you've unlocked your minion.",
+      "buddy_guide_text": "Buddy up after you have your protoss minion, and use the buddy on protoss minion. If you got mothership, then your next buddy up will be used on the generated protoss minions. If you didn't get mothership, then use your buddy up on 6 drops such as [[Gleaming Trader]] or [[Holo Rover]].",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Finish the hero power as soon as possible by buying everything that costs effectively 1 ([[Sellemental||64038]], [[Enchanted Lasso||104502]])."
+        ],
+        "cycle": [
+          "Buddy up after you have your protoss minion, and use the buddy on protoss minion. If you got mothership, then your next buddy up will be used on the generated protoss minions. If you didn't get mothership, then use your buddy up on 6 drops such as [[Gleaming Trader]] or [[Holo Rover]]."
+        ],
+        "buy_prefs": [
+          "Mothership is the best one to pick.",
+          "Make sure you buy summon units ([[Harmless Bonehead||104551]]) to farm 2+ protoss minions per turn.",
+          "Do not spend any gold leveling to 3 until you've unlocked your minion."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/118510/artanis",
+      "stats": {
+        "hero_dbf_id": 118510,
+        "pick_rate": 20.27,
+        "avg_final_placement": 4.527,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          9.06,
+          11.74,
+          13.06,
+          13.9,
+          16.59,
+          15.08,
+          12.65,
+          7.92
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 79719,
+      "dbf_id": 79719,
+      "name": "Bru'kan",
+      "card_id": "BG22_HERO_001",
+      "slug": "bru-kan",
+      "guide_text": "Brukan's most common hero power is Lightning invocation, which is great to pop Divine Shields on your opponent's board.",
+      "buddy_guide_text": "Buy this buddy for at most 3 gold, because it doesn't generate value. After you have it, try to double attack 1-2 times, deathrattles once if it doesn't grief your comp, and you still mainly press Lightning Invocation.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Brukan's most common hero power is Lightning invocation, which is great to pop Divine Shields on your opponent's board."
+        ],
+        "cycle": [
+          "Buy this buddy for at most 3 gold, because it doesn't generate value. After you have it, try to double attack 1-2 times, deathrattles once if it doesn't grief your comp, and you still mainly press Lightning Invocation."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/79719/bru-kan",
+      "stats": {
+        "hero_dbf_id": 79719,
+        "pick_rate": 16.63,
+        "avg_final_placement": 4.214,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.86,
+          12.84,
+          13.74,
+          14.75,
+          13.64,
+          12.17,
+          11.59,
+          7.4
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 120649,
+      "dbf_id": 120649,
+      "name": "Buttons",
+      "card_id": "BG32_HERO_002",
+      "slug": "buttons",
+      "guide_text": "Getting a value quest such as Pagle's Fishing Rod on Turn 8 is usually pretty sick, depending on your setup.",
+      "buddy_guide_text": "Your buddy is a value generating buddy, so buddy up when it costs 5-7. Be sure to reborn it with [[Prosthetic Hand||112364]], and stack effects such as [[Titus Rivendare||97408]] or [[Monstrous Macaw]] to generate helpful cards.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Your buddy is a value generating buddy, so buddy up when it costs 5-7. Be sure to reborn it with [[Prosthetic Hand||112364]], and stack effects such as [[Titus Rivendare||97408]] or [[Monstrous Macaw]] to generate helpful cards."
+        ],
+        "buy_prefs": [
+          "Getting a value quest such as Pagle's Fishing Rod on Turn 8 is usually pretty sick, depending on your setup."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/120649/buttons",
+      "stats": {
+        "hero_dbf_id": 120649,
+        "pick_rate": 65.5,
+        "avg_final_placement": 3.996,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          19.31,
+          14.99,
+          12.79,
+          11.53,
+          10.99,
+          10.84,
+          10.51,
+          9.04
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 58535,
+      "dbf_id": 58535,
+      "name": "C'Thun",
+      "card_id": "TB_BaconShop_HERO_29",
+      "slug": "c-thun",
+      "guide_text": "Patchwerk 2.0, only press this hero power if you don't have a better way to spend 1 gold on maybe on turns 3, 4, or 5. The hero power is decent with Drakkari Enchanter because it upgrades twice and procs twice.",
+      "buddy_guide_text": "Buddy up when it costs at most 3 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Patchwerk 2.0, only press this hero power if you don't have a better way to spend 1 gold on maybe on turns 3, 4, or 5.",
+          "The hero power is decent with Drakkari Enchanter because it upgrades twice and procs twice."
+        ],
+        "cycle": [
+          "Buddy up when it costs at most 3 gold."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58535/c-thun",
+      "stats": {
+        "hero_dbf_id": 58535,
+        "pick_rate": 11.61,
+        "avg_final_placement": 4.312,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          9.22,
+          11.87,
+          15.64,
+          16.64,
+          15.93,
+          15.46,
+          9.66,
+          5.59
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 101130,
+      "dbf_id": 101130,
+      "name": "Cap'n Hoggarr",
+      "card_id": "BG26_HERO_101",
+      "slug": "cap-n-hoggarr",
+      "guide_text": "Buy most pirates in the early game to fill out your board fast so you can level.",
+      "buddy_guide_text": "Buddy up when it costs 3-5 gold. You tend to force APM pirates afterwards, so try to buy bounty synergy.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up when it costs 3-5 gold. You tend to force APM pirates afterwards, so try to buy bounty synergy."
+        ],
+        "buy_prefs": [
+          "Buy most pirates in the early game to fill out your board fast so you can level."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/101130/cap-n-hoggarr",
+      "stats": {
+        "hero_dbf_id": 101130,
+        "pick_rate": 35.84,
+        "avg_final_placement": 4.598,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.25,
+          10.74,
+          11.16,
+          11.55,
+          12.8,
+          14.14,
+          14.36,
+          12.0
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 20,
+        "key_minions_top3": [
+          108464,
+          92413,
+          132986
+        ]
+      }
+    },
+    {
+      "id": 62242,
+      "dbf_id": 62242,
+      "name": "Captain Eudora",
+      "card_id": "TB_BaconShop_HERO_64",
+      "slug": "captain-eudora",
+      "guide_text": "With Eudora, hero power every single turn starting from turn 1. This is done by leveling to tavern 2 on turn 3 and leveling to tavern 3 on turn 4. Your first hero power reward should be completed on tavern 3, turn 4. Use your second hero power reward on turn 8, and then stop hero powering from turn 9 onwards.",
+      "buddy_guide_text": "This buddy is mediocre tempo and zero potential. Buddy up when it costs 3-5 gold for tempo, but don't play into it too hard.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "With Eudora, hero power every single turn starting from turn 1.",
+          "Your first hero power reward should be completed on tavern 3, turn 4.",
+          "Use your second hero power reward on turn 8, and then stop hero powering from turn 9 onwards."
+        ],
+        "cycle": [
+          "This buddy is mediocre tempo and zero potential. Buddy up when it costs 3-5 gold for tempo, but don't play into it too hard."
+        ],
+        "buy_prefs": [
+          "This is done by leveling to tavern 2 on turn 3 and leveling to tavern 3 on turn 4."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/62242/captain-eudora",
+      "stats": {
+        "hero_dbf_id": 62242,
+        "pick_rate": 43.05,
+        "avg_final_placement": 4.171,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.48,
+          13.61,
+          13.0,
+          12.79,
+          11.66,
+          11.65,
+          11.52,
+          9.3
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 62266,
+      "dbf_id": 62266,
+      "name": "Captain Hooktusk",
+      "card_id": "TB_BaconShop_HERO_67",
+      "slug": "captain-hooktusk",
+      "guide_text": "In the early game, hero power 1 drop battlecries such as [[Southsea Busker||98501]]. Later, hero power mainly used to target high tier battlecries such as [[Rodeo Performer||104466]] for the discovery.",
+      "buddy_guide_text": "Buddy up first when it costs 5-7 gold. Try to hero power battlecry 5 drops or 4 drops with the buddy, such as [[Rodeo Performer||104466]].",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "In the early game, hero power 1 drop battlecries such as [[Southsea Busker||98501]].",
+          "Later, hero power mainly used to target high tier battlecries such as [[Rodeo Performer||104466]] for the discovery."
+        ],
+        "cycle": [
+          "Buddy up first when it costs 5-7 gold. Try to hero power battlecry 5 drops or 4 drops with the buddy, such as [[Rodeo Performer||104466]]."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/62266/captain-hooktusk",
+      "stats": {
+        "hero_dbf_id": 62266,
+        "pick_rate": 21.18,
+        "avg_final_placement": 4.321,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.69,
+          12.42,
+          12.97,
+          12.5,
+          12.79,
+          12.46,
+          12.39,
+          9.78
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 73940,
+      "dbf_id": 73940,
+      "name": "Cariel Roame",
+      "card_id": "BG21_HERO_000",
+      "slug": "cariel-roame",
+      "guide_text": "Every other turn, click the option that gives to an extra minion. This hero gets a lot of free stats early game which allows you to level fast without taking damage. Most of the time, level to tavern 3 turn 4 and tavern 4 turn 5 without taking damage.",
+      "buddy_guide_text": "Buddy up when it costs 3-5.",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up when it costs 3-5."
+        ],
+        "buy_prefs": [
+          "Every other turn, click the option that gives to an extra minion.",
+          "This hero gets a lot of free stats early game which allows you to level fast without taking damage.",
+          "Most of the time, level to tavern 3 turn 4 and tavern 4 turn 5 without taking damage."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/73940/cariel-roame",
+      "stats": {
+        "hero_dbf_id": 73940,
+        "pick_rate": 30.47,
+        "avg_final_placement": 3.928,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.22,
+          14.47,
+          15.44,
+          16.16,
+          14.88,
+          12.84,
+          8.67,
+          3.33
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 64475,
+      "dbf_id": 64475,
+      "name": "Chenvaala",
+      "card_id": "TB_BaconShop_HERO_78",
+      "slug": "chenvaala",
+      "guide_text": "Try not to spend a lot of money leveling on this hero. You can buy elementals, and then level to taverns 5 or 6 when it's 3 or less gold.",
+      "buddy_guide_text": "Buddy up when it costs 3-5 gold. [[Vine Climber]] is probably the best stabilization card with Elementals.",
+      "favorable_tribes": [
+        18
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up when it costs 3-5 gold. [[Vine Climber]] is probably the best stabilization card with Elementals."
+        ],
+        "buy_prefs": [
+          "Try not to spend a lot of money leveling on this hero.",
+          "You can buy elementals, and then level to taverns 5 or 6 when it's 3 or less gold."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/64475/chenvaala",
+      "stats": {
+        "hero_dbf_id": 64475,
+        "pick_rate": 54.62,
+        "avg_final_placement": 3.983,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          20.53,
+          14.45,
+          12.34,
+          11.09,
+          11.0,
+          10.68,
+          10.83,
+          9.08
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 77516,
+      "dbf_id": 77516,
+      "name": "Cookie the Cook",
+      "card_id": "BG21_HERO_020",
+      "slug": "cookie-the-cook",
+      "guide_text": "Usually go 3 on 3 on this hero. In your first 3 turns, try to hero power the same tribe to maximize your chances of getting a higher tavern tier card. If you hero power all different tribes, you have the possibility of only discovering 1 drops from your hero power.",
+      "buddy_guide_text": "If there are no Murlocs OR Dragons, you can force [[Primeval Monstrosity]] by using Chef Choice or Hero Power on your own buddy. Then, play into Rally Menagerie.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "In your first 3 turns, try to hero power the same tribe to maximize your chances of getting a higher tavern tier card.",
+          "If you hero power all different tribes, you have the possibility of only discovering 1 drops from your hero power."
+        ],
+        "cycle": [
+          "If there are no Murlocs OR Dragons, you can force [[Primeval Monstrosity]] by using Chef Choice or Hero Power on your own buddy. Then, play into Rally Menagerie."
+        ],
+        "buy_prefs": [
+          "Usually go 3 on 3 on this hero."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/77516/cookie-the-cook",
+      "stats": {
+        "hero_dbf_id": 77516,
+        "pick_rate": 30.4,
+        "avg_final_placement": 4.372,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.02,
+          12.31,
+          12.11,
+          12.37,
+          12.29,
+          12.23,
+          12.42,
+          11.25
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 59806,
+      "dbf_id": 59806,
+      "name": "Dancin' Deryl",
+      "card_id": "TB_BaconShop_HERO_36",
+      "slug": "dancin-deryl",
+      "guide_text": "Use your hero power for early game tempo, saving HP and allowing you to level aggressively.",
+      "buddy_guide_text": "Bad buddy. Buddy up for at most 3 gold.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Use your hero power for early game tempo, saving HP and allowing you to level aggressively."
+        ],
+        "cycle": [
+          "Bad buddy. Buddy up for at most 3 gold."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59806/dancin-deryl",
+      "stats": {
+        "hero_dbf_id": 59806,
+        "pick_rate": 21.9,
+        "avg_final_placement": 4.101,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.42,
+          13.91,
+          14.83,
+          16.09,
+          14.97,
+          13.07,
+          9.98,
+          4.75
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 71458,
+      "dbf_id": 71458,
+      "name": "Death Speaker Blackthorn",
+      "card_id": "BG20_HERO_103",
+      "slug": "death-speaker-blackthorn",
+      "guide_text": "Your hero power is used to give you stats whenever you have gold left over in the early game. It's not strong enough to play into, even with quilboars.",
+      "buddy_guide_text": "Buddy up for at most 3 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Your hero power is used to give you stats whenever you have gold left over in the early game."
+        ],
+        "cycle": [
+          "Buddy up for at most 3 gold."
+        ],
+        "buy_prefs": [
+          "It's not strong enough to play into, even with quilboars."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/71458/death-speaker-blackthorn",
+      "stats": {
+        "hero_dbf_id": 71458,
+        "pick_rate": 19.86,
+        "avg_final_placement": 4.247,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.18,
+          12.35,
+          13.06,
+          14.09,
+          14.11,
+          13.47,
+          11.0,
+          7.73
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 60369,
+      "dbf_id": 60369,
+      "name": "Deathwing",
+      "card_id": "TB_BaconShop_HERO_52",
+      "slug": "deathwing",
+      "guide_text": "Only pick with Mechs in. Divine Shielded units such as [[Cord Puller||110101]] are premium in the early game. If you find no Divine Shields, then value units with higher HP.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. It has decent synergy with Damage Demons comp.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for at most 3 gold. It has decent synergy with Damage Demons comp."
+        ],
+        "buy_prefs": [
+          "Only pick with Mechs in.",
+          "Divine Shielded units such as [[Cord Puller||110101]] are premium in the early game.",
+          "If you find no Divine Shields, then value units with higher HP."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60369/deathwing",
+      "stats": {
+        "hero_dbf_id": 60369,
+        "pick_rate": 10.37,
+        "avg_final_placement": 4.071,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.69,
+          14.03,
+          16.31,
+          16.38,
+          14.86,
+          13.16,
+          9.01,
+          4.57
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 8,
+        "key_minions_top3": [
+          132894,
+          98591,
+          98588
+        ]
+      }
+    },
+    {
+      "id": 60214,
+      "dbf_id": 60214,
+      "name": "Dinotamer Brann",
+      "card_id": "TB_BaconShop_HERO_43",
+      "slug": "dinotamer-brann",
+      "guide_text": "Typically, Murlocs and Elementals can utilize Brann the best, so you must have those tribes in.",
+      "buddy_guide_text": "Buddy up when it costs 3-5 gold, after you've unlocked Brann. No problem staying on tavern 2 one extra turn to do so.",
+      "favorable_tribes": [
+        14,
+        18,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up when it costs 3-5 gold, after you've unlocked Brann. No problem staying on tavern 2 one extra turn to do so."
+        ],
+        "buy_prefs": [
+          "Typically, Murlocs and Elementals can utilize Brann the best, so you must have those tribes in."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60214/dinotamer-brann",
+      "stats": {
+        "hero_dbf_id": 60214,
+        "pick_rate": 50.27,
+        "avg_final_placement": 4.47,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.7,
+          11.91,
+          11.7,
+          11.98,
+          12.8,
+          13.65,
+          13.57,
+          10.69
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 105434,
+      "dbf_id": 105434,
+      "name": "Doctor Holli'dae",
+      "card_id": "BG28_HERO_801",
+      "slug": "doctor-holli-dae",
+      "guide_text": "You don't have to hero power every turn, only when you have 1 gold left over. For example, turn 2 you should still just level and not hero power.",
+      "buddy_guide_text": "Buddy is very powerful. Buy most 5 drops minions and use [[Mooneater]] or [[Nalaa the Redeemer]] to scale. After you buy 9 minions with the first buddy, golden it to reset the counter, so you get 18 more spells.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "You don't have to hero power every turn, only when you have 1 gold left over.",
+          "For example, turn 2 you should still just level and not hero power."
+        ],
+        "cycle": [
+          "Buddy is very powerful. Buy most 5 drops minions and use [[Mooneater]] or [[Nalaa the Redeemer]] to scale. After you buy 9 minions with the first buddy, golden it to reset the counter, so you get 18 more spells."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/105434/doctor-holli-dae",
+      "stats": {
+        "hero_dbf_id": 105434,
+        "pick_rate": 21.48,
+        "avg_final_placement": 4.291,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.51,
+          12.37,
+          13.86,
+          13.47,
+          13.63,
+          13.21,
+          11.54,
+          8.4
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 80239,
+      "dbf_id": 80239,
+      "name": "Drek'Thar",
+      "card_id": "BG22_HERO_002",
+      "slug": "drek-thar",
+      "guide_text": "Slightly prefer comps that concentrate stats on a big unit such as Magnetic Mechs but mostly just play normally and enjoy the powerful late game hero power.",
+      "buddy_guide_text": "Buddy up for 3-5 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Slightly prefer comps that concentrate stats on a big unit such as Magnetic Mechs but mostly just play normally and enjoy the powerful late game hero power."
+        ],
+        "cycle": [
+          "Buddy up for 3-5 gold."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/80239/drek-thar",
+      "stats": {
+        "hero_dbf_id": 80239,
+        "pick_rate": 38.48,
+        "avg_final_placement": 4.068,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.94,
+          14.16,
+          13.25,
+          12.53,
+          11.3,
+          10.79,
+          10.85,
+          9.18
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 8,
+        "key_minions_top3": [
+          132894,
+          98591,
+          98588
+        ]
+      }
+    },
+    {
+      "id": 134502,
+      "dbf_id": 134502,
+      "name": "Drest'agath",
+      "card_id": "BG36_HERO_000",
+      "slug": "drest-agath",
+      "guide_text": "",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/134502/drest-agath",
+      "stats": {
+        "hero_dbf_id": 134502,
+        "pick_rate": 84.6,
+        "avg_final_placement": 3.752,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.75,
+          19.33,
+          17.17,
+          13.19,
+          10.8,
+          9.49,
+          8.58,
+          5.69
+        ],
+        "tier_v2": "s",
+        "anomaly_adjusted": false,
+        "best_composition": null,
+        "key_minions_top3": []
+      }
+    },
+    {
+      "id": 101345,
+      "dbf_id": 101345,
+      "name": "E.T.C., Band Manager",
+      "card_id": "BG25_HERO_105",
+      "slug": "e-t-c-band-manager",
+      "guide_text": "After going taverm 3 on turn 3 or tavern 3 on turn 4, hero power on turns 4, 5, and 6. Value generating buddies such as Lil KT are the best.",
+      "buddy_guide_text": "A viable strategy is to golden Veranus, Thorim's Buddy, and then evolve the buddy for an instant 7 drop.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "After going taverm 3 on turn 3 or tavern 3 on turn 4, hero power on turns 4, 5, and 6."
+        ],
+        "cycle": [
+          "A viable strategy is to golden Veranus, Thorim's Buddy, and then evolve the buddy for an instant 7 drop."
+        ],
+        "buy_prefs": [
+          "Value generating buddies such as Lil KT are the best."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/101345/e-t-c-band-manager",
+      "stats": {
+        "hero_dbf_id": 101345,
+        "pick_rate": 35.66,
+        "avg_final_placement": 4.611,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.63,
+          10.29,
+          10.59,
+          11.55,
+          13.02,
+          14.47,
+          14.64,
+          11.81
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 57633,
+      "dbf_id": 57633,
+      "name": "Edwin VanCleef",
+      "card_id": "TB_BaconShop_HERO_01",
+      "slug": "edwin-vancleef",
+      "guide_text": "The hero power isn't that good, so only use it when you have one gold left over and don't play into too much.",
+      "buddy_guide_text": "Buddy is extremely mediocre, maybe just ignore it.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "The hero power isn't that good, so only use it when you have one gold left over and don't play into too much."
+        ],
+        "cycle": [
+          "Buddy is extremely mediocre, maybe just ignore it."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57633/edwin-vancleef",
+      "stats": {
+        "hero_dbf_id": 57633,
+        "pick_rate": 9.82,
+        "avg_final_placement": 4.591,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          8.48,
+          11.01,
+          12.98,
+          14.79,
+          15.82,
+          15.41,
+          13.14,
+          8.38
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 60213,
+      "dbf_id": 60213,
+      "name": "Elise Starseeker",
+      "card_id": "TB_BaconShop_HERO_42",
+      "slug": "elise-starseeker",
+      "guide_text": "Hero power when it works out goldwise. For example, on turn 4 you may level to tavern 3 and hero power for 1. When your hero power costs 5, stop hero powering.",
+      "buddy_guide_text": "Buddy up is worth 2 gold every time to hero power, so buddy up when it costs at most 3 gold. The buddy can also be used with [[Greenskeeper]], [[Rylak Metalhead]], or [[Flotsam Flinger]] to save even more gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero power when it works out goldwise.",
+          "For example, on turn 4 you may level to tavern 3 and hero power for 1.",
+          "When your hero power costs 5, stop hero powering."
+        ],
+        "cycle": [
+          "Buddy up is worth 2 gold every time to hero power, so buddy up when it costs at most 3 gold. The buddy can also be used with [[Greenskeeper]], [[Rylak Metalhead]], or [[Flotsam Flinger]] to save even more gold."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60213/elise-starseeker",
+      "stats": {
+        "hero_dbf_id": 60213,
+        "pick_rate": 23.87,
+        "avg_final_placement": 4.377,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.02,
+          11.96,
+          12.36,
+          13.01,
+          13.03,
+          13.53,
+          12.39,
+          9.7
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 96870,
+      "dbf_id": 96870,
+      "name": "Enhance-o Mechano",
+      "card_id": "BG24_HERO_204",
+      "slug": "enhance-o-mechano",
+      "guide_text": "This hero provides some early game tempo, and has some lategame potential with venomous on random cards. Prefers non Undead lobbies where scam does the best.",
+      "buddy_guide_text": "Buddy is extremely mediocre, maybe just forget about it.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy is extremely mediocre, maybe just forget about it."
+        ],
+        "buy_prefs": [
+          "This hero provides some early game tempo, and has some lategame potential with venomous on random cards.",
+          "Prefers non Undead lobbies where scam does the best."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/96870/enhance-o-mechano",
+      "stats": {
+        "hero_dbf_id": 96870,
+        "pick_rate": 30.83,
+        "avg_final_placement": 4.294,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.09,
+          12.86,
+          12.82,
+          14.22,
+          14.14,
+          13.35,
+          11.7,
+          7.82
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 117425,
+      "dbf_id": 117425,
+      "name": "Exarch Othaar",
+      "card_id": "BG31_HERO_006",
+      "slug": "exarch-othaar",
+      "guide_text": "Sometimes it makes sense to buy a spell and then hero power early game if it makes more sense gold wise. For example, 2 cost spell turn 3.",
+      "buddy_guide_text": "Very average buddy. Buddy up for at most 3 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Sometimes it makes sense to buy a spell and then hero power early game if it makes more sense gold wise."
+        ],
+        "cycle": [
+          "Very average buddy. Buddy up for at most 3 gold."
+        ],
+        "buy_prefs": [
+          "For example, 2 cost spell turn 3."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/117425/exarch-othaar",
+      "stats": {
+        "hero_dbf_id": 117425,
+        "pick_rate": 17.14,
+        "avg_final_placement": 4.168,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.65,
+          13.68,
+          13.85,
+          13.62,
+          12.94,
+          12.49,
+          11.03,
+          7.75
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 116926,
+      "dbf_id": 116926,
+      "name": "Farseer Nobundo",
+      "card_id": "BG31_HERO_003",
+      "slug": "farseer-nobundo",
+      "guide_text": "You want to copy the same, strong spell over and over. With an early [[Strike Oil||104029]] or [[Chef's Choice||105664]], you can hero power every single turn to start printing Strike Oils. Then, later on you generate a strong spell such as [[Temperature Shift||117670]] every turn.",
+      "buddy_guide_text": "Buddy up when it costs 5-7.The best spell to discover is [[Temperature Shift||117670]]. Your hero power can copy it every turn. Keep the buddy around to sell ever turn with a [[Lantern Lava]]. Even better if you have a [[Brann Bronzebeard||96786]], this combo just wins the game.",
+      "favorable_tribes": [
+        18
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "With an early [[Strike Oil||104029]] or [[Chef's Choice||105664]], you can hero power every single turn to start printing Strike Oils."
+        ],
+        "cycle": [
+          "Buddy up when it costs 5-7.The best spell to discover is [[Temperature Shift||117670]]. Your hero power can copy it every turn. Keep the buddy around to sell ever turn with a [[Lantern Lava]]. Even better if you have a [[Brann Bronzebeard||96786]], this combo just wins the game."
+        ],
+        "buy_prefs": [
+          "You want to copy the same, strong spell over and over.",
+          "Then, later on you generate a strong spell such as [[Temperature Shift||117670]] every turn."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/116926/farseer-nobundo",
+      "stats": {
+        "hero_dbf_id": 116926,
+        "pick_rate": 27.84,
+        "avg_final_placement": 4.265,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.11,
+          12.85,
+          11.93,
+          12.43,
+          12.74,
+          12.15,
+          11.76,
+          10.03
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 116920,
+      "dbf_id": 116920,
+      "name": "Forest Lord Cenarius",
+      "card_id": "BG32_HERO_001",
+      "slug": "forest-lord-cenarius",
+      "guide_text": "Always hero power the first 3 turns, freezing a 2 cost spell turn 1 if you can. Turn 4 onwards, you can choose to stop hero powering if buying a good minion or dark gifting is better. Definitely stop hero powering after turn 5.",
+      "buddy_guide_text": "Buddy for at most 3 gold. Must reborn it with [[Sprightly Scarab||108909]].",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Always hero power the first 3 turns, freezing a 2 cost spell turn 1 if you can.",
+          "Turn 4 onwards, you can choose to stop hero powering if buying a good minion or dark gifting is better.",
+          "Definitely stop hero powering after turn 5."
+        ],
+        "cycle": [
+          "Buddy for at most 3 gold. Must reborn it with [[Sprightly Scarab||108909]]."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/116920/forest-lord-cenarius",
+      "stats": {
+        "hero_dbf_id": 116920,
+        "pick_rate": 54.31,
+        "avg_final_placement": 4.472,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          20.11,
+          11.15,
+          9.21,
+          8.93,
+          9.58,
+          10.67,
+          13.3,
+          17.06
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 63604,
+      "dbf_id": 63604,
+      "name": "Forest Warden Omu",
+      "card_id": "TB_BaconShop_HERO_74",
+      "slug": "forest-warden-omu",
+      "guide_text": "Always think about your next turn! On turn 1, freeze a 2 cost spell so your turn 2 is much cleaner. Omu almost always levels to tavern 3 on turn 4 while buying a minion.",
+      "buddy_guide_text": "Buddy up for 3-5 Gold. It'll give you value 1-2 turns but it's hard to scale so will probably not stay on your board past that.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 3-5 Gold. It'll give you value 1-2 turns but it's hard to scale so will probably not stay on your board past that."
+        ],
+        "buy_prefs": [
+          "Always think about your next turn!",
+          "On turn 1, freeze a 2 cost spell so your turn 2 is much cleaner.",
+          "Omu almost always levels to tavern 3 on turn 4 while buying a minion."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/63604/forest-warden-omu",
+      "stats": {
+        "hero_dbf_id": 63604,
+        "pick_rate": 42.19,
+        "avg_final_placement": 4.413,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.7,
+          11.99,
+          11.27,
+          11.73,
+          11.79,
+          12.4,
+          13.46,
+          11.67
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 60372,
+      "dbf_id": 60372,
+      "name": "Fungalmancer Flurgl",
+      "card_id": "TB_BaconShop_HERO_55",
+      "slug": "fungalmancer-flurgl",
+      "guide_text": "Flurgl is best in an economy-centric lobby, because the hero power benefits from cycling cards. Even though you're a Murloc hero, pirate or elemental cycle comps utilizing [[Brann Bronzebeard||96786]] can make a ton of use out of your hero power.",
+      "buddy_guide_text": "Target as many 5 drops as possible to get [[Primalfin Lookout||60028]] and [[Mrglin' Burglar]] if you're playing Murlocs.",
+      "favorable_tribes": [
+        14,
+        18,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Flurgl is best in an economy-centric lobby, because the hero power benefits from cycling cards.",
+          "Even though you're a Murloc hero, pirate or elemental cycle comps utilizing [[Brann Bronzebeard||96786]] can make a ton of use out of your hero power."
+        ],
+        "cycle": [
+          "Target as many 5 drops as possible to get [[Primalfin Lookout||60028]] and [[Mrglin' Burglar]] if you're playing Murlocs."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60372/fungalmancer-flurgl",
+      "stats": {
+        "hero_dbf_id": 60372,
+        "pick_rate": 25.77,
+        "avg_final_placement": 4.169,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.19,
+          15.47,
+          11.93,
+          10.86,
+          11.16,
+          10.99,
+          11.39,
+          11.0
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 57635,
+      "dbf_id": 57635,
+      "name": "Galakrond",
+      "card_id": "TB_BaconShop_HERO_02",
+      "slug": "galakrond",
+      "guide_text": "You may choose to play this hero power normally. You may also do a curve where you stay on 1, hero power and freeze every turn including turn 1, until you hit something you like from a higher tier. Value generating cards such as [[Seafloor Recruiter||126916]] are the best.",
+      "buddy_guide_text": "Buddy up on turn 7 to discover a 6 drop on tavern 4.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "You may choose to play this hero power normally.",
+          "You may also do a curve where you stay on 1, hero power and freeze every turn including turn 1, until you hit something you like from a higher tier."
+        ],
+        "cycle": [
+          "Buddy up on turn 7 to discover a 6 drop on tavern 4."
+        ],
+        "buy_prefs": [
+          "Value generating cards such as [[Seafloor Recruiter||126916]] are the best."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57635/galakrond",
+      "stats": {
+        "hero_dbf_id": 57635,
+        "pick_rate": 51.66,
+        "avg_final_placement": 4.081,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.9,
+          14.91,
+          14.09,
+          12.92,
+          11.82,
+          11.56,
+          10.32,
+          8.46
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 75702,
+      "dbf_id": 75702,
+      "name": "Galewing",
+      "card_id": "BG20_HERO_283",
+      "slug": "galewing",
+      "guide_text": "I recommend a 3-1-3 flightpath because the discovery is the strongest option.",
+      "buddy_guide_text": "Line up your first buddy with the 3rd flightpath to discover 2 3 drops on turn 4. Line up your golden buddy with the 3rd flightpath to discover 3 5 drops on turn 8, or 3 6 drops on turn 9.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Line up your first buddy with the 3rd flightpath to discover 2 3 drops on turn 4. Line up your golden buddy with the 3rd flightpath to discover 3 5 drops on turn 8, or 3 6 drops on turn 9."
+        ],
+        "buy_prefs": [
+          "I recommend a 3-1-3 flightpath because the discovery is the strongest option."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/75702/galewing",
+      "stats": {
+        "hero_dbf_id": 75702,
+        "pick_rate": 32.49,
+        "avg_final_placement": 4.384,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.98,
+          12.36,
+          12.18,
+          12.08,
+          12.29,
+          12.15,
+          12.21,
+          11.75
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 129684,
+      "dbf_id": 129684,
+      "name": "Genn, Worgen King",
+      "card_id": "BG35_HERO_001",
+      "slug": "genn-worgen-king",
+      "guide_text": "The best heroes to choose are either the ones that you wouldn't use on turns 1-3 anyways, such as Reno Jackson, or the ones that have low armor, such as Trade Prince Gallywix.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "The best heroes to choose are either the ones that you wouldn't use on turns 1-3 anyways, such as Reno Jackson, or the ones that have low armor, such as Trade Prince Gallywix."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/129684/genn-worgen-king",
+      "stats": {
+        "hero_dbf_id": 129684,
+        "pick_rate": 65.2,
+        "avg_final_placement": 4.394,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.2,
+          12.03,
+          11.09,
+          10.96,
+          10.88,
+          11.41,
+          13.21,
+          13.21
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 57929,
+      "dbf_id": 57929,
+      "name": "George the Fallen",
+      "card_id": "TB_BaconShop_HERO_15",
+      "slug": "george-the-fallen",
+      "guide_text": "Hero power in the early/mid game if you have 1 gold leftover (such as turn 3). Your hero power is very useful in the lategame, but you want to focus on building a good comp first. Going Divine Shield + Venom with Murlocs in is a viable backup strategy.",
+      "buddy_guide_text": "Buddy up when it costs at most 3, and the buddy will give you midgame stabilization (but don't build around it).",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero power in the early/mid game if you have 1 gold leftover (such as turn 3).",
+          "Your hero power is very useful in the lategame, but you want to focus on building a good comp first."
+        ],
+        "cycle": [
+          "Buddy up when it costs at most 3, and the buddy will give you midgame stabilization (but don't build around it)."
+        ],
+        "buy_prefs": [
+          "Going Divine Shield + Venom with Murlocs in is a viable backup strategy."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57929/george-the-fallen",
+      "stats": {
+        "hero_dbf_id": 57929,
+        "pick_rate": 30.52,
+        "avg_final_placement": 4.091,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.71,
+          14.88,
+          13.08,
+          13.56,
+          12.58,
+          11.88,
+          10.59,
+          7.74
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 67553,
+      "dbf_id": 67553,
+      "name": "Greybough",
+      "card_id": "TB_BaconShop_HERO_95",
+      "slug": "greybough",
+      "guide_text": "This hero is strong with token builds, notably Beast or Undead compositions. Try to lean towards those comps!",
+      "buddy_guide_text": "Very average tempo, zero potential. Buddy up when it costs at most 3, don't play into it.",
+      "favorable_tribes": [
+        11,
+        20
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Very average tempo, zero potential. Buddy up when it costs at most 3, don't play into it."
+        ],
+        "buy_prefs": [
+          "This hero is strong with token builds, notably Beast or Undead compositions.",
+          "Try to lean towards those comps!"
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/67553/greybough",
+      "stats": {
+        "hero_dbf_id": 67553,
+        "pick_rate": 38.44,
+        "avg_final_placement": 4.339,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.07,
+          11.6,
+          12.89,
+          13.23,
+          13.43,
+          13.93,
+          12.52,
+          8.34
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 68129,
+      "dbf_id": 68129,
+      "name": "Guff Runetotem",
+      "card_id": "BG20_HERO_242",
+      "slug": "guff-runetotem",
+      "guide_text": "This hero is the best with cycle tribes, because the hero power benefits from you buying a ton of cards. These tribes include Pirates, Elementals, and Murlocs, and try to play one of these compositions.",
+      "buddy_guide_text": "Buddy up on either turn 6 or turn 7. This'll allow you to see an early 5 drop and 6 drop that determine your direction.",
+      "favorable_tribes": [
+        14,
+        18,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "This hero is the best with cycle tribes, because the hero power benefits from you buying a ton of cards."
+        ],
+        "cycle": [
+          "Buddy up on either turn 6 or turn 7. This'll allow you to see an early 5 drop and 6 drop that determine your direction."
+        ],
+        "buy_prefs": [
+          "These tribes include Pirates, Elementals, and Murlocs, and try to play one of these compositions."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/68129/guff-runetotem",
+      "stats": {
+        "hero_dbf_id": 68129,
+        "pick_rate": 33.93,
+        "avg_final_placement": 4.598,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.51,
+          10.99,
+          10.67,
+          10.76,
+          12.12,
+          12.9,
+          14.13,
+          13.92
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 86291,
+      "dbf_id": 86291,
+      "name": "Heistbaron Togwaggle",
+      "card_id": "BG23_HERO_305",
+      "slug": "heistbaron-togwaggle",
+      "guide_text": "Most games your curve will be leveling to tavern 3 on turn 4, and then hero powering either your turn 5 shop or leveling. If you level on turn 5, then hero power your best tier 4 shop.",
+      "buddy_guide_text": "Scout on if any heroes in the lobby have high tavern tier buddies you'd want to steal, such as Hollidae's Buddy. If so, play your buddy the turn other people play their strong buddies. Otherwise, play your buddy turn 7-8, hero power your shop, and build your direction from there.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Most games your curve will be leveling to tavern 3 on turn 4, and then hero powering either your turn 5 shop or leveling.",
+          "If you level on turn 5, then hero power your best tier 4 shop."
+        ],
+        "cycle": [
+          "Scout on if any heroes in the lobby have high tavern tier buddies you'd want to steal, such as Hollidae's Buddy. If so, play your buddy the turn other people play their strong buddies. Otherwise, play your buddy turn 7-8, hero power your shop, and build your direction from there."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/86291/heistbaron-togwaggle",
+      "stats": {
+        "hero_dbf_id": 86291,
+        "pick_rate": 20.3,
+        "avg_final_placement": 4.411,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.11,
+          12.01,
+          12.02,
+          12.57,
+          13.01,
+          12.87,
+          12.99,
+          10.43
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 57634,
+      "dbf_id": 57634,
+      "name": "Illidan Stormrage",
+      "card_id": "TB_BaconShop_HERO_08",
+      "slug": "illidan-stormrage",
+      "guide_text": "Illidan is great with Rally cards because attacking first with them is quite important. It also allows for you to proc important rallys twice.",
+      "buddy_guide_text": "Average buddy, used for slight midgame tempo. Buddy up for at most 3.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Average buddy, used for slight midgame tempo. Buddy up for at most 3."
+        ],
+        "buy_prefs": [
+          "Illidan is great with Rally cards because attacking first with them is quite important.",
+          "It also allows for you to proc important rallys twice."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57634/illidan-stormrage",
+      "stats": {
+        "hero_dbf_id": 57634,
+        "pick_rate": 34.55,
+        "avg_final_placement": 4.133,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.92,
+          13.35,
+          14.53,
+          14.03,
+          14.13,
+          13.83,
+          10.31,
+          5.89
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 58534,
+      "dbf_id": 58534,
+      "name": "Infinite Toki",
+      "card_id": "TB_BaconShop_HERO_28",
+      "slug": "infinite-toki",
+      "guide_text": "The most common curve with this hero is to level hero power on turn 4, so turn 5 you can buy 2 good 4 drops, and play the game from there.",
+      "buddy_guide_text": "Buddy up when it costs 3-5 to discover an early turn 6 drop. Much better with Brann.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "The most common curve with this hero is to level hero power on turn 4, so turn 5 you can buy 2 good 4 drops, and play the game from there."
+        ],
+        "cycle": [
+          "Buddy up when it costs 3-5 to discover an early turn 6 drop. Much better with Brann."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58534/infinite-toki",
+      "stats": {
+        "hero_dbf_id": 58534,
+        "pick_rate": 39.61,
+        "avg_final_placement": 4.377,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.66,
+          12.51,
+          11.99,
+          12.09,
+          12.67,
+          12.91,
+          12.49,
+          10.67
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 103500,
+      "dbf_id": 103500,
+      "name": "Inge, the Iron Hymn",
+      "card_id": "BG26_HERO_102",
+      "slug": "inge-the-iron-hymn",
+      "guide_text": "Use your hero for some free stats to save HP and play the game as Patchwerk 2.0.",
+      "buddy_guide_text": "Buddy up for 3-5 gold, and your gameplan is around hero powering the buddy every turn. Buff it in the midgame as much as possible, using Quilboars or other single target effects.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Use your hero for some free stats to save HP and play the game as Patchwerk 2.0."
+        ],
+        "cycle": [
+          "Buddy up for 3-5 gold, and your gameplan is around hero powering the buddy every turn. Buff it in the midgame as much as possible, using Quilboars or other single target effects."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/103500/inge-the-iron-hymn",
+      "stats": {
+        "hero_dbf_id": 103500,
+        "pick_rate": 26.05,
+        "avg_final_placement": 4.121,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.51,
+          13.3,
+          14.53,
+          15.11,
+          14.61,
+          13.13,
+          10.38,
+          5.43
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 80832,
+      "dbf_id": 80832,
+      "name": "Ini Stormcoil",
+      "card_id": "BG22_HERO_200",
+      "slug": "ini-stormcoil",
+      "guide_text": "Even though you want to play Mechs eventually, Undead and Beasts provide the best early game summons so you can start having minions die early on.",
+      "buddy_guide_text": "Buddy up for 3-5 gold. It passively gains stats but you still want other Mech scaling.",
+      "favorable_tribes": [
+        11,
+        17,
+        20
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 3-5 gold. It passively gains stats but you still want other Mech scaling."
+        ],
+        "buy_prefs": [
+          "Even though you want to play Mechs eventually, Undead and Beasts provide the best early game summons so you can start having minions die early on."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/80832/ini-stormcoil",
+      "stats": {
+        "hero_dbf_id": 80832,
+        "pick_rate": 26.3,
+        "avg_final_placement": 4.2,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.57,
+          13.99,
+          14.04,
+          13.4,
+          13.86,
+          12.31,
+          11.16,
+          7.67
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 8,
+        "key_minions_top3": [
+          132894,
+          98591,
+          98588
+        ]
+      }
+    },
+    {
+      "id": 63601,
+      "dbf_id": 63601,
+      "name": "Jandice Barov",
+      "card_id": "TB_BaconShop_HERO_71",
+      "slug": "jandice-barov",
+      "guide_text": "With [[Polarizing Beatboxer||98713]], you can create a magnetic stack and double its stats and effects every turn.",
+      "buddy_guide_text": "Buddy up when it costs 3-5 gold. Use it for some midgame tempo but don't play into it too hard.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up when it costs 3-5 gold. Use it for some midgame tempo but don't play into it too hard."
+        ],
+        "buy_prefs": [
+          "With [[Polarizing Beatboxer||98713]], you can create a magnetic stack and double its stats and effects every turn."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/63601/jandice-barov",
+      "stats": {
+        "hero_dbf_id": 63601,
+        "pick_rate": 18.49,
+        "avg_final_placement": 4.436,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.06,
+          11.62,
+          13.02,
+          13.32,
+          14.66,
+          13.66,
+          12.54,
+          9.1
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 118509,
+      "dbf_id": 118509,
+      "name": "Jim Raynor",
+      "card_id": "BG31_HERO_801",
+      "slug": "jim-raynor",
+      "guide_text": "This hero is only great when you can cheat out a second battlecruiser, so look out for Trimkets that do that such as Lens Case.",
+      "buddy_guide_text": "Spell generation is absolutely premium! Go for cards such as [[Proud Privateer||122520]], [[Lost City Looter]] [[Rimescale Priestess||122221]], or [[Divine Sparkbot]].",
+      "favorable_tribes": [
+        17,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Spell generation is absolutely premium! Go for cards such as [[Proud Privateer||122520]], [[Lost City Looter]] [[Rimescale Priestess||122221]], or [[Divine Sparkbot]]."
+        ],
+        "buy_prefs": [
+          "This hero is only great when you can cheat out a second battlecruiser, so look out for Trimkets that do that such as Lens Case."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/118509/jim-raynor",
+      "stats": {
+        "hero_dbf_id": 118509,
+        "pick_rate": 21.17,
+        "avg_final_placement": 4.706,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          8.55,
+          8.76,
+          12.19,
+          14.92,
+          16.94,
+          15.88,
+          13.78,
+          8.98
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 61912,
+      "dbf_id": 61912,
+      "name": "Kael'thas Sunstrider",
+      "card_id": "TB_BaconShop_HERO_60",
+      "slug": "kael-thas-sunstrider",
+      "guide_text": "This hero power isn't strong enough to play into, so just play normally and enjoy occasional free gold.",
+      "buddy_guide_text": "This buddy makes Nomi and Shop Buff Demon compositions better, but they're hard to force.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "This hero power isn't strong enough to play into, so just play normally and enjoy occasional free gold."
+        ],
+        "cycle": [
+          "This buddy makes Nomi and Shop Buff Demon compositions better, but they're hard to force."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/61912/kael-thas-sunstrider",
+      "stats": {
+        "hero_dbf_id": 61912,
+        "pick_rate": 17.07,
+        "avg_final_placement": 4.313,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.98,
+          13.19,
+          13.68,
+          13.78,
+          12.25,
+          13.35,
+          11.78,
+          8.99
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 120358,
+      "dbf_id": 120358,
+      "name": "Kerrigan, Queen of Blades",
+      "card_id": "BG31_HERO_811",
+      "slug": "kerrigan-queen-of-blades",
+      "guide_text": "The Zerg gives you tempo so you can level fast while saving HP. I don't recommend playing into it and sell it at some point.",
+      "buddy_guide_text": "Buddy up to discover a Tier 3 zerg after you've upgraded your Zergs to Tier 3. Infestor is your best choice whenever offered and play into it for scaling. Ultralisk is the next best option. Buddy up a second time ASAP (when it costs 10-13) to try to hit more infestors. Quilboars and Nagas are the best tribes to add stuff to hand.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "I don't recommend playing into it and sell it at some point.",
+          "Buddy up to discover a Tier 3 zerg after you've upgraded your Zergs to Tier 3. Infestor is your best choice whenever offered and play into it for scaling. Ultralisk is the next best option. Buddy up a second time ASAP (when it costs 10-13) to try to hit more infestors. Quilboars and Nagas are the best tribes to add stuff to hand."
+        ],
+        "buy_prefs": [
+          "The Zerg gives you tempo so you can level fast while saving HP."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/120358/kerrigan-queen-of-blades",
+      "stats": {
+        "hero_dbf_id": 120358,
+        "pick_rate": 8.51,
+        "avg_final_placement": 4.545,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          10.16,
+          10.48,
+          12.72,
+          14.67,
+          15.43,
+          15.02,
+          12.91,
+          8.62
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 8,
+        "key_minions_top3": [
+          132894,
+          98591,
+          98588
+        ]
+      }
+    },
+    {
+      "id": 59814,
+      "dbf_id": 59814,
+      "name": "King Mukla",
+      "card_id": "TB_BaconShop_HERO_38",
+      "slug": "king-mukla",
+      "guide_text": "Use your bananas early game on a good unit to save HP in the earlygame and then play normally from there. If you don't find a good unit on turn 1, you should use all of them turn 3 the latest.",
+      "buddy_guide_text": "This buddy is extremely mediocre. Don't play into it too hard, sell it when you want to stabilize.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "This buddy is extremely mediocre. Don't play into it too hard, sell it when you want to stabilize."
+        ],
+        "buy_prefs": [
+          "Use your bananas early game on a good unit to save HP in the earlygame and then play normally from there.",
+          "If you don't find a good unit on turn 1, you should use all of them turn 3 the latest."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59814/king-mukla",
+      "stats": {
+        "hero_dbf_id": 59814,
+        "pick_rate": 17.57,
+        "avg_final_placement": 4.074,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.03,
+          13.44,
+          15.25,
+          14.76,
+          14.32,
+          12.53,
+          10.43,
+          5.25
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 134504,
+      "dbf_id": 134504,
+      "name": "Kith'ix",
+      "card_id": "BG36_HERO_002",
+      "slug": "kith-ix",
+      "guide_text": "",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/134504/kith-ix",
+      "stats": {
+        "hero_dbf_id": 134504,
+        "pick_rate": 82.35,
+        "avg_final_placement": 4.35,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.13,
+          13.08,
+          13.19,
+          13.59,
+          11.81,
+          13.31,
+          12.21,
+          9.68
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": null,
+        "key_minions_top3": []
+      }
+    },
+    {
+      "id": 74631,
+      "dbf_id": 74631,
+      "name": "Kurtrus Ashfallen",
+      "card_id": "BG20_HERO_280",
+      "slug": "kurtrus-ashfallen",
+      "guide_text": "Economy cards such as [[Tad||87060]], [[Sellemental||64038]], and [[Patient Scout||97604]] are must buys to get hero power procs early on.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. Buddy will provide some tempo in the midgame, and then don't play into it.",
+      "favorable_tribes": [
+        18,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Economy cards such as [[Tad||87060]], [[Sellemental||64038]], and [[Patient Scout||97604]] are must buys to get hero power procs early on."
+        ],
+        "cycle": [
+          "Buddy up for at most 3 gold. Buddy will provide some tempo in the midgame, and then don't play into it."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/74631/kurtrus-ashfallen",
+      "stats": {
+        "hero_dbf_id": 74631,
+        "pick_rate": 20.73,
+        "avg_final_placement": 4.497,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.75,
+          11.61,
+          11.61,
+          11.89,
+          12.54,
+          13.69,
+          13.87,
+          11.06
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 85125,
+      "dbf_id": 85125,
+      "name": "Lady Vashj",
+      "card_id": "BG23_HERO_304",
+      "slug": "lady-vashj",
+      "guide_text": "This hero provides free early game tempo. Don’t have to play into Nagas that hard.",
+      "buddy_guide_text": "Buddy up first when it costs 0-2, and enjoy some free spellcrafts while playing the game normally. Buddy up second when it costs 3-5. This buddy enables spell casting nagas but don't force it.",
+      "favorable_tribes": [
+        92
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up first when it costs 0-2, and enjoy some free spellcrafts while playing the game normally. Buddy up second when it costs 3-5. This buddy enables spell casting nagas but don't force it."
+        ],
+        "buy_prefs": [
+          "This hero provides free early game tempo.",
+          "Don’t have to play into Nagas that hard."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/85125/lady-vashj",
+      "stats": {
+        "hero_dbf_id": 85125,
+        "pick_rate": 28.68,
+        "avg_final_placement": 4.13,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.56,
+          14.36,
+          14.14,
+          15.27,
+          13.05,
+          12.2,
+          10.58,
+          6.83
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 58044,
+      "dbf_id": 58044,
+      "name": "Lich Baz'hial",
+      "card_id": "TB_BaconShop_HERO_25",
+      "slug": "lich-baz-hial",
+      "guide_text": "Definitely hero power + buy spell on turn 1 if you can, level on turn 2, and hero power + buy on turn 3. You don't have to hero power after that unless you really need the gold.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. Extremely mediocre buddy.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Definitely hero power + buy spell on turn 1 if you can, level on turn 2, and hero power + buy on turn 3.",
+          "You don't have to hero power after that unless you really need the gold."
+        ],
+        "cycle": [
+          "Buddy up for at most 3 gold. Extremely mediocre buddy."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58044/lich-baz-hial",
+      "stats": {
+        "hero_dbf_id": 58044,
+        "pick_rate": 23.17,
+        "avg_final_placement": 4.173,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.0,
+          13.74,
+          14.55,
+          13.95,
+          12.58,
+          12.34,
+          11.15,
+          7.67
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 122925,
+      "dbf_id": 122925,
+      "name": "Loh, the Living Legend",
+      "card_id": "BG33_HERO_001",
+      "slug": "loh-the-living-legend",
+      "guide_text": "Summon cards such as [[Harmless Bonehead||104551]] are great because they'll give you more attacks so you get more hero power procs. Use those discovers to help you find direction.",
+      "buddy_guide_text": "Best comp to play (and possibly force) is Rally Quilboars. Then, include great rally cards such as [[Geared Guard]] or [[Niuzao]] for the buddy to copy.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Summon cards such as [[Harmless Bonehead||104551]] are great because they'll give you more attacks so you get more hero power procs."
+        ],
+        "cycle": [
+          "Best comp to play (and possibly force) is Rally Quilboars. Then, include great rally cards such as [[Geared Guard]] or [[Niuzao]] for the buddy to copy."
+        ],
+        "buy_prefs": [
+          "Use those discovers to help you find direction."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/122925/loh-the-living-legend",
+      "stats": {
+        "hero_dbf_id": 122925,
+        "pick_rate": 34.85,
+        "avg_final_placement": 4.192,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.38,
+          13.47,
+          13.22,
+          12.68,
+          12.98,
+          12.58,
+          11.42,
+          8.27
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 63602,
+      "dbf_id": 63602,
+      "name": "Lord Barov",
+      "card_id": "TB_BaconShop_HERO_72",
+      "slug": "lord-barov",
+      "guide_text": "To win your bets, early on generally bet against the person on higher tavern tier. In terms of using your coins, usually hold your coins to start using on tavern 4. Don't buy trash!",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "To win your bets, early on generally bet against the person on higher tavern tier.",
+          "In terms of using your coins, usually hold your coins to start using on tavern 4.",
+          "Don't buy trash!"
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/63602/lord-barov",
+      "stats": {
+        "hero_dbf_id": 63602,
+        "pick_rate": 30.03,
+        "avg_final_placement": 4.253,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.41,
+          13.63,
+          12.16,
+          11.92,
+          11.83,
+          11.25,
+          11.71,
+          11.11
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 59807,
+      "dbf_id": 59807,
+      "name": "Lord Jaraxxus",
+      "card_id": "TB_BaconShop_HERO_37",
+      "slug": "lord-jaraxxus",
+      "guide_text": "Prioritize first buffing the shop and then finding [[Twisted Wrathguard||130662]] or [[Insatiable Ur’zul||72060]] to best capitalize on the 2 demons per turn. Run a permanent [[Soul Rewinder||100949]] on this hero.",
+      "buddy_guide_text": "Buy this buddy when it costs 5-7 gold.",
+      "favorable_tribes": [
+        15
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buy this buddy when it costs 5-7 gold."
+        ],
+        "buy_prefs": [
+          "Prioritize first buffing the shop and then finding [[Twisted Wrathguard||130662]] or [[Insatiable Ur’zul||72060]] to best capitalize on the 2 demons per turn.",
+          "Run a permanent [[Soul Rewinder||100949]] on this hero."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59807/lord-jaraxxus",
+      "stats": {
+        "hero_dbf_id": 59807,
+        "pick_rate": 48.9,
+        "avg_final_placement": 3.61,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          25.15,
+          17.64,
+          12.61,
+          10.27,
+          9.02,
+          8.52,
+          8.87,
+          7.91
+        ],
+        "tier_v2": "s",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 61914,
+      "dbf_id": 61914,
+      "name": "Maiev Shadowsong",
+      "card_id": "TB_BaconShop_HERO_62",
+      "slug": "maiev-shadowsong",
+      "guide_text": "Early game, your hero power is used to buy minions for 1 gold. Late game, you can hero power pairs that you don't plan on playing immediately, such as Brann or Titus pair.",
+      "buddy_guide_text": "Mediocre buddy, as oftentimes it's too slow. People commonly use the golden hero power on Bream Counter because it keeps scaling while locked. You may also repeatedly proc the buddy using [[Flotsam Flinger]], [[Rylak Metalhead]], or [[Greenskeeper]].",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Early game, your hero power is used to buy minions for 1 gold.",
+          "Late game, you can hero power pairs that you don't plan on playing immediately, such as Brann or Titus pair."
+        ],
+        "cycle": [
+          "Mediocre buddy, as oftentimes it's too slow. People commonly use the golden hero power on Bream Counter because it keeps scaling while locked. You may also repeatedly proc the buddy using [[Flotsam Flinger]], [[Rylak Metalhead]], or [[Greenskeeper]]."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/61914/maiev-shadowsong",
+      "stats": {
+        "hero_dbf_id": 61914,
+        "pick_rate": 18.4,
+        "avg_final_placement": 4.331,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.52,
+          12.52,
+          12.8,
+          12.28,
+          12.64,
+          13.17,
+          12.71,
+          9.35
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 61490,
+      "dbf_id": 61490,
+      "name": "Malygos",
+      "card_id": "TB_BaconShop_HERO_58",
+      "slug": "malygos",
+      "guide_text": "If you triple into or buy a battlecry card, you can play it to get its battlecry effect and then transform it again to a good tempo unit.",
+      "buddy_guide_text": "Buddy up on turn 6 and try to line up 6 drops using your hero power. Then, play into them.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up on turn 6 and try to line up 6 drops using your hero power. Then, play into them."
+        ],
+        "buy_prefs": [
+          "If you triple into or buy a battlecry card, you can play it to get its battlecry effect and then transform it again to a good tempo unit."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/61490/malygos",
+      "stats": {
+        "hero_dbf_id": 61490,
+        "pick_rate": 24.67,
+        "avg_final_placement": 4.394,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.01,
+          11.7,
+          13.19,
+          13.24,
+          13.59,
+          13.74,
+          12.13,
+          9.39
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 113310,
+      "dbf_id": 113310,
+      "name": "Marin the Manager",
+      "card_id": "BG30_HERO_304",
+      "slug": "marin-the-manager",
+      "guide_text": "Don't be sad to choose Neutral lesser trinkets such as Well Oiled Can, they're all generally decent.",
+      "buddy_guide_text": "Way too expensive for the effect. Buddy up for 3-5 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Way too expensive for the effect. Buddy up for 3-5 gold."
+        ],
+        "buy_prefs": [
+          "Don't be sad to choose Neutral lesser trinkets such as Well Oiled Can, they're all generally decent."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/113310/marin-the-manager",
+      "stats": {
+        "hero_dbf_id": 113310,
+        "pick_rate": 69.35,
+        "avg_final_placement": 4.077,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          18.48,
+          14.32,
+          12.47,
+          11.88,
+          11.49,
+          10.97,
+          10.84,
+          9.56
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 71908,
+      "dbf_id": 71908,
+      "name": "Master Nguyen",
+      "card_id": "BG20_HERO_202",
+      "slug": "master-nguyen",
+      "guide_text": "Early game go for hero powers that give you a gold or buy minions for cheap, late game hope for combat heroes such as Drekthar or Vandar.",
+      "buddy_guide_text": "Buddy up for 5+ gold. Early on, picking the better buddy is usually more important than picking the better hero power. Hope you can remember them all!",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Early game go for hero powers that give you a gold or buy minions for cheap, late game hope for combat heroes such as Drekthar or Vandar."
+        ],
+        "cycle": [
+          "Buddy up for 5+ gold. Early on, picking the better buddy is usually more important than picking the better hero power. Hope you can remember them all!"
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/71908/master-nguyen",
+      "stats": {
+        "hero_dbf_id": 71908,
+        "pick_rate": 60.16,
+        "avg_final_placement": 4.314,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.96,
+          12.53,
+          11.94,
+          11.97,
+          12.34,
+          12.38,
+          12.26,
+          10.6
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 60366,
+      "dbf_id": 60366,
+      "name": "Millhouse Manastorm",
+      "card_id": "TB_BaconShop_HERO_49",
+      "slug": "millhouse-manastorm",
+      "guide_text": "You MUST play a cycle comp on this hero such as APM Pirates or Elementals - NOT Undeads, Beast, or Mechs!",
+      "buddy_guide_text": "Level up to tavern 4 on turn 6, and buddy up on turn 7. Great buddy that's worth 4 gold a turn!",
+      "favorable_tribes": [
+        18,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "You MUST play a cycle comp on this hero such as APM Pirates or Elementals - NOT Undeads, Beast, or Mechs!",
+          "Level up to tavern 4 on turn 6, and buddy up on turn 7. Great buddy that's worth 4 gold a turn!"
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60366/millhouse-manastorm",
+      "stats": {
+        "hero_dbf_id": 60366,
+        "pick_rate": 15.83,
+        "avg_final_placement": 4.31,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          10.94,
+          12.58,
+          14.26,
+          15.25,
+          14.85,
+          14.44,
+          11.25,
+          6.43
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 57946,
+      "dbf_id": 57946,
+      "name": "Millificent Manastorm",
+      "card_id": "TB_BaconShop_HERO_17",
+      "slug": "millificent-manastorm",
+      "guide_text": "Try to go tavern 4 on 5 to get early [[Auto Assembler||120025]], which should provide midgame stabilization.",
+      "buddy_guide_text": "Terrible buddy, don't play into at all, buddy up for at most 1.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Terrible buddy, don't play into at all, buddy up for at most 1."
+        ],
+        "buy_prefs": [
+          "Try to go tavern 4 on 5 to get early [[Auto Assembler||120025]], which should provide midgame stabilization."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57946/millificent-manastorm",
+      "stats": {
+        "hero_dbf_id": 57946,
+        "pick_rate": 34.04,
+        "avg_final_placement": 3.939,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          18.6,
+          14.86,
+          13.67,
+          13.3,
+          11.52,
+          10.4,
+          9.83,
+          7.81
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 8,
+        "key_minions_top3": [
+          132894,
+          98591,
+          98588
+        ]
+      }
+    },
+    {
+      "id": 126532,
+      "dbf_id": 126532,
+      "name": "Mister Clocksworth",
+      "card_id": "BG34_HERO_002",
+      "slug": "mister-clocksworth",
+      "guide_text": "Don't triple trash cards, only cards that you want to keep for a while.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "Don't triple trash cards, only cards that you want to keep for a while."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/126532/mister-clocksworth",
+      "stats": {
+        "hero_dbf_id": 126532,
+        "pick_rate": 43.36,
+        "avg_final_placement": 4.192,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.0,
+          12.84,
+          12.27,
+          12.31,
+          12.36,
+          12.58,
+          11.9,
+          8.74
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 129173,
+      "dbf_id": 129173,
+      "name": "Morchie",
+      "card_id": "BG34_HERO_004",
+      "slug": "morchie",
+      "guide_text": "This hero really likes value generating timewarps on turn 5, such as Tavern Tipper and Valestraz.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "This hero really likes value generating timewarps on turn 5, such as Tavern Tipper and Valestraz."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/129173/morchie",
+      "stats": {
+        "hero_dbf_id": 129173,
+        "pick_rate": 62.15,
+        "avg_final_placement": 4.143,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.98,
+          13.7,
+          12.21,
+          11.89,
+          11.59,
+          11.44,
+          11.31,
+          9.87
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 63319,
+      "dbf_id": 63319,
+      "name": "Mr. Bigglesworth",
+      "card_id": "TB_BaconShop_HERO_70",
+      "slug": "mr-bigglesworth",
+      "guide_text": "You have a lot of armor to work with, so don't be scared of leveling fast. You're basically Patchwerk with less HP, but higher chance to win the lobby.",
+      "buddy_guide_text": "Buddy up for 5-7 gold. Very strong econ buddy to fill out your board early on.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 5-7 gold. Very strong econ buddy to fill out your board early on."
+        ],
+        "buy_prefs": [
+          "You have a lot of armor to work with, so don't be scared of leveling fast.",
+          "You're basically Patchwerk with less HP, but higher chance to win the lobby."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/63319/mr-bigglesworth",
+      "stats": {
+        "hero_dbf_id": 63319,
+        "pick_rate": 23.15,
+        "avg_final_placement": 4.276,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.86,
+          12.89,
+          11.96,
+          11.81,
+          12.8,
+          13.14,
+          12.27,
+          9.26
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 84867,
+      "dbf_id": 84867,
+      "name": "Murloc Holmes",
+      "card_id": "BG23_HERO_303",
+      "slug": "murloc-holmes",
+      "guide_text": "After turn 1, keep track of everyone's tavern 1 unit! Murloc Holmes might have you choose between tier 1 units in the first few turns.",
+      "buddy_guide_text": "Buddy up for 3-5 gold, because it's a value generating buddy.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 3-5 gold, because it's a value generating buddy."
+        ],
+        "buy_prefs": [
+          "After turn 1, keep track of everyone's tavern 1 unit!",
+          "Murloc Holmes might have you choose between tier 1 units in the first few turns."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/84867/murloc-holmes",
+      "stats": {
+        "hero_dbf_id": 84867,
+        "pick_rate": 28.36,
+        "avg_final_placement": 4.23,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.03,
+          12.8,
+          13.32,
+          12.69,
+          11.58,
+          12.18,
+          11.57,
+          9.83
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 127696,
+      "dbf_id": 127696,
+      "name": "Murozond, Unbounded",
+      "card_id": "BG34_HERO_000",
+      "slug": "murozond-unbounded",
+      "guide_text": "If committed to a tribe, you need 3 of that tribe to qualifying for that tribe's timewarp cards.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "If committed to a tribe, you need 3 of that tribe to qualifying for that tribe's timewarp cards."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/127696/murozond-unbounded",
+      "stats": {
+        "hero_dbf_id": 127696,
+        "pick_rate": 58.26,
+        "avg_final_placement": 4.16,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.62,
+          14.31,
+          13.05,
+          12.37,
+          11.37,
+          11.0,
+          10.94,
+          10.34
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 71916,
+      "dbf_id": 71916,
+      "name": "Mutanus the Devourer",
+      "card_id": "BG20_HERO_301",
+      "slug": "mutanus-the-devourer",
+      "guide_text": "Shop Buff Elementals are slightly better with this hero, but in general just play normally.",
+      "buddy_guide_text": "On turn 3, use your hero power and spells to make the biggest unit as possible. Have it as the only minion on your board. On turn 4, buddy up, and eat that unit onto your buddy. On turn 5, eat your buddy onto 2 minions, and leave those units as the only minions on board.. On turn 6, eat one of the minions onto the other. On turn 7, buddy up, and eat your big unit onto your buddy again, then play one other unit. On turn 8, eat your buddy onto one other unit and the other buddy. On turn 9, you can either eat the one other minion onto the buddy again, or just eat the buddy, depending on how good your spot is. After that, fill in the rest of your board with poison scam.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "On turn 3, use your hero power and spells to make the biggest unit as possible. Have it as the only minion on your board. On turn 4, buddy up, and eat that unit onto your buddy. On turn 5, eat your buddy onto 2 minions, and leave those units as the only minions on board.. On turn 6, eat one of the minions onto the other. On turn 7, buddy up, and eat your big unit onto your buddy again, then play one other unit. On turn 8, eat your buddy onto one other unit and the other buddy. On turn 9, you can either eat the one other minion onto the buddy again, or just eat the buddy, depending on how good your spot is. After that, fill in the rest of your board with poison scam."
+        ],
+        "buy_prefs": [
+          "Shop Buff Elementals are slightly better with this hero, but in general just play normally."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/71916/mutanus-the-devourer",
+      "stats": {
+        "hero_dbf_id": 71916,
+        "pick_rate": 32.02,
+        "avg_final_placement": 4.251,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.32,
+          13.39,
+          14.78,
+          14.53,
+          14.91,
+          13.65,
+          11.24,
+          6.18
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 66483,
+      "dbf_id": 66483,
+      "name": "N'Zoth",
+      "card_id": "TB_BaconShop_HERO_93",
+      "slug": "n-zoth",
+      "guide_text": "Beasts and Undead compositions are the best for fish.",
+      "buddy_guide_text": "Use your buddy to golden core cards for your comp. Examples include [[Goldrinn, the Great Wolf||59955]], [[Ship Master Eudora]], [[Friendly Geist||120219]], or [[Carapace Raiser]].",
+      "favorable_tribes": [
+        11,
+        20
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Use your buddy to golden core cards for your comp. Examples include [[Goldrinn, the Great Wolf||59955]], [[Ship Master Eudora]], [[Friendly Geist||120219]], or [[Carapace Raiser]]."
+        ],
+        "buy_prefs": [
+          "Beasts and Undead compositions are the best for fish."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/66483/n-zoth",
+      "stats": {
+        "hero_dbf_id": 66483,
+        "pick_rate": 32.33,
+        "avg_final_placement": 3.936,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.62,
+          15.49,
+          15.2,
+          13.43,
+          11.86,
+          11.33,
+          9.15,
+          6.92
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 132608,
+      "dbf_id": 132608,
+      "name": "Nightmare Lord Xavius",
+      "card_id": "BG36_HERO_105",
+      "slug": "nightmare-lord-xavius",
+      "guide_text": "Generally very strong hero that gets a ton of free value.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "Generally very strong hero that gets a ton of free value."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/132608/nightmare-lord-xavius",
+      "stats": {
+        "hero_dbf_id": 132608,
+        "pick_rate": 80.34,
+        "avg_final_placement": 4.048,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          19.36,
+          14.14,
+          12.3,
+          11.56,
+          11.28,
+          11.09,
+          11.06,
+          9.22
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 61489,
+      "dbf_id": 61489,
+      "name": "Nozdormu",
+      "card_id": "TB_BaconShop_HERO_57",
+      "slug": "nozdormu",
+      "guide_text": "Turn 1 if you have a 2 cost spell in your first shop, buy it and then roll and you'll likely roll into a 1 cost spell that you can then buy.",
+      "buddy_guide_text": "Buddy up on turn 5-6. Then, the wisdomball rolls will determine your game.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Turn 1 if you have a 2 cost spell in your first shop, buy it and then roll and you'll likely roll into a 1 cost spell that you can then buy.",
+          "Buddy up on turn 5-6. Then, the wisdomball rolls will determine your game."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/61489/nozdormu",
+      "stats": {
+        "hero_dbf_id": 61489,
+        "pick_rate": 25.01,
+        "avg_final_placement": 4.408,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.92,
+          12.26,
+          12.69,
+          12.13,
+          12.92,
+          12.29,
+          12.81,
+          10.97
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 82110,
+      "dbf_id": 82110,
+      "name": "Onyxia",
+      "card_id": "BG22_HERO_305",
+      "slug": "onyxia",
+      "guide_text": "Must have beasts and undeads to start farming hero power early on. [[Harmless Bonehead||104551]] is premium on this hero.",
+      "buddy_guide_text": "Buddy up when it costs 3-5. Use it for midgame tempo.",
+      "favorable_tribes": [
+        11,
+        20
+      ],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [
+          "Must have beasts and undeads to start farming hero power early on."
+        ],
+        "cycle": [
+          "Buddy up when it costs 3-5. Use it for midgame tempo."
+        ],
+        "buy_prefs": [
+          "[[Harmless Bonehead||104551]] is premium on this hero."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/82110/onyxia",
+      "stats": {
+        "hero_dbf_id": 82110,
+        "pick_rate": 18.23,
+        "avg_final_placement": 4.401,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.25,
+          12.59,
+          13.34,
+          14.05,
+          14.04,
+          14.27,
+          12.05,
+          8.41
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 71454,
+      "dbf_id": 71454,
+      "name": "Overlord Saurfang",
+      "card_id": "BG20_HERO_102",
+      "slug": "overlord-saurfang",
+      "guide_text": "Most of the benefit from this hero power is giving 1/1 or 2/2 to every minion you buy in the early game. The hero power scales a bit too slow to play into, it just serves as an enabler to shop buff demons.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. A bit too slow to play into, it's just a bit of tempo.",
+      "favorable_tribes": [
+        15
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Most of the benefit from this hero power is giving 1/1 or 2/2 to every minion you buy in the early game.",
+          "The hero power scales a bit too slow to play into, it just serves as an enabler to shop buff demons."
+        ],
+        "cycle": [
+          "Buddy up for at most 3 gold. A bit too slow to play into, it's just a bit of tempo."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/71454/overlord-saurfang",
+      "stats": {
+        "hero_dbf_id": 71454,
+        "pick_rate": 20.12,
+        "avg_final_placement": 4.255,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.45,
+          13.27,
+          14.75,
+          14.5,
+          14.73,
+          13.5,
+          11.74,
+          6.06
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 86013,
+      "dbf_id": 86013,
+      "name": "Ozumat",
+      "card_id": "BG23_HERO_201",
+      "slug": "ozumat",
+      "guide_text": "Your hero power will save some HP, but don't play into it.",
+      "buddy_guide_text": "This buddy is way better with summon compositions such as [[Carapace Raiser]] or [[Goldrinn, the Great Wolf||59955]].",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Your hero power will save some HP, but don't play into it."
+        ],
+        "cycle": [
+          "This buddy is way better with summon compositions such as [[Carapace Raiser]] or [[Goldrinn, the Great Wolf||59955]]."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/86013/ozumat",
+      "stats": {
+        "hero_dbf_id": 86013,
+        "pick_rate": 12.31,
+        "avg_final_placement": 4.479,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.03,
+          11.6,
+          13.12,
+          13.66,
+          14.51,
+          14.18,
+          13.24,
+          8.67
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 57947,
+      "dbf_id": 57947,
+      "name": "Patches the Pirate",
+      "card_id": "TB_BaconShop_HERO_18",
+      "slug": "patches-the-pirate",
+      "guide_text": "Buy every pirate in the early game. Hero powering is also usually better than buying a non-pirate card.",
+      "buddy_guide_text": "Buddy up for 5+ gold, because it's a value generating buddy. Play into bounty synergy.",
+      "favorable_tribes": [
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero powering is also usually better than buying a non-pirate card."
+        ],
+        "cycle": [
+          "Buddy up for 5+ gold, because it's a value generating buddy. Play into bounty synergy."
+        ],
+        "buy_prefs": [
+          "Buy every pirate in the early game."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57947/patches-the-pirate",
+      "stats": {
+        "hero_dbf_id": 57947,
+        "pick_rate": 34.47,
+        "avg_final_placement": 4.492,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.89,
+          10.74,
+          12.28,
+          13.36,
+          13.51,
+          13.87,
+          12.98,
+          10.36
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 59397,
+      "dbf_id": 59397,
+      "name": "Patchwerk",
+      "card_id": "TB_BaconShop_HERO_34",
+      "slug": "patchwerk",
+      "guide_text": "You can afford to stabilize on higher tavern tiers because of your extra HP.",
+      "buddy_guide_text": "Powerlevel to 4 by turn 5 and try to hit an early rally value generator, such as [[Bigwig Bandit||122179]] or [[Friendly Bouncer]]. Then, buffing this rally card with your buddy every turn will make it attack an insane amount of times and snowball out of control.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Powerlevel to 4 by turn 5 and try to hit an early rally value generator, such as [[Bigwig Bandit||122179]] or [[Friendly Bouncer]]. Then, buffing this rally card with your buddy every turn will make it attack an insane amount of times and snowball out of control."
+        ],
+        "buy_prefs": [
+          "You can afford to stabilize on higher tavern tiers because of your extra HP."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59397/patchwerk",
+      "stats": {
+        "hero_dbf_id": 59397,
+        "pick_rate": 36.17,
+        "avg_final_placement": 3.961,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.61,
+          15.02,
+          15.08,
+          15.3,
+          13.72,
+          12.14,
+          9.44,
+          4.68
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 97813,
+      "dbf_id": 97813,
+      "name": "Professor Putricide",
+      "card_id": "BG25_HERO_100",
+      "slug": "professor-putricide",
+      "guide_text": "Do not hero power on tavern 2 because tavern 2 creations are terrible. Instead, hero power on tavern 3+. Coin + reborn creation is the strongest on tavern 3 or 4, and tavern 4+ unlocks venomous and poisonous undeads that you can reborn.",
+      "buddy_guide_text": "Buddy up for 5-7 gold because it's a value generating creation. Remember to reborn it in the midgame to generate even more creations. Save the reborn/poisonous ones for your final comp.",
+      "favorable_tribes": [
+        11
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Do not hero power on tavern 2 because tavern 2 creations are terrible.",
+          "Instead, hero power on tavern 3+."
+        ],
+        "cycle": [
+          "Buddy up for 5-7 gold because it's a value generating creation. Remember to reborn it in the midgame to generate even more creations. Save the reborn/poisonous ones for your final comp."
+        ],
+        "buy_prefs": [
+          "Coin + reborn creation is the strongest on tavern 3 or 4, and tavern 4+ unlocks venomous and poisonous undeads that you can reborn."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/97813/professor-putricide",
+      "stats": {
+        "hero_dbf_id": 97813,
+        "pick_rate": 15.88,
+        "avg_final_placement": 4.702,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.41,
+          9.53,
+          11.05,
+          12.48,
+          13.81,
+          15.54,
+          15.14,
+          11.05
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 59831,
+      "dbf_id": 59831,
+      "name": "Pyramad",
+      "card_id": "TB_BaconShop_HERO_39",
+      "slug": "pyramad",
+      "guide_text": "Hero power on turns 1, 3, 4, and 5, and possibly 6 to fill out your board. On turn 2 you should level. After that, forget about the hero power.",
+      "buddy_guide_text": "Remember you can use [[Mounting Avalanche||122862]] on the buddy to give it attack.",
+      "favorable_tribes": [
+        18
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero power on turns 1, 3, 4, and 5, and possibly 6 to fill out your board.",
+          "After that, forget about the hero power."
+        ],
+        "cycle": [
+          "Remember you can use [[Mounting Avalanche||122862]] on the buddy to give it attack."
+        ],
+        "buy_prefs": [
+          "On turn 2 you should level."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59831/pyramad",
+      "stats": {
+        "hero_dbf_id": 59831,
+        "pick_rate": 14.98,
+        "avg_final_placement": 4.487,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.33,
+          11.2,
+          12.73,
+          13.69,
+          14.58,
+          14.97,
+          12.73,
+          8.77
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 79618,
+      "dbf_id": 79618,
+      "name": "Queen Azshara",
+      "card_id": "BG22_HERO_007",
+      "slug": "queen-azshara",
+      "guide_text": "It's worth buying the highest attack units in your shop and pointy arrows to complete your quest ASAP. You ideally want this quest done turn 6 the latest. Then, start leveling and force a Naga comp.",
+      "buddy_guide_text": "Best when paired with Deep blue Zesty comp, but even so pretty mediocre.",
+      "favorable_tribes": [
+        92
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Best when paired with Deep blue Zesty comp, but even so pretty mediocre."
+        ],
+        "buy_prefs": [
+          "It's worth buying the highest attack units in your shop and pointy arrows to complete your quest ASAP.",
+          "You ideally want this quest done turn 6 the latest.",
+          "Then, start leveling and force a Naga comp."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/79618/queen-azshara",
+      "stats": {
+        "hero_dbf_id": 79618,
+        "pick_rate": 42.65,
+        "avg_final_placement": 4.17,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.1,
+          13.89,
+          13.72,
+          12.55,
+          11.34,
+          11.24,
+          11.65,
+          9.51
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 57924,
+      "dbf_id": 57924,
+      "name": "Queen Wagtoggle",
+      "card_id": "TB_BaconShop_HERO_14",
+      "slug": "queen-wagtoggle",
+      "guide_text": "Mainly a tempo hero that gives you free stats throughout the midgame. Don't play too hard into it.",
+      "buddy_guide_text": "Buy the first copy of your buddy when it costs at most 3 gold, because it doesn't generate value. The golden version of your buddy is powerful, and benefits from concentrated stats ([[Avalanche Caller]], [[Insatiable Ur'zul||72060]])",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buy the first copy of your buddy when it costs at most 3 gold, because it doesn't generate value. The golden version of your buddy is powerful, and benefits from concentrated stats ([[Avalanche Caller]], [[Insatiable Ur'zul||72060]])"
+        ],
+        "buy_prefs": [
+          "Mainly a tempo hero that gives you free stats throughout the midgame.",
+          "Don't play too hard into it."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57924/queen-wagtoggle",
+      "stats": {
+        "hero_dbf_id": 57924,
+        "pick_rate": 14.46,
+        "avg_final_placement": 4.196,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.11,
+          12.53,
+          14.57,
+          15.51,
+          15.81,
+          13.92,
+          10.31,
+          5.24
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 57892,
+      "dbf_id": 57892,
+      "name": "Ragnaros the Firelord",
+      "card_id": "TB_BaconShop_HERO_11",
+      "slug": "ragnaros-the-firelord",
+      "guide_text": "Buy every single cheap card that costs 1 ([[Fortify||103791]], [[Patient Scout||97604]]) the first 6 turns. Stay on tavern 2 on turn 5 to finish the hero power.",
+      "buddy_guide_text": "Buddy after you unlock your hero power, usually on turn 6. After that, you really want to play an end of turn strategy, such as Magicfin Murlocs.",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [
+          "Stay on tavern 2 on turn 5 to finish the hero power."
+        ],
+        "cycle": [
+          "Buddy after you unlock your hero power, usually on turn 6. After that, you really want to play an end of turn strategy, such as Magicfin Murlocs."
+        ],
+        "buy_prefs": [
+          "Buy every single cheap card that costs 1 ([[Fortify||103791]], [[Patient Scout||97604]]) the first 6 turns."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57892/ragnaros-the-firelord",
+      "stats": {
+        "hero_dbf_id": 57892,
+        "pick_rate": 15.58,
+        "avg_final_placement": 4.421,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          9.26,
+          11.5,
+          14.69,
+          15.93,
+          15.87,
+          14.0,
+          11.28,
+          7.46
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 64400,
+      "dbf_id": 64400,
+      "name": "Rakanishu",
+      "card_id": "TB_BaconShop_HERO_75",
+      "slug": "rakanishu",
+      "guide_text": "Stabilize with cards that benefit from spell power such as [[Runic Arcanist||132985]] or [[Gormling Gourmet]]",
+      "buddy_guide_text": "Buddy up for 5-7 gold, and enjoy some free stats.",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 5-7 gold, and enjoy some free stats."
+        ],
+        "buy_prefs": [
+          "Stabilize with cards that benefit from spell power such as [[Runic Arcanist||132985]] or [[Gormling Gourmet]]"
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/64400/rakanishu",
+      "stats": {
+        "hero_dbf_id": 64400,
+        "pick_rate": 21.55,
+        "avg_final_placement": 4.325,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.67,
+          13.58,
+          13.86,
+          13.48,
+          12.78,
+          11.94,
+          11.87,
+          9.83
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 20,
+        "key_minions_top3": [
+          108464,
+          92413,
+          132986
+        ]
+      }
+    },
+    {
+      "id": 60212,
+      "dbf_id": 60212,
+      "name": "Reno Jackson",
+      "card_id": "TB_BaconShop_HERO_41",
+      "slug": "reno-jackson",
+      "guide_text": "Best case scenario is to golden an activate card early on, such as [[Decoy Conjurer||133434]] turn 3, [[Clever Castaway||132921]] turn 3, or [[Hired Mount||132951]] turn 4. If not, golden a value generator such as turn 6 [[Headhunter Gryphon||132800]], which will give you so much value so you can level fast with a strong board.",
+      "buddy_guide_text": "The buddy acts as a replacement for your hero power for some cards, such as [[Titus Rivendare||97408]] or [[Raptor Elder]].",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "The buddy acts as a replacement for your hero power for some cards, such as [[Titus Rivendare||97408]] or [[Raptor Elder]]."
+        ],
+        "buy_prefs": [
+          "Best case scenario is to golden an activate card early on, such as [[Decoy Conjurer||133434]] turn 3, [[Clever Castaway||132921]] turn 3, or [[Hired Mount||132951]] turn 4.",
+          "If not, golden a value generator such as turn 6 [[Headhunter Gryphon||132800]], which will give you so much value so you can level fast with a strong board."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60212/reno-jackson",
+      "stats": {
+        "hero_dbf_id": 60212,
+        "pick_rate": 55.92,
+        "avg_final_placement": 4.458,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.15,
+          11.95,
+          11.04,
+          10.73,
+          11.45,
+          11.85,
+          13.33,
+          13.5
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 99033,
+      "dbf_id": 99033,
+      "name": "Rock Master Voone",
+      "card_id": "BG26_HERO_104",
+      "slug": "rock-master-voone",
+      "guide_text": "On turn 3, copy a 2 drop or a copy of your turn 1 1 drop. For turn 9, hero power has extra synergy with [[Drakkari Enchanter||101314]], allowing you to copy more copies of powerful cards.",
+      "buddy_guide_text": "A common line is to win your first two fights, and staying on one to be economy (Alleycat) turn2. Then, turn 3 hero power to copy the buddy.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "For turn 9, hero power has extra synergy with [[Drakkari Enchanter||101314]], allowing you to copy more copies of powerful cards."
+        ],
+        "cycle": [
+          "A common line is to win your first two fights, and staying on one to be economy (Alleycat) turn2. Then, turn 3 hero power to copy the buddy."
+        ],
+        "buy_prefs": [
+          "On turn 3, copy a 2 drop or a copy of your turn 1 1 drop."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/99033/rock-master-voone",
+      "stats": {
+        "hero_dbf_id": 99033,
+        "pick_rate": 32.83,
+        "avg_final_placement": 4.231,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.45,
+          13.1,
+          12.26,
+          12.11,
+          12.45,
+          12.1,
+          11.88,
+          9.65
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 70838,
+      "dbf_id": 70838,
+      "name": "Rokara",
+      "card_id": "BG20_HERO_100",
+      "slug": "rokara",
+      "guide_text": "Patchwerk 2.0, play the game normally and your hero will passively preserve some HP. Your main goal on this hero is to naturally find a direction, your hero doesn't help with it.",
+      "buddy_guide_text": "Purely midgame tempo buddy. Buddy up for 3-5.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Purely midgame tempo buddy. Buddy up for 3-5."
+        ],
+        "buy_prefs": [
+          "Patchwerk 2.0, play the game normally and your hero will passively preserve some HP.",
+          "Your main goal on this hero is to naturally find a direction, your hero doesn't help with it."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/70838/rokara",
+      "stats": {
+        "hero_dbf_id": 70838,
+        "pick_rate": 12.28,
+        "avg_final_placement": 4.341,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          10.7,
+          12.42,
+          14.12,
+          15.7,
+          14.53,
+          13.84,
+          11.79,
+          6.9
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 76562,
+      "dbf_id": 76562,
+      "name": "Scabbs Cutterbutter",
+      "card_id": "BG21_HERO_010",
+      "slug": "scabbs-cutterbutter",
+      "guide_text": "Early game, hero power to \"buy\" a minion for 2 gold to fill out your board. Mid-late game, your hero power might snipe a great directional card.",
+      "buddy_guide_text": "For the first 8 turns, if there's no ghost, you must face every single opponent exactly once. This allows you to predict which opponents you may face and determine the value of your own buddy, depending on whether the heroes you haven't faced yet have good buddies.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Early game, hero power to \"buy\" a minion for 2 gold to fill out your board.",
+          "Mid-late game, your hero power might snipe a great directional card."
+        ],
+        "cycle": [
+          "For the first 8 turns, if there's no ghost, you must face every single opponent exactly once. This allows you to predict which opponents you may face and determine the value of your own buddy, depending on whether the heroes you haven't faced yet have good buddies."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/76562/scabbs-cutterbutter",
+      "stats": {
+        "hero_dbf_id": 76562,
+        "pick_rate": 30.25,
+        "avg_final_placement": 4.402,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.78,
+          12.19,
+          12.7,
+          12.9,
+          13.79,
+          14.06,
+          12.64,
+          8.94
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 58027,
+      "dbf_id": 58027,
+      "name": "Shudderwock",
+      "card_id": "TB_BaconShop_HERO_23",
+      "slug": "shudderwock",
+      "guide_text": "Try to lean into a [[Brann Bronzebeard||96786]] comp with this hero, such as Elemental or Murlocs, so you can keep a [[Tavern Tempest||64077]] or [[Primalfin Lookout||60028]] on your board and proc it every turn.",
+      "buddy_guide_text": "Buddy up for 5-7 gold and start hero powering it until you find something better.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 5-7 gold and start hero powering it until you find something better."
+        ],
+        "buy_prefs": [
+          "Try to lean into a [[Brann Bronzebeard||96786]] comp with this hero, such as Elemental or Murlocs, so you can keep a [[Tavern Tempest||64077]] or [[Primalfin Lookout||60028]] on your board and proc it every turn."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58027/shudderwock",
+      "stats": {
+        "hero_dbf_id": 58027,
+        "pick_rate": 44.83,
+        "avg_final_placement": 4.292,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.24,
+          12.42,
+          12.47,
+          12.14,
+          11.82,
+          11.93,
+          12.38,
+          10.61
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 64480,
+      "dbf_id": 64480,
+      "name": "Silas Darkmoon",
+      "card_id": "TB_BaconShop_HERO_90",
+      "slug": "silas-darkmoon",
+      "guide_text": "A ticket is roughly worth 1 gold, so any 1 cost spell with a ticket is worth buying. However, don't buy useless units for the sake of buying a ticket.",
+      "buddy_guide_text": "Ignore buddy",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Ignore buddy"
+        ],
+        "buy_prefs": [
+          "A ticket is roughly worth 1 gold, so any 1 cost spell with a ticket is worth buying.",
+          "However, don't buy useless units for the sake of buying a ticket."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/64480/silas-darkmoon",
+      "stats": {
+        "hero_dbf_id": 64480,
+        "pick_rate": 30.56,
+        "avg_final_placement": 4.316,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.13,
+          12.19,
+          12.75,
+          13.44,
+          13.34,
+          13.17,
+          12.43,
+          8.55
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 58435,
+      "dbf_id": 58435,
+      "name": "Sindragosa",
+      "card_id": "TB_BaconShop_HERO_27",
+      "slug": "sindragosa",
+      "guide_text": "This hero benefits from cycle tribes being in, which are Elementals Murlocs and Pirates. Then, cycle every free card ([[Sellemental||64038]], [[Patient Scout||97604]], [[Tavern Tempest||64077]]) and find an APM direction to start scaling.",
+      "buddy_guide_text": "If you roll into a strong directional card, such as [[Brann Bronzebeard||96786]] or [[Nomi, Kitchen Nightmare||63626]], then as long as you can get away with it, buy every card besides the directional card you want and leave it as the only card frozen. That way, the next turn you have a golden version of it, which is gamewinning.",
+      "favorable_tribes": [
+        14,
+        18,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "This hero benefits from cycle tribes being in, which are Elementals Murlocs and Pirates.",
+          "Then, cycle every free card ([[Sellemental||64038]], [[Patient Scout||97604]], [[Tavern Tempest||64077]]) and find an APM direction to start scaling.",
+          "If you roll into a strong directional card, such as [[Brann Bronzebeard||96786]] or [[Nomi, Kitchen Nightmare||63626]], then as long as you can get away with it, buy every card besides the directional card you want and leave it as the only card frozen. That way, the next turn you have a golden version of it, which is gamewinning."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58435/sindragosa",
+      "stats": {
+        "hero_dbf_id": 58435,
+        "pick_rate": 31.9,
+        "avg_final_placement": 4.529,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.39,
+          11.36,
+          10.84,
+          11.7,
+          12.16,
+          13.27,
+          14.14,
+          12.13
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 39,
+        "key_minions_top3": [
+          132984,
+          120675,
+          101268
+        ]
+      }
+    },
+    {
+      "id": 60211,
+      "dbf_id": 60211,
+      "name": "Sir Finley Mrrgglton",
+      "card_id": "TB_BaconShop_HERO_40",
+      "slug": "sir-finley-mrrgglton",
+      "guide_text": "The less armor a hero starts off with, the better pick it'll be with Finley. Snake Eyes starts with 6 armor, but if you pick it with Finley then you gain some extra armor with a good hero power.",
+      "buddy_guide_text": "The higher tavern tier buddy the hero has, the better Finley's buddy is. For example, Sindragosa buddy is tier 6, but you only need to pay the cost of a tier 4 buddy to unlock it.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Snake Eyes starts with 6 armor, but if you pick it with Finley then you gain some extra armor with a good hero power."
+        ],
+        "cycle": [
+          "The higher tavern tier buddy the hero has, the better Finley's buddy is. For example, Sindragosa buddy is tier 6, but you only need to pay the cost of a tier 4 buddy to unlock it."
+        ],
+        "buy_prefs": [
+          "The less armor a hero starts off with, the better pick it'll be with Finley."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60211/sir-finley-mrrgglton",
+      "stats": {
+        "hero_dbf_id": 60211,
+        "pick_rate": 53.25,
+        "avg_final_placement": 4.209,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.42,
+          13.15,
+          12.58,
+          12.29,
+          12.32,
+          12.33,
+          11.61,
+          9.31
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 92960,
+      "dbf_id": 92960,
+      "name": "Sire Denathrius",
+      "card_id": "BG24_HERO_100",
+      "slug": "sire-denathrius",
+      "guide_text": "Most of the time, the quest that you can complete the fastest and easiest is the best choice. For example, a summon or attack quest with a [[Harmless Bonehead||104551]] opener is premium, but without any summons it's pretty bad.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. Most of the time, it's 8 gold in 1-2 turns.",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for at most 3 gold. Most of the time, it's 8 gold in 1-2 turns."
+        ],
+        "buy_prefs": [
+          "Most of the time, the quest that you can complete the fastest and easiest is the best choice.",
+          "For example, a summon or attack quest with a [[Harmless Bonehead||104551]] opener is premium, but without any summons it's pretty bad."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/92960/sire-denathrius",
+      "stats": {
+        "hero_dbf_id": 92960,
+        "pick_rate": 71.46,
+        "avg_final_placement": 4.489,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.72,
+          11.46,
+          10.48,
+          10.3,
+          11.23,
+          12.03,
+          13.96,
+          13.81
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 62268,
+      "dbf_id": 62268,
+      "name": "Skycap'n Kragg",
+      "card_id": "TB_BaconShop_HERO_68",
+      "slug": "skycap-n-kragg",
+      "guide_text": "Most commonly, you use your hero power on turn 6 when you level to 4 in order to stabilize on tavern 4. Stabilize means you buy either good standalone cards or good synergy with your board.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. It'll give you 8 gold back.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Most commonly, you use your hero power on turn 6 when you level to 4 in order to stabilize on tavern 4."
+        ],
+        "cycle": [
+          "Buddy up for at most 3 gold. It'll give you 8 gold back."
+        ],
+        "buy_prefs": [
+          "Stabilize means you buy either good standalone cards or good synergy with your board."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/62268/skycap-n-kragg",
+      "stats": {
+        "hero_dbf_id": 62268,
+        "pick_rate": 24.17,
+        "avg_final_placement": 4.266,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.83,
+          13.09,
+          12.0,
+          12.78,
+          12.37,
+          12.12,
+          11.55,
+          10.26
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 105314,
+      "dbf_id": 105314,
+      "name": "Snake Eyes",
+      "card_id": "BG28_HERO_400",
+      "slug": "snake-eyes",
+      "guide_text": "If you roll a 3+ turn 1, level turn 1. If you roll a 1 on turn 1, do NOT hero power on turn 2. Other than that, hero power whenever it's available.",
+      "buddy_guide_text": "Buddy up when it costs 5-7.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "If you roll a 1 on turn 1, do NOT hero power on turn 2.",
+          "Other than that, hero power whenever it's available."
+        ],
+        "cycle": [
+          "If you roll a 3+ turn 1, level turn 1.",
+          "Buddy up when it costs 5-7."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/105314/snake-eyes",
+      "stats": {
+        "hero_dbf_id": 105314,
+        "pick_rate": 56.33,
+        "avg_final_placement": 4.301,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.81,
+          12.95,
+          12.55,
+          11.72,
+          11.84,
+          12.06,
+          12.24,
+          10.83
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 76521,
+      "dbf_id": 76521,
+      "name": "Sneed",
+      "card_id": "BG21_HERO_030",
+      "slug": "sneed",
+      "guide_text": "You have the option to reborn the buddy with [[Prosthetic Hand||112364]] and summon scam such as [[Heroic Underdog||126966]] or [[Leeroy, the Reckless||90425]].",
+      "buddy_guide_text": "Best used for deathrattle comps such as [[Carapace Raiser]] Undeads or [[Goldrinn, the Great Wolf||59955]] Beasts. Otherwise, you may copy Leeroy's deathrattle + Buddy for scam.",
+      "favorable_tribes": [
+        14
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "You have the option to reborn the buddy with [[Prosthetic Hand||112364]] and summon scam such as [[Heroic Underdog||126966]] or [[Leeroy, the Reckless||90425]].",
+          "Best used for deathrattle comps such as [[Carapace Raiser]] Undeads or [[Goldrinn, the Great Wolf||59955]] Beasts. Otherwise, you may copy Leeroy's deathrattle + Buddy for scam."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/76521/sneed",
+      "stats": {
+        "hero_dbf_id": 76521,
+        "pick_rate": 17.24,
+        "avg_final_placement": 4.329,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          11.29,
+          12.48,
+          14.72,
+          14.18,
+          14.87,
+          13.51,
+          11.27,
+          7.67
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 89293,
+      "dbf_id": 89293,
+      "name": "Sylvanas Windrunner",
+      "card_id": "BG23_HERO_306",
+      "slug": "sylvanas-windrunner",
+      "guide_text": "In the early game, often line up a triple of your 1 drop. In the midgame, duplicate key cards on your board.",
+      "buddy_guide_text": "If you use your buddy on the far right or far left, that'll transfer all your stats on one minion, which is often much better than splitting stats. You may also want to go for golden buddy to double the amount of stats of your biggest minion.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "If you use your buddy on the far right or far left, that'll transfer all your stats on one minion, which is often much better than splitting stats. You may also want to go for golden buddy to double the amount of stats of your biggest minion."
+        ],
+        "buy_prefs": [
+          "In the early game, often line up a triple of your 1 drop.",
+          "In the midgame, duplicate key cards on your board."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/89293/sylvanas-windrunner",
+      "stats": {
+        "hero_dbf_id": 89293,
+        "pick_rate": 53.68,
+        "avg_final_placement": 4.164,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          18.55,
+          13.16,
+          11.75,
+          11.53,
+          11.56,
+          11.82,
+          11.53,
+          10.08
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 105431,
+      "dbf_id": 105431,
+      "name": "Tae'thelan Bloodwatcher",
+      "card_id": "BG28_HERO_800",
+      "slug": "tae-thelan-bloodwatcher",
+      "guide_text": "Don't expect much value from this hero power, it's basically Patchwerk 2.0.",
+      "buddy_guide_text": "Buddy up when it costs 3-5. If you can get away with it, hold a powerful spell such as [[Temperature Shift||117670]] to duplicate every turn. You should also try to duplicate and reproc the buddy using [[Lantern Lava]]",
+      "favorable_tribes": [
+        18
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Don't expect much value from this hero power, it's basically Patchwerk 2.0."
+        ],
+        "cycle": [
+          "Buddy up when it costs 3-5. If you can get away with it, hold a powerful spell such as [[Temperature Shift||117670]] to duplicate every turn. You should also try to duplicate and reproc the buddy using [[Lantern Lava]]"
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/105431/tae-thelan-bloodwatcher",
+      "stats": {
+        "hero_dbf_id": 105431,
+        "pick_rate": 15.31,
+        "avg_final_placement": 4.292,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.53,
+          12.89,
+          13.14,
+          13.5,
+          13.95,
+          12.69,
+          11.85,
+          8.44
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 74646,
+      "dbf_id": 74646,
+      "name": "Tamsin Roame",
+      "card_id": "BG20_HERO_282",
+      "slug": "tamsin-roame",
+      "guide_text": "The best strategy with this hero is to taunt up a start of combat unit that starts small to get your hero power proc, and then gains stats before it dies. The best one is [[Choral Mrrglr]]. [[Heroic Underdog||126966]] works as well.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. The buddy just acts as a tempo stick.",
+      "favorable_tribes": [
+        14
+      ],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [
+          "The best strategy with this hero is to taunt up a start of combat unit that starts small to get your hero power proc, and then gains stats before it dies."
+        ],
+        "cycle": [
+          "Buddy up for at most 3 gold. The buddy just acts as a tempo stick."
+        ],
+        "buy_prefs": [
+          "The best one is [[Choral Mrrglr]].",
+          "[[Heroic Underdog||126966]] works as well."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/74646/tamsin-roame",
+      "stats": {
+        "hero_dbf_id": 74646,
+        "pick_rate": 14.12,
+        "avg_final_placement": 4.473,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          10.38,
+          12.15,
+          13.59,
+          14.32,
+          13.88,
+          13.93,
+          12.44,
+          9.31
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 77987,
+      "dbf_id": 77987,
+      "name": "Tavish Stormpike",
+      "card_id": "BG22_HERO_000",
+      "slug": "tavish-stormpike",
+      "guide_text": "In the early-midgame, use hero power for slight tempo. In the endgame, hero power scam such as [[Deadly Spore||65031]] and [[Leeroy the Reckless||90425]].",
+      "buddy_guide_text": "Buddy up for 5+ gold, because the buddy generates 3 gold of value every turn. In the midgame, only hero power units you want to buy.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "In the early-midgame, use hero power for slight tempo.",
+          "In the endgame, hero power scam such as [[Deadly Spore||65031]] and [[Leeroy the Reckless||90425]]."
+        ],
+        "cycle": [
+          "Buddy up for 5+ gold, because the buddy generates 3 gold of value every turn. In the midgame, only hero power units you want to buy."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/77987/tavish-stormpike",
+      "stats": {
+        "hero_dbf_id": 77987,
+        "pick_rate": 26.76,
+        "avg_final_placement": 4.205,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.0,
+          13.0,
+          13.97,
+          14.19,
+          13.44,
+          12.63,
+          11.28,
+          7.49
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 98726,
+      "dbf_id": 98726,
+      "name": "Teron Gorefiend",
+      "card_id": "BG25_HERO_103",
+      "slug": "teron-gorefiend",
+      "guide_text": "Hero power [[Eternal Knight||95261]] or Fresh Perspective (Deathrattle: 2 rolls) dark gift early on.",
+      "buddy_guide_text": "If you're playing a deathrattle comp, don't play into your buddy. Otherwise, hero power your highest statted unit.",
+      "favorable_tribes": [
+        11
+      ],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [
+          "Hero power [[Eternal Knight||95261]] or Fresh Perspective (Deathrattle: 2 rolls) dark gift early on."
+        ],
+        "cycle": [
+          "If you're playing a deathrattle comp, don't play into your buddy. Otherwise, hero power your highest statted unit."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/98726/teron-gorefiend",
+      "stats": {
+        "hero_dbf_id": 98726,
+        "pick_rate": 53.92,
+        "avg_final_placement": 3.969,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.33,
+          15.21,
+          13.84,
+          13.11,
+          12.45,
+          10.9,
+          9.83,
+          7.34
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 60367,
+      "dbf_id": 60367,
+      "name": "Tess Greymane",
+      "card_id": "TB_BaconShop_HERO_50",
+      "slug": "tess-greymane",
+      "guide_text": "You can afford to stabilize on lower tiers and save HP so when you steal directional cards from your opponent you are healthy enough to play into them.",
+      "buddy_guide_text": "Buddy for 5+ gold IF the opponent you're facing has a good buddy. You're willing to buddy up for even 7 gold if you're facing an AFK",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy for 5+ gold IF the opponent you're facing has a good buddy. You're willing to buddy up for even 7 gold if you're facing an AFK"
+        ],
+        "buy_prefs": [
+          "You can afford to stabilize on lower tiers and save HP so when you steal directional cards from your opponent you are healthy enough to play into them."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60367/tess-greymane",
+      "stats": {
+        "hero_dbf_id": 60367,
+        "pick_rate": 35.09,
+        "avg_final_placement": 4.62,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.2,
+          10.54,
+          11.29,
+          12.35,
+          13.56,
+          14.3,
+          14.27,
+          11.5
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 9,
+        "key_minions_top3": [
+          59679,
+          121688,
+          132902
+        ]
+      }
+    },
+    {
+      "id": 59203,
+      "dbf_id": 59203,
+      "name": "The Curator",
+      "card_id": "TB_BaconShop_HERO_33",
+      "slug": "the-curator",
+      "guide_text": "Reborn the amalgam using [[Prosthetic Hand||112364]] or [[Sprightly Scarab||108909]].",
+      "buddy_guide_text": "Find a way to concentrate stats on the amalgam, possibly with Deep Blue or Blood Gems.",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Find a way to concentrate stats on the amalgam, possibly with Deep Blue or Blood Gems."
+        ],
+        "buy_prefs": [
+          "Reborn the amalgam using [[Prosthetic Hand||112364]] or [[Sprightly Scarab||108909]]."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59203/the-curator",
+      "stats": {
+        "hero_dbf_id": 59203,
+        "pick_rate": 27.68,
+        "avg_final_placement": 4.211,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.27,
+          13.19,
+          14.35,
+          15.61,
+          13.98,
+          13.5,
+          10.72,
+          6.38
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 58021,
+      "dbf_id": 58021,
+      "name": "The Great Akazamzarak",
+      "card_id": "TB_BaconShop_HERO_21",
+      "slug": "the-great-akazamzarak",
+      "guide_text": "This hero is best to copy [[Eternal Knight||95261]] or Fresh Perspective dark gift if you see it early on. Taunt it and choose Pack Tactic's secret. Otherwise, choose Venomstrike Trap.",
+      "buddy_guide_text": "Golden buddy allows you to pick double secret, it's quite strong. This buddy is also very strong with poison scam if the lobby isn't playing Mechs, Beasts, or Undead.",
+      "favorable_tribes": [],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Golden buddy allows you to pick double secret, it's quite strong. This buddy is also very strong with poison scam if the lobby isn't playing Mechs, Beasts, or Undead."
+        ],
+        "buy_prefs": [
+          "This hero is best to copy [[Eternal Knight||95261]] or Fresh Perspective dark gift if you see it early on.",
+          "Taunt it and choose Pack Tactic's secret.",
+          "Otherwise, choose Venomstrike Trap."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58021/the-great-akazamzarak",
+      "stats": {
+        "hero_dbf_id": 58021,
+        "pick_rate": 29.88,
+        "avg_final_placement": 4.072,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.59,
+          14.61,
+          14.84,
+          13.82,
+          12.86,
+          12.52,
+          9.92,
+          6.84
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 97186,
+      "dbf_id": 97186,
+      "name": "The Jailer",
+      "card_id": "TB_BaconShop_HERO_702",
+      "slug": "the-jailer",
+      "guide_text": "Early [[Harmless Bonehead||104551]] is the best so you can hero power it on turn 3. You may also use your hero power on [[Cadaver Caretaker||113158]] midgame for free triples.",
+      "buddy_guide_text": "Buddy up for 3-5. Hero power the first instance of your buddy to easily fill out your board with Undeads so you can level fast.",
+      "favorable_tribes": [
+        11
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Early [[Harmless Bonehead||104551]] is the best so you can hero power it on turn 3.",
+          "You may also use your hero power on [[Cadaver Caretaker||113158]] midgame for free triples."
+        ],
+        "cycle": [
+          "Buddy up for 3-5. Hero power the first instance of your buddy to easily fill out your board with Undeads so you can level fast."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/97186/the-jailer",
+      "stats": {
+        "hero_dbf_id": 97186,
+        "pick_rate": 29.49,
+        "avg_final_placement": 4.048,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          17.78,
+          13.86,
+          13.65,
+          12.66,
+          11.43,
+          11.84,
+          10.76,
+          8.03
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 58024,
+      "dbf_id": 58024,
+      "name": "The Lich King",
+      "card_id": "TB_BaconShop_HERO_22",
+      "slug": "the-lich-king",
+      "guide_text": "In the early game, [[Eternal Knight||95261]] is premium. In the endgame, reborn [[Leeroy the Reckless||90425]] is very strong.",
+      "buddy_guide_text": "Somehow find a way to scale your buddy. This can be through [[Primeval Monstrosity]] or [[Noisul of the many faces]]. Then, filling out your board with divine shield reborn minions are very strong.",
+      "favorable_tribes": [
+        11
+      ],
+      "guide_recently_updated": true,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Somehow find a way to scale your buddy. This can be through [[Primeval Monstrosity]] or [[Noisul of the many faces]]. Then, filling out your board with divine shield reborn minions are very strong."
+        ],
+        "buy_prefs": [
+          "In the early game, [[Eternal Knight||95261]] is premium.",
+          "In the endgame, reborn [[Leeroy the Reckless||90425]] is very strong."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/58024/the-lich-king",
+      "stats": {
+        "hero_dbf_id": 58024,
+        "pick_rate": 51.51,
+        "avg_final_placement": 4.032,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.59,
+          14.73,
+          14.37,
+          13.62,
+          12.99,
+          11.91,
+          10.2,
+          6.59
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 57893,
+      "dbf_id": 57893,
+      "name": "The Rat King",
+      "card_id": "TB_BaconShop_HERO_12",
+      "slug": "the-rat-king",
+      "guide_text": "Hero power the first 6 turns (except turn 2), and be tavern 4 by turn 6. Then, you don't have to hero power every turn, only when the tribe is useful to you.",
+      "buddy_guide_text": "Buddy up for 0. Use it for some free rolls in the midgame. Golden buddy is useless so feel free to sell it as a cycle spot and replay it in the future.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero power the first 6 turns (except turn 2), and be tavern 4 by turn 6.",
+          "Then, you don't have to hero power every turn, only when the tribe is useful to you."
+        ],
+        "cycle": [
+          "Buddy up for 0. Use it for some free rolls in the midgame. Golden buddy is useless so feel free to sell it as a cycle spot and replay it in the future."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57893/the-rat-king",
+      "stats": {
+        "hero_dbf_id": 57893,
+        "pick_rate": 27.21,
+        "avg_final_placement": 4.279,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.83,
+          12.64,
+          13.45,
+          13.68,
+          13.16,
+          13.14,
+          11.65,
+          8.45
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 103477,
+      "dbf_id": 103477,
+      "name": "Thorim, Stormlord",
+      "card_id": "BG27_HERO_801",
+      "slug": "thorim-stormlord",
+      "guide_text": "Sea Witch is generally extremely good. [[Captain Sanders||97539]] is used to golden Titus or Brann later, with great synergy with [[Kelp Keeper||132883]].",
+      "buddy_guide_text": "Buddy up for 3-5. Evolve your highest tavern card to a tier 7 and hope that it's a good one.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy up for 3-5. Evolve your highest tavern card to a tier 7 and hope that it's a good one."
+        ],
+        "buy_prefs": [
+          "Sea Witch is generally extremely good.",
+          "[[Captain Sanders||97539]] is used to golden Titus or Brann later, with great synergy with [[Kelp Keeper||132883]]."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/103477/thorim-stormlord",
+      "stats": {
+        "hero_dbf_id": 103477,
+        "pick_rate": 55.84,
+        "avg_final_placement": 4.145,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.96,
+          13.49,
+          12.67,
+          12.64,
+          12.04,
+          12.28,
+          11.28,
+          8.65
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 67356,
+      "dbf_id": 67356,
+      "name": "Tickatus",
+      "card_id": "TB_BaconShop_HERO_94",
+      "slug": "tickatus",
+      "guide_text": "The best tier 1 spells are discover tier 1 or rockin' and rollin'. The best tier 2 spell is On the House. The best tier 3 spells are Top Shelf and Midflayer Goggles.",
+      "buddy_guide_text": "Buddy up on turn 8 and sell it on that turn, must not sell it before turn 8. This'll give you tier 3 spells that provide great value, the best ones being steal shop or golden in shop or discover 6 drop. Use your second set of buddies on turn 12. All of them are good depending on what you need.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "The best tier 1 spells are discover tier 1 or rockin' and rollin'.",
+          "Buddy up on turn 8 and sell it on that turn, must not sell it before turn 8. This'll give you tier 3 spells that provide great value, the best ones being steal shop or golden in shop or discover 6 drop. Use your second set of buddies on turn 12. All of them are good depending on what you need."
+        ],
+        "buy_prefs": [
+          "The best tier 2 spell is On the House.",
+          "The best tier 3 spells are Top Shelf and Midflayer Goggles."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/67356/tickatus",
+      "stats": {
+        "hero_dbf_id": 67356,
+        "pick_rate": 36.95,
+        "avg_final_placement": 4.204,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.16,
+          12.81,
+          12.58,
+          12.67,
+          13.02,
+          12.75,
+          11.44,
+          8.57
+        ],
+        "tier_v2": "b",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 126537,
+      "dbf_id": 126537,
+      "name": "Time Twister Chromie",
+      "card_id": "BG34_HERO_001",
+      "slug": "time-twister-chromie",
+      "guide_text": "Hero power turn 1. Fill out your board in the early game using 2 cost spells, and buy Strike Oils too. Starting tavern 3, play normally.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero power turn 1."
+        ],
+        "cycle": [],
+        "buy_prefs": [
+          "Fill out your board in the early game using 2 cost spells, and buy Strike Oils too.",
+          "Starting tavern 3, play normally."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/126537/time-twister-chromie",
+      "stats": {
+        "hero_dbf_id": 126537,
+        "pick_rate": 27.68,
+        "avg_final_placement": 4.322,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.21,
+          13.24,
+          12.88,
+          12.61,
+          12.46,
+          12.34,
+          11.94,
+          10.31
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 57891,
+      "dbf_id": 57891,
+      "name": "Trade Prince Gallywix",
+      "card_id": "TB_BaconShop_HERO_10",
+      "slug": "trade-prince-gallywix",
+      "guide_text": "In the early game, buy every [[River Skipper||122092]] and [[Patient Scout||97604]] as they generate you money. In the lategame, Gallywix relies on [[Brann Bronzebeard||96786]] to cycle lots of cards to ramp up economy. You must play a cycle composition with this hero, so try not to go Beasts or Undeads.",
+      "buddy_guide_text": "Buddy up for 5-7 gold because it's a value generating buddy.",
+      "favorable_tribes": [
+        14,
+        23
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "In the lategame, Gallywix relies on [[Brann Bronzebeard||96786]] to cycle lots of cards to ramp up economy.",
+          "You must play a cycle composition with this hero, so try not to go Beasts or Undeads.",
+          "Buddy up for 5-7 gold because it's a value generating buddy."
+        ],
+        "buy_prefs": [
+          "In the early game, buy every [[River Skipper||122092]] and [[Patient Scout||97604]] as they generate you money."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/57891/trade-prince-gallywix",
+      "stats": {
+        "hero_dbf_id": 57891,
+        "pick_rate": 38.29,
+        "avg_final_placement": 4.598,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          18.9,
+          10.8,
+          8.91,
+          8.57,
+          9.14,
+          11.04,
+          14.77,
+          17.87
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 132578,
+      "dbf_id": 132578,
+      "name": "Tras'tath, Soul Parasite",
+      "card_id": "BG36_HERO_101",
+      "slug": "tras-tath-soul-parasite",
+      "guide_text": "Most of the time take a core card for a comp and commit to it. For example, pick [[Drustfallen Butcher||120104]] and commit Undead.",
+      "buddy_guide_text": "",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [],
+        "buy_prefs": [
+          "Most of the time take a core card for a comp and commit to it.",
+          "For example, pick [[Drustfallen Butcher||120104]] and commit Undead."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/132578/tras-tath-soul-parasite",
+      "stats": {
+        "hero_dbf_id": 132578,
+        "pick_rate": 71.84,
+        "avg_final_placement": 3.949,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          18.42,
+          15.22,
+          13.8,
+          12.56,
+          11.64,
+          10.4,
+          9.86,
+          8.1
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 80247,
+      "dbf_id": 80247,
+      "name": "Vanndar Stormpike",
+      "card_id": "BG22_HERO_003",
+      "slug": "vanndar-stormpike",
+      "guide_text": "Slightly prefer comps that concentrate stats on a big unit such as Magnetic Mechs but mostly just play normally and enjoy the powerful late game hero power.",
+      "buddy_guide_text": "Buddy up for 3-5 gold. Provides decent midgame tempo.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Slightly prefer comps that concentrate stats on a big unit such as Magnetic Mechs but mostly just play normally and enjoy the powerful late game hero power."
+        ],
+        "cycle": [
+          "Buddy up for 3-5 gold. Provides decent midgame tempo."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/80247/vanndar-stormpike",
+      "stats": {
+        "hero_dbf_id": 80247,
+        "pick_rate": 38.47,
+        "avg_final_placement": 4.105,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          18.18,
+          13.83,
+          13.1,
+          11.77,
+          11.37,
+          10.86,
+          10.87,
+          10.03
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 8,
+        "key_minions_top3": [
+          132894,
+          98591,
+          98588
+        ]
+      }
+    },
+    {
+      "id": 79615,
+      "dbf_id": 79615,
+      "name": "Varden Dawngrasp",
+      "card_id": "BG22_HERO_004",
+      "slug": "varden-dawngrasp",
+      "guide_text": "If you roll into a frozen card you want to triple, you can leave it frozen to try to get a 3rd frozen copy in the shop next turn. For example, if your hero power copied a Brann, you can leave one or two Branns frozen in the shop, and the hero power might copy it again next turn.",
+      "buddy_guide_text": "Buddy up for at most 3 gold. Try to triple frozen cards on tavern 3 or 4 to get many buffs.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "For example, if your hero power copied a Brann, you can leave one or two Branns frozen in the shop, and the hero power might copy it again next turn."
+        ],
+        "cycle": [
+          "If you roll into a frozen card you want to triple, you can leave it frozen to try to get a 3rd frozen copy in the shop next turn.",
+          "Buddy up for at most 3 gold. Try to triple frozen cards on tavern 3 or 4 to get many buffs."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/79615/varden-dawngrasp",
+      "stats": {
+        "hero_dbf_id": 79615,
+        "pick_rate": 28.56,
+        "avg_final_placement": 4.333,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.94,
+          12.47,
+          12.7,
+          13.07,
+          13.39,
+          12.99,
+          12.35,
+          9.09
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 71463,
+      "dbf_id": 71463,
+      "name": "Vol'jin",
+      "card_id": "BG20_HERO_201",
+      "slug": "vol-jin",
+      "guide_text": "With [[Flaming Enforcer||126924]] or [[Unbound Tempest||132983]], you can exponentially scale attack by swapping largest attack with unit in the shop. In the end, make a large cleave ([[Blade Collector||99035]])",
+      "buddy_guide_text": "You must use this buddy with [[Tarecgosa||72062]] or [[Persistent Poet||108463]] which will add a ton of permanent HP. Even better if you hit [[Wrathscale Rogue]] to convert that HP to permanent attack, which means exponential scaling.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "You must use this buddy with [[Tarecgosa||72062]] or [[Persistent Poet||108463]] which will add a ton of permanent HP. Even better if you hit [[Wrathscale Rogue]] to convert that HP to permanent attack, which means exponential scaling."
+        ],
+        "buy_prefs": [
+          "With [[Flaming Enforcer||126924]] or [[Unbound Tempest||132983]], you can exponentially scale attack by swapping largest attack with unit in the shop.",
+          "In the end, make a large cleave ([[Blade Collector||99035]])"
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/71463/vol-jin",
+      "stats": {
+        "hero_dbf_id": 71463,
+        "pick_rate": 18.06,
+        "avg_final_placement": 4.109,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.88,
+          14.01,
+          14.26,
+          14.74,
+          14.07,
+          12.69,
+          10.09,
+          6.27
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 70956,
+      "dbf_id": 70956,
+      "name": "Xyrella",
+      "card_id": "BG20_HERO_101",
+      "slug": "xyrella",
+      "guide_text": "Hero powering 1/1s and 1/2s in shop early on is great on this hero in the early game. Mid to late game just hero power good battlecries such as [[Rodeo Performer||104466]].",
+      "buddy_guide_text": "You want to cycle as many cards as possible using [[Brann Bronzebeard||96786]] or other APM strats to scale up the buddy. Then, buying every Magnetic is worth it, especially if you ever find [[Polarizing Beatboxer||98713]].",
+      "favorable_tribes": [
+        17,
+        18
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero powering 1/1s and 1/2s in shop early on is great on this hero in the early game.",
+          "Mid to late game just hero power good battlecries such as [[Rodeo Performer||104466]]."
+        ],
+        "cycle": [
+          "You want to cycle as many cards as possible using [[Brann Bronzebeard||96786]] or other APM strats to scale up the buddy. Then, buying every Magnetic is worth it, especially if you ever find [[Polarizing Beatboxer||98713]]."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/70956/xyrella",
+      "stats": {
+        "hero_dbf_id": 70956,
+        "pick_rate": 28.19,
+        "avg_final_placement": 4.408,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.08,
+          12.09,
+          12.72,
+          13.25,
+          13.36,
+          12.95,
+          12.58,
+          9.98
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 47,
+        "key_minions_top3": [
+          120105,
+          133083,
+          95266
+        ]
+      }
+    },
+    {
+      "id": 66196,
+      "dbf_id": 66196,
+      "name": "Y'Shaarj",
+      "card_id": "TB_BaconShop_HERO_92",
+      "slug": "y-shaarj",
+      "guide_text": "Hero power until turn 6 (except when you level on turn 2), and generally stop hero powering after that.",
+      "buddy_guide_text": "There is a tavern 2 strat where you cycle 2 drops while scaling Divine Shields on tavern 2 with the buddy. I don't recommend picking this hero though.",
+      "favorable_tribes": [
+        17
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Hero power until turn 6 (except when you level on turn 2), and generally stop hero powering after that."
+        ],
+        "cycle": [
+          "There is a tavern 2 strat where you cycle 2 drops while scaling Divine Shields on tavern 2 with the buddy. I don't recommend picking this hero though."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/66196/y-shaarj",
+      "stats": {
+        "hero_dbf_id": 66196,
+        "pick_rate": 22.8,
+        "avg_final_placement": 4.276,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          13.43,
+          12.37,
+          13.04,
+          13.88,
+          14.47,
+          14.28,
+          11.52,
+          7.01
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    },
+    {
+      "id": 59805,
+      "dbf_id": 59805,
+      "name": "Yogg-Saron, Hope's End",
+      "card_id": "TB_BaconShop_HERO_35",
+      "slug": "yogg-saron-hope-s-end",
+      "guide_text": "Generically powerful hero!",
+      "buddy_guide_text": "Buy this buddy when it costs 5-7 gold.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buy this buddy when it costs 5-7 gold."
+        ],
+        "buy_prefs": [
+          "Generically powerful hero!"
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/59805/yogg-saron-hope-s-end",
+      "stats": {
+        "hero_dbf_id": 59805,
+        "pick_rate": 37.62,
+        "avg_final_placement": 4.04,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          16.56,
+          14.56,
+          14.17,
+          12.85,
+          12.31,
+          11.55,
+          10.42,
+          7.57
+        ],
+        "tier_v2": "a",
+        "anomaly_adjusted": false,
+        "best_composition": 43,
+        "key_minions_top3": [
+          120906,
+          133330,
+          130299
+        ]
+      }
+    },
+    {
+      "id": 60370,
+      "dbf_id": 60370,
+      "name": "Ysera",
+      "card_id": "TB_BaconShop_HERO_53",
+      "slug": "ysera",
+      "guide_text": "Buy pretty much only dragons in the early-midgame and force the tribe.",
+      "buddy_guide_text": "Buddy Up for at most 3 gold. Purely for midgame tempo.",
+      "favorable_tribes": [
+        24
+      ],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [],
+        "cycle": [
+          "Buddy Up for at most 3 gold. Purely for midgame tempo."
+        ],
+        "buy_prefs": [
+          "Buy pretty much only dragons in the early-midgame and force the tribe."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/60370/ysera",
+      "stats": {
+        "hero_dbf_id": 60370,
+        "pick_rate": 27.46,
+        "avg_final_placement": 4.331,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          12.1,
+          12.74,
+          13.51,
+          13.19,
+          14.79,
+          14.77,
+          11.54,
+          7.37
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 20,
+        "key_minions_top3": [
+          108464,
+          92413,
+          132986
+        ]
+      }
+    },
+    {
+      "id": 64485,
+      "dbf_id": 64485,
+      "name": "Zephrys, the Great",
+      "card_id": "TB_BaconShop_HERO_91",
+      "slug": "zephrys-the-great",
+      "guide_text": "Use your first hero power or two on early pairs to try to stabilize. You can use your last hero power on a core card for your direction, such as [[Brann Bronzebeard||96786]] or [[Titus Rivendare||97408]].",
+      "buddy_guide_text": "If a certain triple is extremely important, sell everything except 3 cards and pairs to guarantee you get the triple.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Use your first hero power or two on early pairs to try to stabilize.",
+          "You can use your last hero power on a core card for your direction, such as [[Brann Bronzebeard||96786]] or [[Titus Rivendare||97408]]."
+        ],
+        "cycle": [
+          "If a certain triple is extremely important, sell everything except 3 cards and pairs to guarantee you get the triple."
+        ],
+        "buy_prefs": []
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/64485/zephrys-the-great",
+      "stats": {
+        "hero_dbf_id": 64485,
+        "pick_rate": 39.99,
+        "avg_final_placement": 4.311,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          15.33,
+          12.23,
+          12.81,
+          12.56,
+          12.28,
+          12.5,
+          12.12,
+          10.17
+        ],
+        "tier_v2": "c",
+        "anomaly_adjusted": false,
+        "best_composition": 3,
+        "key_minions_top3": [
+          132797,
+          132950,
+          132809
+        ]
+      }
+    },
+    {
+      "id": 117409,
+      "dbf_id": 117409,
+      "name": "Zerek, Master Cloner",
+      "card_id": "BG31_HERO_005",
+      "slug": "zerek-master-cloner",
+      "guide_text": "Use this hero power like reno and use it on the first value generator you see, such as [[Bigwig Bandit||122179]]. A lot of times that comes from pressing your dark gift on turn 4 or 6.",
+      "buddy_guide_text": "If you haven't used hero power, use your first buddy on a directional tavern 4 or 5 in the shop, buy it, and hero power it to make it golden. Use your second set of buddies to make another core card golden if you roll into it.",
+      "favorable_tribes": [],
+      "guide_recently_updated": false,
+      "structured": {
+        "hp": [
+          "Use this hero power like reno and use it on the first value generator you see, such as [[Bigwig Bandit||122179]]."
+        ],
+        "cycle": [
+          "If you haven't used hero power, use your first buddy on a directional tavern 4 or 5 in the shop, buy it, and hero power it to make it golden. Use your second set of buddies to make another core card golden if you roll into it."
+        ],
+        "buy_prefs": [
+          "A lot of times that comes from pressing your dark gift on turn 4 or 6."
+        ]
+      },
+      "source_url": "https://hsreplay.net/battlegrounds/heroes/117409/zerek-master-cloner",
+      "stats": {
+        "hero_dbf_id": 117409,
+        "pick_rate": 46.84,
+        "avg_final_placement": 4.555,
+        "adjusted_avg_final_placement": null,
+        "final_placement_distribution": [
+          14.72,
+          11.08,
+          11.04,
+          11.12,
+          12.0,
+          12.74,
+          13.81,
+          13.5
+        ],
+        "tier_v2": "d",
+        "anomaly_adjusted": false,
+        "best_composition": 2,
+        "key_minions_top3": [
+          108930,
+          98948,
+          98950
+        ]
+      }
+    }
+  ]
+}

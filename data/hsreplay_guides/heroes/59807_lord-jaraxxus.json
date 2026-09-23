@@ -1,0 +1,48 @@
+{
+  "id": 59807,
+  "dbf_id": 59807,
+  "name": "Lord Jaraxxus",
+  "card_id": "TB_BaconShop_HERO_37",
+  "slug": "lord-jaraxxus",
+  "guide_text": "Prioritize first buffing the shop and then finding [[Twisted Wrathguard||130662]] or [[Insatiable Ur’zul||72060]] to best capitalize on the 2 demons per turn. Run a permanent [[Soul Rewinder||100949]] on this hero.",
+  "buddy_guide_text": "Buy this buddy when it costs 5-7 gold.",
+  "favorable_tribes": [
+    15
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buy this buddy when it costs 5-7 gold."
+    ],
+    "buy_prefs": [
+      "Prioritize first buffing the shop and then finding [[Twisted Wrathguard||130662]] or [[Insatiable Ur’zul||72060]] to best capitalize on the 2 demons per turn.",
+      "Run a permanent [[Soul Rewinder||100949]] on this hero."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/59807/lord-jaraxxus",
+  "stats": {
+    "hero_dbf_id": 59807,
+    "pick_rate": 48.9,
+    "avg_final_placement": 3.61,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      25.15,
+      17.64,
+      12.61,
+      10.27,
+      9.02,
+      8.52,
+      8.87,
+      7.91
+    ],
+    "tier_v2": "s",
+    "anomaly_adjusted": false,
+    "best_composition": 9,
+    "key_minions_top3": [
+      59679,
+      121688,
+      132902
+    ]
+  }
+}

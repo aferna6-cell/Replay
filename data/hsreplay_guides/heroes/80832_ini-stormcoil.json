@@ -1,0 +1,49 @@
+{
+  "id": 80832,
+  "dbf_id": 80832,
+  "name": "Ini Stormcoil",
+  "card_id": "BG22_HERO_200",
+  "slug": "ini-stormcoil",
+  "guide_text": "Even though you want to play Mechs eventually, Undead and Beasts provide the best early game summons so you can start having minions die early on.",
+  "buddy_guide_text": "Buddy up for 3-5 gold. It passively gains stats but you still want other Mech scaling.",
+  "favorable_tribes": [
+    11,
+    17,
+    20
+  ],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up for 3-5 gold. It passively gains stats but you still want other Mech scaling."
+    ],
+    "buy_prefs": [
+      "Even though you want to play Mechs eventually, Undead and Beasts provide the best early game summons so you can start having minions die early on."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/80832/ini-stormcoil",
+  "stats": {
+    "hero_dbf_id": 80832,
+    "pick_rate": 26.3,
+    "avg_final_placement": 4.2,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.57,
+      13.99,
+      14.04,
+      13.4,
+      13.86,
+      12.31,
+      11.16,
+      7.67
+    ],
+    "tier_v2": "b",
+    "anomaly_adjusted": false,
+    "best_composition": 8,
+    "key_minions_top3": [
+      132894,
+      98591,
+      98588
+    ]
+  }
+}

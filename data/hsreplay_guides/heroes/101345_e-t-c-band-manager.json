@@ -1,0 +1,47 @@
+{
+  "id": 101345,
+  "dbf_id": 101345,
+  "name": "E.T.C., Band Manager",
+  "card_id": "BG25_HERO_105",
+  "slug": "e-t-c-band-manager",
+  "guide_text": "After going taverm 3 on turn 3 or tavern 3 on turn 4, hero power on turns 4, 5, and 6. Value generating buddies such as Lil KT are the best.",
+  "buddy_guide_text": "A viable strategy is to golden Veranus, Thorim's Buddy, and then evolve the buddy for an instant 7 drop.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "After going taverm 3 on turn 3 or tavern 3 on turn 4, hero power on turns 4, 5, and 6."
+    ],
+    "cycle": [
+      "A viable strategy is to golden Veranus, Thorim's Buddy, and then evolve the buddy for an instant 7 drop."
+    ],
+    "buy_prefs": [
+      "Value generating buddies such as Lil KT are the best."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/101345/e-t-c-band-manager",
+  "stats": {
+    "hero_dbf_id": 101345,
+    "pick_rate": 35.66,
+    "avg_final_placement": 4.611,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      13.63,
+      10.29,
+      10.59,
+      11.55,
+      13.02,
+      14.47,
+      14.64,
+      11.81
+    ],
+    "tier_v2": "d",
+    "anomaly_adjusted": false,
+    "best_composition": 43,
+    "key_minions_top3": [
+      120906,
+      133330,
+      130299
+    ]
+  }
+}

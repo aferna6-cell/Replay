@@ -1,0 +1,47 @@
+{
+  "id": 73940,
+  "dbf_id": 73940,
+  "name": "Cariel Roame",
+  "card_id": "BG21_HERO_000",
+  "slug": "cariel-roame",
+  "guide_text": "Every other turn, click the option that gives to an extra minion. This hero gets a lot of free stats early game which allows you to level fast without taking damage. Most of the time, level to tavern 3 turn 4 and tavern 4 turn 5 without taking damage.",
+  "buddy_guide_text": "Buddy up when it costs 3-5.",
+  "favorable_tribes": [],
+  "guide_recently_updated": true,
+  "structured": {
+    "hp": [],
+    "cycle": [
+      "Buddy up when it costs 3-5."
+    ],
+    "buy_prefs": [
+      "Every other turn, click the option that gives to an extra minion.",
+      "This hero gets a lot of free stats early game which allows you to level fast without taking damage.",
+      "Most of the time, level to tavern 3 turn 4 and tavern 4 turn 5 without taking damage."
+    ]
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/73940/cariel-roame",
+  "stats": {
+    "hero_dbf_id": 73940,
+    "pick_rate": 30.47,
+    "avg_final_placement": 3.928,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      14.22,
+      14.47,
+      15.44,
+      16.16,
+      14.88,
+      12.84,
+      8.67,
+      3.33
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 2,
+    "key_minions_top3": [
+      108930,
+      98948,
+      98950
+    ]
+  }
+}

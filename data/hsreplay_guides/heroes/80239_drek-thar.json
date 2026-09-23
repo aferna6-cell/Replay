@@ -1,0 +1,45 @@
+{
+  "id": 80239,
+  "dbf_id": 80239,
+  "name": "Drek'Thar",
+  "card_id": "BG22_HERO_002",
+  "slug": "drek-thar",
+  "guide_text": "Slightly prefer comps that concentrate stats on a big unit such as Magnetic Mechs but mostly just play normally and enjoy the powerful late game hero power.",
+  "buddy_guide_text": "Buddy up for 3-5 gold.",
+  "favorable_tribes": [],
+  "guide_recently_updated": false,
+  "structured": {
+    "hp": [
+      "Slightly prefer comps that concentrate stats on a big unit such as Magnetic Mechs but mostly just play normally and enjoy the powerful late game hero power."
+    ],
+    "cycle": [
+      "Buddy up for 3-5 gold."
+    ],
+    "buy_prefs": []
+  },
+  "source_url": "https://hsreplay.net/battlegrounds/heroes/80239/drek-thar",
+  "stats": {
+    "hero_dbf_id": 80239,
+    "pick_rate": 38.48,
+    "avg_final_placement": 4.068,
+    "adjusted_avg_final_placement": null,
+    "final_placement_distribution": [
+      17.94,
+      14.16,
+      13.25,
+      12.53,
+      11.3,
+      10.79,
+      10.85,
+      9.18
+    ],
+    "tier_v2": "a",
+    "anomaly_adjusted": false,
+    "best_composition": 8,
+    "key_minions_top3": [
+      132894,
+      98591,
+      98588
+    ]
+  }
+}
