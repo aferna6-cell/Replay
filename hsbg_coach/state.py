@@ -40,6 +40,7 @@ class GameState:
         self.entities: Dict[int, Entity] = {}
         self.game_counter: int = 0      # increments each CREATE_GAME
         self.current_turn: Optional[int] = None
+        self._player_turns = False      # a player/Bob TURN tag seen this game
         self._last_block_entity: Optional[int] = None
         # cardId -> display name, learned from any entity that carries both. Lets
         # us name spells/anomalies (not in the minion KB) whose own entity was
@@ -54,6 +55,7 @@ class GameState:
         if event.kind == "CREATE_GAME":
             self.entities.clear()
             self.current_turn = None
+            self._player_turns = False
             self.game_counter += 1
             return
 
@@ -76,7 +78,7 @@ class GameState:
             if event.tag:
                 ent.tags[event.tag] = event.value or ""
                 if event.tag == "TURN":
-                    self.current_turn = _safe_int(event.value)
+                    self._set_turn(ent, event.value)
             return
 
         # Indented tag lines attach to the most recently upserted entity. The
@@ -86,7 +88,21 @@ class GameState:
             if ent and event.tag:
                 ent.tags[event.tag] = event.value or ""
                 if event.tag == "TURN":
-                    self.current_turn = _safe_int(event.value)
+                    self._set_turn(ent, event.value)
+
+    def _set_turn(self, ent, value) -> None:
+        """Battlegrounds logs carry two TURN counters: the GameEntity counts
+        recruit and combat as separate half-turns (1, 2, 3 …) while the player
+        and Bob count real turns. Once a player-level TURN is seen this game it
+        wins, so the tracker's turn no longer flips (turn 2 used to read 4, 2,
+        4 …); logs with only a GameEntity TURN keep its value as before."""
+        v = _safe_int(value)
+        if _is_game_entity(ent):
+            if not self._player_turns:
+                self.current_turn = v
+            return
+        self._player_turns = True
+        self.current_turn = v
 
     def _upsert(self, ref: EntityRef) -> Entity:
         ent = self._ensure(ref)
@@ -131,3 +147,8 @@ def _safe_int(value) -> Optional[int]:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+
+def _is_game_entity(ent) -> bool:
+    return (getattr(ent, "name", None) or "") == "GameEntity" or getattr(ent, "id", None) == 1

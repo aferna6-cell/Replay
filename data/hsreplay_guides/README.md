@@ -87,3 +87,26 @@ and out-of-patch tribes (Naga-only guides are dead).
   locked comp — the cards it names count as on-plan support buys.
 - The guide page's Trinkets tab shows what each guide points to, and each
   comp's "Trinket setups" use the same reading.
+
+## Pivot + adherence check
+- **Pivot** (`lobby_playbook.pivot_target`): a locked comp that is 3+ turns
+  old (or tavern 5+) with at most one of its named HSReplay cards and at most
+  two tribe bodies gives way to a lobby comp you own 2+ more named cards of
+  (3+ more pivots even sooner). NEXT reads `PIVOT <from> → <to>`.
+- **Adherence check** (`scripts/adherence_report.py`, `hsbg_coach/adherence.py`)
+  replays Power.logs through the current coach and reports, per game: hero
+  taken vs. the coach's pick, lock turn / comp / pivots, player adherence
+  (hunt = bought a comp card when one was up, discipline = on-plan share of
+  buys after the lock, final = named comp cards on the final board) and coach
+  adherence (NEXT frames that broke the playbook: Naga, "never buy" buys,
+  off-plan buy or roll with a comp card affordable, selling a PLAN card, weak
+  hero power). Finished games are split at the median player adherence to
+  compare placement. It is a diagnostic next to placement, not a training
+  target.
+
+```powershell
+python scripts\adherence_report.py                      # every log Hearthstone kept
+python scripts\adherence_report.py "D:\hs-logs"          # a folder of saved logs
+```
+Hearthstone writes a new `Logs\Hearthstone_*` folder each launch and may clear
+old ones — copy them somewhere after each session to build up 20+ games.

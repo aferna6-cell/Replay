@@ -69,12 +69,23 @@ def live_pool_names(path: Optional[str] = None) -> frozenset:
 
 
 @lru_cache(maxsize=1)
+def _dual_live(name: str) -> bool:
+    """A Naga-excluded card that also has a live tribe (Ominous Seer is
+    Demon/Naga, Firescale Hoarder Dragon/Naga) still shows up in shops."""
+    try:
+        from .cards import fallback_card
+        tribes = (fallback_card(None, name) or {}).get("tribes") or []
+    except Exception:
+        return False
+    return any(t not in ("Naga",) for t in tribes) and "Naga" in tribes
+
+
 def out_of_pool_names() -> frozenset:
     prior = load_playstyle_prior()
     oop = set(prior.get("out_of_pool_cards") or [])
     if os.path.isfile(_POOL_PATH):
         doc = json.load(open(_POOL_PATH, encoding="utf-8"))
-        oop |= set(doc.get("naga_excluded_names") or [])
+        oop |= {n for n in doc.get("naga_excluded_names") or [] if not _dual_live(n)}
     # Hard bans Aidan called out explicitly
     oop.update({
         "Archlich Kel'Thuzad",
