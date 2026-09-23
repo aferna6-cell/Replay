@@ -1,0 +1,27 @@
+{
+  "about": "Aidan's own additions on top of the HSReplay guides. Shown on the guide page under 'Aidan's notes' and used by the coach once that comp is locked. Edit freely: 'notes' is free text; 'also_buy' names support rules below (cards matching them count as on-plan and are bought over rolling when no core card is up).",
+  "support_rules": {
+    "spell_generators": {
+      "label": "generates spells / Blood Gems",
+      "pattern": "\\bGet (?:a|an|\\d+|two|three|four)\\b[^.]*?\\b(?:Blood Gems?|Blood Gem Barrage|spells?|Tavern spells?)\\b"
+    },
+    "discover_generators": {
+      "label": "gives Discovers",
+      "pattern": "\\bDiscover"
+    }
+  },
+  "comps": {
+    "Demons - Shop Buff": {
+      "notes": ["Play a lot of cheap spells — buy cards that generate Blood Gems / spells to feed the shop buffs."],
+      "also_buy": ["spell_generators"]
+    },
+    "Demons - APM Shop Buff": {
+      "notes": ["Play a lot of cheap spells — buy cards that generate Blood Gems / spells to feed the shop buffs."],
+      "also_buy": ["spell_generators"]
+    },
+    "Pirates - APM Golden": {
+      "notes": ["Spam Discovers — buy cards that give Discovers."],
+      "also_buy": ["discover_generators"]
+    }
+  }
+}

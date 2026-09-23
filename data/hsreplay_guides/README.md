@@ -43,3 +43,15 @@ short alternates, with no LOBBY / ENABLERS / PLAN header lines
    level, fills), an unaffordable one is frozen, off-plan buys (other tribes,
    neutral flex, other comps' enablers) never lead or appear as the first
    alternate, and PLAN pieces are never sold.
+
+## Aidan's notes + heroes
+- `aidan_notes.json` — your own additions per comp (free-text `notes`, plus
+  `also_buy` rules that match card text, e.g. spell / Blood Gem generators for
+  Shop Buff Demons, Discover cards for APM Pirates). After a comp locks, matching
+  cards count as on-plan and are bought over rolling when no core card is up.
+  Shown on the guide page in a dashed "Aidan's notes" box, separate from HSReplay.
+- Heroes (`hsbg_coach/hero_comps.py`) — read from HSReplay hero/buddy guides:
+  comps whose enabler/core cards the guide names, tribes it favors or says to
+  avoid, and buy-preference cards. The coach uses this to choose which lobby
+  tribes to hunt and to break ties between comps of the same HSReplay tier;
+  hero guide buys also stay on-plan after the lock.

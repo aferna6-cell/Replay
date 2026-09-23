@@ -276,11 +276,23 @@ def rank_lobby_tribes(available: Optional[Sequence[str]]) -> List[TribeRank]:
     return rows
 
 
-def strong_tribes(ranked: Sequence[TribeRank]) -> List[str]:
-    """Commit-eligible tribes: every S-tier lobby tribe, topped up with the next
-    best to at least two, capped at three. Only tribes with a live comp."""
+def strong_tribes(ranked: Sequence[TribeRank], hero=None) -> List[str]:
+    """Commit-eligible tribes: every S-tier lobby tribe, then tribes the hero's
+    HSReplay guide favors (S/A comps only), topped up with the next best to at
+    least two, capped at three. Tribes the hero guide says to avoid drop out
+    while another option exists. Only tribes with a live comp."""
     with_comps = [r for r in ranked if r.best_tier is not None]
+    avoid = set(getattr(hero, "avoid", None) or [])
+    if avoid and any(r.tribe not in avoid for r in with_comps):
+        with_comps = [r for r in with_comps if r.tribe not in avoid]
     strong = [r.tribe for r in with_comps if r.best_tier == 1]
+    if hero is not None:
+        fav = set(getattr(hero, "tribes", None) or [])
+        fav |= {ci.tribe for ci in live_comp_infos()
+                if ci.name in (getattr(hero, "comps", None) or {})}
+        for r in with_comps:
+            if r.tribe in fav and r.tribe not in strong and (r.best_tier or 9) <= _HUNT_MAX_TIER:
+                strong.append(r.tribe)
     for r in with_comps:
         if len(strong) >= _MIN_STRONG:
             break
@@ -354,6 +366,9 @@ class PlaybookState:
     trigger: Optional[str] = None        # enabler that locked the plan
     trigger_zone: Optional[str] = None   # shop / hand / board / discover / memory
     shop_enablers: List[str] = field(default_factory=list)   # hunt hits in shop
+    hero: Optional[str] = None                               # HSReplay hero name
+    hero_comps: List[str] = field(default_factory=list)      # comps its guide names
+    hero_avoid: List[str] = field(default_factory=list)      # tribes it says avoid
 
     def to_dict(self) -> dict:
         return {
@@ -364,6 +379,8 @@ class PlaybookState:
             "plan": self.plan, "plan_tribe": self.plan_tribe,
             "trigger": self.trigger, "trigger_zone": self.trigger_zone,
             "shop_enablers": list(self.shop_enablers),
+            "hero": self.hero, "hero_comps": list(self.hero_comps),
+            "hero_avoid": list(self.hero_avoid),
         }
 
     @classmethod
@@ -371,7 +388,7 @@ class PlaybookState:
         return cls(**{k: d.get(k) for k in (
             "phase", "lobby", "lobby_labels", "lobby_known", "strong",
             "enablers", "plan", "plan_tribe", "trigger", "trigger_zone",
-            "shop_enablers") if k in d})
+            "shop_enablers", "hero", "hero_comps", "hero_avoid") if k in d})
 
     @property
     def committed(self) -> bool:
@@ -397,13 +414,15 @@ def _board_tribe_counts(board, kb=None) -> Dict[str, int]:
 
 
 def resolve_enabler(name: str, strong: Sequence[str], board, kb=None,
-                    minion=None, owned: Optional[set] = None) -> Optional[CompInfo]:
+                    minion=None, owned: Optional[set] = None,
+                    hero=None) -> Optional[CompInfo]:
     """The comp a *clear* enabler hit commits to, else None.
 
     Clear = the card's own tribe is the comp's tribe (Ravaging Scorpid → Beasts),
     or a cross-tribe/neutral enabler (Brann, Sky Admiral Rogers) whose comp
     tribe already has 2+ bodies on the board. Prefer the better HSReplay tier
-    (S > A; B only on a high roll), then the comp the board overlaps most.
+    (S > A; B only on a high roll), then the comp the hero's HSReplay guide
+    points to, then the comp the board overlaps most.
     """
     if owned is None:
         owned = {_mname(m) for m in board or []}
@@ -420,7 +439,8 @@ def resolve_enabler(name: str, strong: Sequence[str], board, kb=None,
 
     def rank(ci: CompInfo):
         overlap = len(board_names & set(ci.cards))
-        return (ci.tier, -overlap, -counts.get(ci.tribe, 0), ci.name)
+        hero_pick = hero.rank(ci.name, ci.tribe) if hero is not None else 2
+        return (ci.tier, hero_pick, -overlap, -counts.get(ci.tribe, 0), ci.name)
     return sorted(clear, key=rank)[0]
 
 
@@ -431,13 +451,17 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
     available = _get(snapshot, "available_tribes") or []
     lobby_known = bool(filter_lobby_tribes(available))
     ranked = rank_lobby_tribes(available if lobby_known else sorted(PATCH_TRIBES))
-    strong = strong_tribes(ranked)
+    hero = _hero_fit(snapshot)
+    strong = strong_tribes(ranked, hero)
     enablers = preload_enablers(strong)
     st = PlaybookState(
         phase=PHASE_FILL if lobby_known else PHASE_LOBBY,
         lobby=[r.tribe for r in ranked],
         lobby_labels={r.tribe: r.label for r in ranked},
-        lobby_known=lobby_known, strong=strong, enablers=enablers)
+        lobby_known=lobby_known, strong=strong, enablers=enablers,
+        hero=getattr(hero, "hero", None),
+        hero_comps=list((getattr(hero, "comps", None) or {}).keys()),
+        hero_avoid=list(getattr(hero, "avoid", None) or []))
 
     board = list(_get(snapshot, "board", []) or [])
     hand = list(_get(snapshot, "hand", []) or [])
@@ -476,10 +500,11 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
             hit = resolve_enabler(n, strong, board, kb,
                                   minion=m if isinstance(m, dict) and (
                                       m.get("tribes") or m.get("tribe")) else None,
-                                  owned=owned)
+                                  owned=owned, hero=hero)
             if hit is None:
                 continue
-            key = (hit.tier, strong.index(hit.tribe))
+            fav = hero.rank(hit.name, hit.tribe) if hero is not None else 2
+            key = (hit.tier, fav, strong.index(hit.tribe))
             if best is None or key < best[0]:
                 best = (key, hit, n)
         if best is not None:
@@ -500,6 +525,14 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
             st.phase, st.plan, st.plan_tribe = PHASE_COMMIT, ci.name, ci.tribe
             st.trigger_zone = "board keys"
     return st
+
+
+def _hero_fit(snapshot):
+    try:
+        from .hero_comps import hero_fit
+        return hero_fit(snapshot)
+    except Exception:
+        return None
 
 
 def ensure(snapshot, kb=None):
@@ -549,6 +582,29 @@ def is_on_plan(m, ci: CompInfo, kb=None) -> bool:
         return True
     tribes = card_tribes(m, kb)
     return ci.tribe in tribes or "All" in tribes
+
+
+def plan_support(snapshot, ci: CompInfo) -> Dict[str, str]:
+    """Shop/hand cards that support the locked comp beyond its HSReplay list:
+    Aidan's note rules (e.g. spell / Blood Gem generators for Shop Buff
+    Demons) and the hero guide's buy-preference cards. name -> label."""
+    out: Dict[str, str] = {}
+    names = [_mname(m) for m in (_get(snapshot, "shop", []) or [])]
+    names += [_mname(m) for m in (_get(snapshot, "hand", []) or [])]
+    try:
+        from .comp_notes import support_label
+    except Exception:
+        support_label = None  # type: ignore
+    hero = _hero_fit(snapshot)
+    for n in names:
+        if not n or n in out or not in_live_pool(n):
+            continue
+        label = support_label(n, ci.name) if support_label else None
+        if label:
+            out[n] = f"Aidan note: {label}"
+        elif hero is not None and n in hero.buys:
+            out[n] = f"{hero.hero} HSReplay guide buy"
+    return out
 
 
 def is_core_hunt(name: Optional[str], ci: CompInfo) -> bool:
@@ -721,7 +777,7 @@ def _committed_gates(recs, snapshot, st: "PlaybookState", ci: CompInfo, kb, base
          pushed below every other action — never NEXT, never the first alt
       4. selling a named PLAN card is never NEXT
     """
-    from .actions import BUY, SELL
+    from .actions import BUY, SELL, ROLL, FREEZE, END
     from .game_value import WholeGameRec
 
     owned = {_mname(m) for m in (_get(snapshot, "board", []) or [])}
@@ -746,9 +802,22 @@ def _committed_gates(recs, snapshot, st: "PlaybookState", ci: CompInfo, kb, base
         shop_names = {_mname(m) for m in (_get(snapshot, "shop", []) or [])}
         recs = _freeze_for(recs, snapshot, [n for n in order if n in shop_names], base)
 
+    # Support buys (Aidan's notes / hero guide buys): on-plan, and when no core
+    # card is up they beat rolling past them.
+    support = plan_support(snapshot, ci)
+    if not hunt and recs[0].action.kind in (ROLL, FREEZE, END):
+        sup = [k for k, r in enumerate(recs)
+               if r.action.kind == BUY and _buy_target(r) in support]
+        if sup:
+            k = sup[0]
+            recs = _promote(recs, k, f"PLAN {ci.name} — "
+                            f"{support[_buy_target(recs[k])]}", base)
+
     # Off-plan buys sink below every other action.
     def off_plan(r) -> bool:
         if r.action.kind != BUY or _is_triple(r):
+            return False
+        if _buy_target(r) in support:
             return False
         return not is_on_plan(_buy_minion(r) or _buy_target(r), ci, kb)
 
@@ -799,7 +868,8 @@ def discover_pick(offered: Sequence[str], snapshot, kb=None) -> Optional[Tuple[s
     for n in offered:
         if n not in candidates or not in_live_pool(n):
             continue
-        hit = resolve_enabler(n, st.strong, board, kb, owned=owned)
+        hit = resolve_enabler(n, st.strong, board, kb, owned=owned,
+                              hero=_hero_fit(snapshot))
         if hit is None:
             continue
         key = (hit.tier, st.strong.index(hit.tribe))

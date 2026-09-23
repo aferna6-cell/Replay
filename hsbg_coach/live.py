@@ -56,7 +56,12 @@ def advice_lines(snapshot: dict, kb, scorer=None,
     # PLAN locked: a hero-guide "Buy X" for an off-plan card must not lead.
     plan = _plan_comp(snapshot, kb)
     if plan is not None:
-        out = [ln for ln in out if not _off_plan_buy_line(ln, plan, kb)]
+        try:
+            from .lobby_playbook import plan_support
+            support = set(plan_support(snapshot, plan))
+        except Exception:
+            support = set()
+        out = [ln for ln in out if not _off_plan_buy_line(ln, plan, kb, support)]
     # Free cards that landed in your hand (often generated during combat) are
     # usually a play-now: a minion to drop, or a Magnetic mech to fuse. Lead with
     # those, then the spell-on-minion advice.
@@ -113,13 +118,17 @@ def _plan_comp(snapshot, kb):
         return None
 
 
-def _off_plan_buy_line(line: str, plan, kb) -> bool:
-    """'Buy X …' advice for a card outside the locked HSReplay comp."""
+def _off_plan_buy_line(line: str, plan, kb, support=()) -> bool:
+    """'Buy X …' advice for a card outside the locked HSReplay comp (and not a
+    support buy from Aidan's notes / the hero guide)."""
     m = re.match(r"^Buy (.+?)(?: \(| — |$)", line or "")
     if not m:
         return False
+    name = m.group(1).strip()
+    if name in support:
+        return False
     from .lobby_playbook import is_on_plan
-    return not is_on_plan(m.group(1).strip(), plan, kb)
+    return not is_on_plan(name, plan, kb)
 
 
 _MAX_BG_BOARD = 7

@@ -459,3 +459,66 @@ def test_unknown_lobby_still_ranks_and_reports():
     assert st.phase == PHASE_LOBBY and not st.lobby_known
     assert "Naga" not in st.lobby
     assert overlay_lines(snap)[0].startswith("LOBBY → tribes not detected")
+
+
+# ------------------------------------------------ 7. HEROES + AIDAN'S NOTES
+
+def test_hero_fit_reads_hsreplay_hero_guides():
+    from hsbg_coach.hero_comps import fit_for_name
+    gally = fit_for_name("Trade Prince Gallywix")      # "try not to go Beasts or Undead"
+    assert {"Beast", "Undead"} <= set(gally.avoid)
+    assert "River Skipper" in gally.buys
+    mill = fit_for_name("Millhouse Manastorm")         # "…Elementals - NOT Undeads, Beast, or Mechs"
+    assert {"Elemental", "Pirate"} <= set(mill.tribes)
+    assert {"Beast", "Mech"} <= set(mill.avoid)
+    jarax = fit_for_name("Lord Jaraxxus")
+    assert "Demons - Shop Buff" in jarax.comps
+
+
+def test_hero_steers_strong_tribes():
+    lobby = ["Beast", "Demon", "Mech", "Murloc", "Pirate"]
+    snap = {"hero_name": "Millhouse Manastorm", "available_tribes": lobby,
+            "turn": 2, "tavern_tier": 1, "gold": 4, "phase": "recruit",
+            "board": [], "shop": []}
+    st = evaluate(snap)
+    assert "Beast" not in st.strong, st.strong          # hero guide: not Beasts
+    assert "Pirate" in st.strong, st.strong             # hero favors Pirates (A)
+    assert "Demon" in st.strong                         # S tribe stays
+
+
+def test_hero_breaks_ties_between_same_tier_comps():
+    """Felboar is core in two A-tier Demon comps; Jaraxxus' guide names
+    Demons - Shop Buff, so that is the lock."""
+    base = {"turn": 6, "tavern_tier": 4, "gold": 7, "phase": "recruit",
+            "available_tribes": LOBBY, "board": [_m("imp", 3, 3, "Demon", 2)],
+            "shop": [{"name": "Felboar", "attack": 4, "health": 4,
+                      "tribes": ["Demon"], "tier": 3}]}
+    plain = evaluate(base)
+    jarax = evaluate(dict(base, hero_name="Lord Jaraxxus"))
+    assert plain.committed and jarax.committed
+    assert jarax.plan == "Demons - Shop Buff", jarax.plan
+    assert plain.plan != jarax.plan or plain.plan == "Demons - Shop Buff"
+
+
+def test_aidan_note_support_buy_beats_roll_after_lock():
+    """Shop Buff Demons: a spell / Blood Gem generator is on-plan (Aidan's
+    note) and is bought over rolling when no core card is up."""
+    from hsbg_coach.comp_notes import notes_for, support_cards
+    assert notes_for("Demons - Shop Buff")
+    assert "Crater Miner" in support_cards("Demons - Shop Buff")
+    snap = {"turn": 6, "tavern_tier": 3, "gold": 6, "hero_health": 25,
+            "phase": "recruit", "available_tribes": LOBBY,
+            "playbook_plan": "Demons - Shop Buff",
+            "board": [_m("imp_a", 4, 4, "Demon", 2), _m("imp_b", 4, 4, "Demon", 2),
+                      _m("imp_c", 4, 4, "Demon", 3)],
+            "shop": [_m("Big Mech", 9, 9, "Mech", 3),
+                     {"name": "Crater Miner", "attack": 2, "health": 3,
+                      "tribes": ["Quilboar"], "tier": 2}]}
+    recs = _rank(snap)
+    buys = [r for r in recs if r.action.kind == BUY]
+    miner = next(r for r in buys if r.action.target == "Crater Miner")
+    mech = next(r for r in buys if r.action.target == "Big Mech")
+    assert miner.placement < mech.placement, [r.line() for r in recs[:4]]
+    assert recs[0].action.kind != BUY or recs[0].action.target == "Crater Miner", \
+        [r.line() for r in recs[:4]]
+    assert "off-plan" in mech.reason
