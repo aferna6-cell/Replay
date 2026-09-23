@@ -28,11 +28,13 @@ short alternates, with no LOBBY / ENABLERS / PLAN header lines
 
 1. **HERO** — hero-guide HP / buy-pref actions can lead NEXT
 2. **LOBBY** — lobby tribes ranked by best HSReplay comp tier
-3. **ENABLERS** — `when_to_commit` + enabler cards of the strong tribes' comps
-   (live pool only)
+3. **ENABLERS** — enablers and core are one set per comp: `when_to_commit` +
+   enabler cards + key/core cards (live pool only). Only S/A comps of the
+   strong lobby tribes are preloaded; S beats A; a B comp locks only on a high
+   roll (3+ of its cards already owned)
 4. **FILL** — until committed: Roll can't be NEXT on sparse + solid shop; a
    garbage buy can't lead while a solid fill is up; an enabler in shop is NEXT
-5. **COMMIT** — first clear enabler hit (shop / hand / board / discover) locks
+5. **COMMIT** — first clear enabler/core hit (shop / hand / board / discover) locks
    the comp for the rest of the game. After the lock, NEXT hunts only that
    comp's HSReplay core / key / trigger cards: a core buy leads (over roll,
    level, fills), an unaffordable one is frozen, off-plan buys (other tribes,

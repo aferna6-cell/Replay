@@ -187,6 +187,63 @@ def test_unaffordable_enabler_is_frozen_not_rolled():
     assert "Ravaging Scorpid" in recs[0].reason
 
 
+def test_enablers_and_core_are_one_set():
+    """Aidan: an enabler is a core card and a core card is an enabler."""
+    for ci in live_comp_infos():
+        assert set(ci.triggers) == set(ci.core), ci.name
+        assert set(ci.keys) <= set(ci.core), ci.name
+
+
+def test_core_card_in_shop_locks_like_an_enabler():
+    snap = _enabler_snap()
+    snap["shop"] = [_m("Mech Stat Stick", 7, 7, "Mech", 3),
+                    {"name": "Banana Slamma", "attack": 3, "health": 4,
+                     "tribes": ["Beast"], "tier": 4}]
+    st = evaluate(snap)
+    assert st.committed and st.plan == "Beasts - Beetles", st
+    recs = _rank(snap)
+    assert recs[0].action.target == "Banana Slamma", [r.line() for r in recs[:3]]
+
+
+def test_s_tier_comp_preferred_over_a_tier():
+    """Headhunter Gryphon is in Beetles (S) and Summons / Lobstah (A): even
+    with an A-comp piece on board, the S comp is the lock."""
+    snap = _enabler_snap()
+    snap["board"] = [{"name": "Titus Rivendare", "attack": 1, "health": 7,
+                      "tribes": [], "tier": 5}, _m("mech_a", 4, 4, "Mech", 2)]
+    snap["shop"] = [{"name": "Headhunter Gryphon", "attack": 4, "health": 4,
+                     "tribes": ["Beast"], "tier": 4}]
+    st = evaluate(snap)
+    assert st.plan == "Beasts - Beetles", st
+
+
+_A_LOBBY = ["Mech", "Murloc", "Pirate", "Quilboar", "Aberration"]
+
+
+def test_b_tier_comps_are_not_preloaded():
+    strong = strong_tribes(rank_lobby_tribes(_A_LOBBY))
+    assert "Mech" in strong
+    pre = preload_enablers(strong)
+    # Scrap Scraper / Spark Snapper only appear in B-tier Mechs - Magnetics.
+    assert "Scrap Scraper" not in pre["Mech"] and "Spark Snapper" not in pre["Mech"]
+    assert "Glambot" in pre["Mech"]           # A-tier Mechs - Magnetics/Spells
+
+
+def test_b_tier_comp_locks_only_on_a_high_roll():
+    scraper = {"name": "Scrap Scraper", "attack": 6, "health": 5,
+               "tribes": ["Mech"], "tier": 4}
+    base = {"turn": 7, "tavern_tier": 4, "gold": 7, "hero_health": 25,
+            "phase": "recruit", "available_tribes": _A_LOBBY, "shop": [scraper]}
+    thin = dict(base, board=[_m("mech_a", 4, 4, "Mech", 3)])
+    assert not evaluate(thin).committed
+    highroll = dict(base, board=[
+        {"name": "Drone Duplicator", "attack": 4, "health": 4, "tribes": ["Mech"], "tier": 3},
+        {"name": "Spark Snapper", "attack": 5, "health": 5, "tribes": ["Mech"], "tier": 4},
+    ])
+    st = evaluate(highroll)
+    assert st.committed and st.plan == "Mechs - Magnetics", st
+
+
 def test_cross_tribe_enabler_needs_board_support():
     """Neutral Brann alone must not lock Demons; with 2 Demons on board it can."""
     base = {
@@ -258,6 +315,15 @@ def test_after_lock_on_plan_tribe_buy_beats_off_plan():
     recs = _rank(snap)
     assert recs[0].action.kind == BUY
     assert recs[0].action.target == "Beast Body", [r.line() for r in recs[:3]]
+
+
+def test_promoted_full_board_buy_still_names_the_sell():
+    snap = _enabler_snap()
+    snap["board"] = [_m(f"mech_{i}", 6, 6, "Mech", 3) for i in range(6)] + [
+        _m("Weakling", 1, 1, "Mech", 1)]
+    recs = _rank(snap)
+    assert recs[0].action.target == "Ravaging Scorpid"
+    assert "for room" in recs[0].reason and "HSReplay" in recs[0].reason, recs[0].reason
 
 
 def test_after_lock_plan_piece_is_never_the_sell():

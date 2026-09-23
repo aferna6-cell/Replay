@@ -43,6 +43,9 @@ _POOL_PATH = os.path.normpath(os.path.join(
 _MAX_STRONG = 3
 _MIN_STRONG = 2
 _ENABLERS_PER_TRIBE = 4       # overlay + hunt list cap per tribe
+# Aidan: prefer S comps, A is fine, B only on a real high roll.
+_HUNT_MAX_TIER = 2            # S (1) and A (2) comps are hunted / preloaded
+_HIGHROLL_OWNED = 3           # B comp locks only with 3+ of its cards owned
 
 
 def _get(snap, key, default=None):
@@ -144,14 +147,19 @@ class CompInfo:
     name: str
     tribe: str                      # canonical ("Beast")
     tier: int                       # HSReplay tier (1 best)
-    triggers: Tuple[str, ...]       # when_to_commit ∪ enabler cards (live pool)
-    cards: Tuple[str, ...]          # key ∪ core ∪ addon ∪ triggers (live pool)
+    triggers: Tuple[str, ...]       # enablers ≡ core: any of them locks the comp
+    cards: Tuple[str, ...]          # core ∪ addon (live pool)
     keys: Tuple[str, ...]           # key_names (live pool)
-    core: Tuple[str, ...] = ()      # post-commit hunt: key ∪ core ∪ triggers
+    core: Tuple[str, ...] = ()      # when_to_commit ∪ enablers ∪ key ∪ core
 
     @property
     def tier_label(self) -> str:
         return _TIER_LABEL.get(self.tier, "C")
+
+    @property
+    def hunted(self) -> bool:
+        """S/A comps are hunted from the lobby start; B only on a high roll."""
+        return self.tier <= _HUNT_MAX_TIER
 
 
 @lru_cache(maxsize=1)
@@ -189,25 +197,27 @@ def live_comp_infos() -> Tuple[CompInfo, ...]:
             if ln and ln not in trig:
                 trig.append(ln)
         keys = [k for k in (live(n) for n in c.get("key_names") or []) if k]
-        core: List[str] = list(keys)
+        # Aidan: enablers and core are one set — HSReplay's commit triggers
+        # first (they read best on the overlay/debug list), then key + core.
+        core: List[str] = list(trig)
+        for n in keys:
+            if n not in core:
+                core.append(n)
         for group in ("key_cards", "core_cards"):
             for x in c.get(group) or []:
                 ln = live(x.get("name") if isinstance(x, dict) else x)
                 if ln and ln not in core:
                     core.append(ln)
-        for n in trig:
-            if n not in core:
-                core.append(n)
         cards: List[str] = list(core)
         for x in c.get("addon_cards") or []:
             ln = live(x.get("name") if isinstance(x, dict) else x)
             if ln and ln not in cards:
                 cards.append(ln)
-        if not trig and not cards:
+        if not core:
             continue
         out.append(CompInfo(
             name=c["name"], tribe=tribe, tier=int(c.get("tier") or 9),
-            triggers=tuple(trig), cards=tuple(cards), keys=tuple(keys),
+            triggers=tuple(core), cards=tuple(cards), keys=tuple(keys),
             core=tuple(core)))
     out.sort(key=lambda ci: (ci.tier, ci.name))
     return tuple(out)
@@ -284,12 +294,13 @@ def strong_tribes(ranked: Sequence[TribeRank]) -> List[str]:
 # ---------------------------------------------------------------------------
 
 def preload_enablers(tribes: Sequence[str]) -> Dict[str, List[str]]:
-    """{tribe: [enabler names]} — HSReplay commit triggers, best comp first."""
+    """{tribe: [enabler/core names]} of the tribe's S/A comps, best comp first.
+    B comps aren't preloaded — they only lock on a high roll."""
     out: Dict[str, List[str]] = {}
     for t in tribes:
         names: List[str] = []
         for ci in live_comp_infos():          # already tier-sorted
-            if ci.tribe != t:
+            if ci.tribe != t or not ci.hunted:
                 continue
             for n in ci.triggers:
                 if n not in names:
@@ -298,9 +309,32 @@ def preload_enablers(tribes: Sequence[str]) -> Dict[str, List[str]]:
     return out
 
 
-def _comps_for_enabler(name: str, tribes: Sequence[str]) -> List[CompInfo]:
-    return [ci for ci in live_comp_infos()
-            if ci.tribe in tribes and name in ci.triggers]
+def _comps_for_enabler(name: str, tribes: Sequence[str],
+                       owned: Optional[set] = None) -> List[CompInfo]:
+    """Strong-tribe comps this card locks. B comps only on a high roll: 3+ of
+    their enabler/core cards already owned (counting this one)."""
+    out = []
+    for ci in live_comp_infos():
+        if ci.tribe not in tribes or name not in ci.core:
+            continue
+        if not ci.hunted:
+            have = set(owned or ()) | {name}
+            if len(have & set(ci.core)) < _HIGHROLL_OWNED:
+                continue
+        out.append(ci)
+    return out
+
+
+def _owned_names(snapshot) -> set:
+    names = {_mname(m) for m in (_get(snapshot, "board", []) or [])}
+    names |= {_mname(m) for m in (_get(snapshot, "hand", []) or [])}
+    names.discard(None)
+    return names
+
+
+def _strong_core_names(strong: Sequence[str]) -> set:
+    """Every enabler/core card of every strong-tribe comp (any tier)."""
+    return {n for ci in live_comp_infos() if ci.tribe in strong for n in ci.core}
 
 
 # ---------------------------------------------------------------------------
@@ -363,15 +397,17 @@ def _board_tribe_counts(board, kb=None) -> Dict[str, int]:
 
 
 def resolve_enabler(name: str, strong: Sequence[str], board, kb=None,
-                    minion=None) -> Optional[CompInfo]:
+                    minion=None, owned: Optional[set] = None) -> Optional[CompInfo]:
     """The comp a *clear* enabler hit commits to, else None.
 
     Clear = the card's own tribe is the comp's tribe (Ravaging Scorpid → Beasts),
     or a cross-tribe/neutral enabler (Brann, Sky Admiral Rogers) whose comp
-    tribe already has 2+ bodies on the board. Among several comps of the same
-    tribe, prefer the one the board already overlaps most, then HSReplay tier.
+    tribe already has 2+ bodies on the board. Prefer the better HSReplay tier
+    (S > A; B only on a high roll), then the comp the board overlaps most.
     """
-    cands = _comps_for_enabler(name, strong)
+    if owned is None:
+        owned = {_mname(m) for m in board or []}
+    cands = _comps_for_enabler(name, strong, owned)
     if not cands:
         return None
     own = set(card_tribes(minion if minion is not None else name, kb))
@@ -384,8 +420,7 @@ def resolve_enabler(name: str, strong: Sequence[str], board, kb=None,
 
     def rank(ci: CompInfo):
         overlap = len(board_names & set(ci.cards))
-        return (-overlap, -counts.get(ci.tribe, 0), ci.tier,
-                0 if name in ci.triggers[:1] else 1, ci.name)
+        return (ci.tier, -overlap, -counts.get(ci.tribe, 0), ci.name)
     return sorted(clear, key=rank)[0]
 
 
@@ -408,8 +443,15 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
     hand = list(_get(snapshot, "hand", []) or [])
     shop = list(_get(snapshot, "shop", []) or [])
     hunt = set(st.all_enablers())
-    st.shop_enablers = [n for n in (_mname(m) for m in shop)
-                        if n and n in hunt and in_live_pool(n)]
+    # Shop hunt hits that get the FILL-phase buy promotion: strong-tribe cards
+    # and premium neutrals (Brann, Balinda …). Another tribe's card that only
+    # appears in a strong comp (Sky Admiral Rogers → APM Demons) is not a
+    # reason to wander before commit.
+    st.shop_enablers = [
+        n for n in (_mname(m) for m in shop)
+        if n and n in hunt and in_live_pool(n) and (
+            not [t for t in card_tribes(n, kb) if t != "All"]
+            or any(t in strong for t in card_tribes(n, kb)))]
 
     locked_plan = locked_plan or _get(snapshot, "playbook_plan")
     ci = comp_by_name(locked_plan) if locked_plan else None
@@ -419,21 +461,25 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
         st.trigger_zone = "memory"
         return st
 
-    # First clear enabler hit: owned (board/hand) beats offered (discover/shop).
+    # First clear enabler/core hit: owned (board/hand) beats offered
+    # (discover/shop). S beats A; B only locks on a high roll.
+    candidates = _strong_core_names(strong)
+    owned = _owned_names(snapshot)
     zones = [("board", board), ("hand", hand),
              ("discover", [{"name": n} for n in discover or []]), ("shop", shop)]
     for zone, cards in zones:
         best = None
         for m in cards:
             n = _mname(m)
-            if not n or n not in hunt or not in_live_pool(n):
+            if not n or n not in candidates or not in_live_pool(n):
                 continue
             hit = resolve_enabler(n, strong, board, kb,
                                   minion=m if isinstance(m, dict) and (
-                                      m.get("tribes") or m.get("tribe")) else None)
+                                      m.get("tribes") or m.get("tribe")) else None,
+                                  owned=owned)
             if hit is None:
                 continue
-            key = (strong.index(hit.tribe), hit.tier)
+            key = (hit.tier, strong.index(hit.tribe))
             if best is None or key < best[0]:
                 best = (key, hit, n)
         if best is not None:
@@ -450,7 +496,7 @@ def evaluate(snapshot, kb=None, locked_plan: Optional[str] = None,
         legacy = None
     if legacy:
         ci = comp_by_name(legacy.get("name"))
-        if ci is not None:
+        if ci is not None and (ci.hunted or len(owned & set(ci.core)) >= _HIGHROLL_OWNED):
             st.phase, st.plan, st.plan_tribe = PHASE_COMMIT, ci.name, ci.tribe
             st.trigger_zone = "board keys"
     return st
@@ -532,13 +578,25 @@ def keep_bonus(m, snapshot, kb=None) -> float:
 # Hard NEXT gates (applied to rank_actions output)
 # ---------------------------------------------------------------------------
 
+_SELL_FOR_ROOM = re.compile(r"sell (.+?) for room", re.I)
+
+
+def _keep_room_note(old: Optional[str], reason: str) -> str:
+    """A full-board buy must keep naming its sell target when relabeled."""
+    m = _SELL_FOR_ROOM.search(old or "")
+    if m and not _SELL_FOR_ROOM.search(reason):
+        return f"sell {m.group(1)} for room — {reason}"
+    return reason
+
+
 def _promote(recs, idx: int, reason: str, base: float):
     """Move recs[idx] strictly above the current top; keep placement axis sane."""
     from .game_value import WholeGameRec
     top_p = min(r.placement for r in recs)
     r = recs[idx]
     new_p = round(min(r.placement, top_p - 0.05), 2)
-    recs[idx] = WholeGameRec(r.action, new_p, reason, round(base - new_p, 2))
+    recs[idx] = WholeGameRec(r.action, new_p, _keep_room_note(r.reason, reason),
+                             round(base - new_p, 2))
     recs.sort(key=lambda x: x.placement)
     return recs
 
@@ -546,7 +604,8 @@ def _promote(recs, idx: int, reason: str, base: float):
 def _relabel(recs, idx: int, reason: str):
     from .game_value import WholeGameRec
     r = recs[idx]
-    recs[idx] = WholeGameRec(r.action, r.placement, reason, r.gain)
+    recs[idx] = WholeGameRec(r.action, r.placement, _keep_room_note(r.reason, reason),
+                             r.gain)
     return recs
 
 
@@ -700,9 +759,9 @@ def _committed_gates(recs, snapshot, st: "PlaybookState", ci: CompInfo, kb, base
         for r in recs:
             if off_plan(r):
                 p = round(max(r.placement, floor + 0.05), 2)
-                out.append(WholeGameRec(r.action, p,
-                                        f"off-plan — PLAN {ci.name} hunts its core",
-                                        round(base - p, 2)))
+                out.append(WholeGameRec(r.action, p, _keep_room_note(
+                    r.reason, f"off-plan — PLAN {ci.name} hunts its core"),
+                    round(base - p, 2)))
             else:
                 out.append(r)
         recs = sorted(out, key=lambda r: r.placement)
@@ -734,15 +793,16 @@ def discover_pick(offered: Sequence[str], snapshot, kb=None) -> Optional[Tuple[s
             if n in offered and in_live_pool(n):
                 return n, ci.name
         return None
-    hunt = st.all_enablers()
+    candidates = _strong_core_names(st.strong)
+    owned = _owned_names(snapshot)
     best = None
     for n in offered:
-        if n not in hunt or not in_live_pool(n):
+        if n not in candidates or not in_live_pool(n):
             continue
-        hit = resolve_enabler(n, st.strong, board, kb)
+        hit = resolve_enabler(n, st.strong, board, kb, owned=owned)
         if hit is None:
             continue
-        key = (st.strong.index(hit.tribe), hit.tier)
+        key = (hit.tier, st.strong.index(hit.tribe))
         if best is None or key < best[0]:
             best = (key, n, hit.name)
     return (best[1], best[2]) if best else None
