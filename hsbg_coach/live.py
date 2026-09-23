@@ -90,6 +90,32 @@ def advice_lines(snapshot: dict, kb, scorer=None,
 
 _MAX_BG_BOARD = 7
 
+def _sell_for_room_target(board, snapshot, kb):
+    """Minion to cut for room: prefer off-direction / lowest keep — never a core."""
+    from .game_value import _keep_value
+    from .actions import Action, SELL
+
+    def score(m):
+        # Lower = sell first. Direction-cut chaff gets an extra demotion.
+        s = float(_keep_value(m, board, kb))
+        try:
+            from .jeef_priors import direction_cut_sell_adjust
+            act = Action(SELL, target=_name_safe(m), cost=0, detail={"minion": m})
+            cadj, _ = direction_cut_sell_adjust(act, snapshot, kb)
+            if cadj:                       # negative = encourage cut
+                s += cadj * 8.0            # keep-value scale ~stats; amplify cut
+        except Exception:
+            pass
+        return s
+
+    def _name_safe(m):
+        if isinstance(m, dict):
+            return m.get("name") or m.get("card_id") or "?"
+        return getattr(m, "name", None) or "?"
+
+    return min(board, key=score)
+
+
 
 def _hand_play_lines(snapshot, kb) -> List[str]:
     """'Play <minion> from hand' / 'Magnetize <mech> onto <host>' for each free
@@ -104,7 +130,7 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
     from .game_value import _keep_value
     board = snapshot.get("board", []) or []
     full = len(board) >= _MAX_BG_BOARD
-    weakest = _mname(min(board, key=lambda m: _keep_value(m, board, kb))) if board else None
+    weakest = _mname(_sell_for_room_target(board, snapshot, kb)) if board else None
     out = []
     for m in minions:
         name = m.get("name") or m.get("card_id") or "minion"
@@ -124,8 +150,16 @@ def _hand_play_lines(snapshot, kb) -> List[str]:
             specific = choose_one_advice(m, snapshot)
             choose = f" · {specific}" if specific else " · Choose One — take the half that fits your board"
         if full:
-            sell = f"sell {weakest} first" if weakest else "make room first"
-            out.append(f"Play {name} from hand — {sell} (board is full){choose}")
+            if weakest:
+                # Lead with sell target so overlay NEXT cannot look like play-only.
+                out.append(
+                    f"Sell {weakest}, then play {name} from hand "
+                    f"— board full, cut lowest keep{choose}"
+                )
+            else:
+                out.append(
+                    f"Play {name} from hand — make room first (board is full){choose}"
+                )
         else:
             out.append(f"Play {name} from hand — free body, take the tempo{choose}")
     return out

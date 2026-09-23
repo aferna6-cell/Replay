@@ -133,15 +133,28 @@ def test_targeted_spell_recommends_best_minion():
 
 
 def test_full_board_hand_play_names_the_minion_to_sell():
-    # 'Play X from hand' on a full board must name the weakest minion to sell,
-    # not say a vague 'sell your weakest'.
-    from hsbg_coach.live import _hand_play_lines
+    # Full board + hand play must name BOTH sell target and play target — never
+    # play-only. Prefer lowest keep (Runt), not a vague 'sell your weakest'.
+    from hsbg_coach.live import _hand_play_lines, advice_lines
+    from hsbg_coach.overlay import format_next, _short_move
     board = [{"name": f"Big{i}", "card_id": f"b{i}", "attack": 10, "health": 10}
              for i in range(6)] + [{"name": "Runt", "card_id": "r", "attack": 1, "health": 1}]
     hand = [{"name": "Freebie", "card_id": "fb", "attack": 5, "health": 5,
              "tags": {"CARDTYPE": "MINION"}}]
     lines = _hand_play_lines({"board": board, "hand": hand}, cards.load_kb())
-    assert any("sell Runt first" in l for l in lines)
+    assert lines, "expected a hand-play line"
+    assert any("Runt" in l and "Freebie" in l for l in lines), lines
+    assert any("Sell " in l and "play " in l.lower() for l in lines), lines
+    # Overlay NEXT must keep both names (_short_move used to strip after — ).
+    short = _short_move(lines[0])
+    assert "Runt" in short and "Freebie" in short, short
+    text = format_next({"phase": "recruit"}, None, lines)
+    assert "Runt" in text and "Freebie" in text, text
+    # advice_lines leads with the compound so NEXT is actionable.
+    snap = {"phase": "recruit", "turn": 8, "tavern_tier": 4, "gold": 3,
+            "hero_health": 25, "board": board, "hand": hand, "shop": []}
+    adv = advice_lines(snap, cards.load_kb(), get_scorer())
+    assert adv and "Runt" in adv[0] and "Freebie" in adv[0], adv[:2]
 
 
 def test_minion_added_to_hand_is_suggested_to_play():
@@ -174,6 +187,18 @@ def test_magnetic_mech_in_hand_suggests_a_fuse_target():
     snap = _snap(shop=[], board=board, hand=hand, gold=4)
     lines = advice_lines(snap, kb, scorer)
     assert any(l.startswith("Magnetize Magno onto Shielded") for l in lines)
+
+
+
+def test_short_move_keeps_buy_sell_for_room():
+    """BUY on a full board must keep 'sell Y for room' in the compact NEXT line."""
+    from hsbg_coach.overlay import _short_move, format_next
+    line = "Buy Warped (finish 3.8) — sell Runt for room — Timewarped anomaly"
+    short = _short_move(line)
+    assert short == "Buy Warped — sell Runt for room", short
+    text = format_next({"phase": "recruit"}, None, [line])
+    assert "sell Runt for room" in text
+    assert "Buy Warped" in text
 
 
 def test_minimal_overlay_omits_sync_and_status_spam():
