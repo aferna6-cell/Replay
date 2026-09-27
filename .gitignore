@@ -26,3 +26,6 @@ bridge/package-lock.json
 
 # Firestone exports (raw game data, never commit)
 data/firestone/
+
+# Policy pilot / plumbing-check outputs (never commit)
+results/pilot/
