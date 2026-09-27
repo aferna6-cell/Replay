@@ -11,9 +11,9 @@ from collections import Counter
 
 import pytest
 
-from hsbg_coach.bg import BGTracker, Snapshot
+from hsbg_coach.bg import BGTracker, Phase, Snapshot
 from hsbg_coach.hsreplay_xml import iter_events
-from hsbg_coach.replay_states import _Fail, _check_quests, build_game
+from hsbg_coach.replay_states import SCHEMA_VERSION, _Fail, _check_quests, build_game
 from hsbg_coach.state import Entity
 
 FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "synthetic_bg_replay.xml")
@@ -94,7 +94,7 @@ def test_build_game_rows_and_checks():
     assert [r["dp_index"] for r in rows] == [0, 1]
     assert [(r["raw_turn"], r["turn"]) for r in rows] == [(1, 1), (3, 2)]
     first, last = rows
-    assert first["schema_version"] == "states.v1" and first["lobby_tribes"] == ["MURLOC"]
+    assert first["schema_version"] == SCHEMA_VERSION and first["lobby_tribes"] == ["MURLOC"]
     assert [o["entity_id"] for o in first["options"]] == [0, 30, 12]   # legal only
     assert first["options"][2] == {"index": 2, "type": "POWER", "entity_id": 12,
                                    "card_id": "BG36_HERO_002p", "zone": "PLAY",
@@ -194,6 +194,88 @@ def test_build_game_non_sire_has_no_quests():
     res = build_game(FIXTURE, META)
     assert all(r["snapshot"]["quests"] == [] for r in res["rows"])
     assert res["stats"]["quests_seen"] == 0
+
+
+def _shop_tracker():
+    """Recruit phase, us = controller 7, Bob's shop = controller 10. Tags as in
+    the Firestone replays (1c96a514: a shop showing only spells)."""
+    t = BGTracker()
+    t.local_player, t.phase = 7, Phase.RECRUIT
+
+    def put(eid, card_id, **tags):
+        t.state.entities[eid] = Entity(id=eid, card_id=card_id,
+                                       tags={k: str(v) for k, v in tags.items()})
+
+    put(50, "TB_BaconShopBob", CARDTYPE="HERO", ZONE="PLAY", CONTROLLER=10)
+    put(16155, "BG36_301t", CARDTYPE="BATTLEGROUND_SPELL", ZONE="PLAY", CONTROLLER=10,
+        ZONE_POSITION=2, COST=1)
+    put(16156, "BG35_951", CARDTYPE="BATTLEGROUND_SPELL", ZONE="PLAY", CONTROLLER=10,
+        ZONE_POSITION=1, COST=2)
+    put(16157, "SPELL_X", CARDTYPE="SPELL", ZONE="PLAY", CONTROLLER=10,
+        ZONE_POSITION=3, COST=3)
+    put(900, "BG28_897", CARDTYPE="BATTLEGROUND_SPELL", ZONE="SETASIDE", CONTROLLER=10)
+    # Our buy handles (tag 2442 = the shop entity) and refresh button.
+    put(16160, "TB_BaconShop_DragBuy_Spell", CARDTYPE="MOVE_MINION_HOVER_TARGET",
+        ZONE="PLAY", CONTROLLER=7, COST=1, **{"2442": 16155})
+    put(16161, "TB_BaconShop_DragBuy_Spell", CARDTYPE="MOVE_MINION_HOVER_TARGET",
+        ZONE="PLAY", CONTROLLER=7, COST=2, **{"2442": 16156})
+    put(1679, "TB_BaconShop_8p_Reroll_Button", CARDTYPE="GAME_MODE_BUTTON",
+        ZONE="PLAY", CONTROLLER=7)                    # no COST tag = free refresh
+    return t
+
+
+def test_shop_spells_without_minions_and_buy_costs():
+    t = _shop_tracker()
+    assert [(s["entity_id"], s["card_id"], s["cost"], s["buy_cost"])
+            for s in t._shop_spells()] == [(16156, "BG35_951", 2, 2),
+                                           (16155, "BG36_301t", 1, 1),
+                                           (16157, "SPELL_X", 3, None)]
+    assert t._reroll_cost() == 0
+    t.state.entities[1679].tags["COST"] = "1"
+    assert t._reroll_cost() == 1
+    # A shop minion gets its handle's COST as buy_cost.
+    t.state.entities[1776] = Entity(id=1776, card_id="BG25_011", tags={
+        "CARDTYPE": "MINION", "ZONE": "PLAY", "CONTROLLER": "10", "ZONE_POSITION": "1"})
+    t.state.entities[1777] = Entity(id=1777, card_id="TB_BaconShop_DragBuy", tags={
+        "CARDTYPE": "MOVE_MINION_HOVER_TARGET", "ZONE": "PLAY", "CONTROLLER": "7",
+        "COST": "3", "2442": "1776"})
+    snap = t.snapshot()
+    assert [(m.entity_id, m.buy_cost) for m in snap.shop] == [(1776, 3)]
+    assert snap.reroll_cost == 1 and len(snap.shop_spells) == 3
+    assert Snapshot.from_dict(json.loads(json.dumps(snap.to_dict()))) == snap
+    # No Bob and no shop minion: no anchor, no spells.
+    del t.state.entities[50], t.state.entities[1776]
+    assert t._shop_spells() == []
+
+
+def test_hand_spells_accept_spell_cardtype_and_zero_cost():
+    t = BGTracker()
+    t.local_player = 7
+    t.state.entities = {
+        1: Entity(id=1, card_id="BG28_500", tags={"CARDTYPE": "SPELL", "ZONE": "HAND",
+                                                 "CONTROLLER": "7"}),
+        2: Entity(id=2, card_id="BG28_168", tags={"CARDTYPE": "SPELL", "ZONE": "HAND",
+                                                 "CONTROLLER": "7", "COST": "2"}),
+        3: Entity(id=3, card_id="BG28_169", tags={"CARDTYPE": "SPELL", "ZONE": "SETASIDE",
+                                                 "CONTROLLER": "7", "COST": "1"}),
+        4: Entity(id=4, card_id="BG_M", tags={"CARDTYPE": "MINION", "ZONE": "HAND",
+                                             "CONTROLLER": "7"})}
+    assert sorted((s["card_id"], s["cost"]) for s in t._hand_spells()) == [
+        ("BG28_168", 2), ("BG28_500", 0)]
+
+
+def test_hero_power_zero_cost_and_only_in_play():
+    t = BGTracker()
+    t.local_player = 2
+    old = Entity(id=185, card_id="BG36_HERO_002p", tags={
+        "CARDTYPE": "HERO_POWER", "CONTROLLER": "2", "ZONE": "SETASIDE", "COST": "1"})
+    cur = Entity(id=2619, card_id="BG26_HERO_102p", tags={
+        "CARDTYPE": "HERO_POWER", "CONTROLLER": "2", "ZONE": "PLAY"})   # COST omitted = 0
+    t.state.entities = {185: old, 2619: cur}
+    hp = t._hero_power()
+    assert (hp["card_id"], hp["cost"], hp["entity_id"]) == ("BG26_HERO_102p", 0, 2619)
+    cur.tags["HIDE_COST"] = "1"                 # passive power in PLAY
+    assert t._hero_power() is None              # the stale SETASIDE power is not used
 
 
 @pytest.mark.skipif(not os.environ.get("HSBG_REPLAY_XML"),

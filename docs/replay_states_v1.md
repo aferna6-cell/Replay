@@ -1,4 +1,4 @@
-# `states.v1`: decision-point states from Firestone replays
+# `states.v1.1`: decision-point states from Firestone replays
 
 One JSONL row per **decision point**: an `Options` block offered to the local
 player (`<Player isMainPlayer="true">`) in a Firestone HSReplay XML replay.
@@ -53,7 +53,7 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 
 | field | type | notes |
 |---|---|---|
-| `schema_version` | `"states.v1"` | |
+| `schema_version` | `"states.v1.1"` | v1.1 adds optional `MinionView.buy_cost`, `shop_spells[].buy_cost` and `Snapshot.reroll_cost`, and fixes `shop_spells` / `hand_spells` / `hero_power` (see the changelog below) |
 | `game_id`, `build`, `mmr` | str, int, int | manifest `reviewId`, `buildNumber`, `mmr` |
 | `lobby_tribes` | [str] | manifest `tribes.available[].name` (`"MECHANICAL"`, …) |
 | `dp_index` | int | 0-based decision point index (re-sent Options counted once) |
@@ -76,10 +76,12 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 | `hero_armor` | filled | new, optional; null when the ARMOR tag is absent (0) |
 | `board`, `hand`, `shop` | filled | `MinionView` rows with the full tag dict; `hand` holds every HAND entity, spells included |
 | `MinionView.dark_gift` | filled | new, optional: `{card_id, name}` for `HAS_DARK_GIFT=1` minions, else null |
-| `shop_spells` | filled | tavern spells in the shop row (now with `entity_id`) |
+| `MinionView.buy_cost` | filled (shop) | v1.1, optional: `COST` of the slot's buy handle (`TB_BaconShop_DragBuy`; unnamed tag 2442 = the shop entity). Missing COST = 0. Null outside the shop |
+| `reroll_cost` | filled | v1.1, optional: `COST` of `TB_BaconShop_8p_Reroll_Button` in PLAY (missing COST = 0, a free refresh) |
+| `shop_spells` | filled | `{name, card_id, cost, entity_id, buy_cost}`, sorted by shop position. Tavern spells (`BATTLEGROUND_SPELL` or `SPELL`) in PLAY under the shop controller. The controller is Bartender Bob's (`TB_BaconShopBob*`) or any shop minion's. Before v1.1, a shop with no minions yielded no spells |
 | `shop_frozen` | filled | new, optional: any shop minion `FROZEN` |
-| `hand_spells` | always empty | live logic wants `CARDTYPE=BATTLEGROUND_SPELL` in HAND, but hand spells are `SPELL` (live Power.log shows the same). Use `hand` |
-| `hero_power` | partial | live semantics: null when `COST` is absent, which includes 0-cost powers because zero tags are omitted. Use the row-level `hero_power` |
+| `hand_spells` | filled | our `SPELL` / `BATTLEGROUND_SPELL` cards in HAND. A missing COST = 0. Before v1.1 this was always empty, because in-hand spells are `SPELL` and 0-cost ones have no COST tag |
+| `hero_power` | filled | our hero power in PLAY. A missing COST = 0. Null for passive powers (`HIDE_COST=1`) and when no hero power is in PLAY (e.g. Sire after the hero-power quest completes). Before v1.1, 0-cost powers were null, and stale non-PLAY powers were picked. The row-level `hero_power` also covers passives |
 | `activatable` | filled | Activate-keyword allowlist |
 | `dark_gift` | filled | Dark Discovery button with heuristic `usable`. The row-level `dark_discovery` comes from the options |
 | `anomaly` | always null | anomalies are not in the current meta |
@@ -167,3 +169,11 @@ in never appears at a decision point.
 Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 `tests/fixtures/synthetic_bg_replay.xml`). Set `HSBG_REPLAY_XML=<replay.xml.gz>`, and
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
+
+## Changelog
+
+- **states.v1.1**
+  - `shop_spells` accepts `SPELL` as well as `BATTLEGROUND_SPELL` and is anchored on Bartender Bob's controller, so a shop of only spells is captured.
+  - `hand_spells` is filled.
+  - `Snapshot.hero_power` treats a missing COST as 0 and only considers the power in PLAY. This also changes the live overlay.
+  - New optional fields: `MinionView.buy_cost`, `shop_spells[].buy_cost`, `Snapshot.reroll_cost`.

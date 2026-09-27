@@ -26,7 +26,7 @@ from typing import Dict, List, Optional
 from .bg import BGTracker, DARK_GIFT_PREFIX, SIRE_HERO_RE
 from .hsreplay_xml import iter_events
 
-SCHEMA_VERSION = "states.v1"
+SCHEMA_VERSION = "states.v1.1"
 DARK_DISCOVERY_BUTTON = "BG36_Button_DarkGift"
 DARK_DISCOVERY_EFFECT = "BG36_MidGameEffect_010"   # CREATOR of the offered minions
 MAX_EXAMPLES = 5
