@@ -23,3 +23,6 @@ bridge/package-lock.json
 # OS
 .DS_Store
 *.pt.meta.json
+
+# Firestone replay corpus: raw replays, manifests, generated states (never commit)
+/data/firestone/

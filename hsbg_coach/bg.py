@@ -12,6 +12,7 @@ exhaustive, and every snapshot carries the whole observable state, not just the
 shop.
 """
 
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional
@@ -70,6 +71,12 @@ TAG_DUMMY_PLAYER = "BACON_DUMMY_PLAYER"  # excluded from board/shop scans
 # as a secondary combat-start marker.
 STEP_COMBAT_START = "MAIN_READY"
 
+# Dark Gift spells (BG36_MidGameEffect_000tNN) and the enchantments they attach
+# (..._000tNNe). Dark Paradox tokens (BG36_360t*, golden BG36_360_Gt*) carry
+# HAS_DARK_GIFT natively.
+DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
+DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
+
 
 @dataclass
 class MinionView:
@@ -80,6 +87,7 @@ class MinionView:
     health: Optional[int]
     position: Optional[int]
     tags: Dict[str, str] = field(default_factory=dict)
+    dark_gift: Optional[Dict] = None      # {card_id, name} when HAS_DARK_GIFT=1
 
 
 @dataclass
@@ -91,9 +99,11 @@ class Snapshot:
     tavern_tier: Optional[int]
     gold: Optional[int]
     hero_health: Optional[int]
+    hero_armor: Optional[int] = None      # ARMOR (already included in hero_health)
     board: List[MinionView] = field(default_factory=list)     # your minions in play
     shop: List[MinionView] = field(default_factory=list)      # minions available to buy
     shop_spells: List[Dict] = field(default_factory=list)     # tavern spells to buy
+    shop_frozen: bool = False             # any shop minion FROZEN
     hand_spells: List[Dict] = field(default_factory=list)     # targetable spells in hand
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
@@ -103,6 +113,7 @@ class Snapshot:
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
+    quests: List[Dict] = field(default_factory=list)     # {card_id, name, progress}
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
     hero: Optional[str] = None            # our hero cardId (for the eval net + tribes)
     hero_name: Optional[str] = None
@@ -118,9 +129,11 @@ class Snapshot:
             "tavern_tier": self.tavern_tier,
             "gold": self.gold,
             "hero_health": self.hero_health,
+            "hero_armor": self.hero_armor,
             "board": [m.__dict__ for m in self.board],
             "shop": [m.__dict__ for m in self.shop],
             "shop_spells": list(self.shop_spells),
+            "shop_frozen": self.shop_frozen,
             "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
             "activatable": list(self.activatable),
@@ -128,6 +141,7 @@ class Snapshot:
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
             "trinkets": list(self.trinkets),
+            "quests": list(self.quests),
             "opponent_profiles": list(self.opponent_profiles),
             "hero": self.hero,
             "hero_name": self.hero_name,
@@ -137,6 +151,14 @@ class Snapshot:
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict) -> "Snapshot":
+        """Inverse of to_dict() (also after a JSON round trip)."""
+        kw = dict(d)
+        for key in ("board", "shop", "hand"):
+            kw[key] = [MinionView(**m) for m in kw.get(key) or []]
+        return cls(**kw)
 
 
 class BGTracker:
@@ -161,6 +183,9 @@ class BGTracker:
         self._subset_by_entity: Dict[int, set] = {}  # entity -> BACON_SUBSET_* tokens
         self.available_tribes: List[str] = []
         self.manual_tribe_priors: Dict[str, float] = {}
+        # Per-event combat capture of opponent boards/profiles (see feed()).
+        # Batch replay builders may switch it off: it dominates their runtime.
+        self.track_opponents = True
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -234,7 +259,7 @@ class BGTracker:
         # Remember the enemy board as combat events arrive — do NOT wait for
         # snapshot(). LiveCoach replays from_start faster than the overlay polls,
         # so without this, recruit-phase odds/positioning see an empty opponents_seen.
-        if self.phase == Phase.COMBAT:
+        if self.phase == Phase.COMBAT and self.track_opponents:
             self._remember_combat_boards()
 
     def _detect_bg(self) -> None:
@@ -263,6 +288,12 @@ class BGTracker:
 
         if event.kind == "RAW" and "BlockType=ATTACK" in (event.text or ""):
             self.phase = Phase.COMBAT
+            return
+
+        # HSReplay XML Options block: the game only offers the local player
+        # options while shopping, so this is a definitive recruit signal.
+        if event.kind == "OPTIONS":
+            self.phase = Phase.RECRUIT
             return
 
         if event.kind in ("FULL_ENTITY", "SHOW_ENTITY") and event.entity:
@@ -320,6 +351,7 @@ class BGTracker:
         notes = []
         if self.local_player is None:
             notes.append("local_player not yet identified")
+        hero_ent = self._hero_entity()
         return Snapshot(
             game_counter=self.state.game_counter,
             turn=self.state.current_turn,
@@ -327,9 +359,11 @@ class BGTracker:
             tavern_tier=self._tavern_tier(),
             gold=self._gold(),
             hero_health=self._hero_health(),
+            hero_armor=hero_ent.tag_int("ARMOR") if hero_ent is not None else None,
             board=board,
             shop=shop,
             shop_spells=shop_spells,
+            shop_frozen=any(m.tags.get("FROZEN") == "1" for m in shop),
             hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
             activatable=self._activatable(),
@@ -337,6 +371,7 @@ class BGTracker:
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
             trinkets=self._trinkets(),
+            quests=self._quests(),
             hand=hand,
             opponents_seen=opponents,
             opponent_profiles=list(self.opponents.values()),
@@ -356,7 +391,8 @@ class BGTracker:
 
     _kb_cache = None
 
-    def _kb(self):
+    @classmethod
+    def _kb(cls):
         if BGTracker._kb_cache is None:
             try:
                 from . import cards
@@ -609,6 +645,57 @@ class BGTracker:
                         "card_id": ent.card_id})
         return out
 
+    def _quests(self) -> List[Dict]:
+        """Your active quests (QUEST=1, yours, not yet discarded/completed away)."""
+        out = []
+        for ent in self.state.entities.values():
+            if ent.tags.get("QUEST") != "1" or ent.controller != str(self.local_player):
+                continue
+            if ent.zone not in ("PLAY", "SECRET", "HAND"):
+                continue
+            out.append({"card_id": ent.card_id,
+                        "name": self._display_name(ent.card_id, ent.name),
+                        "progress": ent.tag_int("QUEST_PROGRESS") or 0})
+        return out
+
+    def _minion_dark_gift(self, ent: Entity) -> Optional[Dict]:
+        """The Dark Gift carried by a HAS_DARK_GIFT minion, as {card_id, name}.
+
+        Resolution order (verified on Firestone replays of patch 36.6):
+          1. DARK_GIFT_ENTITY -> that entity's card (set while offered by Dark
+             Discovery; dropped when the minion is re-created after combat);
+          2. an enchantment in PLAY attached to the minion whose own card, or
+             whose CREATOR's card, is a BG36_MidGameEffect_000t* gift (the
+             enchantment follows the minion through combat and triples);
+          3. Dark Paradox tokens (BG36_360t*, BG36_360_Gt*) are their own gift.
+        Returns None for ungifted minions or an unresolvable gift."""
+        if ent.tags.get("HAS_DARK_GIFT") != "1":
+            return None
+        entities = self.state.entities
+        gift = None
+        ref = entities.get(ent.tag_int("DARK_GIFT_ENTITY") or -1)
+        if ref is not None and ref.card_id:
+            gift = ref.card_id
+        if gift is None:
+            me = str(ent.id)
+            for e in entities.values():
+                if (e.tags.get("ATTACHED") != me or e.zone != "PLAY"
+                        or e.tags.get("CARDTYPE") != "ENCHANTMENT"):
+                    continue
+                cid = e.card_id or ""
+                if cid.startswith(DARK_GIFT_PREFIX):
+                    gift = re.sub(r"e\d*$", "", cid)
+                    break
+                creator = entities.get(e.tag_int("CREATOR") or -1)
+                if creator is not None and (creator.card_id or "").startswith(DARK_GIFT_PREFIX):
+                    gift = creator.card_id
+                    break
+        if gift is None and (ent.card_id or "").startswith(DARK_PARADOX_PREFIX):
+            gift = ent.card_id
+        if gift is None:
+            return None
+        return {"card_id": gift, "name": self._display_name(gift)}
+
     def _anomaly(self) -> Optional[str]:
         # Require the cardId to actually be an anomaly (BG##_Anomaly_###) — guards
         # against a mis-tagged/transient entity showing a spell as the anomaly.
@@ -641,6 +728,7 @@ class BGTracker:
                 "card_id": ent.card_id,
                 "cost": ent.tag_int("COST"),
                 "coin": ent.tags.get("COIN_CARD") == "1",   # gold spell, not targeted
+                "entity_id": ent.id,
             })
         return out
 
@@ -673,6 +761,7 @@ class BGTracker:
                 "name": self._display_name(ent.card_id, ent.name),
                 "card_id": ent.card_id,
                 "cost": ent.tag_int("COST"),
+                "entity_id": ent.id,
             })
         return out
 
@@ -752,6 +841,7 @@ class BGTracker:
             health=ent.tag_int("HEALTH"),
             position=ent.tag_int("ZONE_POSITION"),
             tags=dict(ent.tags),
+            dark_gift=self._minion_dark_gift(ent),
         )
 
     # --- player / hero entity resolution ----------------------------------
@@ -791,14 +881,16 @@ class BGTracker:
         return None
 
     def _gold(self) -> Optional[int]:
-        """Spendable gold = RESOURCES - RESOURCES_USED on the player entity."""
+        """Spendable gold = RESOURCES - RESOURCES_USED + TEMP_RESOURCES on the
+        player entity (TEMP_RESOURCES = this-turn-only gold, e.g. from spells)."""
         pe = self._player_entity()
         if pe is None:
             return None
         total = pe.tag_int(TAG_RESOURCES)
         if total is None:
             return None
-        return total - (pe.tag_int("RESOURCES_USED") or 0)
+        return (total - (pe.tag_int("RESOURCES_USED") or 0)
+                + (pe.tag_int("TEMP_RESOURCES") or 0))
 
     def placement(self) -> Optional[int]:
         """Final leaderboard place (1..8) of the local player, if reported."""
@@ -827,8 +919,7 @@ def _card_name(card_id: str) -> Optional[str]:
     """cardId -> display name via the committed card KB (cached). Falls back to
     the raw id so the overlay still shows something if the card is unknown."""
     try:
-        from . import cards
-        c = cards.load_kb().get(card_id)
+        c = BGTracker._kb().get(card_id)     # cached; load_kb() re-reads the file
         return c.name if c else card_id
     except Exception:
         return card_id

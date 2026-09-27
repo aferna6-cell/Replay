@@ -57,6 +57,15 @@ class GameState:
             self.game_counter += 1
             return
 
+        # HSReplay XML re-dumps the full entity set mid-game (same ids) but does
+        # not re-emit entities that died in between. Drop everything except the
+        # Player entities (no <Player> re-dump); the dump that follows refills state.
+        if event.kind == "RESET_ENTITIES":
+            self.entities = {i: e for i, e in self.entities.items()
+                             if e.tags.get("CARDTYPE") == "PLAYER"}
+            self._last_block_entity = None
+            return
+
         if event.kind in ("FULL_ENTITY", "SHOW_ENTITY") and event.entity:
             self._upsert(event.entity)
             return
