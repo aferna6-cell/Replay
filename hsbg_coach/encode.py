@@ -20,10 +20,24 @@ Canonical option dict (the Labeler emits exactly this shape)::
      "position": int | None,      # board index for play / reposition
      "choice_kind": str | None}
 
-plus optional debug fields src_entity / target_entity, which are ignored here.
-Slots are 0-based indexes into the snapshot lists (board / shop / hand), not
-ZONE_POSITION. Shop spells take the shop slots after the minions:
-len(shop) + index into shop_spells.
+plus optional debug fields src_entity / target_entity, which are ignored here
+(the live overlay has no entity ids for its options, so encoding them would
+skew train vs live; the trainer merges options whose vectors coincide, e.g. a
+spell aimed at our hero vs at Bob). Slots are 0-based indexes into the snapshot
+lists (board / shop / hand), not ZONE_POSITION. Shop spells take the shop slots
+after the minions: len(shop) + index into shop_spells. A `play` from zone board
+is an Activate; a `play` with source none is the Dark Gift button; a `play`
+whose card_id differs from the hand card at its source slot is a Choose One
+variant (e.g. BG31_880 -> BG31_880t / BG31_880t2).
+
+Training and held-out scoring use each label row's own `options` list (the
+server's legal options); legal_options() below is only the live overlay's
+candidate generator. scripts/legal_options_parity.py measures how far apart the
+two are.
+
+bc-enc-v2 (from v1): option vector gains [choose-one variant flag, variant
+index] so Choose One variants no longer collapse onto one vector; option_cost
+knows Activate / Dark Gift costs.
 
 Needs numpy (the ml extra). The stdlib-only core never imports this module
 unless the policy flag is on.
@@ -36,7 +50,7 @@ import numpy as np
 
 from .actions import BUY_COST, MAX_BOARD, MAX_TIER, ROLL_COST, SELL_VALUE, UPGRADE_COST
 
-ENCODER_VERSION = "bc-enc-v1"
+ENCODER_VERSION = "bc-enc-v2"
 
 MAX_HAND = 10
 EMB_DIM = 48                            # card2vec width (data/cards/card2vec.json)
@@ -55,7 +69,7 @@ STATE_SCALARS = ("turn", "tier", "gold", "health", "armor", "n_board", "n_shop",
                  "n_shop_spells", "shop_frozen", "n_hand_spells")
 STATE_DIM = 3 * _ZONE_DIM + len(STATE_SCALARS)       # board | shop | hand | scalars
 _CARD_DIM = EMB_DIM + 7 + _N_TRIBES + 1              # card2vec | stats | tribes | spell
-OPTION_DIM = len(OPTION_TYPES) + _CARD_DIM + 2 * (len(ZONES) + 1) + 2 + 2 + 1
+OPTION_DIM = len(OPTION_TYPES) + _CARD_DIM + 2 * (len(ZONES) + 1) + 2 + 2 + 1 + 2
 
 _SPELL_TYPES = ("BATTLEGROUND_SPELL", "SPELL")
 _NOT_A_CARD = ("ENCHANTMENT", "HERO", "HERO_POWER", "GAME_MODE_BUTTON")
@@ -143,6 +157,48 @@ def _hero_power(snapshot) -> Optional[Dict]:
     return hp if isinstance(hp, dict) else None
 
 
+def _dark_gift(snapshot) -> Optional[Dict]:
+    dg = _get(snapshot, "dark_gift")
+    return dg if isinstance(dg, dict) and dg.get("card_id") else None
+
+
+def is_unplayable(card) -> bool:
+    """The game flags the card as unplayable right now (LITERALLY_UNPLAYABLE=1,
+    e.g. a Lockbox or a spell whose condition isn't met)."""
+    return str(_tags(card).get("LITERALLY_UNPLAYABLE", "")) == "1"
+
+
+def activation(snapshot, slot: int, minion: Dict) -> Optional[Dict]:
+    """{cost, usable} if the board minion at `slot` has an Activate ability.
+
+    The raw tag INTERACTABLE_OBJECT, when present, is the game's own signal:
+    1 = clickable now; legal if gold >= INTERACTABLE_OBJECT_COST (absent = 0).
+    Without that tag, the minion must be listed in snapshot.activatable (by
+    entity id, else card id; the tracker / State Builder fill it from the
+    Activate allowlist in hsbg_coach/activate_cards.py) and its entry's `usable`
+    flag decides. Pilot check (5 games, targets ignored): 499 server-listed
+    Activates, 2 missed, 63 extra (scripts/legal_options_parity.py)."""
+    tags = _tags(minion)
+    entries = [a for a in (_get(snapshot, "activatable") or []) if isinstance(a, dict)]
+    eid, cid = minion.get("entity_id"), minion.get("card_id")
+    entry = next((a for a in entries if eid is not None and a.get("entity_id") == eid), None)
+    if entry is None:
+        entry = next((a for a in entries if cid and a.get("card_id") == cid
+                      and a.get("entity_id") is None), None)
+    io = tags.get("INTERACTABLE_OBJECT")
+    if io is not None:
+        if str(io) != "1" and entry is None:
+            return None
+        raw = tags.get("INTERACTABLE_OBJECT_COST")
+        need = _int(raw, 0) if raw is not None else 0
+        cost = need if raw is not None or entry is None else _int(entry.get("cost"), 0)
+        gold = _int(_get(snapshot, "gold"), 0)
+        return {"cost": cost, "usable": str(io) == "1" and gold >= need}
+    if entry is None:
+        return None
+    return {"cost": _int(entry.get("cost"), 0), "usable": bool(entry.get("usable"))}
+
+
 # --- state ------------------------------------------------------------------
 def _zone_block(cards: List[Dict]) -> np.ndarray:
     from ml.board_features import board_vector, minion_from_snapshot
@@ -203,15 +259,25 @@ def option_key(option: Dict) -> tuple:
 def legal_options(snapshot) -> List[Dict]:
     """Legal actions at a recruit-phase decision point, in a stable order.
 
-    Gold / space rules only (card-specific exceptions are not modelled):
+    Live-overlay candidate generator only: training and scoring use each label
+    row's own server option list. Gold / space rules plus what the Snapshot
+    carries (card-specific exceptions are not modelled):
       buy        3g per shop minion (shop spell: its own cost, default 3); needs
                  a free hand slot (< 10 cards). A full board does NOT block buys.
+                 (The server's per-slot price, 3/2/1/0, is not in the Snapshot.)
       sell       every board minion, always
-      play       hand minion: board < 7, one option per insertion index
-                 0..len(board); spell / non-minion card: one option, position
-                 None, no target
+      play       hand card not flagged LITERALLY_UNPLAYABLE; a spell with a
+                 COST tag needs gold >= COST. Minion: board < 7, one option per
+                 insertion index 0..len(board); spell / non-minion card: one
+                 option, position None. Always target none (targets need card
+                 data the repo does not have); a Choose One card is emitted as
+                 its parent (variant ids are not in the Snapshot).
+      activate   `play` from zone board for each board minion whose activation()
+                 is usable; target none
+      dark gift  `play` of snapshot.dark_gift's card_id with source none, when
+                 it is usable
       reposition board >= 2: every (slot, new index) pair with index != slot
-      reroll     gold >= 1
+      reroll     gold >= 1 (free rerolls are not in the Snapshot)
       freeze     always (it toggles)
       level      tier < 6 and gold >= level_cost (live discounted, else base)
       hero_power hero_power present, usable, and gold >= its cost; no target
@@ -234,12 +300,24 @@ def legal_options(snapshot) -> List[Dict]:
     for i, m in enumerate(board):
         opts.append(make_option("sell", m.get("card_id"), ("board", i)))
     for i, m in hand:
+        if is_unplayable(m):
+            continue
         if needs_board_slot(m):
             if len(board) < MAX_BOARD:
                 for p in range(len(board) + 1):
                     opts.append(make_option("play", m.get("card_id"), ("hand", i), position=p))
         else:
+            cost = _tags(m).get("COST")
+            if is_spell(m) and cost is not None and gold < _int(cost, 0):
+                continue
             opts.append(make_option("play", m.get("card_id"), ("hand", i)))
+    for i, m in enumerate(board):
+        act = activation(snapshot, i, m)
+        if act and act["usable"]:
+            opts.append(make_option("play", m.get("card_id"), ("board", i)))
+    dg = _dark_gift(snapshot)
+    if dg and dg.get("usable"):
+        opts.append(make_option("play", dg.get("card_id")))
     if len(board) >= 2:
         for i, m in enumerate(board):
             for p in range(len(board)):
@@ -280,6 +358,10 @@ def option_card(snapshot, option: Dict) -> Optional[Dict]:
         hp = _hero_power(snapshot)
         if hp:
             card = {"name": hp.get("name"), "card_id": hp.get("card_id"), "tags": {}}
+    if card is None and is_dark_gift(option):
+        dg = _dark_gift(snapshot) or {}
+        card = {"name": dg.get("name") or "Dark Gift",
+                "card_id": option.get("card_id") or dg.get("card_id"), "tags": {}}
     cid = option.get("card_id")
     if card is None and cid:
         ck = _resources()[2].get(cid)
@@ -289,9 +371,51 @@ def option_card(snapshot, option: Dict) -> Optional[Dict]:
     return card
 
 
+def is_activate(option: Dict) -> bool:
+    return option.get("type") == "play" and (option.get("source") or {}).get("zone") == "board"
+
+
+def is_dark_gift(option: Dict) -> bool:
+    return (option.get("type") == "play"
+            and ((option.get("source") or {}).get("zone") or "none") == "none")
+
+
+def variant_index(snapshot, option: Dict) -> int:
+    """0 unless this is a Choose One variant play (card_id differs from the hand
+    card at its source slot); then the variant's ordinal from its card-id
+    suffix: <parent>t -> 1, <parent>t2 -> 2, <parent>a / b -> 1 / 2, else 1."""
+    src = option.get("source") or {}
+    cid = option.get("card_id")
+    if option.get("type") != "play" or src.get("zone") != "hand" or not cid:
+        return 0
+    card = option_card(snapshot, option) or {}
+    parent = card.get("card_id")
+    if not parent or parent == cid:
+        return 0
+    suffix = cid[len(parent):] if cid.startswith(parent) else cid
+    digits = ""
+    while suffix and suffix[-1].isdigit():
+        digits = suffix[-1] + digits
+        suffix = suffix[:-1]
+    if digits:
+        return max(1, _int(digits, 1))
+    if len(suffix) == 1 and suffix.isalpha() and suffix.lower() != "t":
+        return max(1, ord(suffix.lower()) - ord("a") + 1)
+    return 1
+
+
 def option_cost(snapshot, option: Dict) -> int:
     """Gold the option spends (negative = gained)."""
     t = option.get("type")
+    if is_activate(option):
+        slot = (option.get("source") or {}).get("slot")
+        board = _zone(snapshot, "board")
+        if isinstance(slot, int) and 0 <= slot < len(board):
+            act = activation(snapshot, slot, board[slot])
+            return act["cost"] if act else 0
+        return 0
+    if is_dark_gift(option):
+        return _int((_dark_gift(snapshot) or {}).get("cost"), 0)
     if t == "buy":
         card = option_card(snapshot, option)
         return _spell_cost(card) if card is not None and is_spell(card) else BUY_COST
@@ -341,6 +465,7 @@ def encode_option(snapshot, option: Dict) -> np.ndarray:
     pos = option.get("position")
     gold = _int(_get(snapshot, "gold"), 0)
     cost = option_cost(snapshot, option)
+    vidx = min(variant_index(snapshot, option), 4)
     parts = [
         _onehot(option.get("type"), OPTION_TYPES),
         _card_block(option_card(snapshot, option)),
@@ -349,6 +474,7 @@ def encode_option(snapshot, option: Dict) -> np.ndarray:
         [1.0 if _slot(pos) else 0.0, _slot(pos)],
         [cost / 10.0, (gold - cost) / 10.0],
         [1.0 if option.get("choice_kind") else 0.0],
+        [1.0 if vidx else 0.0, vidx / 4.0],
     ]
     return np.concatenate([np.asarray(p, dtype=np.float64) for p in parts]).astype(np.float32)
 
@@ -375,10 +501,19 @@ def describe_option(snapshot, option: Dict) -> str:
     if t == "hero_power":
         cost = option_cost(snapshot, option)
         return f"Use hero power: {name}" + (f" ({cost}g)" if cost else "")
+    if t == "play" and is_dark_gift(option):
+        cost = option_cost(snapshot, option)
+        return "Dark Gift" + (f" ({cost}g)" if cost else "")
+    if t == "play" and is_activate(option):
+        cost = option_cost(snapshot, option)
+        return f"Activate {name}" + (f" ({cost}g)" if cost else "")
     if t == "play":
         where = (f" at slot {pos + 1}"
                  if isinstance(pos, int) and _zone(snapshot, "board") else "")
-        return f"Play {name} from hand{where}"
+        variant = option.get("card_id")
+        choice = (f" (Choose One: {variant})"
+                  if variant_index(snapshot, option) and variant else "")
+        return f"Play {name} from hand{where}{choice}"
     if t == "reposition":
         return f"Move {name} to slot {pos + 1}" if isinstance(pos, int) else f"Move {name}"
     if t == "discover":
