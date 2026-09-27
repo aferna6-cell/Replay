@@ -23,7 +23,7 @@ import time
 from collections import Counter, defaultdict
 from typing import Dict, List, Optional
 
-from .bg import BGTracker, DARK_GIFT_PREFIX
+from .bg import BGTracker, DARK_GIFT_PREFIX, SIRE_HERO_RE
 from .hsreplay_xml import iter_events
 
 SCHEMA_VERSION = "states.v1"
@@ -100,6 +100,7 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
     game_entity_id = None
     stats = Counter()
     pending_picks: List[Dict] = []
+    quests_seen: Dict[int, Dict] = {}
     combat_board, await_combat = None, False
 
     for ev in iter_events(path):
@@ -128,10 +129,15 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
                                                       "prev": rows[-1]["raw_turn"]})
             _check_row(tracker, row, fail, stats)
             _check_picks(row, pending_picks, fail, stats)
+            _check_quests(row, quests_seen, fail, stats)
             rows.append(row)
             await_combat, combat_board = True, None
 
     stats["dark_discovery_picks_unverifiable"] += len(pending_picks)
+    stats["quests_seen"] = len(quests_seen)
+    stats["quests_completed"] = sum(q["completed"] for q in quests_seen.values())
+    if any(SIRE_HERO_RE.match(r["snapshot"]["hero"] or "") for r in rows) and not quests_seen:
+        fail.add("sire_quests_missing")
     warnings = _final_checks(tracker, rows, meta, fail, combat_board)
     stats["rows"] = len(rows)
     if stats["options_blocks"] - stats["options_resent"] != len(rows):
@@ -229,6 +235,39 @@ def _check_picks(row, pending, fail, stats) -> None:
         else:
             fail.add("dark_discovery_pick_missing", dict(p, dp=row["dp_index"]))
     pending.clear()
+
+
+def _check_quests(row, seen, fail, stats) -> None:
+    """Quests only exist for Sire Denathrius (any skin): a non-Sire row must
+    have none. For each quest entity: progress never decreases, never exceeds
+    the goal while active, the goal is known, and a completed quest stays
+    completed. ``seen`` maps quest entity_id -> last observed entry."""
+    snap, dp = row["snapshot"], row["dp_index"]
+    quests = snap.get("quests") or []
+    if not quests:
+        return
+    if not SIRE_HERO_RE.match(snap.get("hero") or ""):
+        fail.add("quests_on_non_sire_hero", {"dp": dp, "hero": snap.get("hero"),
+                                             "quests": [q["card_id"] for q in quests]})
+        return
+    stats["quest_snapshots"] += len(quests)
+    for q in quests:
+        eid, prev = q["entity_id"], seen.get(q["entity_id"])
+        ex = {"dp": dp, "entity_id": eid, "card_id": q["card_id"],
+              "progress": q["progress"], "goal": q["goal"]}
+        if prev is not None and prev["completed"] and not q["completed"]:
+            fail.add("quest_uncompleted", ex)
+        if not q["completed"]:
+            if q["goal"] is None or q["goal"] <= 0:
+                fail.add("quest_goal_missing", ex)
+            elif q["progress"] > q["goal"]:
+                fail.add("quest_progress_over_goal", ex)
+            if prev is not None and not prev["completed"]:
+                if q["progress"] < prev["progress"]:
+                    fail.add("quest_progress_decreased", dict(ex, prev=prev["progress"]))
+                if q["goal"] != prev["goal"]:
+                    stats["quest_goal_changed"] += 1
+        seen[eid] = q
 
 
 def _final_checks(tracker, rows, meta, fail, combat_board=None) -> List[Dict]:

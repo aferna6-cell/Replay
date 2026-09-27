@@ -7,12 +7,14 @@ fidelity check to pass).
 
 import json
 import os
+from collections import Counter
 
 import pytest
 
 from hsbg_coach.bg import BGTracker, Snapshot
 from hsbg_coach.hsreplay_xml import iter_events
-from hsbg_coach.replay_states import build_game
+from hsbg_coach.replay_states import _Fail, _check_quests, build_game
+from hsbg_coach.state import Entity
 
 FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "synthetic_bg_replay.xml")
 META = {
@@ -113,6 +115,85 @@ def test_build_game_flags_final_board_and_placement_mismatch():
     meta = dict(META, placement=4, finalComp={"board": [{"cardId": "OTHER", "golden": False}]})
     res = build_game(FIXTURE, meta)
     assert set(res["failures"].count) == {"final_board_mismatch", "placement_mismatch"}
+
+
+def _sire_tracker():
+    """Entities as in replay d062a6b7 (Sire Denathrius, controller 7): the
+    Whodunit? enchantment offers two quest+reward pairs; Unlikely Duo picked."""
+    t = BGTracker()
+    t.local_player = 7
+
+    def put(eid, card_id, **tags):
+        t.state.entities[eid] = Entity(id=eid, card_id=card_id, tags=dict(
+            CONTROLLER="7", **{k: str(v) for k, v in tags.items()}))
+
+    put(395, "BG24_QuestsPlayerEnch_t", CARDTYPE="ENCHANTMENT", ZONE="REMOVEDFROMGAME")
+    put(397, "BG24_Quest_151", CARDTYPE="SPELL", ZONE="SECRET", QUEST=1, CREATOR=395,
+        QUEST_PROGRESS=2, QUEST_PROGRESS_TOTAL=3, TAG_SCRIPT_DATA_ENT_1=398)
+    put(398, "BG27_Reward_504", CARDTYPE="BATTLEGROUND_QUEST_REWARD", ZONE="SETASIDE",
+        CREATOR=395)
+    put(399, "BG24_Quest_313", CARDTYPE="SPELL", ZONE="REMOVEDFROMGAME", QUEST=1,
+        CREATOR=395, QUEST_PROGRESS_TOTAL=6)                     # the quest not picked
+    return t
+
+
+def test_quests_active_then_completed():
+    t = _sire_tracker()
+    assert t._quests() == [{
+        "entity_id": 397, "card_id": "BG24_Quest_151", "name": "BG24_Quest_151",
+        "progress": 2, "goal": 3, "reward_card_id": "BG27_Reward_504",
+        "source_card_id": "BG24_QuestsPlayerEnch_t", "completed": False}]
+    # Completion: the quest is removed with its tags reset; the reward is in PLAY.
+    q = t.state.entities[397]
+    q.tags.update(ZONE="REMOVEDFROMGAME", QUEST_PROGRESS="0", QUEST_PROGRESS_TOTAL="4",
+                  TAG_SCRIPT_DATA_ENT_1="0")
+    t.state.entities[1635] = Entity(id=1635, card_id="BG27_Reward_504", tags={
+        "CONTROLLER": "7", "CARDTYPE": "BATTLEGROUND_QUEST_REWARD", "ZONE": "PLAY",
+        "CREATOR": "397", "BACON_IS_HEROPOWER_QUESTREWARD": "1"})
+    assert t._quests() == [{
+        "entity_id": 397, "card_id": "BG24_Quest_151", "name": "BG24_Quest_151",
+        "progress": None, "goal": None, "reward_card_id": "BG27_Reward_504",
+        "source_card_id": "BG24_QuestsPlayerEnch_t", "completed": True}]
+    t.local_player = 3                     # somebody else's quests are not ours
+    assert t._quests() == []
+
+
+def _quest_row(dp, hero, *quests):
+    return {"dp_index": dp, "snapshot": {"hero": hero, "quests": [
+        {"entity_id": e, "card_id": "BG24_Quest_151", "progress": p, "goal": g,
+         "completed": c} for e, p, g, c in quests]}}
+
+
+def test_quest_checks():
+    def run(*rows):
+        fail, seen, stats = _Fail(), {}, Counter()
+        for r in rows:
+            _check_quests(r, seen, fail, stats)
+        return dict(fail.count)
+
+    ok = [_quest_row(0, "BG24_HERO_100", (397, 0, 3, False)),
+          _quest_row(1, "BG24_HERO_100_SKIN_A", (397, 2, 3, False)),
+          _quest_row(2, "BG24_HERO_100_SKIN_E", (397, None, None, True))]
+    assert run(*ok) == {}
+    assert run(_quest_row(0, "BG24_HERO_100", (397, 2, 3, False)),
+               _quest_row(1, "BG24_HERO_100", (397, 1, 3, False))) == {
+        "quest_progress_decreased": 1}
+    assert run(_quest_row(0, "BG24_HERO_100", (397, 4, 3, False))) == {
+        "quest_progress_over_goal": 1}
+    assert run(_quest_row(0, "BG24_HERO_100", (397, 0, None, False))) == {
+        "quest_goal_missing": 1}
+    assert run(_quest_row(0, "BG24_HERO_100", (397, None, None, True)),
+               _quest_row(1, "BG24_HERO_100", (397, 1, 3, False))) == {"quest_uncompleted": 1}
+    assert run(_quest_row(0, "BG36_HERO_002", (397, 0, 3, False))) == {
+        "quests_on_non_sire_hero": 1}
+    assert run(_quest_row(0, "BG24_HERO_100p", (397, 0, 3, False))) == {
+        "quests_on_non_sire_hero": 1}      # the hero power is not the hero
+
+
+def test_build_game_non_sire_has_no_quests():
+    res = build_game(FIXTURE, META)
+    assert all(r["snapshot"]["quests"] == [] for r in res["rows"])
+    assert res["stats"]["quests_seen"] == 0
 
 
 @pytest.mark.skipif(not os.environ.get("HSBG_REPLAY_XML"),

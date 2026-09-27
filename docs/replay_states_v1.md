@@ -84,7 +84,7 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 | `dark_gift` | filled | Dark Discovery button with heuristic `usable`. The row-level `dark_discovery` comes from the options |
 | `anomaly` | always null | anomalies are not in the current meta |
 | `trinkets` | filled | |
-| `quests` | always empty (so far) | new, optional: `{card_id, name, progress}` |
+| `quests` | filled (Sire only) | `[{entity_id, card_id, name, progress, goal, reward_card_id, source_card_id, completed}]`, sorted by `entity_id`; see below. Empty for every other hero |
 | `opponents_seen` | filled | last enemy board seen in combat, captured per event exactly as live |
 | `opponent_profiles` | partial | one opponent seat in the log, so the latest opponent only. `tribe` is always null (it is keyed on entity names, which XML lacks) |
 | `hero`, `hero_name` | filled | |
@@ -105,6 +105,40 @@ Only `HAS_DARK_GIFT=1` minions are resolved, in this order:
    `BG36_MidGameEffect_000t` (trailing `e\d*` stripped);
 3. a Dark Paradox token (`BG36_360t*` or `BG36_360_Gt*`), which is its own gift.
 
+### Quests (`BGTracker._quests`)
+
+Only Sire Denathrius has quests: `BG24_HERO_100` and its skins `BG24_HERO_100_SKIN_*`
+(e.g. `_SKIN_A` "Sire Melodious", `_SKIN_E` "Boss Denathrius"), matched by
+`bg.SIRE_HERO_RE`. What the replays show:
+
+- **Offer:** the hero power `BG24_HERO_100p` "Whodunit?" creates the enchantment
+  `BG24_QuestsPlayerEnch_t`. That enchantment creates 2 quest + reward pairs in
+  SETASIDE and a `Choices` (`source` = the enchantment) over the 2 quests. The Sire
+  buddy `BG24_HERO_100_Buddy` offers 3 quests the same way, each rewarding a
+  `BG24_HERO_100_Buddyt` "Coin Pouch". A quest is `CARDTYPE=SPELL` with `QUEST=1` and
+  `CREATOR` = the source. Its `TAG_SCRIPT_DATA_ENT_1` points at its reward entity, and the
+  reward points back through tag 1396 (not named in `hs_enums`). The reward is a
+  `BATTLEGROUND_QUEST_REWARD` for hero-power quests and a `SPELL` for buddy quests.
+  `QUEST_REWARD_DATABASE_ID` holds the reward dbfId.
+- **Active:** the picked quest moves to **ZONE=SECRET**. `QUEST_PROGRESS` counts up
+  toward `QUEST_PROGRESS_TOTAL` (the goal is set when the quest is offered and can
+  differ from the card default). The unpicked quest goes to REMOVEDFROMGAME.
+- **Completion:** progress reaches the goal. The quest goes SECRET → SETASIDE →
+  REMOVEDFROMGAME, and its tags reset to the card defaults (`QUEST_PROGRESS` 0,
+  `QUEST_PROGRESS_TOTAL` = the card's base goal). The hero gets `BACON_QUEST_COMPLETED=1`.
+  For hero-power quests, a new `BATTLEGROUND_QUEST_REWARD` entity with `CREATOR` = the
+  quest appears in PLAY. Rewards such as "Perpetual Incantation" (`BG33_Reward_020`)
+  re-create the quest as a new entity in SECRET, which has no reward pointer.
+
+`quests` lists (a) every quest of ours in SECRET with `QUEST=1` (`completed=false`,
+`progress`/`goal` from the tags, `reward_card_id` via `TAG_SCRIPT_DATA_ENT_1`,
+`source_card_id` = CREATOR card) and (b) every `BATTLEGROUND_QUEST_REWARD` of ours
+in PLAY whose CREATOR is a quest. That entry uses the quest's `entity_id`/`card_id`,
+with `completed=true` and `progress`/`goal` null, because the reset tags no longer
+carry them. Buddy quests and re-created quests have no reward in PLAY, so they drop out
+of the list when completed. A quest that completes during the same block it was picked
+in never appears at a decision point.
+
 ## Fidelity checks (any failure quarantines the game)
 
 1. **Parses:** no exception, and rows = Options blocks − re-sent blocks.
@@ -120,6 +154,15 @@ Only `HAS_DARK_GIFT=1` minions are resolved, in this order:
    Discovery pick whose minion carries `HAS_DARK_GIFT` has its gift on a friendly
    board/hand minion at the next decision point. One-shot gifts (Double Vision:
    "get an extra copy") are spent on pick, so they are counted and not checked.
+6. **Quests:** a row whose `hero` is not Sire (`SIRE_HERO_RE`) has no quests
+   (`quests_on_non_sire_hero`). For each quest `entity_id` across rows:
+   progress never decreases (`quest_progress_decreased`), the goal is present
+   (`quest_goal_missing`), progress ≤ goal while not completed
+   (`quest_progress_over_goal`), and a completed quest never reverts to active
+   (`quest_uncompleted`). A Sire game with no quest at any decision point fails
+   `sire_quests_missing`. Stats: `quests_seen`, `quests_completed` (quests seen
+   with `completed=true`), `quest_snapshots`, and `quest_goal_changed` (counted
+   only).
 
 Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 `tests/fixtures/synthetic_bg_replay.xml`). Set `HSBG_REPLAY_XML=<replay.xml.gz>`, and

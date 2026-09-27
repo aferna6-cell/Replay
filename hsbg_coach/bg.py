@@ -76,6 +76,10 @@ STEP_COMBAT_START = "MAIN_READY"
 # HAS_DARK_GIFT natively.
 DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
 DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
+# Sire Denathrius (the only BG hero with quests) and its skins, e.g.
+# BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
+SIRE_HERO_RE = re.compile(r"^BG24_HERO_100(_SKIN_[A-Z0-9]+)?$")
+QUEST_REWARD_CARDTYPE = "BATTLEGROUND_QUEST_REWARD"
 
 
 @dataclass
@@ -113,7 +117,7 @@ class Snapshot:
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
-    quests: List[Dict] = field(default_factory=list)     # {card_id, name, progress}
+    quests: List[Dict] = field(default_factory=list)     # Sire quests, see _quests()
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
     hero: Optional[str] = None            # our hero cardId (for the eval net + tribes)
     hero_name: Optional[str] = None
@@ -646,16 +650,48 @@ class BGTracker:
         return out
 
     def _quests(self) -> List[Dict]:
-        """Your active quests (QUEST=1, yours, not yet discarded/completed away)."""
+        """Your quests (Sire Denathrius). Verified on Firestone replays:
+
+        * Active quest: CARDTYPE=SPELL with QUEST=1, yours, in the SECRET zone.
+          QUEST_PROGRESS / QUEST_PROGRESS_TOTAL are progress / goal, and
+          TAG_SCRIPT_DATA_ENT_1 points at the (SETASIDE) reward entity. Offered
+          quests sit in SETASIDE and are skipped until picked.
+        * On completion the quest leaves SECRET (SETASIDE -> REMOVEDFROMGAME,
+          its tags reset to card defaults) and, for hero-power quests, a
+          BATTLEGROUND_QUEST_REWARD entity whose CREATOR is the quest appears in
+          PLAY. That reward stands in for the quest: completed=True, with
+          progress/goal None (the reset tags no longer carry them).
+        Buddy quests reward a Coin Pouch spell instead, so they simply drop out
+        when completed. Each entry: {entity_id, card_id, name, progress, goal,
+        reward_card_id, source_card_id, completed}."""
         out = []
-        for ent in self.state.entities.values():
-            if ent.tags.get("QUEST") != "1" or ent.controller != str(self.local_player):
+        me = str(self.local_player)
+        entities = self.state.entities
+        for ent in entities.values():
+            if ent.controller != me:
                 continue
-            if ent.zone not in ("PLAY", "SECRET", "HAND"):
-                continue
-            out.append({"card_id": ent.card_id,
-                        "name": self._display_name(ent.card_id, ent.name),
-                        "progress": ent.tag_int("QUEST_PROGRESS") or 0})
+            if ent.tags.get("QUEST") == "1" and ent.zone == "SECRET":
+                reward = entities.get(ent.tag_int("TAG_SCRIPT_DATA_ENT_1") or -1)
+                source = entities.get(ent.tag_int("CREATOR") or -1)
+                out.append({"entity_id": ent.id, "card_id": ent.card_id,
+                            "name": self._display_name(ent.card_id, ent.name),
+                            "progress": ent.tag_int("QUEST_PROGRESS") or 0,
+                            "goal": ent.tag_int("QUEST_PROGRESS_TOTAL"),
+                            "reward_card_id": reward.card_id if reward is not None else None,
+                            "source_card_id": source.card_id if source is not None else None,
+                            "completed": False})
+            elif ent.tags.get("CARDTYPE") == QUEST_REWARD_CARDTYPE and ent.zone == "PLAY":
+                quest = entities.get(ent.tag_int("CREATOR") or -1)
+                if quest is None or quest.tags.get("QUEST") != "1":
+                    continue
+                source = entities.get(quest.tag_int("CREATOR") or -1)
+                out.append({"entity_id": quest.id, "card_id": quest.card_id,
+                            "name": self._display_name(quest.card_id, quest.name),
+                            "progress": None, "goal": None,
+                            "reward_card_id": ent.card_id,
+                            "source_card_id": source.card_id if source is not None else None,
+                            "completed": True})
+        out.sort(key=lambda q: q["entity_id"])
         return out
 
     def _minion_dark_gift(self, ent: Entity) -> Optional[Dict]:
