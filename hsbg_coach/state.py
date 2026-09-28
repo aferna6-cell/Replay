@@ -45,6 +45,17 @@ class GameState:
         # us name spells/anomalies (not in the minion KB) whose own entity was
         # created with only a CardID (no entityName).
         self.card_names: Dict[str, str] = {}
+        # entity id -> cardId of entities dropped by RESET_ENTITIES. Ids are
+        # never reused within a game, so a tag that still points at a dropped
+        # entity (CREATOR, DARK_GIFT_ENTITY) can still be resolved to its card.
+        self.dropped_card_ids: Dict[int, str] = {}
+
+    def card_id_of(self, entity_id: Optional[int]) -> Optional[str]:
+        """cardId of an entity, including one dropped by a re-dump reset."""
+        ent = self.entities.get(entity_id) if entity_id is not None else None
+        if ent is not None and ent.card_id:
+            return ent.card_id
+        return self.dropped_card_ids.get(entity_id)
 
     def _learn_name(self, card_id: Optional[str], name: Optional[str]) -> None:
         if card_id and name and "UNKNOWN ENTITY" not in name:
@@ -53,6 +64,7 @@ class GameState:
     def apply(self, event: Event) -> None:
         if event.kind == "CREATE_GAME":
             self.entities.clear()
+            self.dropped_card_ids.clear()
             self.current_turn = None
             self.game_counter += 1
             return
@@ -61,6 +73,9 @@ class GameState:
         # not re-emit entities that died in between. Drop everything except the
         # Player entities (no <Player> re-dump); the dump that follows refills state.
         if event.kind == "RESET_ENTITIES":
+            self.dropped_card_ids.update(
+                (i, e.card_id) for i, e in self.entities.items()
+                if e.card_id and e.tags.get("CARDTYPE") != "PLAYER")
             self.entities = {i: e for i, e in self.entities.items()
                              if e.tags.get("CARDTYPE") == "PLAYER"}
             self._last_block_entity = None

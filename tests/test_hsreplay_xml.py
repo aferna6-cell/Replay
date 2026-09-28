@@ -13,7 +13,9 @@ import pytest
 
 from hsbg_coach.bg import BGTracker, Phase, Snapshot
 from hsbg_coach.hsreplay_xml import iter_events
-from hsbg_coach.replay_states import SCHEMA_VERSION, _Fail, _check_quests, build_game
+from hsbg_coach.parser import Event
+from hsbg_coach.replay_states import (SCHEMA_VERSION, _Fail, _check_picks, _check_quests,
+                                       _check_row, _final_checks, build_game)
 from hsbg_coach.state import Entity
 
 FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "synthetic_bg_replay.xml")
@@ -197,6 +199,11 @@ def test_quest_checks():
         "quests_on_non_sire_hero": 1}
     assert run(_quest_row(0, "BG24_HERO_100p", (397, 0, 3, False))) == {
         "quests_on_non_sire_hero": 1}      # the hero power is not the hero
+    # Any hero can sell Shady Aristocrat (Sire's buddy) and Discover a Quest
+    # (5ec28cd6: The Rat King got it from a Wisdomball refresh).
+    buddy = _quest_row(0, "TB_BaconShop_HERO_12", (15859, 1, 3, False))
+    buddy["snapshot"]["quests"][0]["source_card_id"] = "BG24_HERO_100_Buddy"
+    assert run(buddy) == {}
 
 
 def test_build_game_non_sire_has_no_quests():
@@ -375,3 +382,89 @@ def test_real_replay():
         assert Snapshot.from_dict(json.loads(json.dumps(snap))).to_dict() == snap
     if os.environ.get("HSBG_REPLAY_MANIFEST"):
         assert dict(res["failures"].count) == {}
+
+
+def test_redump_keeps_card_ids_of_dropped_entities():
+    """fc4633cb: the gift spell is gone after a re-dump; the gifted minion's
+    enchantment (EDR_100t13e) still names it as CREATOR."""
+    t = BGTracker()
+    t.state.entities[50] = Entity(id=50, card_id="BG36_MidGameEffect_000t13",
+                                  tags={"ZONE": "GRAVEYARD"})
+    t.state.apply(Event(kind="RESET_ENTITIES"))
+    assert 50 not in t.state.entities and t.state.card_id_of(50) == "BG36_MidGameEffect_000t13"
+    minion = Entity(id=60, card_id="BG36_097", tags={"HAS_DARK_GIFT": "1"})
+    t.state.entities[60] = minion
+    t.state.entities[61] = Entity(id=61, card_id="EDR_100t13e", tags={
+        "ATTACHED": "60", "ZONE": "PLAY", "CARDTYPE": "ENCHANTMENT", "CREATOR": "50"})
+    assert t._minion_dark_gift(minion)["card_id"] == "BG36_MidGameEffect_000t13"
+    # CREATOR never seen in the replay: EDR_100t13e itself names the gift
+    t.state.entities[61].tags["CREATOR"] = "99"
+    assert t._minion_dark_gift(minion)["card_id"] == "BG36_MidGameEffect_000t13"
+    t.state.apply(Event(kind="CREATE_GAME"))
+    assert t.state.card_id_of(50) is None
+
+
+def _gold_row(dp, gold):
+    return {"dp_index": dp, "options": [],
+            "snapshot": {"gold": gold, "board": [], "hand": [], "shop": []}}
+
+
+def test_gold_unknown_until_first_set():
+    fail, stats = _Fail(), Counter()
+    for dp, gold in enumerate([None, None, 3, 0]):
+        _check_row(BGTracker(), _gold_row(dp, gold), fail, stats)
+    assert not fail.count and stats["gold_unknown_rows"] == 2
+    _check_row(BGTracker(), _gold_row(4, None), fail, stats)
+    _check_row(BGTracker(), _gold_row(5, -1), fail, stats)
+    assert fail.count == {"invariant_gold": 2}
+
+
+def test_dark_discovery_pick_checked_only_while_held():
+    def run(held_gift):
+        fail, stats = _Fail(), Counter()
+        board = [] if held_gift is False else [
+            {"entity_id": 7, "dark_gift": held_gift and {"card_id": held_gift}}]
+        pending = [{"entity_id": 7, "card_id": "X", "gift": "G1", "persistent": True}]
+        _check_picks({"dp_index": 0, "snapshot": {"board": board, "hand": []}},
+                     pending, fail, stats)
+        return dict(fail.count), stats
+    assert run("G1")[1]["dark_discovery_picks_verified"] == 1
+    assert run(False)[1]["dark_discovery_picks_gone"] == 1   # e.g. tripled
+    # gone, but the golden it was tripled into carries the gift
+    fail, stats = _Fail(), Counter()
+    _check_picks({"dp_index": 0, "snapshot": {"hand": [], "board": [
+        {"entity_id": 9, "dark_gift": {"card_id": "G1"}}]}},
+        [{"entity_id": 7, "card_id": "X", "gift": "G1", "persistent": True}], fail, stats)
+    assert not fail.count and stats["dark_discovery_picks_verified"] == 1
+    # the offer named no gift (no DARK_GIFT_ENTITY): any gift on the held pick
+    fail, stats = _Fail(), Counter()
+    _check_picks({"dp_index": 0, "snapshot": {"hand": [], "board": [
+        {"entity_id": 7, "dark_gift": {"card_id": "G3"}}]}},
+        [{"entity_id": 7, "card_id": "X", "gift": None, "persistent": True}], fail, stats)
+    assert not fail.count and stats["dark_discovery_picks_verified"] == 1
+    assert run("G2")[0] == {"dark_discovery_pick_missing": 1}
+
+
+def _board_row(turn, *cards):
+    return {"turn": turn, "snapshot": {"board": [
+        {"card_id": c, "tags": {}, "attack": 1, "health": 1} for c in cards]}}
+
+
+def test_final_board_uses_manifest_turn_and_combat_board():
+    rows = [_board_row(1, "A"), _board_row(2, "A", "B")]
+
+    def run(fc_turn, cards, combat=None):
+        fail, stats = _Fail(), Counter()
+        meta = {"finalComp": {"turn": fc_turn, "board": [
+            {"cardId": c, "golden": False, "atk": 1, "health": 1} for c in cards]}}
+        _final_checks(BGTracker(), rows, meta, fail, combat, stats)
+        return dict(fail.count), stats
+    assert run(2, ["A", "B"]) == ({}, Counter())
+    # finalComp from the turn before the last one (0272ec87)
+    assert run(1, ["A"]) == ({}, Counter(final_comp_earlier_turn=1))
+    # a minion played after the last decision point: the combat board matches
+    assert run(2, ["A", "B", "C"], {2: [("A", False, 1, 1), ("B", False, 1, 1),
+                                        ("C", False, 1, 1)]})[0] == {}
+    assert run(2, ["B", "A"])[0] == {"final_board_order": 1}
+    assert run(2, ["A"])[0] == {"manifest_final_comp_suspect": 1}   # our turn-1 board
+    assert run(2, ["Z"])[0] == {"final_board_mismatch": 1}

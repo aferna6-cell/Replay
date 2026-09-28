@@ -32,6 +32,9 @@ from .hsreplay_xml import iter_events
 SCHEMA_VERSION = "states.v2"
 DARK_DISCOVERY_BUTTON = "BG36_Button_DarkGift"
 DARK_DISCOVERY_EFFECT = "BG36_MidGameEffect_010"   # CREATOR of the offered minions
+# Shady Aristocrat, Sire Denathrius's buddy: "When you sell this, Discover a
+# Quest". Other heroes can get it too (e.g. from a Wisdomball refresh).
+SIRE_BUDDY_PREFIX = "BG24_HERO_100_Buddy"
 MAX_EXAMPLES = 5
 DEFAULT_CARDS = os.path.join("data", "firestone", "cards.json")
 
@@ -120,7 +123,8 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
     stats = Counter()
     pending_picks: List[Dict] = []
     quests_seen: Dict[int, Dict] = {}
-    combat_board, await_combat = None, False
+    combat_boards: Dict[int, List] = {}   # turn -> board at that turn's first attack
+    await_combat = None                   # turn of the last Options row, until combat
     prev_choice = None                 # entity ids of the last unanswered Choices
 
     for ev in iter_events(path):
@@ -129,11 +133,14 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
             game_entity_id = ev.entity.id
         elif ev.kind == "PLAYER" and ev.fields.get("hi") == "1":
             main_player_entity = _int(ev.fields.get("entity_id"))
-        elif await_combat and ev.kind == "RAW" and "BlockType=ATTACK" in ev.text:
-            # Board at the first attack after a decision point (diagnostic only:
-            # explains atk/health gaps vs the manifest's final comp).
-            await_combat = False
-            combat_board = [(m.card_id, m.attack, m.health) for m in tracker.snapshot().board]
+        elif (await_combat is not None and ev.kind == "RAW"
+              and "BlockType=ATTACK" in ev.text):
+            # Board at the first attack after a turn's decision points: the
+            # start-of-combat board, which is what Firestone's finalComp shows.
+            combat_boards[await_combat] = [
+                (m.card_id, m.tags.get("PREMIUM") == "1", m.attack, m.health)
+                for m in tracker.snapshot().board]
+            await_combat = None
         elif ev.kind == "CHOSEN":
             prev_choice = None
             _record_dark_discovery_picks(tracker, ev.items, pending_picks, fail, stats)
@@ -167,7 +174,7 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
             _check_picks(row, pending_picks, fail, stats)
             _check_quests(row, quests_seen, fail, stats)
             rows.append(row)
-            await_combat, combat_board = True, None
+            await_combat = row["turn"]
 
     # dp_index: chronological over both kinds; options_index: Options rows only
     # (the states.v1 dp_index).
@@ -184,7 +191,7 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
     stats["quests_completed"] = sum(q["completed"] for q in quests_seen.values())
     if any(SIRE_HERO_RE.match(r["snapshot"]["hero"] or "") for r in rows) and not quests_seen:
         fail.add("sire_quests_missing")
-    warnings = _final_checks(tracker, options_rows, meta, fail, combat_board)
+    warnings = _final_checks(tracker, options_rows, meta, fail, combat_boards, stats)
     stats["rows"] = len(rows)
     stats["options_rows"] = len(options_rows)
     stats["choice_rows"] = len(choice_rows)
@@ -269,9 +276,9 @@ def _choice_card(tracker, eid) -> Dict:
                 "tags": {}, "dark_gift": None}
     gift = tracker._minion_dark_gift(ent)
     if gift is None:            # offered by Dark Discovery: DARK_GIFT_ENTITY only
-        ref = tracker.state.entities.get(ent.tag_int("DARK_GIFT_ENTITY") or -1)
-        if ref is not None and (ref.card_id or "").startswith(DARK_GIFT_PREFIX):
-            gift = {"card_id": ref.card_id, "name": tracker._display_name(ref.card_id)}
+        ref = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
+        if ref.startswith(DARK_GIFT_PREFIX):
+            gift = {"card_id": ref, "name": tracker._display_name(ref)}
     return {"entity_id": eid, "card_id": ent.card_id,
             "name": tracker._display_name(ent.card_id, ent.name),
             "cardtype": ent.tags.get("CARDTYPE"), "tags": dict(ent.tags),
@@ -323,8 +330,17 @@ def _check_choice(row, fail, stats) -> None:
 
 def _check_row(tracker, row, fail, stats) -> None:
     snap, dp = row["snapshot"], row["dp_index"]
-    if snap["gold"] is None or snap["gold"] < 0:
+    # gold is None until the player's RESOURCES tag is first set (the first
+    # decision point(s) of turn 1-2 in some replays): unknown, not an error.
+    # Once known it must stay known and never go negative.
+    if snap["gold"] is None:
+        stats["gold_unknown_rows"] += 1
+        if stats["gold_known_rows"]:
+            fail.add("invariant_gold", {"dp": dp, "gold": None})
+    elif snap["gold"] < 0:
         fail.add("invariant_gold", {"dp": dp, "gold": snap["gold"]})
+    else:
+        stats["gold_known_rows"] += 1
     if len(snap["board"]) > 7:
         fail.add("invariant_board_gt_7", {"dp": dp, "board": len(snap["board"])})
     if len(snap["hand"]) > 10:
@@ -362,33 +378,49 @@ def _record_dark_discovery_picks(tracker, chosen, pending, fail, stats) -> None:
         ent = entities.get(eid)
         if ent is None:
             continue
-        creator = entities.get(ent.tag_int("CREATOR") or -1)
-        if creator is None or creator.card_id != DARK_DISCOVERY_EFFECT:
+        if tracker.state.card_id_of(ent.tag_int("CREATOR")) != DARK_DISCOVERY_EFFECT:
             continue
         stats["dark_discovery_picks"] += 1
-        gift = entities.get(ent.tag_int("DARK_GIFT_ENTITY") or -1)
-        if gift is None or not (gift.card_id or "").startswith(DARK_GIFT_PREFIX):
-            fail.add("dark_discovery_pick_without_gift", {"entity_id": eid,
-                                                         "card_id": ent.card_id})
-            continue
-        pending.append({"entity_id": eid, "card_id": ent.card_id, "gift": gift.card_id,
-                        "persistent": ent.tags.get("HAS_DARK_GIFT") == "1"})
+        gift = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
+        persistent = ent.tags.get("HAS_DARK_GIFT") == "1"
+        if not gift.startswith(DARK_GIFT_PREFIX):
+            if not persistent:
+                fail.add("dark_discovery_pick_without_gift", {"entity_id": eid,
+                                                             "card_id": ent.card_id})
+                continue
+            # No DARK_GIFT_ENTITY on the offer (a3252d4e): the gift is only
+            # known later, from the minion's enchantment.
+            gift = None
+            stats["dark_discovery_picks_gift_unnamed"] += 1
+        pending.append({"entity_id": eid, "card_id": ent.card_id, "gift": gift,
+                        "persistent": persistent})
 
 
 def _check_picks(row, pending, fail, stats) -> None:
-    """A Dark Discovery pick's gift must be on a friendly minion at the next
-    decision point. One-shot gifts (Double Vision: "get an extra copy of
-    this") are spent on pick: the offered minion never gets HAS_DARK_GIFT, so
-    there is nothing to find on the board; they are counted, not checked."""
+    """A Dark Discovery pick that is still in our hand or on our board at the
+    next decision point must carry the picked gift. A pick that is already
+    gone by then (sold, or tripled: the golden carries every copy's gift but
+    ``dark_gift`` names only one) counts as verified if its gift is on
+    another held minion, otherwise it is counted as gone, not failed. One-shot gifts (Double Vision: "get an extra
+    copy of this") are spent on pick: the offered minion never gets
+    HAS_DARK_GIFT, so they are counted, not checked. A persistent pick whose
+    offer did not name its gift only needs to carry some gift."""
     if not pending:
         return
     snap = row["snapshot"]
-    gifts = {m["dark_gift"]["card_id"] for z in ("board", "hand")
-             for m in snap[z] if m.get("dark_gift")}
+    held = {m["entity_id"]: m for z in ("board", "hand") for m in snap[z]}
+    gifts = {m["dark_gift"]["card_id"] for m in held.values() if m.get("dark_gift")}
     for p in pending:
+        m = held.get(p["entity_id"])
         if not p["persistent"]:
             stats["dark_discovery_picks_one_shot"] += 1
-        elif p["gift"] in gifts:
+        elif m is None:
+            # gone; if its gift is on another minion (e.g. the golden it was
+            # tripled into) that still counts as verified
+            stats["dark_discovery_picks_verified" if p["gift"] in gifts
+                  else "dark_discovery_picks_gone"] += 1
+        elif (m.get("dark_gift") or {}).get("card_id") in (
+                {p["gift"]} if p["gift"] else set(gifts)):
             stats["dark_discovery_picks_verified"] += 1
         else:
             fail.add("dark_discovery_pick_missing", dict(p, dp=row["dp_index"]))
@@ -396,18 +428,25 @@ def _check_picks(row, pending, fail, stats) -> None:
 
 
 def _check_quests(row, seen, fail, stats) -> None:
-    """Quests only exist for Sire Denathrius (any skin): a non-Sire row must
-    have none. For each quest entity: progress never decreases, never exceeds
-    the goal while active, the goal is known, and a completed quest stays
-    completed. ``seen`` maps quest entity_id -> last observed entry."""
+    """Quests come from Sire Denathrius (any skin) or from his buddy, Shady
+    Aristocrat (sell it: Discover a Quest), which any hero can get (e.g. a
+    Wisdomball refresh offers it). A non-Sire row may only hold quests whose
+    source (CREATOR) is Shady Aristocrat. For each quest entity: progress
+    never decreases, never exceeds the goal while active, the goal is known,
+    and a completed quest stays completed. ``seen`` maps quest entity_id -> last observed entry."""
     snap, dp = row["snapshot"], row["dp_index"]
     quests = snap.get("quests") or []
     if not quests:
         return
     if not SIRE_HERO_RE.match(snap.get("hero") or ""):
-        fail.add("quests_on_non_sire_hero", {"dp": dp, "hero": snap.get("hero"),
-                                             "quests": [q["card_id"] for q in quests]})
-        return
+        bad = [q for q in quests
+               if not (q.get("source_card_id") or "").startswith(SIRE_BUDDY_PREFIX)]
+        if bad:
+            fail.add("quests_on_non_sire_hero", {
+                "dp": dp, "hero": snap.get("hero"),
+                "quests": [[q["card_id"], q.get("source_card_id")] for q in bad]})
+            return
+        stats["quest_snapshots_non_sire"] += len(quests)
     stats["quest_snapshots"] += len(quests)
     for q in quests:
         eid, prev = q["entity_id"], seen.get(q["entity_id"])
@@ -428,35 +467,69 @@ def _check_quests(row, seen, fail, stats) -> None:
         seen[eid] = q
 
 
-def _final_checks(tracker, rows, meta, fail, combat_board=None) -> List[Dict]:
+def _final_checks(tracker, rows, meta, fail, combat_boards=None, stats=None) -> List[Dict]:
     """Final board vs manifest finalComp (card ids + golden, in order; atk/health
-    only warns, with the board at the next combat's first attack alongside) and
-    final placement vs manifest placement."""
+    only warns) and final placement vs manifest placement.
+
+    Firestone's finalComp is the start-of-combat board of turn
+    ``finalComp.turn``, which is often one turn before the game's last turn.
+    So we compare against our last decision point of that turn, and accept
+    the board at that turn's first attack when the player changed the board
+    after the last decision point. A manifest board that matches another turn
+    of ours is labelled ``manifest_final_comp_suspect``."""
     warnings: List[Dict] = []
+    stats = stats if stats is not None else Counter()
+    combat_boards = combat_boards or {}
     if not rows:
         fail.add("no_decision_points")
         return warnings
-    ours = [(m["card_id"], m["tags"].get("PREMIUM") == "1") for m in rows[-1]["snapshot"]["board"]]
     fc = meta.get("finalComp") or {}
+    fc_turn = _int(fc.get("turn")) if isinstance(fc, dict) else None
     fc = fc.get("board", []) if isinstance(fc, dict) else fc
     theirs = [(m["cardId"], bool(m.get("golden"))) for m in fc]
+    board = lambda r: [(m["card_id"], m["tags"].get("PREMIUM") == "1")
+                       for m in r["snapshot"]["board"]]
+    at_turn = [r for r in rows if fc_turn is not None and r["turn"] == fc_turn]
+    row = at_turn[-1] if at_turn else rows[-1]
+    if row is not rows[-1]:
+        stats["final_comp_earlier_turn"] = 1
+    ours = board(row)
+    combat = combat_boards.get(row["turn"])
+    slot_stats = [(m["attack"], m["health"]) for m in row["snapshot"]["board"]]
+    if ours != theirs and combat is not None and [c[:2] for c in combat] == theirs:
+        stats["final_comp_from_combat"] = 1   # board changed after the last DP
+        ours, slot_stats = theirs, [c[2:] for c in combat]
     if ours != theirs:
-        reason = ("final_board_order" if Counter(ours) == Counter(theirs)
-                  else "final_board_mismatch")
-        fail.add(reason, {"ours": ours, "manifest": theirs})
+        other = [r["turn"] for r in rows if board(r) == theirs] + [
+            t for t, cb in combat_boards.items() if [c[:2] for c in cb] == theirs]
+        if other:
+            reason = "manifest_final_comp_suspect"
+        elif Counter(ours) == Counter(theirs):
+            reason = "final_board_order"
+        else:
+            reason = "final_board_mismatch"
+        fail.add(reason, {"ours": ours, "manifest": theirs, "turn": row["turn"],
+                          "manifest_turn": fc_turn, "matches_our_turns": sorted(set(other))})
     else:
-        aligned = (combat_board is not None
-                   and [c for c, _, _ in combat_board] == [c for c, _ in ours])
-        for slot, (m, f) in enumerate(zip(rows[-1]["snapshot"]["board"], fc)):
-            if (m["attack"], m["health"]) != (f.get("atk"), f.get("health")):
-                warnings.append({"slot": slot, "card_id": m["card_id"],
-                                 "ours": [m["attack"], m["health"]],
+        for slot, ((atk, hp), f) in enumerate(zip(slot_stats, fc)):
+            if (atk, hp) != (f.get("atk"), f.get("health")):
+                warnings.append({"slot": slot, "card_id": theirs[slot][0],
+                                 "ours": [atk, hp],
                                  "manifest": [f.get("atk"), f.get("health")],
-                                 "first_attack": (list(combat_board[slot][1:])
-                                                  if aligned else None)})
+                                 "first_attack": (list(combat[slot][2:])
+                                                  if combat is not None
+                                                  and [c[:2] for c in combat] == theirs
+                                                  else None)})
     place = _placement(tracker)
     if place != _int(meta.get("placement")):
-        fail.add("placement_mismatch", {"ours": place, "manifest": meta.get("placement")})
+        # Independent evidence: our player entity's final PLAYSTATE. A WON
+        # game is 1st place, so a different manifest placement is suspect.
+        pe = tracker._player_entity()
+        won = pe is not None and pe.tags.get("PLAYSTATE") == "WON"
+        reason = ("manifest_placement_suspect" if won and place == 1
+                  else "placement_mismatch")
+        fail.add(reason, {"ours": place, "manifest": meta.get("placement"),
+                          "playstate": pe.tags.get("PLAYSTATE") if pe is not None else None})
     return warnings
 
 

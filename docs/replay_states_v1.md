@@ -158,11 +158,33 @@ Only `HAS_DARK_GIFT=1` minions are resolved, in this order:
    `BG36_MidGameEffect_000t` (trailing `e\d*` stripped);
 3. a Dark Paradox token (`BG36_360t*` or `BG36_360_Gt*`), which is its own gift.
 
+A re-dump drops entities that died before it (see Pipeline), including the gift
+spell itself, while `DARK_GIFT_ENTITY` and the enchantment's `CREATOR` still point
+at it. `GameState` therefore keeps the card id of every entity a re-dump drops
+(`dropped_card_ids`, read through `GameState.card_id_of`); ids are never reused
+within a game. The Harpy's Talons gift (`BG36_MidGameEffect_000t13`) is the usual
+case: its enchantment is `EDR_100t13e`, which does not carry the gift prefix.
+When that enchantment's CREATOR was never in the replay at all, `EDR_100t13e` itself
+maps to `BG36_MidGameEffect_000t13` (`bg.DARK_GIFT_ENCHANTMENTS`). It has the gift's
+name and text ("Harpy's Talons: Divine Shield, Windfury"), and in the 1,000-game corpus
+the only gift spell that ever creates it is `BG36_MidGameEffect_000t13` (1,307 times;
+other copies name a minion as CREATOR). It is only used for `HAS_DARK_GIFT` minions.
+
+A golden made from gifted copies carries every copy's gift enchantment (about 1.6% of
+gifted board/hand snapshots in a 100-game sample). `dark_gift` names only the first one
+found; listing all of them would need a schema change.
+
 ### Quests (`BGTracker._quests`)
 
-Only Sire Denathrius has quests: `BG24_HERO_100` and its skins `BG24_HERO_100_SKIN_*`
-(e.g. `_SKIN_A` "Sire Melodious", `_SKIN_E` "Boss Denathrius"), matched by
-`bg.SIRE_HERO_RE`. What the replays show:
+Quests come from Sire Denathrius (`BG24_HERO_100` and its skins `BG24_HERO_100_SKIN_*`,
+e.g. `_SKIN_A` "Sire Melodious", `_SKIN_E` "Boss Denathrius", matched by
+`bg.SIRE_HERO_RE`) and from his buddy Shady Aristocrat (`BG24_HERO_100_Buddy`,
+"When you sell this, Discover a Quest"). Any hero can end up with the buddy: in
+5ec28cd6 (The Rat King) and f70e9184 (Kurtrus Ashfallen) the trinket Wisdomball
+Supply (`BG31_MagicItem_903`) gave Knockoff Wisdomball (`BG30_802`), whose refresh
+created Shady Aristocrat; the player sold it and picked a quest. In f70e9184 Kurtrus's
+hero power Glaive Ricochet (`BG20_HERO_280p5`) then made a plain copy of the buddy,
+which was sold for a second quest. What the replays show:
 
 - **Offer:** the hero power `BG24_HERO_100p` "Whodunit?" creates the enchantment
   `BG24_QuestsPlayerEnch_t`. That enchantment creates 2 quest + reward pairs in
@@ -195,17 +217,36 @@ in never appears at a decision point.
 ## Fidelity checks (any failure quarantines the game)
 
 1. **Parses:** no exception, and options rows = Options blocks − re-sent blocks.
-2. **Final board:** the last options row's board card ids + golden, in order, match manifest
-   `finalComp.board` (`final_board_order` / `final_board_mismatch`). A difference in
-   atk/health is only a **warning**. Each warning also lists the stats at the first attack of the
-   next combat: `finalComp` is the combat board, so it includes end-of-turn buffs
-   applied after the last decision point.
-3. **Placement:** final `PLAYER_LEADERBOARD_PLACE` of our hero equals the manifest `placement`.
-4. **Invariants on every options row:** gold ≥ 0, board ≤ 7, hand ≤ 10, every legal option's
+2. **Final board:** Firestone's `finalComp` is the start-of-combat board of turn
+   `finalComp.turn`, which is often the turn before the game's last turn. The board
+   card ids + golden, in order, of our last options row of that turn (the last row if
+   the turn is missing) must match `finalComp.board`. If the player changed the board
+   after that decision point, the board at that turn's first attack may match instead
+   (stat `final_comp_from_combat`; stat `final_comp_earlier_turn` when the turn is not
+   our last). Otherwise: `manifest_final_comp_suspect` when the manifest board equals
+   our board at some other turn (the manifest's turn label is off), else
+   `final_board_order` / `final_board_mismatch`. A difference in atk/health is only a
+   **warning**, listing the stats at the first attack when that board matched.
+3. **Placement:** final `PLAYER_LEADERBOARD_PLACE` of our hero equals the manifest
+   `placement`. When it does not, and our player's final `PLAYSTATE` is `WON` with our
+   place 1, the reason is `manifest_placement_suspect` (the manifest scan followed the
+   player's `HERO_ENTITY` to a temporary hero and kept a stale place) instead of
+   `placement_mismatch`.
+4. **Invariants on every options row:** gold ≥ 0 (gold is null until the player's
+   `RESOURCES` tag is first set, at the first 1–4 decision points of some games; that
+   is counted as `gold_unknown_rows`, and null after gold was known fails), board ≤ 7,
+   hand ≤ 10, every legal option's
    (and sub-option's) entity and targets exist in state, and `raw_turn` never decreases.
-5. **Dark Gifts:** every `HAS_DARK_GIFT` minion (board/hand/shop) resolves. Every Dark
-   Discovery pick whose minion carries `HAS_DARK_GIFT` has its gift on a friendly
-   board/hand minion at the next decision point. One-shot gifts (Double Vision:
+5. **Dark Gifts:** every `HAS_DARK_GIFT` minion (board/hand/shop) resolves. A Dark
+   Discovery pick whose minion carries `HAS_DARK_GIFT` and is still in our hand or on
+   our board at the next decision point must carry the picked gift. A pick already
+   gone by then (sold, or tripled: the golden carries every copy's gift enchantment,
+   but `dark_gift` names only the first one found) is verified if its gift is on another
+   held minion, otherwise counted as
+   `dark_discovery_picks_gone`, not failed. When the offered minion has
+   `HAS_DARK_GIFT` but no `DARK_GIFT_ENTITY` (stat `dark_discovery_picks_gift_unnamed`),
+   the held pick only has to carry some gift. A pick with neither fails
+   `dark_discovery_pick_without_gift`. One-shot gifts (Double Vision:
    "get an extra copy") are spent on pick, so they are counted and not checked.
 6. **Choices:** every main-player `Choices` block yields exactly one choice row
    (`choice_row_count_mismatch`). Each offers ≥ 1 card (`choice_no_cards`) and every
@@ -213,8 +254,9 @@ in never appears at a decision point.
    covers choice rows. A game with no hero-pick row gets the **warning**
    `hero_pick_missing` (per-game `game_warnings`, report `game_warnings_by_reason`),
    which does not quarantine the game.
-7. **Quests:** a row whose `hero` is not Sire (`SIRE_HERO_RE`) has no quests
-   (`quests_on_non_sire_hero`). For each quest `entity_id` across rows:
+7. **Quests:** a row whose `hero` is not Sire (`SIRE_HERO_RE`) may only hold quests
+   whose `source_card_id` is Shady Aristocrat (`BG24_HERO_100_Buddy*`), otherwise
+   `quests_on_non_sire_hero`; stat `quest_snapshots_non_sire`. For each quest `entity_id` across rows:
    progress never decreases (`quest_progress_decreased`), the goal is present
    (`quest_goal_missing`), progress ≤ goal while not completed
    (`quest_progress_over_goal`), and a completed quest never reverts to active
@@ -228,6 +270,18 @@ Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2 checks, after the 1,000-game run** (the row schema is unchanged)
+  - Card ids of entities dropped by a re-dump are kept, so Dark Gifts and quest
+    `source_card_id` resolve through them.
+  - Final board: compared at `finalComp.turn`, with the start-of-combat board as a
+    fallback. New reason: `manifest_final_comp_suspect`.
+  - Placement: new reason `manifest_placement_suspect`.
+  - Gold: null before the first `RESOURCES` is unknown, not a failure.
+  - Dark Discovery picks: only checked while the picked minion is still held; an
+    offer without `DARK_GIFT_ENTITY` is checked for any gift.
+  - `EDR_100t13e` resolves to Harpy's Talons when its CREATOR is unknown.
+  - Quests: a non-Sire hero may hold quests from Shady Aristocrat.
 
 - **states.v2**
   - Adds choice rows (`kind`, `choice`) and a chronological `dp_index`. The old Options-only counter is kept as `options_index`.

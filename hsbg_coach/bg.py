@@ -76,7 +76,11 @@ STEP_COMBAT_START = "MAIN_READY"
 # HAS_DARK_GIFT natively.
 DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
 DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
-# Sire Denathrius (the only BG hero with quests) and its skins, e.g.
+# Gift enchantments without the gift prefix. Harpy's Talons reuses the
+# constructed enchantment; no other gift spell creates it.
+DARK_GIFT_ENCHANTMENTS = {"EDR_100t13e": "BG36_MidGameEffect_000t13"}
+# Sire Denathrius (the only BG hero with quests; any hero can sell his buddy
+# Shady Aristocrat for one) and its skins, e.g.
 # BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
 SIRE_HERO_RE = re.compile(r"^BG24_HERO_100(_SKIN_[A-Z0-9]+)?$")
 QUEST_REWARD_CARDTYPE = "BATTLEGROUND_QUEST_REWARD"
@@ -695,24 +699,22 @@ class BGTracker:
                 continue
             if ent.tags.get("QUEST") == "1" and ent.zone == "SECRET":
                 reward = entities.get(ent.tag_int("TAG_SCRIPT_DATA_ENT_1") or -1)
-                source = entities.get(ent.tag_int("CREATOR") or -1)
                 out.append({"entity_id": ent.id, "card_id": ent.card_id,
                             "name": self._display_name(ent.card_id, ent.name),
                             "progress": ent.tag_int("QUEST_PROGRESS") or 0,
                             "goal": ent.tag_int("QUEST_PROGRESS_TOTAL"),
                             "reward_card_id": reward.card_id if reward is not None else None,
-                            "source_card_id": source.card_id if source is not None else None,
+                            "source_card_id": self.state.card_id_of(ent.tag_int("CREATOR")),
                             "completed": False})
             elif ent.tags.get("CARDTYPE") == QUEST_REWARD_CARDTYPE and ent.zone == "PLAY":
                 quest = entities.get(ent.tag_int("CREATOR") or -1)
                 if quest is None or quest.tags.get("QUEST") != "1":
                     continue
-                source = entities.get(quest.tag_int("CREATOR") or -1)
                 out.append({"entity_id": quest.id, "card_id": quest.card_id,
                             "name": self._display_name(quest.card_id, quest.name),
                             "progress": None, "goal": None,
                             "reward_card_id": ent.card_id,
-                            "source_card_id": source.card_id if source is not None else None,
+                            "source_card_id": self.state.card_id_of(quest.tag_int("CREATOR")),
                             "completed": True})
         out.sort(key=lambda q: q["entity_id"])
         return out
@@ -724,17 +726,16 @@ class BGTracker:
           1. DARK_GIFT_ENTITY -> that entity's card (set while offered by Dark
              Discovery; dropped when the minion is re-created after combat);
           2. an enchantment in PLAY attached to the minion whose own card, or
-             whose CREATOR's card, is a BG36_MidGameEffect_000t* gift (the
-             enchantment follows the minion through combat and triples);
+             whose CREATOR's card (also after a re-dump dropped it), is a
+             BG36_MidGameEffect_000t* gift, or a known gift enchantment
+             (DARK_GIFT_ENCHANTMENTS); the enchantment follows the minion
+             through combat and triples;
           3. Dark Paradox tokens (BG36_360t*, BG36_360_Gt*) are their own gift.
         Returns None for ungifted minions or an unresolvable gift."""
         if ent.tags.get("HAS_DARK_GIFT") != "1":
             return None
         entities = self.state.entities
-        gift = None
-        ref = entities.get(ent.tag_int("DARK_GIFT_ENTITY") or -1)
-        if ref is not None and ref.card_id:
-            gift = ref.card_id
+        gift = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
         if gift is None:
             me = str(ent.id)
             for e in entities.values():
@@ -745,9 +746,12 @@ class BGTracker:
                 if cid.startswith(DARK_GIFT_PREFIX):
                     gift = re.sub(r"e\d*$", "", cid)
                     break
-                creator = entities.get(e.tag_int("CREATOR") or -1)
-                if creator is not None and (creator.card_id or "").startswith(DARK_GIFT_PREFIX):
-                    gift = creator.card_id
+                creator = self.state.card_id_of(e.tag_int("CREATOR")) or ""
+                if creator.startswith(DARK_GIFT_PREFIX):
+                    gift = creator
+                    break
+                if cid in DARK_GIFT_ENCHANTMENTS:
+                    gift = DARK_GIFT_ENCHANTMENTS[cid]
                     break
         if gift is None and (ent.card_id or "").startswith(DARK_PARADOX_PREFIX):
             gift = ent.card_id
