@@ -45,7 +45,10 @@ def test_events_use_powerlog_names_and_mark_local_player():
     assert sum(e.kind == "RESET_ENTITIES" for e in events) == 1
     opts = [e for e in events if e.kind == "OPTIONS"]
     assert opts[0].items[2] == {"index": 2, "type": "POWER", "entity": 12, "error": -1,
-                                "targets": [20]}
+                                "targets": [20], "sub_options": []}
+    assert opts[-1].items[1]["sub_options"] == [
+        {"index": 0, "entity": 61, "error": -1, "targets": [50]},
+        {"index": 1, "entity": 62, "error": 12, "targets": []}]
     assert any(e.kind == "RAW" and "BlockType=ATTACK" in e.text for e in events)
 
 
@@ -88,23 +91,29 @@ def test_snapshot_round_trips_through_json():
 
 def test_build_game_rows_and_checks():
     res = build_game(FIXTURE, META, card_names={"BG36_MidGameEffect_000t51": "Steady Growth"})
-    rows = res["rows"]
     assert dict(res["failures"].count) == {}
+    assert res["game_warnings"] == []
     assert res["stats"]["options_blocks"] == 3 and res["stats"]["options_resent"] == 1
-    assert [r["dp_index"] for r in rows] == [0, 1]
+    assert [(r["kind"], r["dp_index"], r.get("options_index")) for r in res["rows"]] == [
+        ("choice", 0, None), ("choice", 1, None), ("options", 2, 0), ("options", 3, 1)]
+    rows = [r for r in res["rows"] if r["kind"] == "options"]
     assert [(r["raw_turn"], r["turn"]) for r in rows] == [(1, 1), (3, 2)]
     first, last = rows
     assert first["schema_version"] == SCHEMA_VERSION and first["lobby_tribes"] == ["MURLOC"]
     assert [o["entity_id"] for o in first["options"]] == [0, 30, 12]   # legal only
     assert first["options"][2] == {"index": 2, "type": "POWER", "entity_id": 12,
                                    "card_id": "BG36_HERO_002p", "zone": "PLAY",
-                                   "targets": [20]}
+                                   "targets": [20], "sub_options": []}
     assert first["hero_power"]["activatable"] is True
     assert first["dark_discovery"] == {"available": False}
     assert first["snapshot"]["board"][1]["dark_gift"] == {
         "card_id": "BG36_MidGameEffect_000t51", "name": "Steady Growth"}
     # Re-sent Options id 2: the later block (two options) is the one kept.
     assert [o["entity_id"] for o in last["options"]] == [0, 60]
+    # Choose One: only the legal SubOption (61) is kept; card id via the tracker.
+    assert last["options"][1]["sub_options"] == [
+        {"index": 0, "entity_id": 61, "card_id": "BG_TEST_SPELL_a", "targets": [50]}]
+    assert res["stats"]["options_with_sub_options"] == 1 and res["stats"]["sub_options"] == 1
     assert res["stats"]["dark_discovery_picks"] == 1
     assert res["stats"]["dark_discovery_picks_verified"] == 1
     assert res["warnings"] == []
@@ -276,6 +285,77 @@ def test_hero_power_zero_cost_and_only_in_play():
     assert (hp["card_id"], hp["cost"], hp["entity_id"]) == ("BG26_HERO_102p", 0, 2619)
     cur.tags["HIDE_COST"] = "1"                 # passive power in PLAY
     assert t._hero_power() is None              # the stale SETASIDE power is not used
+
+
+def test_choice_rows_hero_pick_and_dark_discovery():
+    res = build_game(FIXTURE, META, card_names={"BG36_MidGameEffect_000t51": "Steady Growth"})
+    hero, dd = [r for r in res["rows"] if r["kind"] == "choice"]
+    assert res["stats"]["choice_blocks"] == 2 and res["stats"]["choice_rows"] == 2
+    assert res["stats"]["choice_blocks_other_player"] == 1      # opponent's offer ignored
+    assert res["stats"]["choice_kind_hero"] == 1
+    assert res["stats"]["choice_kind_dark_discovery"] == 1
+    ch = hero["choice"]
+    assert (ch["choice_type"], ch["choice_kind"], ch["source_entity_id"], ch["min"],
+            ch["max"]) == ("MULLIGAN", "hero", 1, 1, 1)
+    assert [(c["entity_id"], c["card_id"], c["cardtype"]) for c in ch["cards"]] == [
+        (70, "BG36_HERO_002", "HERO"), (71, "BG_TEST_HERO_B", "HERO")]
+    assert "chosen" not in ch and "picked" not in json.dumps(ch)   # pick not recorded
+    ch = dd["choice"]
+    assert (ch["choice_type"], ch["choice_kind"], ch["source_card_id"]) == (
+        "GENERAL", "dark_discovery", "BG36_MidGameEffect_010")
+    # 21 carries HAS_DARK_GIFT; 22 only DARK_GIFT_ENTITY: both resolve to the gift.
+    assert [(c["entity_id"], c["dark_gift"]) for c in ch["cards"]] == [
+        (21, {"card_id": "BG36_MidGameEffect_000t51", "name": "Steady Growth"}),
+        (22, {"card_id": "BG36_MidGameEffect_000t51", "name": "Steady Growth"})]
+    assert dd["snapshot"]["hero"] == "BG36_HERO_002"
+    for r in (hero, dd):
+        assert r["schema_version"] == SCHEMA_VERSION
+        assert Snapshot.from_dict(json.loads(json.dumps(r["snapshot"]))).to_dict() == r["snapshot"]
+
+
+def test_choice_kind_and_checks():
+    from hsbg_coach.replay_states import _check_choice, _choice_kind
+
+    def card(ct, **tags):
+        return {"cardtype": ct, "tags": tags}
+
+    assert _choice_kind("MULLIGAN", None, [card("HERO")]) == "hero"
+    assert _choice_kind("GENERAL", None, [card("HERO"), card("HERO")]) == "hero"
+    assert _choice_kind("GENERAL", "BG36_MidGameEffect_010", [card("MINION")]) == "dark_discovery"
+    assert _choice_kind("GENERAL", "BG24_QuestsPlayerEnch_t",
+                        [card("SPELL", QUEST="1")] * 2) == "quest"
+    assert _choice_kind("GENERAL", "BG30_Trinket_1st", [card("BATTLEGROUND_TRINKET")]) == "trinket"
+    assert _choice_kind("GENERAL", "TB_BaconShop_Triples_01",
+                        [card("MINION"), card("BATTLEGROUND_SPELL")]) == "discover"
+    assert _choice_kind("GENERAL", "EBG_Spell_037", [card("HERO_POWER")]) == "other"
+    fail, stats = _Fail(), Counter()
+    _check_choice({"dp_index": 0, "choice": {"source_card_id": "X", "cards": []}}, fail, stats)
+    _check_choice({"dp_index": 1, "choice": {"source_card_id": "X", "cards": [
+        {"entity_id": 5, "card_id": None, "dark_gift": None}]}}, fail, stats)
+    assert dict(fail.count) == {"choice_no_cards": 1, "choice_card_missing": 1}
+
+
+def test_hero_pick_missing_is_a_warning(tmp_path):
+    xml = open(FIXTURE, encoding="utf-8").read()
+    start = xml.index("<!-- Hero pick")
+    end = xml.index("</ChosenEntities>", start) + len("</ChosenEntities>")
+    path = tmp_path / "no_hero_pick.xml"
+    path.write_text(xml[:start] + xml[end:], encoding="utf-8")
+    res = build_game(str(path), META, card_names={"BG36_MidGameEffect_000t51": "Steady Growth"})
+    assert res["game_warnings"] == ["hero_pick_missing"]
+    assert dict(res["failures"].count) == {}                     # a warning, not a failure
+
+
+def test_encoder_handles_options_rows():
+    np = pytest.importorskip("numpy")
+    encode = pytest.importorskip("hsbg_coach.encode")
+    res = build_game(FIXTURE, META)
+    for r in res["rows"]:
+        snap = Snapshot.from_dict(json.loads(json.dumps(r["snapshot"])))
+        v = encode.encode_state(snap)
+        assert np.isfinite(v).all()
+        for o in encode.legal_options(snap):
+            assert np.isfinite(encode.encode_option(snap, o)).all()
 
 
 @pytest.mark.skipif(not os.environ.get("HSBG_REPLAY_XML"),

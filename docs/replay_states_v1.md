@@ -1,9 +1,19 @@
-# `states.v1.1`: decision-point states from Firestone replays
+# `states.v2`: decision-point states from Firestone replays
 
-One JSONL row per **decision point**: an `Options` block offered to the local
-player (`<Player isMainPlayer="true">`) in a Firestone HSReplay XML replay.
+One JSONL row per **decision point**, in game order, for the local player
+(`<Player isMainPlayer="true">`) in a Firestone HSReplay XML replay:
+
+- `kind="options"`: an `Options` block (shopping actions);
+- `kind="choice"`: a `Choices` block offered to the local player. This covers the
+  hero pick, discovers and triple rewards, trinkets, Dark Discovery, Sire quests, etc.
+
 Each row carries the `BGTracker.snapshot()` of that moment, the same object the
 live Power.log overlay builds, so training and the overlay can share one encoder.
+
+**Entity ids are only stable within one snapshot.** Minions are re-created
+each combat, and on buy / triple, and re-dumps reset state. So the same card has
+different `entity_id`s across rows. Match on `card_id` across rows, and on
+`entity_id` only within a row (options, choice cards, ChosenEntities).
 
 ```
 python -m hsbg_coach.replay_states --replays data/firestone/raw \
@@ -45,6 +55,11 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
   players keep stale gold, and the game `TURN` gets overwritten by a player's `TURN`.
 - **Re-sent Options.** The same `Options id` right after a re-dump is one decision
   point. The post-re-dump block is kept.
+- **Choices.** `<Choices>` becomes a `CHOICES` event (`type` mapped through
+  `ChoiceType`: `MULLIGAN` / `GENERAL`) and `<ChosenEntities>` becomes `CHOSEN`. Only blocks whose
+  `playerID` equals the main `<Player>`'s entity id become rows. Every such block
+  becomes one row, including an identical offer repeated before any pick (counted as
+  `choices_repeated`).
 - `ChangeEntity` is treated as `SHOW_ENTITY` and `HideEntity` as a `ZONE` change. `Block type=ATTACK`
   becomes a `RAW "BLOCK_START BlockType=ATTACK"` event (the phase signal), and an
   `Options` block sets the phase to recruit.
@@ -53,15 +68,44 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 
 | field | type | notes |
 |---|---|---|
-| `schema_version` | `"states.v1.1"` | v1.1 adds optional `MinionView.buy_cost`, `shop_spells[].buy_cost` and `Snapshot.reroll_cost`, and fixes `shop_spells` / `hand_spells` / `hero_power` (see the changelog below) |
+| `schema_version` | `"states.v2"` | see the changelog below |
 | `game_id`, `build`, `mmr` | str, int, int | manifest `reviewId`, `buildNumber`, `mmr` |
 | `lobby_tribes` | [str] | manifest `tribes.available[].name` (`"MECHANICAL"`, …) |
-| `dp_index` | int | 0-based decision point index (re-sent Options counted once) |
+| `kind` | `"options"` or `"choice"` | |
+| `dp_index` | int | 0-based, chronological over both kinds (re-sent Options counted once) |
+| `options_index` | int | options rows only: 0-based index among options rows, i.e. the states.v1 `dp_index` |
 | `turn` / `raw_turn` | int | recruit turn `(TURN+1)//2` / GameEntity `TURN` |
 | `snapshot` | object | `Snapshot.to_dict()`; rebuild with `Snapshot.from_dict(row["snapshot"])` |
 | `hero_power` | `{card_id, name, cost, used, activatable}` or null | hero power in PLAY, including passive ones; `used` = EXHAUSTED; `activatable` = it is a legal option now |
 | `dark_discovery` | `{available: bool}` | the `BG36_Button_DarkGift` entity is a legal option now |
-| `options` | `[{index, type, entity_id, card_id, zone, targets}]` | legal options only (`error=-1`), where `type` is `POWER` or `END_TURN`. The chosen option is not recorded |
+| `options` | `[{index, type, entity_id, card_id, zone, targets, sub_options}]` | legal options only (`error=-1`), where `type` is `POWER` or `END_TURN`. The chosen option is not recorded |
+| `options[].sub_options` | `[{index, entity_id, card_id, targets}]` | v2: Choose One variants (`<SubOption>` children), legal ones only (`error=-1`, the default when the attribute is absent). `card_id` is resolved through the tracker at row time. Usually empty |
+
+**Presence in `options` is the playable / activatable flag.** The game only offers
+what can be done right now, so:
+
+- a hand card is playable iff its `entity_id` is in `options`;
+- a board minion's Activate is available iff it is in `options`;
+- the hero power is usable iff it is in `options` (the same as `hero_power.activatable`);
+- a shop minion or spell is buyable iff it (or its buy handle) is in `options`.
+
+Nothing else in the row carries a separate "playable" bit. `options[].targets` lists
+the legal targets, and `sub_options[].targets` lists them per Choose One variant.
+
+`hero_power`, `dark_discovery` and `options` are only on options rows. Choice rows
+have `choice` instead:
+
+| `choice` field | notes |
+|---|---|
+| `choice_id` | the Choices `id` attribute (usually 0) |
+| `choice_type` | `MULLIGAN` (the hero pick) or `GENERAL` |
+| `choice_kind` | `hero` (MULLIGAN, or only HERO cards), `dark_discovery` (source `BG36_MidGameEffect_010`), `quest` (only `QUEST=1` cards), `trinket` (only `BATTLEGROUND_TRINKET`), `discover` (only minions / spells: triple rewards, discover effects), `other` (e.g. hero-power offers) |
+| `source_entity_id`, `source_card_id`, `source_name` | the Choices `source` entity (e.g. `TB_BaconShop_Triples_01`, `BG30_Trinket_1st`, `BG24_QuestsPlayerEnch_t`). For the hero pick it has no card id |
+| `min`, `max` | how many cards may be picked |
+| `cards` | `[{entity_id, card_id, name, cardtype, tags, dark_gift}]` in offer order. `tags` is the full tag dict. `dark_gift` is `{card_id, name}` via `HAS_DARK_GIFT` or `DARK_GIFT_ENTITY` (Dark Discovery offers), else null |
+
+The pick is **not** recorded. Match `cards[].entity_id` against the next
+`ChosenEntities` (same snapshot, so the ids line up).
 
 ### `snapshot` fields (what replays fill)
 
@@ -92,6 +136,13 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 | `hero`, `hero_name` | filled | |
 | `available_tribes` | partial | live `BACON_SUBSET_*` heuristic only finds `Aberration`. Use `lobby_tribes` |
 | `build_tribe`, `notes` | always null / empty | not set by `snapshot()` |
+
+`MinionView.buy_cost`, `shop_spells[].buy_cost`, `reroll_cost` and `hero_power` are
+computed in `BGTracker.snapshot()` (`hsbg_coach/bg.py`) from entity tags only: buy-handle
+`COST` and tag 2442, reroll-button `COST`, and hero power `ZONE` / `COST` / `HIDE_COST`.
+They never read Options, so the live Power.log path fills them identically. The
+row-level `hero_power.activatable`, `dark_discovery.available` and `options` are the only
+fields taken from the Options block.
 
 The minion fields from the draft schema live in `MinionView.tags`: tier `TECH_LEVEL`,
 golden `PREMIUM`, tribes `CARDRACE` plus the numeric multi-type tags in
@@ -143,20 +194,26 @@ in never appears at a decision point.
 
 ## Fidelity checks (any failure quarantines the game)
 
-1. **Parses:** no exception, and rows = Options blocks − re-sent blocks.
-2. **Final board:** the last row's board card ids + golden, in order, match manifest
+1. **Parses:** no exception, and options rows = Options blocks − re-sent blocks.
+2. **Final board:** the last options row's board card ids + golden, in order, match manifest
    `finalComp.board` (`final_board_order` / `final_board_mismatch`). A difference in
    atk/health is only a **warning**. Each warning also lists the stats at the first attack of the
    next combat: `finalComp` is the combat board, so it includes end-of-turn buffs
    applied after the last decision point.
 3. **Placement:** final `PLAYER_LEADERBOARD_PLACE` of our hero equals the manifest `placement`.
-4. **Invariants on every row:** gold ≥ 0, board ≤ 7, hand ≤ 10, every legal option's
-   entity and targets exist in state, and `raw_turn` never decreases.
+4. **Invariants on every options row:** gold ≥ 0, board ≤ 7, hand ≤ 10, every legal option's
+   (and sub-option's) entity and targets exist in state, and `raw_turn` never decreases.
 5. **Dark Gifts:** every `HAS_DARK_GIFT` minion (board/hand/shop) resolves. Every Dark
    Discovery pick whose minion carries `HAS_DARK_GIFT` has its gift on a friendly
    board/hand minion at the next decision point. One-shot gifts (Double Vision:
    "get an extra copy") are spent on pick, so they are counted and not checked.
-6. **Quests:** a row whose `hero` is not Sire (`SIRE_HERO_RE`) has no quests
+6. **Choices:** every main-player `Choices` block yields exactly one choice row
+   (`choice_row_count_mismatch`). Each offers ≥ 1 card (`choice_no_cards`) and every
+   card entity exists with a card id (`choice_card_missing`). The turn invariant also
+   covers choice rows. A game with no hero-pick row gets the **warning**
+   `hero_pick_missing` (per-game `game_warnings`, report `game_warnings_by_reason`),
+   which does not quarantine the game.
+7. **Quests:** a row whose `hero` is not Sire (`SIRE_HERO_RE`) has no quests
    (`quests_on_non_sire_hero`). For each quest `entity_id` across rows:
    progress never decreases (`quest_progress_decreased`), the goal is present
    (`quest_goal_missing`), progress ≤ goal while not completed
@@ -171,6 +228,11 @@ Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2**
+  - Adds choice rows (`kind`, `choice`) and a chronological `dp_index`. The old Options-only counter is kept as `options_index`.
+  - `options[].sub_options`: legal Choose One variants.
+  - Options rows are otherwise unchanged from v1.1.
 
 - **states.v1.1**
   - `shop_spells` accepts `SPELL` as well as `BATTLEGROUND_SPELL` and is anchored on Bartender Bob's controller, so a shop of only spells is captured.

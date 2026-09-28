@@ -1,9 +1,12 @@
-"""Build ``states.v1`` decision-point rows from Firestone HSReplay XML replays.
+"""Build ``states.v2`` decision-point rows from Firestone HSReplay XML replays.
 
-One row per ``Options`` block offered to the local player. Each row carries the
-``BGTracker.snapshot()`` of that moment (``Snapshot.to_dict()``, rebuildable
-with ``Snapshot.from_dict``) so training and the live overlay share one
-encoder, plus the legal options. See ``docs/replay_states_v1.md``.
+One row per ``Options`` block offered to the local player (``kind="options"``)
+and one per ``Choices`` block offered to the local player (``kind="choice"``:
+hero pick, discovers, trinkets, Dark Discovery, Sire quests, ...), in game
+order. Each row carries the ``BGTracker.snapshot()`` of that moment
+(``Snapshot.to_dict()``, rebuildable with ``Snapshot.from_dict``) so training
+and the live overlay share one encoder, plus the legal options or the offered
+cards. See ``docs/replay_states_v1.md``.
 
     python -m hsbg_coach.replay_states --replays data/firestone/raw \\
         --manifest data/firestone/raw/pilot_manifest.json \\
@@ -26,7 +29,7 @@ from typing import Dict, List, Optional
 from .bg import BGTracker, DARK_GIFT_PREFIX, SIRE_HERO_RE
 from .hsreplay_xml import iter_events
 
-SCHEMA_VERSION = "states.v1.1"
+SCHEMA_VERSION = "states.v2"
 DARK_DISCOVERY_BUTTON = "BG36_Button_DarkGift"
 DARK_DISCOVERY_EFFECT = "BG36_MidGameEffect_010"   # CREATOR of the offered minions
 MAX_EXAMPLES = 5
@@ -83,13 +86,28 @@ def _options_rows(tracker: BGTracker, legal: List[Dict]) -> List[Dict]:
         out.append({"index": o["index"], "type": o["type"], "entity_id": o["entity"],
                     "card_id": ent.card_id if ent else None,
                     "zone": ent.zone if ent else None,
-                    "targets": o["targets"]})
+                    "targets": o["targets"],
+                    "sub_options": _sub_options(tracker, o)})
+    return out
+
+
+def _sub_options(tracker: BGTracker, option: Dict) -> List[Dict]:
+    """Legal Choose One variants of an option (``error == -1``), card ids
+    resolved through the tracker at row time."""
+    out = []
+    for so in option.get("sub_options") or []:
+        if so["error"] != -1:
+            continue
+        ent = tracker.state.entities.get(so["entity"])
+        out.append({"index": so["index"], "entity_id": so["entity"],
+                    "card_id": ent.card_id if ent else None,
+                    "targets": so["targets"]})
     return out
 
 
 def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = None,
                track_opponents: bool = True) -> Dict:
-    """Replay one game; return {rows, failures, warnings, stats}."""
+    """Replay one game; return {rows, failures, warnings, game_warnings, stats}."""
     tracker = BGTracker()
     tracker.track_opponents = track_opponents
     if card_names:
@@ -98,78 +116,209 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
     rows: List[Dict] = []
     last_options_id = None
     game_entity_id = None
+    main_player_entity = None
     stats = Counter()
     pending_picks: List[Dict] = []
     quests_seen: Dict[int, Dict] = {}
     combat_board, await_combat = None, False
+    prev_choice = None                 # entity ids of the last unanswered Choices
 
     for ev in iter_events(path):
         tracker.feed(ev)
         if ev.kind == "FULL_ENTITY" and ev.entity and ev.entity.name == "GameEntity":
             game_entity_id = ev.entity.id
+        elif ev.kind == "PLAYER" and ev.fields.get("hi") == "1":
+            main_player_entity = _int(ev.fields.get("entity_id"))
         elif await_combat and ev.kind == "RAW" and "BlockType=ATTACK" in ev.text:
             # Board at the first attack after a decision point (diagnostic only:
             # explains atk/health gaps vs the manifest's final comp).
             await_combat = False
             combat_board = [(m.card_id, m.attack, m.health) for m in tracker.snapshot().board]
         elif ev.kind == "CHOSEN":
+            prev_choice = None
             _record_dark_discovery_picks(tracker, ev.items, pending_picks, fail, stats)
+        elif ev.kind == "CHOICES":
+            if ev.fields.get("player_id") != main_player_entity:
+                stats["choice_blocks_other_player"] += 1
+                continue
+            stats["choice_blocks"] += 1
+            if prev_choice == ev.items:
+                stats["choices_repeated"] += 1    # same offer again, no pick between
+            prev_choice = list(ev.items)
+            row = _choice_row(tracker, ev, meta, len(rows), game_entity_id)
+            _check_turn(row, rows, fail)
+            _check_choice(row, fail, stats)
+            _check_quests(row, quests_seen, fail, stats)
+            rows.append(row)
         elif ev.kind == "OPTIONS":
             stats["options_blocks"] += 1
             if ev.fields.get("id") == last_options_id:
                 # Same Options id re-sent right after a re-dump: one decision
                 # point. Keep the post-re-dump state (authoritative).
                 stats["options_resent"] += 1
-                rows.pop()
+                last = max(i for i, r in enumerate(rows) if r["kind"] == "options")
+                if last != len(rows) - 1:
+                    stats["options_resent_after_choice"] += 1
+                rows.pop(last)
             last_options_id = ev.fields.get("id")
             row = _row(tracker, ev.items, meta, len(rows), game_entity_id)
-            if rows and (row["raw_turn"] or 0) < (rows[-1]["raw_turn"] or 0):
-                fail.add("invariant_turn_regressed", {"dp": row["dp_index"],
-                                                      "raw_turn": row["raw_turn"],
-                                                      "prev": rows[-1]["raw_turn"]})
+            _check_turn(row, rows, fail)
             _check_row(tracker, row, fail, stats)
             _check_picks(row, pending_picks, fail, stats)
             _check_quests(row, quests_seen, fail, stats)
             rows.append(row)
             await_combat, combat_board = True, None
 
+    # dp_index: chronological over both kinds; options_index: Options rows only
+    # (the states.v1 dp_index).
+    n_options = 0
+    for i, r in enumerate(rows):
+        r["dp_index"] = i
+        if r["kind"] == "options":
+            r["options_index"] = n_options
+            n_options += 1
+    options_rows = [r for r in rows if r["kind"] == "options"]
+    choice_rows = [r for r in rows if r["kind"] == "choice"]
     stats["dark_discovery_picks_unverifiable"] += len(pending_picks)
     stats["quests_seen"] = len(quests_seen)
     stats["quests_completed"] = sum(q["completed"] for q in quests_seen.values())
     if any(SIRE_HERO_RE.match(r["snapshot"]["hero"] or "") for r in rows) and not quests_seen:
         fail.add("sire_quests_missing")
-    warnings = _final_checks(tracker, rows, meta, fail, combat_board)
+    warnings = _final_checks(tracker, options_rows, meta, fail, combat_board)
     stats["rows"] = len(rows)
-    if stats["options_blocks"] - stats["options_resent"] != len(rows):
+    stats["options_rows"] = len(options_rows)
+    stats["choice_rows"] = len(choice_rows)
+    for r in choice_rows:
+        stats["choice_kind_" + r["choice"]["choice_kind"]] += 1
+    if stats["options_blocks"] - stats["options_resent"] != len(options_rows):
         fail.add("row_count_mismatch", {"options": stats["options_blocks"],
-                                        "resent": stats["options_resent"], "rows": len(rows)})
-    return {"rows": rows, "failures": fail, "warnings": warnings, "stats": stats}
+                                        "resent": stats["options_resent"],
+                                        "rows": len(options_rows)})
+    if stats["choice_blocks"] != len(choice_rows):
+        fail.add("choice_row_count_mismatch", {"choices": stats["choice_blocks"],
+                                               "rows": len(choice_rows)})
+    game_warnings = []
+    if not stats["choice_kind_hero"]:
+        game_warnings.append("hero_pick_missing")
+    return {"rows": rows, "failures": fail, "warnings": warnings,
+            "game_warnings": game_warnings, "stats": stats}
 
 
-def _row(tracker, options, meta, dp_index, game_entity_id) -> Dict:
+def _base_row(tracker, meta, kind, dp_index, game_entity_id):
     snap = tracker.snapshot()
     ge = tracker.state.entities.get(game_entity_id)
     raw_turn = ge.tag_int("TURN") if ge is not None else snap.turn
-    legal = _legal(options)
-    legal_ids = {o["entity"] for o in legal}
-    dd_available = any(
-        (tracker.state.entities.get(i) is not None
-         and tracker.state.entities[i].card_id == DARK_DISCOVERY_BUTTON)
-        for i in legal_ids)
     return {
         "schema_version": SCHEMA_VERSION,
         "game_id": meta["reviewId"],
         "build": _int(meta.get("buildNumber")),
         "mmr": _int(meta.get("mmr")),
         "lobby_tribes": [t["name"] for t in (meta.get("tribes") or {}).get("available", [])],
+        "kind": kind,
         "dp_index": dp_index,
         "turn": (raw_turn + 1) // 2 if raw_turn is not None else None,
         "raw_turn": raw_turn,
         "snapshot": snap.to_dict(),
+    }
+
+
+def _row(tracker, options, meta, dp_index, game_entity_id) -> Dict:
+    row = _base_row(tracker, meta, "options", dp_index, game_entity_id)
+    legal = _legal(options)
+    legal_ids = {o["entity"] for o in legal}
+    dd_available = any(
+        (tracker.state.entities.get(i) is not None
+         and tracker.state.entities[i].card_id == DARK_DISCOVERY_BUTTON)
+        for i in legal_ids)
+    row["options_index"] = None          # set once the game is complete
+    row.update({
         "hero_power": _hero_power(tracker, legal_ids),
         "dark_discovery": {"available": dd_available},
         "options": _options_rows(tracker, legal),
+    })
+    return row
+
+
+def _choice_row(tracker, ev, meta, dp_index, game_entity_id) -> Dict:
+    """A Choices block offered to us. The pick is NOT recorded here: match
+    ``cards[].entity_id`` against the following ChosenEntities."""
+    row = _base_row(tracker, meta, "choice", dp_index, game_entity_id)
+    entities = tracker.state.entities
+    src = entities.get(ev.fields.get("source") or -1)
+    cards = [_choice_card(tracker, eid) for eid in ev.items]
+    src_card = src.card_id if src is not None else None
+    row["choice"] = {
+        "choice_id": _int(ev.fields.get("id")),
+        "choice_type": ev.fields.get("type"),
+        "choice_kind": _choice_kind(ev.fields.get("type"), src_card, cards),
+        "source_entity_id": ev.fields.get("source"),
+        "source_card_id": src_card,
+        "source_name": (tracker._display_name(src_card, src.name)
+                        if src is not None else None),
+        "min": ev.fields.get("min"),
+        "max": ev.fields.get("max"),
+        "cards": cards,
     }
+    return row
+
+
+def _choice_card(tracker, eid) -> Dict:
+    ent = tracker.state.entities.get(eid)
+    if ent is None:
+        return {"entity_id": eid, "card_id": None, "name": None, "cardtype": None,
+                "tags": {}, "dark_gift": None}
+    gift = tracker._minion_dark_gift(ent)
+    if gift is None:            # offered by Dark Discovery: DARK_GIFT_ENTITY only
+        ref = tracker.state.entities.get(ent.tag_int("DARK_GIFT_ENTITY") or -1)
+        if ref is not None and (ref.card_id or "").startswith(DARK_GIFT_PREFIX):
+            gift = {"card_id": ref.card_id, "name": tracker._display_name(ref.card_id)}
+    return {"entity_id": eid, "card_id": ent.card_id,
+            "name": tracker._display_name(ent.card_id, ent.name),
+            "cardtype": ent.tags.get("CARDTYPE"), "tags": dict(ent.tags),
+            "dark_gift": gift}
+
+
+CHOICE_KINDS = ("hero", "dark_discovery", "quest", "trinket", "discover", "other")
+
+
+def _choice_kind(choice_type, source_card_id, cards) -> str:
+    """hero: the MULLIGAN hero offer (or only HERO cards); dark_discovery: the
+    Dark Discovery effect's offer; quest: only QUEST=1 cards (Sire); trinket:
+    only BATTLEGROUND_TRINKET cards; discover: only minions / spells (triple
+    rewards, discover effects); other: anything else (e.g. hero powers)."""
+    types = {c["cardtype"] for c in cards}
+    if choice_type == "MULLIGAN" or types == {"HERO"}:
+        return "hero"
+    if source_card_id == DARK_DISCOVERY_EFFECT:
+        return "dark_discovery"
+    if cards and all(c["tags"].get("QUEST") == "1" for c in cards):
+        return "quest"
+    if types == {"BATTLEGROUND_TRINKET"}:
+        return "trinket"
+    if types and types <= {"MINION", "SPELL", "BATTLEGROUND_SPELL"}:
+        return "discover"
+    return "other"
+
+
+def _check_turn(row, rows, fail) -> None:
+    if rows and (row["raw_turn"] or 0) < (rows[-1]["raw_turn"] or 0):
+        fail.add("invariant_turn_regressed", {"dp": row["dp_index"], "kind": row["kind"],
+                                              "raw_turn": row["raw_turn"],
+                                              "prev": rows[-1]["raw_turn"]})
+
+
+def _check_choice(row, fail, stats) -> None:
+    """Every choice row offers >= 1 card and every card entity is known."""
+    ch, dp = row["choice"], row["dp_index"]
+    if not ch["cards"]:
+        fail.add("choice_no_cards", {"dp": dp, "source": ch["source_card_id"]})
+    for c in ch["cards"]:
+        stats["choice_cards"] += 1
+        if not c["card_id"]:
+            fail.add("choice_card_missing", {"dp": dp, "entity_id": c["entity_id"],
+                                             "source": ch["source_card_id"]})
+        if c["dark_gift"]:
+            stats["choice_cards_with_dark_gift"] += 1
 
 
 def _check_row(tracker, row, fail, stats) -> None:
@@ -186,6 +335,15 @@ def _check_row(tracker, row, fail, stats) -> None:
         if missing:
             fail.add("invariant_option_entity_missing", {"dp": dp, "option": o["index"],
                                                          "missing": missing})
+        if o["sub_options"]:
+            stats["options_with_sub_options"] += 1
+            stats["sub_options"] += len(o["sub_options"])
+        for so in o["sub_options"]:
+            missing = [i for i in [so["entity_id"]] + so["targets"] if i and i not in entities]
+            if missing:
+                fail.add("invariant_option_entity_missing", {
+                    "dp": dp, "option": o["index"], "sub_option": so["index"],
+                    "missing": missing})
     for zone in ("board", "hand", "shop"):
         for m in snap[zone]:
             if m["tags"].get("HAS_DARK_GIFT") != "1":
@@ -336,12 +494,13 @@ def run(replays: str, manifest: str, out: str, cards: str = DEFAULT_CARDS,
     os.makedirs(qdir, exist_ok=True)
     card_names = load_card_names(cards)
 
-    per_game, by_reason = [], defaultdict(list)
+    per_game, by_reason, warn_by_reason = [], defaultdict(list), defaultdict(list)
     totals = Counter()
     for gid in ids:
         t0 = time.time()
         rec = {"game_id": gid}
         failures, warnings, stats, rows = _Fail(), [], Counter(), []
+        game_warnings: List[str] = []
         path = os.path.join(replays, gid + ".xml.gz")
         if gid not in by_id:
             failures.add("not_in_manifest")
@@ -352,12 +511,14 @@ def run(replays: str, manifest: str, out: str, cards: str = DEFAULT_CARDS,
                 res = build_game(path, by_id[gid], card_names, track_opponents)
                 failures, warnings, stats, rows = (res["failures"], res["warnings"],
                                                   res["stats"], res["rows"])
+                game_warnings = res["game_warnings"]
             except Exception as exc:     # a crash quarantines the game, never drops it
                 failures.add("exception", f"{type(exc).__name__}: {exc}")
         states_path = os.path.join(out, gid + ".jsonl.gz")
         q_path = os.path.join(qdir, gid + ".json")
         rec.update(passed=not failures.count, reasons=sorted(failures.count),
                    rows=len(rows), atk_health_warnings=len(warnings), bytes=0,
+                   game_warnings=game_warnings,
                    stats=dict(stats))
         if rec["passed"]:
             with gzip.open(states_path + ".tmp", "wt", encoding="utf-8") as fh:
@@ -375,6 +536,8 @@ def run(replays: str, manifest: str, out: str, cards: str = DEFAULT_CARDS,
                 os.remove(states_path)
             for r in failures.count:
                 by_reason[r].append(gid)
+        for w in game_warnings:
+            warn_by_reason[w].append(gid)
         rec["warnings"] = warnings
         rec["runtime_s"] = round(time.time() - t0, 2)
         totals.update(stats)
@@ -389,6 +552,7 @@ def run(replays: str, manifest: str, out: str, cards: str = DEFAULT_CARDS,
         "passed": passed,
         "pass_rate": round(passed / len(per_game), 4) if per_game else None,
         "failures_by_reason": dict(by_reason),
+        "game_warnings_by_reason": dict(warn_by_reason),
         "rows_written": sum(g["rows"] for g in per_game if g["passed"]),
         "bytes_written": sum(g["bytes"] for g in per_game),
         "runtime_s": round(time.time() - t_start, 2),
