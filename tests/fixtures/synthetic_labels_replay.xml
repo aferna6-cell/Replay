@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hand-written replay for tests/test_replay_labels.py: one of each action kind. -->
+<HSReplay version="1.7">
+<Game ts="00:00:00">
+<GameEntity id="1"><Tag tag="20" value="1"/></GameEntity>
+<Player id="2" playerID="1" isMainPlayer="true"><Tag tag="50" value="1"/></Player>
+<FullEntity id="60" cardID="TEST_HERO_1"><Tag tag="202" value="3"/></FullEntity>
+<FullEntity id="61" cardID="TEST_HERO_2"><Tag tag="202" value="3"/></FullEntity>
+<Block entity="2" type="5" subOption="-1">
+<Choices id="0" type="1" source="2" playerID="2" min="1" max="1"><Choice entity="60" index="0"/><Choice entity="61" index="1"/></Choices>
+</Block>
+<ChosenEntities entity="1" playerID="2" count="1"><Choice entity="60" index="0"/></ChosenEntities>
+<FullEntity id="4" cardID="TEST_HP"><Tag tag="202" value="10"/></FullEntity>
+<FullEntity id="11" cardID="TB_BaconShop_8p_Reroll_Button"/>
+<FullEntity id="12" cardID="TB_BaconShopLockAll_Button"/>
+<FullEntity id="13" cardID="TB_BaconShop_DragBuy"/>
+<FullEntity id="14" cardID="TB_BaconShop_DragSell"/>
+<FullEntity id="20" cardID="TEST_A"><Tag tag="202" value="4"/></FullEntity>
+<FullEntity id="21" cardID="TEST_B"><Tag tag="202" value="4"/></FullEntity>
+<FullEntity id="30" cardID="TEST_C"><Tag tag="202" value="4"/></FullEntity>
+<FullEntity id="31" cardID="TEST_D"><Tag tag="202" value="4"/></FullEntity>
+<FullEntity id="40" cardID="TEST_CHOOSE"><Tag tag="202" value="5"/></FullEntity>
+<FullEntity id="41" cardID="TEST_CHOOSE_a"/>
+<FullEntity id="42" cardID="TEST_CHOOSE_b"/>
+<FullEntity id="90" cardID="TB_BaconShopBob"/>
+<Options id="1">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="13" error="-1"><Target index="0" entity="20"/><Target index="1" entity="21"/><Target index="2" entity="90"/></Option>
+<Option index="2" type="3" entity="20" error="-1"/>
+<Option index="3" type="3" entity="11" error="-1"/>
+<Option index="4" type="3" entity="14" error="-1"><Target index="0" entity="30"/><Target index="1" entity="31"/><Target index="2" entity="90"/></Option>
+<Option index="5" type="3" entity="30" error="-1"/>
+<Option index="6" type="3" entity="31" error="-1"/>
+<Option index="7" type="3" entity="4" error="-1"><Target index="0" entity="20"/><Target index="1" entity="21"/></Option>
+<Option index="8" type="3" entity="12" error="12"/>
+</Options>
+<Block entity="13" type="7" target="20" subOption="-1"><TagChange entity="20" tag="49" value="3"/></Block>
+<Options id="2">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="20" error="-1"/>
+<Option index="2" type="3" entity="30" error="-1"/>
+<Option index="3" type="3" entity="31" error="-1"/>
+</Options>
+<Block entity="20" type="7" target="0" subOption="-1"><TagChange entity="20" tag="263" value="0"/><TagChange entity="20" tag="49" value="1"/><TagChange entity="20" tag="263" value="2"/><TagChange entity="31" tag="263" value="3"/></Block>
+<Options id="3">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="20" error="-1"/>
+<Option index="2" type="3" entity="30" error="-1"/>
+<Option index="3" type="3" entity="31" error="-1"/>
+</Options>
+<Block entity="31" type="12" subOption="-1"><TagChange entity="30" tag="263" value="2"/><TagChange entity="20" tag="263" value="3"/><TagChange entity="31" tag="263" value="1"/></Block>
+<Options id="4">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="31" error="-1"/>
+<Option index="2" type="3" entity="30" error="-1"/>
+<Option index="3" type="3" entity="20" error="-1"/>
+<Option index="4" type="3" entity="40" error="-1"><SubOption index="0" entity="41"/><SubOption index="1" entity="42"/></Option>
+</Options>
+<Block entity="40" type="7" subOption="1">
+<FullEntity id="50" cardID="TEST_X"><Tag tag="202" value="4"/></FullEntity>
+<FullEntity id="51" cardID="TEST_Y"><Tag tag="202" value="4"/></FullEntity>
+<Choices id="1" type="2" source="40" playerID="2" min="1" max="1"><Choice entity="50" index="0"/><Choice entity="51" index="1"/></Choices>
+</Block>
+<ChosenEntities entity="1" playerID="2" count="1"><Choice entity="51" index="0"/></ChosenEntities>
+<TagChange entity="51" tag="49" value="3"/>
+<Options id="5">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="31" error="-1"/>
+</Options>
+<Block entity="31" type="12" subOption="-1"/>
+<Options id="6">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="12" error="-1"/>
+</Options>
+<Block entity="30" type="1" target="99" subOption="-1"/>
+<GameEntity id="1"><Tag tag="20" value="3"/></GameEntity>
+<Options id="7">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="12" error="-1"/>
+</Options>
+<GameEntity id="1"><Tag tag="20" value="3"/></GameEntity>
+<Options id="7">
+<Option index="0" type="2" entity="0" error="-1"/>
+<Option index="1" type="3" entity="12" error="-1"/>
+</Options>
+<Block entity="12" type="7" subOption="-1"/>
+<Options id="8">
+<Option index="0" type="2" entity="0" error="-1"/>
+</Options>
+</Game>
+</HSReplay>
