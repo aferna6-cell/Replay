@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hand-written synthetic Firestone-style HSReplay XML (not real replay data).
+     Tag ids: 20 TURN, 25 RESOURCES_USED, 26 RESOURCES, 27 HERO_ENTITY, 40 ATTACHED,
+     44 DAMAGE, 45 HEALTH, 47 ATK, 48 COST, 49 ZONE (1 PLAY, 3 HAND, 6 SETASIDE),
+     50 CONTROLLER, 53 ENTITY_ID, 190 TAUNT, 200 CARDRACE (14 MURLOC), 202 CARDTYPE (1 GAME,
+     2 PLAYER, 3 HERO, 4 MINION, 6 ENCHANTMENT, 10 HERO_POWER, 42 BATTLEGROUND_SPELL),
+     260 FROZEN, 263 ZONE_POSITION, 292 ARMOR, 313 CREATOR, 1373 PLAYER_LEADERBOARD_PLACE,
+     1377 PLAYER_TECH_LEVEL, 1440 TECH_LEVEL, 3880 HAS_DARK_GIFT, 4865 DARK_GIFT_ENTITY. -->
+<HSReplay><Game ts="00:00:00" buildNumber="1">
+<GameEntity id="1"><Tag tag="202" value="1"/><Tag tag="49" value="1"/><Tag tag="20" value="1"/></GameEntity>
+<Player id="2" accountHi="0" accountLo="0" playerID="1" name="Hero A" isMainPlayer="true">
+  <Tag tag="50" value="1"/><Tag tag="202" value="2"/><Tag tag="27" value="10"/>
+  <Tag tag="26" value="3"/><Tag tag="25" value="0"/><InitialName>Hero A</InitialName></Player>
+<Player id="3" accountHi="0" accountLo="0" playerID="9" name="Bob" isMainPlayer="false">
+  <Tag tag="50" value="9"/><Tag tag="202" value="2"/></Player>
+<!-- Hero pick: a MULLIGAN Choices (type 1) over HERO cards, then the pick. -->
+<FullEntity id="70" cardID="BG36_HERO_002"><Tag tag="50" value="1"/><Tag tag="202" value="3"/>
+  <Tag tag="49" value="6"/></FullEntity>
+<FullEntity id="71" cardID="BG_TEST_HERO_B"><Tag tag="50" value="1"/><Tag tag="202" value="3"/>
+  <Tag tag="49" value="6"/></FullEntity>
+<Choices id="0" playerID="2" source="1" type="1" min="1" max="1">
+  <Choice entity="70" index="0"/><Choice entity="71" index="1"/></Choices>
+<Choices id="0" playerID="3" source="1" type="1" min="1" max="1"><Choice entity="99" index="0"/></Choices>
+<ChosenEntities entity="1" playerID="2" count="1"><Choice entity="70" index="0"/></ChosenEntities>
+<FullEntity id="10" cardID="BG36_HERO_002"><Tag tag="50" value="1"/><Tag tag="202" value="3"/>
+  <Tag tag="49" value="1"/><Tag tag="45" value="30"/><Tag tag="292" value="5"/><Tag tag="44" value="2"/>
+  <Tag tag="1377" value="1"/></FullEntity>
+<FullEntity id="12" cardID="BG36_HERO_002p"><Tag tag="50" value="1"/><Tag tag="202" value="10"/>
+  <Tag tag="49" value="1"/><Tag tag="48" value="1"/></FullEntity>
+<FullEntity id="20" cardID="BG_TEST_MURLOC"><Tag tag="50" value="1"/><Tag tag="202" value="4"/>
+  <Tag tag="49" value="1"/><Tag tag="263" value="1"/><Tag tag="47" value="2"/><Tag tag="45" value="3"/>
+  <Tag tag="1440" value="1"/><Tag tag="200" value="14"/><Tag tag="190" value="1"/></FullEntity>
+<FullEntity id="40" cardID="BG36_MidGameEffect_000t51"><Tag tag="50" value="1"/><Tag tag="202" value="5"/>
+  <Tag tag="49" value="6"/></FullEntity>
+<FullEntity id="41" cardID="BG36_MidGameEffect_010"><Tag tag="50" value="1"/><Tag tag="202" value="5"/>
+  <Tag tag="49" value="6"/></FullEntity>
+<FullEntity id="21" cardID="BG_TEST_GIFTED"><Tag tag="50" value="1"/><Tag tag="202" value="4"/>
+  <Tag tag="49" value="6"/><Tag tag="47" value="4"/><Tag tag="45" value="4"/><Tag tag="3880" value="1"/>
+  <Tag tag="4865" value="40"/><Tag tag="313" value="41"/></FullEntity>
+<FullEntity id="22" cardID="BG_TEST_OFFERED"><Tag tag="50" value="1"/><Tag tag="202" value="4"/>
+  <Tag tag="49" value="6"/><Tag tag="4865" value="40"/><Tag tag="313" value="41"/></FullEntity>
+<Choices id="1" playerID="2" source="41" type="2" min="1" max="1">
+  <Choice entity="21" index="0"/><Choice entity="22" index="1"/></Choices>
+<ChosenEntities entity="1" playerID="2" count="1"><Choice entity="21" index="0"/></ChosenEntities>
+<Block entity="21" type="7">
+  <TagChange entity="21" tag="49" value="1"/><TagChange entity="21" tag="263" value="2"/>
+</Block>
+<FullEntity id="30" cardID="BG_TEST_SHOP"><Tag tag="50" value="9"/><Tag tag="202" value="4"/>
+  <Tag tag="49" value="1"/><Tag tag="263" value="1"/><Tag tag="47" value="1"/><Tag tag="45" value="1"/>
+  <Tag tag="260" value="1"/></FullEntity>
+<FullEntity id="31" cardID="BG_TEST_SHOP2"><Tag tag="50" value="9"/><Tag tag="202" value="4"/>
+  <Tag tag="49" value="1"/><Tag tag="263" value="2"/></FullEntity>
+<HideEntity entity="31" zone="6"/>
+<ChangeEntity entity="30" cardID="BG_TEST_SHOP_CHANGED"><Tag tag="47" value="7"/></ChangeEntity>
+<Options id="1">
+  <Option index="0" type="2" entity="0" error="-1"/>
+  <Option index="1" type="3" entity="30" error="-1"/>
+  <Option index="2" type="3" entity="12" error="-1"><Target index="0" entity="20"/></Option>
+  <Option index="3" type="3" entity="20" error="14"/>
+</Options>
+<Block entity="20" type="1"><TagChange entity="10" tag="44" value="4"/></Block>
+<TagChange entity="20" tag="49" value="4"/>
+<!-- Re-dump: like Firestone, the Player entities' tags are appended to GameEntity's. -->
+<GameEntity id="1"><Tag tag="202" value="1"/><Tag tag="49" value="1"/><Tag tag="20" value="3"/><Tag tag="53" value="1"/>
+  <Tag tag="50" value="1"/><Tag tag="202" value="2"/><Tag tag="20" value="2"/><Tag tag="26" value="5"/>
+  <Tag tag="25" value="1"/><Tag tag="27" value="10"/><Tag tag="53" value="2"/>
+  <Tag tag="50" value="9"/><Tag tag="202" value="2"/><Tag tag="20" value="1"/><Tag tag="53" value="3"/></GameEntity>
+<FullEntity id="10" cardID="BG36_HERO_002"><Tag tag="50" value="1"/><Tag tag="202" value="3"/>
+  <Tag tag="49" value="1"/><Tag tag="45" value="30"/><Tag tag="292" value="5"/><Tag tag="44" value="4"/>
+  <Tag tag="1377" value="2"/><Tag tag="1373" value="1"/></FullEntity>
+<FullEntity id="12" cardID="BG36_HERO_002p"><Tag tag="50" value="1"/><Tag tag="202" value="10"/>
+  <Tag tag="49" value="1"/><Tag tag="48" value="1"/></FullEntity>
+<FullEntity id="50" cardID="BG_TEST_GIFTED"><Tag tag="50" value="1"/><Tag tag="202" value="4"/>
+  <Tag tag="49" value="1"/><Tag tag="263" value="1"/><Tag tag="47" value="5"/><Tag tag="45" value="5"/>
+  <Tag tag="3880" value="1"/></FullEntity>
+<FullEntity id="51" cardID="BG36_MidGameEffect_000t51e"><Tag tag="50" value="1"/><Tag tag="202" value="6"/>
+  <Tag tag="49" value="1"/><Tag tag="40" value="50"/></FullEntity>
+<FullEntity id="60" cardID="BG_TEST_SPELL"><Tag tag="50" value="1"/><Tag tag="202" value="42"/>
+  <Tag tag="49" value="3"/><Tag tag="48" value="1"/></FullEntity>
+<Options id="2"><Option index="0" type="2" entity="0" error="-1"/></Options>
+<FullEntity id="61" cardID="BG_TEST_SPELL_a"><Tag tag="50" value="1"/><Tag tag="49" value="6"/></FullEntity>
+<FullEntity id="62" cardID="BG_TEST_SPELL_b"><Tag tag="50" value="1"/><Tag tag="49" value="6"/></FullEntity>
+<Options id="2"><Option index="0" type="2" entity="0" error="-1"/>
+  <Option index="1" type="3" entity="60" error="-1"><SubOption index="0" entity="61"><Target index="0" entity="50"/></SubOption>
+    <SubOption index="1" entity="62" error="12"/></Option></Options>
+</Game></HSReplay>
