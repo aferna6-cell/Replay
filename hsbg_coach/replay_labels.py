@@ -63,8 +63,10 @@ CHOICE_KINDS = ("hero", "discover", "dark_discovery", "trinket", "quest", "other
 FLAG_GOLDEN_GIFT = "golden_dark_gift_first_only"
 # Quarantine reasons that are not decisions: empty drags (a card dragged and
 # dropped back, or a shop/hand card reordered) and a Choices offer re-sent
-# unchanged after a re-dump. ``decision_match_rate`` leaves them out.
-NON_DECISION_REASONS = ("noop_move", "choice_offer_resent")
+# unchanged after a re-dump, or an Options block re-sent under a new id with
+# no block at all before the next one (no_action_same_turn: the player did
+# nothing). ``decision_match_rate`` leaves them out.
+NON_DECISION_REASONS = ("noop_move", "choice_offer_resent", "no_action_same_turn")
 NON_DECISION_PREFIX = "move_minion_in_"
 EPOCH = datetime(1970, 1, 1, tzinfo=timezone.utc)
 
@@ -513,11 +515,32 @@ def _shop_ids(snap: Dict) -> List[int]:
 
 def _fingerprint(row: Dict) -> tuple:
     s = row["snapshot"]
-    views = tuple((z, m["entity_id"], m["card_id"], m.get("attack"), m.get("health"))
+    views = tuple((z, m["entity_id"], m["card_id"], m.get("attack"), m.get("health"),
+                   m.get("buy_cost"), json.dumps(m.get("tags"), sort_keys=True))
                   for z in ("board", "hand", "shop") for m in s.get(z) or [])
     return (s.get("gold"), s.get("tavern_tier"), s.get("shop_frozen"), views,
-            tuple(_shop_ids(s)), json.dumps(row.get("hero_power"), sort_keys=True),
+            json.dumps(s.get("shop_spells"), sort_keys=True),
+            s.get("reroll_cost"), s.get("level_cost"),
+            json.dumps(row.get("hero_power"), sort_keys=True),
             json.dumps(s.get("trinkets"), sort_keys=True))
+
+
+def _frozen(snap: Dict) -> Dict[int, bool]:
+    return {m["entity_id"]: str((m.get("tags") or {}).get("FROZEN")) == "1"
+            for m in snap.get("shop") or []}
+
+
+def _inserted_at(old: List[int], new: List[int], e: int, position: int) -> bool:
+    """``e`` sits at insertion index ``position`` relative to the minions that
+    were on the board before and are still there (a battlecry may destroy one,
+    a summon may add tokens), and those keep their order."""
+    if e not in new:
+        return False
+    survivors = [x for x in new if x in old]
+    if survivors != [x for x in old if x in new]:
+        return False
+    expected = sum(1 for x in old[:position] if x in new)
+    return [x for x in new if x in old or x == e].index(e) == expected
 
 
 def _new_golden(a: Dict, b: Dict, card_id: str) -> bool:
@@ -571,7 +594,9 @@ def check_transition(row: Dict, nxt: Optional[Dict], opt: Dict) -> str:
     elif typ == "reroll":
         ok = bool(_shop_ids(a) or _shop_ids(b)) and set(_shop_ids(a)) != set(_shop_ids(b))
     elif typ == "freeze":
-        ok = bool(a.get("shop_frozen")) != bool(b.get("shop_frozen"))
+        if not (a.get("shop") or b.get("shop")):
+            return "na"                  # spells only: State Builder has no frozen flag for them
+        ok = _frozen(a) != _frozen(b)
     elif typ == "level":
         ok = (b.get("tavern_tier") or 0) == (a.get("tavern_tier") or 0) + 1
     elif typ == "reposition":
@@ -582,8 +607,8 @@ def check_transition(row: Dict, nxt: Optional[Dict], opt: Dict) -> str:
         ok = e not in _ids(b, "hand")
         if ok and opt["position"] is not None:
             new = _ids(b, "board")
-            ok = ((opt["position"] < len(new) and new[opt["position"]] == e
-                   and _order_kept(_ids(a, "board"), new)) or _magnetized(a, b, opt))
+            ok = (_inserted_at(_ids(a, "board"), new, e, opt["position"])
+                  or _magnetized(a, b, opt))
     else:                     # hero power, board activation, Dark Discovery button
         ok = _fingerprint(row) != _fingerprint(nxt)
     return "pass" if ok else "fail"

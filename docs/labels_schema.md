@@ -157,10 +157,12 @@ Reasons:
     dragged and not played or bought.
   - `choice_offer_resent`: the same offer was re-sent unchanged (after a re-dump) before
     any pick. It is one decision: the pick is labeled on the re-sent row.
+  - `no_action_same_turn`: the `Options` block was followed by the next one in the same
+    turn with no action block at all (the server re-sent the options under a new id).
 - `buy_target_not_in_state_shop`, `sell_target_not_in_state_board`, `action_entity_not_in_state`,
   `action_entity_not_a_legal_option`, `play_from_shop`: the action does not map onto the state.
 - `minion_play_position_unknown`, `suboption_unresolved`: missing position / Choose One data.
-- `no_action_same_turn`, `multiple_actions`: nothing (or more than one thing) happened.
+- `multiple_actions`: more than one action block before the next `Options`.
 - `choice_not_in_replay`, `choice_pick_unresolved`, `choice_multiple_picked`,
   `chosen_entities_not_offered`: the pick cannot be read from the XML.
 - `chosen_not_in_legal_options`: the inferred action is not in the enumerated list.
@@ -197,11 +199,14 @@ at the corpus min / p25 / median / p75 / max MMR.
    `discover:<choice_kind>`).
    - Options rows (pass / fail / na), against the next options row: buy (card left the
      shop, is in hand/board or became a golden), sell (left the board), reroll (shop
-     entity set changed), freeze (`shop_frozen` toggled), level (tier + 1), reposition
+     entity set changed), freeze (some shop minion's `FROZEN` changed; na when the shop
+     has only spells, which carry no frozen flag), level (tier + 1), reposition
      (minion at the final index, same board set), play from hand (left the hand; a
-     minion sits at `position` and the other minions keep their order, or a MAGNETIC
-     minion is gone and `board[position]` is still there), hero power / Activate /
-     Dark Gift (the state changed), end turn (`raw_turn` rose). When the turn ended
+     minion sits at `position` counted among the minions that were already on the board
+     and are still there, which keep their order (a battlecry may destroy one, a summon
+     may add tokens), or a MAGNETIC minion is gone and `board[position]` is still
+     there), hero power / Activate / Dark Gift (the state changed, card tags and costs
+     included), end turn (`raw_turn` rose). When the turn ended
      before the next options row, entity ids are re-issued, so card ids are compared
      instead (na where that is impossible). The last options row is `na`. Failures
      are quarantined.
