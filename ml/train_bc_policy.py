@@ -28,8 +28,18 @@ held-out file and never installs.
 
 Held-out scoring skips forced decisions (a single candidate) and reports
 MMR-weighted top-1 / top-3 match rate, overall, per chosen action type and per
-kind (play split into hand / activate / dark_gift / choose_one), for the model,
-a random-candidate baseline, and optionally a --compare BC checkpoint.
+kind (play split into hand / activate / dark_gift), on the same decisions, for:
+  model         the new checkpoint, at full option granularity
+  model_coarse  the same ranking scored like the advisor (a hit if the top
+                option has the chosen option's type + source slot; target,
+                position and Choose One variant ignored)
+  random        a random candidate
+  advisor       the live eval-net advisor (ml/advisor_baseline.py), mapped to
+                the row options by type + card + source slot; on by default
+                when an eval net loads (--evalnet-path, default ml/eval_net.pt)
+  compare       --compare: a BC checkpoint, or the advisor (--compare advisor,
+                or a checkpoint path that does not exist yet, e.g. before the
+                first ml/policy_net.pt is installed)
 
   python -m ml.train_bc_policy --data "data/firestone/labels/v1/*.jsonl.gz" --make-heldout
   python -m ml.train_bc_policy --data ... --compare ml/policy_net.pt --install
@@ -223,10 +233,11 @@ def split_rows(rows: List[Dict], heldout: Set[str], build):
     return train, held, stats
 
 
-def encode_row(row: Dict):
+def encode_row(row: Dict, with_groups: bool = False):
     """(state vector, option matrix, chosen index) over the row's OWN server
     options. Options with identical vectors are merged (first one kept), so
-    the model never has to split mass between candidates it cannot tell apart."""
+    the model never has to split mass between candidates it cannot tell apart.
+    with_groups=True appends the option -> merged-candidate index list."""
     snap = row_snapshot(row)
     vecs = [enc.encode_option(snap, o) for o in row["options"]]
     group, keep = {}, []
@@ -237,7 +248,18 @@ def encode_row(row: Dict):
             group[k] = len(keep)
             keep.append(v)
         index.append(group[k])
+    if with_groups:
+        return enc.encode_state(snap), np.stack(keep), index[row["chosen"]], index
     return enc.encode_state(snap), np.stack(keep), index[row["chosen"]]
+
+
+def coarse_key(option: Dict) -> tuple:
+    """Advisor-granularity identity: type + source slot (card id when the source
+    is none, e.g. Dark Gift vs hero power); target / position / variant ignored."""
+    src = option.get("source") or {}
+    zone = src.get("zone") or "none"
+    return (option.get("type"), zone, src.get("slot"),
+            option.get("card_id") if zone == "none" else None)
 
 
 def option_kind(option: Dict) -> str:
@@ -319,14 +341,21 @@ class _Acc:
         return {"n": self.n, "top1": round(self.t1 / self.w, 6), "top3": round(self.t3 / self.w, 6)}
 
 
-def evaluate(rows: List[Dict], encoded, scorers: Dict) -> Dict:
-    """MMR-weighted top-1/top-3 (rows without an MMR get the median MMR), overall
-    and per chosen action type, for each scorer plus the random-legal baseline."""
+def evaluate(rows: List[Dict], encoded, scorers: Dict, extra: Dict = None,
+             groups: List = None) -> Dict:
+    """MMR-weighted top-1/top-3 (rows without an MMR get the median MMR), overall,
+    per chosen action type and per kind, for each scorer, the random baseline,
+    each `extra` ranker (name -> per-row (top1, top3) hits, e.g. the advisor)
+    and, given `groups` (option -> candidate index per row), `<scorer>_coarse`."""
+    extra = extra or {}
     mmrs = [m for m in (_mmr(r) for r in rows) if m > 0]
     fallback = float(np.median(mmrs)) if mmrs else 1.0
-    accs = {name: {"__all__": _Acc()} for name in list(scorers) + ["random"]}
-    kaccs = {name: {} for name in list(scorers) + ["random"]}
-    for row, (s, o, c) in zip(rows, encoded):
+    names = list(scorers) + ([f"{n}_coarse" for n in scorers] if groups else [])
+    names += ["random"] + list(extra)
+    accs = {name: {"__all__": _Acc()} for name in names}
+    kaccs = {name: {} for name in names}
+    for ri, (row, enc_row) in enumerate(zip(rows, encoded)):
+        s, o, c = enc_row[:3]
         w = _mmr(row) or fallback
         n = o.shape[0]
         chosen = row["options"][row["chosen"]]
@@ -336,6 +365,13 @@ def evaluate(rows: List[Dict], encoded, scorers: Dict) -> Dict:
             order = np.argsort(-np.asarray(fn(s, o)), kind="stable")
             rank = int(np.nonzero(order == c)[0][0])
             res[name] = (float(rank == 0), float(rank < 3))
+            if groups:
+                ck, g = coarse_key(chosen), groups[ri]
+                keys = [{coarse_key(row["options"][i]) for i in range(len(g)) if g[i] == grp}
+                        for grp in order[:3]]
+                res[f"{name}_coarse"] = (float(ck in keys[0]), float(any(ck in k for k in keys)))
+        for name, hits in extra.items():
+            res[name] = hits[ri]
         for name, (t1, t3) in res.items():
             for key in ("__all__", typ):
                 accs[name].setdefault(key, _Acc()).add(w, t1, t3)
@@ -344,6 +380,28 @@ def evaluate(rows: List[Dict], encoded, scorers: Dict) -> Dict:
                    "per_type": {k: v.out() for k, v in sorted(a.items()) if k != "__all__"},
                    "per_kind": {k: v.out() for k, v in sorted(kaccs[name].items())}}
             for name, a in accs.items()}
+
+
+def run_advisor(rows: List[Dict], evalnet_path=None, hand_lines: bool = False,
+                required: bool = False) -> Dict:
+    """Advisor baseline over `rows`: {enabled, scorer, hits, mapping} or
+    {enabled: False, error}. Missing eval net = off (an error only if required)."""
+    try:
+        from ml.advisor_baseline import AdvisorSession, advisor_results, load_scorer
+        scorer = load_scorer(evalnet_path)
+    except Exception as exc:
+        return {"enabled": False, "error": f"eval net failed to load: {exc}"}
+    if scorer is None:
+        path = evalnet_path or os.path.join(REPO, "ml", "eval_net.pt")
+        msg = f"no eval net at {path}"
+        if required:
+            print(f"warning: {msg}; advisor baseline skipped", file=sys.stderr)
+        return {"enabled": False, "error": msg}
+    session = AdvisorSession(scorer, hand_lines=hand_lines)
+    hits, diag = advisor_results(rows, [row_snapshot(r) for r in rows], session)
+    return {"enabled": True, "scorer": getattr(scorer, "name", type(scorer).__name__),
+            "evalnet_path": evalnet_path or os.path.join(REPO, "ml", "eval_net.pt"),
+            "hand_lines": hand_lines, "hits": hits, "mapping": diag}
 
 
 def install(path: str, live: str = LIVE_PATH, prev: str = PREV_PATH) -> None:
@@ -376,7 +434,20 @@ def parse_args(argv=None):
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--out", default=None, help="checkpoint (default results/policy_net_<date>.pt)")
     p.add_argument("--metrics", default=None, help="metrics JSON (default <out>.metrics.json)")
-    p.add_argument("--compare", default=None, help="another checkpoint scored on the same rows")
+    p.add_argument("--compare", default=None,
+                   help="BC checkpoint scored on the same rows, or 'advisor' for the "
+                        "eval-net advisor; a path that does not exist (no BC policy "
+                        "live yet) also compares against the advisor")
+    p.add_argument("--baseline-evalnet", action=argparse.BooleanOptionalAction, default=None,
+                   help="score the live eval-net advisor on the held-out rows "
+                        "(default: on when an eval net loads)")
+    p.add_argument("--evalnet-path", default=None,
+                   help="eval net for the advisor baseline (default ml/eval_net.pt; a "
+                        "set_net.pt beside it wins, as live); read only")
+    p.add_argument("--advisor-hand-lines", action=argparse.BooleanOptionalAction, default=False,
+                   help="lead the advisor's ranking with the free-hand-minion 'Play X' "
+                        "lines live.advice_lines prints above the ranked actions "
+                        "(default off: rank_actions order only)")
     p.add_argument("--install", action="store_true",
                    help="back up ml/policy_net.pt to ml/policy_net.prev.pt, then install the new one")
     return p.parse_args(argv)
@@ -434,15 +505,43 @@ def main(argv=None) -> int:
     held_enc = [encode_row(r) for r in held_rows]
     merged["heldout"] = sum(len(r["options"]) - e[1].shape[0]
                             for r, e in zip(held_rows, held_enc))
+    held_groups = [encode_row(r, with_groups=True)[3] for r in held_rows]
     scorers = {"model": BCPolicy(model).score_encoded}
     compare = None
+    compare_advisor = False
     if a.compare:
-        try:
-            scorers["compare"] = load_bc_policy(a.compare).score_encoded
-            compare = {"path": a.compare}
-        except Exception as exc:               # report, don't abort the run
-            compare = {"path": a.compare, "error": str(exc)}
-    results = evaluate(held_rows, held_enc, scorers)
+        if a.compare.lower() in ("advisor", "evalnet", "eval-net"):
+            compare_advisor = True
+            compare = {"path": None, "kind": "advisor"}
+        elif not os.path.isfile(a.compare):
+            compare_advisor = True
+            compare = {"path": a.compare, "kind": "advisor",
+                       "note": "no BC checkpoint at this path; compared against the "
+                               "eval-net advisor instead"}
+        else:
+            try:
+                scorers["compare"] = load_bc_policy(a.compare).score_encoded
+                compare = {"path": a.compare, "kind": "bc_checkpoint"}
+            except Exception as exc:           # report, don't abort the run
+                compare = {"path": a.compare, "kind": "bc_checkpoint", "error": str(exc)}
+    extra, advisor = {}, {"enabled": False}
+    want_advisor = a.baseline_evalnet is not False or compare_advisor
+    if want_advisor:
+        advisor = run_advisor(held_rows, a.evalnet_path, a.advisor_hand_lines,
+                              required=bool(a.baseline_evalnet) or compare_advisor)
+        if advisor.get("hits") is not None:
+            extra["advisor"] = advisor.pop("hits")
+            if compare_advisor:
+                extra["compare"] = extra["advisor"]
+        elif compare_advisor:
+            compare["error"] = advisor.get("error", "advisor unavailable")
+    results = evaluate(held_rows, held_enc, scorers, extra=extra, groups=held_groups)
+    if "compare" in results:
+        cm, cc = results["model"]["overall"], results["compare"]["overall"]
+        if cm["top1"] is not None and cc["top1"] is not None:
+            compare["model_minus_compare"] = {
+                "top1": round(cm["top1"] - cc["top1"], 6),
+                "top3": round(cm["top3"] - cc["top3"], 6)}
 
     date = datetime.date.today().strftime("%Y%m%d")
     out = a.out or os.path.join(REPO, "results", f"policy_net_{date}.pt")
@@ -464,6 +563,7 @@ def main(argv=None) -> int:
         "decisions": {"train": decision_counts(train_rows),
                       "heldout": decision_counts(held_rows)},
         "train_loss": history, "heldout": results, "compare": compare,
+        "advisor_baseline": advisor,
     }
     os.makedirs(os.path.dirname(os.path.abspath(metrics_path)), exist_ok=True)
     with open(metrics_path, "w", encoding="utf-8") as fh:
@@ -474,9 +574,16 @@ def main(argv=None) -> int:
     print(f"train rows {len(train_rows)} ({len(train_games)} games), held-out rows "
           f"{len(held_rows)}; held-out top1 {m['top1']} top3 {m['top3']} "
           f"(random {r['top1']} / {r['top3']})")
-    if "compare" in results:
-        c = results["compare"]["overall"]
-        print(f"compare top1 {c['top1']} top3 {c['top3']}")
+    for name in ("model_coarse", "advisor", "compare"):
+        if name in results:
+            c = results[name]["overall"]
+            print(f"{name} top1 {c['top1']} top3 {c['top3']}")
+    if advisor.get("enabled"):
+        d = advisor["mapping"]
+        print(f"advisor ({advisor['scorer']}): #1 unmappable {d['top1_unmappable_rate']}, "
+              f"ambiguous {d['top1_ambiguous_rate']}")
+    elif advisor.get("error"):
+        print(f"advisor baseline off: {advisor['error']}")
     print(f"wrote {out}\nwrote {metrics_path}")
     if a.install:
         install(out)
