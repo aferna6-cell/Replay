@@ -99,7 +99,8 @@ def _states():
              [_o(1, 12, rl.FREEZE)]),
         _row(9, 6, 3, after_move, [_m(51, "TEST_Y", 1)], [_m(23, "TEST_E", 1)],
              [_o(1, 12, rl.FREEZE)]),
-        _row(10, 7, 3, after_move, [_m(51, "TEST_Y", 1)], [_m(23, "TEST_E", 1)], [], frozen=True),
+        _row(10, 7, 3, after_move, [_m(51, "TEST_Y", 1)], [_m(23, "TEST_E", 1, FROZEN="1")], [],
+             frozen=True),
     ]
 
 
@@ -234,6 +235,24 @@ def test_magnetic_play_onto_mech_passes_transition():
     assert rl.check_transition(a, b, opt) == "pass"
     a["snapshot"]["hand"][0]["tags"].pop("MAGNETIC")
     assert rl.check_transition(a, b, opt) == "fail"
+
+
+def test_play_position_survives_destroy_and_freeze_per_minion():
+    a_board = [_m(1, "U1", 1), _m(2, "U2", 2), _m(3, "U3", 3)]
+    a = _row(1, 0, 1, a_board, [_m(9, "TEST_BC", 1)], [], [])
+    b = _row(2, 1, 1, [a_board[0], _m(9, "TEST_BC", 2), a_board[2]], [], [], [])
+    opt = rl.make_option("play", "TEST_BC", source=("hand", 0), position=2, src_entity=9)
+    assert rl.check_transition(a, b, opt) == "pass"                   # U2 destroyed by battlecry
+    opt["position"] = 3
+    assert rl.check_transition(a, b, opt) == "fail"
+    shop_a = [_m(20, "S1", 1, FROZEN="1"), _m(21, "S2", 2)]
+    shop_b = [_m(20, "S1", 1, FROZEN="1"), _m(21, "S2", 2, FROZEN="1")]
+    frz = rl.make_option("freeze", src_entity=12)
+    fa, fb = _row(1, 0, 1, [], [], shop_a, []), _row(2, 1, 1, [], [], shop_b, [])
+    fa["snapshot"]["shop_frozen"] = fb["snapshot"]["shop_frozen"] = True
+    assert rl.check_transition(fa, fb, frz) == "pass"                 # re-freeze after a new minion
+    assert rl.check_transition(fb, fb, frz) == "fail"
+    assert rl.check_transition(_row(1, 0, 1, [], [], [], []), _row(2, 1, 1, [], [], [], []), frz) == "na"
 
 
 def test_created_fields():
