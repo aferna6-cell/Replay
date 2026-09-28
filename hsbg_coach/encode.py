@@ -727,4 +727,4 @@ def describe_option(snapshot, option: Dict) -> str:
         return f"Move {name} to slot {pos + 1}" if isinstance(pos, int) else f"Move {name}"
     if t == "discover":
         return f"PICK {name}"
-    return "End turn"
+    return "End turn"
