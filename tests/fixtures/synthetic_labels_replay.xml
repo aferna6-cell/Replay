@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Hand-written replay for tests/test_replay_labels.py: one of each action kind. -->
+<!-- Hand-written replay for tests/test_replay_labels.py: one of each action kind, plus a Choices offer re-sent after a re-dump. -->
 <HSReplay version="1.7">
 <Game ts="00:00:00">
 <GameEntity id="1"><Tag tag="20" value="1"/></GameEntity>
@@ -61,6 +61,8 @@
 <FullEntity id="51" cardID="TEST_Y"><Tag tag="202" value="4"/></FullEntity>
 <Choices id="1" type="2" source="40" playerID="2" min="1" max="1"><Choice entity="50" index="0"/><Choice entity="51" index="1"/></Choices>
 </Block>
+<GameEntity id="1"><Tag tag="20" value="1"/></GameEntity>
+<Choices id="1" type="2" source="40" playerID="2" min="1" max="1"><Choice entity="50" index="0"/><Choice entity="51" index="1"/></Choices>
 <ChosenEntities entity="1" playerID="2" count="1"><Choice entity="51" index="0"/></ChosenEntities>
 <TagChange entity="51" tag="49" value="3"/>
 <Options id="5">
