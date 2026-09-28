@@ -21,8 +21,9 @@ XML-only quirks handled here:
   ``<Player isMainPlayer="true">``. It is emitted as a ``PLAYER`` event with a
   non-zero ``hi`` (the signal ``BGTracker`` uses) plus a ``PLAYER_NAME`` so the
   player entity can be found the same way as with battletags.
-* **Options / ChosenEntities** become ``OPTIONS`` / ``CHOSEN`` events carrying
-  their parsed payload in ``Event.items``. ``BGTracker`` ignores both.
+* **Options / Choices / ChosenEntities** become ``OPTIONS`` / ``CHOICES`` /
+  ``CHOSEN`` events carrying their parsed payload in ``Event.items`` (entity
+  ids for Choices / ChosenEntities). ``BGTracker`` ignores all three.
 
 Stdlib only (``xml.etree.ElementTree.iterparse`` + ``gzip``).
 """
@@ -33,6 +34,10 @@ from typing import Iterator
 
 from .hs_enums import BLOCK_TYPES, ENUM_VALUES, GAME_TAGS, OPTION_TYPES
 from .parser import EntityRef, Event
+
+
+# hearthstone.enums.ChoiceType (python-hearthstone 9.21.1).
+CHOICE_TYPES = {0: "INVALID", 1: "MULLIGAN", 2: "GENERAL", 3: "TARGET"}
 
 
 def tag_name(tag) -> str:
@@ -167,9 +172,24 @@ def _iter(fh) -> Iterator[Event]:
                     "entity": _int(o.get("entity"), 0),
                     "error": _int(o.get("error"), -1),
                     "targets": [_int(t.get("entity")) for t in o.findall("Target")],
+                    # Choose One variants: <SubOption index entity [error]><Target/>
+                    "sub_options": [{
+                        "index": _int(so.get("index")),
+                        "entity": _int(so.get("entity"), 0),
+                        "error": _int(so.get("error"), -1),
+                        "targets": [_int(t.get("entity")) for t in so.findall("Target")],
+                    } for so in o.findall("SubOption")],
                 })
             yield Event(kind="OPTIONS", logger="GameState",
                         fields={"id": elem.get("id")}, items=opts)
+        elif tag == "Choices":
+            ctype = _int(elem.get("type"))
+            yield Event(kind="CHOICES", logger="GameState", fields={
+                "id": elem.get("id"), "player_id": _int(elem.get("playerID")),
+                "type": CHOICE_TYPES.get(ctype, str(ctype)),
+                "source": _int(elem.get("source")),
+                "min": _int(elem.get("min")), "max": _int(elem.get("max"))},
+                items=[_int(c.get("entity")) for c in elem.findall("Choice")])
         elif tag == "ChosenEntities":
             yield Event(kind="CHOSEN", logger="GameState",
                         fields={"player_id": elem.get("playerID")},

@@ -76,10 +76,22 @@ STEP_COMBAT_START = "MAIN_READY"
 # HAS_DARK_GIFT natively.
 DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
 DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
-# Sire Denathrius (the only BG hero with quests) and its skins, e.g.
+# Gift enchantments without the gift prefix. Harpy's Talons reuses the
+# constructed enchantment; no other gift spell creates it.
+DARK_GIFT_ENCHANTMENTS = {"EDR_100t13e": "BG36_MidGameEffect_000t13"}
+# Sire Denathrius (the only BG hero with quests; any hero can sell his buddy
+# Shady Aristocrat for one) and its skins, e.g.
 # BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
 SIRE_HERO_RE = re.compile(r"^BG24_HERO_100(_SKIN_[A-Z0-9]+)?$")
 QUEST_REWARD_CARDTYPE = "BATTLEGROUND_QUEST_REWARD"
+# Tavern spells show up as BATTLEGROUND_SPELL; accept plain SPELL too.
+SPELL_CARDTYPES = ("BATTLEGROUND_SPELL", "SPELL")
+BOB_PREFIX = "TB_BaconShopBob"                 # Bartender Bob (and skins): shop owner
+BUY_HANDLE_PREFIX = "TB_BaconShop_DragBuy"     # per-slot buy handle (minion / _Spell)
+# Unnamed tag on a buy handle holding the shop entity it buys. Unnamed tags
+# print as their number in Power.log too.
+BUY_HANDLE_TARGET_TAG = "2442"
+REROLL_BUTTON_SUFFIX = "Reroll_Button"         # TB_BaconShop_8p_Reroll_Button
 
 
 @dataclass
@@ -92,6 +104,7 @@ class MinionView:
     position: Optional[int]
     tags: Dict[str, str] = field(default_factory=dict)
     dark_gift: Optional[Dict] = None      # {card_id, name} when HAS_DARK_GIFT=1
+    buy_cost: Optional[int] = None        # shop only: COST of this slot's buy handle
 
 
 @dataclass
@@ -116,6 +129,7 @@ class Snapshot:
     dark_gift: Optional[Dict] = None      # {name, card_id, cost, usable, entity_id?}
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
+    reroll_cost: Optional[int] = None     # refresh button COST (missing COST = 0)
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
     quests: List[Dict] = field(default_factory=list)     # Sire quests, see _quests()
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
@@ -144,6 +158,7 @@ class Snapshot:
             "dark_gift": self.dark_gift,
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
+            "reroll_cost": self.reroll_cost,
             "trinkets": list(self.trinkets),
             "quests": list(self.quests),
             "opponent_profiles": list(self.opponent_profiles),
@@ -333,8 +348,13 @@ class BGTracker:
             for e in self.state.in_zone("PLAY", pid)
             if (e.tag_int("ZONE_POSITION") or 0) >= 1 and _is_real_minion(e)
         ]
-        shop = [self._minion(e) for e in self._shop_entities()]
-        shop_spells = self._shop_spells()
+        buy_costs = self._buy_costs()
+        shop = []
+        for e in self._shop_entities():
+            m = self._minion(e)
+            m.buy_cost = buy_costs.get(e.id)
+            shop.append(m)
+        shop_spells = self._shop_spells(buy_costs)
         hand = [self._minion(e) for e in self.state.in_zone("HAND", pid)]
 
         # During combat the enemy board is fully revealed; remember the latest one
@@ -374,6 +394,7 @@ class BGTracker:
             dark_gift=self._dark_gift(),
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
+            reroll_cost=self._reroll_cost(),
             trinkets=self._trinkets(),
             quests=self._quests(),
             hand=hand,
@@ -462,10 +483,16 @@ class BGTracker:
                 continue
             if ent.controller != str(self.local_player):
                 continue
+            # Only the power in PLAY: old / offered powers linger in SETASIDE /
+            # REMOVEDFROMGAME (a missing ZONE is tolerated for sparse live logs).
+            if ent.zone not in (None, "PLAY"):
+                continue
             # Passive / start-of-combat powers (Illidan's Wingmen) hide their cost
             # (HIDE_COST=1) and have no real COST — you can't click them. Activatable
             # powers (e.g. Marin's) carry a COST. Don't offer "use" on passives.
-            if ent.tags.get("HIDE_COST") == "1" or "COST" not in ent.tags:
+            # A missing COST tag means 0: zero-valued tags are not logged, so
+            # free powers used to be dropped as if they were passive.
+            if ent.tags.get("HIDE_COST") == "1":
                 return None
             cost = ent.tag_int("COST") or 0
             gold = self._gold()
@@ -672,24 +699,22 @@ class BGTracker:
                 continue
             if ent.tags.get("QUEST") == "1" and ent.zone == "SECRET":
                 reward = entities.get(ent.tag_int("TAG_SCRIPT_DATA_ENT_1") or -1)
-                source = entities.get(ent.tag_int("CREATOR") or -1)
                 out.append({"entity_id": ent.id, "card_id": ent.card_id,
                             "name": self._display_name(ent.card_id, ent.name),
                             "progress": ent.tag_int("QUEST_PROGRESS") or 0,
                             "goal": ent.tag_int("QUEST_PROGRESS_TOTAL"),
                             "reward_card_id": reward.card_id if reward is not None else None,
-                            "source_card_id": source.card_id if source is not None else None,
+                            "source_card_id": self.state.card_id_of(ent.tag_int("CREATOR")),
                             "completed": False})
             elif ent.tags.get("CARDTYPE") == QUEST_REWARD_CARDTYPE and ent.zone == "PLAY":
                 quest = entities.get(ent.tag_int("CREATOR") or -1)
                 if quest is None or quest.tags.get("QUEST") != "1":
                     continue
-                source = entities.get(quest.tag_int("CREATOR") or -1)
                 out.append({"entity_id": quest.id, "card_id": quest.card_id,
                             "name": self._display_name(quest.card_id, quest.name),
                             "progress": None, "goal": None,
                             "reward_card_id": ent.card_id,
-                            "source_card_id": source.card_id if source is not None else None,
+                            "source_card_id": self.state.card_id_of(quest.tag_int("CREATOR")),
                             "completed": True})
         out.sort(key=lambda q: q["entity_id"])
         return out
@@ -701,17 +726,16 @@ class BGTracker:
           1. DARK_GIFT_ENTITY -> that entity's card (set while offered by Dark
              Discovery; dropped when the minion is re-created after combat);
           2. an enchantment in PLAY attached to the minion whose own card, or
-             whose CREATOR's card, is a BG36_MidGameEffect_000t* gift (the
-             enchantment follows the minion through combat and triples);
+             whose CREATOR's card (also after a re-dump dropped it), is a
+             BG36_MidGameEffect_000t* gift, or a known gift enchantment
+             (DARK_GIFT_ENCHANTMENTS); the enchantment follows the minion
+             through combat and triples;
           3. Dark Paradox tokens (BG36_360t*, BG36_360_Gt*) are their own gift.
         Returns None for ungifted minions or an unresolvable gift."""
         if ent.tags.get("HAS_DARK_GIFT") != "1":
             return None
         entities = self.state.entities
-        gift = None
-        ref = entities.get(ent.tag_int("DARK_GIFT_ENTITY") or -1)
-        if ref is not None and ref.card_id:
-            gift = ref.card_id
+        gift = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
         if gift is None:
             me = str(ent.id)
             for e in entities.values():
@@ -722,9 +746,12 @@ class BGTracker:
                 if cid.startswith(DARK_GIFT_PREFIX):
                     gift = re.sub(r"e\d*$", "", cid)
                     break
-                creator = entities.get(e.tag_int("CREATOR") or -1)
-                if creator is not None and (creator.card_id or "").startswith(DARK_GIFT_PREFIX):
-                    gift = creator.card_id
+                creator = self.state.card_id_of(e.tag_int("CREATOR")) or ""
+                if creator.startswith(DARK_GIFT_PREFIX):
+                    gift = creator
+                    break
+                if cid in DARK_GIFT_ENCHANTMENTS:
+                    gift = DARK_GIFT_ENCHANTMENTS[cid]
                     break
         if gift is None and (ent.card_id or "").startswith(DARK_PARADOX_PREFIX):
             gift = ent.card_id
@@ -743,7 +770,9 @@ class BGTracker:
 
     def _hand_spells(self) -> List[Dict]:
         """Targetable tavern spells in your hand (e.g. Tavern Dish Banana = +stats
-        to a minion). These are BATTLEGROUND_SPELL entities you control, in HAND.
+        to a minion). Spells you control in HAND: in-hand tavern spells are
+        CARDTYPE=SPELL (BATTLEGROUND_SPELL is also accepted). A missing COST
+        means 0 (zero tags are not logged).
 
         Strictly zone==HAND: a spell you already PLAYED moves to PLAY/GRAVEYARD and
         leaves a SETASIDE/pool copy behind, so accepting SETASIDE made the coach
@@ -751,55 +780,91 @@ class BGTracker:
         spell that's truly castable is in your HAND."""
         out = []
         for ent in self.state.entities.values():
-            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
+            if ent.tags.get("CARDTYPE") not in SPELL_CARDTYPES:
                 continue
             if ent.zone != "HAND" or ent.controller != str(self.local_player):
                 continue
             if not ent.card_id or "DragBuy" in ent.card_id:
                 continue
-            if ent.tag_int("COST") is None:      # not a real, playable spell
-                continue
             out.append({
                 "name": self._display_name(ent.card_id, ent.name),
                 "card_id": ent.card_id,
-                "cost": ent.tag_int("COST"),
+                "cost": ent.tag_int("COST") or 0,
                 "coin": ent.tags.get("COIN_CARD") == "1",   # gold spell, not targeted
                 "entity_id": ent.id,
             })
         return out
 
-    def _shop_spells(self) -> List[Dict]:
-        """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL).
+    def _shop_spells(self, buy_costs: Optional[Dict[int, int]] = None) -> List[Dict]:
+        """Buyable tavern spells in the shop (CARDTYPE BATTLEGROUND_SPELL or SPELL).
 
         Anchored to the *actual tavern row*: a real shop spell sits in zone=PLAY
-        under the SAME shop controller as the visible shop minions. Spells that are
-        merely set-aside / in the pool (zone=SETASIDE) or that you own — e.g. a
-        spellcraft spell like 'Recruit a Trainee' you generated (controller=you,
-        played on a minion) — are NOT tavern offerings and must not show as
-        'buy spell'. Without a shop minion to anchor the row we return nothing
-        rather than risk a phantom spell (the repeated 'wrong spell' reports)."""
+        under the shop's controller. Spells that are merely set-aside / in the
+        pool (zone=SETASIDE) or that you own (e.g. a spellcraft spell you
+        generated) are NOT tavern offerings. The shop controller is Bartender
+        Bob's (TB_BaconShopBob*, in PLAY, not ours) or any shop minion's, so a
+        shop showing only spells still counts. With no anchor we return nothing
+        rather than guess."""
         if self.phase != Phase.RECRUIT:
             return []
-        shop_controllers = {e.controller for e in self._shop_entities()}
-        if not shop_controllers:                 # no anchor → don't guess a spell
+        shop_controllers = ({e.controller for e in self._shop_entities()}
+                            | self._bob_controllers())
+        if not shop_controllers:                 # no anchor: don't guess a spell
             return []
+        if buy_costs is None:
+            buy_costs = self._buy_costs()
         out = []
         for ent in self.state.entities.values():
-            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
+            if ent.tags.get("CARDTYPE") not in SPELL_CARDTYPES:
                 continue
             if not ent.card_id or "DragBuy" in ent.card_id:
                 continue
             if ent.zone != "PLAY":               # must be in the tavern row
                 continue
-            if ent.controller not in shop_controllers:   # same row as shop minions
+            if ent.controller not in shop_controllers:   # the shop's row
                 continue
             out.append({
                 "name": self._display_name(ent.card_id, ent.name),
                 "card_id": ent.card_id,
                 "cost": ent.tag_int("COST"),
                 "entity_id": ent.id,
+                "buy_cost": buy_costs.get(ent.id),
+                "_pos": ent.tag_int("ZONE_POSITION") or 0,
             })
+        out.sort(key=lambda d: (d["_pos"], d["entity_id"]))
+        for d in out:
+            del d["_pos"]
         return out
+
+    def _bob_controllers(self) -> set:
+        """Controller id(s) of Bartender Bob in PLAY (not ours): the shop's owner."""
+        me = str(self.local_player)
+        return {e.controller for e in self.state.entities.values()
+                if (e.card_id or "").startswith(BOB_PREFIX) and e.zone == "PLAY"
+                and e.controller not in (None, me)}
+
+    def _buy_costs(self) -> Dict[int, int]:
+        """Shop entity id -> gold to buy it, from our per-slot buy handles
+        (TB_BaconShop_DragBuy / _DragBuy_Spell in PLAY; tag 2442 = the shop
+        entity). Usually 3 for minions; effects lower it. Missing COST = 0."""
+        me = str(self.local_player)
+        out: Dict[int, int] = {}
+        for e in self.state.entities.values():
+            if (e.controller == me and e.zone == "PLAY"
+                    and (e.card_id or "").startswith(BUY_HANDLE_PREFIX)):
+                target = e.tag_int(BUY_HANDLE_TARGET_TAG)
+                if target:
+                    out[target] = e.tag_int("COST") or 0
+        return out
+
+    def _reroll_cost(self) -> Optional[int]:
+        """COST of our refresh button in PLAY (missing COST = 0: free refresh)."""
+        me = str(self.local_player)
+        for e in self.state.entities.values():
+            if (e.controller == me and e.zone == "PLAY"
+                    and (e.card_id or "").endswith(REROLL_BUTTON_SUFFIX)):
+                return e.tag_int("COST") or 0
+        return None
 
     def _remember_combat_boards(self) -> None:
         """Capture the revealed enemy board + lobby profiles during combat.

@@ -23,6 +23,47 @@ from .parser import parse_line
 from .tail import tail_latest
 
 
+# --- optional behaviour-cloned NEXT policy ---------------------------------
+# HSBG_NEXT_POLICY=1 plus a loadable ml/policy_net.pt (HSBG_NEXT_POLICY_PATH
+# overrides the path) puts the policy's top legal option first, so it becomes
+# NEXT. Flag off, or a missing / mismatched checkpoint: advice is unchanged.
+_POLICY_ENV = "HSBG_NEXT_POLICY"
+_POLICY_PATH_ENV = "HSBG_NEXT_POLICY_PATH"
+
+
+def _load_next_policy():
+    """ml.bc_policy.BCPolicy when the flag is on and the checkpoint loads, else None."""
+    import os
+    if os.environ.get(_POLICY_ENV, "").strip() != "1":
+        return None
+    path = os.environ.get(_POLICY_PATH_ENV) or os.path.join(
+        os.path.dirname(__file__), "..", "ml", "policy_net.pt")
+    if not os.path.isfile(path):
+        return None
+    try:
+        from ml.bc_policy import load_bc_policy
+        return load_bc_policy(path)
+    except Exception:
+        return None
+
+
+def policy_next_lines(lines: List[str], snapshot: dict, policy) -> List[str]:
+    """Lead with the policy's top-scored legal option, worded like the advisor's
+    moves so overlay.format_next renders it as NEXT. No policy, no legal
+    option, or any error: `lines` unchanged."""
+    if policy is None:
+        return lines
+    try:
+        from .encode import describe_option
+        option = policy.best(snapshot)
+        if option is None:
+            return lines
+        line = describe_option(snapshot, option)
+    except Exception:
+        return lines
+    return [line] + [l for l in lines if l != line]
+
+
 def advice_lines(snapshot: dict, kb, scorer=None,
                  hero_ctx: Optional[HeroContext] = None, top: int = 6) -> List[str]:
     """Ranked one-line recommendations for a snapshot, best first — scored by
@@ -361,6 +402,7 @@ class LiveCoach:
         self.tracker = BGTracker()
         self.kb = cards.load_kb()
         self.scorer = get_scorer()
+        self._next_policy = _load_next_policy()   # None unless HSBG_NEXT_POLICY=1
         # Continual learning: retrain between games in the background, hot-swap the
         # eval net when a new one lands. Never blocks the live recommendation.
         import os
@@ -590,6 +632,8 @@ class LiveCoach:
             self._maybe_reload_scorer()   # hot-swap a freshly retrained model (cheap)
             self._cache_lines = advice_lines(snap, self.kb, self.scorer,
                                               self.hero_ctx, self.top)
+            self._cache_lines = policy_next_lines(
+                self._cache_lines, snap, getattr(self, "_next_policy", None))
             self._cache_odds = _combat_odds_for(snap)
             self._cache_note = build_note_for(snap, self.kb, self.hero_ctx)
             self._cache_key = key
