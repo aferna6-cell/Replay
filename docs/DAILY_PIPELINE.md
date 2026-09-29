@@ -51,7 +51,7 @@ Logs: `data\firestone\logs\daily-YYYY-MM-DD.log`. mac/linux: cron
 | fetch | Firestone's public list of recent first-place games (`static.zerotoheroes.com/api/bgs/bgs-perfect-games.json`, the latest ~1,000, about 4 days). Skips every `reviewId`/`originalReviewId` already in the manifest or `raw/`. Each replay (`xml.firestoneapp.com/<replayKey>`, a zip) becomes `<reviewId>.xml.gz`, with a manifest entry in the shape `replay_states` / `replay_labels` read | `batches/<id>/raw` |
 | states | `replay_states.run` on the batch only, split over `--workers` processes | `batches/<id>/states` |
 | merge | replays, states, quarantine into the corpus; entries appended to the manifest | `raw/`, `states/v2/` |
-| labels | `replay_labels.run` on the batch; MMR weights from the whole corpus manifest | `batches/<id>/labels` |
+| labels | `replay_labels.run` on the batch, plus (once each) any corpus game that has states but no labels (e.g. games built before this job); MMR weights from the whole corpus manifest | `batches/<id>/labels` |
 | merge | labels + quarantine into the corpus | `labels/v2/` |
 | train | `python -m ml.train_bc_policy --data labels/v2/*.jsonl.gz --make-heldout --compare ml/policy_net.pt` (no `--install`) | `results/policy_net_<id>.pt` + `.metrics.json`, `batches/<id>/train.log` |
 | promote | install only if the gate is **PASS**, held-out top-1 is not below the live policy (`--min-gain`, default 0), and `scripts/policy_smoke.py` passes on the candidate; after install, a failed live smoke rolls back to `policy_net.prev.pt` | `ml/policy_net.pt` |
@@ -71,6 +71,7 @@ and then stays frozen, so every day's candidate is scored on the same games.
   stage, then runs that day's batch.
 - A failed train/promote is recorded and retried by the next run
   (`pipeline_state.json: train_pending`), even if no new games came in.
+- Network hiccups (resets, timeouts, a truncated list download) are retried.
 - A failed replay download is not recorded anywhere, so the next run tries it again
   while Firestone still lists it.
 - One run at a time (`data/firestone/.daily_pipeline.lock`, stale after 20 h).

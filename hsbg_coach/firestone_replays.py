@@ -24,6 +24,7 @@ manifest or in the replay folder are downloaded. Stdlib only. Everything under
 import argparse
 import base64
 import gzip
+import http.client
 import io
 import json
 import os
@@ -61,17 +62,28 @@ def http_get(url: str, timeout: float = 60.0, retries: int = 3, backoff: float =
             if exc.code < 500 and exc.code != 429:
                 raise
             last = exc
-        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+        except (OSError, http.client.HTTPException) as exc:
+            # URLError, timeouts, resets, and truncated bodies (IncompleteRead) all retry
             last = exc
         time.sleep(backoff * (2 ** attempt))
     raise RuntimeError(f"GET {url} failed after {retries} attempts: {last}")
 
 
-def fetch_listing(get: HttpGet = http_get, url: str = PERFECT_GAMES_URL) -> List[Dict]:
-    data = json.loads(get(url))
-    if not isinstance(data, list):
-        raise ValueError(f"unexpected listing shape from {url}: {type(data).__name__}")
-    return data
+def fetch_listing(get: HttpGet = http_get, url: str = PERFECT_GAMES_URL,
+                  attempts: int = 3) -> List[Dict]:
+    """The list is ~6 MB; a body cut short parses as bad JSON, so re-fetch it."""
+    for attempt in range(attempts):
+        try:
+            data = json.loads(get(url))
+        except ValueError:
+            if attempt + 1 == attempts:
+                raise
+            time.sleep(2.0 * (2 ** attempt))
+            continue
+        if not isinstance(data, list):
+            raise ValueError(f"unexpected listing shape from {url}: {type(data).__name__}")
+        return data
+    raise AssertionError("unreachable")
 
 
 def decode_final_comp(value) -> Dict:

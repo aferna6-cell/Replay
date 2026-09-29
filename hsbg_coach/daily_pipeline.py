@@ -284,20 +284,44 @@ class Pipeline:
         added = fr.append_to_manifest(self.p.manifest, entries)
         st["merge_states"] = {"replays_moved": moved, "manifest_added": added}
 
+    def label_backlog(self, exclude) -> List[Dict]:
+        """Corpus games that have states but were never labeled (e.g. games built
+        before this job existed). Each is tried once; see labels_backfilled."""
+        tried = set(_read_json(self.p.state_file, {}).get("labels_backfilled", []))
+        out = []
+        for g in fr.load_manifest(self.p.manifest)[1]:
+            gid = g.get("reviewId")
+            if not gid or gid in exclude or gid in tried:
+                continue
+            if os.path.isfile(os.path.join(self.p.states, f"{gid}.jsonl.gz")) and \
+                    not os.path.isfile(os.path.join(self.p.labels, f"{gid}.jsonl.gz")):
+                out.append(g)
+        return out
+
     def stage_labels(self, batch: str, st: Dict) -> None:
         from . import replay_labels
         out = os.path.join(batch, "labels")
         shutil.rmtree(out, ignore_errors=True)
         games = fr.load_manifest(os.path.join(batch, "manifest.json"))[1]
-        if not games:
+        backlog = self.label_backlog({g["reviewId"] for g in games})
+        if not games and not backlog:
             st["labels"] = {"games_labeled": 0, "rows": 0}
             return
-        s = replay_labels.run(self.p.states, self.p.raw, os.path.join(batch, "manifest.json"),
-                              out, corpus_manifest=self.p.manifest, workers=self.a.workers)
+        todo = os.path.join(batch, "labels_manifest.json")
+        fr.save_manifest(todo, {"games": []}, games + backlog)
+        if backlog:
+            self.log(f"labels: also labeling {len(backlog)} corpus game(s) that had states but no labels")
+        s = replay_labels.run(self.p.states, self.p.raw, todo, out,
+                              corpus_manifest=self.p.manifest, workers=self.a.workers)
         labeled = len(glob.glob(os.path.join(out, "*.jsonl.gz")))
-        st["labels"] = {"games_labeled": labeled, "rows": s.get("rows"),
+        st["labels"] = {"games_labeled": labeled, "backfilled": len(backlog), "rows": s.get("rows"),
                         "match_rate": s.get("match_rate"),
                         "games_dropped": len(s.get("games_dropped") or [])}
+        if backlog:
+            state = _read_json(self.p.state_file, {})
+            state["labels_backfilled"] = sorted(set(state.get("labels_backfilled", []))
+                                                | {g["reviewId"] for g in backlog})
+            _write_json(self.p.state_file, state)
         self.log(f"labels: {labeled} games, {s.get('rows')} rows, match {s.get('match_rate')}")
 
     def stage_merge_labels(self, batch: str, st: Dict) -> None:
@@ -454,7 +478,11 @@ def status(paths: Paths, n: int = 5) -> str:
     lines = []
     games = fr.load_manifest(paths.manifest)[1]
     labels = len(glob.glob(os.path.join(paths.labels, "*.jsonl.gz")))
-    lines.append(f"corpus: {len(games)} games in manifest, {labels} labeled")
+    lines.append(f"corpus: {len(games)} games in {paths.manifest}, {labels} labeled")
+    replays = glob.glob(os.path.join(paths.raw, "*.xml.gz"))
+    if not os.path.isfile(paths.manifest) and replays:
+        lines.append(f"WARNING: manifest missing but raw/ holds {len(replays)} replays; a run "
+                     f"will refuse to start. Pass --manifest <your corpus manifest>.")
     state = _read_json(paths.state_file, {})
     lines.append(f"train pending: {state.get('train_pending', False)} · last install: "
                  f"{(state.get('last_install') or {}).get('candidate', 'never')}")

@@ -226,6 +226,29 @@ def test_existing_corpus_without_manifest_is_refused(world):
     assert world.cmds == [] and not (world.root / "batches").exists()
 
 
+def test_existing_states_without_labels_are_backfilled_once(world):
+    raw, states = world.root / "raw", world.root / "states" / "v2"
+    raw.mkdir(parents=True)
+    states.mkdir(parents=True)
+    (raw / "old.xml.gz").write_bytes(b"")
+    (states / "old.jsonl.gz").write_text("s")
+    fr.save_manifest(str(raw / "manifest.json"), {"games": []}, [{"reviewId": "old", "mmr": 7000}])
+    world.listing = [_record("new", 1)]
+    [s] = world.pipeline().run()
+    assert world.labels_seen[0][0] == ["new", "old"] and s["labeled_games"] == 2
+    assert (world.root / "labels" / "v2" / "old.jsonl.gz").exists()
+    (world.root / "labels" / "v2" / "old.jsonl.gz").unlink()     # even if it vanished,
+    world.pipeline().run()                                        # it is not retried daily
+    assert len(world.labels_seen) == 1
+
+
+def test_status_warns_when_manifest_is_missing(world):
+    (world.root / "raw").mkdir(parents=True)
+    (world.root / "raw" / "old.xml.gz").write_bytes(b"")
+    out = dp.status(dp.Paths(str(world.root), repo=str(world.repo)))
+    assert "WARNING" in out and "--manifest" in out
+
+
 def test_no_install_flag(world):
     world.listing = [_record("a", 1)]
     [s] = world.pipeline(no_install=True).run()

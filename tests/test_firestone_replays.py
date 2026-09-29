@@ -119,3 +119,37 @@ def test_fetch_new_downloads_only_unseen_and_survives_a_bad_replay(tmp_path):
     assert [f["reviewId"] for f in res["failed"]] == ["bad"]
     assert sorted(os.listdir(out)) == ["good.xml.gz"]
     assert json.load(open(manifest))["games"] == [{"reviewId": "have"}]   # untouched
+
+
+def test_http_get_retries_a_truncated_body(monkeypatch):
+    import http.client
+
+    class Resp:
+        headers = {}
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return b"[]"
+
+    calls = []
+
+    def urlopen(req, timeout):
+        calls.append(req.full_url)
+        if len(calls) == 1:
+            raise http.client.IncompleteRead(b"[{")
+        return Resp()
+
+    monkeypatch.setattr(fr.urllib.request, "urlopen", urlopen)
+    assert fr.http_get("https://example.test/x", backoff=0) == b"[]"
+    assert len(calls) == 2
+
+
+def test_fetch_listing_refetches_cut_off_json(monkeypatch):
+    monkeypatch.setattr(fr.time, "sleep", lambda s: None)
+    bodies = iter([b'[{"reviewId": "a"', json.dumps([{"reviewId": "a"}]).encode()])
+    assert fr.fetch_listing(lambda url: next(bodies)) == [{"reviewId": "a"}]
