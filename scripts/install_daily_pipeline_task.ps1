@@ -14,7 +14,7 @@ param(
 
 $Script = Join-Path $PSScriptRoot 'daily_firestone_pipeline.ps1'
 $Repo = Split-Path -Parent $PSScriptRoot
-$TaskArgs = "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$Script`""
+$TaskArgs = "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$Script`" -Scheduled"
 if ($PipelineArgs.Trim()) { $TaskArgs += " -PipelineArgs `"$($PipelineArgs.Trim())`"" }
 $Action = New-ScheduledTaskAction -Execute 'powershell.exe' -WorkingDirectory $Repo -Argument $TaskArgs
 $Trigger = New-ScheduledTaskTrigger -Daily -At $At
