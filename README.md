@@ -65,6 +65,19 @@ Audit: `data/TRAIN_META_AUDIT.md`. Synth pack: `data/train_synth_comps_v2.json`.
 
 `data/hsreplay/36.6.1/` — `comps.json`, `minions.json`, `heroes.json`, `trinkets.json`, `spells.json`, `tribes.json`, `meta.json`.
 
+## Daily Firestone pipeline (fetch → states → labels → train)
+
+`python -m hsbg_coach.daily_pipeline` pulls every new first-place game Firestone
+lists, builds `states.v2` + `labels.v2` for just those games, retrains the NEXT
+policy on the whole labeled corpus, and installs it only on a gate PASS that also
+beats the live policy. Schedule it once on Windows:
+
+```powershell
+.\scripts\install_daily_pipeline_task.ps1          # daily at 04:30; logs in data\firestone\logs\
+```
+
+Details and flags: [`docs/DAILY_PIPELINE.md`](docs/DAILY_PIPELINE.md).
+
 ## Data sourcing (design)
 
 | Source | Role |
@@ -110,6 +123,7 @@ See `specs/hsbg-coach_spec.md` for calibration notes.
 
 ## Docs
 
+- `docs/DAILY_PIPELINE.md` — daily Firestone fetch → label → train job
 - `docs/TRAIN_HSREPLAY_LOCAL.md` — local HSReplay train
 - `data/TRAIN_LOCAL_COMMANDS.md` — copy-paste PowerShell
 - `data/TRAIN_META_AUDIT.md` — pool / comps / thin150 audit
