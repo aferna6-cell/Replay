@@ -5,6 +5,33 @@ One command pulls every Firestone game we don't have yet, builds `states.v2`, la
 and installs the new policy only if it earns it. Code: `hsbg_coach/daily_pipeline.py`
 (orchestration) and `hsbg_coach/firestone_replays.py` (fetch).
 
+## Run it locally (from the Replay folder)
+
+```powershell
+cd C:\Users\aidan\Replay
+git fetch origin; git checkout claude/nifty-archimedes-88wgst    # until the PR merges
+.\scripts\daily_firestone_pipeline.ps1                           # fetch + label + train + gated install
+```
+
+That is the whole job, with output on screen. Common variants (`-PipelineArgs` takes
+any flag listed below):
+
+```powershell
+.\scripts\daily_firestone_pipeline.ps1 -PipelineArgs '--force-train --max-new 0'  # just retrain on what you have
+.\scripts\daily_firestone_pipeline.ps1 -PipelineArgs '--no-install'              # train + report, keep the live policy
+.\scripts\daily_firestone_pipeline.ps1 -PipelineArgs '--no-train'                # data only
+.\.venv\Scripts\python.exe -m hsbg_coach.daily_pipeline --status                   # corpus + last runs
+```
+
+Needs: the `.venv` you already train with (NumPy + Torch), and `ml\eval_net.pt`
+(the gate's advisor baseline; without it nothing is ever installed). Your corpus
+manifest must be `data\firestone\raw\manifest.json`, or add
+`-PipelineArgs '--manifest data\firestone\raw\<yours>.json'`; the job stops with that
+hint if it sees replays in `raw\` but no manifest. The first run also downloads
+everything Firestone currently lists that you don't have (up to ~1,000 games), so it
+is the long one. Each run's details: `data\firestone\batches\<id>\status.json` and
+`train.log`; the candidate + metrics are in `results\policy_net_<id>.*`.
+
 ## Set it up once (Windows)
 
 ```powershell

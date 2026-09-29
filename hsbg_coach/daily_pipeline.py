@@ -421,8 +421,23 @@ class Pipeline:
             shutil.rmtree(batch, ignore_errors=True)       # keep only batches that did work
         return summary
 
+    def check_corpus(self) -> None:
+        """Refuse to start a fresh manifest next to an existing corpus: the new
+        one would hold only new games and skew the label MMR weights."""
+        if os.path.isfile(self.p.manifest) or not os.path.isdir(self.p.raw):
+            return
+        replays = [f for f in os.listdir(self.p.raw) if f.endswith(".xml.gz")]
+        if replays:
+            other = sorted(f for f in os.listdir(self.p.raw) if f.endswith(".json"))
+            raise RuntimeError(
+                f"{self.p.manifest} not found, but {self.p.raw} already holds {len(replays)} "
+                f"replays. Pass --manifest <your corpus manifest>"
+                + (f" (candidates in raw/: {', '.join(other)})" if other else "")
+                + " so new games are added to it.")
+
     def run(self) -> List[Dict]:
         """Finish an interrupted batch first, then run today's batch."""
+        self.check_corpus()
         with Lock(self.p.lock):
             summaries = []
             batch = self.unfinished_batch()

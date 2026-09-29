@@ -216,6 +216,16 @@ def test_lock_blocks_a_second_run(world):
         world.pipeline().run()
 
 
+def test_existing_corpus_without_manifest_is_refused(world):
+    raw = world.root / "raw"
+    raw.mkdir(parents=True)
+    (raw / "old.xml.gz").write_bytes(b"")
+    (raw / "pilot_manifest.json").write_text("{}")
+    with pytest.raises(RuntimeError, match="pilot_manifest.json"):
+        world.pipeline().run()
+    assert world.cmds == [] and not (world.root / "batches").exists()
+
+
 def test_no_install_flag(world):
     world.listing = [_record("a", 1)]
     [s] = world.pipeline(no_install=True).run()
