@@ -62,6 +62,26 @@ comes from the server Options block, so live and training see the same values.
 option_cost reads the slot's buy_cost for buys (else 3 / the spell's cost), and
 legal_options uses buy_cost / reroll_cost for affordability when present.
 
+bc-enc-v4 (from v3): hero-power identity and turn progress.
+  state  - the 16-bucket CRC32 hash of the hero power id is replaced by a one-hot
+           over HERO_POWER_VOCAB (every hero power id seen in the v2.1 training
+           games, + one "other" slot): the hash put 71 ids into 15 buckets and
+           the two most common powers (BG36_HERO_000p, BG36_HERO_002p; 43% of
+           hero-power picks) each shared a bucket with four other powers.
+         + hp_passive: the power is in PASSIVE_HERO_POWERS (the tracker reports
+           those as usable, but the server never offers them); hp_usable /
+           hp_affordable / hp_used are 0 for them.
+         + gold spent this turn (turn-start gold min(turn + 2, 10) minus gold,
+           floored at 0) and gold left as a share of turn-start gold.
+         The last two v3 scalars are renamed rolls_affordable / buys_affordable:
+         they always were gold // cost, not counts of rolls / buys this turn.
+  option + the hero power one-hot (same vocabulary) on hero_power options, so
+           the scorer sees WHICH power it is scoring (v3's option vector for a
+           hero power was identical for every hero); spends the last gold
+           (cost > 0 and gold == cost); still able to buy afterwards
+           (gold - cost >= the cheapest shop buy).
+legal_options no longer offers a hero power listed in PASSIVE_HERO_POWERS.
+
 Needs numpy (the ml extra). The stdlib-only core never imports this module
 unless the policy flag is on.
 """
@@ -74,7 +94,7 @@ import numpy as np
 
 from .actions import BUY_COST, MAX_BOARD, MAX_TIER, ROLL_COST, SELL_VALUE, UPGRADE_COST
 
-ENCODER_VERSION = "bc-enc-v3"
+ENCODER_VERSION = "bc-enc-v4"
 
 MAX_HAND = 10
 EMB_DIM = 48                            # card2vec width (data/cards/card2vec.json)
@@ -96,15 +116,54 @@ STATE_SCALARS = ("turn", "tier", "gold", "health", "armor", "n_board", "n_shop",
                  "hp_affordable", "hp_used", "dg_present", "dg_usable", "dg_cost",
                  "dg_affordable", "gold_minus_level", "min_buy_cost", "n_buy_affordable",
                  "shop_max_tier_rel", "shop_mean_tier_rel", "shop_at_tier",
-                 "shop_pairs", "shop_triples", "shop_tribe_match", "n_rolls",
-                 "n_buys")
+                 "shop_pairs", "shop_triples", "shop_tribe_match", "rolls_affordable",
+                 "buys_affordable",
+                 # bc-enc-v4
+                 "hp_passive", "gold_spent_turn", "gold_left_share")
 HASH_BUCKETS = 16
-STATE_DIM = 3 * _ZONE_DIM + len(STATE_SCALARS) + HASH_BUCKETS  # + hero power id hash
+# bc-enc-v4: every hero power card id seen in the v2.1 training games (build
+# 253216, held-out games excluded), most frequent first. Ids not listed share
+# the trailing "other" slot. Append new ids at the end (and bump the version).
+HERO_POWER_VOCAB = (
+    'BG36_HERO_000p', 'BG36_HERO_002p', 'BG21_HERO_000p', 'TB_BaconShop_HP_020',
+    'TB_BaconShop_HP_010', 'TB_BaconShop_HP_024', 'BG25_HERO_103p',
+    'TB_BaconShop_HP_046', 'TB_BaconShop_HP_075', 'BG25_HERO_105p', 'BG26_HERO_102p',
+    'BG20_HERO_301p', 'BG21_HERO_010p', 'BG34_HERO_001p', 'BG28_HERO_801p',
+    'BG31_HERO_003p', 'BG31_HERO_005p', 'BG20_HERO_101p', 'BG20_HERO_201p',
+    'TB_BaconShop_HP_011', 'TB_BaconShop_HP_103', 'BG26_HERO_102p2', 'BG26_HERO_104p',
+    'TB_BaconShop_HP_053', 'BG32_HERO_001p', 'TB_BaconShop_HP_047', 'BG21_HERO_020p',
+    'TB_BaconShop_HP_077', 'TB_BaconShop_HP_081', 'TB_BaconShop_HP_072',
+    'TB_BaconShop_HP_022', 'BG22_HERO_000p_Alt', 'BG23_HERO_303p2', 'BG31_HERO_006p',
+    'TB_BaconShop_HP_052', 'TB_BaconShop_HP_042', 'TB_BaconShop_HP_028',
+    'BG22_HERO_001p', 'TB_BaconShop_HP_074', 'TB_BaconShop_HP_084', 'BG20_HERO_280p5',
+    'BG23_HERO_305p', 'TB_BaconShop_HP_702t', 'TB_BaconShop_HP_068',
+    'TB_BaconShop_HP_040', 'TB_BaconShop_HP_041k', 'TB_BaconShop_HP_064',
+    'TB_BaconShop_HP_102', 'TB_BaconShop_HP_076', 'TB_BaconShop_HP_041l',
+    'BG24_HERO_100p', 'BG20_HERO_282p', 'BG20_HERO_103p', 'BG28_HERO_400p',
+    'TB_BaconShop_HP_038', 'TB_BaconShop_HP_041d', 'BG31_HERO_811p2',
+    'TB_BaconShop_HP_041b', 'TB_BaconShop_HP_049', 'BG20_HERO_283p',
+    'TB_BaconShop_HP_041i', 'TB_BaconShop_HP_041h', 'TB_BaconShop_HP_041a',
+    'TB_BaconShop_HP_041g', 'TB_BaconShop_HP_036', 'BG31_HERO_811p',
+    'TB_BaconShop_HP_041c', 'BG20_HERO_201p2', 'TB_BaconShop_HP_015',
+    'TB_BaconShop_HP_041f', 'BG25_HERO_100p', 'TB_BaconShop_HP_057',
+)
+HP_VOCAB_DIM = len(HERO_POWER_VOCAB) + 1
+_HP_INDEX = {cid: i for i, cid in enumerate(HERO_POWER_VOCAB)}
+# Hero powers the tracker reports as usable although they cannot be clicked:
+# in the v2.1 labels the server never listed them as an option in any of their
+# (usable, affordable) decision points (TB_BaconShop_HP_042 2131 rows,
+# BG20_HERO_280p5 1679, TB_BaconShop_HP_038 1299, BG24_HERO_100p 984,
+# BG20_HERO_282p 803, TB_BaconShop_HP_036 236, TB_BaconShop_HP_057 13).
+PASSIVE_HERO_POWERS = frozenset((
+    "TB_BaconShop_HP_042", "BG20_HERO_280p5", "TB_BaconShop_HP_038", "BG24_HERO_100p",
+    "BG20_HERO_282p", "TB_BaconShop_HP_036", "TB_BaconShop_HP_057"))
+STATE_DIM = 3 * _ZONE_DIM + len(STATE_SCALARS) + HP_VOCAB_DIM  # + hero power one-hot
 _CARD_DIM = EMB_DIM + 7 + _N_TRIBES + 1              # card2vec | stats | tribes | spell
 KEYWORDS = ("DEATHRATTLE", "AVENGE", "WINDFURY", "VENOMOUS", "MAGNETIC")
 _V3_OPTION = 1 + 5 + 5 + 6 + len(KEYWORDS) + HASH_BUCKETS
+_V4_OPTION = HP_VOCAB_DIM + 2
 OPTION_DIM = (len(OPTION_TYPES) + _CARD_DIM + 2 * (len(ZONES) + 1) + 2 + 2 + 1 + 2
-              + _V3_OPTION)
+              + _V3_OPTION + _V4_OPTION)
 
 _SPELL_TYPES = ("BATTLEGROUND_SPELL", "SPELL")
 _NOT_A_CARD = ("ENCHANTMENT", "HERO", "HERO_POWER", "GAME_MODE_BUTTON")
@@ -191,6 +250,23 @@ def _spell_cost(spell) -> int:
 def _hero_power(snapshot) -> Optional[Dict]:
     hp = _get(snapshot, "hero_power")
     return hp if isinstance(hp, dict) else None
+
+
+def is_passive_hero_power(hp: Optional[Dict]) -> bool:
+    return bool(hp) and hp.get("card_id") in PASSIVE_HERO_POWERS
+
+
+def hero_power_onehot(card_id) -> List[float]:
+    """One-hot over HERO_POWER_VOCAB + "other" (all zeros for no hero power)."""
+    out = [0.0] * HP_VOCAB_DIM
+    if card_id:
+        out[_HP_INDEX.get(str(card_id), HP_VOCAB_DIM - 1)] = 1.0
+    return out
+
+
+def turn_start_gold(snapshot) -> int:
+    """Base gold at the start of this turn: 3 on turn 1, +1 per turn, max 10."""
+    return min(max(_int(_get(snapshot, "turn"), 1), 1) + 2, 10)
 
 
 def _dark_gift(snapshot) -> Optional[Dict]:
@@ -341,6 +417,7 @@ def encode_state(snapshot) -> np.ndarray:
     gold = _int(_get(snapshot, "gold"), 0)
     lc = level_cost(snapshot)
     hp = _hero_power(snapshot) or {}
+    passive = is_passive_hero_power(hp)
     scalars = np.array([
         _int(_get(snapshot, "turn"), 0) / 20.0,
         _int(_get(snapshot, "tavern_tier"), 1) / 6.0,
@@ -352,7 +429,7 @@ def encode_state(snapshot) -> np.ndarray:
         len(hand) / MAX_HAND,
         (lc or 0) / 10.0,
         1.0 if lc is not None and gold >= lc else 0.0,
-        1.0 if hp.get("usable") else 0.0,
+        1.0 if hp.get("usable") and not passive else 0.0,
         _int(hp.get("cost"), 0) / 10.0,
         len(_get(snapshot, "shop_spells") or []) / 3.0,
         1.0 if _get(snapshot, "shop_frozen") else 0.0,
@@ -371,8 +448,8 @@ def encode_state(snapshot) -> np.ndarray:
         1.0 if rc == 0 else 0.0,
         1.0 if gold >= rc else 0.0,
         1.0 if hp else 0.0,
-        1.0 if hp and gold >= hp_cost else 0.0,
-        1.0 if hp and not hp.get("usable") and gold >= hp_cost else 0.0,
+        1.0 if hp and not passive and gold >= hp_cost else 0.0,
+        1.0 if hp and not passive and not hp.get("usable") and gold >= hp_cost else 0.0,
         1.0 if dg else 0.0,
         1.0 if dg.get("usable") else 0.0,
         dg_cost / 10.0,
@@ -389,8 +466,15 @@ def encode_state(snapshot) -> np.ndarray:
         min(gold // rc, 10) / 10.0 if rc > 0 else 1.0,
         min(gold // min_buy, 10) / 10.0 if min_buy > 0 else 1.0,
     ], dtype=np.float64)
+    start = turn_start_gold(snapshot)
+    v4 = np.array([
+        1.0 if passive else 0.0,
+        max(start - gold, 0) / 10.0,
+        min(gold / start, 2.0),
+    ], dtype=np.float64)
     return np.concatenate([_zone_block(board), _zone_block(shop), _zone_block(hand),
-                           scalars, v3, id_hash(hp.get("card_id"))]).astype(np.float32)
+                           scalars, v3, v4, hero_power_onehot(hp.get("card_id"))]
+                          ).astype(np.float32)
 
 
 # --- options ----------------------------------------------------------------
@@ -437,7 +521,8 @@ def legal_options(snapshot) -> List[Dict]:
       reroll     gold >= reroll_cost() (snapshot.reroll_cost, 0 = free; else 1)
       freeze     always (it toggles)
       level      tier < 6 and gold >= level_cost (live discounted, else base)
-      hero_power hero_power present, usable, and gold >= its cost; no target
+      hero_power hero_power present, usable, not in PASSIVE_HERO_POWERS, and
+                 gold >= its cost; no target
       end_turn   always
       discover   never enumerated: a Snapshot carries no choice offer
     """
@@ -488,7 +573,8 @@ def legal_options(snapshot) -> List[Dict]:
     if lc is not None and gold >= lc:
         opts.append(make_option("level"))
     hp = _hero_power(snapshot)
-    if hp and hp.get("usable") and gold >= _int(hp.get("cost"), 0):
+    if (hp and hp.get("usable") and not is_passive_hero_power(hp)
+            and gold >= _int(hp.get("cost"), 0)):
         opts.append(make_option("hero_power", hp.get("card_id")))
     opts.append(make_option("end_turn"))
     return opts
@@ -635,7 +721,7 @@ def encode_option(snapshot, option: Dict) -> np.ndarray:
         [cost / 10.0, (gold - cost) / 10.0],
         [1.0 if option.get("choice_kind") else 0.0],
         [1.0 if vidx else 0.0, vidx / 4.0],
-    ] + _v3_option(snapshot, option, cost, vidx)
+    ] + _v3_option(snapshot, option, cost, vidx) + _v4_option(snapshot, option, cost)
     return np.concatenate([np.asarray(p, dtype=np.float64) for p in parts]).astype(np.float32)
 
 
@@ -686,6 +772,22 @@ def _v3_option(snapshot, option: Dict, cost: int, vidx: int) -> List[List[float]
     kw = [1.0 if str(_tags(card).get(k, "")) not in ("", "0") else 0.0 for k in KEYWORDS]
     variant = id_hash(option.get("card_id")) if vidx else [0.0] * HASH_BUCKETS
     return [affordable, buy, shopctx, posb, kw, variant]
+
+
+def _v4_option(snapshot, option: Dict, cost: int) -> List[List[float]]:
+    """bc-enc-v4 option features: hero power identity (the option's own card id,
+    else the snapshot's power) on hero_power options; spends the last gold;
+    can still buy afterwards."""
+    ctx = _context(snapshot)
+    gold = ctx["gold"]
+    hp_id = [0.0] * HP_VOCAB_DIM
+    if option.get("type") == "hero_power":
+        hp_id = hero_power_onehot(option.get("card_id")
+                                  or (_hero_power(snapshot) or {}).get("card_id"))
+    costs = ctx["costs"]
+    min_buy = min(costs) if costs else BUY_COST
+    return [hp_id, [1.0 if cost > 0 and gold == cost else 0.0,
+                    1.0 if gold - cost >= min_buy else 0.0]]
 
 
 def describe_option(snapshot, option: Dict) -> str:

@@ -11,9 +11,9 @@ docs/labels_schema.md):
 
 Rows are streamed one file at a time (labels.v2 writes one <game_id>.jsonl.gz
 per game): each file is read, split, encoded, and its raw rows dropped; option
-matrices go to an on-disk float32 memmap under --cache-dir (a temp dir by
-default, deleted at the end unless --keep-cache), so memory stays bounded by one
-file plus the per-row metadata. Results are identical to encoding every row in
+matrices and state vectors go to on-disk float32 memmaps under --cache-dir (a
+temp dir by default, deleted at the end unless --keep-cache), so memory stays
+bounded by one file plus the per-row metadata. Results are identical to encoding every row in
 memory (tests/test_train_bc_streaming.py). Files are independent: a game split
 across several files is still one game for the split, but the advisor baseline
 keeps its per-game state per file.
@@ -64,7 +64,12 @@ kind (play split into hand / activate / dark_gift), on the same decisions, for:
 With an advisor column present, metrics["gate"] applies the promotion rule:
 PASS iff model_coarse overall top-1 >= the better advisor column's, and no
 chosen action type with >= 50 held-out decisions has model_coarse top-1 more
-than 3.0 points below the better advisor column for that type.
+than 3.0 points below the better advisor column for that type, except the
+types in --gate-exempt (default: freeze), which are still scored and reported
+per type (exempt: true, "reported_but_exempt") but never fail the gate.
+
+--hp-weight W multiplies the loss weight of training rows whose chosen option
+is a hero_power (default 1.0 = off). Held-out scoring is unweighted.
 
   python -m ml.train_bc_policy --data "data/firestone/labels/v1/*.jsonl.gz" --make-heldout
   python -m ml.train_bc_policy --data ... --compare ml/policy_net.pt --install
@@ -96,10 +101,11 @@ if REPO not in sys.path:
     sys.path.insert(0, REPO)
 
 from hsbg_coach import encode as enc  # noqa: E402
-from ml.bc_policy import (BCPolicy, OptionScorer, decision_loss,  # noqa: E402
+from ml.bc_policy import (DECODE, BCPolicy, OptionScorer, decision_loss,  # noqa: E402
                           load_bc_policy, pad_batch, save_policy)
 
 DEFAULT_BUILD = "253216"
+GATE_EXEMPT = ("freeze",)       # reported per type but never fail the gate
 HELDOUT_FRAC = 0.15
 HELDOUT_MIN = 30
 LIVE_PATH = os.path.join(REPO, "ml", "policy_net.pt")
@@ -142,6 +148,11 @@ def row_weight(row: Dict, build) -> float:
         return 0.0
     w = row.get("weight")
     return 1.0 if w is None else float(w)
+
+
+def type_weights(weights: List[float], chosen_types: List[str], multipliers: Dict) -> List[float]:
+    """Loss weights: each row's weight times multipliers[its chosen type] (1.0 when absent)."""
+    return [w * float(multipliers.get(t, 1.0)) for w, t in zip(weights, chosen_types)]
 
 
 def row_snapshot(row: Dict):
@@ -527,21 +538,39 @@ def encode_file(path: str, heldout: Set[str], build) -> Dict:
 
 
 class EncodedSet:
-    """Encoded rows: states in RAM, option matrices in an on-disk float32
-    memmap (offsets per row), slim metadata per row."""
+    """Encoded rows: state vectors and option matrices in on-disk float32
+    memmaps (option offsets per row), slim metadata per row. The slim option
+    dicts in the metadata are interned across files (read-only; identical
+    (type, card_id, source) share one dict), which keeps the held-out metadata
+    small."""
 
     def __init__(self, cache_dir: str, name: str):
         self.path = os.path.join(cache_dir, f"{name}_options.f32")
+        self.state_path = os.path.join(cache_dir, f"{name}_states.f32")
         self._fh = open(self.path, "wb")
-        self._S, self.n_opt, self.C, self.W, self.meta = [], [], [], [], []
+        self._sfh = open(self.state_path, "wb")
+        self._n = 0
+        self._intern: Dict[tuple, Dict] = {}
+        self.n_opt, self.C, self.W, self.meta = [], [], [], []
         self.merged = self.chosen_dup = 0
         self.counts: Dict = {}
         self.S = self.O = self.off = None
 
+    def _slim(self, o: Dict) -> Dict:
+        src = o.get("source") or {}
+        key = (o.get("type"), o.get("card_id"), src.get("zone"), src.get("slot"))
+        return self._intern.setdefault(key, o)
+
     def extend(self, part: Dict) -> None:
         if part["O"] is not None:
             self._fh.write(np.ascontiguousarray(part["O"], dtype=np.float32).tobytes())
-        self._S += part["S"]
+        if part["S"]:
+            self._sfh.write(np.ascontiguousarray(np.stack(part["S"]), dtype=np.float32).tobytes())
+            self._n += len(part["S"])
+        for m in part["meta"]:
+            m["chosen_option"] = self._slim(m["chosen_option"])
+            if "options" in m:
+                m["options"] = [self._slim(x) for x in m["options"]]
         self.n_opt += part["n_opt"]
         self.C += part["C"]
         self.W += part["W"]
@@ -552,13 +581,19 @@ class EncodedSet:
 
     def finish(self) -> "EncodedSet":
         self._fh.close()
-        self.S = (np.stack(self._S).astype(np.float32) if self._S
+        self._sfh.close()
+        self._intern = {}
+        # mode "r" (a shared read-only map): a private "c" map of the option file
+        # is charged in full against the kernel's commit limit, and bc-enc-v4's
+        # option matrices (~18 GB for v2.1) exceed RAM, so mmap failed (ENOMEM).
+        # Rows are only read; pad_batch copies them into fresh tensors.
+        self.S = (np.memmap(self.state_path, dtype=np.float32, mode="r",
+                            shape=(self._n, enc.STATE_DIM)) if self._n
                   else np.zeros((0, enc.STATE_DIM), np.float32))
-        self._S = []
         self.off = np.zeros(len(self.n_opt) + 1, dtype=np.int64)
         self.off[1:] = np.cumsum(self.n_opt)
         total = int(self.off[-1])
-        self.O = (np.memmap(self.path, dtype=np.float32, mode="c",
+        self.O = (np.memmap(self.path, dtype=np.float32, mode="r",
                             shape=(total, enc.OPTION_DIM)) if total else None)
         for key in ("by_type", "by_kind"):
             self.counts[key] = dict(sorted(self.counts.get(key, {}).items()))
@@ -575,7 +610,7 @@ class EncodedSet:
         return self.encoded(i) + (self.W[i],)
 
     def close(self) -> None:
-        self.O = None
+        self.O = self.S = None
 
 
 def _pool_map(fn, args: List, workers: int):
@@ -696,28 +731,41 @@ def run_advisor_stream(files: List[str], heldout: Set[str], build, keys: List[tu
             "hand_lines": hand_lines, "hits": hits, "mapping": merge_advisor_diag(diags)}
 
 
-def gate(results: Dict, advisors: List[str], min_n: int = 50, max_drop: float = 0.03) -> Dict:
+def gate(results: Dict, advisors: List[str], min_n: int = 50, max_drop: float = 0.03,
+         exempt=GATE_EXEMPT) -> Dict:
     """Promotion gate: model_coarse vs the better advisor column, overall and
-    per chosen action type (types with >= min_n held-out decisions)."""
+    per chosen action type (types with >= min_n held-out decisions). Types in
+    `exempt` are scored and reported like the others (their `pass` says whether
+    they would have passed) but never fail the gate."""
+    exempt = sorted(set(exempt or ()))
     mc = results["model_coarse"]
     cols = [a for a in advisors if a in results]
     best = max(cols, key=lambda a: (results[a]["overall"]["top1"] or 0.0))
     b1 = results[best]["overall"]["top1"] or 0.0
-    per_type, fails = {}, []
+    per_type, fails, exempt_fails = {}, [], []
     for t, v in mc["per_type"].items():
         top = {a: results[a]["per_type"].get(t, {}).get("top1") or 0.0 for a in cols}
         bt = max(top, key=lambda a: top[a])
         d = round((v["top1"] or 0.0) - top[bt], 6)
+        is_exempt = t in exempt
         gated = v["n"] >= min_n
         ok = not (gated and d < -max_drop)
         per_type[t] = {"n": v["n"], "model_coarse_top1": v["top1"], "best_advisor": bt,
-                       "best_advisor_top1": top[bt], "delta": d, "gated": gated, "pass": ok}
-        if not ok:
+                       "best_advisor_top1": top[bt], "delta": d, "gated": gated and not is_exempt,
+                       "exempt": is_exempt, "pass": ok}
+        if is_exempt:
+            per_type[t]["status"] = "reported_but_exempt"
+            if not ok:
+                exempt_fails.append(t)
+        elif not ok:
             fails.append(t)
     overall_ok = (mc["overall"]["top1"] or 0.0) >= b1
-    return {"rule": f"model_coarse overall top-1 >= best advisor; no type with >= {min_n} "
-                    f"decisions more than {max_drop * 100:.1f} pts below the better advisor",
-            "advisors": cols,
+    rule = (f"model_coarse overall top-1 >= best advisor; no type with >= {min_n} "
+            f"decisions more than {max_drop * 100:.1f} pts below the better advisor")
+    if exempt:
+        rule += f"; exempt (reported, never blocking): {', '.join(exempt)}"
+    return {"rule": rule, "advisors": cols, "exempt": exempt,
+            "exempt_below_threshold": exempt_fails,
             "overall": {"model_coarse_top1": mc["overall"]["top1"], "best_advisor": best,
                         "best_advisor_top1": b1,
                         "delta": round((mc["overall"]["top1"] or 0.0) - b1, 6),
@@ -758,6 +806,12 @@ def parse_args(argv=None):
     p.add_argument("--batch", type=int, default=64)
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--hp-weight", type=float, default=1.0,
+                   help="loss-weight multiplier for training rows whose chosen option is a "
+                        "hero_power (default 1.0 = off)")
+    p.add_argument("--gate-exempt", nargs="*", default=list(GATE_EXEMPT),
+                   help="action types reported in the gate but never failing it "
+                        "(default: freeze; pass no values to exempt nothing)")
     p.add_argument("--out", default=None, help="checkpoint (default results/policy_net_<date>.pt)")
     p.add_argument("--metrics", default=None, help="metrics JSON (default <out>.metrics.json)")
     p.add_argument("--compare", default=None,
@@ -857,7 +911,8 @@ def main(argv=None) -> int:
             if own_cache:
                 shutil.rmtree(cache, ignore_errors=True)
             else:
-                for name in ("train_options.f32", "heldout_options.f32"):
+                for name in ("train_options.f32", "heldout_options.f32",
+                             "train_states.f32", "heldout_states.f32"):
                     try:
                         os.remove(os.path.join(cache, name))
                     except OSError:
@@ -912,6 +967,11 @@ def _run(a, files, heldout, frozen, cache) -> int:
             print(json.dumps(pt), flush=True)
 
     items = [train.item(i) for i in fit_idx]
+    if a.hp_weight != 1.0:
+        ws = type_weights([it[3] for it in items],
+                          [train.meta[i]["chosen_option"]["type"] for i in fit_idx],
+                          {"hero_power": a.hp_weight})
+        items = [it[:3] + (w,) for it, w in zip(items, ws)]
     model, history = train_model(items, a.epochs, a.lr, a.batch, a.seed, on_epoch=on_epoch)
     del items
 
@@ -920,6 +980,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
     metrics_path = a.metrics or os.path.splitext(out)[0] + ".metrics.json"
     fit_games = len({train.meta[i]["game_id"] for i in fit_idx})
     save_policy(model, out, {"build": str(a.build), "seed": a.seed, "epochs": a.epochs,
+                             "hp_weight": a.hp_weight,
                              "train_rows": len(fit_idx), "train_games": fit_games,
                              "heldout_games": len(heldout), "created": date})
     split = dict(counts, train_rows=len(train), heldout_rows=len(held),
@@ -938,6 +999,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
         "checkpoint": out, "encoder_version": enc.ENCODER_VERSION,
         "state_dim": enc.STATE_DIM, "option_dim": enc.OPTION_DIM,
         "build": str(a.build), "seed": a.seed, "epochs": a.epochs, "lr": a.lr,
+        "hp_weight": a.hp_weight, "decode": DECODE,
         "batch": a.batch, "heldout_file": a.heldout, "heldout_frozen": frozen,
         "heldout_file_sha256": _sha256(a.heldout),
         "split": split,
@@ -1006,7 +1068,8 @@ def _run(a, files, heldout, frozen, cache) -> int:
     advisor_cols = [n for n in ("advisor", "advisor_hand_lines", "advisor_no_hand_lines")
                     if n in results]
     metrics.update({"heldout": results, "compare": compare, "advisor_baseline": advisor,
-                    "gate": gate(results, advisor_cols) if advisor_cols and len(held) else None})
+                    "gate": (gate(results, advisor_cols, exempt=a.gate_exempt)
+                             if advisor_cols and len(held) else None)})
     if a.train_fit:
         idx = list(range(len(train)))
         metrics["train_fit"] = evaluate(_light_rows(train, idx),
@@ -1036,7 +1099,9 @@ def _run(a, files, heldout, frozen, cache) -> int:
         g = metrics["gate"]
         print(f"gate {g['result']}" + (f": failing {g['failing_types']}" if g["failing_types"]
                                        else "") + ("" if g["overall"]["pass"] else
-                                                   " (overall top-1 below advisor)"))
+                                                   " (overall top-1 below advisor)")
+              + (f"; exempt but below threshold (reported only): {g['exempt_below_threshold']}"
+                 if g.get("exempt_below_threshold") else ""))
     if missing:
         print(f"warning: {len(missing)} held-out id(s) not in the data", file=sys.stderr)
     print(f"wrote {out}\nwrote {metrics_path}")
