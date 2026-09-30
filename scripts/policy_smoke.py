@@ -2,7 +2,9 @@
 
 Feeds the repo-root sample Power.log through BGTracker / LiveCoach with
 HSBG_NEXT_POLICY=1 and prints NEXT. Exits nonzero if the checkpoint does not
-load or the policy did not produce NEXT.
+load or the policy did not produce NEXT. The overlay itself treats an unset
+HSBG_NEXT_POLICY as on (0 / false / off selects the eval-net advisor); this
+script still forces 1 so a shell that exported 0 cannot hide a bad checkpoint.
 
   python scripts/policy_smoke.py                 # checks ml/policy_net.pt
   python scripts/policy_smoke.py --checkpoint results/policy_net_20260927.pt

@@ -278,19 +278,29 @@ def test_mismatched_checkpoint_refuses_to_load(trained, tmp_path):
 
 
 # --- live wiring ------------------------------------------------------------
-def test_next_policy_flag_and_checkpoint_fallbacks(monkeypatch, tmp_path, trained, log_snapshot):
+def test_next_policy_flag_and_checkpoint_fallbacks(monkeypatch, tmp_path, trained, log_snapshot, capsys):
     from hsbg_coach import live
     from hsbg_coach.overlay import format_next
     monkeypatch.delenv("HSBG_NEXT_POLICY", raising=False)
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(trained["out"]))
-    assert live._load_next_policy() is None                  # flag off
+    assert live._load_next_policy() is not None              # unset means on
+    for off in ("0", "false", "off", "FALSE", "Off"):
+        monkeypatch.setenv("HSBG_NEXT_POLICY", off)
+        assert live._load_next_policy() is None              # explicit off -> advisor
     monkeypatch.setenv("HSBG_NEXT_POLICY", "1")
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(tmp_path / "missing.pt"))
-    assert live._load_next_policy() is None                  # missing checkpoint
+    assert live._load_next_policy() is None                  # missing checkpoint -> advisor
+    err = capsys.readouterr().err
+    assert "falling back to the eval-net advisor" in err
+    assert "checkpoint not found" in err
     bad = tmp_path / "bad.pt"
     bad.write_bytes(b"not a checkpoint")
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(bad))
-    assert live._load_next_policy() is None                  # corrupt checkpoint
+    assert live._load_next_policy() is None                  # corrupt checkpoint -> advisor
+    err = capsys.readouterr().err
+    assert "falling back to the eval-net advisor" in err
+    assert "failed to load" in err
+    monkeypatch.delenv("HSBG_NEXT_POLICY", raising=False)    # unset + good file still on
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(trained["out"]))
     policy = live._load_next_policy()
     assert policy is not None
@@ -304,14 +314,18 @@ def test_next_policy_flag_and_checkpoint_fallbacks(monkeypatch, tmp_path, traine
     assert expected in format_next(snap, None, new).splitlines()[0]
 
 
-def test_livecoach_loads_policy_only_with_flag_and_good_checkpoint(monkeypatch, trained):
+def test_livecoach_policy_defaults_on_unless_off_or_checkpoint_missing(monkeypatch, trained, capsys):
     from hsbg_coach.live import LiveCoach
     monkeypatch.delenv("HSBG_NEXT_POLICY", raising=False)
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(trained["out"]))
-    assert LiveCoach(power_log=None)._next_policy is None
-    monkeypatch.setenv("HSBG_NEXT_POLICY", "1")
+    assert LiveCoach(power_log=None)._next_policy is not None   # unset means on
+    monkeypatch.setenv("HSBG_NEXT_POLICY", "0")
+    assert LiveCoach(power_log=None)._next_policy is None       # 0 means advisor
+    monkeypatch.delenv("HSBG_NEXT_POLICY", raising=False)
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(trained["dir"] / "nope.pt"))
-    assert LiveCoach(power_log=None)._next_policy is None
+    assert LiveCoach(power_log=None)._next_policy is None       # missing -> advisor
+    err = capsys.readouterr().err
+    assert "falling back to the eval-net advisor" in err
     monkeypatch.setenv("HSBG_NEXT_POLICY_PATH", str(trained["out"]))
     assert LiveCoach(power_log=None)._next_policy is not None
 

@@ -1,7 +1,8 @@
 """The ONE state/option encoder for the behaviour-cloned NEXT policy.
 
 Shared by training (ml/train_bc_policy.py) and the live overlay
-(hsbg_coach/live.py behind HSBG_NEXT_POLICY=1). There is no second copy: if a
+(hsbg_coach/live.py). HSBG_NEXT_POLICY defaults on; set it to 0, false,
+or off to use the eval-net advisor. There is no second copy: if a
 feature changes, bump ENCODER_VERSION. Checkpoints record it, and a mismatched
 checkpoint refuses to load.
 

@@ -8,6 +8,8 @@ The Power.log logger is still the foundation. The eval net on top is what drives
 Power.log -> parse -> BG state -> overlay NEXT <- eval_net.pt (HSReplay snapshot train)
 ```
 
+NEXT comes from the behaviour-cloned policy (`ml/policy_net.pt`) when `HSBG_NEXT_POLICY` is unset. Set `HSBG_NEXT_POLICY=0` (`false` and `off` work too) to use the eval-net advisor. If the checkpoint is missing or fails to load, the overlay logs the failure and falls back to the advisor. `scripts/policy_rollback.ps1` restores `ml/policy_net.prev.pt` when that file exists, and otherwise tells you to set `HSBG_NEXT_POLICY=0`.
+
 ## Status (2026-09-23)
 
 | Layer | State |
