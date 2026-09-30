@@ -8,6 +8,17 @@ CheckpointMismatch instead of loading.
 
 Features come from hsbg_coach/encode.py, the single encoder shared with the
 live overlay. Unrelated to ml/policy_net.py (old PPO experiments).
+
+Decoding (BCPolicy.score / score_encoded / best, used live and by the trainer's
+held-out scoring): pressing the hero power is ONE decision, but the server
+lists a targeted hero power once per target, which splits its probability mass
+(v2.1 labels: Drest'agath's power is offered with a target per hand card). With
+decode "hp_group" (every checkpoint written by this version) the best-scored
+hero_power candidate is ranked by the log-sum-exp of all hero_power candidates
+(= the log of their summed softmax probability); the other hero-power targets
+keep their own scores, so the order within hero powers is unchanged. A single
+hero power option (the live overlay emits one, untargeted) is unaffected.
+Training (decision_loss) is unchanged: the softmax already sums that mass.
 """
 
 import os
@@ -21,6 +32,23 @@ from hsbg_coach import encode as enc
 
 KIND = "bc_option_scorer"
 HIDDEN = 128
+DECODE = "hp_group"                      # decode rule recorded in new checkpoints
+_HP_COL = enc.OPTION_TYPES.index("hero_power")   # type one-hot column in encode_option
+
+
+def group_hero_power(scores: np.ndarray, options: np.ndarray) -> np.ndarray:
+    """Scores with the best hero_power candidate raised to the log-sum-exp of all
+    hero_power candidates (rows of `options` whose type one-hot is hero_power).
+    Fewer than two hero-power candidates: returned unchanged."""
+    options = np.asarray(options)
+    hp = np.nonzero(options[:, _HP_COL] > 0.5)[0] if options.ndim == 2 and len(options) else []
+    if len(hp) < 2:
+        return scores
+    out = np.array(scores, dtype=np.float64)
+    top = out[hp].max()
+    best = hp[int(np.argmax(out[hp]))]
+    out[best] = top + np.log(np.exp(out[hp] - top).sum())
+    return out.astype(np.asarray(scores).dtype)
 
 
 class CheckpointMismatch(ValueError):
@@ -72,7 +100,7 @@ def decision_loss(model, states, options, mask, chosen, weight) -> torch.Tensor:
 def checkpoint_meta(model: OptionScorer, extra: Optional[Dict] = None) -> Dict:
     meta = {"kind": KIND, "encoder_version": enc.ENCODER_VERSION,
             "state_dim": model.state_dim, "option_dim": model.option_dim,
-            "hidden": model.hidden}
+            "hidden": model.hidden, "decode": DECODE}
     meta.update(extra or {})
     return meta
 
@@ -112,10 +140,18 @@ class BCPolicy:
         self.meta = dict(meta or checkpoint_meta(model))
 
     @torch.no_grad()
-    def score_encoded(self, state, options) -> np.ndarray:
+    def score_raw(self, state, options) -> np.ndarray:
+        """The network's per-option scores (no decode rule)."""
         s = torch.from_numpy(np.asarray(state, dtype=np.float32))
         o = torch.from_numpy(np.asarray(options, dtype=np.float32))
         return self.model(s, o).numpy()
+
+    def score_encoded(self, state, options) -> np.ndarray:
+        """Per-option ranking scores: score_raw plus the checkpoint's decode rule."""
+        raw = self.score_raw(state, options)
+        if self.meta.get("decode") == "hp_group":
+            return group_hero_power(raw, options)
+        return raw
 
     def score(self, snapshot, options: List[Dict]) -> np.ndarray:
         if not options:

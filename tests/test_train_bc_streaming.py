@@ -114,6 +114,7 @@ def test_streaming_matches_in_memory_path(tmp_path, workers):
     assert m["heldout_frozen"] is False
     assert m["heldout_file_sha256"] == hashlib.sha256(heldout.read_bytes()).hexdigest()
     assert not list(tmp_path.glob("**/*_options.f32"))          # cache removed
+    assert not list(tmp_path.glob("**/*_states.f32"))
 
 
 def test_streaming_advisor_matches_run_advisor_and_gate(tmp_path, monkeypatch):
@@ -185,3 +186,77 @@ def test_validation_run_uses_training_games_only(tmp_path):
     assert "heldout" not in m and m["label"].startswith("validation")
     assert T.main(["--data", pattern, "--heldout-ids", str(frozen), "--val",
                    "--install"]) == 2
+
+
+def _gate_results(freeze_mc, hp_mc, sell_mc=0.56):
+    """model_coarse vs two advisor columns over three types (n >= 50 each)."""
+    def col(t):
+        return {"overall": {"n": 300, "top1": t["overall"], "top3": None},
+                "per_type": {k: {"n": 100, "top1": v, "top3": None}
+                             for k, v in t.items() if k != "overall"}}
+    return {"model_coarse": col({"overall": 0.40, "freeze": freeze_mc, "hero_power": hp_mc,
+                                 "sell": sell_mc}),
+            "advisor": col({"overall": 0.10, "freeze": 0.42, "hero_power": 0.70, "sell": 0.2}),
+            "advisor_hand_lines": col({"overall": 0.18, "freeze": 0.18, "hero_power": 0.30,
+                                       "sell": 0.55})}
+
+
+def test_gate_freeze_reported_but_exempt_by_default():
+    from ml import train_bc_policy as T
+    adv = ["advisor", "advisor_hand_lines"]
+    # freeze far below the advisor, hero power fine: PASS, freeze reported only
+    g = T.gate(_gate_results(0.13, 0.70), adv)
+    assert g["result"] == "PASS" and g["failing_types"] == []
+    assert g["exempt"] == ["freeze"] and g["exempt_below_threshold"] == ["freeze"]
+    f = g["per_type"]["freeze"]
+    assert f["exempt"] is True and f["status"] == "reported_but_exempt"
+    assert f["pass"] is False and f["gated"] is False
+    assert f["delta"] == pytest.approx(0.13 - 0.42)
+    assert "exempt" in g["rule"] and "freeze" in g["rule"]
+    # hero power stays a hard gate
+    g = T.gate(_gate_results(0.13, 0.60), adv)
+    assert g["result"] == "FAIL" and g["failing_types"] == ["hero_power"]
+    assert g["per_type"]["hero_power"]["exempt"] is False
+    # 3.0-point tolerance still applies to non-exempt types (sell: 0.55 best advisor)
+    assert T.gate(_gate_results(0.13, 0.70, sell_mc=0.521), adv)["result"] == "PASS"
+    assert T.gate(_gate_results(0.13, 0.70, sell_mc=0.519), adv)["failing_types"] == ["sell"]
+    # no exemptions: freeze blocks again (the old rule)
+    g = T.gate(_gate_results(0.13, 0.70), adv, exempt=())
+    assert g["result"] == "FAIL" and g["failing_types"] == ["freeze"]
+    assert g["exempt"] == [] and "status" not in g["per_type"]["freeze"]
+
+
+def test_gate_exempt_cli_default_and_hp_weight_flag():
+    from ml import train_bc_policy as T
+    a = T.parse_args(["--data", "x"])
+    assert a.gate_exempt == ["freeze"] and a.hp_weight == 1.0
+    assert T.parse_args(["--data", "x", "--gate-exempt"]).gate_exempt == []
+    assert T.parse_args(["--data", "x", "--hp-weight", "4"]).hp_weight == 4.0
+    w = T.type_weights([1.0, 0.5, 2.0], ["hero_power", "hero_power", "buy"],
+                       {"hero_power": 4.0})
+    assert w == [4.0, 2.0, 2.0]
+    assert T.type_weights([1.0], ["buy"], {}) == [1.0]
+
+
+def test_hp_weight_changes_training_and_is_recorded(tmp_path):
+    from ml import train_bc_policy as T
+    games = _rows(n_games=34, per_game=3)
+    for rows in games:                            # the expert uses the hero power first
+        r = rows[0]
+        r["chosen"] = next(i for i, o in enumerate(r["options"]) if o["type"] == "hero_power")
+    pattern = _write(tmp_path, games)
+    heldout = tmp_path / "heldout.json"
+    outs = {}
+    for w in (1.0, 4.0):
+        out = tmp_path / f"p{w}.pt"
+        rc = T.main(["--data", pattern, "--heldout", str(heldout), "--make-heldout",
+                     "--epochs", "2", "--batch", "16", "--out", str(out),
+                     "--hp-weight", str(w), "--no-baseline-evalnet"])
+        assert rc == 0
+        m = json.loads((tmp_path / f"p{w}.metrics.json").read_text(encoding="utf-8"))
+        assert m["hp_weight"] == w
+        outs[w] = (_load(out), m)
+    a, b = outs[1.0][0], outs[4.0][0]
+    assert any(not torch.equal(a[k], b[k]) for k in a)
+    assert outs[1.0][1]["heldout"]["model"]["overall"]["n"] == \
+        outs[4.0][1]["heldout"]["model"]["overall"]["n"]
