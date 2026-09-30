@@ -289,12 +289,13 @@ CHOICE_KINDS = ("hero", "dark_discovery", "quest", "trinket", "discover", "other
 
 
 def _choice_kind(choice_type, source_card_id, cards) -> str:
-    """hero: the MULLIGAN hero offer (or only HERO cards); dark_discovery: the
+    """hero: the MULLIGAN hero pick only; dark_discovery: the
     Dark Discovery effect's offer; quest: only QUEST=1 cards (Sire); trinket:
     only BATTLEGROUND_TRINKET cards; discover: only minions / spells (triple
-    rewards, discover effects); other: anything else (e.g. hero powers)."""
+    rewards, discover effects); other: anything else (e.g. hero-power offers,
+    Friendly Wager (TB_BaconShop_HP_081) combat guesses)."""
     types = {c["cardtype"] for c in cards}
-    if choice_type == "MULLIGAN" or types == {"HERO"}:
+    if choice_type == "MULLIGAN":
         return "hero"
     if source_card_id == DARK_DISCOVERY_EFFECT:
         return "dark_discovery"

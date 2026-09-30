@@ -327,7 +327,9 @@ def test_choice_kind_and_checks():
         return {"cardtype": ct, "tags": tags}
 
     assert _choice_kind("MULLIGAN", None, [card("HERO")]) == "hero"
-    assert _choice_kind("GENERAL", None, [card("HERO"), card("HERO")]) == "hero"
+    # Friendly Wager copies the next combat pair's heroes into a GENERAL choice.
+    assert _choice_kind("GENERAL", "TB_BaconShop_HP_081",
+                        [card("HERO"), card("HERO")]) == "other"
     assert _choice_kind("GENERAL", "BG36_MidGameEffect_010", [card("MINION")]) == "dark_discovery"
     assert _choice_kind("GENERAL", "BG24_QuestsPlayerEnch_t",
                         [card("SPELL", QUEST="1")] * 2) == "quest"
