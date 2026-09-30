@@ -23,27 +23,47 @@ from .parser import parse_line
 from .tail import tail_latest
 
 
-# --- optional behaviour-cloned NEXT policy ---------------------------------
-# HSBG_NEXT_POLICY=1 plus a loadable ml/policy_net.pt (HSBG_NEXT_POLICY_PATH
-# overrides the path) puts the policy's top legal option first, so it becomes
-# NEXT. Flag off, or a missing / mismatched checkpoint: advice is unchanged.
+# --- behaviour-cloned NEXT policy -------------------------------------------
+# Unset HSBG_NEXT_POLICY means ON: a loadable ml/policy_net.pt
+# (HSBG_NEXT_POLICY_PATH overrides the path) puts the policy's top legal
+# option first, so it becomes NEXT. Explicit 0 / false / off keeps the
+# eval-net advisor. A missing or unloadable checkpoint does too, and logs
+# a line. The overlay stays up, and the advisor path stays in place.
 _POLICY_ENV = "HSBG_NEXT_POLICY"
 _POLICY_PATH_ENV = "HSBG_NEXT_POLICY_PATH"
+_POLICY_OFF_VALUES = frozenset({"0", "false", "off"})
+
+
+def _next_policy_enabled() -> bool:
+    """Unset or blank is on. Explicit 0 / false / off (any case) is off."""
+    import os
+    raw = os.environ.get(_POLICY_ENV)
+    if raw is None or not raw.strip():
+        return True
+    return raw.strip().lower() not in _POLICY_OFF_VALUES
 
 
 def _load_next_policy():
-    """ml.bc_policy.BCPolicy when the flag is on and the checkpoint loads, else None."""
+    """ml.bc_policy.BCPolicy when the flag is on and the checkpoint loads, else None.
+
+    Off flag, missing file, or a load error: None, so callers keep the eval-net
+    advisor. Load failures are logged and never raised."""
     import os
-    if os.environ.get(_POLICY_ENV, "").strip() != "1":
+    import sys
+    if not _next_policy_enabled():
         return None
     path = os.environ.get(_POLICY_PATH_ENV) or os.path.join(
         os.path.dirname(__file__), "..", "ml", "policy_net.pt")
     if not os.path.isfile(path):
+        print(f"HSBG NEXT policy: checkpoint not found ({path}); "
+              "falling back to the eval-net advisor", file=sys.stderr)
         return None
     try:
         from ml.bc_policy import load_bc_policy
         return load_bc_policy(path)
-    except Exception:
+    except Exception as exc:
+        print(f"HSBG NEXT policy: failed to load {path} ({exc}); "
+              "falling back to the eval-net advisor", file=sys.stderr)
         return None
 
 
@@ -402,7 +422,7 @@ class LiveCoach:
         self.tracker = BGTracker()
         self.kb = cards.load_kb()
         self.scorer = get_scorer()
-        self._next_policy = _load_next_policy()   # None unless HSBG_NEXT_POLICY=1
+        self._next_policy = _load_next_policy()   # None when off or checkpoint won't load
         # Continual learning: retrain between games in the background, hot-swap the
         # eval net when a new one lands. Never blocks the live recommendation.
         import os
