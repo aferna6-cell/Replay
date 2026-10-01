@@ -86,6 +86,7 @@ import hashlib
 import shutil
 import sys
 import tempfile
+import time
 from typing import Callable, Dict, List, Optional, Set
 
 import numpy as np
@@ -108,6 +109,12 @@ HELDOUT_PATH = os.path.join(REPO, "results", "policy_heldout_ids.json")
 PILOT_DIR = os.path.join(REPO, "results", "pilot")
 PILOT_LABEL = ("PLUMBING CHECK on 1 held-out game (--pilot): verifies the pipeline "
                "runs end to end; NOT a model-quality result")
+HEARTBEAT_S = 60
+
+
+def progress(msg: str) -> None:
+    """Timestamped, flushed progress line; stdout is a file under the daily pipeline."""
+    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
 # --- data -------------------------------------------------------------------
@@ -338,11 +345,13 @@ def train_model(items, epochs: int, lr: float, batch: int, seed: int,
         opt = torch.optim.Adam(model.parameters(), lr=lr)
         rng = np.random.RandomState(seed)
         history = []
-        for _ in range(epochs):
+        n_batches = math.ceil(len(items) / batch)
+        for epoch in range(1, epochs + 1):
             model.train()
             total, wsum = 0.0, 0.0
             order = rng.permutation(len(items))
-            for start in range(0, len(order), batch):
+            t0 = beat = time.time()
+            for k, start in enumerate(range(0, len(order), batch), 1):
                 tensors = pad_batch([items[i] for i in order[start:start + batch]])
                 loss = decision_loss(model, *tensors)
                 opt.zero_grad()
@@ -351,7 +360,13 @@ def train_model(items, epochs: int, lr: float, batch: int, seed: int,
                 w = float(tensors[-1].sum())
                 total += loss.item() * w
                 wsum += w
+                if time.time() - beat >= HEARTBEAT_S:
+                    beat = time.time()
+                    progress(f"train: epoch {epoch}/{epochs} batch {k}/{n_batches} "
+                             f"loss {total / max(wsum, 1e-8):.4f}")
             history.append(round(total / max(wsum, 1e-8), 6))
+            progress(f"train: epoch {epoch}/{epochs} done, loss {history[-1]}, "
+                     f"{time.time() - t0:.0f}s")
             if on_epoch is not None:
                 model.eval()
                 with torch.no_grad():
@@ -612,7 +627,10 @@ def encode_stream(files: List[str], heldout: Set[str], build, cache_dir: str,
     flags = {"all": 0, "train": 0, "heldout": 0}
     games: Dict[str, tuple] = {}
     held_files = []
-    for res in _pool_map(_encode_job, [(f, heldout, build) for f in files], workers):
+    progress(f"encode: {len(files)} file(s), {workers} worker(s)")
+    beat = time.time()
+    for n, res in enumerate(_pool_map(_encode_job, [(f, heldout, build) for f in files],
+                                      workers), 1):
         _add_counts(stats, res["stats"])
         _add_counts(flags, res["flags"])
         for g, (ts, ok) in res["games"].items():
@@ -622,6 +640,9 @@ def encode_stream(files: List[str], heldout: Set[str], build, cache_dir: str,
         held.extend(res["heldout"])
         if res["heldout"]["C"]:
             held_files.append(res["path"])
+        if time.time() - beat >= HEARTBEAT_S or n == len(files):
+            beat = time.time()
+            progress(f"encode: {n}/{len(files)} files, {len(train)} train rows")
     info = {"stats": stats, "flags": flags, "games": games, "heldout_files": held_files}
     return train.finish(), held.finish(), info
 
@@ -682,11 +703,16 @@ def run_advisor_stream(files: List[str], heldout: Set[str], build, keys: List[tu
     _ADVISOR_SCORER[0] = scorer if workers <= 1 else None
     got, hits, diags = [], [], []
     jobs = [(f, heldout, build, evalnet_path, hand_lines) for f in files]
+    progress(f"advisor: scoring held-out rows in {len(jobs)} file(s)")
+    beat = time.time()
     try:
-        for k, h, d in _pool_map(_advisor_job, jobs, workers):
+        for n, (k, h, d) in enumerate(_pool_map(_advisor_job, jobs, workers), 1):
             got += k
             hits += h
             diags.append(d)
+            if time.time() - beat >= HEARTBEAT_S or n == len(jobs):
+                beat = time.time()
+                progress(f"advisor: {n}/{len(jobs)} files, {len(got)} rows")
     finally:
         _ADVISOR_SCORER[0] = None
     if got != list(keys):
@@ -912,6 +938,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
             print(json.dumps(pt), flush=True)
 
     items = [train.item(i) for i in fit_idx]
+    progress(f"train: {len(items)} rows, {a.epochs} epoch(s), batch {a.batch}")
     model, history = train_model(items, a.epochs, a.lr, a.batch, a.seed, on_epoch=on_epoch)
     del items
 
@@ -996,6 +1023,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
                 advisor = dict(advisor, **{name: alt})
         elif compare_advisor:
             compare["error"] = advisor.get("error", "advisor unavailable")
+    progress(f"evaluate: {len(held_rows)} held-out rows")
     results = evaluate(held_rows, held_enc, scorers, extra=extra, groups=held_groups)
     if "compare" in results:
         cm, cc = results["model"]["overall"], results["compare"]["overall"]

@@ -188,7 +188,8 @@ class Pipeline:
         with open(log_path, "a", encoding="utf-8") as fh:
             fh.write(f"$ {' '.join(cmd)}\n")
             fh.flush()
-            return subprocess.call(cmd, cwd=self.p.repo, stdout=fh, stderr=subprocess.STDOUT)
+            return subprocess.call(cmd, cwd=self.p.repo, stdout=fh, stderr=subprocess.STDOUT,
+                                   env=dict(os.environ, PYTHONUNBUFFERED="1"))
 
     def _status_path(self, batch: str) -> str:
         return os.path.join(batch, "status.json")
