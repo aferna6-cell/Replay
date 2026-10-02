@@ -99,7 +99,7 @@ have `choice` instead:
 |---|---|
 | `choice_id` | the Choices `id` attribute (usually 0) |
 | `choice_type` | `MULLIGAN` (the hero pick) or `GENERAL` |
-| `choice_kind` | `hero` (MULLIGAN, or only HERO cards), `dark_discovery` (source `BG36_MidGameEffect_010`), `quest` (only `QUEST=1` cards), `trinket` (only `BATTLEGROUND_TRINKET`), `discover` (only minions / spells: triple rewards, discover effects), `other` (e.g. hero-power offers) |
+| `choice_kind` | `hero` (the MULLIGAN hero pick only), `dark_discovery` (source `BG36_MidGameEffect_010`), `quest` (only `QUEST=1` cards), `trinket` (only `BATTLEGROUND_TRINKET`), `discover` (only minions / spells: triple rewards, discover effects), `other` (e.g. hero-power offers, Friendly Wager (TB_BaconShop_HP_081) combat guesses) |
 | `source_entity_id`, `source_card_id`, `source_name` | the Choices `source` entity (e.g. `TB_BaconShop_Triples_01`, `BG30_Trinket_1st`, `BG24_QuestsPlayerEnch_t`). For the hero pick it has no card id |
 | `min`, `max` | how many cards may be picked |
 | `cards` | `[{entity_id, card_id, name, cardtype, tags, dark_gift}]` in offer order. `tags` is the full tag dict. `dark_gift` is `{card_id, name}` via `HAS_DARK_GIFT` or `DARK_GIFT_ENTITY` (Dark Discovery offers), else null |
