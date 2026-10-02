@@ -19,6 +19,11 @@ the player's actions and picks), the manifest of games to label (placement, MMR,
 `creationDate`) and the corpus manifest (MMR percentiles for weights; defaults to
 `--manifest`). `--workers N` labels games in N processes.
 
+`--current-build N` is the build treated as the current patch. When it is omitted,
+that build is the highest `buildNumber` among games in the corpus manifest
+(`--corpus-manifest`, otherwise `--manifest`). The value actually used is written
+to `summary.json` as `current_build` and under `inputs.current_build`.
+
 Outputs:
 
 - `<out>/<reviewId>.jsonl.gz`: labeled rows (one per decision point that could be labeled).
@@ -35,7 +40,7 @@ choice rows), keyed by `(game_id, dp_index)`.
 | field | type | notes |
 |---|---|---|
 | `game_id`, `build`, `mmr` | str, int, int | copied from the state row |
-| `current_patch` | bool | `build == 253216` |
+| `current_patch` | bool | true when the row's `build` equals the current build: `--current-build`, or, if that flag is omitted, the highest `buildNumber` in the corpus manifest (`--corpus-manifest`, else `--manifest`) |
 | `turn`, `dp_index` | int | copied from the state row |
 | `placement` | int | manifest placement; always 1 (other games are dropped) |
 | `created_at` | str | manifest `creationDate` as UTC ISO-8601 with milliseconds, e.g. `2026-09-27T20:59:53.982Z` |
@@ -217,7 +222,7 @@ at the corpus min / p25 / median / p75 / max MMR.
      tripled, transformed) is `unverified`, not quarantined.
 4. **Summary**: rows (options / choice), rows per action type and per choice kind,
    confidence and method counts, quarantine count, reasons (by row kind) and examples,
-   weight distribution, `created_at_range`, builds, flags, options per row, skipped
+   weight distribution, `created_at_range`, `current_build`, builds, flags, options per row, skipped
    option parts.
 
 Tests: `tests/test_replay_labels.py` (synthetic fixture

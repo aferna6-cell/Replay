@@ -8,6 +8,10 @@ weighted training rows ``(state, every legal option, chosen option)``. See
         --replays data/firestone/raw --manifest data/firestone/raw/manifest.json \\
         --out data/firestone/labels/v2 --workers 6
 
+``--current-build`` sets the build treated as the current patch. When it is omitted,
+that is the highest ``buildNumber`` in the corpus manifest (``--corpus-manifest``,
+else ``--manifest``).
+
 States carry the legal options but not the choice, so the replay XML is read once
 more:
 
@@ -40,7 +44,6 @@ from .hs_enums import ENUM_VALUES
 from .hsreplay_xml import _int, _open
 
 SCHEMA_VERSION = "labels.v2"
-CURRENT_BUILD = 253216
 WEIGHT_FLOOR = 0.2
 MAX_BOARD = 7
 MAX_EXAMPLES = 5
@@ -734,9 +737,11 @@ def _next_options_index(states: List[Dict]) -> List[Optional[int]]:
     return out
 
 
-def label_game(states: List[Dict], replay_path: str, meta: Dict, weight: Optional[float]) -> Dict:
+def label_game(states: List[Dict], replay_path: str, meta: Dict, weight: Optional[float],
+               current_build: Optional[int] = None) -> Dict:
     """Label one game's states.v2 rows (states.v1 rows = options rows only).
-    Returns rows, quarantine, transitions and stats."""
+    Returns rows, quarantine, transitions and stats. ``current_patch`` is true
+    when the row's build equals ``current_build``."""
     states = sorted(states, key=lambda r: r["dp_index"])
     scan = scan_replay(replay_path)
     gid = meta.get("reviewId") or (states[0]["game_id"] if states else None)
@@ -797,7 +802,7 @@ def label_game(states: List[Dict], replay_path: str, meta: Dict, weight: Optiona
             continue
         rows.append({
             "game_id": row["game_id"], "build": row["build"],
-            "current_patch": row["build"] == CURRENT_BUILD,
+            "current_patch": row["build"] == current_build,
             "turn": row["turn"], "dp_index": row["dp_index"],
             "placement": _int(meta.get("placement")), "mmr": row["mmr"],
             "created_at": created_at, "created_ts": created_ts,
@@ -816,6 +821,12 @@ def _load_games(path: str) -> List[Dict]:
     with open(path, encoding="utf-8") as fh:
         data = json.load(fh)
     return data.get("games", []) if isinstance(data, dict) else data
+
+
+def _highest_build(games: List[Dict]) -> Optional[int]:
+    """Highest ``buildNumber`` among manifest games, or None when none is set."""
+    builds = [b for b in (_int(g.get("buildNumber")) for g in games) if b is not None]
+    return max(builds) if builds else None
 
 
 def _read_jsonl_gz(path: str) -> List[Dict]:
@@ -837,12 +848,12 @@ def _dist(vals: List[float]) -> Optional[Dict]:
     return {"min": min(vals), "median": statistics.median(vals), "max": max(vals)}
 
 
-def _label_one(job: Tuple[Dict, str, str, str, Optional[float]]) -> Dict:
+def _label_one(job: Tuple[Dict, str, str, str, Optional[float], Optional[int]]) -> Dict:
     """Label one game and write its files; return only aggregates (runs in a
     worker process)."""
-    g, states_path, replay_path, out, weight = job
+    g, states_path, replay_path, out, weight, current_build = job
     gid = g["reviewId"]
-    res = label_game(_read_jsonl_gz(states_path), replay_path, g, weight)
+    res = label_game(_read_jsonl_gz(states_path), replay_path, g, weight, current_build)
     rows, quarantine = res["rows"], res["quarantine"]
     _write_jsonl(os.path.join(out, f"{gid}.jsonl.gz"), rows, compress=True)
     _write_jsonl(os.path.join(out, "quarantine", f"{gid}.jsonl"), quarantine, compress=False)
@@ -872,10 +883,12 @@ def _label_one(job: Tuple[Dict, str, str, str, Optional[float]]) -> Dict:
 
 def run(states_dir: str, replays_dir: str, manifest: str, out: str,
         corpus_manifest: Optional[str] = None, limit: Optional[int] = None,
-        workers: int = 1) -> Dict:
+        workers: int = 1, current_build: Optional[int] = None) -> Dict:
     t0 = time.time()
     games = _load_games(manifest)[:limit]
     corpus = _load_games(corpus_manifest or manifest)
+    if current_build is None:
+        current_build = _highest_build(corpus)
     weight_of = mmr_weight_fn([_int(g.get("mmr")) for g in corpus])
     for sub in ("", "quarantine"):
         os.makedirs(os.path.join(out, sub), exist_ok=True)
@@ -894,7 +907,7 @@ def run(states_dir: str, replays_dir: str, manifest: str, out: str,
         if reason:
             dropped.append({"game_id": gid, "reason": reason, "placement": g.get("placement")})
             continue
-        jobs.append((g, states_path, replay_path, out, weight))
+        jobs.append((g, states_path, replay_path, out, weight, current_build))
     if workers > 1:
         with ProcessPoolExecutor(max_workers=workers) as ex:
             results = []
@@ -907,10 +920,12 @@ def run(states_dir: str, replays_dir: str, manifest: str, out: str,
             results.append(_label_one(job))
             _progress(n, len(jobs), results[-1])
     summary = summarize(results, dropped, corpus, weight_of)
+    summary["current_build"] = current_build
     summary["inputs"] = {"states": states_dir, "replays": replays_dir, "manifest": manifest,
                          "corpus_manifest": corpus_manifest or manifest,
                          "corpus_games_with_mmr": sum(_int(g.get("mmr")) is not None
-                                                      for g in corpus)}
+                                                      for g in corpus),
+                         "current_build": current_build}
     summary["runtime_s"] = round(time.time() - t0, 2)
     summary["workers"] = workers
     with open(os.path.join(out, "summary.json"), "w", encoding="utf-8") as fh:
@@ -1031,9 +1046,13 @@ def main(argv=None) -> int:
     ap.add_argument("--out", default=os.path.join("data", "firestone", "labels", "v2"))
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument("--current-build", type=int, default=None,
+                    help="build treated as the current patch "
+                         "(default: highest buildNumber in the corpus manifest, "
+                         "else --manifest)")
     args = ap.parse_args(argv)
     s = run(args.states, args.replays, args.manifest, args.out, args.corpus_manifest,
-            args.limit, args.workers)
+            args.limit, args.workers, args.current_build)
     print(f"rows={s['rows']}/{s['decision_points']} match_rate={s['match_rate']} "
           f"quarantined={s['quarantine']['count']} runtime={s['runtime_s']}s")
     return 0
