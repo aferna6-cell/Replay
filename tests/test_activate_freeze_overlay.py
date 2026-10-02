@@ -14,6 +14,20 @@ from hsbg_coach.state import Entity
 from hsbg_coach import cards
 
 
+# Patch 36.6.3 pool minions whose card text is ``<b>Activate (N):</b>``.
+# Verified on HearthstoneJSON build 253932. Golden twins are listed too.
+_PATCH_3663_ACTIVATE = (
+    ("BG28_582", "Mangled Bandit"),
+    ("BG28_582_G", "Mangled Bandit"),
+    ("BG36_362", "Sacrificial Wrathguard"),
+    ("BG36_362_G", "Sacrificial Wrathguard"),
+    ("BG36_370", "Victorious Geomant"),
+    ("BG36_370_G", "Victorious Geomant"),
+    ("BG36_700", "Sewer Escapee"),
+    ("BG36_700_G", "Sewer Escapee"),
+)
+
+
 def test_activate_allowlist_covers_prisonguard_not_joyous():
     assert is_activate_minion("BG36_345")
     assert is_activate_minion("BG36_345_G")
@@ -22,6 +36,48 @@ def test_activate_allowlist_covers_prisonguard_not_joyous():
     assert not is_activate_minion("BG26_135")  # Southsea Busker
     assert not is_activate_minion("TB_BaconShop_DragSell")
     assert "BG36_345" in ACTIVATE_CARD_IDS
+
+
+def test_patch_3663_activate_minions_fill_snapshot_activatable():
+    """New-pool Activate minions must be recognized on the board snapshot."""
+    for cid, name in _PATCH_3663_ACTIVATE:
+        assert cid in ACTIVATE_CARD_IDS
+        assert is_activate_minion(cid)
+        assert is_activate_minion(None, name)
+
+    # HSJSON still flags this Naga as a pool minion; it is not in the live pool.
+    assert not is_activate_minion("BG36_508")
+    assert not is_activate_minion("BG36_508_G")
+    assert "BG36_508" not in ACTIVATE_CARD_IDS
+
+    t = BGTracker()
+    t.in_bg = True
+    t.local_player = 1
+    from hsbg_coach.bg import Phase
+    t.phase = Phase.RECRUIT
+    t.state.current_turn = 6
+    player = Entity(id=2, name="Me")
+    player.tags = {"RESOURCES": "10", "RESOURCES_USED": "0", "HERO_ENTITY": "90"}
+    hero = Entity(id=90, card_id="BG_HERO_X")
+    hero.tags = {"CARDTYPE": "HERO", "CONTROLLER": "1", "ZONE": "PLAY",
+                 "PLAYER_TECH_LEVEL": "6", "HEALTH": "30"}
+    entities = {2: player, 90: hero}
+    for i, (cid, name) in enumerate(_PATCH_3663_ACTIVATE, start=1):
+        ent = Entity(id=100 + i, name=name, card_id=cid)
+        ent.tags = {
+            "CONTROLLER": "1", "ZONE": "PLAY", "CARDTYPE": "MINION",
+            "ZONE_POSITION": str(i), "HAS_ACTIVATE_POWER": "1",
+            "TAG_SCRIPT_DATA_NUM_1": "1", "ATK": "2", "HEALTH": "2",
+        }
+        entities[ent.id] = ent
+    t.state.entities = entities
+
+    snap = t.snapshot()
+    assert isinstance(snap, Snapshot)
+    assert {a["card_id"] for a in snap.activatable} == {
+        cid for cid, _ in _PATCH_3663_ACTIVATE
+    }
+    assert all(a["usable"] for a in snap.activatable)
 
 
 def test_board_minion_without_activate_keyword_does_not_emit():
