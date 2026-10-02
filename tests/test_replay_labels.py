@@ -159,7 +159,7 @@ def test_shop_spell_slot_and_choice_options():
 
 
 def test_label_game_options_and_choice_rows():
-    res = rl.label_game(_states(), FIXTURE, META, 0.6)
+    res = rl.label_game(_states(), FIXTURE, META, 0.6, current_build=META["buildNumber"])
     rows = res["rows"]
     chosen = [(r["dp_index"], r["options"][r["chosen"]]["type"]) for r in rows]
     assert chosen == [(0, "discover"), (1, "buy"), (2, "play"), (3, "reposition"), (4, "play"),
@@ -321,6 +321,97 @@ def test_run_writes_outputs_and_drops_games(tmp_path):
     assert (out / "quarantine" / "synthetic.jsonl").read_text().count("\n") == 2
     assert not (out / "choices").exists()
     assert json.loads((out / "summary.json").read_text())["rows"] == 9
+
+
+def _stage_run(root, states, games, corpus_games=None):
+    states_dir, replays = root / "states", root / "replays"
+    (states_dir / "quarantine").mkdir(parents=True)
+    replays.mkdir()
+    with gzip.open(states_dir / "synthetic.jsonl.gz", "wt", encoding="utf-8") as fh:
+        for r in states:
+            fh.write(json.dumps(r) + "\n")
+    with open(FIXTURE, "rb") as src, gzip.open(replays / "synthetic.xml.gz", "wb") as dst:
+        shutil.copyfileobj(src, dst)
+    manifest = root / "m.json"
+    manifest.write_text(json.dumps({"games": games}))
+    corpus = None
+    if corpus_games is not None:
+        corpus = root / "c.json"
+        corpus.write_text(json.dumps({"games": corpus_games}))
+    return states_dir, replays, manifest, corpus, root / "labels"
+
+
+def _labeled_rows(out, gid="synthetic"):
+    with gzip.open(out / f"{gid}.jsonl.gz", "rt", encoding="utf-8") as fh:
+        return [json.loads(line) for line in fh if line.strip()]
+
+
+def _states_with_build(build_of):
+    states = _states()
+    for r in states:
+        r["build"] = build_of(r) if callable(build_of) else build_of
+    return states
+
+
+def test_current_build_defaults_to_max_manifest_build(tmp_path):
+    states = _states_with_build(300)
+    games = [
+        {**META, "buildNumber": 180},
+        {"reviewId": "newer", "mmr": 9000, "placement": 3, "buildNumber": 300},
+        {"reviewId": "older", "mmr": 1000, "placement": 3, "buildNumber": 100},
+    ]
+    states_dir, replays, manifest, _, out = _stage_run(tmp_path / "manifest", states, games)
+    s = rl.run(str(states_dir), str(replays), str(manifest), str(out))
+    disk = json.loads((out / "summary.json").read_text())
+    assert s["current_build"] == disk["current_build"] == 300
+    assert s["inputs"]["current_build"] == disk["inputs"]["current_build"] == 300
+    rows = _labeled_rows(out)
+    assert rows and all(r["current_patch"] is True and r["build"] == 300 for r in rows)
+
+    # --corpus-manifest wins over --manifest when both are set.
+    states = _states_with_build(400)
+    corpus_games = [{"mmr": m, "buildNumber": b} for m, b in ((1000, 50), (5000, 400), (9000, 250))]
+    states_dir, replays, manifest, corpus, out = _stage_run(
+        tmp_path / "corpus", states, games, corpus_games)
+    s = rl.run(str(states_dir), str(replays), str(manifest), str(out), str(corpus))
+    disk = json.loads((out / "summary.json").read_text())
+    assert s["current_build"] == disk["current_build"] == 400
+    assert disk["inputs"]["current_build"] == 400
+    rows = _labeled_rows(out)
+    assert rows and all(r["current_patch"] is True and r["build"] == 400 for r in rows)
+
+
+def test_current_build_flag_overrides_manifest(tmp_path):
+    states = _states_with_build(lambda r: 300 if r["dp_index"] % 2 else 100)
+    games = [
+        {**META, "buildNumber": 300},
+        {"reviewId": "older", "mmr": 1000, "placement": 3, "buildNumber": 100},
+    ]
+    states_dir, replays, manifest, _, out = _stage_run(tmp_path, states, games)
+    assert rl.main(["--states", str(states_dir), "--replays", str(replays),
+                    "--manifest", str(manifest), "--out", str(out),
+                    "--current-build", "100"]) == 0
+    s = json.loads((out / "summary.json").read_text())
+    assert s["current_build"] == 100 and s["inputs"]["current_build"] == 100
+    rows = _labeled_rows(out)
+    assert {r["build"] for r in rows if r["current_patch"]} == {100}
+    assert {r["build"] for r in rows if not r["current_patch"]} == {300}
+
+
+def test_mixed_build_manifest_marks_only_max_build_rows_current(tmp_path):
+    states = _states_with_build(lambda r: 300 if r["dp_index"] % 2 else 100)
+    games = [
+        {**META, "buildNumber": 100},
+        {"reviewId": "mid", "mmr": 4000, "placement": 3, "buildNumber": 200},
+        {"reviewId": "newer", "mmr": 9000, "placement": 3, "buildNumber": 300},
+    ]
+    states_dir, replays, manifest, _, out = _stage_run(tmp_path, states, games)
+    s = rl.run(str(states_dir), str(replays), str(manifest), str(out))
+    assert s["current_build"] == 300
+    assert json.loads((out / "summary.json").read_text())["inputs"]["current_build"] == 300
+    rows = _labeled_rows(out)
+    assert {r["build"] for r in rows} == {100, 300}
+    assert all(r["current_patch"] is (r["build"] == s["current_build"]) for r in rows)
 
 
 @pytest.mark.skipif(not os.environ.get("HSBG_REPLAY_XML"),
