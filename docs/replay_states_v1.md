@@ -155,8 +155,22 @@ Only `HAS_DARK_GIFT=1` minions are resolved, in this order:
 
 1. the `DARK_GIFT_ENTITY` card;
 2. an attached enchantment in PLAY whose own card or `CREATOR` card starts with
-   `BG36_MidGameEffect_000t` (trailing `e\d*` stripped);
-3. a Dark Paradox token (`BG36_360t*` or `BG36_360_Gt*`), which is its own gift.
+   `BG36_MidGameEffect_000t`. A trailing `e` / `e2` is the spell's enchantment;
+   `te` / `te2` is Persistent Poet's permanent copy of that enchantment
+   ("Adjacent Dragons permanently keep Bonus Keywords and stats gained in
+   combat"). Both name the same spell (`...000t64te` → `...000t64`);
+3. a Dark Paradox token (`BG36_360t*` or `BG36_360_Gt*`), which is its own gift;
+4. a gift remembered when its enchantment was attached, including one inherited
+   across `COPIED_FROM_ENTITY_ID`. Timewarped Radio Star
+   (`BG34_Giant_330`, "Get a copy of the enemy minion that killed this with
+   full Health and enchantments") copies after death has already removed the
+   killer's enchantments. The hand copy keeps `HAS_DARK_GIFT` and never
+   receives a gift enchantment of its own (b138f295: Persistent Poet entity
+   9052, copied from 9051 copied from 8958, whose enchantment was
+   `BG36_MidGameEffect_000t64te`). The intermediate copy's `COPIED_FROM` is
+   cleared before the next decision point, so the gift is recorded when the
+   tag is set. A `HAS_DARK_GIFT` minion with no enchantment and no copied
+   gift still fails `dark_gift_unresolved`.
 
 A re-dump drops entities that died before it (see Pipeline), including the gift
 spell itself, while `DARK_GIFT_ENTITY` and the enchantment's `CREATOR` still point
@@ -257,7 +271,14 @@ in never appears at a decision point.
 7. **Quests:** a row whose `hero` is not Sire (`SIRE_HERO_RE`) may only hold quests
    whose `source_card_id` is Shady Aristocrat (`BG24_HERO_100_Buddy*`), otherwise
    `quests_on_non_sire_hero`; stat `quest_snapshots_non_sire`. For each quest `entity_id` across rows:
-   progress never decreases (`quest_progress_decreased`), the goal is present
+   progress never decreases (`quest_progress_decreased`), except Pressure the
+   Authorities (`BG27_Quest_801`, "Get your warband to {0} total Attack"),
+   whose `QUEST_PROGRESS` is the live sum of board attack and may fall when
+   that sum falls — a drop is accepted only when the new progress equals the
+   board's total attack (a8aebfa4: progress 9 → 0 at dp 21 while the board was
+   empty, then 11 once a minion was back). The goal is `QUEST_PROGRESS_TOTAL`
+   (20 in that game), not the card's baseline script value (28, tags 2/3 and
+   the initial 535 before the offer overwrites it). The goal is present
    (`quest_goal_missing`), progress ≤ goal while not completed
    (`quest_progress_over_goal`), and a completed quest never reverts to active
    (`quest_uncompleted`). A Sire game with no quest at any decision point fails
@@ -270,6 +291,15 @@ Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2 checks, two quarantined 36.6.3 wins** (the row schema is unchanged)
+  - Dark Gifts: remember a gift enchantment (including Poet `te` / `te2`
+    permanent copies) and inherit it across `COPIED_FROM_ENTITY_ID`, so a
+    Radio Star hand copy whose enchantments were removed before the copy
+    still names the source gift.
+  - Quests: Pressure the Authorities may lose progress when that loss equals
+    the board's current total attack. Cumulative quests still fail
+    `quest_progress_decreased`.
 
 - **states.v2 checks, after the 1,000-game run** (the row schema is unchanged)
   - Card ids of entities dropped by a re-dump are kept, so Dark Gifts and quest
