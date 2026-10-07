@@ -138,14 +138,19 @@ def _hero_power(tracker: BGTracker, legal_ids: set) -> Optional[Dict]:
 
 
 def _gold_options(tracker: BGTracker, options: List[Dict]) -> List[Dict]:
-    """Priced options the gold check compares to ``snapshot.gold``.
+    """Priced options the gold check compares to snapshot gold or hero health.
 
-    A legal hero power or buy whose cost is above gold, or an error-14 option
-    whose cost is at or below gold, is a stale-gold signal. The buy is the
+    A legal hero power or buy the snapshot cannot afford, or an error-14
+    option it can, is a stale-resource signal. The buy is the
     ``TB_BaconShop_DragBuy`` handle: the shop minion (and shop spell) stay
-    ``error=-1`` even when that handle is rejected for gold, so pricing the
-    minion would flag every unaffordable slot. Missing ``COST`` on a hero
-    power or buy handle is 0. A button is priced only when it carries ``COST``.
+    ``error=-1`` even when that handle is rejected, so pricing the minion
+    would flag every unaffordable slot. Missing ``COST`` on a hero power or
+    buy handle is 0. A button is priced only when it carries ``COST``.
+
+    ``resource`` is ``health`` when this option's own entity has
+    ``CARD_ALTERNATE_COST=1`` (Hasty Excavation, an effect-granted Health
+    buy, Malchezaar's Health refresh). Otherwise it is ``gold``. The linked
+    card's ``BACON_COSTS_HEALTH_TO_BUY`` is not consulted.
     """
     out = []
     for o in options:
@@ -158,17 +163,25 @@ def _gold_options(tracker: BGTracker, options: List[Dict]) -> List[Dict]:
         if o["error"] == -1 and kind not in ("hero_power", "buy"):
             continue
         ent = tracker.state.entities.get(o["entity"])
+        resource = ("health" if ent is not None
+                    and ent.tags.get("CARD_ALTERNATE_COST") == "1" else "gold")
         out.append({
             "entity_id": o["entity"],
             "card_id": ent.card_id if ent else None,
             "kind": kind,
             "cost": cost,
             "error": o["error"],
+            "resource": resource,
         })
     return out
 
 
 def _price_option(tracker, option: Dict) -> Optional[tuple]:
+    """``(kind, cost)`` from the option entity's live ``COST``.
+
+    Health versus gold is not decided here. ``_gold_options`` reads
+    ``CARD_ALTERNATE_COST`` on this same entity.
+    """
     ent = tracker.state.entities.get(option.get("entity"))
     if ent is None:
         return None
@@ -637,30 +650,51 @@ def _check_row(tracker, row, fail, stats) -> None:
 
 
 def _check_gold_options(row, fail) -> None:
-    """Snapshot gold must agree with what the game says the player can pay.
+    """Snapshot gold, or hero health for a Health-paid option, must agree
+    with what the game says the player can pay.
 
-    A legal hero power or buy whose cost is above gold means gold is too low
-    (a stale ``RESOURCES_USED`` after a re-dump). An option rejected with
-    error 14 (not enough gold) whose cost is at or below gold means gold is
-    too high (a stale ``TEMP_RESOURCES``). Gold that is still null is unknown,
-    not a contradiction. One known game-side transient is not special-cased:
-    a turn-1 hero power that is legal for a single Options block while gold
-    is 0 quarantines, so it can be told apart from a real miss."""
-    gold = (row.get("snapshot") or {}).get("gold")
-    if gold is None:
-        return
+    ``resource`` ``health`` (``CARD_ALTERNATE_COST=1`` on the option entity)
+    is affordable only when ``snapshot.hero_health`` is strictly greater
+    than ``cost``. At equal health the game returns error 14. Every other
+    priced option, including one with no ``resource``, is gold: affordable
+    when ``cost <= gold``.
+
+    A legal hero power or buy that is not affordable means the snapshot
+    resource is too low (a stale ``RESOURCES_USED`` after a re-dump, for
+    gold). An error-14 option that is affordable means it is too high.
+    Null gold skips gold-priced options. Null hero health skips Health-paid
+    ones. The turn-1 Queen of Dragons block (ea39f046, gold-priced, legal
+    at gold 0) is not special-cased.
+    """
+    snap = row.get("snapshot") or {}
+    gold = snap.get("gold")
+    health = snap.get("hero_health")
     for o in row.get("gold_options") or []:
         cost, err = o.get("cost"), o.get("error")
         if cost is None or err is None:
             continue
+        resource = o.get("resource") or "gold"
+        if resource == "health":
+            if health is None:
+                continue
+            affordable = health > cost
+        else:
+            if gold is None:
+                continue
+            affordable = cost <= gold
         legal_short = (err == -1 and o.get("kind") in ("hero_power", "buy")
-                       and cost > gold)
-        blocked_rich = err == NOT_ENOUGH_GOLD and cost <= gold
+                       and not affordable)
+        blocked_rich = err == NOT_ENOUGH_GOLD and affordable
         if legal_short or blocked_rich:
-            fail.add("gold_option_mismatch", {
+            example = {
                 "dp": row.get("dp_index"), "gold": gold, "cost": cost,
                 "error": err, "kind": o.get("kind"),
-                "card_id": o.get("card_id"), "entity_id": o.get("entity_id")})
+                "card_id": o.get("card_id"), "entity_id": o.get("entity_id"),
+                "resource": resource,
+            }
+            if resource == "health":
+                example["hero_health"] = health
+            fail.add("gold_option_mismatch", example)
 
 
 def _known_dark_gift(tracker, gift: Dict) -> bool:

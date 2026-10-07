@@ -85,7 +85,7 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 | `dark_discovery` | `{available: bool}` | the `BG36_Button_DarkGift` entity is a legal option now |
 | `options` | `[{index, type, entity_id, card_id, zone, targets, sub_options}]` | legal options only (`error=-1`), where `type` is `POWER` or `END_TURN`. The chosen option is not recorded. Illegal options are not added here |
 | `options[].sub_options` | `[{index, entity_id, card_id, targets}]` | v2: Choose One variants (`<SubOption>` children), legal ones only (`error=-1`, the default when the attribute is absent). `card_id` is resolved through the tracker at row time. Usually empty |
-| `gold_options` | `[{entity_id, card_id, kind, cost, error}]` | options rows. Priced hero powers and buy handles (`TB_BaconShop_DragBuy`, `error` -1 or 14) plus every other option the game rejected with error 14 (not enough gold). `cost` is that entity's live `COST` (missing = 0 on a hero power or buy handle; a button is included only when the tag is present). The shop minion itself is not a buy: it stays legal while its handle carries the gold error. This is the input to `gold_option_mismatch`. `options` stays the legal-action list |
+| `gold_options` | `[{entity_id, card_id, kind, cost, error, resource}]` | options rows. Priced hero powers and buy handles (`TB_BaconShop_DragBuy`, `error` -1 or 14) plus every other option the game rejected with error 14. `cost` is that entity's live `COST` (missing = 0 on a hero power or buy handle; a button is included only when the tag is present). `resource` is `health` when the option entity itself has `CARD_ALTERNATE_COST=1`, otherwise `gold`. The shop minion itself is not a buy: it stays legal while its handle carries the error. This is the input to `gold_option_mismatch`. `options` stays the legal-action list |
 
 **Presence in `options` is the playable / activatable flag.** The game only offers
 what can be done right now, so:
@@ -334,21 +334,34 @@ in never appears at a decision point.
    Sylvanas `BG23_HERO_306` does not share the base card's stem). Anything
    else is `hero_pick_mismatch`. A game that never shows a real hero entity
    is not failed for this.
-10. **Gold vs options:** snapshot gold must agree with what the game says the
-    player can pay. A legal hero power or buy whose `cost` is above
-    `snapshot.gold`, or an option rejected with error 14 (not enough gold)
-    whose `cost` is at or below `snapshot.gold`, is `gold_option_mismatch`.
-    The check reads `gold_options` on the row. Gold that is still null is
-    unknown, not a contradiction. A turn-1 hero power that is legal for a
-    single Options block while gold is 0 (Queen of Dragons, "Unlocks at
-    Tier 4", one block in ea39f046) is not special-cased: it quarantines so
-    it can be told apart from a stale `RESOURCES_USED`.
+10. **Gold vs options:** what the game says the player can pay must agree
+    with the snapshot. `gold_options[].resource` selects the pool.
+    `gold` (the default, including a missing `resource`): a legal hero power
+    or buy whose `cost` is above `snapshot.gold`, or an error-14 option whose
+    `cost` is at or below `snapshot.gold`, is `gold_option_mismatch`. Null
+    gold skips that option. `health` (`CARD_ALTERNATE_COST=1` on the option
+    entity: Hasty Excavation `BG28_571`, an effect-granted Health buy such as
+    Eye of Sargeras or a Pilgrimp sticker, and Malchezaar's Health refresh):
+    the option is affordable only when `snapshot.hero_health` is strictly
+    greater than `cost`. Health equal to cost is a refusal (error 14). A
+    legal hero power or buy that is not affordable, or an error-14 option
+    that is, is the same quarantine reason. Null `hero_health` skips it.
+    The failure example includes `resource`. A turn-1 hero power that is
+    legal for a single Options block while gold is 0 (Queen of Dragons,
+    "Unlocks at Tier 4", ea39f046) is gold-priced and is not special-cased.
 
 Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 `tests/fixtures/synthetic_bg_replay.xml`). Set `HSBG_REPLAY_XML=<replay.xml.gz>`, and
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2, Health-paid options** (`gold_options` gains `resource`)
+  - An option entity with `CARD_ALTERNATE_COST=1` is paid with hero health,
+    not gold. It is affordable only when `hero_health` is strictly greater
+    than `cost`. Hasty Excavation, effect-granted Health buys, and
+    Malchezaar's Health refresh take this path. Every other priced option
+    stays on the gold check.
 
 - **states.v2, re-dump player tags** (`schema_version` stays `states.v2`;
   options rows gain `gold_options`)
