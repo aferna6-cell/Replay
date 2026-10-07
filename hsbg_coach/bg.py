@@ -12,6 +12,7 @@ exhaustive, and every snapshot carries the whole observable state, not just the
 shop.
 """
 
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional
@@ -70,6 +71,32 @@ TAG_DUMMY_PLAYER = "BACON_DUMMY_PLAYER"  # excluded from board/shop scans
 # as a secondary combat-start marker.
 STEP_COMBAT_START = "MAIN_READY"
 
+# Dark Gift spells (BG36_MidGameEffect_000tNN) and the enchantments they attach
+# (..._000tNNe). Dark Paradox tokens (BG36_360t*, golden BG36_360_Gt*) carry
+# HAS_DARK_GIFT natively.
+DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
+DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
+# Gift enchantments without the gift prefix. Harpy's Talons reuses the
+# constructed enchantment; no other gift spell creates it.
+DARK_GIFT_ENCHANTMENTS = {"EDR_100t13e": "BG36_MidGameEffect_000t13"}
+# Enchantment card = "<spell>e" / "<spell>e2", or Persistent Poet's permanent
+# copy of a combat enchantment: "<spell>te" / "<spell>te2". The spell id
+# itself does not match.
+_GIFT_ENCHANT_SUFFIX = re.compile(r"t?e\d*$")
+# Sire Denathrius (the only BG hero with quests; any hero can sell his buddy
+# Shady Aristocrat for one) and its skins, e.g.
+# BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
+SIRE_HERO_RE = re.compile(r"^BG24_HERO_100(_SKIN_[A-Z0-9]+)?$")
+QUEST_REWARD_CARDTYPE = "BATTLEGROUND_QUEST_REWARD"
+# Tavern spells show up as BATTLEGROUND_SPELL; accept plain SPELL too.
+SPELL_CARDTYPES = ("BATTLEGROUND_SPELL", "SPELL")
+BOB_PREFIX = "TB_BaconShopBob"                 # Bartender Bob (and skins): shop owner
+BUY_HANDLE_PREFIX = "TB_BaconShop_DragBuy"     # per-slot buy handle (minion / _Spell)
+# Unnamed tag on a buy handle holding the shop entity it buys. Unnamed tags
+# print as their number in Power.log too.
+BUY_HANDLE_TARGET_TAG = "2442"
+REROLL_BUTTON_SUFFIX = "Reroll_Button"         # TB_BaconShop_8p_Reroll_Button
+
 
 @dataclass
 class MinionView:
@@ -80,6 +107,8 @@ class MinionView:
     health: Optional[int]
     position: Optional[int]
     tags: Dict[str, str] = field(default_factory=dict)
+    dark_gift: Optional[Dict] = None      # {card_id, name} when HAS_DARK_GIFT=1
+    buy_cost: Optional[int] = None        # shop only: COST of this slot's buy handle
 
 
 @dataclass
@@ -91,9 +120,11 @@ class Snapshot:
     tavern_tier: Optional[int]
     gold: Optional[int]
     hero_health: Optional[int]
+    hero_armor: Optional[int] = None      # ARMOR (already included in hero_health)
     board: List[MinionView] = field(default_factory=list)     # your minions in play
     shop: List[MinionView] = field(default_factory=list)      # minions available to buy
     shop_spells: List[Dict] = field(default_factory=list)     # tavern spells to buy
+    shop_frozen: bool = False             # any shop minion FROZEN
     hand_spells: List[Dict] = field(default_factory=list)     # targetable spells in hand
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
@@ -102,7 +133,9 @@ class Snapshot:
     dark_gift: Optional[Dict] = None      # {name, card_id, cost, usable, entity_id?}
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
     level_cost: Optional[int] = None      # discounted gold to tier up right now
+    reroll_cost: Optional[int] = None     # refresh button COST (missing COST = 0)
     trinkets: List[Dict] = field(default_factory=list)   # your equipped trinkets
+    quests: List[Dict] = field(default_factory=list)     # Sire quests, see _quests()
     opponent_profiles: List[Dict] = field(default_factory=list)  # lobby threats
     hero: Optional[str] = None            # our hero cardId (for the eval net + tribes)
     hero_name: Optional[str] = None
@@ -118,16 +151,20 @@ class Snapshot:
             "tavern_tier": self.tavern_tier,
             "gold": self.gold,
             "hero_health": self.hero_health,
+            "hero_armor": self.hero_armor,
             "board": [m.__dict__ for m in self.board],
             "shop": [m.__dict__ for m in self.shop],
             "shop_spells": list(self.shop_spells),
+            "shop_frozen": self.shop_frozen,
             "hand_spells": list(self.hand_spells),
             "hero_power": self.hero_power,
             "activatable": list(self.activatable),
             "dark_gift": self.dark_gift,
             "anomaly": self.anomaly,
             "level_cost": self.level_cost,
+            "reroll_cost": self.reroll_cost,
             "trinkets": list(self.trinkets),
+            "quests": list(self.quests),
             "opponent_profiles": list(self.opponent_profiles),
             "hero": self.hero,
             "hero_name": self.hero_name,
@@ -137,6 +174,14 @@ class Snapshot:
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
         }
+
+    @classmethod
+    def from_dict(cls, d: Dict) -> "Snapshot":
+        """Inverse of to_dict() (also after a JSON round trip)."""
+        kw = dict(d)
+        for key in ("board", "shop", "hand"):
+            kw[key] = [MinionView(**m) for m in kw.get(key) or []]
+        return cls(**kw)
 
 
 class BGTracker:
@@ -161,6 +206,14 @@ class BGTracker:
         self._subset_by_entity: Dict[int, set] = {}  # entity -> BACON_SUBSET_* tokens
         self.available_tribes: List[str] = []
         self.manual_tribe_priors: Dict[str, float] = {}
+        # Per-event combat capture of opponent boards/profiles (see feed()).
+        # Batch replay builders may switch it off: it dominates their runtime.
+        self.track_opponents = True
+        # entity id -> Dark Gift spell id. Recorded when a gift enchantment is
+        # attached (any zone) and inherited across COPIED_FROM while
+        # HAS_DARK_GIFT stays set. A hand copy often keeps the flag after the
+        # enchantment entities were already removed (see _track_dark_gift).
+        self._dark_gift_by_entity: Dict[int, str] = {}
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -196,6 +249,7 @@ class BGTracker:
             self._subset_by_entity = {}
             self.available_tribes = []
             self.manual_tribe_priors = {}
+            self._dark_gift_by_entity = {}
 
         # Player roster line — the reliable way to find the human: the only
         # seat whose GameAccountId hi != 0. PlayerID is the controller id board
@@ -215,6 +269,7 @@ class BGTracker:
             return
 
         self.state.apply(event)
+        self._track_dark_gift(event)
         # Lobby tribe detection via BACON_SUBSET_* tags on race-banner entities.
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag and event.tag.startswith("BACON_SUBSET_"):
             eid = None
@@ -234,7 +289,7 @@ class BGTracker:
         # Remember the enemy board as combat events arrive — do NOT wait for
         # snapshot(). LiveCoach replays from_start faster than the overlay polls,
         # so without this, recruit-phase odds/positioning see an empty opponents_seen.
-        if self.phase == Phase.COMBAT:
+        if self.phase == Phase.COMBAT and self.track_opponents:
             self._remember_combat_boards()
 
     def _detect_bg(self) -> None:
@@ -263,6 +318,12 @@ class BGTracker:
 
         if event.kind == "RAW" and "BlockType=ATTACK" in (event.text or ""):
             self.phase = Phase.COMBAT
+            return
+
+        # HSReplay XML Options block: the game only offers the local player
+        # options while shopping, so this is a definitive recruit signal.
+        if event.kind == "OPTIONS":
+            self.phase = Phase.RECRUIT
             return
 
         if event.kind in ("FULL_ENTITY", "SHOW_ENTITY") and event.entity:
@@ -298,8 +359,13 @@ class BGTracker:
             for e in self.state.in_zone("PLAY", pid)
             if (e.tag_int("ZONE_POSITION") or 0) >= 1 and _is_real_minion(e)
         ]
-        shop = [self._minion(e) for e in self._shop_entities()]
-        shop_spells = self._shop_spells()
+        buy_costs = self._buy_costs()
+        shop = []
+        for e in self._shop_entities():
+            m = self._minion(e)
+            m.buy_cost = buy_costs.get(e.id)
+            shop.append(m)
+        shop_spells = self._shop_spells(buy_costs)
         hand = [self._minion(e) for e in self.state.in_zone("HAND", pid)]
 
         # During combat the enemy board is fully revealed; remember the latest one
@@ -320,6 +386,7 @@ class BGTracker:
         notes = []
         if self.local_player is None:
             notes.append("local_player not yet identified")
+        hero_ent = self._hero_entity()
         return Snapshot(
             game_counter=self.state.game_counter,
             turn=self.state.current_turn,
@@ -327,16 +394,20 @@ class BGTracker:
             tavern_tier=self._tavern_tier(),
             gold=self._gold(),
             hero_health=self._hero_health(),
+            hero_armor=hero_ent.tag_int("ARMOR") if hero_ent is not None else None,
             board=board,
             shop=shop,
             shop_spells=shop_spells,
+            shop_frozen=any(m.tags.get("FROZEN") == "1" for m in shop),
             hand_spells=self._hand_spells(),
             hero_power=self._hero_power(),
             activatable=self._activatable(),
             dark_gift=self._dark_gift(),
             anomaly=self._anomaly(),
             level_cost=self._level_cost(),
+            reroll_cost=self._reroll_cost(),
             trinkets=self._trinkets(),
+            quests=self._quests(),
             hand=hand,
             opponents_seen=opponents,
             opponent_profiles=list(self.opponents.values()),
@@ -356,7 +427,8 @@ class BGTracker:
 
     _kb_cache = None
 
-    def _kb(self):
+    @classmethod
+    def _kb(cls):
         if BGTracker._kb_cache is None:
             try:
                 from . import cards
@@ -422,10 +494,16 @@ class BGTracker:
                 continue
             if ent.controller != str(self.local_player):
                 continue
+            # Only the power in PLAY: old / offered powers linger in SETASIDE /
+            # REMOVEDFROMGAME (a missing ZONE is tolerated for sparse live logs).
+            if ent.zone not in (None, "PLAY"):
+                continue
             # Passive / start-of-combat powers (Illidan's Wingmen) hide their cost
             # (HIDE_COST=1) and have no real COST — you can't click them. Activatable
             # powers (e.g. Marin's) carry a COST. Don't offer "use" on passives.
-            if ent.tags.get("HIDE_COST") == "1" or "COST" not in ent.tags:
+            # A missing COST tag means 0: zero-valued tags are not logged, so
+            # free powers used to be dropped as if they were passive.
+            if ent.tags.get("HIDE_COST") == "1":
                 return None
             cost = ent.tag_int("COST") or 0
             gold = self._gold()
@@ -609,6 +687,153 @@ class BGTracker:
                         "card_id": ent.card_id})
         return out
 
+    def _quests(self) -> List[Dict]:
+        """Your quests (Sire Denathrius). Verified on Firestone replays:
+
+        * Active quest: CARDTYPE=SPELL with QUEST=1, yours, in the SECRET zone.
+          QUEST_PROGRESS / QUEST_PROGRESS_TOTAL are progress / goal, and
+          TAG_SCRIPT_DATA_ENT_1 points at the (SETASIDE) reward entity. Offered
+          quests sit in SETASIDE and are skipped until picked.
+        * On completion the quest leaves SECRET (SETASIDE -> REMOVEDFROMGAME,
+          its tags reset to card defaults) and, for hero-power quests, a
+          BATTLEGROUND_QUEST_REWARD entity whose CREATOR is the quest appears in
+          PLAY. That reward stands in for the quest: completed=True, with
+          progress/goal None (the reset tags no longer carry them).
+        Buddy quests reward a Coin Pouch spell instead, so they simply drop out
+        when completed. Each entry: {entity_id, card_id, name, progress, goal,
+        reward_card_id, source_card_id, completed}."""
+        out = []
+        me = str(self.local_player)
+        entities = self.state.entities
+        for ent in entities.values():
+            if ent.controller != me:
+                continue
+            if ent.tags.get("QUEST") == "1" and ent.zone == "SECRET":
+                reward = entities.get(ent.tag_int("TAG_SCRIPT_DATA_ENT_1") or -1)
+                out.append({"entity_id": ent.id, "card_id": ent.card_id,
+                            "name": self._display_name(ent.card_id, ent.name),
+                            "progress": ent.tag_int("QUEST_PROGRESS") or 0,
+                            "goal": ent.tag_int("QUEST_PROGRESS_TOTAL"),
+                            "reward_card_id": reward.card_id if reward is not None else None,
+                            "source_card_id": self.state.card_id_of(ent.tag_int("CREATOR")),
+                            "completed": False})
+            elif ent.tags.get("CARDTYPE") == QUEST_REWARD_CARDTYPE and ent.zone == "PLAY":
+                quest = entities.get(ent.tag_int("CREATOR") or -1)
+                if quest is None or quest.tags.get("QUEST") != "1":
+                    continue
+                out.append({"entity_id": quest.id, "card_id": quest.card_id,
+                            "name": self._display_name(quest.card_id, quest.name),
+                            "progress": None, "goal": None,
+                            "reward_card_id": ent.card_id,
+                            "source_card_id": self.state.card_id_of(quest.tag_int("CREATOR")),
+                            "completed": True})
+        out.sort(key=lambda q: q["entity_id"])
+        return out
+
+    def _gift_spell_id(self, card_id: Optional[str]) -> Optional[str]:
+        """Gift spell id for a spell or enchantment card.
+
+        ``BG36_MidGameEffect_000t64e`` / ``e2`` are the spell's enchantments.
+        ``...t64te`` / ``te2`` are Persistent Poet's permanent copies of those
+        enchantments ("Adjacent Dragons permanently keep Bonus Keywords and
+        stats gained in combat"). Both name the spell ``...000t64``. A card
+        that is not a gift spell returns None; the spell id itself is unchanged.
+        """
+        if not card_id or not card_id.startswith(DARK_GIFT_PREFIX):
+            return None
+        return _GIFT_ENCHANT_SUFFIX.sub("", card_id)
+
+    def _enchantment_gift_id(self, ent: Entity) -> Optional[str]:
+        """Gift spell named by an enchantment entity, or None."""
+        cid = ent.card_id or ""
+        gift = self._gift_spell_id(cid)
+        if gift:
+            return gift
+        if cid in DARK_GIFT_ENCHANTMENTS:
+            return DARK_GIFT_ENCHANTMENTS[cid]
+        return self._gift_spell_id(self.state.card_id_of(ent.tag_int("CREATOR")))
+
+    def _track_dark_gift(self, event: Event) -> None:
+        """Remember a gift when its enchantment is attached, and copy that
+        memory along ``COPIED_FROM_ENTITY_ID``.
+
+        Timewarped Radio Star (``BG34_Giant_330``: "Get a copy of the enemy
+        minion that killed this with full Health and enchantments") copies
+        after death has already removed the killer's enchantments. The hand
+        copy still gets ``HAS_DARK_GIFT=1`` (b138f295, Persistent Poet 9052,
+        copied from 9051 copied from 8958) but no gift enchantment is ever
+        attached to it. The identity is the enchantment that was on the
+        ancestor (``BG36_MidGameEffect_000t64te``). ``COPIED_FROM`` on the
+        intermediate is later cleared, so this has to be recorded at the tag
+        change. Ids are not reused; the map survives re-dumps.
+        """
+        if event.kind not in ("TAG", "TAG_CHANGE", "SHOW_ENTITY", "FULL_ENTITY"):
+            return
+        eid = (self.state._last_block_entity if event.kind == "TAG"
+               else (event.entity.id if event.entity is not None else None))
+        ent = self.state.entities.get(eid) if eid is not None else None
+        if ent is None:
+            return
+        host = ent.tag_int("ATTACHED")
+        if host:
+            gift = self._enchantment_gift_id(ent)
+            if gift:
+                self._dark_gift_by_entity.setdefault(host, gift)
+        if (event.tag in ("COPIED_FROM_ENTITY_ID", "HAS_DARK_GIFT")
+                and ent.tags.get("HAS_DARK_GIFT") == "1"
+                and ent.id not in self._dark_gift_by_entity):
+            src = ent.tag_int("COPIED_FROM_ENTITY_ID") or 0
+            seen = set()
+            while src and src not in seen:
+                seen.add(src)
+                gift = self._dark_gift_by_entity.get(src)
+                if gift:
+                    self._dark_gift_by_entity[ent.id] = gift
+                    return
+                parent = self.state.entities.get(src)
+                src = parent.tag_int("COPIED_FROM_ENTITY_ID") if parent else 0
+
+    def _minion_dark_gift(self, ent: Entity) -> Optional[Dict]:
+        """The Dark Gift carried by a HAS_DARK_GIFT minion, as {card_id, name}.
+
+        Resolution order (verified on Firestone replays of patch 36.6):
+          1. DARK_GIFT_ENTITY -> that entity's card (set while offered by Dark
+             Discovery; dropped when the minion is re-created after combat);
+          2. an enchantment in PLAY attached to the minion whose own card, or
+             whose CREATOR's card (also after a re-dump dropped it), is a
+             BG36_MidGameEffect_000t* gift, or a known gift enchantment
+             (DARK_GIFT_ENCHANTMENTS); the enchantment follows the minion
+             through combat and triples. Poet permanent copies (``te`` /
+             ``te2``) name the same spell as ``e`` / ``e2``;
+          3. Dark Paradox tokens (BG36_360t*, BG36_360_Gt*) are their own gift;
+          4. a gift remembered when an enchantment was attached to this minion,
+             or inherited from the minion it was copied from (step 2 misses a
+             hand copy whose enchantments were removed before the copy).
+        Returns None for ungifted minions or an unresolvable gift."""
+        if ent.tags.get("HAS_DARK_GIFT") != "1":
+            return None
+        entities = self.state.entities
+        raw = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
+        gift = self._gift_spell_id(raw) or raw
+        if gift is None:
+            me = str(ent.id)
+            for e in entities.values():
+                if (e.tags.get("ATTACHED") != me or e.zone != "PLAY"
+                        or e.tags.get("CARDTYPE") != "ENCHANTMENT"):
+                    continue
+                gift = self._enchantment_gift_id(e)
+                if gift:
+                    break
+        if gift is None and (ent.card_id or "").startswith(DARK_PARADOX_PREFIX):
+            gift = ent.card_id
+        if gift is None:
+            gift = self._dark_gift_by_entity.get(ent.id)
+        elif ent.id not in self._dark_gift_by_entity:
+            self._dark_gift_by_entity[ent.id] = gift
+        if gift is None:
+            return None
+        return {"card_id": gift, "name": self._display_name(gift)}
+
     def _anomaly(self) -> Optional[str]:
         # Require the cardId to actually be an anomaly (BG##_Anomaly_###) — guards
         # against a mis-tagged/transient entity showing a spell as the anomaly.
@@ -620,7 +845,9 @@ class BGTracker:
 
     def _hand_spells(self) -> List[Dict]:
         """Targetable tavern spells in your hand (e.g. Tavern Dish Banana = +stats
-        to a minion). These are BATTLEGROUND_SPELL entities you control, in HAND.
+        to a minion). Spells you control in HAND: in-hand tavern spells are
+        CARDTYPE=SPELL (BATTLEGROUND_SPELL is also accepted). A missing COST
+        means 0 (zero tags are not logged).
 
         Strictly zone==HAND: a spell you already PLAYED moves to PLAY/GRAVEYARD and
         leaves a SETASIDE/pool copy behind, so accepting SETASIDE made the coach
@@ -628,53 +855,91 @@ class BGTracker:
         spell that's truly castable is in your HAND."""
         out = []
         for ent in self.state.entities.values():
-            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
+            if ent.tags.get("CARDTYPE") not in SPELL_CARDTYPES:
                 continue
             if ent.zone != "HAND" or ent.controller != str(self.local_player):
                 continue
             if not ent.card_id or "DragBuy" in ent.card_id:
                 continue
-            if ent.tag_int("COST") is None:      # not a real, playable spell
-                continue
             out.append({
                 "name": self._display_name(ent.card_id, ent.name),
                 "card_id": ent.card_id,
-                "cost": ent.tag_int("COST"),
+                "cost": ent.tag_int("COST") or 0,
                 "coin": ent.tags.get("COIN_CARD") == "1",   # gold spell, not targeted
+                "entity_id": ent.id,
             })
         return out
 
-    def _shop_spells(self) -> List[Dict]:
-        """Buyable tavern spells in the shop (CARDTYPE=BATTLEGROUND_SPELL).
+    def _shop_spells(self, buy_costs: Optional[Dict[int, int]] = None) -> List[Dict]:
+        """Buyable tavern spells in the shop (CARDTYPE BATTLEGROUND_SPELL or SPELL).
 
         Anchored to the *actual tavern row*: a real shop spell sits in zone=PLAY
-        under the SAME shop controller as the visible shop minions. Spells that are
-        merely set-aside / in the pool (zone=SETASIDE) or that you own — e.g. a
-        spellcraft spell like 'Recruit a Trainee' you generated (controller=you,
-        played on a minion) — are NOT tavern offerings and must not show as
-        'buy spell'. Without a shop minion to anchor the row we return nothing
-        rather than risk a phantom spell (the repeated 'wrong spell' reports)."""
+        under the shop's controller. Spells that are merely set-aside / in the
+        pool (zone=SETASIDE) or that you own (e.g. a spellcraft spell you
+        generated) are NOT tavern offerings. The shop controller is Bartender
+        Bob's (TB_BaconShopBob*, in PLAY, not ours) or any shop minion's, so a
+        shop showing only spells still counts. With no anchor we return nothing
+        rather than guess."""
         if self.phase != Phase.RECRUIT:
             return []
-        shop_controllers = {e.controller for e in self._shop_entities()}
-        if not shop_controllers:                 # no anchor → don't guess a spell
+        shop_controllers = ({e.controller for e in self._shop_entities()}
+                            | self._bob_controllers())
+        if not shop_controllers:                 # no anchor: don't guess a spell
             return []
+        if buy_costs is None:
+            buy_costs = self._buy_costs()
         out = []
         for ent in self.state.entities.values():
-            if ent.tags.get("CARDTYPE") != "BATTLEGROUND_SPELL":
+            if ent.tags.get("CARDTYPE") not in SPELL_CARDTYPES:
                 continue
             if not ent.card_id or "DragBuy" in ent.card_id:
                 continue
             if ent.zone != "PLAY":               # must be in the tavern row
                 continue
-            if ent.controller not in shop_controllers:   # same row as shop minions
+            if ent.controller not in shop_controllers:   # the shop's row
                 continue
             out.append({
                 "name": self._display_name(ent.card_id, ent.name),
                 "card_id": ent.card_id,
                 "cost": ent.tag_int("COST"),
+                "entity_id": ent.id,
+                "buy_cost": buy_costs.get(ent.id),
+                "_pos": ent.tag_int("ZONE_POSITION") or 0,
             })
+        out.sort(key=lambda d: (d["_pos"], d["entity_id"]))
+        for d in out:
+            del d["_pos"]
         return out
+
+    def _bob_controllers(self) -> set:
+        """Controller id(s) of Bartender Bob in PLAY (not ours): the shop's owner."""
+        me = str(self.local_player)
+        return {e.controller for e in self.state.entities.values()
+                if (e.card_id or "").startswith(BOB_PREFIX) and e.zone == "PLAY"
+                and e.controller not in (None, me)}
+
+    def _buy_costs(self) -> Dict[int, int]:
+        """Shop entity id -> gold to buy it, from our per-slot buy handles
+        (TB_BaconShop_DragBuy / _DragBuy_Spell in PLAY; tag 2442 = the shop
+        entity). Usually 3 for minions; effects lower it. Missing COST = 0."""
+        me = str(self.local_player)
+        out: Dict[int, int] = {}
+        for e in self.state.entities.values():
+            if (e.controller == me and e.zone == "PLAY"
+                    and (e.card_id or "").startswith(BUY_HANDLE_PREFIX)):
+                target = e.tag_int(BUY_HANDLE_TARGET_TAG)
+                if target:
+                    out[target] = e.tag_int("COST") or 0
+        return out
+
+    def _reroll_cost(self) -> Optional[int]:
+        """COST of our refresh button in PLAY (missing COST = 0: free refresh)."""
+        me = str(self.local_player)
+        for e in self.state.entities.values():
+            if (e.controller == me and e.zone == "PLAY"
+                    and (e.card_id or "").endswith(REROLL_BUTTON_SUFFIX)):
+                return e.tag_int("COST") or 0
+        return None
 
     def _remember_combat_boards(self) -> None:
         """Capture the revealed enemy board + lobby profiles during combat.
@@ -752,6 +1017,7 @@ class BGTracker:
             health=ent.tag_int("HEALTH"),
             position=ent.tag_int("ZONE_POSITION"),
             tags=dict(ent.tags),
+            dark_gift=self._minion_dark_gift(ent),
         )
 
     # --- player / hero entity resolution ----------------------------------
@@ -791,14 +1057,16 @@ class BGTracker:
         return None
 
     def _gold(self) -> Optional[int]:
-        """Spendable gold = RESOURCES - RESOURCES_USED on the player entity."""
+        """Spendable gold = RESOURCES - RESOURCES_USED + TEMP_RESOURCES on the
+        player entity (TEMP_RESOURCES = this-turn-only gold, e.g. from spells)."""
         pe = self._player_entity()
         if pe is None:
             return None
         total = pe.tag_int(TAG_RESOURCES)
         if total is None:
             return None
-        return total - (pe.tag_int("RESOURCES_USED") or 0)
+        return (total - (pe.tag_int("RESOURCES_USED") or 0)
+                + (pe.tag_int("TEMP_RESOURCES") or 0))
 
     def placement(self) -> Optional[int]:
         """Final leaderboard place (1..8) of the local player, if reported."""
@@ -827,8 +1095,7 @@ def _card_name(card_id: str) -> Optional[str]:
     """cardId -> display name via the committed card KB (cached). Falls back to
     the raw id so the overlay still shows something if the card is unknown."""
     try:
-        from . import cards
-        c = cards.load_kb().get(card_id)
+        c = BGTracker._kb().get(card_id)     # cached; load_kb() re-reads the file
         return c.name if c else card_id
     except Exception:
         return card_id
