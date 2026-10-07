@@ -67,7 +67,6 @@ class Event:
     value: Optional[str] = None
     fields: Dict[str, str] = field(default_factory=dict)
     text: str = ""                  # original payload (trimmed of indentation)
-    items: List = field(default_factory=list)  # structured payload (XML OPTIONS / CHOSEN)
 
 
 def _parse_bracket(body: str) -> EntityRef:
