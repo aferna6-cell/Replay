@@ -386,3 +386,31 @@ def test_d_options_row_passive_only(tmp_path):
     }]
     assert row["snapshot"]["hero_power"] is None
     assert "hero_powers" not in row["snapshot"]
+
+
+def test_hero_power_cost_is_the_live_tag_and_gold_includes_temp():
+    """Spendable gold is RESOURCES - RESOURCES_USED + TEMP_RESOURCES, and the
+    cost legal_actions checks is the power's current COST tag. A discount
+    that sets COST to 0 is free at 0 gold; a positive COST above gold is not
+    offered."""
+    t = _tracker(gold="1")
+    t.state.entities[2].tags["RESOURCES_USED"] = "1"
+    t.state.entities[2].tags["TEMP_RESOURCES"] = "2"
+    t.state.entities[12] = _power(12, "TB_BaconShop_HP_022", COST=2)
+    assert t._gold() == 2
+    snap = t.snapshot()
+    assert snap.gold == 2 and snap.hero_power["cost"] == 2 and snap.hero_power["usable"]
+    assert any(a.kind == HERO_POWER for a in legal_actions(snap))
+    # The log changes COST (a discount, or a free power whose 0 was omitted).
+    t.state.entities[12].tags["COST"] = "0"
+    t.state.entities[2].tags["TEMP_RESOURCES"] = "0"
+    assert t._gold() == 0
+    snap = t.snapshot()
+    assert snap.hero_power["cost"] == 0 and snap.hero_power["usable"]
+    acts = [a for a in legal_actions(snap) if a.kind == HERO_POWER]
+    assert len(acts) == 1 and acts[0].cost == 0
+    t.state.entities[12].tags["COST"] = "1"
+    snap = t.snapshot()
+    assert snap.gold == 0 and snap.hero_power["cost"] == 1
+    assert snap.hero_power["usable"] is False
+    assert not any(a.kind == HERO_POWER for a in legal_actions(snap))

@@ -173,10 +173,16 @@ Only `HAS_DARK_GIFT=1` minions are resolved, in this order:
 
 1. the `DARK_GIFT_ENTITY` card;
 2. an attached enchantment in PLAY whose own card or `CREATOR` card starts with
-   `BG36_MidGameEffect_000t`. A trailing `e` / `e2` is the spell's enchantment;
-   `te` / `te2` is Persistent Poet's permanent copy of that enchantment
-   ("Adjacent Dragons permanently keep Bonus Keywords and stats gained in
-   combat"). Both name the same spell (`...000t64te` → `...000t64`);
+   `BG36_MidGameEffect_000t`. A trailing `e` / `e2` / `e3` is the spell's
+   enchantment; `te` / `te2` is Persistent Poet's permanent copy of that
+   enchantment ("Adjacent Dragons permanently keep Bonus Keywords and stats
+   gained in combat"); one extra trailing `t` (`...000t64t`) is the same
+   spell. All of those name the spell (`...000t64te` and `...000t64t` →
+   `...000t64`). The suffix is removed only when the id is not already a
+   gift spell and the remainder is one (`BG36_MidGameEffect_000t` plus an
+   optional number). Offensive Sacrifice is the spell `...000t`, so its
+   enchantment `...000te` names `...000t` and never the parent game-effect
+   entity `BG36_MidGameEffect_000`, which is not a gift and has no name;
 3. a Dark Paradox token (`BG36_360t*` or `BG36_360_Gt*`), which is its own gift;
 4. a gift remembered when its enchantment was attached, including one inherited
    across `COPIED_FROM_ENTITY_ID`. Timewarped Radio Star
@@ -269,8 +275,13 @@ in never appears at a decision point.
    is counted as `gold_unknown_rows`, and null after gold was known fails), board ≤ 7,
    hand ≤ 10, every legal option's
    (and sub-option's) entity and targets exist in state, and `raw_turn` never decreases.
-5. **Dark Gifts:** every `HAS_DARK_GIFT` minion (board/hand/shop) resolves. A Dark
-   Discovery pick whose minion carries `HAS_DARK_GIFT` and is still in our hand or on
+5. **Dark Gifts:** every `HAS_DARK_GIFT` minion (board/hand/shop) resolves. The
+   resolved `dark_gift.card_id` must be a Dark Gift spell (`BG36_MidGameEffect_000t`
+   plus an optional number) or a Dark Paradox token, never the parent
+   game-effect `BG36_MidGameEffect_000`. When a card-name table is loaded the
+   gift must also have a real name (not the raw id). Otherwise
+   `dark_gift_unknown_card`. A Dark Discovery pick whose minion carries
+   `HAS_DARK_GIFT` and is still in our hand or on
    our board at the next decision point must carry the picked gift. A pick already
    gone by then (sold, or tripled: the golden carries every copy's gift enchantment,
    but `dark_gift` names only the first one found) is verified if its gift is on another
@@ -324,6 +335,14 @@ Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2, Offensive Sacrifice gift id** (the row schema is unchanged)
+  - Gift enchantment suffixes (`e` / `eN`, Poet `te` / `teN`, and a single
+    extra `t` such as `...000t64t`) map back to the gift spell only when
+    that remainder is itself a gift spell. Offensive Sacrifice stays
+    `BG36_MidGameEffect_000t`; it is no longer stripped to the nameless
+    parent `BG36_MidGameEffect_000`. New quarantine reason
+    `dark_gift_unknown_card`.
 
 - **states.v2, dual hero powers and hero-pick rerolls** (optional fields only;
   `schema_version` stays `states.v2`)

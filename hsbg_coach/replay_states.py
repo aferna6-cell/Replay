@@ -27,7 +27,8 @@ import time
 from collections import Counter, defaultdict
 from typing import Dict, List, Optional
 
-from .bg import BGTracker, DARK_GIFT_PREFIX, SIRE_HERO_RE
+from .bg import (BGTracker, DARK_GIFT_PARENT, DARK_GIFT_PREFIX, DARK_PARADOX_PREFIX,
+                  SIRE_HERO_RE, _GIFT_SPELL_RE)
 from .hsreplay_xml import iter_events
 
 SCHEMA_VERSION = "states.v2"
@@ -366,8 +367,9 @@ def _choice_card(tracker, eid) -> Dict:
     gift = tracker._minion_dark_gift(ent)
     if gift is None:            # offered by Dark Discovery: DARK_GIFT_ENTITY only
         ref = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
-        if ref.startswith(DARK_GIFT_PREFIX):
-            gift = {"card_id": ref, "name": tracker._display_name(ref)}
+        spell = tracker._gift_spell_id(ref) if ref.startswith(DARK_GIFT_PREFIX) else None
+        if spell and spell != DARK_GIFT_PARENT:
+            gift = {"card_id": spell, "name": tracker._display_name(spell)}
     return {"entity_id": eid, "card_id": ent.card_id,
             "name": tracker._display_name(ent.card_id, ent.name),
             "cardtype": ent.tags.get("CARDTYPE"), "tags": dict(ent.tags),
@@ -563,7 +565,32 @@ def _check_row(tracker, row, fail, stats) -> None:
                 fail.add("dark_gift_unresolved", {"dp": dp, "zone": zone,
                                                   "entity_id": m["entity_id"],
                                                   "card_id": m["card_id"]})
+            elif not _known_dark_gift(tracker, m["dark_gift"]):
+                fail.add("dark_gift_unknown_card", {
+                    "dp": dp, "zone": zone, "entity_id": m["entity_id"],
+                    "card_id": m["dark_gift"].get("card_id")})
     _check_hero_power_options(tracker, row, fail)
+
+
+def _known_dark_gift(tracker, gift: Dict) -> bool:
+    """A resolved gift names a real Dark Gift spell (or a Dark Paradox token)
+    and, when a card-name table is loaded, that card's name.
+
+    ``BG36_MidGameEffect_000`` is the game-effect entity, not a spell, and
+    it has no gift name. An enchantment id that was not mapped back to its
+    spell fails the same way. With no card-name table loaded, a structural
+    spell id is enough: fixtures that do not ship ``cards.json`` still pass.
+    """
+    cid = gift.get("card_id") or ""
+    if cid == DARK_GIFT_PARENT:
+        return False
+    spell = bool(_GIFT_SPELL_RE.match(cid)) or cid.startswith(DARK_PARADOX_PREFIX)
+    if not spell:
+        return False
+    name = gift.get("name")
+    if name and name != cid and "UNKNOWN ENTITY" not in name:
+        return True
+    return not tracker.state.card_names
 
 
 def _check_hero_power_options(tracker, row, fail) -> None:
@@ -607,9 +634,12 @@ def _record_dark_discovery_picks(tracker, chosen, pending, fail, stats) -> None:
         if tracker.state.card_id_of(ent.tag_int("CREATOR")) != DARK_DISCOVERY_EFFECT:
             continue
         stats["dark_discovery_picks"] += 1
-        gift = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
+        raw = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
+        # The offer may name the enchantment (…000t64t / …000te) rather than
+        # the spell. Compare the same id the minion snapshot stores.
+        gift = (tracker._gift_spell_id(raw) or raw) if raw else ""
         persistent = ent.tags.get("HAS_DARK_GIFT") == "1"
-        if not gift.startswith(DARK_GIFT_PREFIX):
+        if not str(gift).startswith(DARK_GIFT_PREFIX):
             if not persistent:
                 fail.add("dark_discovery_pick_without_gift", {"entity_id": eid,
                                                              "card_id": ent.card_id})

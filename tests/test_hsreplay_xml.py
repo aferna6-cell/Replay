@@ -505,10 +505,94 @@ def test_poet_permanent_enchantment_names_the_gift_spell():
     assert t._gift_spell_id("BG36_MidGameEffect_000t64") == "BG36_MidGameEffect_000t64"
     assert t._gift_spell_id("BG36_MidGameEffect_000t64e") == "BG36_MidGameEffect_000t64"
     assert t._gift_spell_id("BG36_MidGameEffect_000t64e2") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64e3") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t2e3") == "BG36_MidGameEffect_000t2"
     assert t._gift_spell_id("BG36_MidGameEffect_000t64te") == "BG36_MidGameEffect_000t64"
     assert t._gift_spell_id("BG36_MidGameEffect_000t64te2") == "BG36_MidGameEffect_000t64"
     assert t._gift_spell_id("BG36_MidGameEffect_000t51e") == "BG36_MidGameEffect_000t51"
+    # Extra trailing t on the enchantment, not on the spell.
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64t") == "BG36_MidGameEffect_000t64"
     assert t._gift_spell_id("EDR_100t13e") is None
+    # Offensive Sacrifice is the spell …000t. Its own trailing t stays, and
+    # its enchantment …000te must not collapse to the parent game-effect.
+    assert t._gift_spell_id("BG36_MidGameEffect_000t") == "BG36_MidGameEffect_000t"
+    assert t._gift_spell_id("BG36_MidGameEffect_000te") == "BG36_MidGameEffect_000t"
+    assert t._gift_spell_id("BG36_MidGameEffect_000te2") == "BG36_MidGameEffect_000t"
+    assert t._gift_spell_id("BG36_MidGameEffect_000tte") == "BG36_MidGameEffect_000t"
+    assert t._gift_spell_id("BG36_MidGameEffect_000") is None
+
+
+def _attach_gift(t, minion, ench, ench_card):
+    t.local_player = 1
+    t.feed(_tag(minion, None, None, "FULL_ENTITY", "BG_TEST"))
+    for tag, value in (("CARDTYPE", "MINION"), ("ZONE", "PLAY"), ("CONTROLLER", "1"),
+                       ("HAS_DARK_GIFT", "1")):
+        t.feed(_tag(minion, tag, value))
+    t.feed(_tag(ench, None, None, "SHOW_ENTITY", ench_card))
+    for tag, value in (("CARDTYPE", "ENCHANTMENT"), ("ZONE", "PLAY"),
+                       ("ATTACHED", str(minion))):
+        t.feed(_tag(ench, tag, value))
+
+
+def test_offensive_sacrifice_keeps_000t():
+    """…000te is the enchantment of Offensive Sacrifice (…000t), not the
+    parent game-effect entity …000."""
+    t = BGTracker()
+    t.state.card_names["BG36_MidGameEffect_000t"] = "Offensive Sacrifice"
+    _attach_gift(t, 10, 11, "BG36_MidGameEffect_000te")
+    gift = t._minion_dark_gift(t.state.entities[10])
+    assert gift == {"card_id": "BG36_MidGameEffect_000t", "name": "Offensive Sacrifice"}
+    # The spell entity itself, and a parent pointer, must not become …000.
+    t.feed(_tag(12, None, None, "FULL_ENTITY", "BG36_MidGameEffect_000t"))
+    t.feed(_tag(10, "DARK_GIFT_ENTITY", "12"))
+    assert t._minion_dark_gift(t.state.entities[10])["card_id"] == "BG36_MidGameEffect_000t"
+    t.feed(_tag(13, None, None, "FULL_ENTITY", "BG36_MidGameEffect_000"))
+    t.feed(_tag(10, "DARK_GIFT_ENTITY", "13"))
+    # Parent is ignored; the attached enchantment still names the spell.
+    assert t._minion_dark_gift(t.state.entities[10])["card_id"] == "BG36_MidGameEffect_000t"
+
+
+def test_trailing_t_enchantment_maps_to_gift_spell():
+    t = BGTracker()
+    t.state.card_names["BG36_MidGameEffect_000t64"] = "Dexterity"
+    _attach_gift(t, 10, 11, "BG36_MidGameEffect_000t64t")
+    assert t._minion_dark_gift(t.state.entities[10]) == {
+        "card_id": "BG36_MidGameEffect_000t64", "name": "Dexterity"}
+
+
+def test_dark_gift_unknown_card_quarantines():
+    t = BGTracker()
+
+    def row(gift):
+        return {"dp_index": 1, "options": [], "snapshot": {
+            "gold": 1,
+            "board": [{"entity_id": 7, "card_id": "BG_M",
+                       "tags": {"HAS_DARK_GIFT": "1"}, "dark_gift": gift}],
+            "hand": [], "shop": []}}
+
+    fail = _Fail()
+    _check_row(t, row({"card_id": "BG36_MidGameEffect_000", "name": None}), fail, Counter())
+    assert fail.count["dark_gift_unknown_card"] == 1
+    assert fail.examples["dark_gift_unknown_card"][0]["card_id"] == "BG36_MidGameEffect_000"
+    # An enchantment id that was not mapped back to a spell.
+    fail = _Fail()
+    _check_row(t, row({"card_id": "BG36_MidGameEffect_000te", "name": None}), fail, Counter())
+    assert fail.count["dark_gift_unknown_card"] == 1
+    # No card-name table: a structural spell id is enough.
+    fail = _Fail()
+    _check_row(t, row({"card_id": "BG36_MidGameEffect_000t",
+                       "name": "BG36_MidGameEffect_000t"}), fail, Counter())
+    assert "dark_gift_unknown_card" not in fail.count
+    t.state.card_names["BG36_MidGameEffect_000t"] = "Offensive Sacrifice"
+    fail = _Fail()
+    _check_row(t, row({"card_id": "BG36_MidGameEffect_000t",
+                       "name": "Offensive Sacrifice"}), fail, Counter())
+    assert "dark_gift_unknown_card" not in fail.count
+    # Table loaded, but this id never received a name.
+    fail = _Fail()
+    _check_row(t, row({"card_id": "BG36_MidGameEffect_000t64",
+                       "name": "BG36_MidGameEffect_000t64"}), fail, Counter())
+    assert fail.count["dark_gift_unknown_card"] == 1
 
 
 def test_hand_copy_inherits_dark_gift_after_enchantment_is_removed():
