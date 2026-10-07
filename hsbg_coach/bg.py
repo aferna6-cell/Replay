@@ -75,14 +75,26 @@ STEP_COMBAT_START = "MAIN_READY"
 # (..._000tNNe). Dark Paradox tokens (BG36_360t*, golden BG36_360_Gt*) carry
 # HAS_DARK_GIFT natively.
 DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
+# The game-effect entity the spells are tokens of. Not a gift, and it has
+# no gift name. A strip must never land here (Offensive Sacrifice is the
+# spell ``…000t``; eating that trailing ``t`` produces this id).
+DARK_GIFT_PARENT = "BG36_MidGameEffect_000"
 DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
 # Gift enchantments without the gift prefix. Harpy's Talons reuses the
 # constructed enchantment; no other gift spell creates it.
 DARK_GIFT_ENCHANTMENTS = {"EDR_100t13e": "BG36_MidGameEffect_000t13"}
-# Enchantment card = "<spell>e" / "<spell>e2", or Persistent Poet's permanent
-# copy of a combat enchantment: "<spell>te" / "<spell>te2". The spell id
-# itself does not match.
-_GIFT_ENCHANT_SUFFIX = re.compile(r"t?e\d*$")
+# A gift spell is the prefix plus an optional token number: ``…000t``
+# (Offensive Sacrifice) or ``…000t64``. Enchantment cards append ``e`` /
+# ``e2`` / ``e3``, Persistent Poet appends ``te`` / ``te2``, and some copies
+# append one more ``t`` (``…000t64t``). Longer suffixes are tried first so
+# ``…000t64te`` names ``…000t64`` and ``…000te`` names ``…000t`` rather than
+# the parent.
+_GIFT_SPELL_RE = re.compile(r"^BG36_MidGameEffect_000t\d*$")
+_GIFT_ENCHANT_SUFFIXES = (
+    re.compile(r"te\d*$"),
+    re.compile(r"e\d*$"),
+    re.compile(r"t$"),
+)
 # Sire Denathrius (the only BG hero with quests; any hero can sell his buddy
 # Shady Aristocrat for one) and its skins, e.g.
 # BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
@@ -768,15 +780,35 @@ class BGTracker:
     def _gift_spell_id(self, card_id: Optional[str]) -> Optional[str]:
         """Gift spell id for a spell or enchantment card.
 
-        ``BG36_MidGameEffect_000t64e`` / ``e2`` are the spell's enchantments.
-        ``...t64te`` / ``te2`` are Persistent Poet's permanent copies of those
-        enchantments ("Adjacent Dragons permanently keep Bonus Keywords and
-        stats gained in combat"). Both name the spell ``...000t64``. A card
-        that is not a gift spell returns None; the spell id itself is unchanged.
+        ``BG36_MidGameEffect_000t64e`` / ``e2`` / ``e3`` are the spell's
+        enchantments. ``...t64te`` / ``te2`` are Persistent Poet's permanent
+        copies of those enchantments ("Adjacent Dragons permanently keep
+        Bonus Keywords and stats gained in combat"). ``...000t64t`` is the
+        same spell with one extra ``t``. All of those name ``...000t64``.
+
+        The spell id itself is returned unchanged. Offensive Sacrifice is
+        ``BG36_MidGameEffect_000t``: the trailing ``t`` is the spell, not an
+        enchantment marker, so ``...000te`` (that spell's enchantment) names
+        ``...000t`` and never the parent game-effect ``BG36_MidGameEffect_000``.
+        A card that is not a gift spell or one of these enchantments returns
+        None.
         """
         if not card_id or not card_id.startswith(DARK_GIFT_PREFIX):
             return None
-        return _GIFT_ENCHANT_SUFFIX.sub("", card_id)
+        if _GIFT_SPELL_RE.match(card_id):
+            return card_id
+        # Not a gift spell. Strip a suffix only when the remainder is a gift
+        # spell (so the original was the enchantment) and never when it is
+        # the parent entity.
+        for rx in _GIFT_ENCHANT_SUFFIXES:
+            m = rx.search(card_id)
+            if m is None:
+                continue
+            stripped = card_id[:m.start()]
+            if stripped == DARK_GIFT_PARENT or not _GIFT_SPELL_RE.match(stripped):
+                continue
+            return stripped
+        return None
 
     def _enchantment_gift_id(self, ent: Entity) -> Optional[str]:
         """Gift spell named by an enchantment entity, or None."""
@@ -849,7 +881,17 @@ class BGTracker:
             return None
         entities = self.state.entities
         raw = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
-        gift = self._gift_spell_id(raw) or raw
+        gift = self._gift_spell_id(raw) if raw else None
+        # DARK_GIFT_ENTITY sometimes names a card that is not a gift spell
+        # (a re-dump kept only that id). Keep it only when it does not wear
+        # the gift prefix: a prefix id that did not normalise to a spell is
+        # the parent entity or an enchantment we could not read, and neither
+        # is a gift. The parent is ``BG36_MidGameEffect_000``.
+        if (gift is None and raw and raw != DARK_GIFT_PARENT
+                and (_GIFT_SPELL_RE.match(raw) or not raw.startswith(DARK_GIFT_PREFIX))):
+            gift = raw
+        if gift == DARK_GIFT_PARENT:
+            gift = None
         if gift is None:
             me = str(ent.id)
             for e in entities.values():
