@@ -5,6 +5,7 @@ Optional real-replay test: set HSBG_REPLAY_XML=<path to a Firestone .xml.gz>
 fidelity check to pass).
 """
 
+import io
 import json
 import os
 from collections import Counter
@@ -84,6 +85,214 @@ def test_redump_drops_stale_entities_and_gift_follows_enchantment():
     assert [m.card_id for m in s.hand] == ["BG_TEST_SPELL"]
 
 
+def _play_xml(text):
+    tracker, golds = BGTracker(), []
+    for ev in iter_events(io.BytesIO(text.encode())):
+        tracker.feed(ev)
+        if ev.kind == "OPTIONS":
+            golds.append(tracker._gold())
+    return tracker, golds
+
+
+def _redump_xml(resources, used_before, dump_resources, extra_before="", extra_after="",
+                temp_before=0, played_before=0):
+    """Two GameEntity dumps. The second player segment omits RESOURCES_USED,
+    TEMP_RESOURCES and NUM_OPTIONS_PLAYED_THIS_TURN."""
+    return f"""<?xml version="1.0" encoding="utf-8"?>
+<HSReplay><Game>
+<GameEntity id="1"><Tag tag="202" value="1"/><Tag tag="49" value="1"/><Tag tag="20" value="5"/></GameEntity>
+<Player id="2" accountHi="0" accountLo="0" playerID="1" name="Hero A" isMainPlayer="true">
+  <Tag tag="50" value="1"/><Tag tag="202" value="2"/><Tag tag="30" value="1"/>
+  <Tag tag="27" value="10"/><Tag tag="26" value="{resources}"/>
+  <Tag tag="25" value="0"/></Player>
+<Player id="3" accountHi="0" accountLo="0" playerID="9" name="Bob" isMainPlayer="false">
+  <Tag tag="50" value="9"/><Tag tag="202" value="2"/><Tag tag="30" value="9"/></Player>
+<TagChange entity="2" tag="25" value="{used_before}"/>
+<TagChange entity="2" tag="295" value="{temp_before}"/>
+<TagChange entity="2" tag="358" value="{played_before}"/>
+{extra_before}
+<Options id="1"><Option index="0" type="2" entity="0" error="-1"/></Options>
+<GameEntity id="1"><Tag tag="202" value="1"/><Tag tag="49" value="1"/><Tag tag="20" value="7"/>
+  <Tag tag="53" value="1"/>
+  <Tag tag="50" value="1"/><Tag tag="202" value="2"/><Tag tag="30" value="1"/>
+  <Tag tag="20" value="6"/><Tag tag="26" value="{dump_resources}"/><Tag tag="27" value="10"/>
+  <Tag tag="53" value="2"/>
+  <Tag tag="50" value="9"/><Tag tag="202" value="2"/><Tag tag="30" value="9"/>
+  <Tag tag="53" value="3"/></GameEntity>
+{extra_after}
+</Game></HSReplay>
+"""
+
+
+def test_redump_replaces_player_tags_absent_resources_used_is_zero():
+    """RESOURCES_USED=5 (and temp / this-turn counters) before the second dump
+    and absent from it. Spendable gold is RESOURCES afterwards."""
+    text = _redump_xml(resources=10, used_before=5, dump_resources=10,
+                       temp_before=2, played_before=8)
+    tracker, golds = _play_xml(text)
+    pe = tracker._player_entity()
+    assert golds == [10 - 5 + 2]
+    assert tracker._gold() == 10
+    assert pe.id == 2 and pe.name == "Hero A#1" and pe.card_id is None
+    assert pe.tags["RESOURCES"] == "10"
+    assert pe.tags["CARDTYPE"] == "PLAYER" and pe.tags["CONTROLLER"] == "1"
+    assert pe.tags["HERO_ENTITY"] == "10" and pe.tags["PLAYER_ID"] == "1"
+    for stale in ("RESOURCES_USED", "TEMP_RESOURCES", "NUM_OPTIONS_PLAYED_THIS_TURN"):
+        assert stale not in pe.tags
+    # The player's own TURN in the dump does not overwrite the game TURN.
+    assert tracker.snapshot().turn == 7
+    # Both players are kept.
+    assert 3 in tracker.state.entities
+    assert tracker.state.entities[3].tags.get("CARDTYPE") == "PLAYER"
+
+
+def test_redump_4bea8b1a_resources_without_resources_used_is_full_gold(tmp_path):
+    """4bea8b1a: after the re-dump RESOURCES=6 and RESOURCES_USED is omitted.
+    A merge would keep the stale 5 (gold 1). The next logged spend is
+    RESOURCES_USED 5, which only changes gold if the tag was actually cleared."""
+    hp = """<FullEntity id="12" cardID="BG_TEST_HP"><Tag tag="50" value="1"/>
+  <Tag tag="202" value="10"/><Tag tag="49" value="1"/><Tag tag="48" value="2"/></FullEntity>
+<Options id="2"><Option index="0" type="2" entity="0" error="-1"/>
+  <Option index="1" type="3" entity="12" error="-1"/></Options>
+<TagChange entity="2" tag="25" value="5"/>
+"""
+    text = _redump_xml(resources=6, used_before=5, dump_resources=6, extra_after=hp)
+    tracker, golds = _play_xml(text)
+    assert golds == [1, 6]
+    assert tracker._gold() == 6 - 5
+    assert "RESOURCES_USED" in tracker._player_entity().tags
+
+    path = tmp_path / "redump_gold.xml"
+    path.write_text(text, encoding="utf-8")
+    res = build_game(str(path), {
+        "reviewId": "4bea8b1a-style", "buildNumber": 1, "mmr": 1,
+        "placement": None, "finalComp": {"board": []}})
+    assert "gold_option_mismatch" not in res["failures"].count
+    row = [r for r in res["rows"] if r["kind"] == "options"][-1]
+    assert row["snapshot"]["gold"] == 6
+    assert row["gold_options"] == [{
+        "entity_id": 12, "card_id": "BG_TEST_HP", "kind": "hero_power",
+        "cost": 2, "error": -1}]
+    assert [o["entity_id"] for o in row["options"]] == [0, 12]
+    assert "error" not in row["options"][1]
+
+
+def test_live_full_entity_merges_player_tags():
+    """Power.log never emits RESET_ENTITIES. A later FULL_ENTITY keeps tags
+    the new block does not repeat."""
+    t = BGTracker()
+    t.local_player = 1
+    t.player_names[1] = "Hero A#1"
+    t.state.entities[2] = Entity(
+        id=2, name="Hero A#1", tags={
+            "CARDTYPE": "PLAYER", "CONTROLLER": "1", "PLAYER_ID": "1",
+            "RESOURCES": "6", "RESOURCES_USED": "5", "TEMP_RESOURCES": "1",
+            "NUM_OPTIONS_PLAYED_THIS_TURN": "8", "HERO_ENTITY": "10"})
+    t.feed(Event(kind="FULL_ENTITY", logger="GameState",
+                 entity=EntityRef(id=2, name="Hero A#1")))
+    t.feed(Event(kind="TAG", logger="GameState", tag="RESOURCES", value="8"))
+    t.feed(Event(kind="TAG", logger="GameState", tag="CARDTYPE", value="PLAYER"))
+    pe = t._player_entity()
+    assert pe.tags["RESOURCES_USED"] == "5"
+    assert pe.tags["TEMP_RESOURCES"] == "1"
+    assert pe.tags["NUM_OPTIONS_PLAYED_THIS_TURN"] == "8"
+    assert t._gold() == 8 - 5 + 1
+
+
+def test_gold_option_mismatch_both_directions():
+    t = BGTracker()
+
+    def check(gold, opts, turn=5):
+        row = {
+            "dp_index": 1, "turn": turn,
+            "snapshot": {"gold": gold, "board": [], "hand": [], "shop": []},
+            "hero_power": None, "hero_powers": [], "options": [],
+            "gold_options": opts,
+        }
+        fail, stats = _Fail(), Counter()
+        _check_row(t, row, fail, stats)
+        return fail.count["gold_option_mismatch"]
+
+    def opt(kind, cost, err):
+        return {"entity_id": 12, "card_id": "X", "kind": kind, "cost": cost, "error": err}
+
+    assert check(0, [opt("hero_power", 2, -1)]) == 1
+    assert check(0, [opt("buy", 3, -1)]) == 1
+    assert check(5, [opt("hero_power", 1, 14)]) == 1
+    assert check(1, [opt("buy", 1, 14)]) == 1
+    assert check(0, [opt("hero_power", 2, 14)]) == 0
+    assert check(2, [opt("hero_power", 2, -1)]) == 0
+    assert check(None, [opt("hero_power", 2, -1)]) == 0
+    # ea39f046 options idx 3: turn-1 Queen of Dragons, cost 1, gold 0, legal
+    # for one block ("Unlocks at Tier 4"). Not special-cased.
+    assert check(0, [opt("hero_power", 1, -1)], turn=1) == 1
+
+
+def test_gold_option_mismatch_from_built_row(tmp_path):
+    text = """<?xml version="1.0" encoding="utf-8"?>
+<HSReplay><Game>
+<GameEntity id="1"><Tag tag="202" value="1"/><Tag tag="49" value="1"/><Tag tag="20" value="5"/></GameEntity>
+<Player id="2" accountHi="0" accountLo="0" playerID="1" name="Hero A" isMainPlayer="true">
+  <Tag tag="50" value="1"/><Tag tag="202" value="2"/><Tag tag="26" value="1"/>
+  <Tag tag="25" value="0"/></Player>
+<Player id="3" accountHi="0" accountLo="0" playerID="9" name="Bob" isMainPlayer="false">
+  <Tag tag="50" value="9"/><Tag tag="202" value="2"/></Player>
+<FullEntity id="12" cardID="BG_TEST_HP"><Tag tag="50" value="1"/>
+  <Tag tag="202" value="10"/><Tag tag="49" value="1"/><Tag tag="48" value="2"/></FullEntity>
+<FullEntity id="40" cardID="TB_BaconShop_DragBuy"><Tag tag="50" value="9"/>
+  <Tag tag="202" value="4"/><Tag tag="48" value="1"/></FullEntity>
+<Options id="1"><Option index="0" type="2" entity="0" error="-1"/>
+  <Option index="1" type="3" entity="12" error="-1"/>
+  <Option index="2" type="3" entity="40" error="14"/></Options>
+</Game></HSReplay>
+"""
+    path = tmp_path / "gold_mismatch.xml"
+    path.write_text(text, encoding="utf-8")
+    res = build_game(str(path), {
+        "reviewId": "gold-mismatch", "buildNumber": 1, "mmr": 1,
+        "placement": None, "finalComp": {"board": []}})
+    assert res["failures"].count["gold_option_mismatch"] == 2
+    row = res["rows"][-1]
+    assert [o["entity_id"] for o in row["options"]] == [0, 12]
+    assert {(o["entity_id"], o["error"], o["cost"]) for o in row["gold_options"]} == {
+        (12, -1, 2), (40, 14, 1)}
+
+
+def test_shop_minion_option_is_not_a_buy(tmp_path):
+    """The shop minion stays error=-1 when its DragBuy handle is error 14.
+    Pricing the minion would flag every unaffordable slot."""
+    text = """<?xml version="1.0" encoding="utf-8"?>
+<HSReplay><Game>
+<GameEntity id="1"><Tag tag="202" value="1"/><Tag tag="49" value="1"/><Tag tag="20" value="1"/></GameEntity>
+<Player id="2" accountHi="0" accountLo="0" playerID="1" name="Hero A" isMainPlayer="true">
+  <Tag tag="50" value="1"/><Tag tag="202" value="2"/><Tag tag="26" value="0"/>
+  <Tag tag="25" value="0"/></Player>
+<Player id="3" accountHi="0" accountLo="0" playerID="9" name="Bob" isMainPlayer="false">
+  <Tag tag="50" value="9"/><Tag tag="202" value="2"/></Player>
+<FullEntity id="30" cardID="BG_TEST_SHOP"><Tag tag="50" value="9"/>
+  <Tag tag="202" value="4"/><Tag tag="49" value="1"/></FullEntity>
+<FullEntity id="31" cardID="TB_BaconShop_DragBuy"><Tag tag="50" value="1"/>
+  <Tag tag="202" value="22"/><Tag tag="49" value="1"/><Tag tag="48" value="3"/>
+  <Tag tag="2442" value="30"/></FullEntity>
+<Options id="1"><Option index="0" type="2" entity="0" error="-1"/>
+  <Option index="1" type="3" entity="30" error="-1"/>
+  <Option index="2" type="3" entity="31" error="14"/></Options>
+</Game></HSReplay>
+"""
+    path = tmp_path / "shop_not_buy.xml"
+    path.write_text(text, encoding="utf-8")
+    res = build_game(str(path), {
+        "reviewId": "shop-not-buy", "buildNumber": 1, "mmr": 1,
+        "placement": None, "finalComp": {"board": []}})
+    assert "gold_option_mismatch" not in res["failures"].count
+    row = res["rows"][-1]
+    assert row["snapshot"]["gold"] == 0
+    assert [o["entity_id"] for o in row["options"]] == [0, 30]
+    assert row["gold_options"] == [{
+        "entity_id": 31, "card_id": "TB_BaconShop_DragBuy", "kind": "buy",
+        "cost": 3, "error": 14}]
+
+
 def test_snapshot_round_trips_through_json():
     _, snaps = _snapshots()
     for snap in snaps:
@@ -113,6 +322,13 @@ def test_build_game_rows_and_checks():
     assert first["hero_powers"][0]["activatable"] is True
     assert first["hero_powers"][0]["passive"] is False
     assert first["dark_discovery"] == {"available": False}
+    # Error stays off the legal-action list. The error-14 board minion is not
+    # a buy, so only the priced hero power is checked against gold.
+    assert "error" not in first["options"][2]
+    assert first["gold_options"] == [{
+        "entity_id": 12, "card_id": "BG36_HERO_002p", "kind": "hero_power",
+        "cost": 1, "error": -1}]
+    assert last["gold_options"] == []
     assert first["snapshot"]["board"][1]["dark_gift"] == {
         "card_id": "BG36_MidGameEffect_000t51", "name": "Steady Growth"}
     # Re-sent Options id 2: the later block (two options) is the one kept.
