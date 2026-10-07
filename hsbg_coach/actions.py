@@ -97,9 +97,17 @@ def legal_actions(snapshot, kb=None) -> List[Action]:
         for m in shop:
             actions.append(Action(BUY, _name(m), BUY_COST, {"minion": m}))
 
-    # Use the hero power — when it's off-cooldown and affordable this turn.
-    hp = _get(snapshot, "hero_power", None)
-    if hp and hp.get("usable"):
+    # Use a hero power — one action per usable power. ``hero_powers`` lists
+    # every non-passive power in PLAY (usable first). A snapshot that predates
+    # that field, or a single-power snapshot that omits it, falls back to
+    # ``hero_power``.
+    hps = _get(snapshot, "hero_powers", None)
+    if hps is None:
+        hp = _get(snapshot, "hero_power", None)
+        hps = [hp] if hp else []
+    for hp in hps:
+        if not isinstance(hp, dict) or not hp.get("usable"):
+            continue
         hp_cost = int(hp.get("cost") or 0)
         if gold >= hp_cost:
             actions.append(Action(HERO_POWER, hp.get("name") or "Hero Power",

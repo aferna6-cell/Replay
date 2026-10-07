@@ -75,14 +75,26 @@ STEP_COMBAT_START = "MAIN_READY"
 # (..._000tNNe). Dark Paradox tokens (BG36_360t*, golden BG36_360_Gt*) carry
 # HAS_DARK_GIFT natively.
 DARK_GIFT_PREFIX = "BG36_MidGameEffect_000t"
+# The game-effect entity the spells are tokens of. Not a gift, and it has
+# no gift name. A strip must never land here (Offensive Sacrifice is the
+# spell ``…000t``; eating that trailing ``t`` produces this id).
+DARK_GIFT_PARENT = "BG36_MidGameEffect_000"
 DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
 # Gift enchantments without the gift prefix. Harpy's Talons reuses the
 # constructed enchantment; no other gift spell creates it.
 DARK_GIFT_ENCHANTMENTS = {"EDR_100t13e": "BG36_MidGameEffect_000t13"}
-# Enchantment card = "<spell>e" / "<spell>e2", or Persistent Poet's permanent
-# copy of a combat enchantment: "<spell>te" / "<spell>te2". The spell id
-# itself does not match.
-_GIFT_ENCHANT_SUFFIX = re.compile(r"t?e\d*$")
+# A gift spell is the prefix plus an optional token number: ``…000t``
+# (Offensive Sacrifice) or ``…000t64``. Enchantment cards append ``e`` /
+# ``e2`` / ``e3``, Persistent Poet appends ``te`` / ``te2``, and some copies
+# append one more ``t`` (``…000t64t``). Longer suffixes are tried first so
+# ``…000t64te`` names ``…000t64`` and ``…000te`` names ``…000t`` rather than
+# the parent.
+_GIFT_SPELL_RE = re.compile(r"^BG36_MidGameEffect_000t\d*$")
+_GIFT_ENCHANT_SUFFIXES = (
+    re.compile(r"te\d*$"),
+    re.compile(r"e\d*$"),
+    re.compile(r"t$"),
+)
 # Sire Denathrius (the only BG hero with quests; any hero can sell his buddy
 # Shady Aristocrat for one) and its skins, e.g.
 # BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
@@ -129,6 +141,10 @@ class Snapshot:
     hand: List[MinionView] = field(default_factory=list)
     opponents_seen: List[Dict] = field(default_factory=list)  # last-known enemy boards
     hero_power: Optional[Dict] = None     # {name, card_id, cost, usable}
+    # Every other non-passive power in PLAY, same shape and order as the
+    # primary. None when there are fewer than two, so a single-power
+    # to_dict() stays byte-identical. Omitted from to_dict() in that case.
+    hero_powers: Optional[List[Dict]] = None
     activatable: List[Dict] = field(default_factory=list)  # Activate-keyword minions
     dark_gift: Optional[Dict] = None      # {name, card_id, cost, usable, entity_id?}
     anomaly: Optional[str] = None         # active Battlegrounds anomaly name
@@ -144,7 +160,7 @@ class Snapshot:
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict:
-        return {
+        d = {
             "game_counter": self.game_counter,
             "turn": self.turn,
             "phase": self.phase,
@@ -174,6 +190,14 @@ class Snapshot:
             "opponents_seen": self.opponents_seen,
             "notes": self.notes,
         }
+        # Only a second (or later) non-passive power adds a key. One power,
+        # or none, keeps the historical dict byte-for-byte.
+        if self.hero_powers:
+            items = list(d.items())
+            at = next(i for i, (k, _) in enumerate(items) if k == "hero_power")
+            items.insert(at + 1, ("hero_powers", list(self.hero_powers)))
+            return dict(items)
+        return d
 
     @classmethod
     def from_dict(cls, d: Dict) -> "Snapshot":
@@ -387,6 +411,7 @@ class BGTracker:
         if self.local_player is None:
             notes.append("local_player not yet identified")
         hero_ent = self._hero_entity()
+        powers = self._hero_powers()
         return Snapshot(
             game_counter=self.state.game_counter,
             turn=self.state.current_turn,
@@ -400,7 +425,8 @@ class BGTracker:
             shop_spells=shop_spells,
             shop_frozen=any(m.tags.get("FROZEN") == "1" for m in shop),
             hand_spells=self._hand_spells(),
-            hero_power=self._hero_power(),
+            hero_power=powers[0] if powers else None,
+            hero_powers=powers if len(powers) > 1 else None,
             activatable=self._activatable(),
             dark_gift=self._dark_gift(),
             anomaly=self._anomaly(),
@@ -482,46 +508,67 @@ class BGTracker:
         on_tier = max(1, self._recruit_phases - self._tier_anchor)
         return max(0, base - (on_tier - 1))
 
-    def _hero_power(self) -> Optional[Dict]:
-        """The local player's hero power: name, cost, and whether it's usable now
-        (active, not exhausted, affordable). Recommendable like any other action.
+    def _hero_power_view(self, ent: Entity, gold: Optional[int]) -> Dict:
+        """One clickable hero power. A missing COST tag means 0: zero-valued
+        tags are not logged, so free powers must not be dropped."""
+        cost = ent.tag_int("COST") or 0
+        usable = (ent.tags.get("EXHAUSTED") not in ("1",)
+                  and (gold is None or gold >= cost))
+        # Prefer the logged display name; hero powers aren't in the minion KB,
+        # so fall back to a clean label rather than a raw cardId.
+        name = ent.name
+        if not name or name == ent.card_id:
+            name = "Hero Power"
+        return {
+            "name": name,
+            "card_id": ent.card_id,
+            "cost": cost,
+            "usable": bool(usable),
+            "entity_id": ent.id,
+        }
 
-        Passive / start-of-combat hero powers (e.g. Illidan's Wingmen) can't be
-        activated — HAS_ACTIVATE_POWER on the hero/hero-power entity says which, so
-        we never tell you to 'use' a passive power."""
+    def _hero_powers(self) -> List[Dict]:
+        """Every non-passive hero power we control in PLAY.
+
+        Passive / start-of-combat powers (Illidan's Wingmen, Morchie's
+        Warped Conflux, Drek'Thar) hide their cost (HIDE_COST=1). Skip each
+        one and keep scanning: a passive first power must not hide a second
+        power the player can click (Genn, a Timewarp spell, a trinket, ...).
+        There is no card-id allowlist. Whatever put the entity in PLAY counts.
+
+        Order: usable first, then lowest ZONE_POSITION, then lowest entity id.
+        The primary ``_hero_power`` is the first entry. A missing ZONE is
+        tolerated for sparse live logs; old / offered powers in SETASIDE or
+        REMOVEDFROMGAME are not powers we can click."""
+        gold = self._gold()
+        found = []
         for ent in self.state.entities.values():
             if ent.tags.get("CARDTYPE") != "HERO_POWER":
                 continue
             if ent.controller != str(self.local_player):
                 continue
-            # Only the power in PLAY: old / offered powers linger in SETASIDE /
-            # REMOVEDFROMGAME (a missing ZONE is tolerated for sparse live logs).
             if ent.zone not in (None, "PLAY"):
                 continue
-            # Passive / start-of-combat powers (Illidan's Wingmen) hide their cost
-            # (HIDE_COST=1) and have no real COST — you can't click them. Activatable
-            # powers (e.g. Marin's) carry a COST. Don't offer "use" on passives.
-            # A missing COST tag means 0: zero-valued tags are not logged, so
-            # free powers used to be dropped as if they were passive.
             if ent.tags.get("HIDE_COST") == "1":
-                return None
-            cost = ent.tag_int("COST") or 0
-            gold = self._gold()
-            usable = (ent.tags.get("EXHAUSTED") not in ("1",)
-                      and (gold is None or gold >= cost))
-            # Prefer the logged display name; hero powers aren't in the minion KB,
-            # so fall back to a clean label rather than a raw cardId.
-            name = ent.name
-            if not name or name == ent.card_id:
-                name = "Hero Power"
-            return {
-                "name": name,
-                "card_id": ent.card_id,
-                "cost": cost,
-                "usable": bool(usable),
-                "entity_id": ent.id,
-            }
-        return None
+                continue
+            found.append(ent)
+
+        def sort_key(ent: Entity):
+            view = self._hero_power_view(ent, gold)
+            pos = ent.tag_int("ZONE_POSITION") or 0
+            return (0 if view["usable"] else 1, pos, ent.id)
+
+        found.sort(key=sort_key)
+        return [self._hero_power_view(ent, gold) for ent in found]
+
+    def _hero_power(self) -> Optional[Dict]:
+        """The hero power to offer as the primary action.
+
+        Usable non-passive powers come first, then the lowest ZONE_POSITION,
+        then the lowest entity id. None when every in-play power is passive
+        or none is in PLAY."""
+        powers = self._hero_powers()
+        return powers[0] if powers else None
 
 
     def _track_subset_tag(self, entity_id, tag: str, value: str) -> None:
@@ -733,15 +780,35 @@ class BGTracker:
     def _gift_spell_id(self, card_id: Optional[str]) -> Optional[str]:
         """Gift spell id for a spell or enchantment card.
 
-        ``BG36_MidGameEffect_000t64e`` / ``e2`` are the spell's enchantments.
-        ``...t64te`` / ``te2`` are Persistent Poet's permanent copies of those
-        enchantments ("Adjacent Dragons permanently keep Bonus Keywords and
-        stats gained in combat"). Both name the spell ``...000t64``. A card
-        that is not a gift spell returns None; the spell id itself is unchanged.
+        ``BG36_MidGameEffect_000t64e`` / ``e2`` / ``e3`` are the spell's
+        enchantments. ``...t64te`` / ``te2`` are Persistent Poet's permanent
+        copies of those enchantments ("Adjacent Dragons permanently keep
+        Bonus Keywords and stats gained in combat"). ``...000t64t`` is the
+        same spell with one extra ``t``. All of those name ``...000t64``.
+
+        The spell id itself is returned unchanged. Offensive Sacrifice is
+        ``BG36_MidGameEffect_000t``: the trailing ``t`` is the spell, not an
+        enchantment marker, so ``...000te`` (that spell's enchantment) names
+        ``...000t`` and never the parent game-effect ``BG36_MidGameEffect_000``.
+        A card that is not a gift spell or one of these enchantments returns
+        None.
         """
         if not card_id or not card_id.startswith(DARK_GIFT_PREFIX):
             return None
-        return _GIFT_ENCHANT_SUFFIX.sub("", card_id)
+        if _GIFT_SPELL_RE.match(card_id):
+            return card_id
+        # Not a gift spell. Strip a suffix only when the remainder is a gift
+        # spell (so the original was the enchantment) and never when it is
+        # the parent entity.
+        for rx in _GIFT_ENCHANT_SUFFIXES:
+            m = rx.search(card_id)
+            if m is None:
+                continue
+            stripped = card_id[:m.start()]
+            if stripped == DARK_GIFT_PARENT or not _GIFT_SPELL_RE.match(stripped):
+                continue
+            return stripped
+        return None
 
     def _enchantment_gift_id(self, ent: Entity) -> Optional[str]:
         """Gift spell named by an enchantment entity, or None."""
@@ -814,7 +881,17 @@ class BGTracker:
             return None
         entities = self.state.entities
         raw = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
-        gift = self._gift_spell_id(raw) or raw
+        gift = self._gift_spell_id(raw) if raw else None
+        # DARK_GIFT_ENTITY sometimes names a card that is not a gift spell
+        # (a re-dump kept only that id). Keep it only when it does not wear
+        # the gift prefix: a prefix id that did not normalise to a spell is
+        # the parent entity or an enchantment we could not read, and neither
+        # is a gift. The parent is ``BG36_MidGameEffect_000``.
+        if (gift is None and raw and raw != DARK_GIFT_PARENT
+                and (_GIFT_SPELL_RE.match(raw) or not raw.startswith(DARK_GIFT_PREFIX))):
+            gift = raw
+        if gift == DARK_GIFT_PARENT:
+            gift = None
         if gift is None:
             me = str(ent.id)
             for e in entities.values():

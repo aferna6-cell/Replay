@@ -19,6 +19,7 @@ folder is accounted for in the report; nothing is dropped silently.
 """
 
 import argparse
+import copy
 import gzip
 import json
 import os
@@ -26,11 +27,15 @@ import time
 from collections import Counter, defaultdict
 from typing import Dict, List, Optional
 
-from .bg import BGTracker, DARK_GIFT_PREFIX, SIRE_HERO_RE
+from .bg import (BGTracker, DARK_GIFT_PARENT, DARK_GIFT_PREFIX, DARK_PARADOX_PREFIX,
+                  SIRE_HERO_RE, _GIFT_SPELL_RE)
 from .hsreplay_xml import iter_events
 
 SCHEMA_VERSION = "states.v2"
 DARK_DISCOVERY_BUTTON = "BG36_Button_DarkGift"
+# HSReplay Option error 14: the action costs more gold than the player has.
+NOT_ENOUGH_GOLD = 14
+BUY_HANDLE_PREFIX = "TB_BaconShop_DragBuy"
 DARK_DISCOVERY_EFFECT = "BG36_MidGameEffect_010"   # CREATOR of the offered minions
 # Shady Aristocrat, Sire Denathrius's buddy: "When you sell this, Discover a
 # Quest". Other heroes can get it too (e.g. from a Wisdomball refresh).
@@ -75,16 +80,129 @@ def _legal(options: List[Dict]) -> List[Dict]:
     return [o for o in options if o["error"] == -1]
 
 
+# The hero-pick check compares the chosen card with the played hero. These
+# are the same hero on a different card id: a `_SKIN` cosmetic of the same
+# stem, Aranna Starseeker becoming Aranna Unleashed, or any played hero the
+# log tags BACON_SKIN (legacy skin ids do not share the base card's stem).
+_HERO_PLACEHOLDER = "TB_BaconShop_HERO_PH"
+_HERO_SWAP_STEMS = {
+    "TB_BaconShop_HERO_59": "aranna",     # Aranna Starseeker
+    "TB_BaconShop_HERO_59t": "aranna",    # Aranna, Unleashed
+}
+_ROW_HP_KEYS = ("card_id", "name", "cost", "used", "activatable")
+
+
+def _hero_power_entries(tracker: BGTracker, legal_ids: set) -> List[Dict]:
+    """Every HERO_POWER we control in PLAY, passives included.
+
+    Order is the index used to choose the row's ``hero_power``: lowest
+    ZONE_POSITION, then lowest entity id. ``activatable`` is membership in
+    the legal options, not the snapshot's gold check. ``passive`` is
+    HIDE_COST=1 (Illidan, Morchie, Drek'Thar, ...)."""
+    ents = [e for e in tracker.state.in_zone("PLAY", tracker.local_player)
+            if e.tags.get("CARDTYPE") == "HERO_POWER"]
+    ents.sort(key=lambda e: ((e.tag_int("ZONE_POSITION") or 0), e.id))
+    out = []
+    for ent in ents:
+        out.append({
+            "card_id": ent.card_id,
+            "name": tracker._display_name(ent.card_id, ent.name),
+            "cost": ent.tag_int("COST") or 0,
+            "used": ent.tags.get("EXHAUSTED") == "1",
+            "activatable": ent.id in legal_ids,
+            "passive": ent.tags.get("HIDE_COST") == "1",
+        })
+    return out
+
+
+def _select_row_hero_power(entries: List[Dict]) -> Optional[Dict]:
+    """The legal power if any (lowest index), else the first non-passive,
+    else the passive. The row field keeps the historical shape (no
+    ``passive`` key)."""
+    if not entries:
+        return None
+    legal = [e for e in entries if e["activatable"]]
+    if legal:
+        chosen = legal[0]
+    else:
+        active = [e for e in entries if not e["passive"]]
+        chosen = active[0] if active else entries[0]
+    return {k: chosen[k] for k in _ROW_HP_KEYS}
+
+
 def _hero_power(tracker: BGTracker, legal_ids: set) -> Optional[Dict]:
-    """Our hero power in PLAY, including passive ones (Snapshot.hero_power is
-    None for passives). ``activatable`` = it is a legal option right now."""
-    for ent in tracker.state.in_zone("PLAY", tracker.local_player):
-        if ent.tags.get("CARDTYPE") == "HERO_POWER":
-            return {"card_id": ent.card_id,
-                    "name": tracker._display_name(ent.card_id, ent.name),
-                    "cost": ent.tag_int("COST") or 0,
-                    "used": ent.tags.get("EXHAUSTED") == "1",
-                    "activatable": ent.id in legal_ids}
+    """Our hero power in PLAY, including a passive when it is the only one
+    (Snapshot.hero_power is None for passives). ``activatable`` = it is a
+    legal option right now."""
+    return _select_row_hero_power(_hero_power_entries(tracker, legal_ids))
+
+
+def _gold_options(tracker: BGTracker, options: List[Dict]) -> List[Dict]:
+    """Priced options the gold check compares to snapshot gold or hero health.
+
+    A legal hero power or buy the snapshot cannot afford, or an error-14
+    option it can, is a stale-resource signal. The buy is the
+    ``TB_BaconShop_DragBuy`` handle: the shop minion (and shop spell) stay
+    ``error=-1`` even when that handle is rejected, so pricing the minion
+    would flag every unaffordable slot. Missing ``COST`` on a hero power or
+    buy handle is 0. A button is priced only when it carries ``COST``.
+
+    ``resource`` is ``health`` when this option's own entity has
+    ``CARD_ALTERNATE_COST=1`` (Hasty Excavation, an effect-granted Health
+    buy, Malchezaar's Health refresh). Otherwise it is ``gold``. The linked
+    card's ``BACON_COSTS_HEALTH_TO_BUY`` is not consulted.
+    """
+    out = []
+    for o in options:
+        if o.get("error") not in (-1, NOT_ENOUGH_GOLD):
+            continue
+        priced = _price_option(tracker, o)
+        if priced is None:
+            continue
+        kind, cost = priced
+        if o["error"] == -1 and kind not in ("hero_power", "buy"):
+            continue
+        ent = tracker.state.entities.get(o["entity"])
+        resource = ("health" if ent is not None
+                    and ent.tags.get("CARD_ALTERNATE_COST") == "1" else "gold")
+        out.append({
+            "entity_id": o["entity"],
+            "card_id": ent.card_id if ent else None,
+            "kind": kind,
+            "cost": cost,
+            "error": o["error"],
+            "resource": resource,
+        })
+    return out
+
+
+def _price_option(tracker, option: Dict) -> Optional[tuple]:
+    """``(kind, cost)`` from the option entity's live ``COST``.
+
+    Health versus gold is not decided here. ``_gold_options`` reads
+    ``CARD_ALTERNATE_COST`` on this same entity.
+    """
+    ent = tracker.state.entities.get(option.get("entity"))
+    if ent is None:
+        return None
+    cid = ent.card_id or ""
+    ctype = ent.tags.get("CARDTYPE")
+    if ctype == "HERO_POWER":
+        return ("hero_power", ent.tag_int("COST") or 0)
+    if cid.startswith(BUY_HANDLE_PREFIX):
+        return ("buy", ent.tag_int("COST") or 0)
+    if cid.endswith("Reroll_Button") or "TechUp" in cid or cid == DARK_DISCOVERY_BUTTON:
+        if "COST" not in ent.tags:
+            return None
+        if cid.endswith("Reroll_Button"):
+            kind = "roll"
+        elif "TechUp" in cid:
+            kind = "level"
+        else:
+            kind = "dark_gift"
+        return (kind, ent.tag_int("COST") or 0)
+    if ctype in ("BATTLEGROUND_SPELL", "SPELL") and "COST" in ent.tags:
+        return ("spell", ent.tag_int("COST") or 0)
     return None
 
 
@@ -132,9 +250,13 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
     combat_boards: Dict[int, List] = {}   # turn -> board at that turn's first attack
     await_combat = None                   # turn of the last Options row, until combat
     prev_choice = None                 # entity ids of the last unanswered Choices
+    open_hero = None                   # hero MULLIGAN awaiting ChosenEntities
+    hero_pick = None                   # picked card vs the hero that was then played
 
     for ev in iter_events(path):
         tracker.feed(ev)
+        if open_hero is not None:
+            _note_hero_reroll(open_hero, ev)
         if ev.kind == "FULL_ENTITY" and ev.entity and ev.entity.name == "GameEntity":
             game_entity_id = ev.entity.id
         elif ev.kind == "PLAYER" and ev.fields.get("hi") == "1":
@@ -150,6 +272,13 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
         elif ev.kind == "CHOSEN":
             prev_choice = None
             _record_dark_discovery_picks(tracker, ev.items, pending_picks, fail, stats)
+            if open_hero is not None:
+                picked = _close_hero_choice(tracker, open_hero, ev.items, fail)
+                if picked is not _NOT_HERO_CHOSEN:
+                    hero_pick = {"card_id": picked, "row": open_hero["row"],
+                                 "seen_card": None, "seen_tags": None,
+                                 "seen_entity": None}
+                    open_hero = None
         elif ev.kind == "CHOICES":
             if ev.fields.get("player_id") != main_player_entity:
                 stats["choice_blocks_other_player"] += 1
@@ -159,10 +288,20 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
                 stats["choices_repeated"] += 1    # same offer again, no pick between
             prev_choice = list(ev.items)
             row = _choice_row(tracker, ev, meta, len(rows), game_entity_id)
+            if row["choice"]["choice_kind"] == "hero":
+                # cards[] is rewritten at the pick. Keep the offer as first seen.
+                row["choice"]["offer_initial"] = copy.deepcopy(row["choice"]["cards"])
+                open_hero = {
+                    "row": row,
+                    "rerolls": [],
+                    "latest": {c["entity_id"]: c["card_id"]
+                               for c in row["choice"]["cards"]},
+                }
             _check_turn(row, rows, fail)
             _check_choice(row, fail, stats)
             _check_quests(row, quests_seen, fail, stats)
             rows.append(row)
+            _maybe_observe_hero(tracker, hero_pick)
         elif ev.kind == "OPTIONS":
             stats["options_blocks"] += 1
             if ev.fields.get("id") == last_options_id:
@@ -181,6 +320,11 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
             _check_quests(row, quests_seen, fail, stats)
             rows.append(row)
             await_combat = row["turn"]
+            _maybe_observe_hero(tracker, hero_pick)
+
+    # No later decision point (the pick was the last thing logged): the hero
+    # entity, if the replay has one, is what we can check against.
+    _maybe_observe_hero(tracker, hero_pick)
 
     # dp_index: chronological over both kinds; options_index: Options rows only
     # (the states.v1 dp_index).
@@ -190,6 +334,7 @@ def build_game(path: str, meta: Dict, card_names: Optional[Dict[str, str]] = Non
         if r["kind"] == "options":
             r["options_index"] = n_options
             n_options += 1
+    _check_hero_pick(hero_pick, fail)
     options_rows = [r for r in rows if r["kind"] == "options"]
     choice_rows = [r for r in rows if r["kind"] == "choice"]
     stats["dark_discovery_picks_unverifiable"] += len(pending_picks)
@@ -244,17 +389,32 @@ def _row(tracker, options, meta, dp_index, game_entity_id) -> Dict:
          and tracker.state.entities[i].card_id == DARK_DISCOVERY_BUTTON)
         for i in legal_ids)
     row["options_index"] = None          # set once the game is complete
+    entries = _hero_power_entries(tracker, legal_ids)
     row.update({
-        "hero_power": _hero_power(tracker, legal_ids),
+        "hero_power": _select_row_hero_power(entries),
+        "hero_powers": entries,
         "dark_discovery": {"available": dd_available},
         "options": _options_rows(tracker, legal),
+        # Legal options stay legal-only. This list is the gold check's input:
+        # priced hero powers and buys (any error) plus every other option the
+        # game rejected with "not enough gold".
+        "gold_options": _gold_options(tracker, options),
     })
     return row
 
 
 def _choice_row(tracker, ev, meta, dp_index, game_entity_id) -> Dict:
     """A Choices block offered to us. The pick is NOT recorded here: match
-    ``cards[].entity_id`` against the following ChosenEntities."""
+    ``cards[].entity_id`` against the following ChosenEntities.
+
+    Hero MULLIGAN rows are the exception to "cards as first seen". A reroll
+    keeps the slot's entity id and changes its card (ChangeEntity /
+    ShowEntity) before ChosenEntities, so the row's ``cards`` are replaced
+    with the pick-time cards in ``_close_hero_choice``. ``offer_initial``
+    keeps the offer from this moment. Other choice kinds are not rewritten:
+    discovers, trinkets, quests and Dark Discovery name the cards in the
+    Choices block, and a later ChangeEntity on a shop slot is not one of
+    those offers."""
     row = _base_row(tracker, meta, "choice", dp_index, game_entity_id)
     entities = tracker.state.entities
     src = entities.get(ev.fields.get("source") or -1)
@@ -283,12 +443,116 @@ def _choice_card(tracker, eid) -> Dict:
     gift = tracker._minion_dark_gift(ent)
     if gift is None:            # offered by Dark Discovery: DARK_GIFT_ENTITY only
         ref = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
-        if ref.startswith(DARK_GIFT_PREFIX):
-            gift = {"card_id": ref, "name": tracker._display_name(ref)}
+        spell = tracker._gift_spell_id(ref) if ref.startswith(DARK_GIFT_PREFIX) else None
+        if spell and spell != DARK_GIFT_PARENT:
+            gift = {"card_id": spell, "name": tracker._display_name(spell)}
     return {"entity_id": eid, "card_id": ent.card_id,
             "name": tracker._display_name(ent.card_id, ent.name),
             "cardtype": ent.tags.get("CARDTYPE"), "tags": dict(ent.tags),
             "dark_gift": gift}
+
+
+# Returned by _close_hero_choice when ChosenEntities is some other offer.
+_NOT_HERO_CHOSEN = object()
+
+
+def _note_hero_reroll(open_hero: Dict, ev) -> None:
+    """Record a ShowEntity / ChangeEntity / re-dump that changes an offered
+    hero slot's card. The slot id stays; the card does not."""
+    if ev.kind not in ("SHOW_ENTITY", "FULL_ENTITY") or ev.entity is None:
+        return
+    eid = ev.entity.id
+    latest = open_hero["latest"]
+    if eid not in latest:
+        return
+    new = ev.entity.card_id
+    prev = latest[eid]
+    if new and new != prev:
+        open_hero["rerolls"].append({
+            "entity_id": eid,
+            "from_card_id": prev,
+            "to_card_id": new,
+        })
+        latest[eid] = new
+
+
+def _close_hero_choice(tracker, open_hero, chosen_ids, fail):
+    """Rewrite a hero row's cards to the offer as it stands at the pick.
+
+    Returns ``_NOT_HERO_CHOSEN`` when this ChosenEntities is a different
+    offer, else the picked card id (None if that entity has no card)."""
+    row = open_hero["row"]
+    offered = [c["entity_id"] for c in row["choice"]["offer_initial"]]
+    chosen = [i for i in chosen_ids if i in set(offered)]
+    if not chosen:
+        return _NOT_HERO_CHOSEN
+    row["choice"]["cards"] = [_choice_card(tracker, eid) for eid in offered]
+    if open_hero["rerolls"]:
+        row["choice"]["rerolls"] = list(open_hero["rerolls"])
+    for c in row["choice"]["cards"]:
+        if not c["card_id"]:
+            fail.add("choice_card_missing", {
+                "dp": row["dp_index"], "entity_id": c["entity_id"],
+                "source": row["choice"]["source_card_id"]})
+    picked_id = chosen[0]
+    for c in row["choice"]["cards"]:
+        if c["entity_id"] == picked_id:
+            return c["card_id"]
+    return None
+
+
+def _maybe_observe_hero(tracker, hero_pick) -> None:
+    """Lock the first real hero played after the pick.
+
+    The placeholder (TB_BaconShop_HERO_PH) is not that hero. Later swaps
+    (Aranna Unleashed, a skin applied after the first decision point) are
+    not what the pick has to match; the first non-placeholder hero is."""
+    if not hero_pick or hero_pick.get("seen_card"):
+        return
+    hero = tracker._hero_entity()
+    if hero is None or not hero.card_id or hero.card_id == _HERO_PLACEHOLDER:
+        return
+    hero_pick["seen_card"] = hero.card_id
+    hero_pick["seen_tags"] = dict(hero.tags)
+    hero_pick["seen_entity"] = hero.id
+
+
+def _hero_stem(card_id: Optional[str]) -> str:
+    if not card_id:
+        return ""
+    stem = card_id.split("_SKIN")[0]
+    return _HERO_SWAP_STEMS.get(stem, stem)
+
+
+def _hero_cards_match(picked: Optional[str], actual: Optional[str], tags: Optional[Dict]) -> bool:
+    """True when the played hero is the picked card or a known swap of it."""
+    if not picked or not actual or actual == _HERO_PLACEHOLDER:
+        return False
+    if picked == actual:
+        return True
+    if _hero_stem(picked) and _hero_stem(picked) == _hero_stem(actual):
+        return True
+    # Legacy skins (TB_BaconShop_HERO_44_SKIN_* for Sylvanas BG23_HERO_306)
+    # do not share a card-id stem. The played entity is tagged BACON_SKIN.
+    if (tags or {}).get("BACON_SKIN") == "1":
+        return True
+    return False
+
+
+def _check_hero_pick(hero_pick, fail) -> None:
+    """Quarantine when the picked hero card is not the hero that was played."""
+    if not hero_pick or not hero_pick.get("seen_card"):
+        return
+    if _hero_cards_match(hero_pick.get("card_id"), hero_pick["seen_card"],
+                         hero_pick.get("seen_tags")):
+        return
+    row = hero_pick.get("row") or {}
+    fail.add("hero_pick_mismatch", {
+        "dp": row.get("dp_index"),
+        "picked": hero_pick.get("card_id"),
+        "hero": hero_pick["seen_card"],
+        "entity_id": hero_pick.get("seen_entity"),
+    })
 
 
 CHOICE_KINDS = ("hero", "dark_discovery", "quest", "trinket", "discover", "other")
@@ -377,6 +641,113 @@ def _check_row(tracker, row, fail, stats) -> None:
                 fail.add("dark_gift_unresolved", {"dp": dp, "zone": zone,
                                                   "entity_id": m["entity_id"],
                                                   "card_id": m["card_id"]})
+            elif not _known_dark_gift(tracker, m["dark_gift"]):
+                fail.add("dark_gift_unknown_card", {
+                    "dp": dp, "zone": zone, "entity_id": m["entity_id"],
+                    "card_id": m["dark_gift"].get("card_id")})
+    _check_hero_power_options(tracker, row, fail)
+    _check_gold_options(row, fail)
+
+
+def _check_gold_options(row, fail) -> None:
+    """Snapshot gold, or hero health for a Health-paid option, must agree
+    with what the game says the player can pay.
+
+    ``resource`` ``health`` (``CARD_ALTERNATE_COST=1`` on the option entity)
+    is affordable only when ``snapshot.hero_health`` is strictly greater
+    than ``cost``. At equal health the game returns error 14. Every other
+    priced option, including one with no ``resource``, is gold: affordable
+    when ``cost <= gold``.
+
+    A legal hero power or buy that is not affordable means the snapshot
+    resource is too low (a stale ``RESOURCES_USED`` after a re-dump, for
+    gold). An error-14 option that is affordable means it is too high.
+    Null gold skips gold-priced options. Null hero health skips Health-paid
+    ones. The turn-1 Queen of Dragons block (ea39f046, gold-priced, legal
+    at gold 0) is not special-cased.
+    """
+    snap = row.get("snapshot") or {}
+    gold = snap.get("gold")
+    health = snap.get("hero_health")
+    for o in row.get("gold_options") or []:
+        cost, err = o.get("cost"), o.get("error")
+        if cost is None or err is None:
+            continue
+        resource = o.get("resource") or "gold"
+        if resource == "health":
+            if health is None:
+                continue
+            affordable = health > cost
+        else:
+            if gold is None:
+                continue
+            affordable = cost <= gold
+        legal_short = (err == -1 and o.get("kind") in ("hero_power", "buy")
+                       and not affordable)
+        blocked_rich = err == NOT_ENOUGH_GOLD and affordable
+        if legal_short or blocked_rich:
+            example = {
+                "dp": row.get("dp_index"), "gold": gold, "cost": cost,
+                "error": err, "kind": o.get("kind"),
+                "card_id": o.get("card_id"), "entity_id": o.get("entity_id"),
+                "resource": resource,
+            }
+            if resource == "health":
+                example["hero_health"] = health
+            fail.add("gold_option_mismatch", example)
+
+
+def _known_dark_gift(tracker, gift: Dict) -> bool:
+    """A resolved gift names a real Dark Gift spell (or a Dark Paradox token)
+    and, when a card-name table is loaded, that card's name.
+
+    ``BG36_MidGameEffect_000`` is the game-effect entity, not a spell, and
+    it has no gift name. An enchantment id that was not mapped back to its
+    spell fails the same way. With no card-name table loaded, a structural
+    spell id is enough: fixtures that do not ship ``cards.json`` still pass.
+    """
+    cid = gift.get("card_id") or ""
+    if cid == DARK_GIFT_PARENT:
+        return False
+    spell = bool(_GIFT_SPELL_RE.match(cid)) or cid.startswith(DARK_PARADOX_PREFIX)
+    if not spell:
+        return False
+    name = gift.get("name")
+    if name and name != cid and "UNKNOWN ENTITY" not in name:
+        return True
+    return not tracker.state.card_names
+
+
+def _check_hero_power_options(tracker, row, fail) -> None:
+    """Every legal option that is a PLAY hero power is in ``hero_powers``
+    with ``activatable`` true, and the row's ``hero_power`` is activatable
+    when any such option exists."""
+    legal = []
+    for o in row["options"]:
+        ent = tracker.state.entities.get(o["entity_id"])
+        if ent is None:
+            continue
+        if ent.tags.get("CARDTYPE") != "HERO_POWER" or ent.zone != "PLAY":
+            continue
+        legal.append(ent)
+    if not legal:
+        return
+    dp = row["dp_index"]
+    hp = row.get("hero_power") or {}
+    if not hp.get("activatable"):
+        fail.add("hero_power_option_mismatch", {
+            "dp": dp, "hero_power": hp.get("card_id"),
+            "legal": [e.card_id for e in legal]})
+    pool = [dict(p) for p in (row.get("hero_powers") or [])]
+    for ent in legal:
+        idx = next((i for i, p in enumerate(pool)
+                    if p.get("card_id") == ent.card_id and p.get("activatable") is True),
+                   None)
+        if idx is None:
+            fail.add("hero_power_option_mismatch", {
+                "dp": dp, "entity_id": ent.id, "card_id": ent.card_id})
+        else:
+            pool.pop(idx)
 
 
 def _record_dark_discovery_picks(tracker, chosen, pending, fail, stats) -> None:
@@ -388,9 +759,12 @@ def _record_dark_discovery_picks(tracker, chosen, pending, fail, stats) -> None:
         if tracker.state.card_id_of(ent.tag_int("CREATOR")) != DARK_DISCOVERY_EFFECT:
             continue
         stats["dark_discovery_picks"] += 1
-        gift = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
+        raw = tracker.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY")) or ""
+        # The offer may name the enchantment (…000t64t / …000te) rather than
+        # the spell. Compare the same id the minion snapshot stores.
+        gift = (tracker._gift_spell_id(raw) or raw) if raw else ""
         persistent = ent.tags.get("HAS_DARK_GIFT") == "1"
-        if not gift.startswith(DARK_GIFT_PREFIX):
+        if not str(gift).startswith(DARK_GIFT_PREFIX):
             if not persistent:
                 fail.add("dark_discovery_pick_without_gift", {"entity_id": eid,
                                                              "card_id": ent.card_id})
