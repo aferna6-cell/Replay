@@ -35,6 +35,12 @@ DARK_DISCOVERY_EFFECT = "BG36_MidGameEffect_010"   # CREATOR of the offered mini
 # Shady Aristocrat, Sire Denathrius's buddy: "When you sell this, Discover a
 # Quest". Other heroes can get it too (e.g. from a Wisdomball refresh).
 SIRE_BUDDY_PREFIX = "BG24_HERO_100_Buddy"
+# Pressure the Authorities: "Get your warband to {0} total Attack."
+# QUEST_PROGRESS is the live sum of board attack, so it falls when the board
+# does (sells, or an empty board between combats). The offered goal is
+# QUEST_PROGRESS_TOTAL, which can differ from the card's baseline script
+# numbers (28 on BG27_Quest_801; this game's tag is 20).
+ATTACK_TOTAL_QUEST = "BG27_Quest_801"
 MAX_EXAMPLES = 5
 DEFAULT_CARDS = os.path.join("data", "firestone", "cards.json")
 
@@ -428,13 +434,27 @@ def _check_picks(row, pending, fail, stats) -> None:
     pending.clear()
 
 
+def _attack_quest_tracks_board(q, snap) -> bool:
+    """A drop on Pressure the Authorities is the warband's current attack, not
+    a lost counter, when the new progress equals the board's total attack."""
+    if q.get("card_id") != ATTACK_TOTAL_QUEST:
+        return False
+    board = snap.get("board")
+    if board is None:
+        return False
+    total = sum((m.get("attack") or 0) for m in board)
+    return q.get("progress") == total
+
+
 def _check_quests(row, seen, fail, stats) -> None:
     """Quests come from Sire Denathrius (any skin) or from his buddy, Shady
     Aristocrat (sell it: Discover a Quest), which any hero can get (e.g. a
     Wisdomball refresh offers it). A non-Sire row may only hold quests whose
     source (CREATOR) is Shady Aristocrat. For each quest entity: progress
-    never decreases, never exceeds the goal while active, the goal is known,
-    and a completed quest stays completed. ``seen`` maps quest entity_id -> last observed entry."""
+    never decreases (except Pressure the Authorities, whose progress is the
+    warband's current total attack), never exceeds the goal while active, the
+    goal is known, and a completed quest stays completed. ``seen`` maps quest
+    entity_id -> last observed entry."""
     snap, dp = row["snapshot"], row["dp_index"]
     quests = snap.get("quests") or []
     if not quests:
@@ -461,7 +481,8 @@ def _check_quests(row, seen, fail, stats) -> None:
             elif q["progress"] > q["goal"]:
                 fail.add("quest_progress_over_goal", ex)
             if prev is not None and not prev["completed"]:
-                if q["progress"] < prev["progress"]:
+                if (q["progress"] < prev["progress"]
+                        and not _attack_quest_tracks_board(q, snap)):
                     fail.add("quest_progress_decreased", dict(ex, prev=prev["progress"]))
                 if q["goal"] != prev["goal"]:
                     stats["quest_goal_changed"] += 1

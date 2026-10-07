@@ -13,7 +13,7 @@ import pytest
 
 from hsbg_coach.bg import BGTracker, Phase, Snapshot
 from hsbg_coach.hsreplay_xml import iter_events
-from hsbg_coach.parser import Event
+from hsbg_coach.parser import EntityRef, Event
 from hsbg_coach.replay_states import (SCHEMA_VERSION, _Fail, _check_picks, _check_quests,
                                        _check_row, _final_checks, build_game)
 from hsbg_coach.state import Entity
@@ -169,10 +169,13 @@ def test_quests_active_then_completed():
     assert t._quests() == []
 
 
-def _quest_row(dp, hero, *quests):
-    return {"dp_index": dp, "snapshot": {"hero": hero, "quests": [
-        {"entity_id": e, "card_id": "BG24_Quest_151", "progress": p, "goal": g,
-         "completed": c} for e, p, g, c in quests]}}
+def _quest_row(dp, hero, *quests, card_id="BG24_Quest_151", board=None):
+    snap = {"hero": hero, "quests": [
+        {"entity_id": e, "card_id": card_id, "progress": p, "goal": g,
+         "completed": c} for e, p, g, c in quests]}
+    if board is not None:
+        snap["board"] = board
+    return {"dp_index": dp, "snapshot": snap}
 
 
 def test_quest_checks():
@@ -204,6 +207,17 @@ def test_quest_checks():
     buddy = _quest_row(0, "TB_BaconShop_HERO_12", (15859, 1, 3, False))
     buddy["snapshot"]["quests"][0]["source_card_id"] = "BG24_HERO_100_Buddy"
     assert run(buddy) == {}
+    # Pressure the Authorities tracks live warband attack (a8aebfa4: 9 → 0
+    # on an empty board, goal 20 not the card baseline 28). A drop that is
+    # not the board's attack still fails, and a cumulative quest still fails.
+    attack = dict(card_id="BG27_Quest_801")
+    assert run(_quest_row(0, "BG24_HERO_100", (363, 9, 20, False)),
+               _quest_row(1, "BG24_HERO_100", (363, 0, 20, False),
+                          board=[{"attack": 0}], **attack)) == {}
+    assert run(_quest_row(0, "BG24_HERO_100", (363, 9, 20, False)),
+               _quest_row(1, "BG24_HERO_100", (363, 0, 20, False),
+                          board=[{"attack": 9}], **attack)) == {
+        "quest_progress_decreased": 1}
 
 
 def test_build_game_non_sire_has_no_quests():
@@ -470,3 +484,94 @@ def test_final_board_uses_manifest_turn_and_combat_board():
     assert run(2, ["B", "A"])[0] == {"final_board_order": 1}
     assert run(2, ["A"])[0] == {"manifest_final_comp_suspect": 1}   # our turn-1 board
     assert run(2, ["Z"])[0] == {"final_board_mismatch": 1}
+
+
+def _tag(eid, tag, value, kind="TAG_CHANGE", card_id=None):
+    return Event(kind=kind, logger="GameState",
+                 entity=EntityRef(id=eid, card_id=card_id), tag=tag, value=value)
+
+
+def test_poet_permanent_enchantment_names_the_gift_spell():
+    t = BGTracker()
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64e") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64e2") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64te") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t64te2") == "BG36_MidGameEffect_000t64"
+    assert t._gift_spell_id("BG36_MidGameEffect_000t51e") == "BG36_MidGameEffect_000t51"
+    assert t._gift_spell_id("EDR_100t13e") is None
+
+
+def test_hand_copy_inherits_dark_gift_after_enchantment_is_removed():
+    """b138f295: Radio Star copies Persistent Poet after the killer's gift
+    enchantment (000t64te) was removed on death. The hand copy keeps
+    HAS_DARK_GIFT; COPIED_FROM on the intermediate is later cleared."""
+    t = BGTracker()
+    t.local_player = 1
+    t.feed(_tag(10, None, None, "FULL_ENTITY", "BG29_813"))
+    for tag, value in (("CARDTYPE", "MINION"), ("ZONE", "PLAY"), ("CONTROLLER", "1"),
+                       ("HAS_DARK_GIFT", "1")):
+        t.feed(_tag(10, tag, value))
+    t.feed(_tag(11, None, None, "SHOW_ENTITY", "BG36_MidGameEffect_000t64te"))
+    for tag, value in (("CARDTYPE", "ENCHANTMENT"), ("ZONE", "PLAY"), ("ATTACHED", "10")):
+        t.feed(_tag(11, tag, value))
+    assert t._minion_dark_gift(t.state.entities[10])["card_id"] == "BG36_MidGameEffect_000t64"
+    t.feed(_tag(11, "ZONE", "REMOVEDFROMGAME"))
+    t.feed(_tag(12, None, None, "FULL_ENTITY", "BG29_813"))
+    for tag, value in (("CARDTYPE", "MINION"), ("CONTROLLER", "1"), ("ZONE", "SETASIDE"),
+                       ("HAS_DARK_GIFT", "1"), ("COPIED_FROM_ENTITY_ID", "10")):
+        t.feed(_tag(12, tag, value))
+    t.feed(_tag(13, None, None, "FULL_ENTITY", "BG29_813"))
+    for tag, value in (("CARDTYPE", "MINION"), ("CONTROLLER", "1"), ("ZONE", "HAND"),
+                       ("HAS_DARK_GIFT", "1"), ("COPIED_FROM_ENTITY_ID", "12")):
+        t.feed(_tag(13, tag, value))
+    t.feed(_tag(12, "COPIED_FROM_ENTITY_ID", "0"))
+    t.feed(_tag(12, "HAS_DARK_GIFT", "0"))
+    assert t._minion_dark_gift(t.state.entities[13])["card_id"] == "BG36_MidGameEffect_000t64"
+    # A flagged minion with no enchantment and no copied gift stays unresolved.
+    t.feed(_tag(14, None, None, "FULL_ENTITY", "BG29_813"))
+    for tag, value in (("CARDTYPE", "MINION"), ("CONTROLLER", "1"), ("ZONE", "HAND"),
+                       ("HAS_DARK_GIFT", "1")):
+        t.feed(_tag(14, tag, value))
+    assert t._minion_dark_gift(t.state.entities[14]) is None
+
+
+# The two 36.6.3 first-place games the builder quarantined. Final-board and
+# placement checks need Firestone's manifest, which is not in the fixture;
+# these tests assert the accuracy reasons that quarantined them are gone.
+_REPLAYS = os.path.join(os.path.dirname(__file__), "fixtures", "replays")
+_MANIFEST_REASONS = {"manifest_final_comp_suspect", "final_board_mismatch",
+                     "final_board_order", "placement_mismatch",
+                     "manifest_placement_suspect"}
+
+
+def _replay(name):
+    path = os.path.join(_REPLAYS, name)
+    if not os.path.isfile(path):
+        pytest.skip("replay fixture missing")
+    gid = name.split(".")[0]
+    return build_game(path, {"reviewId": gid, "placement": 1}, track_opponents=False)
+
+
+def test_radio_star_poet_copy_resolves_dark_gift():
+    res = _replay("b138f295-2101-43ce-8fb5-4f7a934eb84d.xml.gz")
+    assert "dark_gift_unresolved" not in res["failures"].count
+    assert set(res["failures"].count) <= _MANIFEST_REASONS
+    gifted = [m for r in res["rows"] for z in ("board", "hand", "shop")
+              for m in r["snapshot"][z]
+              if m["entity_id"] == 9052 and m["tags"].get("HAS_DARK_GIFT") == "1"]
+    assert gifted and {m["dark_gift"]["card_id"] for m in gifted} == {
+        "BG36_MidGameEffect_000t64"}
+
+
+def test_pressure_the_authorities_attack_may_fall():
+    res = _replay("a8aebfa4-8e71-4418-93ab-52873dec5647.xml.gz")
+    assert "quest_progress_decreased" not in res["failures"].count
+    assert set(res["failures"].count) <= _MANIFEST_REASONS
+    quests = [(r["dp_index"], q) for r in res["rows"]
+              for q in r["snapshot"]["quests"] if q["entity_id"] == 363]
+    drop = next(q for dp, q in quests if dp == 21)
+    assert (drop["progress"], drop["goal"], drop["card_id"]) == (0, 20, "BG27_Quest_801")
+    assert sum(m["attack"] or 0 for m in next(
+        r["snapshot"]["board"] for r in res["rows"] if r["dp_index"] == 21)) == 0
+    assert any(q["completed"] for _, q in quests)

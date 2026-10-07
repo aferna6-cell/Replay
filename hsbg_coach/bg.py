@@ -79,6 +79,10 @@ DARK_PARADOX_PREFIX = ("BG36_360t", "BG36_360_Gt")   # plain / golden tokens
 # Gift enchantments without the gift prefix. Harpy's Talons reuses the
 # constructed enchantment; no other gift spell creates it.
 DARK_GIFT_ENCHANTMENTS = {"EDR_100t13e": "BG36_MidGameEffect_000t13"}
+# Enchantment card = "<spell>e" / "<spell>e2", or Persistent Poet's permanent
+# copy of a combat enchantment: "<spell>te" / "<spell>te2". The spell id
+# itself does not match.
+_GIFT_ENCHANT_SUFFIX = re.compile(r"t?e\d*$")
 # Sire Denathrius (the only BG hero with quests; any hero can sell his buddy
 # Shady Aristocrat for one) and its skins, e.g.
 # BG24_HERO_100_SKIN_A 'Sire Melodious', BG24_HERO_100_SKIN_E 'Boss Denathrius'.
@@ -205,6 +209,11 @@ class BGTracker:
         # Per-event combat capture of opponent boards/profiles (see feed()).
         # Batch replay builders may switch it off: it dominates their runtime.
         self.track_opponents = True
+        # entity id -> Dark Gift spell id. Recorded when a gift enchantment is
+        # attached (any zone) and inherited across COPIED_FROM while
+        # HAS_DARK_GIFT stays set. A hand copy often keeps the flag after the
+        # enchantment entities were already removed (see _track_dark_gift).
+        self._dark_gift_by_entity: Dict[int, str] = {}
 
     def feed(self, event: Event) -> None:
         # Hearthstone logs the whole game twice: GameState.* is the authoritative
@@ -240,6 +249,7 @@ class BGTracker:
             self._subset_by_entity = {}
             self.available_tribes = []
             self.manual_tribe_priors = {}
+            self._dark_gift_by_entity = {}
 
         # Player roster line — the reliable way to find the human: the only
         # seat whose GameAccountId hi != 0. PlayerID is the controller id board
@@ -259,6 +269,7 @@ class BGTracker:
             return
 
         self.state.apply(event)
+        self._track_dark_gift(event)
         # Lobby tribe detection via BACON_SUBSET_* tags on race-banner entities.
         if event.kind in ("TAG", "TAG_CHANGE") and event.tag and event.tag.startswith("BACON_SUBSET_"):
             eid = None
@@ -719,6 +730,69 @@ class BGTracker:
         out.sort(key=lambda q: q["entity_id"])
         return out
 
+    def _gift_spell_id(self, card_id: Optional[str]) -> Optional[str]:
+        """Gift spell id for a spell or enchantment card.
+
+        ``BG36_MidGameEffect_000t64e`` / ``e2`` are the spell's enchantments.
+        ``...t64te`` / ``te2`` are Persistent Poet's permanent copies of those
+        enchantments ("Adjacent Dragons permanently keep Bonus Keywords and
+        stats gained in combat"). Both name the spell ``...000t64``. A card
+        that is not a gift spell returns None; the spell id itself is unchanged.
+        """
+        if not card_id or not card_id.startswith(DARK_GIFT_PREFIX):
+            return None
+        return _GIFT_ENCHANT_SUFFIX.sub("", card_id)
+
+    def _enchantment_gift_id(self, ent: Entity) -> Optional[str]:
+        """Gift spell named by an enchantment entity, or None."""
+        cid = ent.card_id or ""
+        gift = self._gift_spell_id(cid)
+        if gift:
+            return gift
+        if cid in DARK_GIFT_ENCHANTMENTS:
+            return DARK_GIFT_ENCHANTMENTS[cid]
+        return self._gift_spell_id(self.state.card_id_of(ent.tag_int("CREATOR")))
+
+    def _track_dark_gift(self, event: Event) -> None:
+        """Remember a gift when its enchantment is attached, and copy that
+        memory along ``COPIED_FROM_ENTITY_ID``.
+
+        Timewarped Radio Star (``BG34_Giant_330``: "Get a copy of the enemy
+        minion that killed this with full Health and enchantments") copies
+        after death has already removed the killer's enchantments. The hand
+        copy still gets ``HAS_DARK_GIFT=1`` (b138f295, Persistent Poet 9052,
+        copied from 9051 copied from 8958) but no gift enchantment is ever
+        attached to it. The identity is the enchantment that was on the
+        ancestor (``BG36_MidGameEffect_000t64te``). ``COPIED_FROM`` on the
+        intermediate is later cleared, so this has to be recorded at the tag
+        change. Ids are not reused; the map survives re-dumps.
+        """
+        if event.kind not in ("TAG", "TAG_CHANGE", "SHOW_ENTITY", "FULL_ENTITY"):
+            return
+        eid = (self.state._last_block_entity if event.kind == "TAG"
+               else (event.entity.id if event.entity is not None else None))
+        ent = self.state.entities.get(eid) if eid is not None else None
+        if ent is None:
+            return
+        host = ent.tag_int("ATTACHED")
+        if host:
+            gift = self._enchantment_gift_id(ent)
+            if gift:
+                self._dark_gift_by_entity.setdefault(host, gift)
+        if (event.tag in ("COPIED_FROM_ENTITY_ID", "HAS_DARK_GIFT")
+                and ent.tags.get("HAS_DARK_GIFT") == "1"
+                and ent.id not in self._dark_gift_by_entity):
+            src = ent.tag_int("COPIED_FROM_ENTITY_ID") or 0
+            seen = set()
+            while src and src not in seen:
+                seen.add(src)
+                gift = self._dark_gift_by_entity.get(src)
+                if gift:
+                    self._dark_gift_by_entity[ent.id] = gift
+                    return
+                parent = self.state.entities.get(src)
+                src = parent.tag_int("COPIED_FROM_ENTITY_ID") if parent else 0
+
     def _minion_dark_gift(self, ent: Entity) -> Optional[Dict]:
         """The Dark Gift carried by a HAS_DARK_GIFT minion, as {card_id, name}.
 
@@ -729,32 +803,33 @@ class BGTracker:
              whose CREATOR's card (also after a re-dump dropped it), is a
              BG36_MidGameEffect_000t* gift, or a known gift enchantment
              (DARK_GIFT_ENCHANTMENTS); the enchantment follows the minion
-             through combat and triples;
-          3. Dark Paradox tokens (BG36_360t*, BG36_360_Gt*) are their own gift.
+             through combat and triples. Poet permanent copies (``te`` /
+             ``te2``) name the same spell as ``e`` / ``e2``;
+          3. Dark Paradox tokens (BG36_360t*, BG36_360_Gt*) are their own gift;
+          4. a gift remembered when an enchantment was attached to this minion,
+             or inherited from the minion it was copied from (step 2 misses a
+             hand copy whose enchantments were removed before the copy).
         Returns None for ungifted minions or an unresolvable gift."""
         if ent.tags.get("HAS_DARK_GIFT") != "1":
             return None
         entities = self.state.entities
-        gift = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
+        raw = self.state.card_id_of(ent.tag_int("DARK_GIFT_ENTITY"))
+        gift = self._gift_spell_id(raw) or raw
         if gift is None:
             me = str(ent.id)
             for e in entities.values():
                 if (e.tags.get("ATTACHED") != me or e.zone != "PLAY"
                         or e.tags.get("CARDTYPE") != "ENCHANTMENT"):
                     continue
-                cid = e.card_id or ""
-                if cid.startswith(DARK_GIFT_PREFIX):
-                    gift = re.sub(r"e\d*$", "", cid)
-                    break
-                creator = self.state.card_id_of(e.tag_int("CREATOR")) or ""
-                if creator.startswith(DARK_GIFT_PREFIX):
-                    gift = creator
-                    break
-                if cid in DARK_GIFT_ENCHANTMENTS:
-                    gift = DARK_GIFT_ENCHANTMENTS[cid]
+                gift = self._enchantment_gift_id(e)
+                if gift:
                     break
         if gift is None and (ent.card_id or "").startswith(DARK_PARADOX_PREFIX):
             gift = ent.card_id
+        if gift is None:
+            gift = self._dark_gift_by_entity.get(ent.id)
+        elif ent.id not in self._dark_gift_by_entity:
+            self._dark_gift_by_entity[ent.id] = gift
         if gift is None:
             return None
         return {"card_id": gift, "name": self._display_name(gift)}
