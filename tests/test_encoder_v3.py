@@ -1,7 +1,8 @@
 """bc-enc-v3 features (costs, hero power, Dark Gift, shop context, reposition,
 Choose One variants) and live vs row parity of the shared encoder. The v3 blocks
-are unchanged in bc-enc-v4 (tests/test_encoder_v4.py covers the v4 additions);
-only the hero power id hash became a vocabulary one-hot."""
+are unchanged in bc-enc-v5 (tests/test_encoder_v4.py covers the v4 additions,
+tests/test_encoder_v5.py the hero identity appended after them); only the hero
+power id hash became a vocabulary one-hot."""
 
 import json
 import os
@@ -20,7 +21,8 @@ POWER_LOG = REPO / "Power.log"
 XML_FIXTURE = REPO / "tests" / "fixtures" / "synthetic_bg_replay.xml"
 N_STATE_V2 = 3 * enc._ZONE_DIM + 15            # bc-enc-v2 state scalars end here
 V3 = {name: N_STATE_V2 + i for i, name in enumerate(enc.STATE_SCALARS[15:])}
-OPT_V2 = enc.OPTION_DIM - enc._V3_OPTION - enc._V4_OPTION   # bc-enc-v3 option block
+OPT_V2 = (enc.OPTION_DIM - enc._V3_OPTION - enc._V4_OPTION
+          - enc._V5_OPTION)   # bc-enc-v3 option block
 
 
 def _m(name, i, cid=None, atk=2, hp=2, ctype="MINION", **tags):
@@ -52,10 +54,17 @@ def _v3(snap, option):
     return parts
 
 
+def _hp_block(state):
+    """Hero-power one-hot. bc-enc-v5 appends the hero one-hot after it."""
+    end = enc.STATE_DIM - enc.HERO_VOCAB_DIM
+    return state[end - enc.HP_VOCAB_DIM:end]
+
+
 def test_dims_and_version():
-    assert enc.ENCODER_VERSION == "bc-enc-v4"
-    assert enc.STATE_DIM == N_STATE_V2 + len(V3) + enc.HP_VOCAB_DIM
-    assert enc.OPTION_DIM == 94 + enc._V3_OPTION + enc._V4_OPTION
+    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.STATE_DIM == (N_STATE_V2 + len(V3) + enc.HP_VOCAB_DIM
+                             + enc.HERO_VOCAB_DIM)
+    assert enc.OPTION_DIM == 94 + enc._V3_OPTION + enc._V4_OPTION + enc._V5_OPTION
 
 
 def test_buy_uses_slot_buy_cost_and_marks_pairs_triples_and_tribe():
@@ -103,12 +112,12 @@ def test_hero_power_identity_cost_and_used_this_turn():
     assert _state(used, "hp_used") == 1.0                 # affordable but not usable
     assert _state(poor, "hp_used") == 0.0 and _state(poor, "hp_affordable") == 0.0
     # bc-enc-v4: which power it is = one-hot over HERO_POWER_VOCAB (+ "other")
-    h = enc.encode_state(s)[-enc.HP_VOCAB_DIM:]
+    h = _hp_block(enc.encode_state(s))
     assert h.sum() == 1.0 and np.array_equal(h, enc.hero_power_onehot("BG36_HERO_002p"))
     assert h[enc.HERO_POWER_VOCAB.index("BG36_HERO_002p")] == 1.0
     other = enc.encode_state(_snap(gold=5, hero_power=dict(hp, card_id="BG20_HERO_280p5")))
-    assert not np.array_equal(other[-enc.HP_VOCAB_DIM:], h)
-    assert enc.encode_state(_snap())[-enc.HP_VOCAB_DIM:].sum() == 0.0
+    assert not np.array_equal(_hp_block(other), h)
+    assert _hp_block(enc.encode_state(_snap())).sum() == 0.0
     # crc32 buckets are stable across processes (python's hash() is salted);
     # still used for Choose One variant ids
     assert enc.id_hash("BG36_HERO_002p").index(1.0) == 1
@@ -240,5 +249,5 @@ def test_xml_rows_encode_like_the_tracker_snapshot():
         _assert_same_encoding(snap)
     hp_state = json.loads(json.dumps(rows[0]["snapshot"]))
     assert hp_state["hero_power"]["card_id"] == "BG36_HERO_002p"
-    hp_ids = enc.encode_state(hp_state)[-enc.HP_VOCAB_DIM:]
+    hp_ids = _hp_block(enc.encode_state(hp_state))
     assert hp_ids.sum() == 1.0 and hp_ids[enc.HERO_POWER_VOCAB.index("BG36_HERO_002p")] == 1.0

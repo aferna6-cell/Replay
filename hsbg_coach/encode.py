@@ -83,10 +83,30 @@ bc-enc-v4 (from v3): hero-power identity and turn progress.
            (gold - cost >= the cheapest shop buy).
 legal_options no longer offers a hero power listed in PASSIVE_HERO_POWERS.
 
+bc-enc-v5 (from v4): which hero it is, and the hero powers the v2.1 list missed.
+  HERO_POWER_VOCAB appends five ids after the frozen v2.1 prefix (indices 0-71
+  unchanged; "other" stays last): Sylvanas Windrunner BG23_HERO_306p, C'Thun
+  TB_BaconShop_HP_104, Edwin VanCleef TB_BaconShop_HP_001, and the passive
+  countdown powers of Morchie (BG34_HERO_004p) and Murozond (BG34_HERO_000p).
+  Those two countdowns join PASSIVE_HERO_POWERS: the tracker reports them
+  usable, but the server never offers a click. HP_ALIASES (empty) lets a future
+  skin or upgraded '...p2' id share an existing slot without a dimension change.
+  state  + one-hot of canonical_hero_id(state.hero) over HERO_VOCAB (the 117
+           base heroes seen in the v2 / 36.6.3 corpora, most frequent first,
+           + one "other" slot). A trailing _SKIN_* is stripped, then
+           HERO_SKIN_ALIASES maps reskinned shop ids onto the base hero
+           (Moonwell Sylvanas TB_BaconShop_HERO_44_SKIN_D -> BG23_HERO_306).
+           The hero-select placeholder TB_BaconShop_HERO_PH is no hero: all
+           zeros, not the "other" slot.
+  option + the same hero one-hot when choice_kind == "hero", zeros otherwise,
+           so a hero pick encodes which hero it is. Before this, those options
+           differed only by source slot.
+
 Needs numpy (the ml extra). The stdlib-only core never imports this module
 unless the policy flag is on.
 """
 
+import re
 import zlib
 from functools import lru_cache
 from typing import Dict, List, Optional
@@ -95,7 +115,7 @@ import numpy as np
 
 from .actions import BUY_COST, MAX_BOARD, MAX_TIER, ROLL_COST, SELL_VALUE, UPGRADE_COST
 
-ENCODER_VERSION = "bc-enc-v4"
+ENCODER_VERSION = "bc-enc-v5"
 
 MAX_HAND = 10
 EMB_DIM = 48                            # card2vec width (data/cards/card2vec.json)
@@ -122,9 +142,10 @@ STATE_SCALARS = ("turn", "tier", "gold", "health", "armor", "n_board", "n_shop",
                  # bc-enc-v4
                  "hp_passive", "gold_spent_turn", "gold_left_share")
 HASH_BUCKETS = 16
-# bc-enc-v4: every hero power card id seen in the v2.1 training games (build
-# 253216, held-out games excluded), most frequent first. Ids not listed share
-# the trailing "other" slot. Append new ids at the end (and bump the version).
+# Hero power card ids, most frequent first: the v2.1 training games (build
+# 253216, held-out games excluded) plus the 36.6.3 v3.12 additions appended
+# at the end. Ids not listed share the trailing "other" slot. Append new ids
+# (and bump ENCODER_VERSION); never reorder existing ones.
 HERO_POWER_VOCAB = (
     'BG36_HERO_000p', 'BG36_HERO_002p', 'BG21_HERO_000p', 'TB_BaconShop_HP_020',
     'TB_BaconShop_HP_010', 'TB_BaconShop_HP_024', 'BG25_HERO_103p',
@@ -147,24 +168,89 @@ HERO_POWER_VOCAB = (
     'TB_BaconShop_HP_041g', 'TB_BaconShop_HP_036', 'BG31_HERO_811p',
     'TB_BaconShop_HP_041c', 'BG20_HERO_201p2', 'TB_BaconShop_HP_015',
     'TB_BaconShop_HP_041f', 'BG25_HERO_100p', 'TB_BaconShop_HP_057',
+    # bc-enc-v5: 36.6.3 v3.12 additions (indices 72-76). Do not insert above.
+    'BG23_HERO_306p',       # Sylvanas Windrunner, Reclaimed Souls (active)
+    'TB_BaconShop_HP_104',  # C'Thun, Saturday C'Thuns! (active)
+    'TB_BaconShop_HP_001',  # Edwin VanCleef, Sharpen Blades (active)
+    'BG34_HERO_004p',       # Morchie, Warped Conflux (passive countdown)
+    'BG34_HERO_000p',       # Murozond, Unbounded, Alternate Timeline (passive countdown)
 )
 HP_VOCAB_DIM = len(HERO_POWER_VOCAB) + 1
 _HP_INDEX = {cid: i for i, cid in enumerate(HERO_POWER_VOCAB)}
-# Hero powers the tracker reports as usable although they cannot be clicked:
-# in the v2.1 labels the server never listed them as an option in any of their
+# Skin or upgraded power ids that share a vocab slot. Empty until one shows up
+# in the labels; lookup happens in canonical_hp_id, so adding a mapping does
+# not change HP_VOCAB_DIM.
+HP_ALIASES: Dict[str, str] = {}
+# Hero powers the tracker reports as usable although they cannot be clicked.
+# v2.1 labels: the server never listed them as an option in any of their
 # (usable, affordable) decision points (TB_BaconShop_HP_042 2131 rows,
 # BG20_HERO_280p5 1679, TB_BaconShop_HP_038 1299, BG24_HERO_100p 984,
 # BG20_HERO_282p 803, TB_BaconShop_HP_036 236, TB_BaconShop_HP_057 13).
+# 36.6.3: Morchie / Murozond countdown text ("On Turn N, visit the Minor/Major
+# Timewarp") is the same shape — reported usable, never offered.
 PASSIVE_HERO_POWERS = frozenset((
     "TB_BaconShop_HP_042", "BG20_HERO_280p5", "TB_BaconShop_HP_038", "BG24_HERO_100p",
-    "BG20_HERO_282p", "TB_BaconShop_HP_036", "TB_BaconShop_HP_057"))
-STATE_DIM = 3 * _ZONE_DIM + len(STATE_SCALARS) + HP_VOCAB_DIM  # + hero power one-hot
+    "BG20_HERO_282p", "TB_BaconShop_HP_036", "TB_BaconShop_HP_057",
+    "BG34_HERO_004p", "BG34_HERO_000p"))
+# Base hero card ids seen in the v2 / 36.6.3 corpora, most frequent first.
+# Skins canonicalize onto these (canonical_hero_id). Ids not listed share the
+# trailing "other" slot. Append new ids (and bump ENCODER_VERSION); never reorder.
+HERO_VOCAB = (
+    'BG36_HERO_002', 'BG36_HERO_000', 'BG36_HERO_105', 'BG21_HERO_000',
+    'TB_BaconShop_HERO_74', 'BG35_HERO_001', 'BG26_HERO_102', 'TB_BaconShop_HERO_59',
+    'BG20_HERO_202', 'BG24_HERO_100', 'BG20_HERO_242', 'BG33_HERO_001',
+    'TB_BaconShop_HERO_21', 'BG21_HERO_020', 'BG30_HERO_304', 'BG28_HERO_400',
+    'BG20_HERO_283', 'TB_BaconShop_HERO_67', 'BG23_HERO_303', 'BG26_HERO_104',
+    'TB_BaconShop_HERO_27', 'TB_BaconShop_HERO_35', 'TB_BaconShop_HERO_75', 'TB_BaconShop_HERO_39',
+    'BG23_HERO_305', 'TB_BaconShop_HERO_36', 'TB_BaconShop_HERO_76', 'TB_BaconShop_HERO_94',
+    'BG22_HERO_003', 'TB_BaconShop_HERO_14', 'TB_BaconShop_HERO_42', 'BG31_HERO_003',
+    'TB_BaconShop_HERO_45', 'BG22_HERO_004', 'TB_BaconShop_HERO_38', 'BG28_HERO_801',
+    'BG31_HERO_811', 'BG20_HERO_201', 'BG22_HERO_002', 'BG36_HERO_101',
+    'BG25_HERO_105', 'TB_BaconShop_HERO_12', 'TB_BaconShop_HERO_40', 'TB_BaconShop_HERO_57',
+    'BG24_HERO_204', 'BG20_HERO_280', 'BG23_HERO_201', 'BG22_HERO_001',
+    'BG32_HERO_001', 'TB_BaconShop_HERO_58', 'TB_BaconShop_HERO_72', 'TB_BaconShop_HERO_60',
+    'TB_BaconShop_HERO_41', 'TB_BaconShop_HERO_52', 'BG27_HERO_801', 'TB_BaconShop_HERO_11',
+    'BG31_HERO_006', 'TB_BaconShop_HERO_15', 'BG20_HERO_301', 'TB_BaconShop_HERO_49',
+    'TB_BaconShop_HERO_90', 'TB_BaconShop_HERO_28', 'BG34_HERO_001', 'TB_BaconShop_HERO_34',
+    'BG20_HERO_101', 'TB_BaconShop_HERO_64', 'BG34_HERO_002', 'BG31_HERO_005',
+    'TB_BaconShop_HERO_01', 'BG22_HERO_201', 'BG32_HERO_002', 'TB_BaconShop_HERO_02',
+    'BG21_HERO_010', 'BG22_HERO_000', 'TB_BaconShop_HERO_50', 'BG22_HERO_200',
+    'BG28_HERO_800', 'BG20_HERO_100', 'TB_BaconShop_HERO_43', 'TB_BaconShop_HERO_68',
+    'TB_BaconShop_HERO_92', 'BG20_HERO_102', 'TB_BaconShop_HERO_10', 'TB_BaconShop_HERO_23',
+    'TB_BaconShop_HERO_70', 'TB_BaconShop_HERO_62', 'BG26_HERO_101', 'BG22_HERO_305',
+    'TB_BaconShop_HERO_22', 'BG21_HERO_030', 'TB_BaconShop_HERO_16', 'TB_BaconShop_HERO_29',
+    'TB_BaconShop_HERO_18', 'BG20_HERO_103', 'TB_BaconShop_HERO_08', 'TB_BaconShop_HERO_71',
+    'TB_BaconShop_HERO_55', 'TB_BaconShop_HERO_53', 'BG31_HERO_801', 'BG25_HERO_100',
+    'TB_BaconShop_HERO_33', 'TB_BaconShop_HERO_702', 'BG31_HERO_802', 'TB_BaconShop_HERO_56',
+    'TB_BaconShop_HERO_78', 'TB_BaconShop_HERO_95', 'BG25_HERO_103', 'TB_BaconShop_HERO_25',
+    'TB_BaconShop_HERO_91', 'BG20_HERO_282', 'TB_BaconShop_HERO_37', 'TB_BaconShop_HERO_93',
+    'TB_BaconShop_HERO_17', 'BG23_HERO_306', 'BG34_HERO_004', 'BG34_HERO_000',
+    'TB_BaconShop_HERO_59t',
+)
+HERO_VOCAB_DIM = len(HERO_VOCAB) + 1
+_HERO_INDEX = {cid: i for i, cid in enumerate(HERO_VOCAB)}
+# Shop card id -> base hero, from HearthstoneJSON heroPowerDbfId /
+# BACON_SKIN_PARENT_ID. Applied after the _SKIN_* suffix is stripped, so
+# TB_BaconShop_HERO_44_SKIN_D (Moonwell Sylvanas, parent dbf 89293) is
+# BG23_HERO_306.
+HERO_SKIN_ALIASES = {
+    'TB_BaconShop_HERO_44': 'BG23_HERO_306',
+    'TB_BaconShop_HERO_102': 'BG20_HERO_102',
+    'TB_BaconShop_HERO_201': 'BG20_HERO_201',
+    'TB_BaconShop_HERO_103': 'BG20_HERO_103',
+}
+# Hero-select placeholder. Not a hero: the one-hot stays zeros, not "other".
+_NO_HERO = frozenset(("TB_BaconShop_HERO_PH",))
+_SKIN_SUFFIX = re.compile(r"_SKIN_[A-Z0-9]+$")
+STATE_DIM = (3 * _ZONE_DIM + len(STATE_SCALARS) + HP_VOCAB_DIM
+             + HERO_VOCAB_DIM)  # hero power one-hot, then hero one-hot
 _CARD_DIM = EMB_DIM + 7 + _N_TRIBES + 1              # card2vec | stats | tribes | spell
 KEYWORDS = ("DEATHRATTLE", "AVENGE", "WINDFURY", "VENOMOUS", "MAGNETIC")
 _V3_OPTION = 1 + 5 + 5 + 6 + len(KEYWORDS) + HASH_BUCKETS
 _V4_OPTION = HP_VOCAB_DIM + 2
+_V5_OPTION = HERO_VOCAB_DIM                 # hero one-hot on hero-pick options
 OPTION_DIM = (len(OPTION_TYPES) + _CARD_DIM + 2 * (len(ZONES) + 1) + 2 + 2 + 1 + 2
-              + _V3_OPTION + _V4_OPTION)
+              + _V3_OPTION + _V4_OPTION + _V5_OPTION)
 
 _SPELL_TYPES = ("BATTLEGROUND_SPELL", "SPELL")
 _NOT_A_CARD = ("ENCHANTMENT", "HERO", "HERO_POWER", "GAME_MODE_BUTTON")
@@ -253,15 +339,60 @@ def _hero_power(snapshot) -> Optional[Dict]:
     return hp if isinstance(hp, dict) else None
 
 
+def canonical_hp_id(card_id) -> Optional[str]:
+    """Hero power id after HP_ALIASES. None when there is no power."""
+    if not card_id:
+        return None
+    cid = str(card_id)
+    return HP_ALIASES.get(cid, cid)
+
+
+def canonical_hero_id(card_id) -> Optional[str]:
+    """Base hero card id: strip a trailing ``_SKIN_*``, then HERO_SKIN_ALIASES.
+
+    None, empty, and the hero-select placeholder ``TB_BaconShop_HERO_PH`` are
+    no hero (the one-hot is all zeros, not the "other" slot). Any other id is
+    returned even when it is not in HERO_VOCAB; hero_onehot puts those in
+    "other".
+    """
+    if card_id is None:
+        return None
+    cid = str(card_id).strip()
+    if not cid or cid in _NO_HERO:
+        return None
+    cid = _SKIN_SUFFIX.sub("", cid)
+    if not cid or cid in _NO_HERO:
+        return None
+    return HERO_SKIN_ALIASES.get(cid, cid)
+
+
 def is_passive_hero_power(hp: Optional[Dict]) -> bool:
-    return bool(hp) and hp.get("card_id") in PASSIVE_HERO_POWERS
+    cid = hp.get("card_id") if isinstance(hp, dict) else None
+    return canonical_hp_id(cid) in PASSIVE_HERO_POWERS
 
 
 def hero_power_onehot(card_id) -> List[float]:
-    """One-hot over HERO_POWER_VOCAB + "other" (all zeros for no hero power)."""
+    """One-hot over HERO_POWER_VOCAB + "other" (all zeros for no hero power).
+
+    HP_ALIASES ids share the target's slot.
+    """
     out = [0.0] * HP_VOCAB_DIM
-    if card_id:
-        out[_HP_INDEX.get(str(card_id), HP_VOCAB_DIM - 1)] = 1.0
+    cid = canonical_hp_id(card_id)
+    if cid:
+        out[_HP_INDEX.get(cid, HP_VOCAB_DIM - 1)] = 1.0
+    return out
+
+
+def hero_onehot(card_id) -> List[float]:
+    """One-hot over HERO_VOCAB + "other".
+
+    All zeros when canonical_hero_id returns None (no hero, or the hero-select
+    placeholder). An id that is not in the vocabulary takes the last slot.
+    """
+    out = [0.0] * HERO_VOCAB_DIM
+    cid = canonical_hero_id(card_id)
+    if cid:
+        out[_HERO_INDEX.get(cid, HERO_VOCAB_DIM - 1)] = 1.0
     return out
 
 
@@ -412,7 +543,8 @@ def _zone_block(cards: List[Dict]) -> np.ndarray:
 
 
 def encode_state(snapshot) -> np.ndarray:
-    """Fixed STATE_DIM float32 vector: board | shop | hand blocks + scalars."""
+    """Fixed STATE_DIM float32 vector: board | shop | hand + scalars
+    + hero-power one-hot + hero one-hot."""
     board, shop = _zone(snapshot, "board"), _zone(snapshot, "shop")
     hand = [m for _, m in playable_hand(snapshot)]
     gold = _int(_get(snapshot, "gold"), 0)
@@ -474,7 +606,8 @@ def encode_state(snapshot) -> np.ndarray:
         min(gold / start, 2.0),
     ], dtype=np.float64)
     return np.concatenate([_zone_block(board), _zone_block(shop), _zone_block(hand),
-                           scalars, v3, v4, hero_power_onehot(hp.get("card_id"))]
+                           scalars, v3, v4, hero_power_onehot(hp.get("card_id")),
+                           hero_onehot(_get(snapshot, "hero"))]
                           ).astype(np.float32)
 
 
@@ -722,7 +855,8 @@ def encode_option(snapshot, option: Dict) -> np.ndarray:
         [cost / 10.0, (gold - cost) / 10.0],
         [1.0 if option.get("choice_kind") else 0.0],
         [1.0 if vidx else 0.0, vidx / 4.0],
-    ] + _v3_option(snapshot, option, cost, vidx) + _v4_option(snapshot, option, cost)
+    ] + _v3_option(snapshot, option, cost, vidx) + _v4_option(snapshot, option, cost) \
+        + _v5_option(option)
     return np.concatenate([np.asarray(p, dtype=np.float64) for p in parts]).astype(np.float32)
 
 
@@ -789,6 +923,18 @@ def _v4_option(snapshot, option: Dict, cost: int) -> List[List[float]]:
     min_buy = min(costs) if costs else BUY_COST
     return [hp_id, [1.0 if cost > 0 and gold == cost else 0.0,
                     1.0 if gold - cost >= min_buy else 0.0]]
+
+
+def _v5_option(option: Dict) -> List[List[float]]:
+    """bc-enc-v5 option features: which hero a hero-pick offer is.
+
+    Only choice_kind "hero" is filled (skins go through canonical_hero_id).
+    Every other option, including a discover that is not a hero pick, is zeros:
+    the hero already in play is on the state vector, not repeated per option.
+    """
+    if option.get("choice_kind") == "hero":
+        return [hero_onehot(option.get("card_id"))]
+    return [[0.0] * HERO_VOCAB_DIM]
 
 
 def describe_option(snapshot, option: Dict) -> str:

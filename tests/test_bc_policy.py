@@ -269,8 +269,10 @@ def test_mismatched_checkpoint_refuses_to_load(trained, tmp_path):
     from ml.bc_policy import CheckpointMismatch, load_bc_policy
     assert load_bc_policy(str(trained["out"])).meta["encoder_version"] == enc.ENCODER_VERSION
     ckpt = torch.load(trained["out"], weights_only=True)
-    for key, bad in (("encoder_version", "bc-enc-v0"), ("state_dim", enc.STATE_DIM + 1)):
-        broken = tmp_path / f"{key}.pt"
+    for key, bad in (("encoder_version", "bc-enc-v0"),
+                     ("encoder_version", "bc-enc-v4"),
+                     ("state_dim", enc.STATE_DIM + 1)):
+        broken = tmp_path / f"{key}-{bad}.pt"
         torch.save({"meta": dict(ckpt["meta"], **{key: bad}),
                     "state_dict": ckpt["state_dict"]}, broken)
         with pytest.raises(CheckpointMismatch):
