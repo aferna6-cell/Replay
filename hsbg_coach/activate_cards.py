@@ -17,8 +17,6 @@ from typing import Optional
 
 # Normal + golden copies currently in the Battlegrounds pool with Activate text.
 ACTIVATE_CARD_IDS = frozenset({
-    "BG28_582",
-    "BG28_582_G",
     "BG36_099",
     "BG36_099_G",
     "BG36_180",
@@ -45,10 +43,6 @@ ACTIVATE_CARD_IDS = frozenset({
     "BG36_354_G",
     "BG36_356",
     "BG36_356_G",
-    "BG36_362",
-    "BG36_362_G",
-    "BG36_370",
-    "BG36_370_G",
     "BG36_503",
     "BG36_503_G",
     "BG36_506",
@@ -61,8 +55,6 @@ ACTIVATE_CARD_IDS = frozenset({
     "BG36_511_G",
     "BG36_621",
     "BG36_621_G",
-    "BG36_700",
-    "BG36_700_G",
     "BG36_701",
     "BG36_701_G",
 })
@@ -82,17 +74,13 @@ ACTIVATE_NAMES = {
     "Kelp Keeper": "BG36_701",
     "Living Prison": "BG36_180",
     "Lurking Lionfish": "BG36_201",
-    "Mangled Bandit": "BG28_582",
     "Mindbending Recruiter": "BG36_312",
     "N'raqi Frostcaller": "BG36_300",
     "Private Investigator": "BG36_509",
-    "Sacrificial Wrathguard": "BG36_362",
-    "Sewer Escapee": "BG36_700",
     "Sky-hatch Runaway": "BG36_243",
     "Soulkeeping Jailer": "BG36_503",
     "Suspicious Prisonguard": "BG36_345",
     "Tyrael": "BG36_356",
-    "Victorious Geomant": "BG36_370",
 }
 
 
