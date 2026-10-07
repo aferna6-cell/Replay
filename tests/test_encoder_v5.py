@@ -7,6 +7,7 @@ import pytest
 np = pytest.importorskip("numpy")
 
 from hsbg_coach import encode as enc  # noqa: E402
+from hsbg_coach.actions import HERO_POWER, legal_actions  # noqa: E402
 
 # v2.1 prefix. Indices 0-71 are frozen; bc-enc-v5 only appends.
 _V21_HERO_POWERS = (
@@ -110,6 +111,63 @@ def test_passive_bg34_powers_are_never_offered():
     assert enc.is_passive_hero_power(active) is False
     offered = enc.legal_options(_snap(hero_power=active, gold=10))
     assert [o["card_id"] for o in offered if o["type"] == "hero_power"] == ["BG23_HERO_306p"]
+
+
+def _hero_power_option_ids(snap):
+    return [o["card_id"] for o in enc.legal_options(snap) if o["type"] == "hero_power"]
+
+
+def _hero_power_action_ids(snap):
+    return [a.detail["hero_power"]["card_id"]
+            for a in legal_actions(snap) if a.kind == HERO_POWER]
+
+
+def _option_hp_onehot(snap, option):
+    vec = enc.encode_option(snap, option)
+    start = enc.OPTION_DIM - enc._V4_OPTION - enc._V5_OPTION
+    return vec[start:start + enc.HP_VOCAB_DIM]
+
+
+def test_legal_options_single_hero_power_matches_actions():
+    """No hero_powers list: the one hero_power is the only offer."""
+    hp = {"name": "Reclaimed Souls", "card_id": "BG23_HERO_306p",
+          "cost": 0, "usable": True}
+    snap = _snap(hero_power=hp, gold=10)
+    assert "hero_powers" not in snap
+    ids = _hero_power_option_ids(snap)
+    assert ids == ["BG23_HERO_306p"]
+    assert ids == _hero_power_action_ids(snap)
+    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.STATE_DIM == 445 and enc.OPTION_DIM == 330
+
+
+def test_legal_options_two_usable_hero_powers():
+    """Each usable power is its own option, and the one-hot uses that card id."""
+    powers = [
+        {"name": "Hero Power", "card_id": "BG28_HERO_400p", "cost": 2, "usable": True},
+        {"name": "Hero Power", "card_id": "TB_BaconShop_HP_022", "cost": 1, "usable": True},
+    ]
+    snap = _snap(hero_power=powers[0], hero_powers=powers, gold=10)
+    opts = [o for o in enc.legal_options(snap) if o["type"] == "hero_power"]
+    ids = [o["card_id"] for o in opts]
+    assert ids == ["BG28_HERO_400p", "TB_BaconShop_HP_022"]
+    assert ids == _hero_power_action_ids(snap)
+    for cid, opt in zip(ids, opts):
+        hot = _option_hp_onehot(snap, opt)
+        assert hot.sum() == 1.0
+        assert hot[enc.HERO_POWER_VOCAB.index(cid)] == 1.0
+    assert not np.array_equal(enc.encode_option(snap, opts[0]),
+                              enc.encode_option(snap, opts[1]))
+
+
+def test_legal_options_one_usable_and_one_used_hero_power():
+    """A spent power stays off the list even when it is the primary hero_power."""
+    used = {"name": "Hero Power", "card_id": "BG28_HERO_400p", "cost": 2, "usable": False}
+    usable = {"name": "Hero Power", "card_id": "TB_BaconShop_HP_022", "cost": 1, "usable": True}
+    snap = _snap(hero_power=used, hero_powers=[used, usable], gold=10)
+    ids = _hero_power_option_ids(snap)
+    assert ids == ["TB_BaconShop_HP_022"]
+    assert ids == _hero_power_action_ids(snap)
 
 
 def test_hero_power_option_without_a_state_power():
