@@ -11,9 +11,15 @@ docs/labels_schema.md):
 
 Rows are streamed one file at a time (labels.v2 writes one <game_id>.jsonl.gz
 per game): each file is read, split, encoded, and its raw rows dropped; option
-matrices and state vectors go to on-disk float32 memmaps under --cache-dir (a
-temp dir by default, deleted at the end unless --keep-cache), so memory stays
-bounded by one file plus the per-row metadata. Results are identical to encoding every row in
+matrices and state vectors go to on-disk memmaps under --cache-dir (a temp dir
+by default, deleted at the end unless --keep-cache), so memory stays bounded
+by one file plus the per-row metadata. The memmaps are float32 by default
+(--cache-dtype float32): train_options.f32, train_states.f32, and the held-out
+pair. --cache-dtype float16 writes those same arrays as float16 under .f16
+names. The dtype is the suffix, so a cache built as one dtype is never opened
+as the other. The dataset accessor casts each float16 row back to float32
+(pad_batch casts to float32 as well). Held-out and train caches use the same
+dtype. At the default dtype, results are identical to encoding every row in
 memory (tests/test_train_bc_streaming.py). Files are independent: a game split
 across several files is still one game for the split, but the advisor baseline
 keeps its per-game state per file.
@@ -77,6 +83,19 @@ is a hero_power (default 1.0 = off). Held-out scoring is unweighted.
 
 Writes results/policy_net_<date>.pt plus results/policy_net_<date>.metrics.json.
 CPU only, seeded, deterministic.
+
+Each epoch's row order is a full permutation (--shuffle-block 0, the default),
+the same draw as before block shuffle existed, so the weights match. N > 0
+splits the training rows into contiguous blocks of N in cache order, permutes
+the block order with the seeded rng, then permutes the rows inside each
+block, so reads stay local. Batches may still cross a block boundary. The
+sequence is deterministic for a given --seed.
+
+A progress line goes to stderr after every epoch: epoch number, train loss,
+elapsed seconds since training started, and rows/sec over that epoch's
+training pass. When an on-epoch eval runs (--val), its val loss and top-1 /
+top-3 are included on that line. The advisor-compare phase and the held-out
+eval phase each log a line to stderr when they start.
 """
 
 import argparse
@@ -91,6 +110,7 @@ import hashlib
 import shutil
 import sys
 import tempfile
+import time
 from typing import Callable, Dict, List, Optional, Set
 
 import numpy as np
@@ -106,6 +126,9 @@ from ml.bc_policy import (DECODE, BCPolicy, OptionScorer, decision_loss,  # noqa
 
 DEFAULT_BUILD = "253216"
 GATE_EXEMPT = ("freeze",)       # reported per type but never fail the gate
+# Suffix is the on-disk dtype. A float16 cache is never opened as float32.
+_CACHE_SUFFIX = {"float32": "f32", "float16": "f16"}
+_CACHE_NUMPY = {"float32": np.float32, "float16": np.float16}
 HELDOUT_FRAC = 0.15
 HELDOUT_MIN = 30
 LIVE_PATH = os.path.join(REPO, "ml", "policy_net.pt")
@@ -333,11 +356,56 @@ def decision_counts(rows: List[Dict]) -> Dict:
 
 
 # --- training ---------------------------------------------------------------
+def epoch_order(rng: np.random.RandomState, n: int, shuffle_block: int = 0) -> np.ndarray:
+    """Row indexes for one epoch, drawn from ``rng`` (already seeded).
+
+    ``shuffle_block`` <= 0 is ``rng.permutation(n)``: the full shuffle this
+    trainer used before block shuffle existed, so a given seed reproduces that
+    order bit for bit. ``N > 0`` splits ``range(n)`` into contiguous blocks of
+    N in cache order (the last block may be shorter), permutes the block
+    order, then permutes the rows inside each block in that block order.
+    Batches are sliced from the flattened order and may cross a boundary.
+    """
+    if shuffle_block < 0:
+        raise ValueError("shuffle_block must be >= 0")
+    if shuffle_block == 0:
+        return rng.permutation(n)
+    if n <= 0:
+        return np.empty(0, dtype=np.int64)
+    n_blocks = (n + shuffle_block - 1) // shuffle_block
+    order = np.empty(n, dtype=np.int64)
+    pos = 0
+    for b in rng.permutation(n_blocks):
+        start = int(b) * shuffle_block
+        stop = min(start + shuffle_block, n)
+        block = rng.permutation(np.arange(start, stop))
+        order[pos:pos + block.shape[0]] = block
+        pos += block.shape[0]
+    if pos != n:
+        raise RuntimeError(f"block shuffle covered {pos} of {n} rows")
+    return order
+
+
+def _log_epoch(epoch: int, epochs: int, loss: float, elapsed: float,
+               rows_sec: float, extra=None) -> None:
+    """One stderr line after an epoch. ``extra`` is an on-epoch eval dict."""
+    parts = [f"epoch {epoch}/{epochs} train_loss {loss}",
+             f"elapsed {elapsed:.1f}s", f"rows/sec {rows_sec:.1f}"]
+    if isinstance(extra, dict):
+        for key, value in extra.items():
+            if key in ("epoch", "train_loss"):
+                continue
+            parts.append(f"{key} {value}")
+    print(" ".join(parts), file=sys.stderr, flush=True)
+
+
 def train_model(items, epochs: int, lr: float, batch: int, seed: int,
-                on_epoch: Optional[Callable] = None):
+                on_epoch: Optional[Callable] = None, shuffle_block: int = 0):
     """Deterministic CPU training; restores torch's global settings after.
     on_epoch(epoch, model, history) runs after each epoch (model in eval mode);
-    it must not use random state, so it never changes the result."""
+    it must not use random state, so it never changes the result. A dict it
+    returns is appended to that epoch's stderr progress line (the --val eval).
+    shuffle_block 0 (the default) is a full permutation."""
     prev_det, prev_threads = torch.are_deterministic_algorithms_enabled(), torch.get_num_threads()
     random.seed(seed)
     np.random.seed(seed)
@@ -349,10 +417,13 @@ def train_model(items, epochs: int, lr: float, batch: int, seed: int,
         opt = torch.optim.Adam(model.parameters(), lr=lr)
         rng = np.random.RandomState(seed)
         history = []
+        t0 = time.perf_counter()
+        n_rows = len(items)
         for _ in range(epochs):
             model.train()
             total, wsum = 0.0, 0.0
-            order = rng.permutation(len(items))
+            order = epoch_order(rng, n_rows, shuffle_block)
+            t_epoch = time.perf_counter()
             for start in range(0, len(order), batch):
                 tensors = pad_batch([items[i] for i in order[start:start + batch]])
                 loss = decision_loss(model, *tensors)
@@ -362,11 +433,16 @@ def train_model(items, epochs: int, lr: float, batch: int, seed: int,
                 w = float(tensors[-1].sum())
                 total += loss.item() * w
                 wsum += w
+            train_dt = time.perf_counter() - t_epoch
             history.append(round(total / max(wsum, 1e-8), 6))
+            extra = None
             if on_epoch is not None:
                 model.eval()
                 with torch.no_grad():
-                    on_epoch(len(history), model, history)
+                    extra = on_epoch(len(history), model, history)
+            elapsed = time.perf_counter() - t0
+            rows_sec = n_rows / train_dt if train_dt > 0 else float("inf")
+            _log_epoch(len(history), epochs, history[-1], elapsed, rows_sec, extra)
         model.eval()
         return model, history
     finally:
@@ -538,15 +614,23 @@ def encode_file(path: str, heldout: Set[str], build) -> Dict:
 
 
 class EncodedSet:
-    """Encoded rows: state vectors and option matrices in on-disk float32
-    memmaps (option offsets per row), slim metadata per row. The slim option
-    dicts in the metadata are interned across files (read-only; identical
+    """Encoded rows: state vectors and option matrices in on-disk memmaps
+    (option offsets per row), slim metadata per row. The slim option dicts in
+    the metadata are interned across files (read-only; identical
     (type, card_id, source) share one dict), which keeps the held-out metadata
-    small."""
+    small. ``cache_dtype`` is float32 (``.f32``, the historical layout) or
+    float16 (``.f16``). The suffix is the dtype, so one cache is never read
+    as the other. float16 rows are cast back to float32 in ``encoded``."""
 
-    def __init__(self, cache_dir: str, name: str):
-        self.path = os.path.join(cache_dir, f"{name}_options.f32")
-        self.state_path = os.path.join(cache_dir, f"{name}_states.f32")
+    def __init__(self, cache_dir: str, name: str, cache_dtype: str = "float32"):
+        if cache_dtype not in _CACHE_SUFFIX:
+            raise ValueError(f"cache dtype must be one of {sorted(_CACHE_SUFFIX)}, "
+                             f"not {cache_dtype!r}")
+        self.cache_dtype = cache_dtype
+        self.dtype = _CACHE_NUMPY[cache_dtype]
+        suffix = _CACHE_SUFFIX[cache_dtype]
+        self.path = os.path.join(cache_dir, f"{name}_options.{suffix}")
+        self.state_path = os.path.join(cache_dir, f"{name}_states.{suffix}")
         self._fh = open(self.path, "wb")
         self._sfh = open(self.state_path, "wb")
         self._n = 0
@@ -563,9 +647,9 @@ class EncodedSet:
 
     def extend(self, part: Dict) -> None:
         if part["O"] is not None:
-            self._fh.write(np.ascontiguousarray(part["O"], dtype=np.float32).tobytes())
+            self._fh.write(np.ascontiguousarray(part["O"], dtype=self.dtype).tobytes())
         if part["S"]:
-            self._sfh.write(np.ascontiguousarray(np.stack(part["S"]), dtype=np.float32).tobytes())
+            self._sfh.write(np.ascontiguousarray(np.stack(part["S"]), dtype=self.dtype).tobytes())
             self._n += len(part["S"])
         for m in part["meta"]:
             m["chosen_option"] = self._slim(m["chosen_option"])
@@ -587,13 +671,13 @@ class EncodedSet:
         # is charged in full against the kernel's commit limit, and bc-enc-v4's
         # option matrices (~18 GB for v2.1) exceed RAM, so mmap failed (ENOMEM).
         # Rows are only read; pad_batch copies them into fresh tensors.
-        self.S = (np.memmap(self.state_path, dtype=np.float32, mode="r",
+        self.S = (np.memmap(self.state_path, dtype=self.dtype, mode="r",
                             shape=(self._n, enc.STATE_DIM)) if self._n
-                  else np.zeros((0, enc.STATE_DIM), np.float32))
+                  else np.zeros((0, enc.STATE_DIM), self.dtype))
         self.off = np.zeros(len(self.n_opt) + 1, dtype=np.int64)
         self.off[1:] = np.cumsum(self.n_opt)
         total = int(self.off[-1])
-        self.O = (np.memmap(self.path, dtype=np.float32, mode="r",
+        self.O = (np.memmap(self.path, dtype=self.dtype, mode="r",
                             shape=(total, enc.OPTION_DIM)) if total else None)
         for key in ("by_type", "by_kind"):
             self.counts[key] = dict(sorted(self.counts.get(key, {}).items()))
@@ -603,8 +687,17 @@ class EncodedSet:
         return len(self.C)
 
     def encoded(self, i: int):
-        """(state, options, chosen) exactly as encode_row returned them."""
-        return self.S[i], self.O[self.off[i]:self.off[i + 1]], self.C[i]
+        """(state, options, chosen) as encode_row returned them.
+
+        float32 caches return the memmap views. float16 caches are cast to
+        float32 here (0/1 one-hots stay exact); pad_batch casts again.
+        """
+        s = self.S[i]
+        o = self.O[self.off[i]:self.off[i + 1]]
+        if self.dtype is not np.float32:
+            s = np.asarray(s, dtype=np.float32)
+            o = np.asarray(o, dtype=np.float32)
+        return s, o, self.C[i]
 
     def item(self, i: int):
         return self.encoded(i) + (self.W[i],)
@@ -640,9 +733,11 @@ def _encode_job(args):
 
 
 def encode_stream(files: List[str], heldout: Set[str], build, cache_dir: str,
-                  workers: int = 1):
-    """(train EncodedSet, held-out EncodedSet, info) over every file, in order."""
-    train, held = EncodedSet(cache_dir, "train"), EncodedSet(cache_dir, "heldout")
+                  workers: int = 1, cache_dtype: str = "float32"):
+    """(train EncodedSet, held-out EncodedSet, info) over every file, in order.
+    Train and held-out caches share ``cache_dtype``."""
+    train = EncodedSet(cache_dir, "train", cache_dtype=cache_dtype)
+    held = EncodedSet(cache_dir, "heldout", cache_dtype=cache_dtype)
     stats: Dict = {}
     flags = {"all": 0, "train": 0, "heldout": 0}
     games: Dict[str, tuple] = {}
@@ -781,7 +876,10 @@ def _sha256(path: str) -> str:
 
 # --- CLI --------------------------------------------------------------------
 def parse_args(argv=None):
-    p = argparse.ArgumentParser(description="Train the behaviour-cloned NEXT option scorer.")
+    p = argparse.ArgumentParser(
+        description="Train the behaviour-cloned NEXT option scorer. "
+                    "Logs a progress line to stderr after each epoch "
+                    "(epoch, train loss, elapsed, rows/sec).")
     p.add_argument("--data", nargs="+", required=True, help="jsonl files or globs")
     p.add_argument("--heldout", default=None,
                    help="JSON of held-out game ids, never trained on "
@@ -806,6 +904,11 @@ def parse_args(argv=None):
     p.add_argument("--batch", type=int, default=64)
     p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--shuffle-block", type=int, default=0,
+                   help="permute training rows in contiguous blocks of N (cache "
+                        "order) instead of one full permutation, so epoch reads "
+                        "stay local. 0 (default) is the full permutation. "
+                        "Deterministic for a given --seed. Batches may cross blocks.")
     p.add_argument("--hp-weight", type=float, default=1.0,
                    help="loss-weight multiplier for training rows whose chosen option is a "
                         "hero_power (default 1.0 = off)")
@@ -837,6 +940,13 @@ def parse_args(argv=None):
                    help="processes for encoding and the advisor (results identical)")
     p.add_argument("--cache-dir", default=None,
                    help="where encoded option matrices go (default: a temp dir)")
+    p.add_argument("--cache-dtype", choices=tuple(_CACHE_SUFFIX), default="float32",
+                   help="dtype of the option and state memmaps (default float32). "
+                        "float16 stores half the bytes; each row is cast back to "
+                        "float32 in the dataset accessor. The dtype is the cache "
+                        "file suffix (.f32 or .f16), so a cache built with one "
+                        "dtype is never reused as the other. Train and held-out "
+                        "use the same dtype.")
     p.add_argument("--keep-cache", action="store_true", help="do not delete --cache-dir")
     p.add_argument("--install", action="store_true",
                    help="back up ml/policy_net.pt to ml/policy_net.prev.pt, then install the new one")
@@ -911,16 +1021,21 @@ def main(argv=None) -> int:
             if own_cache:
                 shutil.rmtree(cache, ignore_errors=True)
             else:
-                for name in ("train_options.f32", "heldout_options.f32",
-                             "train_states.f32", "heldout_states.f32"):
-                    try:
-                        os.remove(os.path.join(cache, name))
-                    except OSError:
-                        pass
+                # Both suffixes: a dtype switch must not leave the other cache
+                # to be picked up under the wrong name, and must not keep one
+                # we just rewrote. Names are {train,heldout}_{options,states}.f32/.f16.
+                for suffix in _CACHE_SUFFIX.values():
+                    for split in ("train", "heldout"):
+                        for kind in ("options", "states"):
+                            try:
+                                os.remove(os.path.join(cache, f"{split}_{kind}.{suffix}"))
+                            except OSError:
+                                pass
 
 
 def _run(a, files, heldout, frozen, cache) -> int:
-    train, held, info = encode_stream(files, heldout, a.build, cache, a.workers)
+    train, held, info = encode_stream(files, heldout, a.build, cache, a.workers,
+                                      cache_dtype=a.cache_dtype)
     counts = info["stats"]
     train_games = {m["game_id"] for m in train.meta}
     overlap = sorted(train_games & heldout)
@@ -965,6 +1080,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
                   "val_top3": ev["model"]["overall"]["top3"]}
             curve.append(pt)
             print(json.dumps(pt), flush=True)
+            return pt
 
     items = [train.item(i) for i in fit_idx]
     if a.hp_weight != 1.0:
@@ -972,7 +1088,8 @@ def _run(a, files, heldout, frozen, cache) -> int:
                           [train.meta[i]["chosen_option"]["type"] for i in fit_idx],
                           {"hero_power": a.hp_weight})
         items = [it[:3] + (w,) for it, w in zip(items, ws)]
-    model, history = train_model(items, a.epochs, a.lr, a.batch, a.seed, on_epoch=on_epoch)
+    model, history = train_model(items, a.epochs, a.lr, a.batch, a.seed, on_epoch=on_epoch,
+                                 shuffle_block=a.shuffle_block)
     del items
 
     date = datetime.date.today().strftime("%Y%m%d")
@@ -1015,12 +1132,12 @@ def _run(a, files, heldout, frozen, cache) -> int:
         print(f"wrote {out}\nwrote {metrics_path}")
         return 0
 
-    held_rows = _held_rows(held)
-    held_enc = [held.encoded(i) for i in range(len(held))]
-    held_groups = [m["groups"] for m in held.meta]
     scorers = {"model": BCPolicy(model).score_encoded}
     compare = None
     compare_advisor = False
+    if a.compare or a.baseline_evalnet is not False:
+        print(f"advisor-compare: starting ({len(held)} held-out rows)",
+              file=sys.stderr, flush=True)
     if a.compare:
         if a.compare.lower() in ("advisor", "evalnet", "eval-net"):
             compare_advisor = True
@@ -1058,6 +1175,10 @@ def _run(a, files, heldout, frozen, cache) -> int:
                 advisor = dict(advisor, **{name: alt})
         elif compare_advisor:
             compare["error"] = advisor.get("error", "advisor unavailable")
+    print(f"eval: starting ({len(held)} held-out rows)", file=sys.stderr, flush=True)
+    held_rows = _held_rows(held)
+    held_enc = [held.encoded(i) for i in range(len(held))]
+    held_groups = [m["groups"] for m in held.meta]
     results = evaluate(held_rows, held_enc, scorers, extra=extra, groups=held_groups)
     if "compare" in results:
         cm, cc = results["model"]["overall"], results["compare"]["overall"]
