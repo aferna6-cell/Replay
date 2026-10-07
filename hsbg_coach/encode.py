@@ -82,6 +82,9 @@ bc-enc-v4 (from v3): hero-power identity and turn progress.
            (cost > 0 and gold == cost); still able to buy afterwards
            (gold - cost >= the cheapest shop buy).
 legal_options no longer offers a hero power listed in PASSIVE_HERO_POWERS.
+When snapshot.hero_powers is present, legal_options emits one hero_power
+option per usable non-passive entry (card_id is that power's id). Without
+the list it still uses the single hero_power. Vector layout is unchanged.
 
 bc-enc-v5 (from v4): which hero it is, and the hero powers the v2.1 list missed.
   HERO_POWER_VOCAB appends five ids after the frozen v2.1 prefix (indices 0-71
@@ -655,8 +658,10 @@ def legal_options(snapshot) -> List[Dict]:
       reroll     gold >= reroll_cost() (snapshot.reroll_cost, 0 = free; else 1)
       freeze     always (it toggles)
       level      tier < 6 and gold >= level_cost (live discounted, else base)
-      hero_power hero_power present, usable, not in PASSIVE_HERO_POWERS, and
-                 gold >= its cost; no target
+      hero_power one option per entry of hero_powers when that list is
+                 present, else the single hero_power. Offered when usable,
+                 not in PASSIVE_HERO_POWERS, and gold >= its own cost.
+                 card_id is that power's id; no target
       end_turn   always
       discover   never enumerated: a Snapshot carries no choice offer
     """
@@ -706,10 +711,16 @@ def legal_options(snapshot) -> List[Dict]:
     lc = level_cost(snapshot)
     if lc is not None and gold >= lc:
         opts.append(make_option("level"))
-    hp = _hero_power(snapshot)
-    if (hp and hp.get("usable") and not is_passive_hero_power(hp)
-            and gold >= _int(hp.get("cost"), 0)):
-        opts.append(make_option("hero_power", hp.get("card_id")))
+    hps = _get(snapshot, "hero_powers", None)
+    if hps is None:
+        hp = _hero_power(snapshot)
+        hps = [hp] if isinstance(hp, dict) else []
+    for hp in hps:
+        if not isinstance(hp, dict):
+            continue
+        if (hp.get("usable") and not is_passive_hero_power(hp)
+                and gold >= _int(hp.get("cost"), 0)):
+            opts.append(make_option("hero_power", hp.get("card_id")))
     opts.append(make_option("end_turn"))
     return opts
 
