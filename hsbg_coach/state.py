@@ -49,6 +49,10 @@ class GameState:
         # never reused within a game, so a tag that still points at a dropped
         # entity (CREATOR, DARK_GIFT_ENTITY) can still be resolved to its card.
         self.dropped_card_ids: Dict[int, str] = {}
+        # Player entity ids whose next FULL_ENTITY is an HSReplay re-dump.
+        # That dump replaces tags (omitted zeros are absent). Live Power.log
+        # never emits RESET_ENTITIES, so this set stays empty there.
+        self._redump_players: set = set()
 
     def card_id_of(self, entity_id: Optional[int]) -> Optional[str]:
         """cardId of an entity, including one dropped by a re-dump reset."""
@@ -65,23 +69,37 @@ class GameState:
         if event.kind == "CREATE_GAME":
             self.entities.clear()
             self.dropped_card_ids.clear()
+            self._redump_players.clear()
             self.current_turn = None
             self.game_counter += 1
             return
 
         # HSReplay XML re-dumps the full entity set mid-game (same ids) but does
         # not re-emit entities that died in between. Drop everything except the
-        # Player entities (no <Player> re-dump); the dump that follows refills state.
+        # Player entities (no <Player> re-dump); the dump that follows refills
+        # state. Players are kept so name lookup and the local player survive,
+        # but their next FULL_ENTITY replaces tags: dumps omit zeros, and
+        # merging would keep a stale RESOURCES_USED / TEMP_RESOURCES.
         if event.kind == "RESET_ENTITIES":
             self.dropped_card_ids.update(
                 (i, e.card_id) for i, e in self.entities.items()
                 if e.card_id and e.tags.get("CARDTYPE") != "PLAYER")
+            self._redump_players = {
+                i for i, e in self.entities.items()
+                if e.tags.get("CARDTYPE") == "PLAYER"}
             self.entities = {i: e for i, e in self.entities.items()
                              if e.tags.get("CARDTYPE") == "PLAYER"}
             self._last_block_entity = None
             return
 
         if event.kind in ("FULL_ENTITY", "SHOW_ENTITY") and event.entity:
+            if (event.kind == "FULL_ENTITY"
+                    and event.entity.id in self._redump_players):
+                self._redump_players.discard(event.entity.id)
+                ent = self.entities.get(event.entity.id)
+                if ent is not None:
+                    # id, name and card_id stay. Tags come only from this dump.
+                    ent.tags.clear()
             self._upsert(event.entity)
             return
 

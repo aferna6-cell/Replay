@@ -14,9 +14,12 @@ XML-only quirks handled here:
   (same ids) 1-10x per game. Entities that died in between are *not*
   re-emitted, so every ``GameEntity`` after the first yields a
   ``RESET_ENTITIES`` event first (``GameState`` drops everything except the
-  Player entities). A re-dumped ``<GameEntity>`` also carries both Player
-  entities' tags appended to its own (no ``<Player>`` elements are written);
-  ``_split_redump`` splits them back out by each segment's ENTITY_ID.
+  Player entities, then the next ``FULL_ENTITY`` for each of those players
+  replaces that player's tags). Dumps omit zero-valued tags, so a merge would
+  keep a stale ``RESOURCES_USED``. A re-dumped ``<GameEntity>`` also carries
+  both Player entities' tags appended to its own (no ``<Player>`` elements
+  are written); ``_split_redump`` splits them back out by each segment's
+  ENTITY_ID.
 * **Local player.** Account ids are zeroed; the local player is the
   ``<Player isMainPlayer="true">``. It is emitted as a ``PLAYER`` event with a
   non-zero ``hi`` (the signal ``BGTracker`` uses) plus a ``PLAYER_NAME`` so the

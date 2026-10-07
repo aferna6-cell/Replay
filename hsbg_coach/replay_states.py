@@ -33,6 +33,9 @@ from .hsreplay_xml import iter_events
 
 SCHEMA_VERSION = "states.v2"
 DARK_DISCOVERY_BUTTON = "BG36_Button_DarkGift"
+# HSReplay Option error 14: the action costs more gold than the player has.
+NOT_ENOUGH_GOLD = 14
+BUY_HANDLE_PREFIX = "TB_BaconShop_DragBuy"
 DARK_DISCOVERY_EFFECT = "BG36_MidGameEffect_010"   # CREATOR of the offered minions
 # Shady Aristocrat, Sire Denathrius's buddy: "When you sell this, Discover a
 # Quest". Other heroes can get it too (e.g. from a Wisdomball refresh).
@@ -132,6 +135,62 @@ def _hero_power(tracker: BGTracker, legal_ids: set) -> Optional[Dict]:
     (Snapshot.hero_power is None for passives). ``activatable`` = it is a
     legal option right now."""
     return _select_row_hero_power(_hero_power_entries(tracker, legal_ids))
+
+
+def _gold_options(tracker: BGTracker, options: List[Dict]) -> List[Dict]:
+    """Priced options the gold check compares to ``snapshot.gold``.
+
+    A legal hero power or buy whose cost is above gold, or an error-14 option
+    whose cost is at or below gold, is a stale-gold signal. The buy is the
+    ``TB_BaconShop_DragBuy`` handle: the shop minion (and shop spell) stay
+    ``error=-1`` even when that handle is rejected for gold, so pricing the
+    minion would flag every unaffordable slot. Missing ``COST`` on a hero
+    power or buy handle is 0. A button is priced only when it carries ``COST``.
+    """
+    out = []
+    for o in options:
+        if o.get("error") not in (-1, NOT_ENOUGH_GOLD):
+            continue
+        priced = _price_option(tracker, o)
+        if priced is None:
+            continue
+        kind, cost = priced
+        if o["error"] == -1 and kind not in ("hero_power", "buy"):
+            continue
+        ent = tracker.state.entities.get(o["entity"])
+        out.append({
+            "entity_id": o["entity"],
+            "card_id": ent.card_id if ent else None,
+            "kind": kind,
+            "cost": cost,
+            "error": o["error"],
+        })
+    return out
+
+
+def _price_option(tracker, option: Dict) -> Optional[tuple]:
+    ent = tracker.state.entities.get(option.get("entity"))
+    if ent is None:
+        return None
+    cid = ent.card_id or ""
+    ctype = ent.tags.get("CARDTYPE")
+    if ctype == "HERO_POWER":
+        return ("hero_power", ent.tag_int("COST") or 0)
+    if cid.startswith(BUY_HANDLE_PREFIX):
+        return ("buy", ent.tag_int("COST") or 0)
+    if cid.endswith("Reroll_Button") or "TechUp" in cid or cid == DARK_DISCOVERY_BUTTON:
+        if "COST" not in ent.tags:
+            return None
+        if cid.endswith("Reroll_Button"):
+            kind = "roll"
+        elif "TechUp" in cid:
+            kind = "level"
+        else:
+            kind = "dark_gift"
+        return (kind, ent.tag_int("COST") or 0)
+    if ctype in ("BATTLEGROUND_SPELL", "SPELL") and "COST" in ent.tags:
+        return ("spell", ent.tag_int("COST") or 0)
+    return None
 
 
 def _options_rows(tracker: BGTracker, legal: List[Dict]) -> List[Dict]:
@@ -323,6 +382,10 @@ def _row(tracker, options, meta, dp_index, game_entity_id) -> Dict:
         "hero_powers": entries,
         "dark_discovery": {"available": dd_available},
         "options": _options_rows(tracker, legal),
+        # Legal options stay legal-only. This list is the gold check's input:
+        # priced hero powers and buys (any error) plus every other option the
+        # game rejected with "not enough gold".
+        "gold_options": _gold_options(tracker, options),
     })
     return row
 
@@ -570,6 +633,34 @@ def _check_row(tracker, row, fail, stats) -> None:
                     "dp": dp, "zone": zone, "entity_id": m["entity_id"],
                     "card_id": m["dark_gift"].get("card_id")})
     _check_hero_power_options(tracker, row, fail)
+    _check_gold_options(row, fail)
+
+
+def _check_gold_options(row, fail) -> None:
+    """Snapshot gold must agree with what the game says the player can pay.
+
+    A legal hero power or buy whose cost is above gold means gold is too low
+    (a stale ``RESOURCES_USED`` after a re-dump). An option rejected with
+    error 14 (not enough gold) whose cost is at or below gold means gold is
+    too high (a stale ``TEMP_RESOURCES``). Gold that is still null is unknown,
+    not a contradiction. One known game-side transient is not special-cased:
+    a turn-1 hero power that is legal for a single Options block while gold
+    is 0 quarantines, so it can be told apart from a real miss."""
+    gold = (row.get("snapshot") or {}).get("gold")
+    if gold is None:
+        return
+    for o in row.get("gold_options") or []:
+        cost, err = o.get("cost"), o.get("error")
+        if cost is None or err is None:
+            continue
+        legal_short = (err == -1 and o.get("kind") in ("hero_power", "buy")
+                       and cost > gold)
+        blocked_rich = err == NOT_ENOUGH_GOLD and cost <= gold
+        if legal_short or blocked_rich:
+            fail.add("gold_option_mismatch", {
+                "dp": row.get("dp_index"), "gold": gold, "cost": cost,
+                "error": err, "kind": o.get("kind"),
+                "card_id": o.get("card_id"), "entity_id": o.get("entity_id")})
 
 
 def _known_dark_gift(tracker, gift: Dict) -> bool:

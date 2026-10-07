@@ -53,6 +53,10 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
   tags appended to its own, and no `<Player>` elements are written. They are split back out by
   segment (`CONTROLLER`, `CARDTYPE=PLAYER`, …, `ENTITY_ID`). If they are not split,
   players keep stale gold, and the game `TURN` gets overwritten by a player's `TURN`.
+  The split segment **replaces** that player's tags (id, name and card id are kept).
+  Dumps omit zeros, so a tag that is absent — `RESOURCES_USED`, `TEMP_RESOURCES`,
+  `NUM_OPTIONS_PLAYED_THIS_TURN` — is 0, not whatever it was before the reconnect.
+  Live Power.log has no re-dumps, and a `FULL_ENTITY` there still merges.
 - **Re-sent Options.** The same `Options id` right after a re-dump is one decision
   point. The post-re-dump block is kept.
 - **Choices.** `<Choices>` becomes a `CHOICES` event (`type` mapped through
@@ -79,8 +83,9 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 | `hero_power` | `{card_id, name, cost, used, activatable}` or null | The legal PLAY power if any (lowest index in `hero_powers`), else the first non-passive, else the passive. `used` = EXHAUSTED; `activatable` = it is a legal option now. A single passive (or a single active power) keeps this shape |
 | `hero_powers` | `[{card_id, name, cost, used, activatable, passive}]` | Every hero power we control in PLAY, passives included, ordered by `ZONE_POSITION` then entity id. `passive` = `HIDE_COST=1`. There is no card-id allowlist: a second power from Genn / Worgen King (`BG35_HERO_001`, Discover two Hero Powers), a Morchie Timewarp spell (`BG34_HeroPowerSpell_*`, "second Hero Power"), the lesser trinket Reinvigorating Light (`BG36_MagicItem_411`), Xavius, Kith'ix, Drest'agath, or anything else that puts a `HERO_POWER` in PLAY is listed. Empty when none are in PLAY |
 | `dark_discovery` | `{available: bool}` | the `BG36_Button_DarkGift` entity is a legal option now |
-| `options` | `[{index, type, entity_id, card_id, zone, targets, sub_options}]` | legal options only (`error=-1`), where `type` is `POWER` or `END_TURN`. The chosen option is not recorded |
+| `options` | `[{index, type, entity_id, card_id, zone, targets, sub_options}]` | legal options only (`error=-1`), where `type` is `POWER` or `END_TURN`. The chosen option is not recorded. Illegal options are not added here |
 | `options[].sub_options` | `[{index, entity_id, card_id, targets}]` | v2: Choose One variants (`<SubOption>` children), legal ones only (`error=-1`, the default when the attribute is absent). `card_id` is resolved through the tracker at row time. Usually empty |
+| `gold_options` | `[{entity_id, card_id, kind, cost, error}]` | options rows. Priced hero powers and buy handles (`TB_BaconShop_DragBuy`, `error` -1 or 14) plus every other option the game rejected with error 14 (not enough gold). `cost` is that entity's live `COST` (missing = 0 on a hero power or buy handle; a button is included only when the tag is present). The shop minion itself is not a buy: it stays legal while its handle carries the gold error. This is the input to `gold_option_mismatch`. `options` stays the legal-action list |
 
 **Presence in `options` is the playable / activatable flag.** The game only offers
 what can be done right now, so:
@@ -329,12 +334,33 @@ in never appears at a decision point.
    Sylvanas `BG23_HERO_306` does not share the base card's stem). Anything
    else is `hero_pick_mismatch`. A game that never shows a real hero entity
    is not failed for this.
+10. **Gold vs options:** snapshot gold must agree with what the game says the
+    player can pay. A legal hero power or buy whose `cost` is above
+    `snapshot.gold`, or an option rejected with error 14 (not enough gold)
+    whose `cost` is at or below `snapshot.gold`, is `gold_option_mismatch`.
+    The check reads `gold_options` on the row. Gold that is still null is
+    unknown, not a contradiction. A turn-1 hero power that is legal for a
+    single Options block while gold is 0 (Queen of Dragons, "Unlocks at
+    Tier 4", one block in ea39f046) is not special-cased: it quarantines so
+    it can be told apart from a stale `RESOURCES_USED`.
 
 Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 `tests/fixtures/synthetic_bg_replay.xml`). Set `HSBG_REPLAY_XML=<replay.xml.gz>`, and
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2, re-dump player tags** (`schema_version` stays `states.v2`;
+  options rows gain `gold_options`)
+  - A re-dumped Player segment replaces that player's tags. The entity id,
+    name and card id stay, and Player entities are not dropped on
+    `RESET_ENTITIES`. Dumps omit zeros, so an absent `RESOURCES_USED`,
+    `TEMP_RESOURCES` or `NUM_OPTIONS_PLAYED_THIS_TURN` is 0. Live Power.log
+    never emits `RESET_ENTITIES`, and a `FULL_ENTITY` there still merges.
+  - New quarantine reason `gold_option_mismatch`: a legal hero power or buy
+    costing more than snapshot gold, or an error-14 option costing no more
+    than snapshot gold. One turn-1 transient (a hero power legal for a
+    single Options block at gold 0) is quarantined rather than ignored.
 
 - **states.v2, Offensive Sacrifice gift id** (the row schema is unchanged)
   - Gift enchantment suffixes (`e` / `eN`, Poet `te` / `teN`, and a single
