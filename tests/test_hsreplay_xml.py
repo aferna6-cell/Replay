@@ -107,6 +107,11 @@ def test_build_game_rows_and_checks():
                                    "card_id": "BG36_HERO_002p", "zone": "PLAY",
                                    "targets": [20], "sub_options": []}
     assert first["hero_power"]["activatable"] is True
+    # One power: the snapshot stays free of hero_powers; the row lists it.
+    assert "hero_powers" not in first["snapshot"]
+    assert first["hero_powers"][0]["card_id"] == "BG36_HERO_002p"
+    assert first["hero_powers"][0]["activatable"] is True
+    assert first["hero_powers"][0]["passive"] is False
     assert first["dark_discovery"] == {"available": False}
     assert first["snapshot"]["board"][1]["dark_gift"] == {
         "card_id": "BG36_MidGameEffect_000t51", "name": "Steady Growth"}
@@ -320,8 +325,12 @@ def test_choice_rows_hero_pick_and_dark_discovery():
             ch["max"]) == ("MULLIGAN", "hero", 1, 1, 1)
     assert [(c["entity_id"], c["card_id"], c["cardtype"]) for c in ch["cards"]] == [
         (70, "BG36_HERO_002", "HERO"), (71, "BG_TEST_HERO_B", "HERO")]
+    # No reroll: cards stay the offer, and offer_initial echoes them.
+    assert ch["offer_initial"] == ch["cards"]
+    assert "rerolls" not in ch
     assert "chosen" not in ch and "picked" not in json.dumps(ch)   # pick not recorded
     ch = dd["choice"]
+    assert "offer_initial" not in ch and "rerolls" not in ch
     assert (ch["choice_type"], ch["choice_kind"], ch["source_card_id"]) == (
         "GENERAL", "dark_discovery", "BG36_MidGameEffect_010")
     # 21 carries HAS_DARK_GIFT; 22 only DARK_GIFT_ENTITY: both resolve to the gift.

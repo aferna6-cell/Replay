@@ -76,7 +76,8 @@ Tags with no name stay numeric, exactly as Power.log prints them. XML quirks:
 | `options_index` | int | options rows only: 0-based index among options rows, i.e. the states.v1 `dp_index` |
 | `turn` / `raw_turn` | int | recruit turn `(TURN+1)//2` / GameEntity `TURN` |
 | `snapshot` | object | `Snapshot.to_dict()`; rebuild with `Snapshot.from_dict(row["snapshot"])` |
-| `hero_power` | `{card_id, name, cost, used, activatable}` or null | hero power in PLAY, including passive ones; `used` = EXHAUSTED; `activatable` = it is a legal option now |
+| `hero_power` | `{card_id, name, cost, used, activatable}` or null | The legal PLAY power if any (lowest index in `hero_powers`), else the first non-passive, else the passive. `used` = EXHAUSTED; `activatable` = it is a legal option now. A single passive (or a single active power) keeps this shape |
+| `hero_powers` | `[{card_id, name, cost, used, activatable, passive}]` | Every hero power we control in PLAY, passives included, ordered by `ZONE_POSITION` then entity id. `passive` = `HIDE_COST=1`. There is no card-id allowlist: a second power from Genn / Worgen King (`BG35_HERO_001`, Discover two Hero Powers), a Morchie Timewarp spell (`BG34_HeroPowerSpell_*`, "second Hero Power"), the lesser trinket Reinvigorating Light (`BG36_MagicItem_411`), Xavius, Kith'ix, Drest'agath, or anything else that puts a `HERO_POWER` in PLAY is listed. Empty when none are in PLAY |
 | `dark_discovery` | `{available: bool}` | the `BG36_Button_DarkGift` entity is a legal option now |
 | `options` | `[{index, type, entity_id, card_id, zone, targets, sub_options}]` | legal options only (`error=-1`), where `type` is `POWER` or `END_TURN`. The chosen option is not recorded |
 | `options[].sub_options` | `[{index, entity_id, card_id, targets}]` | v2: Choose One variants (`<SubOption>` children), legal ones only (`error=-1`, the default when the attribute is absent). `card_id` is resolved through the tracker at row time. Usually empty |
@@ -86,13 +87,13 @@ what can be done right now, so:
 
 - a hand card is playable iff its `entity_id` is in `options`;
 - a board minion's Activate is available iff it is in `options`;
-- the hero power is usable iff it is in `options` (the same as `hero_power.activatable`);
+- a hero power is usable iff it is in `options`. Every legal option that is a PLAY `HERO_POWER` has `hero_powers[].activatable` true, and `hero_power.activatable` is true when any of them is legal;
 - a shop minion or spell is buyable iff it (or its buy handle) is in `options`.
 
 Nothing else in the row carries a separate "playable" bit. `options[].targets` lists
 the legal targets, and `sub_options[].targets` lists them per Choose One variant.
 
-`hero_power`, `dark_discovery` and `options` are only on options rows. Choice rows
+`hero_power`, `hero_powers`, `dark_discovery` and `options` are only on options rows. Choice rows
 have `choice` instead:
 
 | `choice` field | notes |
@@ -102,10 +103,26 @@ have `choice` instead:
 | `choice_kind` | `hero` (the MULLIGAN hero pick only), `dark_discovery` (source `BG36_MidGameEffect_010`), `quest` (only `QUEST=1` cards), `trinket` (only `BATTLEGROUND_TRINKET`), `discover` (only minions / spells: triple rewards, discover effects), `other` (e.g. hero-power offers, Friendly Wager (TB_BaconShop_HP_081) combat guesses) |
 | `source_entity_id`, `source_card_id`, `source_name` | the Choices `source` entity (e.g. `TB_BaconShop_Triples_01`, `BG30_Trinket_1st`, `BG24_QuestsPlayerEnch_t`). For the hero pick it has no card id |
 | `min`, `max` | how many cards may be picked |
-| `cards` | `[{entity_id, card_id, name, cardtype, tags, dark_gift}]` in offer order. `tags` is the full tag dict. `dark_gift` is `{card_id, name}` via `HAS_DARK_GIFT` or `DARK_GIFT_ENTITY` (Dark Discovery offers), else null |
+| `cards` | `[{entity_id, card_id, name, cardtype, tags, dark_gift}]` in offer order. `tags` is the full tag dict. `dark_gift` is `{card_id, name}` via `HAS_DARK_GIFT` or `DARK_GIFT_ENTITY` (Dark Discovery offers), else null. For a hero row these are the cards at the ChosenEntities pick, after every reroll |
+| `offer_initial` | hero rows only. The same card objects as first seen, when the Choices block appeared, before any reroll. With no reroll this equals `cards` |
+| `rerolls` | hero rows only, and only when a slot's card changed. `[{entity_id, from_card_id, to_card_id}]` in order, one entry per ShowEntity / ChangeEntity / re-dump that changed that slot's card. The length is the reroll count. Absent when nothing was rerolled |
 
-The pick is **not** recorded. Match `cards[].entity_id` against the next
-`ChosenEntities` (same snapshot, so the ids line up).
+The pick is **not** a separate field. Match `cards[].entity_id` against the next
+`ChosenEntities` (same snapshot, so the ids line up). On a hero row, `cards` is
+already the offer at that pick, so the chosen slot's `card_id` is the hero that
+was picked. `offer_initial` is the offer that was on screen before rerolls.
+
+A hero reroll keeps the slot's entity id and changes its card (`ChangeEntity` /
+`ShowEntity`, which this adapter yields as `SHOW_ENTITY`, plus the tag changes
+inside that element). The row used to log the cards when the Choices block
+first appeared, so a rerolled slot kept its old hero (29bc2989: slot 104 logged
+as Kith'ix, rerolled to The Lich King, which was picked). Hero rows now resolve
+each slot again at ChosenEntities.
+
+Other choice kinds are still the cards at the Choices block. Discovers, trinkets,
+quests and Dark Discovery do not reroll a stable slot the way the hero mulligan
+does (`BACON_MULLIGAN_HERO_REROLL`); a `ChangeEntity` on a shop minion is not one
+of those offers. Those rows are left unchanged.
 
 ### `snapshot` fields (what replays fill)
 
@@ -125,7 +142,8 @@ The pick is **not** recorded. Match `cards[].entity_id` against the next
 | `shop_spells` | filled | `{name, card_id, cost, entity_id, buy_cost}`, sorted by shop position. Tavern spells (`BATTLEGROUND_SPELL` or `SPELL`) in PLAY under the shop controller. The controller is Bartender Bob's (`TB_BaconShopBob*`) or any shop minion's. Before v1.1, a shop with no minions yielded no spells |
 | `shop_frozen` | filled | new, optional: any shop minion `FROZEN` |
 | `hand_spells` | filled | our `SPELL` / `BATTLEGROUND_SPELL` cards in HAND. A missing COST = 0. Before v1.1 this was always empty, because in-hand spells are `SPELL` and 0-cost ones have no COST tag |
-| `hero_power` | filled | our hero power in PLAY. A missing COST = 0. Null for passive powers (`HIDE_COST=1`) and when no hero power is in PLAY (e.g. Sire after the hero-power quest completes). Before v1.1, 0-cost powers were null, and stale non-PLAY powers were picked. The row-level `hero_power` also covers passives |
+| `hero_power` | filled | The primary non-passive hero power in PLAY. A missing COST = 0. Null for a passive-only hero (`HIDE_COST=1`) and when no non-passive power is in PLAY (e.g. Sire after the hero-power quest completes). A passive power no longer hides a later clickable one: `HIDE_COST=1` is skipped and the scan continues. Among the rest, usable (not exhausted, and affordable when gold is known) comes first, then lowest `ZONE_POSITION`, then lowest entity id. Before v1.1, 0-cost powers were null, and stale non-PLAY powers were picked. The row-level `hero_power` also covers passives, and when two powers are in PLAY it is the legal one |
+| `hero_powers` | when two or more non-passive powers are in PLAY | Optional. The same objects as the scan above, in that order, each `{name, card_id, cost, usable, entity_id}`. Omitted from `to_dict()` otherwise, so a single-power snapshot stays byte-identical. `actions.legal_actions` emits one `hero_power` action per usable entry, and falls back to `hero_power` when the field is absent. `encode.py` still reads only `snapshot.hero_power` (the primary) |
 | `activatable` | filled | Activate-keyword allowlist |
 | `dark_gift` | filled | Dark Discovery button with heuristic `usable`. The row-level `dark_discovery` comes from the options |
 | `anomaly` | always null | anomalies are not in the current meta |
@@ -285,12 +303,47 @@ in never appears at a decision point.
    `sire_quests_missing`. Stats: `quests_seen`, `quests_completed` (quests seen
    with `completed=true`), `quest_snapshots`, and `quest_goal_changed` (counted
    only).
+8. **Hero powers:** on every options row, every legal option whose entity is a
+   PLAY `HERO_POWER` appears in `hero_powers` with `activatable` true, and
+   `hero_power.activatable` is true whenever any such option exists.
+   Otherwise `hero_power_option_mismatch`.
+9. **Hero pick:** the card chosen from the hero row (the pick-time `cards`
+   entry whose entity is in ChosenEntities) equals the player's `HERO_ENTITY`
+   card once that hero is no longer the placeholder `TB_BaconShop_HERO_PH`.
+   The first such hero after the pick is the one that is checked, so a later
+   transform is not compared. A cosmetic `_SKIN` of the same card-id stem
+   matches, as does Aranna Starseeker (`TB_BaconShop_HERO_59`) played as
+   Aranna, Unleashed (`TB_BaconShop_HERO_59t`), and any played hero tagged
+   `BACON_SKIN` (a legacy skin id such as `TB_BaconShop_HERO_44_SKIN_*` for
+   Sylvanas `BG23_HERO_306` does not share the base card's stem). Anything
+   else is `hero_pick_mismatch`. A game that never shows a real hero entity
+   is not failed for this.
 
 Tests: `tests/test_hsreplay_xml.py` (synthetic fixture
 `tests/fixtures/synthetic_bg_replay.xml`). Set `HSBG_REPLAY_XML=<replay.xml.gz>`, and
 optionally `HSBG_REPLAY_MANIFEST=<manifest.json>`, to also run the real-replay test.
 
 ## Changelog
+
+- **states.v2, dual hero powers and hero-pick rerolls** (optional fields only;
+  `schema_version` stays `states.v2`)
+  - `Snapshot.hero_power` skips `HIDE_COST=1` and keeps scanning, so a passive
+    power (Morchie `BG34_HERO_004p`, Drek'Thar `BG22_HERO_003p`) no longer hides
+    a second power. Usable, then `ZONE_POSITION`, then entity id. Optional
+    `hero_powers` lists every non-passive PLAY power in that order and is
+    omitted when there is only one, so single-power output stays
+    byte-identical. No card-id allowlist: trinket-granted powers
+    (Reinvigorating Light, `BG36_MagicItem_411`) are included.
+  - Options rows: `hero_power` is the legal power when one is legal; optional
+    `hero_powers` lists every PLAY power, passives included. New quarantine
+    reason `hero_power_option_mismatch`.
+  - `actions.legal_actions` emits one hero-power action per usable
+    `snapshot.hero_powers` entry (falls back to `hero_power`). `encode.py`
+    still reads only `snapshot.hero_power`.
+  - Hero choice rows resolve `cards` at ChosenEntities, after every reroll.
+    Optional `offer_initial` is the original offer; optional `rerolls` is the
+    per-slot history. New quarantine reason `hero_pick_mismatch` (skins and
+    Aranna's Unleashed form are the same hero). Other choice kinds are unchanged.
 
 - **states.v2 checks, two quarantined 36.6.3 wins** (the row schema is unchanged)
   - Dark Gifts: remember a gift enchantment (including Poet `te` / `te2`
