@@ -41,8 +41,12 @@ def _of(opts, t, zone=None):
 
 # --- encoder version / option kinds ---------------------------------------------
 def test_encoder_version_bumped_with_new_option_layout():
-    assert enc.ENCODER_VERSION == "bc-enc-v4"
-    assert enc.OPTION_DIM == 207 and enc.STATE_DIM == 322
+    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.STATE_DIM == (
+        3 * enc._ZONE_DIM + len(enc.STATE_SCALARS) + enc.HP_VOCAB_DIM + enc.HERO_VOCAB_DIM)
+    assert enc.OPTION_DIM == (
+        len(enc.OPTION_TYPES) + enc._CARD_DIM + 2 * (len(enc.ZONES) + 1) + 2 + 2 + 1 + 2
+        + enc._V3_OPTION + enc._V4_OPTION + enc._V5_OPTION)
 
 
 def test_encode_option_separates_every_server_option_kind():

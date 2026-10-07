@@ -9,7 +9,7 @@ from hsbg_coach import encode as enc  # noqa: E402
 
 Z = 3 * enc._ZONE_DIM
 STATE_IX = {name: Z + i for i, name in enumerate(enc.STATE_SCALARS)}
-V4_OPT = enc.OPTION_DIM - enc._V4_OPTION           # bc-enc-v4 option block starts here
+V4_OPT = enc.OPTION_DIM - enc._V4_OPTION - enc._V5_OPTION  # bc-enc-v4 option block
 HP = {"name": "Hero Power", "card_id": "BG36_HERO_002p", "cost": 2, "usable": True}
 
 
@@ -26,12 +26,12 @@ def _st(snap, name):
 
 
 def _v4(snap, option):
-    v = enc.encode_option(snap, option)[V4_OPT:]
+    v = enc.encode_option(snap, option)[V4_OPT:V4_OPT + enc._V4_OPTION]
     return v[:enc.HP_VOCAB_DIM], v[enc.HP_VOCAB_DIM:].tolist()
 
 
 def test_version_dims_and_vocab():
-    assert enc.ENCODER_VERSION == "bc-enc-v4"
+    assert enc.ENCODER_VERSION == "bc-enc-v5"
     assert enc.HP_VOCAB_DIM == len(enc.HERO_POWER_VOCAB) + 1
     assert len(set(enc.HERO_POWER_VOCAB)) == len(enc.HERO_POWER_VOCAB)
     assert enc.HERO_POWER_VOCAB[:2] == ("BG36_HERO_000p", "BG36_HERO_002p")
