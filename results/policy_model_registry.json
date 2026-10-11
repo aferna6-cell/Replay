@@ -1,0 +1,78 @@
+{
+  "schema": "next_policy_registry.v1",
+  "description": "Record of the behaviour-cloned NEXT policy (HSBG_NEXT_POLICY). Checkpoints are not committed; *.pt is gitignored. Identity is the file sha256.",
+  "live_install": {
+    "path": "ml/policy_net.pt",
+    "flag": "HSBG_NEXT_POLICY",
+    "flag_default": "on",
+    "rollback_path": "ml/policy_net.prev.pt",
+    "installed_model": "2026-09-28c",
+    "approved_model": "policy_net_2026-10-07v5",
+    "laptop_install": "pending",
+    "laptop_install_note": "Laptop was offline at approval time, so the model is staged. Laptop install is pending."
+  },
+  "models": [
+    {
+      "id": "policy_net_2026-10-07v5",
+      "file": "policy_net_2026-10-07v5.pt",
+      "sha256": "2fa705f7550956f6fb9154293b6fa89a1d02e704f88c85cc850cd96ea8d50a0c",
+      "status": "approved_staged",
+      "role": "approved_next",
+      "approved_by": "Aidan",
+      "approved_at": "2026-10-11 12:43 PM ET",
+      "encoder": "bc-enc-v5",
+      "trained_from": "scratch",
+      "code": {
+        "branch": "pipeline/integration",
+        "commit": "6a21999d44248ea346ee9417f33cdc3848b03496"
+      },
+      "labels": {
+        "name": "v3.14_patch_36_6_3",
+        "scope": "BG 36.6.3 only",
+        "games": 1032,
+        "train_games": 877,
+        "heldout_games": 155,
+        "heldout_ids_sha256": "25e6214565ff2b307f39f9d8c5f8fd63bc16c2dbb9218153bbaa83e9ffd87db4"
+      },
+      "gate": {
+        "result": "PASS",
+        "top1_unit": "percent",
+        "model_coarse": {
+          "top1": 36.3,
+          "versus": "advisor_hand_lines",
+          "advisor_hand_lines_top1": 17.7,
+          "eval_net_top1": 9.0,
+          "n": 55156
+        },
+        "hero_power": {
+          "top1": 65.2,
+          "versus_top1": 61.7,
+          "n": 958,
+          "out_of_vocab": 0
+        },
+        "sylvanas_hp": {
+          "top1": 87.4,
+          "versus_top1": 82.0,
+          "n": 56
+        },
+        "freeze": {
+          "top1": 14.6,
+          "versus_top1": 39.0,
+          "exempt": true
+        }
+      },
+      "replaces": "2026-09-28c",
+      "previous_on_install": "ml/policy_net.prev.pt",
+      "known_gaps": [
+        "E.T.C. BG26_HERO_100 is not in HERO_VOCAB (fixed separately for the next encoder version)"
+      ]
+    },
+    {
+      "id": "2026-09-28c",
+      "status": "installed_until_v5_laptop_install",
+      "encoder": "bc-enc-v4",
+      "role": "current_laptop_policy",
+      "note": "2026-09-28c policy model (v4 encoder). On install of policy_net_2026-10-07v5.pt it is kept as ml/policy_net.prev.pt."
+    }
+  ]
+}
