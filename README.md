@@ -10,6 +10,8 @@ Power.log -> parse -> BG state -> overlay NEXT <- eval_net.pt (HSReplay snapshot
 
 NEXT comes from the behaviour-cloned policy (`ml/policy_net.pt`) when `HSBG_NEXT_POLICY` is unset. Set `HSBG_NEXT_POLICY=0` (`false` and `off` work too) to use the eval-net advisor. If the checkpoint is missing or fails to load, the overlay logs the failure and falls back to the advisor. `scripts/policy_rollback.ps1` restores `ml/policy_net.prev.pt` when that file exists, and otherwise tells you to set `HSBG_NEXT_POLICY=0`.
 
+The approved NEXT checkpoint is `policy_net_2026-10-07v5.pt` (bc-enc-v5, sha256 `2fa705f7550956f6fb9154293b6fa89a1d02e704f88c85cc850cd96ea8d50a0c`). Aidan approved it on 2026-10-11 at 12:43 PM ET. The laptop was offline, so the model is staged and the laptop install is pending. On install it replaces the 2026-09-28c policy (v4 encoder), which is kept as `ml/policy_net.prev.pt`. The record is `results/policy_model_registry.json` and `docs/MODEL_REGISTRY.md`. Checkpoints stay off git (`*.pt` is gitignored).
+
 ## Status (2026-09-23)
 
 | Layer | State |
@@ -112,6 +114,7 @@ See `specs/hsbg-coach_spec.md` for calibration notes.
 
 ## Docs
 
+- `docs/MODEL_REGISTRY.md` — approved NEXT policy checkpoint (`results/policy_model_registry.json`)
 - `docs/TRAIN_HSREPLAY_LOCAL.md` — local HSReplay train
 - `data/TRAIN_LOCAL_COMMANDS.md` — copy-paste PowerShell
 - `data/TRAIN_META_AUDIT.md` — pool / comps / thin150 audit
