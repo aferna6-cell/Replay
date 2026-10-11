@@ -105,14 +105,19 @@ bc-enc-v5 (from v4): which hero it is, and the hero powers the v2.1 list missed.
            so a hero pick encodes which hero it is. Before this, those options
            differed only by source slot.
 
-bc-enc-v6 (from v5): E.T.C., King of Rock has its own hero slot.
-  HERO_VOCAB appends BG26_HERO_100 (previous ids stay put; "other" stays
-  last). canonical_hero_id strips a trailing _SKIN_*, so every
-  BG26_HERO_100_SKIN_* skin shares that index, the same way Sylvanas skins
-  share hers. HearthstoneJSON's portrait is BG26_HERO_100_SKIN_A. Its hero
-  power is BG25_HERO_105p (Sign a New Artist), already in HERO_POWER_VOCAB,
-  so that vocabulary is unchanged. HERO_VOCAB_DIM is len(HERO_VOCAB)+1 with
-  no reserved slot, so STATE_DIM and OPTION_DIM each grow by 1.
+bc-enc-v6 (from v5): three heroes that were falling through to "other".
+  HERO_VOCAB appends, in order, BG26_HERO_100 (E.T.C., King of Rock),
+  BG22_HERO_007 (Queen Azshara), and BG23_HERO_304 (Lady Vashj). Previous
+  ids stay put; "other" stays last. canonical_hero_id strips a trailing
+  _SKIN_*, so each hero's BG*_SKIN_* portraits share that hero's index, the
+  same way Sylvanas skins share hers. Azshara's Naga form (BG22_HERO_007t)
+  and the portraits whose id keeps a trailing lowercase t
+  (BG22_HERO_007_SKIN_*t) do not strip; HERO_SKIN_ALIASES sends them to
+  BG22_HERO_007. E.T.C.'s hero power BG25_HERO_105p was already in the
+  vocabulary. HERO_POWER_VOCAB appends Azshara's Ambition (BG22_HERO_007p,
+  hideCost, passive), Naga Conquest (BG22_HERO_007p2, the clickable
+  replacement), and Relics of the Deep (BG23_HERO_304p). There is no
+  reserved slot, so STATE_DIM and OPTION_DIM grow with both vocabularies.
 
 Needs numpy (the ml extra). The stdlib-only core never imports this module
 unless the policy flag is on.
@@ -186,6 +191,10 @@ HERO_POWER_VOCAB = (
     'TB_BaconShop_HP_001',  # Edwin VanCleef, Sharpen Blades (active)
     'BG34_HERO_004p',       # Morchie, Warped Conflux (passive countdown)
     'BG34_HERO_000p',       # Murozond, Unbounded, Alternate Timeline (passive countdown)
+    # bc-enc-v6: Queen Azshara and Lady Vashj. Do not insert above.
+    'BG22_HERO_007p',       # Queen Azshara, Azshara's Ambition (passive, hideCost)
+    'BG22_HERO_007p2',      # Queen Azshara, Naga Conquest (active Discover)
+    'BG23_HERO_304p',       # Lady Vashj, Relics of the Deep
 )
 HP_VOCAB_DIM = len(HERO_POWER_VOCAB) + 1
 _HP_INDEX = {cid: i for i, cid in enumerate(HERO_POWER_VOCAB)}
@@ -203,7 +212,9 @@ HP_ALIASES: Dict[str, str] = {}
 PASSIVE_HERO_POWERS = frozenset((
     "TB_BaconShop_HP_042", "BG20_HERO_280p5", "TB_BaconShop_HP_038", "BG24_HERO_100p",
     "BG20_HERO_282p", "TB_BaconShop_HP_036", "TB_BaconShop_HP_057",
-    "BG34_HERO_004p", "BG34_HERO_000p"))
+    "BG34_HERO_004p", "BG34_HERO_000p",
+    # Azshara's Ambition hides its cost and is replaced by Naga Conquest.
+    "BG22_HERO_007p"))
 # Base hero card ids seen in the v2 / 36.6.3 corpora, most frequent first.
 # Skins canonicalize onto these (canonical_hero_id). Ids not listed share the
 # trailing "other" slot. Append new ids (and bump ENCODER_VERSION); never reorder.
@@ -238,10 +249,10 @@ HERO_VOCAB = (
     'TB_BaconShop_HERO_91', 'BG20_HERO_282', 'TB_BaconShop_HERO_37', 'TB_BaconShop_HERO_93',
     'TB_BaconShop_HERO_17', 'BG23_HERO_306', 'BG34_HERO_004', 'BG34_HERO_000',
     'TB_BaconShop_HERO_59t',
-    # bc-enc-v6: E.T.C., King of Rock. Do not insert above. Skins
-    # BG26_HERO_100_SKIN_* strip to this id (the portrait is
-    # BG26_HERO_100_SKIN_A; hero power BG25_HERO_105p is already in vocab).
-    'BG26_HERO_100',
+    # bc-enc-v6. Do not insert above. _SKIN_* strips onto these ids.
+    'BG26_HERO_100',        # E.T.C., King of Rock (portrait BG26_HERO_100_SKIN_A)
+    'BG22_HERO_007',        # Queen Azshara
+    'BG23_HERO_304',        # Lady Vashj
 )
 HERO_VOCAB_DIM = len(HERO_VOCAB) + 1
 _HERO_INDEX = {cid: i for i, cid in enumerate(HERO_VOCAB)}
@@ -249,12 +260,19 @@ _HERO_INDEX = {cid: i for i, cid in enumerate(HERO_VOCAB)}
 # BACON_SKIN_PARENT_ID. Applied after the _SKIN_* suffix is stripped, so
 # TB_BaconShop_HERO_44_SKIN_D (Moonwell Sylvanas, parent dbf 89293) is
 # BG23_HERO_306. Same-stem skins need no entry: _SKIN_* is stripped first,
-# so BG26_HERO_100_SKIN_* (E.T.C., King of Rock) lands on BG26_HERO_100.
+# so BG26_HERO_100_SKIN_*, BG22_HERO_007_SKIN_*, and BG23_HERO_304_SKIN_*
+# land on the base hero. A trailing lowercase t is not part of that suffix
+# (Naga Queen portraits, and the transformed hero BG22_HERO_007t).
 HERO_SKIN_ALIASES = {
     'TB_BaconShop_HERO_44': 'BG23_HERO_306',
     'TB_BaconShop_HERO_102': 'BG20_HERO_102',
     'TB_BaconShop_HERO_201': 'BG20_HERO_201',
     'TB_BaconShop_HERO_103': 'BG20_HERO_103',
+    'BG22_HERO_007t': 'BG22_HERO_007',
+    'BG22_HERO_007_SKIN_At': 'BG22_HERO_007',
+    'BG22_HERO_007_SKIN_Bt': 'BG22_HERO_007',
+    'BG22_HERO_007_SKIN_Ct': 'BG22_HERO_007',
+    'BG22_HERO_007_SKIN_Dt': 'BG22_HERO_007',
 }
 # Hero-select placeholder. Not a hero: the one-hot stays zeros, not "other".
 _NO_HERO = frozenset(("TB_BaconShop_HERO_PH",))

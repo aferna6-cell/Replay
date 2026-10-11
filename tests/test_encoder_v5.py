@@ -1,8 +1,7 @@
 """bc-enc-v5: every 36.6.3 hero power has its own slot, skins map to the base
 hero, and a hero pick encodes which hero it is. A bc-enc-v4 checkpoint is
-refused instead of loaded into the wider net. bc-enc-v6 appends one hero id,
-so the frozen hero-power prefix is unchanged and the hero one-hot is one
-wider (tests/test_encoder_v6.py)."""
+refused instead of loaded into the wider net. bc-enc-v6 appends after this
+prefix (tests/test_encoder_v6.py); indices 0-76 stay put."""
 
 import pytest
 
@@ -65,10 +64,10 @@ def _hero_block_option(option_vec):
 def test_version_dims_and_frozen_prefix():
     assert enc.ENCODER_VERSION == "bc-enc-v6"
     assert enc.HERO_POWER_VOCAB[:72] == _V21_HERO_POWERS
-    assert enc.HERO_POWER_VOCAB[72:] == _NEW_HERO_POWERS
-    assert enc.HP_VOCAB_DIM == 78 and enc.HERO_VOCAB_DIM == 119
-    assert len(enc.HERO_VOCAB) == 118 and len(set(enc.HERO_VOCAB)) == 118
-    assert enc.STATE_DIM == 446 and enc.OPTION_DIM == 331
+    assert enc.HERO_POWER_VOCAB[72:77] == _NEW_HERO_POWERS
+    assert enc.HP_VOCAB_DIM == 81 and enc.HERO_VOCAB_DIM == 121
+    assert len(enc.HERO_VOCAB) == 120 and len(set(enc.HERO_VOCAB)) == 120
+    assert enc.STATE_DIM == 451 and enc.OPTION_DIM == 336
     assert enc._V5_OPTION == enc.HERO_VOCAB_DIM
     snap = _snap()
     assert enc.encode_state(snap).shape == (enc.STATE_DIM,)
@@ -140,7 +139,7 @@ def test_legal_options_single_hero_power_matches_actions():
     assert ids == ["BG23_HERO_306p"]
     assert ids == _hero_power_action_ids(snap)
     assert enc.ENCODER_VERSION == "bc-enc-v6"
-    assert enc.STATE_DIM == 446 and enc.OPTION_DIM == 331
+    assert enc.STATE_DIM == 451 and enc.OPTION_DIM == 336
 
 
 def test_legal_options_two_usable_hero_powers():
