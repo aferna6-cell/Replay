@@ -41,7 +41,7 @@ def _of(opts, t, zone=None):
 
 # --- encoder version / option kinds ---------------------------------------------
 def test_encoder_version_bumped_with_new_option_layout():
-    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.ENCODER_VERSION == "bc-enc-v6"
     assert enc.STATE_DIM == (
         3 * enc._ZONE_DIM + len(enc.STATE_SCALARS) + enc.HP_VOCAB_DIM + enc.HERO_VOCAB_DIM)
     assert enc.OPTION_DIM == (

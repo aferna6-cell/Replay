@@ -1,7 +1,8 @@
 """bc-enc-v3 features (costs, hero power, Dark Gift, shop context, reposition,
 Choose One variants) and live vs row parity of the shared encoder. The v3 blocks
-are unchanged in bc-enc-v5 (tests/test_encoder_v4.py covers the v4 additions,
-tests/test_encoder_v5.py the hero identity appended after them); only the hero
+are unchanged in bc-enc-v6 (tests/test_encoder_v4.py covers the v4 additions,
+tests/test_encoder_v5.py the hero identity appended after them,
+tests/test_encoder_v6.py the E.T.C. slot); only the hero
 power id hash became a vocabulary one-hot."""
 
 import json
@@ -55,13 +56,14 @@ def _v3(snap, option):
 
 
 def _hp_block(state):
-    """Hero-power one-hot. bc-enc-v5 appends the hero one-hot after it."""
+    """Hero-power one-hot. bc-enc-v5 appends the hero one-hot after it.
+    bc-enc-v6 grows that hero one-hot by one appended id."""
     end = enc.STATE_DIM - enc.HERO_VOCAB_DIM
     return state[end - enc.HP_VOCAB_DIM:end]
 
 
 def test_dims_and_version():
-    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.ENCODER_VERSION == "bc-enc-v6"
     assert enc.STATE_DIM == (N_STATE_V2 + len(V3) + enc.HP_VOCAB_DIM
                              + enc.HERO_VOCAB_DIM)
     assert enc.OPTION_DIM == 94 + enc._V3_OPTION + enc._V4_OPTION + enc._V5_OPTION

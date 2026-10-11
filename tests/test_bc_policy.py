@@ -271,6 +271,7 @@ def test_mismatched_checkpoint_refuses_to_load(trained, tmp_path):
     ckpt = torch.load(trained["out"], weights_only=True)
     for key, bad in (("encoder_version", "bc-enc-v0"),
                      ("encoder_version", "bc-enc-v4"),
+                     ("encoder_version", "bc-enc-v5"),
                      ("state_dim", enc.STATE_DIM + 1)):
         broken = tmp_path / f"{key}-{bad}.pt"
         torch.save({"meta": dict(ckpt["meta"], **{key: bad}),

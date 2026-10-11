@@ -105,6 +105,15 @@ bc-enc-v5 (from v4): which hero it is, and the hero powers the v2.1 list missed.
            so a hero pick encodes which hero it is. Before this, those options
            differed only by source slot.
 
+bc-enc-v6 (from v5): E.T.C., King of Rock has its own hero slot.
+  HERO_VOCAB appends BG26_HERO_100 (previous ids stay put; "other" stays
+  last). canonical_hero_id strips a trailing _SKIN_*, so every
+  BG26_HERO_100_SKIN_* skin shares that index, the same way Sylvanas skins
+  share hers. HearthstoneJSON's portrait is BG26_HERO_100_SKIN_A. Its hero
+  power is BG25_HERO_105p (Sign a New Artist), already in HERO_POWER_VOCAB,
+  so that vocabulary is unchanged. HERO_VOCAB_DIM is len(HERO_VOCAB)+1 with
+  no reserved slot, so STATE_DIM and OPTION_DIM each grow by 1.
+
 Needs numpy (the ml extra). The stdlib-only core never imports this module
 unless the policy flag is on.
 """
@@ -118,7 +127,7 @@ import numpy as np
 
 from .actions import BUY_COST, MAX_BOARD, MAX_TIER, ROLL_COST, SELL_VALUE, UPGRADE_COST
 
-ENCODER_VERSION = "bc-enc-v5"
+ENCODER_VERSION = "bc-enc-v6"
 
 MAX_HAND = 10
 EMB_DIM = 48                            # card2vec width (data/cards/card2vec.json)
@@ -229,13 +238,18 @@ HERO_VOCAB = (
     'TB_BaconShop_HERO_91', 'BG20_HERO_282', 'TB_BaconShop_HERO_37', 'TB_BaconShop_HERO_93',
     'TB_BaconShop_HERO_17', 'BG23_HERO_306', 'BG34_HERO_004', 'BG34_HERO_000',
     'TB_BaconShop_HERO_59t',
+    # bc-enc-v6: E.T.C., King of Rock. Do not insert above. Skins
+    # BG26_HERO_100_SKIN_* strip to this id (the portrait is
+    # BG26_HERO_100_SKIN_A; hero power BG25_HERO_105p is already in vocab).
+    'BG26_HERO_100',
 )
 HERO_VOCAB_DIM = len(HERO_VOCAB) + 1
 _HERO_INDEX = {cid: i for i, cid in enumerate(HERO_VOCAB)}
 # Shop card id -> base hero, from HearthstoneJSON heroPowerDbfId /
 # BACON_SKIN_PARENT_ID. Applied after the _SKIN_* suffix is stripped, so
 # TB_BaconShop_HERO_44_SKIN_D (Moonwell Sylvanas, parent dbf 89293) is
-# BG23_HERO_306.
+# BG23_HERO_306. Same-stem skins need no entry: _SKIN_* is stripped first,
+# so BG26_HERO_100_SKIN_* (E.T.C., King of Rock) lands on BG26_HERO_100.
 HERO_SKIN_ALIASES = {
     'TB_BaconShop_HERO_44': 'BG23_HERO_306',
     'TB_BaconShop_HERO_102': 'BG20_HERO_102',
