@@ -31,7 +31,7 @@ def _v4(snap, option):
 
 
 def test_version_dims_and_vocab():
-    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.ENCODER_VERSION == "bc-enc-v6"
     assert enc.HP_VOCAB_DIM == len(enc.HERO_POWER_VOCAB) + 1
     assert len(set(enc.HERO_POWER_VOCAB)) == len(enc.HERO_POWER_VOCAB)
     assert enc.HERO_POWER_VOCAB[:2] == ("BG36_HERO_000p", "BG36_HERO_002p")

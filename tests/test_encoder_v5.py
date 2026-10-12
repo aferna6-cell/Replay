@@ -1,6 +1,7 @@
 """bc-enc-v5: every 36.6.3 hero power has its own slot, skins map to the base
 hero, and a hero pick encodes which hero it is. A bc-enc-v4 checkpoint is
-refused instead of loaded into the wider net."""
+refused instead of loaded into the wider net. bc-enc-v6 appends after this
+prefix (tests/test_encoder_v6.py); indices 0-76 stay put."""
 
 import pytest
 
@@ -61,12 +62,12 @@ def _hero_block_option(option_vec):
 
 
 def test_version_dims_and_frozen_prefix():
-    assert enc.ENCODER_VERSION == "bc-enc-v5"
+    assert enc.ENCODER_VERSION == "bc-enc-v6"
     assert enc.HERO_POWER_VOCAB[:72] == _V21_HERO_POWERS
-    assert enc.HERO_POWER_VOCAB[72:] == _NEW_HERO_POWERS
-    assert enc.HP_VOCAB_DIM == 78 and enc.HERO_VOCAB_DIM == 118
-    assert len(enc.HERO_VOCAB) == 117 and len(set(enc.HERO_VOCAB)) == 117
-    assert enc.STATE_DIM == 445 and enc.OPTION_DIM == 330
+    assert enc.HERO_POWER_VOCAB[72:77] == _NEW_HERO_POWERS
+    assert enc.HP_VOCAB_DIM == 81 and enc.HERO_VOCAB_DIM == 121
+    assert len(enc.HERO_VOCAB) == 120 and len(set(enc.HERO_VOCAB)) == 120
+    assert enc.STATE_DIM == 451 and enc.OPTION_DIM == 336
     assert enc._V5_OPTION == enc.HERO_VOCAB_DIM
     snap = _snap()
     assert enc.encode_state(snap).shape == (enc.STATE_DIM,)
@@ -137,8 +138,8 @@ def test_legal_options_single_hero_power_matches_actions():
     ids = _hero_power_option_ids(snap)
     assert ids == ["BG23_HERO_306p"]
     assert ids == _hero_power_action_ids(snap)
-    assert enc.ENCODER_VERSION == "bc-enc-v5"
-    assert enc.STATE_DIM == 445 and enc.OPTION_DIM == 330
+    assert enc.ENCODER_VERSION == "bc-enc-v6"
+    assert enc.STATE_DIM == 451 and enc.OPTION_DIM == 336
 
 
 def test_legal_options_two_usable_hero_powers():
@@ -285,4 +286,4 @@ def test_live_overlay_falls_back_without_checkpoint_or_on_v4(monkeypatch, tmp_pa
     err = capsys.readouterr().err
     assert "falling back to the eval-net advisor" in err
     assert "bc-enc-v4" in err
-    assert "bc-enc-v5" in err
+    assert "bc-enc-v6" in err
