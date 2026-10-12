@@ -119,10 +119,27 @@ bc-enc-v6 (from v5): three heroes that were falling through to "other".
   replacement), and Relics of the Deep (BG23_HERO_304p). There is no
   reserved slot, so STATE_DIM and OPTION_DIM grow with both vocabularies.
 
+  The same version also replaces linear scales on raw unbounded quantities
+  (minion attack and health, zone sum/mean stats, gold, hero health, armor,
+  costs, and counts) with bound_scalar: sign(x) * log1p(|x|) / 5. No second
+  version bump: bc-enc-v6 had not shipped a checkpoint. Dims stay put.
+  The old divisors (/10, /50, and the count divisors) do not cap the value.
+  Option columns 58-59 are the acted-on card's attack and health; state
+  columns 60-63 are the board's sum/mean attack and health; columns 200-203
+  are the same four numbers for the hand (shop is 130-133). A float16 cache
+  casts that finished vector. Float16's largest finite value is 65504, and
+  numpy rounds to inf from 65520. attack/10 of 58000 (attack about 580k)
+  still casts to a finite 57984; the infs were rows whose stored feature was
+  already past that threshold (attack/10 >= 65520, attack at or above about
+  655200), not a product computed in float16. The /10 and /50 run in
+  float64 before the cast. bound_scalar keeps even a 1e18 stat under 10, so
+  the cast cannot overflow. Train and the live overlay both call this module.
+
 Needs numpy (the ml extra). The stdlib-only core never imports this module
 unless the policy flag is on.
 """
 
+import math
 import re
 import zlib
 from functools import lru_cache
@@ -143,9 +160,16 @@ OPTION_KEYS = ("type", "card_id", "source", "target", "position", "choice_kind")
 
 _N_TRIBES = 11                          # len(ml.board_features.TRIBES)
 _ZONE_DIM = EMB_DIM + _N_TRIBES + 11    # board_vector: card2vec | tribes | 11 scalars
-# Fixed scale for board_vector's scalars (size, sum atk/hp, mean atk/hp,
-# max/mean tier, golden, divine, reborn, taunt) so the MLP sees ~unit inputs.
-_ZONE_SCALE = np.array([7, 50, 50, 10, 10, 6, 6, 7, 7, 7, 7], dtype=np.float64)
+# board_vector's tail: size, sum_atk, sum_hp, mean_atk, mean_hp, max_tier,
+# mean_tier, golden, divine, reborn, taunt. Stats and counts go through
+# bound_scalar; tier is a closed 1..MAX_TIER scale and stays /6.
+_ZONE_STAT_IX = (1, 2, 3, 4)
+_ZONE_COUNT_IX = (0, 7, 8, 9, 10)
+_ZONE_TIER = 6.0
+# sign(x) * log1p(|x|) / BOUND_K. Same constant as the per-minion tokens
+# (ml/tokens.py). log1p(1e18) / 5 ≈ 8.3, so a feature stays inside |x| <= ~10
+# and well inside float16 (overflow at 65520).
+BOUND_K = 5.0
 STATE_SCALARS = ("turn", "tier", "gold", "health", "armor", "n_board", "n_shop",
                  "n_hand", "level_cost", "can_level", "hp_usable", "hp_cost",
                  "n_shop_spells", "shop_frozen", "n_hand_spells",
@@ -289,6 +313,19 @@ OPTION_DIM = (len(OPTION_TYPES) + _CARD_DIM + 2 * (len(ZONES) + 1) + 2 + 2 + 1 +
 
 _SPELL_TYPES = ("BATTLEGROUND_SPELL", "SPELL")
 _NOT_A_CARD = ("ENCHANTMENT", "HERO", "HERO_POWER", "GAME_MODE_BUTTON")
+
+
+def bound_scalar(x) -> float:
+    """Odd log squash of one raw game quantity. Shared by state and options.
+
+    ``sign(x) * log1p(|x|) / BOUND_K``. Zero stays zero. A non-finite input
+    is returned unchanged so the float16 cache check can refuse it. Finite
+    for every finite input a snapshot can carry (a stat of 1e18 is about 8).
+    """
+    v = float(x)
+    if not math.isfinite(v) or v == 0.0:
+        return 0.0 if v == 0.0 else v
+    return math.copysign(math.log1p(abs(v)) / BOUND_K, v)
 
 
 # --- small readers (Snapshot object or dict) --------------------------------
@@ -573,7 +610,13 @@ def _zone_block(cards: List[Dict]) -> np.ndarray:
     emb, byname, _ = _resources()
     minions = [x for x in (minion_from_snapshot(c, byname) for c in cards) if x]
     v = board_vector(minions, emb or {"": [0.0] * EMB_DIM})
-    v[-11:] = v[-11:] / _ZONE_SCALE
+    tail = v[-11:]
+    for i in _ZONE_STAT_IX:                 # sum/mean attack and health
+        tail[i] = bound_scalar(tail[i])
+    for i in _ZONE_COUNT_IX:                # size and keyword counts
+        tail[i] = bound_scalar(tail[i])
+    tail[5] /= _ZONE_TIER                   # max tier
+    tail[6] /= _ZONE_TIER                   # mean tier
     return v
 
 
@@ -589,19 +632,19 @@ def encode_state(snapshot) -> np.ndarray:
     scalars = np.array([
         _int(_get(snapshot, "turn"), 0) / 20.0,
         _int(_get(snapshot, "tavern_tier"), 1) / 6.0,
-        gold / 10.0,
-        _int(_get(snapshot, "hero_health"), 0) / 40.0,
-        _int(_get(snapshot, "hero_armor"), 0) / 20.0,
-        len(board) / MAX_BOARD,
-        len(shop) / MAX_BOARD,
-        len(hand) / MAX_HAND,
-        (lc or 0) / 10.0,
+        bound_scalar(gold),
+        bound_scalar(_int(_get(snapshot, "hero_health"), 0)),
+        bound_scalar(_int(_get(snapshot, "hero_armor"), 0)),
+        bound_scalar(len(board)),
+        bound_scalar(len(shop)),
+        bound_scalar(len(hand)),
+        bound_scalar(lc or 0),
         1.0 if lc is not None and gold >= lc else 0.0,
         1.0 if hp.get("usable") and not passive else 0.0,
-        _int(hp.get("cost"), 0) / 10.0,
-        len(_get(snapshot, "shop_spells") or []) / 3.0,
+        bound_scalar(_int(hp.get("cost"), 0)),
+        bound_scalar(len(_get(snapshot, "shop_spells") or [])),
         1.0 if _get(snapshot, "shop_frozen") else 0.0,
-        sum(1 for m in hand if is_spell(m)) / MAX_HAND,
+        bound_scalar(sum(1 for m in hand if is_spell(m))),
     ], dtype=np.float64)
     ctx = _context(snapshot)
     tier = ctx["tier"]
@@ -612,7 +655,7 @@ def encode_state(snapshot) -> np.ndarray:
     costs, tiers, n_shop = ctx["costs"], ctx["tiers"], max(len(shop), 1)
     min_buy = min(costs) if costs else BUY_COST
     v3 = np.array([
-        rc / 5.0,
+        bound_scalar(rc),
         1.0 if rc == 0 else 0.0,
         1.0 if gold >= rc else 0.0,
         1.0 if hp else 0.0,
@@ -620,17 +663,17 @@ def encode_state(snapshot) -> np.ndarray:
         1.0 if hp and not passive and not hp.get("usable") and gold >= hp_cost else 0.0,
         1.0 if dg else 0.0,
         1.0 if dg.get("usable") else 0.0,
-        dg_cost / 10.0,
+        bound_scalar(dg_cost),
         1.0 if dg and gold >= dg_cost else 0.0,
-        (gold - lc) / 10.0 if lc is not None else 0.0,
-        min_buy / 3.0,
-        sum(1 for c in costs if gold >= c) / MAX_BOARD,
+        bound_scalar(gold - lc) if lc is not None else 0.0,
+        bound_scalar(min_buy),
+        bound_scalar(sum(1 for c in costs if gold >= c)),
         (max(tiers) - tier) / 6.0 if tiers else 0.0,
         (sum(tiers) / len(tiers) - tier) / 6.0 if tiers else 0.0,
         sum(1 for t in tiers if t == tier) / n_shop if tiers else 0.0,
-        sum(ctx["pair"]) / MAX_BOARD,
-        sum(ctx["triple"]) / MAX_BOARD,
-        sum(ctx["match"]) / MAX_BOARD,
+        bound_scalar(sum(ctx["pair"])),
+        bound_scalar(sum(ctx["triple"])),
+        bound_scalar(sum(ctx["match"])),
         min(gold // rc, 10) / 10.0 if rc > 0 else 1.0,
         min(gold // min_buy, 10) / 10.0 if min_buy > 0 else 1.0,
     ], dtype=np.float64)
@@ -872,8 +915,8 @@ def _card_block(card: Optional[Dict]) -> np.ndarray:
         return out
     if m["name"] in emb:
         out[:EMB_DIM] = emb[m["name"]]
-    out[EMB_DIM:EMB_DIM + 7] = [m["atk"] / 10.0, m["health"] / 10.0, m["tier"] / 6.0,
-                                float(m["golden"]), float(m["divine"]),
+    out[EMB_DIM:EMB_DIM + 7] = [bound_scalar(m["atk"]), bound_scalar(m["health"]),
+                                m["tier"] / 6.0, float(m["golden"]), float(m["divine"]),
                                 float(m["reborn"]), float(m["taunt"])]
     for tr in m["tribes"]:
         if tr in TRIBES:
@@ -895,7 +938,7 @@ def encode_option(snapshot, option: Dict) -> np.ndarray:
         _onehot(src.get("zone") or "none", ZONES), [_slot(src.get("slot"))],
         _onehot(tgt.get("zone") or "none", ZONES), [_slot(tgt.get("slot"))],
         [1.0 if _slot(pos) else 0.0, _slot(pos)],
-        [cost / 10.0, (gold - cost) / 10.0],
+        [bound_scalar(cost), bound_scalar(gold - cost)],
         [1.0 if option.get("choice_kind") else 0.0],
         [1.0 if vidx else 0.0, vidx / 4.0],
     ] + _v3_option(snapshot, option, cost, vidx) + _v4_option(snapshot, option, cost) \
@@ -920,7 +963,7 @@ def _v3_option(snapshot, option: Dict, cost: int, vidx: int) -> List[List[float]
     buy = [0.0] * 5
     if t == "buy" and isinstance(slot, int) and slot >= 0:
         shop = ctx["shop"]
-        buy[0] = buy_cost(snapshot, slot) / 3.0
+        buy[0] = bound_scalar(buy_cost(snapshot, slot))
         if slot < len(shop):
             buy[1] = 1.0 if ctx["pair"][slot] else 0.0
             buy[2] = 1.0 if ctx["triple"][slot] else 0.0
@@ -930,8 +973,8 @@ def _v3_option(snapshot, option: Dict, cost: int, vidx: int) -> List[List[float]
     if t in ("freeze", "reroll"):
         tiers = ctx["tiers"]
         shopctx = [1.0 if _get(snapshot, "shop_frozen") else 0.0,
-                   sum(ctx["triple"]) / MAX_BOARD, sum(ctx["pair"]) / MAX_BOARD,
-                   sum(ctx["match"]) / MAX_BOARD,
+                   bound_scalar(sum(ctx["triple"])), bound_scalar(sum(ctx["pair"])),
+                   bound_scalar(sum(ctx["match"])),
                    (max(tiers) - tier) / 6.0 if tiers else 0.0]
     posb = [0.0] * 6
     if isinstance(pos, int) and not isinstance(pos, bool) and pos >= 0 and t in ("reposition", "play"):
@@ -946,7 +989,7 @@ def _v3_option(snapshot, option: Dict, cost: int, vidx: int) -> List[List[float]
             last = len(board)
             others_a, others_h, delta = ctx["atks"], ctx["hps"], 0.0
         posb = [delta, 1.0 if pos == 0 else 0.0, 1.0 if pos == last else 0.0,
-                len(board) / MAX_BOARD, _rank(others_a, atk), _rank(others_h, hp)]
+                bound_scalar(len(board)), _rank(others_a, atk), _rank(others_h, hp)]
     kw = [1.0 if str(_tags(card).get(k, "")) not in ("", "0") else 0.0 for k in KEYWORDS]
     variant = id_hash(option.get("card_id")) if vidx else [0.0] * HASH_BUCKETS
     return [affordable, buy, shopctx, posb, kw, variant]
