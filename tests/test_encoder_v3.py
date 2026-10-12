@@ -82,16 +82,16 @@ def test_buy_uses_slot_buy_cost_and_marks_pairs_triples_and_tribe():
     assert enc.option_cost(s, b2) == 3                     # no buy_cost -> 3
     p0, p1 = _v3(s, b0), _v3(s, b1)
     assert p0["affordable"] == [1.0] and p1["affordable"] == [0.0]
-    assert p0["buy"][:3] == [pytest.approx(1 / 3), 1.0, 1.0]     # pair + triple maker
+    assert p0["buy"][:3] == [pytest.approx(enc.bound_scalar(1)), 1.0, 1.0]  # pair + triple
     assert p1["buy"][1:3] == [1.0, 0.0]                   # pair only
     assert _v3(s, b2)["buy"][1:3] == [0.0, 0.0]
     # live candidate generator: affordability from buy_cost
     buys = [o["source"]["slot"] for o in enc.legal_options(s) if o["type"] == "buy"]
     assert buys == [0]
-    assert _state(s, "shop_pairs") == pytest.approx(2 / 7)
-    assert _state(s, "shop_triples") == pytest.approx(1 / 7)
-    assert _state(s, "min_buy_cost") == pytest.approx(1 / 3)
-    assert _state(s, "n_buy_affordable") == pytest.approx(1 / 7)
+    assert _state(s, "shop_pairs") == pytest.approx(enc.bound_scalar(2))
+    assert _state(s, "shop_triples") == pytest.approx(enc.bound_scalar(1))
+    assert _state(s, "min_buy_cost") == pytest.approx(enc.bound_scalar(1))
+    assert _state(s, "n_buy_affordable") == pytest.approx(enc.bound_scalar(1))
 
 
 def test_reroll_cost_free_and_affordability():
@@ -102,7 +102,7 @@ def test_reroll_cost_free_and_affordability():
     dear = _snap(gold=1, reroll_cost=2)
     assert _state(dear, "can_reroll") == 0.0
     assert "reroll" not in [o["type"] for o in enc.legal_options(dear)]
-    assert _state(_snap(gold=3), "reroll_cost") == pytest.approx(1 / 5)   # default 1
+    assert _state(_snap(gold=3), "reroll_cost") == pytest.approx(enc.bound_scalar(1))
 
 
 def test_hero_power_identity_cost_and_used_this_turn():
@@ -130,7 +130,7 @@ def test_dark_gift_state_and_option():
           "usable": True, "entity_id": 280}
     s = _snap(gold=4, dark_gift=dg)
     assert [_state(s, k) for k in ("dg_present", "dg_usable", "dg_affordable")] == [1, 1, 1]
-    assert _state(s, "dg_cost") == pytest.approx(0.3)
+    assert _state(s, "dg_cost") == pytest.approx(enc.bound_scalar(3))
     opt = enc.make_option("play", "BG36_Button_DarkGift")
     assert enc.option_cost(s, opt) == 3 and _v3(s, opt)["affordable"] == [1.0]
     assert _v3(_snap(gold=2, dark_gift=dg), opt)["affordable"] == [0.0]
@@ -141,7 +141,7 @@ def test_freeze_and_reroll_see_shop_context():
     shop = [_m("Scallywag", 0, cid="BG_PIR", TECH_LEVEL=5), _m("x", 1, TECH_LEVEL=2)]
     s = _snap(board=board, shop=shop, tavern_tier=3, shop_frozen=True)
     f = _v3(s, enc.make_option("freeze"))["shopctx"]
-    assert f[0] == 1.0 and f[2] == pytest.approx(1 / 7)   # frozen now; one pair in shop
+    assert f[0] == 1.0 and f[2] == pytest.approx(enc.bound_scalar(1))  # frozen; one pair
     assert f[4] == pytest.approx(2 / 6)                   # best shop tier 5 vs tavern 3
     assert _v3(s, enc.make_option("reroll"))["shopctx"] == f
     assert _v3(s, enc.make_option("end_turn"))["shopctx"] == [0.0] * 5
@@ -152,12 +152,13 @@ def test_reposition_and_play_position_block():
     board = [_m("a", 0, atk=1, hp=9), _m("b", 1, atk=5, hp=1), _m("c", 2, atk=3, hp=3)]
     s = _snap(board=board, hand=[_m("h", 0, cid="H", atk=9, hp=9)])
     left = _v3(s, enc.make_option("reposition", "TEST_1", ("board", 1), position=0))["pos"]
-    assert left[:4] == [pytest.approx(-1 / 6), 1.0, 0.0, pytest.approx(3 / 7)]
+    assert left[:4] == [pytest.approx(-1 / 6), 1.0, 0.0, pytest.approx(enc.bound_scalar(3))]
     assert left[4:] == [1.0, 0.0]                         # strongest attack, lowest health
     right = _v3(s, enc.make_option("reposition", "TEST_0", ("board", 0), position=2))["pos"]
     assert right[:3] == [pytest.approx(2 / 6), 0.0, 1.0]
     play = _v3(s, enc.make_option("play", "H", ("hand", 0), position=3))["pos"]
-    assert play[:4] == [0.0, 0.0, 1.0, pytest.approx(3 / 7)] and play[4:] == [1.0, pytest.approx(2 / 3)]
+    assert play[:4] == [0.0, 0.0, 1.0, pytest.approx(enc.bound_scalar(3))]
+    assert play[4:] == [1.0, pytest.approx(2 / 3)]
     assert _v3(s, enc.make_option("sell", "TEST_0", ("board", 0)))["pos"] == [0.0] * 6
 
 

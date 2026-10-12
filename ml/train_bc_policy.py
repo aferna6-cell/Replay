@@ -17,10 +17,13 @@ by one file plus the per-row metadata. The memmaps are float32 by default
 (--cache-dtype float32): train_options.f32, train_states.f32, and the held-out
 pair. --cache-dtype float16 writes those same arrays as float16 under .f16
 names. The dtype is the suffix, so a cache built as one dtype is never opened
-as the other. The dataset accessor casts each float16 row back to float32
-(pad_batch casts to float32 as well). Held-out and train caches use the same
-dtype. At the default dtype, results are identical to encoding every row in
-memory (tests/test_train_bc_streaming.py). Files are independent: a game split
+as the other. A float16 write that would store inf or nan is refused. The
+dataset accessor casts one float16 row back to float32 when that row is read
+(pad_batch casts to float32 as well). Training and eval index the memmap per
+batch; they do not copy the whole cache into a float32 array. Held-out and
+train caches use the same dtype. At the default dtype, results are identical
+to encoding every row in memory (tests/test_train_bc_streaming.py). Files are
+independent: a game split
 across several files is still one game for the split, but the advisor baseline
 keeps its per-game state per file.
 
@@ -129,6 +132,38 @@ GATE_EXEMPT = ("freeze",)       # reported per type but never fail the gate
 # Suffix is the on-disk dtype. A float16 cache is never opened as float32.
 _CACHE_SUFFIX = {"float32": "f32", "float16": "f16"}
 _CACHE_NUMPY = {"float32": np.float32, "float16": np.float16}
+
+
+def _as_cache_array(arr, dtype):
+    """Contiguous ``dtype`` copy of ``arr``.
+
+    A float16 cast that overflows (any inf or nan in the result) raises.
+    Float16's largest finite value is 65504; numpy rounds to inf from 65520,
+    so a float32 feature of 58000 stays finite and one of 80000 does not.
+    The check is on the cast result, per array the caller is about to write
+    (one file), not on a whole-dataset copy.
+    """
+    with np.errstate(over="ignore", invalid="ignore"):
+        out = np.ascontiguousarray(arr, dtype=dtype)
+    if dtype is not np.float16 or out.size == 0:
+        return out
+    flat = out.reshape(-1)
+    bad = np.flatnonzero(~np.isfinite(flat))
+    if bad.size == 0:
+        return out
+    src = np.asarray(arr, dtype=np.float64).reshape(-1)
+    src_abs = np.abs(src[bad])
+    src_max = float(np.max(src_abs)) if src_abs.size else float("nan")
+    ncols = int(out.shape[-1]) if out.ndim >= 1 else 1
+    cols = sorted({int(i % ncols) for i in bad[:64].tolist()})
+    raise ValueError(
+        f"refusing to write a float16 cache: {int(bad.size)} value(s) became "
+        f"inf or nan (float16 cannot represent magnitudes above "
+        f"{float(np.finfo(np.float16).max):g}; numpy rounds to inf from 65520). "
+        f"Largest |source| among them was {src_max:g}. Columns {cols}. "
+        f"Bound these features in the encoder before the cast.")
+
+
 HELDOUT_FRAC = 0.15
 HELDOUT_MIN = 30
 LIVE_PATH = os.path.join(REPO, "ml", "policy_net.pt")
@@ -647,9 +682,9 @@ class EncodedSet:
 
     def extend(self, part: Dict) -> None:
         if part["O"] is not None:
-            self._fh.write(np.ascontiguousarray(part["O"], dtype=self.dtype).tobytes())
+            self._fh.write(_as_cache_array(part["O"], self.dtype).tobytes())
         if part["S"]:
-            self._sfh.write(np.ascontiguousarray(np.stack(part["S"]), dtype=self.dtype).tobytes())
+            self._sfh.write(_as_cache_array(np.stack(part["S"]), self.dtype).tobytes())
             self._n += len(part["S"])
         for m in part["meta"]:
             m["chosen_option"] = self._slim(m["chosen_option"])
@@ -689,8 +724,9 @@ class EncodedSet:
     def encoded(self, i: int):
         """(state, options, chosen) as encode_row returned them.
 
-        float32 caches return the memmap views. float16 caches are cast to
-        float32 here (0/1 one-hots stay exact); pad_batch casts again.
+        float32 caches return the memmap views. float16 caches cast this one
+        row to float32 (0/1 one-hots stay exact); pad_batch casts again. The
+        whole memmap is never cast in one shot.
         """
         s = self.S[i]
         o = self.O[self.off[i]:self.off[i + 1]]
@@ -704,6 +740,54 @@ class EncodedSet:
 
     def close(self) -> None:
         self.O = self.S = None
+
+
+class EncodedRows:
+    """Random-access view of encoded rows. Does not copy the memmap.
+
+    ``__getitem__`` reads one row (float16 is cast to float32 there, inside
+    ``EncodedSet.encoded``). A slice returns that many rows and nothing else,
+    which is how a training batch and a 256-row validation window are loaded.
+    Iteration walks the index list from the start, so eval can pass this
+    object on every epoch without holding a float32 copy of the cache.
+    """
+
+    def __init__(self, eset: EncodedSet, indices, weights=None):
+        self.eset = eset
+        self.indices = np.asarray(list(indices), dtype=np.int64)
+        if weights is None:
+            self.weights = None
+        else:
+            self.weights = np.asarray(list(weights), dtype=np.float64)
+            if self.weights.shape[0] != self.indices.shape[0]:
+                raise ValueError("weights and indices differ in length")
+
+    def __len__(self) -> int:
+        return int(self.indices.shape[0])
+
+    def __getitem__(self, i):
+        if isinstance(i, slice):
+            return [self[j] for j in range(*i.indices(len(self)))]
+        pos = int(i)
+        row = int(self.indices[pos])
+        s, o, c = self.eset.encoded(row)
+        w = float(self.weights[pos]) if self.weights is not None else float(self.eset.W[row])
+        return s, o, c, w
+
+    def __iter__(self):
+        for i in range(len(self)):
+            yield self[i]
+
+
+def training_items(eset: EncodedSet, indices, hp_weight: float = 1.0) -> EncodedRows:
+    """Rows ``train_model`` reads. Weights come from the cache, not from a
+    materialized feature list. ``hp_weight`` other than 1 scales hero-power rows."""
+    weights = [eset.W[i] for i in indices]
+    if hp_weight != 1.0:
+        weights = type_weights(weights,
+                               [eset.meta[i]["chosen_option"]["type"] for i in indices],
+                               {"hero_power": hp_weight})
+    return EncodedRows(eset, indices, weights)
 
 
 def _pool_map(fn, args: List, workers: int):
@@ -1060,8 +1144,8 @@ def _run(a, files, heldout, frozen, cache) -> int:
         vids = set(vids)
         val_idx = [i for i in fit_idx if train.meta[i]["game_id"] in vids]
         fit_idx = [i for i in fit_idx if train.meta[i]["game_id"] not in vids]
-        val_items = [train.item(i) for i in val_idx]
-        val_rows, val_enc = _light_rows(train, val_idx), [train.encoded(i) for i in val_idx]
+        val_items = training_items(train, val_idx)
+        val_rows = _light_rows(train, val_idx)
         val_info = {"rule": f"{vrule} among TRAINING games only", "val_games": len(vids),
                     "val_rows": len(val_idx), "fit_rows": len(fit_idx),
                     "fit_games": len(train_games) - len(vids)}
@@ -1073,7 +1157,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
                 w = float(t[-1].sum())
                 tot += decision_loss(model, *t).item() * w
                 wsum += w
-            ev = evaluate(val_rows, val_enc, {"model": BCPolicy(model).score_encoded})
+            ev = evaluate(val_rows, val_items, {"model": BCPolicy(model).score_encoded})
             pt = {"epoch": epoch, "train_loss": history[-1],
                   "val_loss": round(tot / max(wsum, 1e-8), 6),
                   "val_top1": ev["model"]["overall"]["top1"],
@@ -1082,12 +1166,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
             print(json.dumps(pt), flush=True)
             return pt
 
-    items = [train.item(i) for i in fit_idx]
-    if a.hp_weight != 1.0:
-        ws = type_weights([it[3] for it in items],
-                          [train.meta[i]["chosen_option"]["type"] for i in fit_idx],
-                          {"hero_power": a.hp_weight})
-        items = [it[:3] + (w,) for it, w in zip(items, ws)]
+    items = training_items(train, fit_idx, a.hp_weight)
     model, history = train_model(items, a.epochs, a.lr, a.batch, a.seed, on_epoch=on_epoch,
                                  shuffle_block=a.shuffle_block)
     del items
@@ -1177,9 +1256,9 @@ def _run(a, files, heldout, frozen, cache) -> int:
             compare["error"] = advisor.get("error", "advisor unavailable")
     print(f"eval: starting ({len(held)} held-out rows)", file=sys.stderr, flush=True)
     held_rows = _held_rows(held)
-    held_enc = [held.encoded(i) for i in range(len(held))]
     held_groups = [m["groups"] for m in held.meta]
-    results = evaluate(held_rows, held_enc, scorers, extra=extra, groups=held_groups)
+    results = evaluate(held_rows, EncodedRows(held, range(len(held))), scorers,
+                       extra=extra, groups=held_groups)
     if "compare" in results:
         cm, cc = results["model"]["overall"], results["compare"]["overall"]
         if cm["top1"] is not None and cc["top1"] is not None:
@@ -1194,7 +1273,7 @@ def _run(a, files, heldout, frozen, cache) -> int:
     if a.train_fit:
         idx = list(range(len(train)))
         metrics["train_fit"] = evaluate(_light_rows(train, idx),
-                                        [train.encoded(i) for i in idx], scorers={
+                                        EncodedRows(train, idx), scorers={
                                             "model": BCPolicy(model).score_encoded})
     _write_metrics(metrics_path, metrics)
     train.close()

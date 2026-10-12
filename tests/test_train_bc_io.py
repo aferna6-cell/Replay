@@ -208,6 +208,60 @@ def test_float16_cache_onehots_exact_and_model_trains(tmp_path):
         held.close()
 
 
+def test_float16_cache_rejects_nonfinite_and_huge_stats_round_trip(tmp_path):
+    """The cache write refuses a feature float16 cannot store. Bounded stats do."""
+    from ml import train_bc_policy as T
+    from tests.test_encoder_float16 import huge_snapshot
+
+    overflow = np.zeros((2, 4), np.float32)
+    overflow[1, 2] = 80_000
+    with pytest.raises(ValueError, match="float16"):
+        T._as_cache_array(overflow, np.float16)
+    assert np.isfinite(T._as_cache_array(overflow, np.float32)).all()
+
+    snap = huge_snapshot()
+    games = _rows(n_games=2, per_game=1)
+    games[0][0]["state"] = snap
+    games[0][0]["options"] = [enc.make_option("sell", "A", ("board", 0)),
+                              enc.make_option("end_turn")]
+    games[0][0]["chosen"] = 0
+    pattern = _write(tmp_path, games)
+    cache = tmp_path / "cache"
+    cache.mkdir()
+    files = T.data_files([pattern])
+    train, held, _info = T.encode_stream(files, set(), BUILD, str(cache),
+                                         cache_dtype="float16")
+    try:
+        assert np.isfinite(np.asarray(train.S)).all()
+        assert np.isfinite(np.asarray(train.O)).all()
+        fresh_s = enc.encode_state(snap)
+        fresh_o = enc.encode_option(snap, enc.make_option("sell", "A", ("board", 0)))
+        # The huge row is game 0, decision 0, and it is the only one with that gold.
+        found = False
+        for i in range(len(train)):
+            got_s, got_o, _c = train.encoded(i)
+            got_s = np.asarray(got_s)
+            got_o = np.asarray(got_o)
+            assert got_s.dtype == np.float32 and got_o.dtype == np.float32
+            assert np.isfinite(got_s).all() and np.isfinite(got_o).all()
+            assert np.max(np.abs(got_s)) <= 10 and np.max(np.abs(got_o)) <= 10
+            if np.allclose(got_s.astype(np.float16), fresh_s.astype(np.float16)):
+                found = True
+                assert got_o.shape[0] >= 1
+                assert np.array_equal(got_o[0].astype(np.float16), fresh_o.astype(np.float16))
+        assert found
+        rows = T.training_items(train, range(len(train)))
+        stored = [v for v in vars(rows).values() if isinstance(v, np.ndarray)]
+        assert stored and all(v.ndim == 1 for v in stored)
+        assert train.S.dtype == np.float16
+        model, history = T.train_model(rows, 1, 1e-3, 4, 0)
+        assert len(history) == 1 and np.isfinite(history[0])
+        assert next(model.parameters()).dtype == torch.float32
+    finally:
+        train.close()
+        held.close()
+
+
 def test_progress_lines_for_advisor_compare_and_eval(tmp_path, capsys):
     from ml import train_bc_policy as T
     pattern = _write(tmp_path, _rows(n_games=8, per_game=1))
